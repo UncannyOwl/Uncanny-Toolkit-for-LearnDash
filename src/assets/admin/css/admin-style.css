@@ -1,0 +1,68 @@
+/* Heading hr underline*/
+hr.uo-underline{
+    border-top: 1px solid #DCDCDC;
+    border-bottom: 1px solid #0ca5b0;
+}
+/* Feature Container*/
+.uo_feature {
+    background: white;
+    width: 87%;
+    display: inline-table;
+    height: 170px;
+    border: 1px solid grey;
+    padding: 20px;
+    margin-right: 4%;
+    margin-bottom: 20px;
+    position: relative;
+}
+@media only screen and (min-width: 768px) {
+    /* For mobile phones: */
+    .uo_feature {
+        width: 40%;
+    }
+}
+@media only screen and (min-width: 1024px) {
+    /* For mobile phones: */
+    .uo_feature {
+        width: 24%;
+    }
+}
+/* Feature Title*/
+.uo_feature_title {
+    font-size: 1.5em;
+}
+/* Feature Description*/
+.uo_feature_description {
+    padding-top: 15px;
+}
+
+/* Container of ON/OFF Toggle Switch */
+.uo_feature_button {
+    width: 80%;
+    position: absolute;
+    right: 8%;
+    bottom: 10px;
+    padding: 2%;
+}
+/* ON/OFF Toggle Switch */
+.uo_feature_button_toggle {
+    width: 30px;
+    background: white;
+    margin-top: 5px;
+}
+/* Actual Checkbox that WP Options data is pulled from */
+.uo_feature_checkbox{
+    position: absolute;
+    right: -6px;
+    bottom: -2px;
+}
+/* Label From Activating Feature Checkbox */
+.uo_feature_label{
+
+}
+/* Activated ON/OFF Toggle Switch*/
+.uo_feature_activated{ background: #29C129; }
+.uo_feature_activated .uo_feature_button_toggle{ margin-left: 40px; }
+/* De-activated ON/OFF Toggle Switch*/
+.uo_feature_deactivated{ background: #D24444; }
+.uo_feature_deactivated .uo_feature_button_toggle{margin-left: 5px; }
