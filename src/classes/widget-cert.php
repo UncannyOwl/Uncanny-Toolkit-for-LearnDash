@@ -49,7 +49,7 @@ class WidgetCert extends \WP_Widget {
 		<script type="application/javascript">
 			var row_height = jQuery('.uncanny-cert-widget-list li:first').height();
 			var $list = jQuery('.uncanny-cert-widget-list');
-			var row_count = $list.attr("data-row");
+			var row_count = $list.attr('data-row');
 			var div_height = row_height * row_count + 'px';
 			$list.css({height: div_height, overflow: 'hidden'});
 			jQuery('.uncanny-cert-more-link').on('click', function (event) {
@@ -87,11 +87,12 @@ class WidgetCert extends \WP_Widget {
 			echo '<ul>';
 			$quiz_attempts = array_reverse( $quiz_attempts );
 			foreach ( $quiz_attempts as $k => $quiz_attempt ) {
-				$certificateLink = $quiz_attempt["certificate"]["certificateLink"];
-				$count           = $quiz_attempt["certificate"]["count"];
-				$quiz_title      = ! empty( $quiz_attempt["post"]->post_title ) ? $quiz_attempt["post"]->post_title : @$quiz_attempt['quiz_title'];
+				$certificateLink = $quiz_attempt['certificate']['certificateLink'];
+				$count           = $quiz_attempt['certificate']['count'];
+				$quiz_title      = ! empty( $quiz_attempt['post']->post_title ) ? $quiz_attempt['post']->post_title : @$quiz_attempt['quiz_title'];
 
 				if ( ! empty( $certificateLink ) ) {
+					/** @noinspection HtmlUnknownTarget */
 					printf( '<li><a href="%s" title="%s" class="count-%d"> %s</a></li>',
 						esc_url( $certificateLink ),
 						esc_html( __( 'your certificate for :', Config::get_text_domain() ) . $quiz_title ),
@@ -147,10 +148,10 @@ class WidgetCert extends \WP_Widget {
 				$c                    = learndash_certificate_details( $quiz_attempt['quiz'], $user_id );
 				if (
 					$user_id == get_current_user_id() &&
-					! empty( $c["certificateLink"] ) &&
+					! empty( $c['certificateLink'] ) &&
 					(
 					( isset( $quiz_attempt['percentage'] ) &&
-					  $quiz_attempt['percentage'] >= $c["certificate_threshold"] * 100
+					  $quiz_attempt['percentage'] >= $c['certificate_threshold'] * 100
 					)
 					)
 				) {
@@ -184,34 +185,34 @@ class WidgetCert extends \WP_Widget {
 		<p>
 			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:' ); ?></label>
 			<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>"
-			       name="<?php echo $this->get_field_name( 'title' ); ?>" type="text"
-			       value="<?php echo esc_attr( $title ); ?>">
+				   name="<?php echo $this->get_field_name( 'title' ); ?>" type="text"
+				   value="<?php echo esc_attr( $title ); ?>">
 		</p>
 		<p>
 			<label
 				for="<?php echo $this->get_field_id( 'no_certs' ); ?>"><?php _e( 'No certificates message:', Config::get_text_domain() ); ?></label>
 			<input class="widefat" id="<?php echo $this->get_field_id( 'no_certs' ); ?>"
-			       name="<?php echo $this->get_field_name( 'no_certs' ); ?>" type="text"
-			       value="<?php echo esc_attr( $no_certs ); ?>">
+				   name="<?php echo $this->get_field_name( 'no_certs' ); ?>" type="text"
+				   value="<?php echo esc_attr( $no_certs ); ?>">
 		</p>
 		<p>
 			<label
 				for="<?php echo $this->get_field_id( 'more_certs' ); ?>"><?php _e( 'More certificates message:', Config::get_text_domain() ); ?></label><br/>
 			<input class="widefat" id="<?php echo $this->get_field_id( 'more_certs' ); ?>"
-			       name="<?php echo $this->get_field_name( 'more_certs' ); ?>" type="text"
-			       value="<?php echo esc_attr( $more_certs ); ?>">
+				   name="<?php echo $this->get_field_name( 'more_certs' ); ?>" type="text"
+				   value="<?php echo esc_attr( $more_certs ); ?>">
 		</p>
 		<p>
 			<label
 				for="<?php echo $this->get_field_id( 'list_height' ); ?>"><?php _e( 'The max number of certificates shown at the start:', Config::get_text_domain() ); ?></label>
 			<input class="" id="<?php echo $this->get_field_id( 'list_height' ); ?>"
-			       name="<?php echo $this->get_field_name( 'list_height' ); ?>" type="text"
-			       value="<?php echo absint( $list_height ); ?>">
+				   name="<?php echo $this->get_field_name( 'list_height' ); ?>" type="text"
+				   value="<?php echo absint( $list_height ); ?>">
 		</p>
 		<p>
 			<input class="" id="<?php echo $this->get_field_id( 'show_fails' ); ?>"
-			       name="<?php echo $this->get_field_name( 'show_fails' ); ?>" type="checkbox"
-			       value="true" <?php checked( true, $show_fails, true ) ?>>
+				   name="<?php echo $this->get_field_name( 'show_fails' ); ?>" type="checkbox"
+				   value="true" <?php checked( true, $show_fails, true ) ?>>
 			<label
 				for="<?php echo $this->get_field_id( 'show_fails' ); ?>"><?php _e( 'Show Quizzes that the user failed', Config::get_text_domain() ); ?></label>
 

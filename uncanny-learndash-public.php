@@ -18,26 +18,22 @@ if ( ! isset( $uncanny_learndash_public ) ) {
 }
 
 // Plugins Configurations File
-include_once( dirname( __FILE__ ) . '/src/config.php' );
+include_once( dirname( __FILE__ ). '/src/config.php');
 
 // Load all plugin classes(functionality)
-include_once( dirname( __FILE__ ) . '/src/boot.php' );
+include_once( dirname( __FILE__ ). '/src/boot.php');
 $uncanny_learndash_public = \uncanny_learndash_public\Boot::get_instance();
 
 // Add a simple settings link to our page from the plugins list
-add_filter( 'plugin_action_links_'.plugin_basename( __FILE__ ), 'link_to_plugins_page', 10, 1 );
+add_filter('plugin_action_links_'.plugin_basename( __FILE__ ), 'link_to_plugins_page', 10, 4);
 
-/*
- * @param Array  $actions     An array of plugin action links.
- * @param String $plugin_file Path to the plugin file.
- * @param Array  $plugin_data An array of plugin data.
- * @param String $context     The plugin context. Defaults are 'All', 'Active',
- *                                                             'Inactive', 'Recently Activated', 'Upgrade',
- *                                                             'Must-Use', 'Drop-ins', 'Search'.
+
+/**
+ * @param Array $actions		Plugin action links.
  *
- * return Array $actions
+ * @return Array
  */
 function link_to_plugins_page( $actions ) {
-	array_unshift( $actions, '<a href="'.menu_page_url( 'uo-menu-slug', false ).'">'.__( 'Settings', \uncanny_learndash_public\Config::get_text_domain() ).'</a>' );
+	array_unshift($actions, '<a href="'.menu_page_url('uo-menu-slug', false).'">'.__( 'Settings', \uncanny_learndash_public\Config::get_text_domain() ).'</a>');
 	return $actions;
 }
