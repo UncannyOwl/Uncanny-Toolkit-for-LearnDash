@@ -24,18 +24,6 @@ class WidgetCert extends \WP_Widget {
 		);
 	}
 
-	/**
-	 * Call this method to get singleton
-	 * @return WidgetCert $instance
-	 */
-	public static function get_instance() {
-		if ( ! isset( self::$instance ) ) {
-			self::$instance = new self();
-		}
-
-		return self::$instance;
-	}
-
 	// register LMS cert widget
 	public static function register_cert_widget() {
 		register_widget( __NAMESPACE__ . '\WidgetCert' );
