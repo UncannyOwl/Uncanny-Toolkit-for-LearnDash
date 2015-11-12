@@ -14,7 +14,6 @@ class LearndashGroupUserProfile {
 	 *
 	 */
 	public function __construct() {
-
 		// Add learndash groups field when the user is view there own profile
 		add_action( 'show_user_profile', array( __CLASS__, 'show_users_groups_profile_fields' ) );
 		// Add learndash groups field when the user is view another users profile

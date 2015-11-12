@@ -34,6 +34,10 @@ class Config {
 	 */
 	private static $css_prefix;
 	/**
+	 * @var array
+	 */
+	private static $available_plugins;
+	/**
 	 * @var bool
 	 */
 	private static $caching_on = false;
@@ -43,6 +47,30 @@ class Config {
 	public static function is_caching_on()
 	{
 		return self::$caching_on;
+	}
+
+	/**
+	 * @param $class_name
+	 * @param $class_title
+	 * @param $class_description
+	 * @return array
+	 */
+	public static function set_available_classes( $class_name, $class_title, $class_description )
+	{
+		self::$available_plugins[$class_name] = array(
+			'title' => $class_title,
+			'description' => $class_description,
+		);
+	}
+	/**
+	 * @return array
+	 */
+	public static function get_available_classes()
+	{
+		if ( null === self::$available_plugins ) {
+			return array();
+		}
+		return self::$available_plugins;
 	}
 
 	/**
