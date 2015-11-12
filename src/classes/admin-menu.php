@@ -71,37 +71,10 @@ class AdminMenu {
 	 * Create Theme Options page
 	 */
 	public static function options_menu_page_output() {
-		// Define Features
-		$classes_available['LearndashGroupUserProfile']['class_name'] = 'LearndashGroupUserProfile';
-		$classes_available['LearndashGroupUserProfile']['title'] = __('LearnDash Groups in User Profiles', Config::get_text_domain() );
-		$classes_available['LearndashGroupUserProfile']['description'] = __('Display a list of all LearnDash Groups to which a user belongs on the user\'s profile page', Config::get_text_domain() );
 
-		$classes_available['WidgetCert']['class_name'] = 'WidgetCert';
-		$classes_available['WidgetCert']['title'] = __('Certificates Widget', Config::get_text_domain() );
-		$classes_available['WidgetCert']['description'] = __('Widget to list the certificates from LMS for the current user', Config::get_text_domain() );
-
-
-		/* DUMMY DATE FOR RESPONSIVE TESTING*/
-		$classes_available['LearndashGroupUserProfilexz']['class_name'] = 'LearndashGroupUserProfilex';
-		$classes_available['LearndashGroupUserProfilexz']['title'] = __('LearnDash Groups Something', Config::get_text_domain() );
-		$classes_available['LearndashGroupUserProfilexz']['description'] = __('Display a list of all LearnDash Somethings', Config::get_text_domain() );
-
-		$classes_available['LearndashGroupUserProfilexy']['class_name'] = 'LearndashGroupUserProfiley';
-		$classes_available['LearndashGroupUserProfilexy']['title'] = __('LearnDash Groups Something', Config::get_text_domain() );
-		$classes_available['LearndashGroupUserProfilexy']['description'] = __('Display a list of all LearnDash Somethings', Config::get_text_domain() );
-
-		$classes_available['LearndashGroupUserProfilexw']['class_name'] = 'LearndashGroupUserProfilew';
-		$classes_available['LearndashGroupUserProfilexw']['title'] = __('LearnDash Groups Something', Config::get_text_domain() );
-		$classes_available['LearndashGroupUserProfilexw']['description'] = __('Display a list of all LearnDash Somethings', Config::get_text_domain() );
-
-		$classes_available['LearndashGroupUserProfilexq']['class_name'] = 'LearndashGroupUserProfileq';
-		$classes_available['LearndashGroupUserProfilexq']['title'] = __('LearnDash Groups Something', Config::get_text_domain() );
-		$classes_available['LearndashGroupUserProfilexq']['description'] = __('Display a list of all LearnDash Somethings', Config::get_text_domain() );
-
+		$classes_available = Config::get_available_classes();
 
 		// Get an array of options from the database
-		//update_option( 'uncanny_public_active_classes', array());
-
 		$active_classes = get_option( 'uncanny_public_active_classes' );
 
 		?>
@@ -132,9 +105,9 @@ class AdminMenu {
 	 * return echoed String
 	 */
 	public static function create_features( $classes_available, $active_classes ){
-		foreach($classes_available as $class ){
+		foreach($classes_available as $key => $class ){
 		$is_activated = 'uo_feature_deactivated';
-		$class_option = $class['class_name'];
+		$class_option = $key;
 		if( isset( $active_classes[ $class_option ] ) ){
 			$is_activated = 'uo_feature_activated';
 		}
