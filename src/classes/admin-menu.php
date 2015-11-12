@@ -7,24 +7,11 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 class AdminMenu {
-	static $instance;
-
-	/**
-	 * Call this method to get singleton
-	 * @return AdminMenu $instance
-	 */
-	public static function get_instance() {
-		if ( ! isset( self::$instance ) ) {
-			self::$instance = new self();
-		}
-
-		return self::$instance;
-	}
 
 	/**
 	 * class constructor
 	 */
-	private function __construct() {
+	public function __construct() {
 		// Setup Theme Options Page Menu in Admin
 		if ( is_admin() ) {
 			add_action( 'admin_menu', array( __CLASS__, 'register_options_menu_page' ) );
@@ -95,24 +82,26 @@ class AdminMenu {
 
 
 		/* DUMMY DATE FOR RESPONSIVE TESTING*/
-		$classes_available['LearndashGroupUserProfilexz']['class_name'] = 'LearndashGroupUserProfile';
+		$classes_available['LearndashGroupUserProfilexz']['class_name'] = 'LearndashGroupUserProfilex';
 		$classes_available['LearndashGroupUserProfilexz']['title'] = __('LearnDash Groups Something', Config::get_text_domain() );
 		$classes_available['LearndashGroupUserProfilexz']['description'] = __('Display a list of all LearnDash Somethings', Config::get_text_domain() );
 
-		$classes_available['LearndashGroupUserProfilexy']['class_name'] = 'LearndashGroupUserProfile';
+		$classes_available['LearndashGroupUserProfilexy']['class_name'] = 'LearndashGroupUserProfiley';
 		$classes_available['LearndashGroupUserProfilexy']['title'] = __('LearnDash Groups Something', Config::get_text_domain() );
 		$classes_available['LearndashGroupUserProfilexy']['description'] = __('Display a list of all LearnDash Somethings', Config::get_text_domain() );
 
-		$classes_available['LearndashGroupUserProfilexw']['class_name'] = 'LearndashGroupUserProfile';
+		$classes_available['LearndashGroupUserProfilexw']['class_name'] = 'LearndashGroupUserProfilew';
 		$classes_available['LearndashGroupUserProfilexw']['title'] = __('LearnDash Groups Something', Config::get_text_domain() );
 		$classes_available['LearndashGroupUserProfilexw']['description'] = __('Display a list of all LearnDash Somethings', Config::get_text_domain() );
 
-		$classes_available['LearndashGroupUserProfilexq']['class_name'] = 'LearndashGroupUserProfile';
+		$classes_available['LearndashGroupUserProfilexq']['class_name'] = 'LearndashGroupUserProfileq';
 		$classes_available['LearndashGroupUserProfilexq']['title'] = __('LearnDash Groups Something', Config::get_text_domain() );
 		$classes_available['LearndashGroupUserProfilexq']['description'] = __('Display a list of all LearnDash Somethings', Config::get_text_domain() );
 
 
 		// Get an array of options from the database
+		//update_option( 'uncanny_public_active_classes', array());
+
 		$active_classes = get_option( 'uncanny_public_active_classes' );
 
 		?>
@@ -143,7 +132,6 @@ class AdminMenu {
 	 * return echoed String
 	 */
 	public static function create_features( $classes_available, $active_classes ){
-		ob_start();
 		foreach($classes_available as $class ){
 		$is_activated = 'uo_feature_deactivated';
 		$class_option = $class['class_name'];
@@ -162,6 +150,5 @@ class AdminMenu {
 			</div>
 		<?php
 		}
-		echo ob_get_clean();
 	}
 }
