@@ -48,10 +48,19 @@ class Boot {
 
 		$uncanny_learndash_public->admin_menu = new AdminMenu;
 
+		/* LOAD: LearndashGroupUserProfile*/
+		// Class Details:  Add Class to Admin Menu page
+		$class_name = 'LearndashGroupUserProfile';
+		$class_title = __('LearnDash Groups in User Profiles', Config::get_text_domain() );
+		$class_description = __('Display a list of all LearnDash Groups to which a user belongs on the user\'s profile page', Config::get_text_domain() );
+		Config::set_available_classes( $class_name, $class_title, $class_description );
+		// Include and run the file if it is activated in the Admin Menu Setting Page
 		if( array_key_exists( 'LearndashGroupUserProfile', self::$active_classes ) === true ) {
 			// Store the instance of the class plugin
 			$uncanny_learndash_public->learndash_group_user_profile = new LearndashGroupUserProfile;
 		}
+
+
 
 		if( array_key_exists( 'WidgetCert', self::$active_classes ) === true ) {
 			// Store the instance of the class plugin
