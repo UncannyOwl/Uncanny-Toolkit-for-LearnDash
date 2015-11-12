@@ -9,29 +9,20 @@ if( ! defined( 'WPINC' ) ) {
 
 class LearndashGroupUserProfile {
 
-	static $instance;
-
-	/**
-	 * Call this method to get singleton
-	 * @return LearndashGroupUserProfile $instance
-	 */
-	public static function get_instance() {
-		if ( ! isset( self::$instance ) ) {
-			self::$instance = new self();
-		}
-
-		return self::$instance;
-	}
-
 	/**
 	 * class constructor
 	 *
 	 */
-	private function __construct() {
+	public function __construct() {
+
 		// Add learndash groups field when the user is view there own profile
 		add_action( 'show_user_profile', array( __CLASS__, 'show_users_groups_profile_fields' ) );
 		// Add learndash groups field when the user is view another users profile
 		add_action( 'edit_user_profile', array( __CLASS__, 'show_users_groups_profile_fields' ) );
+		// Add a simple settings link to our page from the plugins list
+		$prefix = is_network_admin() ? 'network_admin_' : ''; // TODO Multi-Site
+		add_filter( 'plugin_action_links_' . ULP_PLUGIN_BASENAME, array( __CLASS__, 'link_to_plugins_page' ), 10, 1);
+
 	}
 
 	/**
@@ -53,8 +44,7 @@ class LearndashGroupUserProfile {
 
 		// Query to get all the users' groups
 		$group_query = $wpdb->prepare(
-			" SELECT `meta_value` FROM %s WHERE `user_id` = %d AND meta_key LIKE %s",
-			$wpdb->usermeta,
+			" SELECT `meta_value` FROM $wpdb->usermeta WHERE `user_id` = %d AND meta_key LIKE %s",
 			$user_ID,
 			$meta_key
 		);
@@ -93,5 +83,15 @@ class LearndashGroupUserProfile {
 			<?php
 		}
 
+	}
+
+	/**
+	 * @param Array $actions		Plugin action links.
+	 *
+	 * @return Array
+	 */
+	function link_to_plugins_page( $actions ) {
+		array_unshift($actions, '<a href="'.menu_page_url('uo-menu-slug', false).'">'.__( 'Settings', Config::get_text_domain() ).'</a>');
+		return $actions;
 	}
 }
