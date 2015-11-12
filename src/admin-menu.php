@@ -52,6 +52,24 @@ class AdminMenu {
 		register_setting( 'uncanny_learndash_public-group', 'uncanny_public_active_classes' );
 	}
 
+	private static function get_all_clases(){
+		// loop file in cleeses folded and call get_details
+		// check fun exsit first
+		$files = glob( 'folder/*.{php}', GLOB_BRACE );
+		$details = array();
+		foreach( $files as $file ) {
+			//do your work here
+			$classe_name = str_replace( '.php', '', $file );
+			$classe_name = str_replace( '-', ' ', $classe_name );
+			$classe_name = ucwords( $classe_name );
+			$classe_name = str_replace( ' ', '', $classe_name );
+
+			$details[ $classe_name ] = $classe_name::get_details();
+		}
+
+		return array( 'clasename'=>array('title'=>'fffff', 'descption'=>'fsdfsdfsf',) );
+	}
+
 	/*
 	 * Load Scripts
 	 * @paras string $hook Admin page being loaded

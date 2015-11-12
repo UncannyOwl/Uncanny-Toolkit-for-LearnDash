@@ -7,7 +7,7 @@ if( ! defined( 'WPINC' ) ) {
 }
 
 
-class LearndashGroupUserProfile {
+class LearndashGroupUserProfile extends Config implements RequiredFunctions{
 
 	/**
 	 * class constructor
@@ -22,6 +22,12 @@ class LearndashGroupUserProfile {
 		$prefix = is_network_admin() ? 'network_admin_' : ''; // TODO Multi-Site
 		add_filter( 'plugin_action_links_' . ULP_PLUGIN_BASENAME, array( __CLASS__, 'link_to_plugins_page' ), 10, 1);
 
+	}
+
+	public static function get_details() {
+		$class_title = __( 'LearnDash Groups in User Profiles', Config::get_text_domain() );
+		$class_description = __( 'Display a list of all LearnDash Groups to which a user belongs on the user\'s profile page', Config::get_text_domain() );
+		return array( 'title' => $class_title, 'description ' => $class_description );
 	}
 
 	/**
