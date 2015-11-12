@@ -46,7 +46,7 @@ class Boot {
 		// Classes that are 'Must Use' are manually added
 		self::$active_classes['AdminMenu'] = '1';
 
-		$uncanny_learndash_public->admin_menu = AdminMenu::get_instance();
+		$uncanny_learndash_public->admin_menu = new AdminMenu;
 
 		if( array_key_exists( 'LearndashGroupUserProfile', self::$active_classes ) === true ) {
 			// Store the instance of the class plugin
@@ -55,7 +55,7 @@ class Boot {
 
 		if( array_key_exists( 'WidgetCert', self::$active_classes ) === true ) {
 			// Store the instance of the class plugin
-			$uncanny_learndash_public->widget_cert = WidgetCert::get_instance();
+			$uncanny_learndash_public->widget_cert = new WidgetCert();
 		}
 
 	}
