@@ -50,7 +50,7 @@ class Boot {
 
 		if( array_key_exists( 'LearndashGroupUserProfile', self::$active_classes ) === true ) {
 			// Store the instance of the class plugin
-			$uncanny_learndash_public->learndash_group_user_profile = LearndashGroupUserProfile::get_instance();
+			$uncanny_learndash_public->learndash_group_user_profile = new LearndashGroupUserProfile;
 		}
 
 		if( array_key_exists( 'WidgetCert', self::$active_classes ) === true ) {
