@@ -55,20 +55,19 @@ class Config {
 	 * @param $class_description
 	 * @return array
 	 */
-	public static function set_available_classes( $class_name, $class_title, $class_description )
-	{
-		self::$available_plugins[$class_name] = array(
-			'title' => $class_title,
-			'description' => $class_description,
-		);
+	public static function set_available_classes( $class_names ) {
+		self::$available_plugins = $class_names;
 	}
+
 	/**
-	 * @return array
+	 * @return array of class names
 	 */
-	public static function get_available_classes()
-	{
-		if ( null === self::$available_plugins ) {
-			return array();
+	public static function get_available_classes() {
+		if ( ! self::$available_plugins ) {
+			self::$available_plugins = get_option( 'uncanny_public_active_classes', array() );
+			if ( empty( self::$available_plugins ) ) {
+				self::$available_plugins = array();
+			}
 		}
 		return self::$available_plugins;
 	}

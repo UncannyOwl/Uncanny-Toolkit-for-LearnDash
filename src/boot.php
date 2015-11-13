@@ -50,21 +50,14 @@ class Boot {
 
 		/* LOAD: LearndashGroupUserProfile*/
 		// Class Details:  Add Class to Admin Menu page
-		$class_name = 'LearndashGroupUserProfile';
-		$class_title = __('LearnDash Groups in User Profiles', Config::get_text_domain() );
-		$class_description = __('Display a list of all LearnDash Groups to which a user belongs on the user\'s profile page', Config::get_text_domain() );
-		Config::set_available_classes( $class_name, $class_title, $class_description );
-		// Include and run the file if it is activated in the Admin Menu Setting Page
-		if( array_key_exists( 'LearndashGroupUserProfile', self::$active_classes ) === true ) {
-			// Store the instance of the class plugin
-			$uncanny_learndash_public->learndash_group_user_profile = new LearndashGroupUserProfile;
-		}
+		$classes = Config::get_available_classes();
+		if ( $classes ) {
+			foreach ( Config::get_available_classes() as $class ) {
+				if( class_exists( $class ) ){
+					new $class;
+				}
 
-
-
-		if( array_key_exists( 'WidgetCert', self::$active_classes ) === true ) {
-			// Store the instance of the class plugin
-			$uncanny_learndash_public->widget_cert = new WidgetCert();
+			}
 		}
 
 	}
@@ -89,20 +82,20 @@ class Boot {
 			$class_to_filename = implode( '-', $split_class_to_filename );
 		}
 		$file_name = 'abstracts/' . strtolower( $class_to_filename ) . '.php';
-		if ( file_exists( dirname( __FILE__ ) . '/' . $file_name ) && array_key_exists( $class, self::$active_classes ) === true ) {
+		if ( file_exists( dirname( __FILE__ ) . '/' . $file_name ) ) {
 			include 'abstracts/' . strtolower( $class_to_filename ) . '.php';
 			// Manually debug to check if class is loading or not
 			//echo '<pre>'; var_dump( 'classes/' . strtolower( $class_to_filename ) . '.php is ' . $class .' '. self::$active_classes ); echo '</pre>';
 		}
 		// Create file name that will be loaded from the classes directory eg: my-Class-Name to my-class-name.php
 		$file_name = 'classes/' . strtolower( $class_to_filename ) . '.php';
-		if ( file_exists( dirname( __FILE__ ) . '/' . $file_name ) && array_key_exists( $class, self::$active_classes ) === true ) {
+		if ( file_exists( dirname( __FILE__ ) . '/' . $file_name ) ) {
 			include 'classes/' . strtolower( $class_to_filename ) . '.php';
 			// Manually debug to check if class is loading or not
 			//echo '<pre>'; var_dump( 'classes/' . strtolower( $class_to_filename ) . '.php is ' . $class .' '. self::$active_classes ); echo '</pre>';
 		}
 		$file_name =  strtolower( $class_to_filename ) . '.php';
-		if ( file_exists( dirname( __FILE__ ) . '/' . $file_name ) && array_key_exists( $class, self::$active_classes ) === true ) {
+		if ( file_exists( dirname( __FILE__ ) . '/' . $file_name ) ){
 			include '' . strtolower( $class_to_filename ) . '.php';
 			// Manually debug to check if class is loading or not
 			//echo '<pre>'; var_dump( 'classes/' . strtolower( $class_to_filename ) . '.php is ' . $class .' '. self::$active_classes ); echo '</pre>';

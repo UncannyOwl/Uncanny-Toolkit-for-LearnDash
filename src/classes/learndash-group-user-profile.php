@@ -8,7 +8,7 @@ if( ! defined( 'WPINC' ) ) {
 
 include_once dirname( __FILE__ ) . '/../abstracts/required-functions.php';
 
-class LearndashGroupUserProfile extends RequiredFunctions{
+class LearndashGroupUserProfile extends Config implements RequiredFunctions{
 
 	/**
 	 * class constructor
@@ -22,7 +22,6 @@ class LearndashGroupUserProfile extends RequiredFunctions{
 		// Add a simple settings link to our page from the plugins list
 		$prefix = is_network_admin() ? 'network_admin_' : ''; // TODO Multi-Site
 		add_filter( 'plugin_action_links_' . ULP_PLUGIN_BASENAME, array( __CLASS__, 'link_to_plugins_page' ), 10, 1);
-
 	}
 
 	public static function get_details() {

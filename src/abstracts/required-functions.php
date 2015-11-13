@@ -8,7 +8,7 @@
  */
 namespace uncanny_learndash_public;
 
-abstract class RequiredFunctions {
+interface RequiredFunctions {
 
-	protected static function get_details(){}
+	static function get_details();
 }

@@ -69,14 +69,14 @@ class AdminMenu extends Boot {
 			$class_name = str_replace( '-', ' ', $class_name );
 			$class_name = ucwords( $class_name );
 			$class_name = __NAMESPACE__  . '\\' . str_replace( ' ', '', $class_name );
-			include_once 'abstracts/required-functions.php';
-			include 'classes/' . strtolower( $file );
+
+
 			$details[ $class_name ] = $class_name::get_details();
 		}
 		$x = LearndashGroupUserProfile::get_details();
 //var_dump($details);
 return $details;
-		return array( 'clasename' => array( 'title' => 'fffff', 'description' => 'fsdfsdfsf' ) );
+
 	}
 
 	/*
@@ -102,7 +102,7 @@ return $details;
 		$classes_available = self::get_available_classes();
 
 		// Get an array of options from the database
-		$active_classes = get_option( 'uncanny_public_active_classes' );
+		$active_classes = Config::get_available_classes();
 
 		?>
 		<div class="">
@@ -132,10 +132,10 @@ return $details;
 	 * return echoed String
 	 */
 	public static function create_features( $classes_available, $active_classes ){
-		foreach($classes_available as $key => $class ){
+		foreach( $classes_available as $key => $class ){
 		$is_activated = 'uo_feature_deactivated';
-		$class_option = $key;
-		if( isset( $active_classes[ $class_option ] ) ){
+		$class_name = $key;
+		if( isset( $active_classes[ $class_name ] ) ){
 			$is_activated = 'uo_feature_activated';
 		}
 		?>
@@ -144,8 +144,12 @@ return $details;
 				<div class="uo_feature_description"><?php echo $class['description']; ?></div>
 				<div class="uo_feature_button <?php echo $is_activated; ?>">
 					<div class="uo_feature_button_toggle"></div>
-					<label class="uo_feature_label" for="<?php echo $class_option; ?>">Activate <?php echo $class['title']; ?></label>
-					<input class="uo_feature_checkbox" type="checkbox" id="<?php echo $class_option; ?>" name="uncanny_public_active_classes[<?php echo  $class_option; ?>]" value="1" <?php checked( $active_classes[$class_option], '1', true ); ?>/>
+					<label class="uo_feature_label" for="<?php echo $class_name; ?>">Activate <?php echo $class['title']; ?></label>
+					<input class="uo_feature_checkbox" type="checkbox" id="<?php echo $class_name; ?>" name="uncanny_public_active_classes[<?php echo  $class_name; ?>]" value="<?php echo  $class_name; ?>" <?php
+					if (  array_key_exists( $class_name,$active_classes ) ) {
+						checked( $active_classes[$class_name], $class_name, true );
+					}
+					?>/>
 				</div>
 			</div>
 		<?php
