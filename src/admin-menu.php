@@ -57,17 +57,17 @@ class AdminMenu {
 		// check fun exsit first
 		$files = glob( 'folder/*.{php}', GLOB_BRACE );
 		$details = array();
-		foreach( $files as $file ) {
+		foreach ( $files as $file ) {
 			//do your work here
-			$classe_name = str_replace( '.php', '', $file );
-			$classe_name = str_replace( '-', ' ', $classe_name );
-			$classe_name = ucwords( $classe_name );
-			$classe_name = str_replace( ' ', '', $classe_name );
+			$class_name = str_replace( '.php', '', $file );
+			$class_name = str_replace( '-', ' ', $class_name );
+			$class_name = ucwords( $class_name );
+			$class_name = str_replace( ' ', '', $class_name );
 
-			$details[ $classe_name ] = $classe_name::get_details();
+			$details[ $class_name ] = $class_name::get_details();
 		}
 
-		return array( 'clasename'=>array('title'=>'fffff', 'descption'=>'fsdfsdfsf',) );
+		return array( 'clasename' => array( 'title' => 'fffff', 'descption' => 'fsdfsdfsf' ) );
 	}
 
 	/*
