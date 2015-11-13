@@ -6,8 +6,9 @@ if( ! defined( 'WPINC' ) ) {
 	die;
 }
 
+include_once dirname( __FILE__ ) . '/../abstracts/required-functions.php';
 
-class LearndashGroupUserProfile extends Config implements RequiredFunctions{
+class LearndashGroupUserProfile extends RequiredFunctions{
 
 	/**
 	 * class constructor
@@ -27,7 +28,7 @@ class LearndashGroupUserProfile extends Config implements RequiredFunctions{
 	public static function get_details() {
 		$class_title = __( 'LearnDash Groups in User Profiles', Config::get_text_domain() );
 		$class_description = __( 'Display a list of all LearnDash Groups to which a user belongs on the user\'s profile page', Config::get_text_domain() );
-		return array( 'title' => $class_title, 'description ' => $class_description );
+		return array( 'title' => $class_title, 'description' => $class_description );
 	}
 
 	/**

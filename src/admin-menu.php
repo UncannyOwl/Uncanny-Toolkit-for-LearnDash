@@ -6,7 +6,7 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
-class AdminMenu {
+class AdminMenu extends Boot {
 
 	/**
 	 * class constructor
@@ -17,6 +17,8 @@ class AdminMenu {
 			add_action( 'admin_menu', array( __CLASS__, 'register_options_menu_page' ) );
 			add_action( 'admin_init', array( __CLASS__, 'register_options_menu_page_settings' ) );
 			add_action( 'admin_enqueue_scripts', array( __CLASS__, 'scripts' ) );
+
+		//	spl_autoload_register( array('Boot', 'auto_loader'));
 		}
 
 	}
@@ -26,8 +28,8 @@ class AdminMenu {
 	 */
 	public static function register_options_menu_page() {
 
-		$page_title = 'UO Page Title';
-		$menu_title = 'UO Menu Title';
+		$page_title = __( 'UO Page Title', Config::get_text_domain() );
+		$menu_title =  __( 'UO Addons', Config::get_text_domain() );
 		$capability = 'manage_options';
 		$menu_slug = 'uo-menu-slug';
 		$function = array( __CLASS__, 'options_menu_page_output' );
@@ -52,29 +54,36 @@ class AdminMenu {
 		register_setting( 'uncanny_learndash_public-group', 'uncanny_public_active_classes' );
 	}
 
-	private static function get_all_clases(){
+	public static function get_available_classes(){
 		// loop file in cleeses folded and call get_details
 		// check fun exsit first
-		$files = glob( 'folder/*.{php}', GLOB_BRACE );
+		$path = dirname( __FILE__ ) . '/classes/';
+		$files = scandir($path );
 		$details = array();
-		foreach( $files as $file ) {
+		foreach ( $files as $file ) {
+			if( is_dir ( $path . $file ) ){
+				continue;
+			}
 			//do your work here
-			$classe_name = str_replace( '.php', '', $file );
-			$classe_name = str_replace( '-', ' ', $classe_name );
-			$classe_name = ucwords( $classe_name );
-			$classe_name = str_replace( ' ', '', $classe_name );
-
-			$details[ $classe_name ] = $classe_name::get_details();
+			$class_name = str_replace( '.php', '', $file );
+			$class_name = str_replace( '-', ' ', $class_name );
+			$class_name = ucwords( $class_name );
+			$class_name = __NAMESPACE__  . '\\' . str_replace( ' ', '', $class_name );
+			include_once 'abstracts/required-functions.php';
+			include 'classes/' . strtolower( $file );
+			$details[ $class_name ] = $class_name::get_details();
 		}
-
-		return array( 'clasename'=>array('title'=>'fffff', 'descption'=>'fsdfsdfsf',) );
+		$x = LearndashGroupUserProfile::get_details();
+//var_dump($details);
+return $details;
+		return array( 'clasename' => array( 'title' => 'fffff', 'description' => 'fsdfsdfsf' ) );
 	}
 
 	/*
 	 * Load Scripts
 	 * @paras string $hook Admin page being loaded
 	 */
-	public function scripts( $hook ) {
+	public static function scripts( $hook ) {
 		if ( 'toplevel_page_uo-menu-slug' != $hook ) {
 		   return;
 		}
@@ -90,7 +99,7 @@ class AdminMenu {
 	 */
 	public static function options_menu_page_output() {
 
-		$classes_available = Config::get_available_classes();
+		$classes_available = self::get_available_classes();
 
 		// Get an array of options from the database
 		$active_classes = get_option( 'uncanny_public_active_classes' );

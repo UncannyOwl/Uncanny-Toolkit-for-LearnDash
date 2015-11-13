@@ -9,6 +9,12 @@ if ( ! defined( 'WPINC' ) ) {
 class WidgetCert extends \WP_Widget {
 	static $instance;
 
+	public static function get_details() {
+		$class_title = __( 'LearnDash Cert Widget', Config::get_text_domain() );
+		$class_description = __( 'Display a list of all LearnDash Groups to which a user belongs on the user\'s profile page', Config::get_text_domain() );
+		return array( 'title' => $class_title, 'description' => $class_description );
+	}
+
 	/**
 	 * class constructor
 	 */

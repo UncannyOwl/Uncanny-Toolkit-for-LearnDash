@@ -88,7 +88,12 @@ class Boot {
 			// Split class name to hyphenated name eg: array( 'my', 'Class', 'Name') to my-Class-Name
 			$class_to_filename = implode( '-', $split_class_to_filename );
 		}
-
+		$file_name = 'abstracts/' . strtolower( $class_to_filename ) . '.php';
+		if ( file_exists( dirname( __FILE__ ) . '/' . $file_name ) && array_key_exists( $class, self::$active_classes ) === true ) {
+			include 'abstracts/' . strtolower( $class_to_filename ) . '.php';
+			// Manually debug to check if class is loading or not
+			//echo '<pre>'; var_dump( 'classes/' . strtolower( $class_to_filename ) . '.php is ' . $class .' '. self::$active_classes ); echo '</pre>';
+		}
 		// Create file name that will be loaded from the classes directory eg: my-Class-Name to my-class-name.php
 		$file_name = 'classes/' . strtolower( $class_to_filename ) . '.php';
 		if ( file_exists( dirname( __FILE__ ) . '/' . $file_name ) && array_key_exists( $class, self::$active_classes ) === true ) {
@@ -96,7 +101,12 @@ class Boot {
 			// Manually debug to check if class is loading or not
 			//echo '<pre>'; var_dump( 'classes/' . strtolower( $class_to_filename ) . '.php is ' . $class .' '. self::$active_classes ); echo '</pre>';
 		}
-
+		$file_name =  strtolower( $class_to_filename ) . '.php';
+		if ( file_exists( dirname( __FILE__ ) . '/' . $file_name ) && array_key_exists( $class, self::$active_classes ) === true ) {
+			include '' . strtolower( $class_to_filename ) . '.php';
+			// Manually debug to check if class is loading or not
+			//echo '<pre>'; var_dump( 'classes/' . strtolower( $class_to_filename ) . '.php is ' . $class .' '. self::$active_classes ); echo '</pre>';
+		}
 	}
 }
 
