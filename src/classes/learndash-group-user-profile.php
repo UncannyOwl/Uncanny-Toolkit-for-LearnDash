@@ -6,7 +6,7 @@ if( ! defined( 'WPINC' ) ) {
 	die;
 }
 
-include_once dirname( __FILE__ ) . '/../abstracts/required-functions.php';
+//include_once dirname( __FILE__ ) . '/../abstracts/required-functions.php';
 
 class LearndashGroupUserProfile extends Config implements RequiredFunctions{
 
@@ -24,10 +24,28 @@ class LearndashGroupUserProfile extends Config implements RequiredFunctions{
 		add_filter( 'plugin_action_links_' . ULP_PLUGIN_BASENAME, array( __CLASS__, 'link_to_plugins_page' ), 10, 1);
 	}
 
+	/**
+	* Description of class in Admin View
+	*
+	* @return Array
+	*/
 	public static function get_details() {
 		$class_title = __( 'LearnDash Groups in User Profiles', Config::get_text_domain() );
-		$class_description = __( 'Display a list of all LearnDash Groups to which a user belongs on the user\'s profile page', Config::get_text_domain() );
-		return array( 'title' => $class_title, 'description' => $class_description );
+		$class_description = __( 'Display a list of all LearnDash Groups to which a user belongs on the user\'s profile page.', Config::get_text_domain() );
+		return array( 'title' => $class_title, 'description' => $class_description, 'dependants_exist' => self::dependants_exist() );
+	}
+
+	/**
+	 * Does the plugin rely on another function or plugin
+	 *
+	 * return boolean || string Return either true or name of function or plugin
+	 */
+	public static function dependants_exist(){
+		global $learndash_post_types;
+		if( !isset($learndash_post_types) ){
+			return 'Plugin: LearnDash';
+		}
+		return true;
 	}
 
 	/**

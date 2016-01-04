@@ -2,6 +2,8 @@
 
 namespace uncanny_learndash_public;
 
+use ReflectionClass;
+
 if ( ! defined( 'WPINC' ) ) {
 	die;
 }
@@ -48,15 +50,17 @@ class AdminMenu extends Boot {
 	}
 
 	/*
-	 * Whitelisted Options that are save on the page
+	 * Whitelisted Options that are saved on the page
 	 */
 	public static function register_options_menu_page_settings() {
 		register_setting( 'uncanny_learndash_public-group', 'uncanny_public_active_classes' );
 	}
 
-	public static function get_available_classes(){
-		// loop file in cleeses folded and call get_details
-		// check fun exsit first
+	/**
+ * @return array
+*/public static function get_available_classes(){
+		// loop file in classes folded and call get_details
+		// check function exist first
 		$path = dirname( __FILE__ ) . '/classes/';
 		$files = scandir( $path );
 		$details = array();
@@ -71,15 +75,14 @@ class AdminMenu extends Boot {
 			$class_name = __NAMESPACE__  . '\\' . str_replace( ' ', '', $class_name );
 
 			// TODO: test for function
-			$class = new \ReflectionClass( $class_name );
-			if ( $class->implementsInterface( 'get_details' ) )
+			$class = new ReflectionClass( $class_name );
+			if ( $class->implementsInterface( 'uncanny_learndash_public\RequiredFunctions' ) )
 			{
-				$class_title = __( 'LearnDash Cert Widget', Config::get_text_domain() );
-				$class_description = __( 'Display a list of all LearnDash Groups to which a user belongs on the user\'s profile page', Config::get_text_domain() );
-				$details[ $class_name ] = array( 'title' => $class_title, 'description' => $class_description );
-				continue;
+				$details[ $class_name ] = $class_name::get_details();
+			}else{
+				$details[ $class_name ] = false;
 			}
-			$details[ $class_name ] = $class_name::get_details();
+
 		}
 
 		return $details;
@@ -111,10 +114,10 @@ class AdminMenu extends Boot {
 		$active_classes = Config::get_available_classes();
 
 		?>
-		<div class="">
+		<div class="uo-admin-header">
 			<img src="<?php echo Config::get_admin_media('Uncanny-Owl-logo.png'); ?>" />
 			<hr class="uo-underline">
-			<h2>READY TO BE POPULATED</h2>
+			<h2>Activate the add-ons that you need.</h2>
 		</div>
 		<form method="post" action="options.php">
 		<?php
@@ -139,23 +142,46 @@ class AdminMenu extends Boot {
 	 */
 	public static function create_features( $classes_available, $active_classes ){
 		foreach ( $classes_available as $key => $class ) {
+			if( false === $class){
+				?>
+					<div class="uo_feature">
+						<div class="uo_feature_title"><?php echo $key; ?></div>
+						<div class="uo_feature_description">This class is not configured properly. Contact Support for assistance.</div>
+					</div>
+				<?php
+				continue;
+			}
+
+			$dependants_exist = $class['dependants_exist'];
+			//var_dump($dependants_exist);
 			$is_activated = 'uo_feature_deactivated';
 			$class_name = $key;
 			if( isset( $active_classes[ $class_name ] ) ){
 				$is_activated = 'uo_feature_activated';
 			}
+			if( TRUE !== $dependants_exist ){
+				$is_activated = 'uo_feature_needs_dependants';
+			}
 		?>
 			<div class="uo_feature">
 				<div class="uo_feature_title"><?php echo $class['title']; ?></div>
 				<div class="uo_feature_description"><?php echo $class['description']; ?></div>
+				<div class="uo_icon_container"><div class="uo_icon"></div></div>
 				<div class="uo_feature_button <?php echo $is_activated; ?>">
-					<div class="uo_feature_button_toggle"></div>
-					<label class="uo_feature_label" for="<?php echo $class_name; ?>">Activate <?php echo $class['title']; ?></label>
-					<input class="uo_feature_checkbox" type="checkbox" id="<?php echo $class_name; ?>" name="uncanny_public_active_classes[<?php echo  $class_name; ?>]" value="<?php echo  $class_name; ?>" <?php
-					if (  array_key_exists( $class_name,$active_classes ) ) {
-						checked( $active_classes[ $class_name ], $class_name, true );
-					}
-					?>/>
+					<?php
+					if( TRUE !== $dependants_exist ){
+					 echo '<div>You need to activate <strong>'. $dependants_exist .'</strong> to use the this function.</div>';
+					}else{
+						?>
+						<div class="uo_feature_button_toggle"></div>
+						<label class="uo_feature_label" for="<?php echo $class_name; ?>">Activate <?php echo $class['title']; ?></label>
+						<input class="uo_feature_checkbox" type="checkbox" id="<?php echo $class_name; ?>" name="uncanny_public_active_classes[<?php echo  $class_name; ?>]" value="<?php echo  $class_name; ?>" <?php
+						if (  array_key_exists( $class_name,$active_classes ) ) {
+							checked( $active_classes[ $class_name ], $class_name, true );
+						}
+						?>
+						/>
+					<?php } ?>
 				</div>
 			</div>
 		<?php

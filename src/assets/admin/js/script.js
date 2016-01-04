@@ -7,7 +7,6 @@ jQuery( document ).ready(function( $ ) {
 		});
 
 	$( '.uo_feature_button')
-		.css({'width': '75px', 'height': '35px', 'padding': '0'})
 		.click(
 		function() {
 			$( this ).toggleClass( "uo_feature_activated uo_feature_deactivated" );

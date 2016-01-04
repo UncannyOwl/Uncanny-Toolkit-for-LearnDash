@@ -50,9 +50,8 @@ class Config {
 	}
 
 	/**
-	 * @param $class_name
-	 * @param $class_title
-	 * @param $class_description
+	 * @param $class_names
+	 *
 	 * @return array
 	 */
 	public static function set_available_classes( $class_names ) {

@@ -81,9 +81,9 @@ class Boot {
 			// Split class name to hyphenated name eg: array( 'my', 'Class', 'Name') to my-Class-Name
 			$class_to_filename = implode( '-', $split_class_to_filename );
 		}
-		$file_name = 'abstracts/' . strtolower( $class_to_filename ) . '.php';
+		$file_name = 'interfaces/' . strtolower( $class_to_filename ) . '.php';
 		if ( file_exists( dirname( __FILE__ ) . '/' . $file_name ) ) {
-			include 'abstracts/' . strtolower( $class_to_filename ) . '.php';
+			include_once 'interfaces/' . strtolower( $class_to_filename ) . '.php';
 			// Manually debug to check if class is loading or not
 			//echo '<pre>'; var_dump( 'classes/' . strtolower( $class_to_filename ) . '.php is ' . $class .' '. self::$active_classes ); echo '</pre>';
 		}
