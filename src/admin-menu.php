@@ -141,6 +141,15 @@ class AdminMenu extends Boot {
 	 * return echoed String
 	 */
 	public static function create_features( $classes_available, $active_classes ){
+
+		/* If Magic Quotes are enable we need to stripslashes from ouw $active classes */
+		if( function_exists( 'get_magic_quotes_gpc' )){
+			if( get_magic_quotes_gpc() ){
+				//strip slashes from all keys in array
+				$active_classes = Config::stripslashes_deep($active_classes);
+			}
+		}
+
 		foreach ( $classes_available as $key => $class ) {
 			if( false === $class){
 				?>

@@ -233,4 +233,20 @@ class Config {
 
 		return self::$version;
 	}
+
+	/**
+	 * @return array
+	 */
+	public static function stripslashes_deep($value)
+	{
+		$new_array = array();
+
+		foreach( $value as $key => $content ){
+			$key = stripslashes( $key );
+			$new_array[ $key ] = $content;
+		}
+
+		return $new_array;
+	}
+
 }
