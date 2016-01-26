@@ -69,6 +69,22 @@
 		transform: translate(-50%, -50%);
 	}
 
+	.uo_icon_text{
+		font-size: 27px;
+		color: white;
+		font-weight: bold;
+		letter-spacing: 2px;
+		margin-top: 20px;
+		display: block;
+		text-align: center;
+	}
+
+	.uo_icon_dashicon{
+		font-size: 36px;
+		padding-top: 10px;
+		padding-left: 11px;
+	}
+
 	/* Message if class needs dependants */
 	.uo_feature_button.uo_feature_needs_dependants {
 		width: 100%;
