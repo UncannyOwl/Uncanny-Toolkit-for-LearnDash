@@ -74,7 +74,7 @@ class AdminMenu extends Boot {
 			$class_name = ucwords( $class_name );
 			$class_name = __NAMESPACE__  . '\\' . str_replace( ' ', '', $class_name );
 
-			// TODO: test for function
+			// test for required functions
 			$class = new ReflectionClass( $class_name );
 			if ( $class->implementsInterface( 'uncanny_learndash_public\RequiredFunctions' ) )
 			{
@@ -162,11 +162,17 @@ class AdminMenu extends Boot {
 			if( TRUE !== $dependants_exist ){
 				$is_activated = 'uo_feature_needs_dependants';
 			}
+
+			$icon = '<div class="uo_icon"></div>';
+			if( $class['icon'] ){
+				$icon = $class['icon'];
+			}
+
 		?>
 			<div class="uo_feature">
 				<div class="uo_feature_title"><?php echo $class['title']; ?></div>
 				<div class="uo_feature_description"><?php echo $class['description']; ?></div>
-				<div class="uo_icon_container"><div class="uo_icon"></div></div>
+				<div class="uo_icon_container"><?php echo $icon; ?></div>
 				<div class="uo_feature_button <?php echo $is_activated; ?>">
 					<?php
 					if( TRUE !== $dependants_exist ){
