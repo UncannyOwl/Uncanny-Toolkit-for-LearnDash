@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Uncanny LearnDash Functionality
-Version: 1.1
+Version: 1.2
 Description: There is a lot
 Author: uncannyowl.com
 Author URI: uncannyowl.com

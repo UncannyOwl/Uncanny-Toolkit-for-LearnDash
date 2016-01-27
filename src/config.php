@@ -164,6 +164,14 @@ class Config {
 		return $asset_url;
 	}
 	/**
+	 * @param string $file_name		File name must be prefixed with a \ (foreword slash)
+	 * @return string
+	 */
+	public static function get_template( $file_name ) {
+		$asset_uri = dirname( __FILE__ ) . '\templates' . $file_name;
+		return $asset_uri;
+	}
+	/**
 	 * @return string
 	 */
 	public static function get_project_name() {
