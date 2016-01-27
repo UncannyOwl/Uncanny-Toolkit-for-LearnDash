@@ -67,7 +67,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions{
 	public static function get_details() {
 
 		$class_title = __( 'FrontEnd Login', Config::get_text_domain() );
-		$class_description = __( 'Addon for Gravity Forms', Config::get_text_domain() );
+		$class_description = __( '', Config::get_text_domain() );
 		$class_icon = '<span class="uo_icon_dashicon dashicons dashicons-unlock"></span>';
 		return array( 'title' => $class_title, 'description' => $class_description, 'dependants_exist' => self::dependants_exist(), 'icon' => $class_icon );
 
