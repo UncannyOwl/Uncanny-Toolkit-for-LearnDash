@@ -156,12 +156,13 @@ class FrontendLoginPlus extends Config implements RequiredFunctions{
 	}
 
 	public static function uo_login_form( $atts ){
+
 		$redirect = ( isset( $atts['redirect'] ) ? $atts['redirect'] : home_url() );
 		$submit_label = ( isset(  $atts['submit_label'] ) ? $atts['submit_label'] : 'Log In' );
 
 
 		$login_form_args = array(
-				'echo'           => true,
+				'echo'           => false,
 				'redirect'       => $redirect,
 				'form_id'        => 'loginform',
 				'label_username' => __( 'Username' ),
@@ -177,7 +178,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions{
 				'value_remember' => true
 		);
 
-		wp_login_form($login_form_args);
+		return wp_login_form($login_form_args);
 
 	}
 
