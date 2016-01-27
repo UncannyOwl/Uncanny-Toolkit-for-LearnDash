@@ -97,7 +97,7 @@ get_header();
                         </div>';
         } else if($lost_password){
             ?>
-            <h1>Password Recovery</h1>
+            <h2>Password Recovery</h2>
             <form id="lostpasswordform" name="lostpasswordform" action="<?php echo site_url('wp-login.php?action=lostpassword', 'login_post') ?>" method="post">
                 <p>
                     <label for="user_login">Username or E-mail:</label>
@@ -129,7 +129,7 @@ get_header();
                 setcookie( $rp_cookie, $value, 0, 'http://bloggingbuddha.staging.wpengine.com', COOKIE_DOMAIN, is_ssl(), true );
 
                 ?>
-                <h1>Reset Password</h1>
+                <h2>Reset Password</h2>
                 <form name="resetpassform" id="resetpassform" action="<?php echo esc_url( network_site_url( 'login?action=validatepasswordreset', 'login_post' ) ); ?>" method="post" autocomplete="off">
                     <input type="hidden" id="user_login" name="rp_login" value="<?php echo esc_attr( $rp_login ); ?>" autocomplete="off" />
 
@@ -208,6 +208,7 @@ get_header();
                     ?>
                         <h2>Your password was reset successfully. Please Log-In.</h2>
                     <?php
+
                     wp_login_form($login_form_args);
 
                 }
@@ -215,6 +216,9 @@ get_header();
             }
 
         }else{
+            ?>
+            <h2>Login</h2>
+            <?php
             wp_login_form($login_form_args);
         }
         ?>
