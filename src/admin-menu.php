@@ -44,7 +44,7 @@ class AdminMenu extends Boot {
 			$icon_url = Config::get_admin_media('menu-icon.png');
 		}
 
-		$position = 80; // 80 - Below Settings Menu
+		$position = 81; // 81 - Above Settings Menu
 		add_menu_page( $page_title, $menu_title, $capability, $menu_slug, $function, $icon_url, $position );
 
 	}
