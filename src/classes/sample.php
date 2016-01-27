@@ -66,7 +66,7 @@ class Sample extends Config implements RequiredFunctions{
 	 */
 	public static function dependants_exist(){
 
-		// Checks for LearnDash */
+		/* Checks for LearnDash */
 		global $learndash_post_types;
 		if( !isset($learndash_post_types) ){
 			return 'Plugin: LearnDash';
@@ -77,7 +77,7 @@ class Sample extends Config implements RequiredFunctions{
 			return 'Plugin: Gravity Forms';
 		}
 
-		// Return true if no depency or dependency is available
+		// Return true if no dependency or dependency is available
 		return true;
 	}
 
