@@ -20,19 +20,27 @@ class FrontendLoginPlus extends Config implements RequiredFunctions{
 	public function __construct() {
 
 		if( true === self::dependants_exist()){
-			// Add new column to wp admin user list that states if the user is or isn't verified
-			add_filter( 'manage_users_columns', array( __CLASS__, 'add_meta_column' ) );
-			// Populate the new column
-			add_filter( 'manage_users_custom_column', array( __CLASS__, 'add_meta_column_content' ), 10, 3 );
 
-			// Add Custom fields to user profile : user is view their own profile
-			add_action( 'show_user_profile', array( __CLASS__, 'my_show_extra_profile_fields' ) );
-			// Add Custom fields to user profile : user is view another user's profile
-			add_action( 'edit_user_profile', array( __CLASS__, 'my_show_extra_profile_fields' ) );
-			// Save custom fields from user profiles : user is view their own profile
-			add_action( 'personal_options_update', array( __CLASS__, 'my_save_extra_profile_fields' ) );
-			// Save custom fields from user profile : user is view another user's profile
-			add_action( 'edit_user_profile_update', array( __CLASS__, 'my_save_extra_profile_fields' ) );
+			if ( 'yes' === get_option('uo_frontendloginplus_needs_verifcation') ){
+
+				// Add new column to wp admin user list that states if the user is or isn't verified
+				add_filter( 'manage_users_columns', array( __CLASS__, 'add_meta_column' ) );
+				// Populate the new column
+				add_filter( 'manage_users_custom_column', array( __CLASS__, 'add_meta_column_content' ), 10, 3 );
+
+				// Add Custom fields to user profile : user is view their own profile
+				add_action( 'show_user_profile', array( __CLASS__, 'my_show_extra_profile_fields' ) );
+				// Add Custom fields to user profile : user is view another user's profile
+				add_action( 'edit_user_profile', array( __CLASS__, 'my_show_extra_profile_fields' ) );
+				// Save custom fields from user profiles : user is view their own profile
+				add_action( 'personal_options_update', array( __CLASS__, 'my_save_extra_profile_fields' ) );
+				// Save custom fields from user profile : user is view another user's profile
+				add_action( 'edit_user_profile_update', array( __CLASS__, 'my_save_extra_profile_fields' ) );
+
+				// Prevent specific user from logging in
+				add_action( 'wp_login', array( $this, 'user_login' ), 10, 2 );
+
+			}
 
 			/* Redirect Login Page */
 			// Create Shortcode that can be added anywhere
@@ -56,14 +64,14 @@ class FrontendLoginPlus extends Config implements RequiredFunctions{
 			});*/
 
 		}
-		
+
 	}
 
 	/**
-	* Description of class in Admin View
-	*
-	* @return Array
-	*/
+	 * Description of class in Admin View
+	 *
+	 * @return Array
+	 */
 	public static function get_details() {
 
 		$class_title = __( 'FrontEnd Login', Config::get_text_domain() );
@@ -101,8 +109,8 @@ class FrontendLoginPlus extends Config implements RequiredFunctions{
 	 *
 	 */
 	public static function add_meta_column_content( $value, $column_name, $user_id) {
-		$user_meta_key = apply_filters( 'uo_user_meta_key_column', self::$user_meta_key_col );
-		$user_verified_value = get_user_meta( $user_id, $user_meta_key, true );
+
+		$user_verified_value = get_user_meta( $user_id, self::$user_meta_key_col, true );
 
 		if ( 'uo_column' == $column_name ){
 
@@ -153,6 +161,53 @@ class FrontendLoginPlus extends Config implements RequiredFunctions{
 			return false;
 
 		update_user_meta( $user_id, 'uo_is_verified', $_POST['uo_is_verified'] );
+	}
+
+	/*
+	 * After login check to see if user account is disabled
+	 *
+	 * @since 1.0.0
+	 * @param string $user_login
+	 * @param object $user
+	 */
+	public function user_login( $user_login, $user = null ) {
+		if ( !$user ) {
+			$user = get_user_by('login', $user_login);
+		}
+		if ( !$user ) {
+			// not logged in - definitely not disabled
+			return;
+		}
+
+		$user_verified_value = get_user_meta( $user_id, $user_meta_key, true );
+
+		// Is the use logging in disabled?
+		if ( '1' === $user_verified_value ) {
+			// Clear cookies, a.k.a log user out
+			wp_clear_auth_cookie();
+			// Build login URL and then redirect
+			$login_url = home_url( 'login' );
+			$login_url = add_query_arg( 'unverified', '1', $login_url );
+			//??// Escape url before redirect?
+			$login_url = apply_filters( 'uo_unverified_users_redirect', __( $login_url, Config::get_text_domain() ) );
+			wp_redirect( $login_url );
+			exit;
+		}
+	}
+
+	/**
+	 * Show a notice to users who try to login and are disabled
+	 *
+	 * @since 1.0.0
+	 * @param string $message
+	 * @return string
+	 */
+
+	public function user_login_message( $message ) {
+		// Show the error message if it seems to be a disabled user
+		if ( isset( $_GET['unverified'] ) && $_GET['unverified'] == 1 )
+			$message =  '<div id="login_error">' . apply_filters( 'uo_unverified_users_notice', __( "We haven't verified this account", Config::get_text_domain() ) ) . '</div>';
+		return $message;
 	}
 
 	public static function uo_login_form( $atts ){
