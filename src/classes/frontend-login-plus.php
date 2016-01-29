@@ -171,6 +171,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions{
 	 * @param object $user
 	 */
 	public function user_login( $user_login, $user = null ) {
+
 		if ( !$user ) {
 			$user = get_user_by('login', $user_login);
 		}
@@ -179,10 +180,10 @@ class FrontendLoginPlus extends Config implements RequiredFunctions{
 			return;
 		}
 
-		$user_verified_value = get_user_meta( $user_id, $user_meta_key, true );
+		$user_verified_value = get_user_meta( $user->ID, self::$user_meta_key_col, true );
 
 		// Is the use logging in disabled?
-		if ( '1' === $user_verified_value ) {
+		if ( '1' !== $user_verified_value ) {
 			// Clear cookies, a.k.a log user out
 			wp_clear_auth_cookie();
 			// Build login URL and then redirect
@@ -210,20 +211,40 @@ class FrontendLoginPlus extends Config implements RequiredFunctions{
 		return $message;
 	}
 
-	public static function uo_login_form( $atts ){
+	public static function uo_login_form( $atts, $content = null ){
 
+		if( is_user_logged_in() ){
+			do_shortcode( $content );
+		}
+
+		$username_label = ( isset( $atts['username-label'] ) ? $atts['username-label'] : __( 'Username', Config::get_text_domain() ) );
+		$password_label = ( isset( $atts['password-label'] ) ? $atts['password-label'] : __( 'Password', Config::get_text_domain() ) );
+		$rememberme_label = ( isset( $atts['rememberme-label'] ) ? $atts['rememberme-label'] : __(  'Remember Me', Config::get_text_domain() ) );
+
+		$placeholder = ( isset( $atts['placeholder'] ) ? $atts['placeholder'] : 'yes' );
 		$redirect = ( isset( $atts['redirect'] ) ? $atts['redirect'] : home_url() );
-		$submit_label = ( isset(  $atts['submit_label'] ) ? $atts['submit_label'] : 'Log In' );
+		$submit_label = ( isset(  $atts['submit-label'] ) ? $atts['submit-label'] : __( 'Log In', Config::get_text_domain() ) );
+
+		if( 'no' !== $placeholder ){
+			?>
+			<script type='text/javascript'>
+				jQuery( document ).ready(function() {
+					jQuery('#user_login').attr( 'placeholder', '<?php echo $username_label; ?>' );
+					jQuery('#user_pass').attr( 'placeholder', '<?php echo $password_label; ?>' );
+				});
+			</script>
+			<?php
+		}
 
 
 		$login_form_args = array(
 				'echo'           => false,
 				'redirect'       => $redirect,
 				'form_id'        => 'loginform',
-				'label_username' => __( 'Username' ),
-				'label_password' => __( 'Password' ),
-				'label_remember' => __( 'Remember Me' ),
-				'label_log_in'   => __( $submit_label ),
+				'label_username' => $username_label,
+				'label_password' => $password_label,
+				'label_remember' => $rememberme_label,
+				'label_log_in'   => $submit_label,
 				'id_username'    => 'user_login',
 				'id_password'    => 'user_pass',
 				'id_remember'    => 'rememberme',
@@ -289,7 +310,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions{
 
 		// if the slug or page title in login run the login page template
 		if ( is_page( 'login' ) || $page_title == 'login') {
-			$page_template = Config::get_template( '\login_page.php' );
+			$page_template = Config::get_template( '/login_page.php' );
 		}
 		return $page_template;
 	}
