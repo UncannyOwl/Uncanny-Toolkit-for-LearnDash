@@ -243,18 +243,169 @@ class Config {
 	}
 
 	/**
+	 * @param array 	$array		Array where there is slashes in the key
 	 * @return array
 	 */
-	public static function stripslashes_deep($value)
+	public static function stripslashes_deep( $array )
 	{
 		$new_array = array();
 
-		foreach( $value as $key => $content ){
+		// strip slashes of all keys in array
+		foreach( $array as $key => $content ){
 			$key = stripslashes( $key );
 			$new_array[ $key ] = $content;
 		}
 
 		return $new_array;
+	}
+
+	/*
+	 * Loops through array of setting values and return an link and settings html
+	 * @param array		$settings
+	 * @return array
+	 */
+	public static function settings_output( $settings ){
+
+		$class = $settings['class'];// define by __CLASS__ from related php file
+		$title = $settings['title'];
+		$options = $settings['options'];
+
+
+		//create unique clean html id from class name
+		$modal_id = stripslashes( $class );
+		$modal_id = str_replace( __NAMESPACE__, '', $modal_id );
+
+		$modal_link = '<a class="uo_settings_link" rel="leanModal" href="#'. $modal_id .'"><span class="dashicons dashicons-admin-generic"></span></a>';
+
+		ob_start();
+
+		//Wrapper Start - open div.uo_setting, open div.uo_settings_options
+		?>
+
+		<div id="<?php echo $modal_id; ?>" class="uo_settings">
+
+			<div class="uo_settings_header">
+				<h2>Settings: <?php echo $title; ?></h2>
+			</div>
+
+			<div class="uo_settings_options">
+
+		<?php
+
+		// Create options
+		foreach( $options as $type => $content ){
+			switch($type){
+
+				case 'checkbox':
+					echo '<div class="uo_settings_single"><span>'.$content['label'].'</span><input name="'.$content['option_name'].'" type="checkbox" /></div>';
+					break;
+
+				case 'radio';
+					$inputs = '';
+					foreach($content['value'] as $input_label ){
+						$input_name = sanitize_key( $input_label );
+						$inputs .= '<input type="radio" name="' . $content['input_name'] . '" value="'.$input_name.'"> '.$input_label;
+					}
+					echo	'<div class="uo_settings_single"><span>'.$content['label'].'</span>' . $inputs . '</div>';
+					break;
+
+				case 'select':
+					$options = '';
+					foreach($content['value'] as $option_label ){
+						$option_name = sanitize_key( $option_label );
+						$options .= '<option value="'.$option_name.'"> ' . $option_label . '</option>';
+					}
+					echo 	'<div class="uo_settings_single"><span>'.$content['label'].'</span>
+								<select name="' . $content['select_name'] . '">'.$options.'</select>
+							</div>';
+					break;
+
+			}
+		}
+
+		//Wrapper End - create button, close div.uo_setting, close div.uo_settings_options
+		?>
+				<button class="uo_save_settings">Save Settings</button>
+
+			</div>
+
+		</div>
+
+		<?php
+
+		$html_options = ob_get_clean();
+
+		return array( 'link' => $modal_link, 'modal' => $html_options );
+
+	}
+
+	/*
+	 * @return string
+	 */
+	public static function ajax_settings_save() {
+
+		if( current_user_can( 'activate_plugins' ) ){
+
+			if( isset($_POST['class']) ){
+
+				$class =  $_POST['class'];
+				$options = ( isset($_POST['options']) )? $_POST['options']: array();
+
+				// Delete option and add option are called instead of update option because
+				// sometimes update value is equal to the existing value and a false
+				// positive is returned
+
+				delete_option( $class );
+
+				$save_settings = add_option( $class, $options, 'no' );
+
+				$response = ( $save_settings )? 'success' : 'notsaved';
+
+			}else{
+				$response  = 'Class for addon is not set.';
+			}
+
+		}else{
+
+			$response  = 'You must be an admin to save settings.';
+
+		}
+
+		echo $response;
+
+		wp_die();
+
+	}
+
+	/*
+	 * @return string
+	 */
+	public static function ajax_settings_load() {
+
+		if( current_user_can( 'activate_plugins' ) ){
+
+			if( isset($_POST['class']) ){
+
+				$class =  $_POST['class'];
+
+				$settings = get_option( $class, array() );
+
+				$response = json_encode( $settings );
+
+			}else{
+				$response  = 'Class for addon is not set.';
+			}
+
+		}else{
+
+			$response  = 'You must be an admin to save settings.';
+
+		}
+
+		echo $response;
+
+		wp_die();
+
 	}
 
 }

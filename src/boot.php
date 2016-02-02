@@ -4,7 +4,7 @@ namespace uncanny_learndash_public;
 
 use uncanny_learndash_public;
 
-class Boot {
+class Boot extends Config{
 	static $instance;
 	private static $active_classes;
 
@@ -34,7 +34,7 @@ class Boot {
 		// We need to check if spl auto loading is available when activating plugin
 		// Plugin will not activate if SPL extension is not enabled by throwing error
 		if( ! extension_loaded("SPL") ) {
-			$spl_error = __( "Please contact your hosting company to update to php version 5.3+ and enable spl extensions.", Config::get_text_domain() );
+			$spl_error = __( "Please contact your hosting company to update to php version 5.3+ and enable spl extensions.", self::get_text_domain() );
 			trigger_error( $spl_error, E_USER_ERROR );
 		}
 
@@ -48,11 +48,16 @@ class Boot {
 
 		$uncanny_learndash_public->admin_menu = new AdminMenu;
 
+		// Add admin menu ajax class to load and save settings
+		add_action( 'wp_ajax_settings_save' , array( get_parent_class(), 'ajax_settings_save' ) );
+		add_action( 'wp_ajax_settings_load' , array( get_parent_class(), 'ajax_settings_load' ) );
+
+
 		/* LOAD: LearndashGroupUserProfile*/
 		// Class Details:  Add Class to Admin Menu page
-		$classes = Config::get_available_classes();
+		$classes = self::get_available_classes();
 		if ( $classes ) {
-			foreach ( Config::get_available_classes() as $class ) {
+			foreach ( self::get_available_classes() as $class ) {
 				if( class_exists( $class ) ){
 					new $class;
 				}
@@ -68,7 +73,7 @@ class Boot {
 	public static function auto_loader( $class ) {
 
 		// Remove Class's namespace eg: my_namespace/MyClassName to MyClassName
-		$class = str_replace( Config::get_namespace(), '', $class );
+		$class = str_replace( self::get_namespace(), '', $class );
 		$class = str_replace( '\\', '', $class );
 
 		// First Character of class name to lowercase eg: MyClassName to myClassName

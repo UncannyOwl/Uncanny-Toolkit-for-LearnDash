@@ -19,8 +19,6 @@ class AdminMenu extends Boot {
 			add_action( 'admin_menu', array( __CLASS__, 'register_options_menu_page' ) );
 			add_action( 'admin_init', array( __CLASS__, 'register_options_menu_page_settings' ) );
 			add_action( 'admin_enqueue_scripts', array( __CLASS__, 'scripts' ) );
-
-		//	spl_autoload_register( array('Boot', 'auto_loader'));
 		}
 
 	}
@@ -177,12 +175,23 @@ class AdminMenu extends Boot {
 				$icon = $class['icon'];
 			}
 
+			if( false === $class['settings'] || !isset( $class['settings'] ) ){
+				$class['settings']['modal'] = '';
+				$class['settings']['link'] = '';
+			}
+
 		?>
+			<?php echo $class['settings']['modal']; ?>
+
 			<div class="uo_feature">
+
+				<?php echo $class['settings']['link']; ?>
+
 				<div class="uo_feature_title"><?php echo $class['title']; ?></div>
 				<div class="uo_feature_description"><?php echo $class['description']; ?></div>
 				<div class="uo_icon_container"><?php echo $icon; ?></div>
 				<div class="uo_feature_button <?php echo $is_activated; ?>">
+
 					<?php
 					if( TRUE !== $dependants_exist ){
 					 echo '<div>You need to activate <strong>'. $dependants_exist .'</strong> to use the this function.</div>';
@@ -197,6 +206,7 @@ class AdminMenu extends Boot {
 						?>
 						/>
 					<?php } ?>
+
 				</div>
 			</div>
 		<?php

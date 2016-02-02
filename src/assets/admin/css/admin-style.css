@@ -18,7 +18,7 @@
 		width: 87%;
 		display: inline-table;
 		height: 170px;
-		border: 1px solid grey;
+		border: 1px solid #D1D1D1;
 		padding: 20px;
 		margin-right: 4%;
 		margin-bottom: 20px;
@@ -115,12 +115,10 @@
 		background: white;
 		margin-top: 5px;
 	}
-
 	/* Actual Checkbox that WP Options data is pulled from */
-	.uo_feature_checkbox{
+	.uo_feature_checkbox, .uo_feature_label{
 		position: absolute;
-		right: -6px;
-		bottom: -2px;
+		left: 10000px;
 	}
 
 	/* Label From Activating Feature Checkbox */
@@ -144,3 +142,71 @@
 	.uo_feature_deactivated .uo_feature_button_toggle{
 		margin-left: 42px;
 	}
+
+	/* Settings*/
+	.uo_settings_link .dashicons {
+		position: absolute;
+		right: -21px;
+		color: #0CA5B0;
+		text-decoration: none;
+		background: #D1D1D1;
+		font-size: 25px;
+		width: 30px;
+		height: 30px;
+		top: 5px;
+		padding: 6px 5px 0;
+	}
+	#lean_overlay {
+		position: fixed;
+		z-index:100;
+		top: 0px;
+		left: 0px;
+		height:100%;
+		width:100%;
+		background: #000;
+		display: none;
+	}
+	.uo_settings{
+		max-width: 800px;
+		width: 95%;
+		min-width: 300px;
+		display: none;
+		background: #FFF;
+		border-bottom: 6px solid #F9BA0F;
+		padding-bottom: 20px;
+	}
+	.uo_settings_header{
+		background: #C9C9C9;
+		margin-bottom: 20px;
+	}
+	.uo_settings_header h2{
+		font-size: 23px;
+		margin: 0;
+		line-height: 63px;
+		padding-left: 20px;
+		color: white;
+	}
+	.uo_settings_single{
+		padding: 10px 20px;
+	}
+	.uo_settings_single span{
+		font-size: 15px;
+		font-weight: bold;
+		margin-right: 10px;
+	}
+
+	.uo_save_settings{
+		clear: both;
+		float: right;
+		margin-right: 20px;
+		padding: 9px 32px;
+		border: none;
+		color: white;
+		font-size: 16px;
+		font-weight: bold;
+		background: #A9A9A9;
+	}
+.uo_save_settings:hover{
+	background: #F9860F;
+}
+
