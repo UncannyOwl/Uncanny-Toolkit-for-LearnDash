@@ -33,14 +33,14 @@ class UserInformation extends Config implements RequiredFunctions{
 	 * @return Array
 	 */
 	public static function get_details() {
-		$class_title = __( 'Display User Information', Config::get_text_domain() );
+		$class_title = __( 'Display User Information', self::get_text_domain() );
 		$class_description = __( '
 				<p><strong>[first-name]</strong> <strong>[last-name]</strong><br>
 				<strong>[display-name]</strong> <strong>[user-email]</strong><br>
 				<strong>[user_login]</strong> <strong>[user_id]</strong>
 				</p>
 				',
-			Config::get_text_domain() );
+			self::get_text_domain() );
 		$class_icon = '<span class="uo_icon_text">[/ ]</span>';//'<span class="dashicons dashicons-admin-users"></span>';
 		return array( 'title' => $class_title, 'description' => $class_description, 'dependants_exist' => self::dependants_exist(), 'icon' => $class_icon );
 	}

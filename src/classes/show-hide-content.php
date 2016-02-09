@@ -31,10 +31,10 @@ class ShowHideContent extends Config implements RequiredFunctions{
 	 */
 	public static function get_details() {
 
-		$class_title = __( 'Show Or Hide Content', Config::get_text_domain() );
+		$class_title = __( 'Show Or Hide Content', self::get_text_domain() );
 
 		/* Sample Simple Description */
-		$class_description = __( 'Sample Description A', Config::get_text_domain() );
+		$class_description = __( 'Sample Description A', self::get_text_domain() );
 
 		/* Sample Simple Description with shortcode */
 		$class_description = __( '
@@ -44,7 +44,7 @@ class ShowHideContent extends Config implements RequiredFunctions{
 				<strong>[uo-show for=""]content[/uo-show]</strong>
 				</p>
 				',
-			Config::get_text_domain() );
+			self::get_text_domain() );
 
 		/* Icon as wp dashicon */
 		$class_icon = '<span class="uo_icon_dashicon dashicons dashicons-hidden"></span>';
