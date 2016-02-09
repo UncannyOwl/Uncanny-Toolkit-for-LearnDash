@@ -160,7 +160,7 @@ class AdminMenu extends Boot {
 			}
 
 			$dependants_exist = $class['dependants_exist'];
-			//var_dump($dependants_exist);
+
 			$is_activated = 'uo_feature_deactivated';
 			$class_name = $key;
 			if( isset( $active_classes[ $class_name ] ) ){

@@ -49,8 +49,8 @@ class Boot extends Config{
 		$uncanny_learndash_public->admin_menu = new AdminMenu;
 
 		// Add admin menu ajax class to load and save settings
-		add_action( 'wp_ajax_settings_save' , array( get_parent_class(), 'ajax_settings_save' ) );
-		add_action( 'wp_ajax_settings_load' , array( get_parent_class(), 'ajax_settings_load' ) );
+		add_action( 'wp_ajax_settings_save' , array( get_parent_class(), 'ajax_settings_save' ) );// parent class is Config
+		add_action( 'wp_ajax_settings_load' , array( get_parent_class(), 'ajax_settings_load' ) );// parent class is Config
 
 
 		/* LOAD: LearndashGroupUserProfile*/
