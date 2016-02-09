@@ -7,6 +7,9 @@ if( ! defined( 'WPINC' ) ) {
 }
 
 
+use ReflectionClass;
+
+
 class FrontendLoginPlus extends Config implements RequiredFunctions{
 
 	// Title of our new column
@@ -21,7 +24,22 @@ class FrontendLoginPlus extends Config implements RequiredFunctions{
 
 		if( true === self::dependants_exist()){
 
-			if ( 'yes' === get_option('uo_frontendloginplus_needs_verifcation') ){
+			/* CHECK IF PLUGIN NEEDS TO SET MANUAL VERIFICATION */
+			$uo_manual_verification = 'no';
+			$settings = get_option('FrontendLoginPlus');
+			if( false !== $settings){
+
+				foreach( $settings as $setting){
+					if( 'uo_frontendloginplus_needs_verifcation' === $setting['name'] && 'on' === $setting['value'] ){
+						$uo_manual_verification = 'yes';
+					}
+
+				}
+
+			}
+
+			/* Add Manual Verification */
+			if ( 'yes' === $uo_manual_verification ){
 
 				// Add new column to wp admin user list that states if the user is or isn't verified
 				add_filter( 'manage_users_columns', array( __CLASS__, 'add_meta_column' ) );
@@ -49,7 +67,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions{
 			add_action( 'init' , array(  __CLASS__, 'redirect_login_page' ) );
 			// Redirect to custom login page if login has failed
 			add_action( 'wp_login_failed', array(  __CLASS__, 'login_failed' ) );
-			// Redirect to custom login page if useranme or password is empty
+			// Redirect to custom login page if username or password is empty
 			add_filter( 'authenticate', array(  __CLASS__, 'verify_username_password'), 1, 3  );
 			// Redirect from wp-login.php to custom login page if user logged out
 			add_action('wp_logout', array(  __CLASS__, 'logout_page' ) );
@@ -74,10 +92,15 @@ class FrontendLoginPlus extends Config implements RequiredFunctions{
 	 */
 	public static function get_details() {
 
-		$class_title = __( 'FrontEnd Login', Config::get_text_domain() );
-		$class_description = __( '', Config::get_text_domain() );
+		$class_title = __( 'FrontEnd Login', self::get_text_domain() );
+		$class_description = __( '', self::get_text_domain() );
 		$class_icon = '<span class="uo_icon_dashicon dashicons dashicons-unlock"></span>';
-		return array( 'title' => $class_title, 'description' => $class_description, 'dependants_exist' => self::dependants_exist(), 'icon' => $class_icon );
+		return array(
+						'title' => $class_title,
+						'description' => $class_description,
+						'dependants_exist' => self::dependants_exist(),
+						'settings' => self::get_class_settings( $class_title ),
+						'icon' => $class_icon );
 
 	}
 
@@ -89,6 +112,34 @@ class FrontendLoginPlus extends Config implements RequiredFunctions{
 	 */
 	public static function dependants_exist(){
 		return true;
+	}
+
+	/**
+	 * HTML for modal to create settings
+	 *
+	 * @return boolean || string Return either false or settings html modal
+	 *
+	 */
+	public static function get_class_settings( $class_title ){
+
+		// Create options
+		$options = array(
+
+			'checkbox' => array(
+									'label' => 'Manual User Verification',
+									'option_name' => 'uo_frontendloginplus_needs_verifcation'
+			)
+
+		);
+
+
+		// Build html
+		$html = self::settings_output(array(
+				'class' => __CLASS__,
+				'title' => $class_title,
+				'options' => $options
+		));
+		return $html;
 	}
 
 	/*
@@ -161,6 +212,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions{
 			return false;
 
 		update_user_meta( $user_id, 'uo_is_verified', $_POST['uo_is_verified'] );
+
 	}
 
 	/*
@@ -184,15 +236,13 @@ class FrontendLoginPlus extends Config implements RequiredFunctions{
 
 		// Is the use logging in disabled?
 		if ( '1' !== $user_verified_value ) {
-			// Clear cookies, a.k.a log user out
-			wp_clear_auth_cookie();
-			// Build login URL and then redirect
-			$login_url = home_url( 'login' );
-			$login_url = add_query_arg( 'unverified', '1', $login_url );
-			//??// Escape url before redirect?
-			$login_url = apply_filters( 'uo_unverified_users_redirect', __( $login_url, Config::get_text_domain() ) );
-			wp_redirect( $login_url );
-			exit;
+
+			wp_logout();
+
+			$redirect = home_url( );
+			$redirect = apply_filters( 'uo_unverified_users_redirect', $redirect );
+			wp_redirect( $redirect );
+
 		}
 	}
 
@@ -207,7 +257,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions{
 	public function user_login_message( $message ) {
 		// Show the error message if it seems to be a disabled user
 		if ( isset( $_GET['unverified'] ) && $_GET['unverified'] == 1 )
-			$message =  '<div id="login_error">' . apply_filters( 'uo_unverified_users_notice', __( "We haven't verified this account", Config::get_text_domain() ) ) . '</div>';
+			$message =  '<div id="login_error">' . apply_filters( 'uo_unverified_users_notice', __( "We haven't verified this account", self::get_text_domain() ) ) . '</div>';
 		return $message;
 	}
 
@@ -217,13 +267,26 @@ class FrontendLoginPlus extends Config implements RequiredFunctions{
 			do_shortcode( $content );
 		}
 
-		$username_label = ( isset( $atts['username-label'] ) ? $atts['username-label'] : __( 'Username', Config::get_text_domain() ) );
-		$password_label = ( isset( $atts['password-label'] ) ? $atts['password-label'] : __( 'Password', Config::get_text_domain() ) );
-		$rememberme_label = ( isset( $atts['rememberme-label'] ) ? $atts['rememberme-label'] : __(  'Remember Me', Config::get_text_domain() ) );
+		$username_label = ( isset( $atts['username-label'] ) ? $atts['username-label'] : __( 'Username', self::get_text_domain() ) );
+		$password_label = ( isset( $atts['password-label'] ) ? $atts['password-label'] : __( 'Password', self::get_text_domain() ) );
+		$rememberme_label = ( isset( $atts['rememberme-label'] ) ? $atts['rememberme-label'] : __(  'Remember Me', self::get_text_domain() ) );
+
+		$register_link = ( isset( $atts['register_link'] ) ? $atts['register_link'] : 'no' );
+
+		if( 'yes' !== $register_link ){
+			?>
+			<script type='text/javascript'>
+				jQuery( document ).ready(function() {
+					jQuery('#user_login').attr( 'placeholder', '<?php echo $username_label; ?>' );
+					jQuery('#user_pass').attr( 'placeholder', '<?php echo $password_label; ?>' );
+				});
+			</script>
+			<?php
+		}
 
 		$placeholder = ( isset( $atts['placeholder'] ) ? $atts['placeholder'] : 'yes' );
 		$redirect = ( isset( $atts['redirect'] ) ? $atts['redirect'] : home_url() );
-		$submit_label = ( isset(  $atts['submit-label'] ) ? $atts['submit-label'] : __( 'Log In', Config::get_text_domain() ) );
+		$submit_label = ( isset(  $atts['submit-label'] ) ? $atts['submit-label'] : __( 'Log In', self::get_text_domain() ) );
 
 		if( 'no' !== $placeholder ){
 			?>
@@ -310,7 +373,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions{
 
 		// if the slug or page title in login run the login page template
 		if ( is_page( 'login' ) || $page_title == 'login') {
-			$page_template = Config::get_template( '/login_page.php' );
+			$page_template = self::get_template( '/login_page.php' );
 		}
 		return $page_template;
 	}
