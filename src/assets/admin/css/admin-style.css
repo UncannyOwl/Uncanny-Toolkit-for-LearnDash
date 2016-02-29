@@ -62,6 +62,7 @@
 	/* Icon Container*/
 	.uo_icon_container{
 		background: #0CA5B0;
+		background: #00A2E8;
 		width: 60px;
 		height: 60px;
 		border-radius: 10px 0;
@@ -145,15 +146,16 @@
 		background: #19CBA6;
 	}
 	.uo_feature_activated .uo_feature_button_toggle{
-		margin-left: 6px;
+		margin-left: 42px;
 	}
 	.uo_feature_activated .uo_feature_button_toggle:after{
 		content: 'ON';
 		font-size: 16px;
 		font-weight: bolder;
-		padding-left: 35px;
+		margin-left: -35px;
 		line-height: 24px;
 		color: #444444;
+
 	}
 
 	/* De-activated ON/OFF Toggle Switch*/
@@ -163,13 +165,13 @@
 		background: #FEA639;
 	}
 	.uo_feature_deactivated .uo_feature_button_toggle{
-		margin-left: 42px;
+		margin-left: 6px;
 	}
 	.uo_feature_deactivated .uo_feature_button_toggle:before{
 		content: 'OFF';
 		font-size: 16px;
 		font-weight: bolder;
-		margin-left: -35px;
+		padding-left: 35px;
 		line-height: 24px;
 		color: #444444;
 	}
