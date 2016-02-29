@@ -95,8 +95,8 @@
 	}
 
 	.uo_feature_needs_dependants div{
-		padding: 0px 0px 0px 55px;
-		border-top: 2px solid orange;
+		padding: 0 0 0 55px;
+		border-top: 2px solid #FEA639;
 	}
 
 	/* Container of ON/OFF Toggle Switch */
@@ -129,18 +129,36 @@
 	/* Activated ON/OFF Toggle Switch*/
 	.uo_feature_activated{
 		background: #29C129;
+		background: #19CBA6;
 	}
 	.uo_feature_activated .uo_feature_button_toggle{
 		margin-left: 6px;
+	}
+	.uo_feature_activated .uo_feature_button_toggle:after{
+		content: 'ON';
+		font-size: 16px;
+		font-weight: bolder;
+		padding-left: 35px;
+		line-height: 24px;
+		color: #444444;
 	}
 
 	/* De-activated ON/OFF Toggle Switch*/
 	.uo_feature_deactivated{
 		background: #D24444;
 		background: #F9BA0F;
+		background: #FEA639;
 	}
 	.uo_feature_deactivated .uo_feature_button_toggle{
 		margin-left: 42px;
+	}
+	.uo_feature_deactivated .uo_feature_button_toggle:before{
+		content: 'OFF';
+		font-size: 16px;
+		font-weight: bolder;
+		margin-left: -35px;
+		line-height: 24px;
+		color: #444444;
 	}
 
 	/* Settings*/
