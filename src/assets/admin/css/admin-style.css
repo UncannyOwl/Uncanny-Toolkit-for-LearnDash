@@ -5,11 +5,25 @@
 	/* Admin Header Container */
 	.uo-admin-header{
 		margin-bottom: 40px;
+		width: 98%;
 	}
+	.uo-admin-header a:focus, .uo-admin-header img:focus{
+		box-shadow: none;
+	}
+
 	/* Heading hr underline*/
 	hr.uo-underline{
 		border-top: 1px solid #DCDCDC;
 		border-bottom: 1px solid #0ca5b0;
+	}
+
+	@media only screen and (min-width: 1024px) {
+		hr.uo-underline {
+			margin-right: 7%;
+		}
+		.uo-admin-header p{
+			margin-right: 7%;
+		}
 	}
 
 	/* Feature Container*/
@@ -25,13 +39,11 @@
 		position: relative;
 	}
 	@media only screen and (min-width: 768px) {
-		/* For mobile phones: */
 		.uo_feature {
 			width: 40%;
 		}
 	}
 	@media only screen and (min-width: 1024px) {
-		/* For mobile phones: */
 		.uo_feature {
 			width: 24%;
 		}
