@@ -17,7 +17,13 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions{
 	public static function get_details() {
 		$class_title = __( 'LearnDash Cert Widget', Config::get_text_domain() );
 		$class_description = __( 'Custom Widget that displays all certificates the user has earned.', Config::get_text_domain() );
-		return array( 'title' => $class_title, 'description' => $class_description, 'dependants_exist' => self::dependants_exist() );
+		$icon_styles = 'background: rgb(255, 255, 255); margin-top: 17px; width: 60px; padding: 2px 0;';
+		$class_icon = '<img style="'. $icon_styles .'" src="'. Config::get_admin_media('LearnDash-Official-Logo.png') .'" />';
+
+		return array( 	'title' => $class_title,
+						'description' => $class_description,
+						'dependants_exist' => self::dependants_exist(),
+						'icon' => $class_icon );
 	}
 
 	/**
