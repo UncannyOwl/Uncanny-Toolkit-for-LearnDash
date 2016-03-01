@@ -294,7 +294,7 @@ class Config {
 
 		// Create options
 		foreach( $options as $type => $content ){
-			switch($type){
+			switch($content['type']){
 
 				case 'checkbox':
 					echo '<div class="uo_settings_single"><span>'.$content['label'].'</span><input name="'.$content['option_name'].'" type="checkbox" /></div>';
