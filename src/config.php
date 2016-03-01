@@ -172,6 +172,14 @@ class Config {
 		return $asset_uri;
 	}
 	/**
+	 * @param string $file_name		File name must be prefixed with a \ (foreword slash)
+	 * @return string
+	 */
+	public static function get_include( $file_name ) {
+		$asset_uri = dirname( __FILE__ ) . '\includes' . $file_name;
+		return $asset_uri;
+	}
+	/**
 	 * @return string
 	 */
 	public static function get_project_name() {
