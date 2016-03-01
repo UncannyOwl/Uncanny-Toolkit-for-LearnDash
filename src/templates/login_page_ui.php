@@ -1,5 +1,4 @@
 <?php
-/* REMOVE CHANGED TO LOGIN PAGE UI WITH SHORTCODE */
 /* Template Name: Uncanny Owl Login Page */
 
 global $user_login;
@@ -81,7 +80,7 @@ $login_form_args = array(
     'value_remember' => true
 );
 
-get_header();
+//get_header();
 
 ?>
     <!-- section -->
@@ -227,4 +226,4 @@ get_header();
     </section>
     <!-- /section -->
 
-<?php get_footer(); ?>
+<?php /*get_footer();*/ ?>

@@ -61,8 +61,10 @@ class FrontendLoginPlus extends Config implements RequiredFunctions{
 			}
 
 			/* Redirect Login Page */
-			// Create Shortcode that can be added anywhere
+			// Create Login Only Shortcode that can be added anywhere
 			add_shortcode( 'uo_login', array( __CLASS__, 'uo_login_form') );
+			// Create Login UI Shortcode that can be added anywhere
+			add_shortcode( 'uo_login_ui', array( __CLASS__, 'uo_login_ui') );
 			// Redirect from wp-login.php to custom login page
 			add_action( 'init' , array(  __CLASS__, 'redirect_login_page' ) );
 			// Redirect to custom login page if login has failed
@@ -71,8 +73,8 @@ class FrontendLoginPlus extends Config implements RequiredFunctions{
 			add_filter( 'authenticate', array(  __CLASS__, 'verify_username_password'), 1, 3  );
 			// Redirect from wp-login.php to custom login page if user logged out
 			add_action('wp_logout', array(  __CLASS__, 'logout_page' ) );
-			// Set page template as Login Page(login_page.php) if page slug is login
-			add_filter( 'page_template', array(  __CLASS__, 'set_page_template' ) );
+			// !!!!REMOVED AND CHANGED TO SHORTCODE Set page template as Login Page(login_page.php) if page slug is login
+			//add_filter( 'page_template', array(  __CLASS__, 'set_page_template' ) );
 			// Custom password retrieve message
 			add_filter( 'retrieve_password_message', array(  __CLASS__, 'custom_retrieve_password_message' ), 10, 4 );
 			// Add lost password link to login form
@@ -122,13 +124,36 @@ class FrontendLoginPlus extends Config implements RequiredFunctions{
 	 */
 	public static function get_class_settings( $class_title ){
 
+		// Get pages to populate drop down
+		$args = array(
+				'sort_order' => 'asc',
+				'sort_column' => 'post_title',
+				'post_type' => 'page',
+				'post_status' => 'publish'
+		);
+
+		$pages = get_pages($args);
+		$drop_down = array( ['value' => 0, 'text' => '- Select Page -'] );
+
+		foreach( $pages as $page ){
+			array_push( $drop_down, array( 'value' => $page->ID, 'text' => $page->post_title ) );
+		}
+
 		// Create options
 		$options = array(
 
-			'checkbox' => array(
-									'label' => 'Manual User Verification',
-									'option_name' => 'uo_frontendloginplus_needs_verifcation'
-			)
+			array(
+				'type' => 'checkbox',
+				'label' => 'Manual User Verification',
+				'option_name' => 'uo_frontendloginplus_needs_verifcation'
+			),
+
+			array(
+				'type' => 'select',
+				'label' => 'Login Page',
+				'select_name' => 'login_page',
+				'value' => $drop_down
+			),
 
 		);
 
@@ -186,8 +211,6 @@ class FrontendLoginPlus extends Config implements RequiredFunctions{
 		$echo = true;
 		?>
 
-		<h3>User Verification</h3>
-
 		<table class="form-table">
 			<tr class="user-rich-editing-wrap">
 				<th scope="row">
@@ -208,7 +231,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions{
 
 	public static function my_save_extra_profile_fields( $user_id ) {
 
-		if ( !current_user_can( 'edit_user', $user_id ) )
+		if ( !current_user_can( 'edit_user' ) )
 			return false;
 
 		update_user_meta( $user_id, 'uo_is_verified', $_POST['uo_is_verified'] );
@@ -321,11 +344,26 @@ class FrontendLoginPlus extends Config implements RequiredFunctions{
 
 	}
 
+	public static function uo_login_ui( $atts, $content = null )
+	{
+
+		// if the slug or page title in login run the login page template
+		$page_template = self::get_template( '/login_page_ui.php' );
+
+		//Render Template
+		ob_start();
+		include $page_template;
+		$login_ui = ob_get_clean();
+		return $login_ui;
+
+	}
+
 	/**
 	 * Redirect from wp-login.php to custom login page
 	 */
 	public static function redirect_login_page() {
-		$login_page  = home_url( '/login/' );
+
+		$login_page  = get_permalink( self::get_login_redirect_page_id() );
 		$page_viewed = basename($_SERVER['REQUEST_URI']);
 
 		if( $page_viewed == "wp-login.php" && $_SERVER['REQUEST_METHOD'] == 'GET') {
@@ -338,7 +376,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions{
 	 * Redirect to custom login page if login has failed
 	 */
 	public static function login_failed() {
-		$login_page  = home_url( '/login/' );
+		$login_page  = get_permalink( self::get_login_redirect_page_id() );;
 		wp_redirect( $login_page . '?login=failed' );
 		exit;
 	}
@@ -347,7 +385,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions{
 	 * Redirect to custom login page if useranme or password is empty
 	 */
 	public static function verify_username_password( $user, $username, $password ) {
-		$login_page  = home_url( '/login/' );
+		$login_page  = get_permalink( self::get_login_redirect_page_id() );;
 		if( $username == "" || $password == "" ) {
 			wp_redirect( $login_page . "?login=empty" );
 			exit;
@@ -358,9 +396,31 @@ class FrontendLoginPlus extends Config implements RequiredFunctions{
 	 * Redirect from wp-login.php to custom login page if user logged out
 	 */
 	public static function logout_page() {
-		$login_page  = home_url( '/login/' );
+		$login_page  = get_permalink( self::get_login_redirect_page_id() );;
 		wp_redirect( $login_page . "?login=false" );
 		exit;
+	}
+
+	/**
+	 * Set wp-login redirect to frontend page
+	 */
+	private static function get_login_redirect_page_id(){
+
+		$page_id = 0;
+
+		$settings = get_option('FrontendLoginPlus');
+		if( false !== $settings){
+
+			foreach( $settings as $setting){
+				if( 'login_page' === $setting['name'] ){
+					$page_id = $setting['value'];
+				}
+
+			}
+
+		}
+
+		return (int)$page_id;
 	}
 
 	/**
