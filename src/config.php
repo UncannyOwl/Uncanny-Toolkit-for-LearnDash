@@ -304,14 +304,14 @@ class Config {
 			switch($content['type']){
 
 				case 'checkbox':
-					echo '<div class="uo_settings_single"><span>'.$content['label'].'</span><input name="'.$content['option_name'].'" type="checkbox" /></div>';
+					echo '<div class="uo_settings_single"><span>'.$content['label'].'</span><input class="uo_settings_form_field" name="'.$content['option_name'].'" type="checkbox" /></div>';
 					break;
 
 				case 'radio';
 					$inputs = '';
 					foreach($content['value'] as $input_label ){
 						$input_name = sanitize_key( $input_label );
-						$inputs .= '<input type="radio" name="' . $content['input_name'] . '" value="'.$input_name.'"> '.$input_label;
+						$inputs .= '<input class="uo_settings_form_field" type="radio" name="' . $content['input_name'] . '" value="'.$input_name.'"> '.$input_label;
 					}
 					echo	'<div class="uo_settings_single"><span>'.$content['label'].'</span>' . $inputs . '</div>';
 					break;
@@ -323,7 +323,7 @@ class Config {
 						$options .= '<option value="'.$option_name.'"> ' . $value['text'] . '</option>';
 					}
 					echo 	'<div class="uo_settings_single"><span>'.$content['label'].'</span>
-								<select name="' . $content['select_name'] . '" >'.$options.'</select>
+								<select class="uo_settings_form_field" name="' . $content['select_name'] . '" >'.$options.'</select>
 							</div>';
 					break;
 

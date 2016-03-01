@@ -89,8 +89,8 @@ jQuery( document ).ready(function( $ ) {
 
 	$("a[rel*=leanModal]").leanModal();
 
-	//Reset Button is Options changed
-	$('.uo_settings_options').on('change', 'input', function(){
+	//Reset save options button if Options changed
+	$('.uo_settings_options').on('change', '.uo_settings_form_field', function(){
 		var save_settings_button = $(this).closest('.uo_settings_options').find('.uo_save_settings');
 		save_settings_button.html('Save Settings');
 		save_settings_button.css('background','#A9A9A9');
