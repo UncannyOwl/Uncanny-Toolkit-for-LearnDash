@@ -311,12 +311,12 @@ class Config {
 
 				case 'select':
 					$options = '';
-					foreach($content['value'] as $option_label ){
-						$option_name = sanitize_key( $option_label );
-						$options .= '<option value="'.$option_name.'"> ' . $option_label . '</option>';
+					foreach($content['value'] as $value ){
+						$option_name = sanitize_key( $value['value'] );
+						$options .= '<option value="'.$option_name.'"> ' . $value['text'] . '</option>';
 					}
 					echo 	'<div class="uo_settings_single"><span>'.$content['label'].'</span>
-								<select name="' . $content['select_name'] . '">'.$options.'</select>
+								<select name="' . $content['select_name'] . '" >'.$options.'</select>
 							</div>';
 					break;
 
