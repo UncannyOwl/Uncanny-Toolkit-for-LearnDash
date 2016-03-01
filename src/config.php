@@ -288,6 +288,13 @@ class Config {
 				<h2>Settings: <?php echo $title; ?></h2>
 			</div>
 
+			<div class="sk-folding-cube">
+				<div class="sk-cube1 sk-cube"></div>
+				<div class="sk-cube2 sk-cube"></div>
+				<div class="sk-cube4 sk-cube"></div>
+				<div class="sk-cube3 sk-cube"></div>
+			</div>
+
 			<div class="uo_settings_options">
 
 		<?php

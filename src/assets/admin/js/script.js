@@ -129,9 +129,15 @@ jQuery( document ).ready(function( $ ) {
 	// LOAD SETTINGS
 	$('.uo_settings_link').on('click', function(e) {
 
-
 		var settings_class = $(this).attr('href');
 		settings_class = settings_class.replace('#','');
+		var settings_container = $('#'+settings_class).find('.uo_settings_options');
+
+		// Show Spinner
+		$('.sk-folding-cube').show();
+		//Hide Setting UI
+		settings_container.hide();
+
 
 		var data = {
 			'action': 'settings_load',
@@ -166,6 +172,11 @@ jQuery( document ).ready(function( $ ) {
 				if( element.is( 'select' ) ){
 					element.val(option['value']);
 				}
+
+				// Hide Spinner
+				$('.sk-folding-cube').delay(1000).hide('slow');
+				// Show Settings Hide
+				settings_container.delay(1000).show('slow')
 
 
 
