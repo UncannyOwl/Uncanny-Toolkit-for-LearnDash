@@ -42,7 +42,7 @@ class UserInformation extends Config implements RequiredFunctions{
 				',
 			self::get_text_domain() );
 		$class_icon = '<span class="uo_icon_text">[/ ]</span>';//'<span class="dashicons dashicons-admin-users"></span>';
-		return array( 'title' => $class_title, 'description' => $class_description, 'dependants_exist' => self::dependants_exist(), 'icon' => $class_icon );
+		return array( 'title' => $class_title, 'description' => $class_description, 'dependants_exist' => self::dependants_exist(), 'settings' => self::get_class_settings( $class_title ), 'icon' => $class_icon );
 	}
 
 	/**
@@ -52,6 +52,57 @@ class UserInformation extends Config implements RequiredFunctions{
 	 */
 	public static function dependants_exist(){
 		return true;
+	}
+
+	/**
+	 * HTML for modal to create settings
+	 *
+	 * @return boolean || string Return either false or settings html modal
+	 *
+	 */
+	public static function get_class_settings( $class_title ){
+
+		// Get pages to populate drop down
+		$args = array(
+				'sort_order' => 'asc',
+				'sort_column' => 'post_title',
+				'post_type' => 'page',
+				'post_status' => 'publish'
+		);
+
+		$pages = get_pages($args);
+		$drop_down = array( ['value' => 0, 'text' => '- Select Page -'] );
+
+		foreach( $pages as $page ){
+			array_push( $drop_down, array( 'value' => $page->ID, 'text' => $page->post_title ) );
+		}
+
+		// Create options
+		$options = array(
+
+				array(
+						'type' => 'checkbox',
+						'label' => 'Manual User Verification',
+						'option_name' => 'uo_frontendloginplus_needs_verifcation'
+				),
+
+				array(
+						'type' => 'select',
+						'label' => 'Login Page',
+						'select_name' => 'login_page',
+						'value' => $drop_down
+				),
+
+		);
+
+
+		// Build html
+		$html = self::settings_output(array(
+				'class' => __CLASS__,
+				'title' => $class_title,
+				'options' => $options
+		));
+		return $html;
 	}
 
 	public static function first_name(){
