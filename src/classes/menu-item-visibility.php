@@ -78,7 +78,7 @@ class MenuItemVisibility extends Config implements RequiredFunctions{
 	 * Include the custom admin walker
 	 */
 	public static function include_custom_walker() {
-		include_once( self::get_include('/custom_walker_nav_menu.php') );
+		include_once( self::get_include('custom_walker_nav_menu.php') );
 	}
 
 	/**
@@ -108,7 +108,7 @@ class MenuItemVisibility extends Config implements RequiredFunctions{
 		<input type="hidden" name="nav-menu-role-nonce" value="<?php echo wp_create_nonce( 'nav-menu-nonce-name' ); ?>" />
 
 		<div class="field-nav_menu_role nav_menu_logged_in_out_field description-wide" style="margin: 5px 0;">
-			<span class="description"><?php __( 'Display Mode', self::get_text_domain() ); ?></span>
+			<span class="description"><?php echo __( 'Display Mode', self::get_text_domain() ); ?></span>
 			<br />
 
 			<input type="hidden" class="nav-menu-id" value="<?php echo $item->ID ;?>" />
@@ -116,21 +116,21 @@ class MenuItemVisibility extends Config implements RequiredFunctions{
 			<div class="logged-input-holder" style="float: left; width: 35%;">
 				<input type="radio" class="nav-menu-logged-in-out" name="nav-menu-logged-in-out[<?php echo $item->ID ;?>]" id="nav_menu_logged_in-for-<?php echo $item->ID ;?>" <?php checked( 'in', $logged_in_out ); ?> value="in" />
 				<label for="nav_menu_logged_in-for-<?php echo $item->ID ;?>">
-					<?php __( 'Logged In Users', self::get_text_domain() ); ?>
+					<?php echo __( 'Logged In Users', self::get_text_domain() ); ?>
 				</label>
 			</div>
 
 			<div class="logged-input-holder" style="float: left; width: 35%;">
 				<input type="radio" class="nav-menu-logged-in-out" name="nav-menu-logged-in-out[<?php echo $item->ID ;?>]" id="nav_menu_logged_out-for-<?php echo $item->ID ;?>" <?php checked( 'out', $logged_in_out ); ?> value="out" />
 				<label for="nav_menu_logged_out-for-<?php echo $item->ID ;?>">
-					<?php __( 'Logged Out Users', self::get_text_domain() ); ?>
+					<?php echo __( 'Logged Out Users', self::get_text_domain() ); ?>
 				</label>
 			</div>
 
 			<div class="logged-input-holder" style="float: left; width: 30%;">
 				<input type="radio" class="nav-menu-logged-in-out" name="nav-menu-logged-in-out[<?php echo $item->ID ;?>]" id="nav_menu_by_role-for-<?php echo $item->ID ;?>" <?php checked( '', $logged_in_out ); ?> value="" />
 				<label for="nav_menu_by_role-for-<?php echo $item->ID ;?>">
-					<?php __( 'Everyone', self::get_text_domain() ); ?>
+					<?php echo __( 'Everyone', self::get_text_domain() ); ?>
 				</label>
 			</div>
 
