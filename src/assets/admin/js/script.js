@@ -66,7 +66,7 @@ jQuery( document ).ready(function( $ ) {
 						'z-index': 11000,
 						'left' : 50 + '%',
 						'margin-left' : -(modal_width/2) + "px",
-						'top' : o.top + "px"
+						'top' : '20%'
 
 					});
 
@@ -145,7 +145,7 @@ jQuery( document ).ready(function( $ ) {
 		};
 		console.log(data);
 		$.post( ajaxurl, data, function (response) {
-
+			console.log(response);
 			var saved_options = JSON.parse( response );
 
 			$.each(saved_options, function( options_index, option ) {
@@ -173,14 +173,11 @@ jQuery( document ).ready(function( $ ) {
 					element.val(option['value']);
 				}
 
-				// Hide Spinner
-				$('.sk-folding-cube').delay(1000).hide('slow');
-				// Show Settings Hide
-				settings_container.delay(1000).show('slow')
-
-
-
 			});
+			// Hide Spinner
+			$('.sk-folding-cube').delay(1000).hide('slow');
+			// Show Settings Hide
+			settings_container.delay(1000).show('slow')
 		});
 	});
 
