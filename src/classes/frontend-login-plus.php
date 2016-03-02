@@ -376,7 +376,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions{
 	 * Redirect to custom login page if login has failed
 	 */
 	public static function login_failed() {
-		$login_page  = get_permalink( self::get_login_redirect_page_id() );;
+		$login_page  = get_permalink( self::get_login_redirect_page_id() );
 		wp_redirect( $login_page . '?login=failed' );
 		exit;
 	}
