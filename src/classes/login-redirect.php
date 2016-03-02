@@ -119,14 +119,19 @@ class LoginRedirect extends Config implements RequiredFunctions{
 		global $user;
 
 		if ( isset( $user->roles ) && is_array( $user->roles ) ) {
-			return $custom_redirect;
 			//check for admins
 			if ( in_array( 'administrator', $user->roles ) ) {
 				// redirect them to the default place
 				return $redirect_to;
-			} else {
+			}
+
+			if( !$custom_redirect ) {
+				// ifredirect is not set than send them home
+				return home_url();
+			}else{
 				return $custom_redirect;
 			}
+
 		} else {
 			return $redirect_to;
 		}
