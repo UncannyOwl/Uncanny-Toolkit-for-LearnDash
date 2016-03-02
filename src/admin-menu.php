@@ -196,10 +196,10 @@ class AdminMenu extends Boot {
 			}
 
 		?>
-			<?php echo $class['settings']['modal']; ?>
+
 
 			<div class="uo_feature">
-
+				<?php echo $class['settings']['modal']; ?>
 				<?php echo $class['settings']['link']; ?>
 
 				<div class="uo_feature_title"><?php echo $class['title']; ?></div>
