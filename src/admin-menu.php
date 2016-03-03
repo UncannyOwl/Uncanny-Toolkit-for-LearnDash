@@ -209,7 +209,19 @@ class AdminMenu extends Boot {
 				<?php // Settings Modal Popup trigger
 				echo $class['settings']['link']; ?>
 
-				<div class="uo_feature_title"><?php echo $class['title']; ?></div>
+				<div class="uo_feature_title">
+
+					<?php echo $class['title']; ?>
+
+					<?php // Link to KB for Feature
+						if( null !== $class['kb_link'] ){ ?>
+							<a class="uo_feature_more_info" href="<?php echo $class['kb_link']; ?>" target="_blank">
+								<i class="fa fa-question-circle"></i>
+							</a>
+					<?php } ?>
+
+				</div>
+
 				<div class="uo_feature_description"><?php echo $class['description']; ?></div>
 				<div class="uo_icon_container"><?php echo $icon; ?></div>
 				<div class="uo_feature_button <?php echo $is_activated; ?>">

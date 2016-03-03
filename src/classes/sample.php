@@ -32,6 +32,8 @@ class Sample extends Config implements RequiredFunctions{
 
 		$class_title = __( 'Sample Title', self::get_text_domain() );
 
+		$kb_link = 'http://www.uncannyowl.com';
+
 		/* Sample Simple Description */
 		$class_description = __( 'Sample Description A', self::get_text_domain() );
 
@@ -49,7 +51,6 @@ class Sample extends Config implements RequiredFunctions{
 		$class_icon = '<span class="uo_icon_dashicon dashicons dashicons-admin-users"></span>';
 
 		/* Icon as fontawesome icon */
-		//icons have variable widths and hieght
 		$class_icon = '<i class="uo_icon_fa fa fa-calendar"></i>';
 
 		/* Icon as img */
@@ -60,6 +61,7 @@ class Sample extends Config implements RequiredFunctions{
 
 
 		return array( 	'title' => $class_title,
+						'kb_link' => $kb_link, // OR set as null not to display
 						'description' => $class_description,
 						'dependants_exist' => self::dependants_exist(),
 						/*'settings' => false, // OR */'settings' => self::get_class_settings( $class_title ),
