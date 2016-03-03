@@ -42,7 +42,9 @@ jQuery( document ).ready(function( $ ) {
 
 					var modal_id = $(this).attr("href");
 
-					$("#lean_overlay").click(function() {
+					var modal_overlay = $("#lean_overlay");
+
+					modal_overlay.click(function() {
 						close_modal(modal_id);
 					});
 
@@ -50,9 +52,9 @@ jQuery( document ).ready(function( $ ) {
 						close_modal(modal_id);
 					});
 
-					$('#lean_overlay').css({ 'display' : 'block', opacity : 0 });
+					modal_overlay.css({ 'display' : 'block', opacity : 0 });
 
-					$('#lean_overlay').fadeTo(200,o.overlay);
+					modal_overlay.fadeTo(200,o.overlay);
 
 					$(modal_id).fadeTo(200,1);
 
@@ -61,7 +63,7 @@ jQuery( document ).ready(function( $ ) {
 					$(modal_id).css({
 
 						'display' : 'block',
-						'position' : 'absolute',
+						'position' : 'fixed',
 						'opacity' : 0,
 						'z-index': 11000,
 						'left' : 50 + '%',

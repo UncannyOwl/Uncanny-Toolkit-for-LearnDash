@@ -122,7 +122,7 @@ class AdminMenu extends Boot {
 			</a>
 
 			<hr class="uo-underline">
-			
+
 			<h2>Thanks for using the Uncanny LearnDash Toolkit!</h2>
 
 			<p>This plugin makes it easier to incorporate some of the most common things we see requested on LearnDash
@@ -200,10 +200,14 @@ class AdminMenu extends Boot {
 
 		?>
 
+			<?php // Setting Modal Popup
+			echo $class['settings']['modal']; ?>
 
 			<div class="uo_feature">
-				<?php echo $class['settings']['modal']; ?>
-				<?php echo $class['settings']['link']; ?>
+
+
+				<?php // Settings Modal Popup trigger
+				echo $class['settings']['link']; ?>
 
 				<div class="uo_feature_title"><?php echo $class['title']; ?></div>
 				<div class="uo_feature_description"><?php echo $class['description']; ?></div>
