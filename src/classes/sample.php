@@ -116,6 +116,12 @@ class Sample extends Config implements RequiredFunctions{
 				),
 
 				array(
+						'type' => 'text',
+						'label' => 'Settings B',
+						'option_name' => 'b'
+				),
+
+				array(
 						'type' => 'radio',
 						'label' => 'Settings Gender',
 						'radio_name' => 'uo_gender',

@@ -315,8 +315,12 @@ class Config {
 					echo '<div class="uo_settings_single '.$content['class'].'">'.$content['inner_html'].'</div>';
 					break;
 
+				case 'text':
+					echo '<div class="uo_settings_single"><span>'.$content['label'].'</span> <input class="uo_settings_form_field" name="'.$content['option_name'].'" type="text" /></div>';
+					break;
+
 				case 'checkbox':
-					echo '<div class="uo_settings_single"><input class="uo_settings_form_field" name="'.$content['option_name'].'" type="checkbox" /><span>'.$content['label'].'</span></div>';
+					echo '<div class="uo_settings_single"><input class="uo_settings_form_field" name="'.$content['option_name'].'" type="checkbox" /> <span>'.$content['label'].'</span></div>';
 					break;
 
 				case 'radio';

@@ -153,6 +153,10 @@ jQuery( document ).ready(function( $ ) {
 			$.each(saved_options, function( options_index, option ) {
 				var element = $('#'+settings_class).find('[name="'+ option['name'] +'"]');
 
+				if( element.is( 'input[type="text"]' ) ){
+					element.val(option['value']);
+				}
+
 				if( element.is( 'input[type="checkbox"]' ) ){
 					if( 'on' === option['value'] ){
 						element.prop( "checked", true );
