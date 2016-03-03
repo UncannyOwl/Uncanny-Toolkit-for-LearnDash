@@ -123,12 +123,12 @@ class AdminMenu extends Boot {
 			<h2>Thanks for using the Uncanny LearnDash Toolkit!</h2>
 
 			<p>This plugin makes it easier to incorporate some of the most common things we see requested on LearnDash
-			sites. Instructions for each feature are provided below, and we also have a helpful screencast available at
-			[link]. Consider turning off any features you don’t need to maximize performance.</p>
+			sites. Instructions for each feature are provided below, and we also have a helpful screencasts available at
+			<strong>!!![link]!!!</strong>. Consider turning off any features you don’t need to maximize performance.</p>
 
 			<p>This is Uncanny Owl’s first LearnDash plugin that we've published in the WordPress repository. We’ll be
 			releasing more plugins over the next few months as well as adding new features to this plugin. Sign up for
-			our mailing list at www.uncannyowl.com so you don’t miss any updates!</p>
+			our mailing list at <a href="www.uncannyowl.com" target="_blank">Uncanny Owl</a> so you don’t miss any updates!</p>
 
 		</div>
 		<form method="post" action="options.php">
