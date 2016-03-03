@@ -48,16 +48,21 @@ class Sample extends Config implements RequiredFunctions{
 		/* Icon as wp dashicon */
 		$class_icon = '<span class="uo_icon_dashicon dashicons dashicons-admin-users"></span>';
 
+		/* Icon as fontawesome icon */
+		//icons have variable widths and hieght
+		$class_icon = '<i class="uo_icon_fa fa fa-calendar"></i>';
+
 		/* Icon as img */
 		//icons have variable widths and hieght
 		$icon_styles = 'width: 40px;  padding-top: 5px; padding-left: 9px;';
 		$class_icon = '<img style="'. $icon_styles .'" src="'. self::get_admin_media('gravity-forms-icon.png') .'" />';
 
 
+
 		return array( 	'title' => $class_title,
 						'description' => $class_description,
 						'dependants_exist' => self::dependants_exist(),
-						'settings' => false, // OR 'settings' => self::get_class_settings( $class_title ),
+						/*'settings' => false, // OR */'settings' => self::get_class_settings( $class_title ),
 						'icon' => $class_icon );
 
 	}
@@ -96,25 +101,41 @@ class Sample extends Config implements RequiredFunctions{
 		// Create options
 		$options = array(
 
-				'checkbox' => array(
+				array(
+						'type' => 'html',
+						'class' => 'uo-additional-information',
+						'inner_html' => '<div>Some Extra Information for the user</div>'
+				),
+
+				array(
+						'type' => 'checkbox',
 						'label' => 'Settings A',
 						'option_name' => 'a'
 				),
 
-				'radio' => array(
+				array(
+						'type' => 'radio',
 						'label' => 'Settings Gender',
-						'input_name' => 'gender',
-						'value' => array('Male','Female','Other')
+						'radio_name' => 'uo_gender',
+						'radios' => array(
+											array( 'value' => 'male', 'text' => 'Male'),
+											array( 'value' => 'female', 'text' => 'Female'),
+											array( 'value' => 'other', 'text' => 'Other')
+										)
 				),
 
-				'select' => array(
+				array(
+						'type' => 'select',
 						'label' => 'Settings Car',
 						'select_name' => 'car',
-						'value' => array('Volvo','Saab','Mercedes','Audi')
+						'options' => array(
+											array( 'value' => 'volvo', 'text' => 'Volvo'),
+											array( 'value' => 'saab', 'text' => 'Saab'),
+											array( 'value' => 'ford', 'text' => 'Ford')
+										)
 				)
 
 		);
-
 
 		// Build html
 		$html = self::settings_output(array(
