@@ -35,7 +35,7 @@
 		border: 1px solid #D1D1D1;
 		padding: 20px;
 		margin-right: 4%;
-		margin-bottom: 20px;
+		margin-bottom: 50px;
 		position: relative;
 	}
 	@media only screen and (min-width: 768px) {
@@ -52,6 +52,17 @@
 	/* Feature Title*/
 	.uo_feature_title {
 		font-size: 1.5em;
+	}
+
+	/* Feature link to KB*/
+	.uo_feature_more_info {
+		padding-left: 7px;
+		color: #FEA639;
+	}
+	.uo_feature_more_info:focus {
+		webkit-box-shadow: none;
+		box-shadow: none;
+		color: #FEA639;
 	}
 
 	/* Feature Description*/
@@ -98,6 +109,12 @@
 		padding-left: 11px;
 		color: white;
 	}
+	.uo_icon_fa{
+		font-size: 35px!important;
+		padding-top: 13px;
+		padding-left: 13px;
+		color: white;
+	}
 
 	/* Message if class needs dependants */
 	.uo_feature_button.uo_feature_needs_dependants {
@@ -120,6 +137,7 @@
 		position: absolute;
 		right: -2px;
 		bottom: 7px;
+		cursor: pointer;
 	}
 
 	/* ON/OFF Toggle Switch */
@@ -133,17 +151,12 @@
 	.uo_feature_checkbox, .uo_feature_label{
 		position: absolute;
 		left: 10000px;
-	}
-
-	/* Label From Activating Feature Checkbox */
-	.uo_feature_label{
-
+		display: none!important;
 	}
 
 	/* Activated ON/OFF Toggle Switch*/
 	.uo_feature_activated{
 		background: #29C129;
-		background: #19CBA6;
 	}
 	.uo_feature_activated .uo_feature_button_toggle{
 		margin-left: 42px;
@@ -154,15 +167,13 @@
 		font-weight: bolder;
 		margin-left: -35px;
 		line-height: 24px;
-		color: #444444;
+		color: white;
 
 	}
 
 	/* De-activated ON/OFF Toggle Switch*/
 	.uo_feature_deactivated{
 		background: #D24444;
-		background: #F9BA0F;
-		background: #FEA639;
 	}
 	.uo_feature_deactivated .uo_feature_button_toggle{
 		margin-left: 6px;
@@ -173,7 +184,7 @@
 		font-weight: bolder;
 		padding-left: 35px;
 		line-height: 24px;
-		color: #444444;
+		color: white;
 	}
 
 	/* Settings*/
@@ -211,6 +222,7 @@
 	}
 	.uo_settings_header{
 		background: #C9C9C9;
+		background: #F9BA0F;
 		margin-bottom: 20px;
 	}
 	.uo_settings_header h2{
@@ -222,6 +234,9 @@
 	}
 	.uo_settings_single{
 		padding: 10px 20px;
+	}
+	input.uo_settings_form_field[type='text'] {
+		width: 60%;
 	}
 	.uo_settings_single span{
 		font-size: 15px;

@@ -167,7 +167,7 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions{
 			printf( '<p>%s</p></div>', esc_html( $instance['no_certs'] ) );
 		}
 
-		echo $args['after_widget'];
+		//echo $args['after_widget'];
 	}
 
 	/**

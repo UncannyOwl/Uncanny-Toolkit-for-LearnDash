@@ -176,7 +176,7 @@ class Config {
 	 * @return string
 	 */
 	public static function get_include( $file_name ) {
-		$asset_uri = dirname( __FILE__ ) .DIRECTORY_SEPARATOR . 'includes' .DIRECTORY_SEPARATOR . $file_name;
+		$asset_uri = dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'includes' . DIRECTORY_SEPARATOR . $file_name;
 		return $asset_uri;
 	}
 	/**
