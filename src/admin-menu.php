@@ -94,10 +94,13 @@ class AdminMenu extends Boot {
 		if ( 'toplevel_page_uo-menu-slug' != $hook ) {
 		   return;
 		}
+
 		// Admin CSS
 		wp_enqueue_style( 'uo-menu-slug-css', Config::get_admin_css('admin-style.css') );
 		// Admin JS
 		wp_enqueue_script( 'uo-menu-slug-js', Config::get_admin_js('script.js'), array( 'jquery' ), false, true );
+		// Admin CSS
+		wp_enqueue_style( 'uo-menu-slug-css-fontawesome', 'https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css' );
 
 	}
 
@@ -119,7 +122,7 @@ class AdminMenu extends Boot {
 			</a>
 
 			<hr class="uo-underline">
-
+			
 			<h2>Thanks for using the Uncanny LearnDash Toolkit!</h2>
 
 			<p>This plugin makes it easier to incorporate some of the most common things we see requested on LearnDash
