@@ -66,30 +66,16 @@ class LoginRedirect extends Config implements RequiredFunctions{
 	*/
 	public static function get_class_settings( $class_title ){
 
-		// Get pages to populate drop down
-		$args = array(
-				'sort_order' => 'asc',
-				'sort_column' => 'post_title',
-				'post_type' => 'page',
-				'post_status' => 'publish'
-		);
 
-		$pages = get_pages($args);
-		$drop_down = array( ['value' => 0, 'text' => '- Select Page -'] );
-
-		foreach( $pages as $page ){
-			array_push( $drop_down, array( 'value' => $page->ID, 'text' => $page->post_title ) );
-		}
 
 		// Create options
 		$options = array(
 
 				array(
-						'type' => 'select',
-						'label' => 'Login Page',
-						'select_name' => 'login_page',
-						'options' => $drop_down
-				)
+						'type' => 'text',
+						'label' => 'Login Redirect',
+						'option_name' => 'login_redirect'
+				),
 
 		);
 
@@ -113,7 +99,17 @@ class LoginRedirect extends Config implements RequiredFunctions{
 	 */
 	public static function my_login_redirect( $redirect_to, $request, $user ) {
 
-		$custom_redirect  = get_permalink( self::get_login_redirect_page_id() );
+		$login_redirect = false;
+
+		$settings  = get_option('LoginRedirect');
+
+		foreach($settings as $setting ){
+
+			if( 'login_redirect' === $setting['name']){
+				$login_redirect = $setting['value'];
+			}
+
+		}
 
 		//is there a user to check?
 		global $user;
@@ -122,42 +118,19 @@ class LoginRedirect extends Config implements RequiredFunctions{
 			//check for admins
 			if ( in_array( 'administrator', $user->roles ) ) {
 				// redirect them to the default place
-				return $redirect_to;
+				//return $redirect_to;
 			}
 
-			if( !$custom_redirect ) {
-				// ifredirect is not set than send them home
+			if( !$login_redirect ) {
+				// if redirect is not set than send them home
 				return home_url();
 			}else{
-				return $custom_redirect;
+				return $login_redirect;
 			}
 
 		} else {
 			return $redirect_to;
 		}
-	}
-
-	/**
-	 * Set wp-login redirect to frontend page
-	 */
-	private static function get_login_redirect_page_id(){
-
-		$page_id = 0;
-
-		$settings = get_option('LoginRedirect');
-
-		if( false !== $settings){
-
-			foreach( $settings as $setting){
-				if( 'login_page' === $setting['name'] ){
-					$page_id = $setting['value'];
-				}
-
-			}
-
-		}
-
-		return (int)$page_id;
 	}
 
 }
