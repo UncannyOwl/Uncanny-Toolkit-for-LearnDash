@@ -18,7 +18,7 @@ class LearnDashResume extends Config implements RequiredFunctions{
 		if( true === self::dependants_exist() ){
 
 			add_action( 'wp_head', array( $this, 'find_last_known_learndash_page' ) );
-			add_shortcode( 'learndash-resume',  array( $this, 'learndash_resume' ) );
+			add_shortcode( 'uo-learndash-resume',  array( __CLASS__, 'learndash_resume' ) );
 
 		}
 	}
@@ -80,7 +80,7 @@ class LearnDashResume extends Config implements RequiredFunctions{
 
 
 	/*
-	* Adding [learndash-resume] shortcode functionality which can be used anywhere on the website to take user back to last known page of LearnDash.
+	* Adding [uo-learndash-resume] shortcode functionality which can be used anywhere on the website to take user back to last known page of LearnDash.
 	*/
 	public static function learndash_resume() {
 		$last_know_page_id = get_option( 'learndash_last_known_page' );
