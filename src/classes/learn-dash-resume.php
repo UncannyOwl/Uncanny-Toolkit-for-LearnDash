@@ -80,7 +80,7 @@ class LearnDashResume extends Config implements RequiredFunctions{
 
 
 	/*
-	* Adding [learndash_resume] shortcode functionality which can be used anywhere on the website to take user back to lsat known page of LearnDash.
+	* Adding [learndash-resume] shortcode functionality which can be used anywhere on the website to take user back to last known page of LearnDash.
 	*/
 	public static function learndash_resume() {
 		$last_know_page_id = get_option( 'learndash_last_known_page' );
@@ -98,11 +98,13 @@ class LearnDashResume extends Config implements RequiredFunctions{
 				esc_attr(
 					sprintf( _x( 'Resume %s: %s', 'LMS shortcode Resume link title "Resume post_type_name: Post_title ', Config::get_text_domain() ),
 						$label->labels->singular_name,
-						get_the_title( $last_know_page_id )
+						$title
 					)
 				),
 				esc_attr( $css_classes ),
-				sprintf( _x( $link_text, Config::get_text_domain() ) )
+				sprintf( _x( '<input type="submit" value="%s" name="sfwd_mark_complete">', '', Config::get_text_domain() ),
+						$link_text
+				)
 			);
 			$resumelink=ob_get_contents();
 			ob_end_clean();
