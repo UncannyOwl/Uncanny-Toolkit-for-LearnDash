@@ -100,6 +100,21 @@ class Sample extends Config implements RequiredFunctions{
 	*/
 	public static function get_class_settings( $class_title ){
 
+		// Get pages to populate drop down
+		$args = array(
+				'sort_order' => 'asc',
+				'sort_column' => 'post_title',
+				'post_type' => 'page',
+				'post_status' => 'publish'
+		);
+
+		$pages = get_pages($args);
+		$drop_down = array( ['value' => 0, 'text' => '- Select Page -'] );
+
+		foreach( $pages as $page ){
+			array_push( $drop_down, array( 'value' => $page->ID, 'text' => $page->post_title ) );
+		}
+
 		// Create options
 		$options = array(
 
@@ -141,6 +156,13 @@ class Sample extends Config implements RequiredFunctions{
 											array( 'value' => 'saab', 'text' => 'Saab'),
 											array( 'value' => 'ford', 'text' => 'Ford')
 										)
+				),
+
+				array(
+						'type' => 'select',
+						'label' => 'Login Page',
+						'select_name' => 'login_page',
+						'options' => $drop_down
 				)
 
 		);
