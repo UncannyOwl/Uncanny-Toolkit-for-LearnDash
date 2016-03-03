@@ -33,7 +33,7 @@ class ShowCertificatesShortcode extends Config implements RequiredFunctions{
 					<p>List of all earned certificates</p>
 					<p><strong>[learndash-certificates]</strong></p>
 					<p><strong>[learndash-certificates title="Your Certificates" class="custom-css-class"]</strong></p>'
-			, Config::get_text_domain() );
+				, Config::get_text_domain() );
 		$class_icon = '<span class="uo_icon_text">[/ ]</span>';//'<span class="dashicons dashicons-admin-users"></span>';
 		return array( 'title' => $class_title, 'description' => $class_description, 'dependants_exist' => self::dependants_exist(), 'icon' => $class_icon );
 	}
@@ -50,6 +50,7 @@ class ShowCertificatesShortcode extends Config implements RequiredFunctions{
 		}
 		return true;
 	}
+
 	public static function learndash_certificates($atts){
 
 		if( isset($atts['class']) ){
@@ -64,64 +65,33 @@ class ShowCertificatesShortcode extends Config implements RequiredFunctions{
 			$title = 'Your Certificates';
 		}
 
+		$certificate_list = '';
+
+		/* GET Certificates For Courses*/
 		$args = array(
-			'post_type' => 'sfwd-courses',
-			'posts_per_page' => -1,
-			'post_status' => 'publish',
-			'orderby' => 'title',
-			'order' => 'ASC');
+				'post_type' => 'sfwd-courses',
+				'posts_per_page' => -1,
+				'post_status' => 'publish',
+				'orderby' => 'title',
+				'order' => 'ASC');
 
 		$courses = get_posts($args);
 
-		$certificate_list = '';
 		foreach($courses as $course) {
 
 			$certificate_link = learndash_get_course_certificate_link( $course->ID );
 			if( $certificate_link && '' !== $certificate_link ){
-				$certificate_list .= '<a href="'.$certificate_link.'">'.$course->post_title.'</a>';
+				$certificate_list .= '<a href="'.$certificate_link.'">'.$course->post_title.'</a><br>';
 			}
 		}
 
-		ob_start();
-		?>
-			<div class="<?php echo $class; ?>">
-				<div class="cert-list-title"><?php echo $title; ?></div>
-				<div class="certificate-list"><?php echo $certificate_list; ?></div>
-			</div>
-
-		<?php
-
-		$shortcode_html = ob_get_clean();
-		return $shortcode_html;
-
-	}
-
-	public static function learndash_certificates_quizzes($atts){
-
-		$atts = shortcode_atts(
-			array(
-				'list_height'  => 5,
-				'show_fails'  => false,
-				'more_certs'    => 'yes',
-				'no_certs'    => 'You have not earned any yet'
-			),
-			$atts, 'learndash-certificates' );
-		ob_start();
+		/* GET Certificates for Quizzes*/
 		$quiz_attempts = self::quiz_attempts();
-		//var_dump($quiz_attempts );
-		/*if ( ! array_key_exists( 'list_height', $instance ) ) {
-			$instance['list-height'] = 5;
 
-		}*/
-
-		printf( '<div class="uncanny-cert-widget-list uncanny-cert-widget-%d" data-row="%d">',
-			count( $quiz_attempts ),
-			( count( $quiz_attempts ) > $atts['list_height'] ) ? $atts['list_height'] : count( $quiz_attempts )
-		);
-		var_dump( $quiz_attempts );
 		if ( ! empty( $quiz_attempts ) ) {
-			echo '<ul>';
+
 			$quiz_attempts = array_reverse( $quiz_attempts );
+
 			foreach ( $quiz_attempts as $k => $quiz_attempt ) {
 
 				if( isset($quiz_attempt["certificate"]) ) {
@@ -131,41 +101,26 @@ class ShowCertificatesShortcode extends Config implements RequiredFunctions{
 					$quiz_title = !empty($quiz_attempt["post"]->post_title) ? $quiz_attempt["post"]->post_title : @$quiz_attempt['quiz_title'];
 
 					if (!empty($certificateLink)) {
-						printf('<li><a href="%s" title="%s" class="count-%d"> %s</a></li>',
-							esc_url($certificateLink),
-							esc_html(__('your certificate for :', Config::get_text_domain()) . $quiz_title),
-							$count,
-							esc_html($quiz_title)
-						);
-					} else {
-						// show the failers
-						if (true === $atts['show_fails']) {
-							printf('<li>%s</li>', esc_html($quiz_title));
-						} else {
-							//remove so its not counted
-							unset($quiz_attempts[$k]);
-						}
+						$certificate_list .= '<a href="'.$certificate_link.'">'.$quiz_title.'</a><br>';
 					}
-				}else{
-					printf( '<p>%s</p></div>', esc_html( $atts['no_certs'] ) );
+
 				}
-
 			}
-			echo '</ul></div>';
 
-			// add the show more link one and more certs
-			if ( ( $atts['list_height'] < count( $quiz_attempts ) ) && ! empty( $atts['more_certs'] ) ) {
-				printf( '<a href="#" class="uncanny-cert-more-link">%s</a>', $atts['more_certs'] );
-				// and add the js to make it work
-				add_action( 'wp_print_footer_scripts', array( __CLASS__, 'add_js_to_footer' ) );
-			}
-		} else {
-			printf( '<p>%s</p></div>', esc_html( $atts['no_certs'] ) );
 		}
 
-		$contents = ob_get_clean();
+		ob_start();
+		?>
+		<div class="<?php echo $class; ?>">
+			<div class="cert-list-title"><?php echo $title; ?></div>
+			<div class="certificate-list"><?php echo $certificate_list; ?></div>
+		</div>
 
-		return $contents;
+		<?php
+
+		$shortcode_html = ob_get_clean();
+		return $shortcode_html;
+
 	}
 
 	/**
@@ -190,13 +145,13 @@ class ShowCertificatesShortcode extends Config implements RequiredFunctions{
 				$quiz_attempt['post'] = get_post( $quiz_attempt['quiz'] );
 				$c                    = learndash_certificate_details( $quiz_attempt['quiz'], $user_id );
 				if (
-					$user_id == get_current_user_id() &&
-					! empty( $c["certificateLink"] ) &&
-					(
-					( isset( $quiz_attempt['percentage'] ) &&
-						$quiz_attempt['percentage'] >= $c["certificate_threshold"] * 100
-					)
-					)
+						$user_id == get_current_user_id() &&
+						! empty( $c["certificateLink"] ) &&
+						(
+						( isset( $quiz_attempt['percentage'] ) &&
+								$quiz_attempt['percentage'] >= $c["certificate_threshold"] * 100
+						)
+						)
 				) {
 					$quiz_attempt['certificate']          = $c;
 					$quiz_attempt['certificate']['count'] = $count;
