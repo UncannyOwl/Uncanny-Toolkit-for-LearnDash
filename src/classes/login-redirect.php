@@ -88,7 +88,7 @@ class LoginRedirect extends Config implements RequiredFunctions{
 						'type' => 'select',
 						'label' => 'Login Page',
 						'select_name' => 'login_page',
-						'value' => $drop_down
+						'options' => $drop_down
 				)
 
 		);

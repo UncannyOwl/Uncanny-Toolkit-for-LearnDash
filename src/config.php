@@ -176,7 +176,7 @@ class Config {
 	 * @return string
 	 */
 	public static function get_include( $file_name ) {
-		$asset_uri = dirname( __FILE__ ) . '\includes' . $file_name;
+		$asset_uri = dirname( __FILE__ ) .DIRECTORY_SEPARATOR . 'includes' .DIRECTORY_SEPARATOR . $file_name;
 		return $asset_uri;
 	}
 	/**
@@ -308,27 +308,30 @@ class Config {
 		<?php
 
 		// Create options
-		foreach( $options as $type => $content ){
+		foreach( $options as $content ){
 			switch($content['type']){
 
+				case 'html':
+					echo '<div class="uo_settings_single '.$content['class'].'">'.$content['inner_html'].'</div>';
+					break;
+
 				case 'checkbox':
-					echo '<div class="uo_settings_single"><span>'.$content['label'].'</span><input class="uo_settings_form_field" name="'.$content['option_name'].'" type="checkbox" /></div>';
+					echo '<div class="uo_settings_single"><input class="uo_settings_form_field" name="'.$content['option_name'].'" type="checkbox" /><span>'.$content['label'].'</span></div>';
 					break;
 
 				case 'radio';
+
 					$inputs = '';
-					foreach($content['value'] as $input_label ){
-						$input_name = sanitize_key( $input_label );
-						$inputs .= '<input class="uo_settings_form_field" type="radio" name="' . $content['input_name'] . '" value="'.$input_name.'"> '.$input_label;
+					foreach($content['radios'] as $radio ){
+						$inputs .= '<input class="uo_settings_form_field" type="radio" name="' . $content['radio_name'] . '" value="'.$radio['value'].'">'.$radio['text'].' ';
 					}
-					echo	'<div class="uo_settings_single"><span>'.$content['label'].'</span>' . $inputs . '</div>';
+					echo	'<div class="uo_settings_single"><span>'.$content['label'].'</span><br>' . $inputs . '</div>';
 					break;
 
 				case 'select':
 					$options = '';
-					foreach($content['value'] as $value ){
-						$option_name = sanitize_key( $value['value'] );
-						$options .= '<option value="'.$option_name.'"> ' . $value['text'] . '</option>';
+					foreach($content['options'] as $option ){
+						$options .= '<option value="'. $option['value'] .'"> ' . $option['text'] . '</option>';
 					}
 					echo 	'<div class="uo_settings_single"><span>'.$content['label'].'</span>
 								<select class="uo_settings_form_field" name="' . $content['select_name'] . '" >'.$options.'</select>
