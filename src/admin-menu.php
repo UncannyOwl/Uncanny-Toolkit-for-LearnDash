@@ -228,7 +228,7 @@ class AdminMenu extends Boot {
 
 					<?php
 					if( TRUE !== $dependants_exist ){
-					 echo '<div>You are missing <strong>'. $dependants_exist .'</strong></div>';
+					 echo '<div><strong>'. $dependants_exist .'</strong> is needed for this add-on</div>';
 					}else{
 						?>
 						<div class="uo_feature_button_toggle"></div>
