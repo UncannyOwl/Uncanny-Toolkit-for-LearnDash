@@ -65,6 +65,12 @@ class ShowCertificatesShortcode extends Config implements RequiredFunctions{
 			$title = 'Your Certificates';
 		}
 
+		if( isset($atts['no-cert-message']) ){
+			$no_cert_message = $atts['no-cert-message'];
+		}else{
+			$no_cert_message = 'Complete courses to earn certificates';
+		}
+
 		$certificate_list = '';
 
 		/* GET Certificates For Courses*/
@@ -107,6 +113,10 @@ class ShowCertificatesShortcode extends Config implements RequiredFunctions{
 				}
 			}
 
+		}
+		
+		if( '' === $certificate_list){
+			$certificate_list = $no_cert_message;
 		}
 
 		ob_start();
