@@ -30,15 +30,25 @@ class LearnDashResume extends Config implements RequiredFunctions{
 	 * @return Array
 	 */
 	public static function get_details() {
+
 		$class_title = __( 'LearnDash Resume Button', Config::get_text_domain() );
+
 		$class_description = __( '
 				<p>Button to get back to the latest visited course, lesson, topic, quiz, certificate, or assignment.</p>
 				<p><strong>[learndash-resume]</strong></p>
 				',
 				Config::get_text_domain() );
+
 		$icon_styles = 'background: rgb(255, 255, 255); margin-top: 17px; width: 60px; padding: 2px 0;';
 		$class_icon = '<img style="'. $icon_styles .'" src="'. self::get_admin_media('LearnDash-Official-Logo.png') .'" />';
-		return array( 'title' => $class_title, 'description' => $class_description, 'dependants_exist' => self::dependants_exist(), 'icon' => $class_icon );
+
+		return array( 	'title' => $class_title,
+				'kb_link' => null,
+				'description' => $class_description,
+				'dependants_exist' => self::dependants_exist(),
+			    'settings' => false,
+				'icon' => $class_icon );
+
 	}
 
 	/**
