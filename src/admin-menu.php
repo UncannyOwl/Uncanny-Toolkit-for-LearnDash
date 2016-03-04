@@ -216,7 +216,7 @@ class AdminMenu extends Boot {
 					<?php // Link to KB for Feature
 						if( null !== $class['kb_link'] ){ ?>
 							<a class="uo_feature_more_info" href="<?php echo $class['kb_link']; ?>" target="_blank">
-								<i class="fa fa-question-circle"></i>
+								<i class="fa fa-info-circle"></i>
 							</a>
 					<?php } ?>
 
