@@ -29,8 +29,8 @@ class AdminMenu extends Boot {
 	 */
 	public static function register_options_menu_page() {
 
-		$page_title = __( 'UO Page Title', Config::get_text_domain() );
-		$menu_title = __( 'UO Addons', Config::get_text_domain() );
+		$page_title = __( 'Uncanny LearnDash Toolkit', Config::get_text_domain() );
+		$menu_title = __( 'Uncanny Toolkit', Config::get_text_domain() );
 		$capability = 'manage_options';
 		$menu_slug = 'uo-menu-slug';
 		$function = array( __CLASS__, 'options_menu_page_output' );
@@ -127,17 +127,17 @@ class AdminMenu extends Boot {
 
 			<p><?php
 			printf(
-				__( 'This plugin makes it easier to incorporate some of the most common things we see requested on LearnDash
-				sites. Instructions for each feature are provided below, and we also have a helpful screencasts available at
-				<strong><a href="%s" target="_blank"></strong>. Consider turning off any features you don’t need to maximize performance.', Config::get_text_domain() ) ,
+				__( 'This plugin makes it easier to incorporate some of the features we see most requested on LearnDash sites. We’re hard
+				at work on a new Knowledge Base for this plugin, but for now, instructions are available at  
+				<a href="http://www.uncannyowl.com/uncanny-learndash-toolkit/" target="_blank">http://www.uncannyowl.com/uncanny-learndash-toolkit/</a>.', Config::get_text_domain() ) ,
 			esc_url( 'http://www.uncannyowl.com' ) );
 			?></p>
 
 			<p><?php
 			printf(
-				__( 'This is Uncanny Owl’s first LearnDash plugin that we\'ve published in the WordPress repository. We’ll be
-				releasing more plugins over the next few months as well as adding new features to this plugin. Sign up for
-				our mailing list at <a href="%s" target="_blank">Uncanny Owl</a> so you don’t miss any updates!', Config::get_text_domain() ) ,
+				__( 'This is the first Uncanny Owl LearnDash plugin that we’ve made available in the WordPress repository. We’ll be
+				releasing more over the next few months as well as adding new features to this plugin. Sign up for our mailing list 
+				at <a href="http://www.uncannyowl.com/" target="_blank">Uncanny Owl</a> so you don’t miss any updates!', Config::get_text_domain() ) ,
 			esc_url( 'http://www.uncannyowl.com' ) );
 			?></p>
 
