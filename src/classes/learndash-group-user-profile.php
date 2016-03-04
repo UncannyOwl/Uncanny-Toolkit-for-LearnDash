@@ -29,7 +29,7 @@ class LearndashGroupUserProfile extends Config implements RequiredFunctions {
 		$class_title       = __( 'LearnDash Groups in User Profiles', self::get_text_domain() );
 		$class_description = __( 'Display a list of all LearnDash Groups to which a user belongs on the user\'s profile page.', self::get_text_domain() );
 		$icon_styles       = 'background: rgb(255, 255, 255); margin-top: 17px; width: 60px; padding: 2px 0;';
-		$class_icon        = '<img style="' . $icon_styles . '" src="' . self::get_admin_media( 'LearnDash-Official-Logo.png' ) . '" />';
+		$class_icon        = '<img style="' . esc_attr( $icon_styles ). '" src="' .  esc_url( self::get_admin_media( 'LearnDash-Official-Logo.png' ) ) . '" />';
 
 		return array(
 			'title'            => $class_title,
