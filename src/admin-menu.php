@@ -19,6 +19,10 @@ class AdminMenu extends Boot {
 			add_action( 'admin_menu', array( __CLASS__, 'register_options_menu_page' ) );
 			add_action( 'admin_init', array( __CLASS__, 'register_options_menu_page_settings' ) );
 			add_action( 'admin_enqueue_scripts', array( __CLASS__, 'scripts' ) );
+
+			// Add a simple settings link to our page from the plugins list
+			$prefix = is_network_admin() ? 'network_admin_' : ''; // TODO Multi-Site
+			add_filter( 'plugin_action_links_' . ULP_PLUGIN_BASENAME, array( __CLASS__, 'link_to_plugins_page' ), 10, 1);
 		}
 
 	}
@@ -102,6 +106,16 @@ class AdminMenu extends Boot {
 		// Admin CSS
 		wp_enqueue_style( 'uo-menu-slug-css-fontawesome', 'https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css' );
 
+	}
+
+	/**
+	 * @param Array $actions		Plugin action links.
+	 *
+	 * @return Array
+	 */
+	public static function link_to_plugins_page( $actions ) {
+		array_unshift($actions, '<a href="'.menu_page_url('uo-menu-slug', false).'">'.__( 'Settings', self::get_text_domain() ).'</a>');
+		return $actions;
 	}
 
 	/**

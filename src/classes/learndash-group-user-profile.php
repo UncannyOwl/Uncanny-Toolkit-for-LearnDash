@@ -17,9 +17,7 @@ class LearndashGroupUserProfile extends Config implements RequiredFunctions{
 		add_action( 'show_user_profile', array( __CLASS__, 'show_users_groups_profile_fields' ) );
 		// Add learndash groups field when the user is view another users profile
 		add_action( 'edit_user_profile', array( __CLASS__, 'show_users_groups_profile_fields' ) );
-		// Add a simple settings link to our page from the plugins list
-		$prefix = is_network_admin() ? 'network_admin_' : ''; // TODO Multi-Site
-		add_filter( 'plugin_action_links_' . ULP_PLUGIN_BASENAME, array( __CLASS__, 'link_to_plugins_page' ), 10, 1);
+
 	}
 
 	/**
@@ -112,13 +110,4 @@ class LearndashGroupUserProfile extends Config implements RequiredFunctions{
 
 	}
 
-	/**
-	 * @param Array $actions		Plugin action links.
-	 *
-	 * @return Array
-	 */
-	public static function link_to_plugins_page( $actions ) {
-		array_unshift($actions, '<a href="'.menu_page_url('uo-menu-slug', false).'">'.__( 'Settings', self::get_text_domain() ).'</a>');
-		return $actions;
-	}
 }
