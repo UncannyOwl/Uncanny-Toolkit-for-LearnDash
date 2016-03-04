@@ -7,7 +7,7 @@ Stable tag: 4.4.2
 License: LearnDash Groups in User Profiles is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or any later version.   LearnDash Groups in User Profiles is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.   You should have received a copy of the GNU General Public License along with LearnDash Groups in User Profiles. If not, see {URI to Plugin License}.
 License URI: https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
 
-This plugin extends LearnDash with a variety of optional functions that we find useful on typical LearnDash sites. 
+This plugin extends LearnDash with a variety of optional functions that we find useful on typical LearnDash sites.
 
 == Description ==
 This plugin adds a variety of functions to LearnDash sites that help improve the learner experience and LearnDash development workflow. After building dozens of LearnDash platforms, we combined the functions that are common across LearnDash sites into this single plugin.
@@ -33,3 +33,12 @@ We’ll continue adding features over the next few months. Breadcrumb shortcodes
 
 == Screenshots ==
 1. Uncanny LearnDash Toolkit Dashboard
+
+== Changelog ==
+
+= 1.2 =
+* First public released version
+
+== Upgrade Notice ==
+
+None
