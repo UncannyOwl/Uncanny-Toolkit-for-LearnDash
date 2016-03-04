@@ -90,21 +90,15 @@ class Boot extends Config {
 		$file_name = 'interfaces/' . strtolower( $class_to_filename ) . '.php';
 		if ( file_exists( dirname( __FILE__ ) . '/' . $file_name ) ) {
 			include_once $file_name;
-			// Manually debug to check if class is loading or not
-			//echo '<pre>'; var_dump( 'classes/' . strtolower( $class_to_filename ) . '.php is ' . $class .' '. self::$active_classes ); echo '</pre>';
 		}
 		// Create file name that will be loaded from the classes directory eg: my-Class-Name to my-class-name.php
 		$file_name = 'classes/' . strtolower( $class_to_filename ) . '.php';
 		if ( file_exists( dirname( __FILE__ ) . '/' . $file_name ) ) {
 			include $file_name;
-			// Manually debug to check if class is loading or not
-			//echo '<pre>'; var_dump( 'classes/' . strtolower( $class_to_filename ) . '.php is ' . $class .' '. self::$active_classes ); echo '</pre>';
 		}
 		$file_name = strtolower( $class_to_filename ) . '.php';
 		if ( file_exists( dirname( __FILE__ ) . '/' . $file_name ) ) {
 			include $file_name;
-			// Manually debug to check if class is loading or not
-			//echo '<pre>'; var_dump( 'classes/' . strtolower( $class_to_filename ) . '.php is ' . $class .' '. self::$active_classes ); echo '</pre>';
 		}
 	}
 }
