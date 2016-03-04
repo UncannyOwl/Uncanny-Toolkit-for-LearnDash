@@ -74,7 +74,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions{
 			// Redirect from wp-login.php to custom login page if user logged out
 			add_action('wp_logout', array(  __CLASS__, 'logout_page' ) );
 			// !!!!REMOVED AND CHANGED TO SHORTCODE Set page template as Login Page(login_page.php) if page slug is login
-			//add_filter( 'page_template', array(  __CLASS__, 'set_page_template' ) );
+			add_filter( 'page_template', array(  __CLASS__, 'set_page_template' ) );
 			// Custom password retrieve message
 			add_filter( 'retrieve_password_message', array(  __CLASS__, 'custom_retrieve_password_message' ), 10, 4 );
 			// Add lost password link to login form
@@ -95,7 +95,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions{
 	public static function get_details() {
 
 		$class_title = __( 'FrontEnd Login', self::get_text_domain() );
-		$class_description = __( '', self::get_text_domain() );
+		$class_description = __( 'If user turns off manuel user verification, all unverified user will be able to login', self::get_text_domain() );
 		$class_icon = '<span class="uo_icon_dashicon dashicons dashicons-unlock"></span>';
 		return array(
 						'title' => $class_title,
@@ -363,42 +363,75 @@ class FrontendLoginPlus extends Config implements RequiredFunctions{
 	 */
 	public static function redirect_login_page() {
 
-		$login_page  = get_permalink( self::get_login_redirect_page_id() );
-		$page_viewed = basename($_SERVER['REQUEST_URI']);
+		$redirect_page_id = self::get_login_redirect_page_id();
 
-		if( $page_viewed == "wp-login.php" && $_SERVER['REQUEST_METHOD'] == 'GET') {
-			wp_redirect($login_page);
-			exit;
+		// If the login page is not set by user use default wp-login.php
+		if( 0 !== $redirect_page_id) {
+
+			$login_page = get_permalink(self::get_login_redirect_page_id());
+
+			$page_viewed = basename($_SERVER['REQUEST_URI']);
+
+			if ($page_viewed == "wp-login.php" && $_SERVER['REQUEST_METHOD'] == 'GET') {
+				wp_redirect($login_page);
+				exit;
+			}
+
 		}
+
 	}
 
 	/**
 	 * Redirect to custom login page if login has failed
 	 */
 	public static function login_failed() {
-		$login_page  = get_permalink( self::get_login_redirect_page_id() );
-		wp_redirect( $login_page . '?login=failed' );
-		exit;
+
+		$redirect_page_id = self::get_login_redirect_page_id();
+
+		// If the login page is not set by user use default wp-login.php
+		if( 0 !== $redirect_page_id) {
+			$login_page = get_permalink($redirect_page_id);
+			wp_redirect($login_page . '?login=failed');
+			exit;
+		}
+
 	}
 
 	/**
-	 * Redirect to custom login page if useranme or password is empty
+	 * Redirect to custom login page if username or password is empty
 	 */
 	public static function verify_username_password( $user, $username, $password ) {
-		$login_page  = get_permalink( self::get_login_redirect_page_id() );;
-		if( $username == "" || $password == "" ) {
-			wp_redirect( $login_page . "?login=empty" );
-			exit;
+
+		$redirect_page_id = self::get_login_redirect_page_id();
+
+		// If the login page is not set by user use default wp-login.php
+		if( 0 !== $redirect_page_id) {
+
+			$login_page = get_permalink($redirect_page_id);
+
+			if ($username == "" || $password == "") {
+				wp_redirect($login_page . "?login=empty");
+				exit;
+			}
+
 		}
+
 	}
 
 	/**
 	 * Redirect from wp-login.php to custom login page if user logged out
 	 */
 	public static function logout_page() {
-		$login_page  = get_permalink( self::get_login_redirect_page_id() );;
-		wp_redirect( $login_page . "?login=false" );
-		exit;
+
+		$redirect_page_id = self::get_login_redirect_page_id();
+
+		// If the login page is not set by user use default wp-login.php
+		if( 0 !== $redirect_page_id) {
+			$login_page = get_permalink(self::get_login_redirect_page_id());
+			wp_redirect($login_page . "?login=false");
+			exit;
+		}
+
 	}
 
 	/**
@@ -425,6 +458,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions{
 
 	/**
 	 * Set page template as Login Page(login_page.php) if page slug is 'login'
+	 * REMOVE THIS FUNCTION IS REPLACED BY A SHORTCODE
 	 */
 	public static function set_page_template( $page_template )
 	{
