@@ -48,7 +48,7 @@ class MenuItemVisibility extends Config implements RequiredFunctions{
 		$class_title = __( 'Menu Item Visibility', self::get_text_domain() );
 
 		/* Simple Description */
-		$class_description = __( 'Adds option to admin menus for toggling menu items for logged in, logged out, and all users', self::get_text_domain() );
+		$class_description = __( 'Toggles the visibility of menu items based on whether or not users are signed in to the site.', self::get_text_domain() );
 
 		/* Icon as wp dashicon */
 		$class_icon = '<span class="uo_icon_dashicon dashicons dashicons-groups"></span>';
