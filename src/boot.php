@@ -23,7 +23,7 @@ class Boot extends Config {
 	/**
 	 * class constructor
 	 */
-	private function __construct() {
+	protected function __construct() {
 
 		global $uncanny_learndash_public;
 

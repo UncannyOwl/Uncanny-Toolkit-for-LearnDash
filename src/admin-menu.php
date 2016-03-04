@@ -21,6 +21,7 @@ class AdminMenu extends Boot {
 			add_action( 'admin_enqueue_scripts', array( __CLASS__, 'scripts' ) );
 		}
 
+		parent::__construct();
 	}
 
 	/**
@@ -63,7 +64,7 @@ class AdminMenu extends Boot {
 		$files = scandir( $path );
 		$details = array();
 		foreach ( $files as $file ) {
-			if ( is_dir ( $path . $file ) ) {
+			if ( is_dir( $path . $file ) ) {
 				continue;
 			}
 			//get class name
@@ -184,7 +185,7 @@ class AdminMenu extends Boot {
 			if( isset( $active_classes[ $class_name ] ) ){
 				$is_activated = 'uo_feature_activated';
 			}
-			if( TRUE !== $dependants_exist ){
+			if( true !== $dependants_exist ){
 				$is_activated = 'uo_feature_needs_dependants';
 			}
 
@@ -227,7 +228,7 @@ class AdminMenu extends Boot {
 				<div class="uo_feature_button <?php echo $is_activated; ?>">
 
 					<?php
-					if( TRUE !== $dependants_exist ){
+					if( true !== $dependants_exist ){
 					 echo '<div><strong>'. $dependants_exist .'</strong> is needed for this add-on</div>';
 					}else{
 						?>
