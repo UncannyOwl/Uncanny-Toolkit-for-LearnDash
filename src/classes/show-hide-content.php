@@ -34,13 +34,7 @@ class ShowHideContent extends Config implements RequiredFunctions {
 		$class_title = __( 'Show Or Hide Content', self::get_text_domain() );
 
 		/* Sample Simple Description with shortcode */
-		$class_description = __( '
-				<p>Show or hides content for logged in or logged out users by
-				set for="loggedin" or for="loggedout"</p>
-				<p>
-				<strong>[uo-show for=""]content[/uo-show]</strong>
-				</p>
-				', self::get_text_domain() );
+		$class_description = __( 'Conditionally shows content to either logged in or logged out users. Great for Open course types.', self::get_text_domain() );
 
 		/* Icon as wp dashicon */
 		$class_icon = '<span class="uo_icon_dashicon dashicons dashicons-hidden"></span>';
