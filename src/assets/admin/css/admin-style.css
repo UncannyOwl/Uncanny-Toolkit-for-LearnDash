@@ -1,76 +1,351 @@
-/* Heading hr underline*/
-hr.uo-underline{
-	border-top: 1px solid #DCDCDC;
-	border-bottom: 1px solid #0ca5b0;
-}
-/* Feature Container*/
-.uo_feature {
-	background: white;
-	width: 87%;
-	display: inline-table;
-	height: 170px;
-	border: 1px solid grey;
-	padding: 20px;
-	margin-right: 4%;
-	margin-bottom: 20px;
-	position: relative;
-}
-@media only screen and (min-width: 768px) {
-	/* For mobile phones: */
-	.uo_feature {
-		width: 40%;
-	}
-}
-@media only screen and (min-width: 1024px) {
-	/* For mobile phones: */
-	.uo_feature {
-		width: 24%;
-	}
-}
-/* Feature Title*/
-.uo_feature_title {
-	font-size: 1.5em;
-}
-/* Feature Description*/
-.uo_feature_description {
-	padding-top: 15px;
-}
+/*****************************/
+/*** - Activator Screen - ***/
+/***************************/
 
-/* Container of ON/OFF Toggle Switch */
-.uo_feature_button {
-	width: 80%;
-	position: absolute;
-	right: 8%;
-	bottom: 10px;
-	padding: 2%;
-}
-/* ON/OFF Toggle Switch */
-.uo_feature_button_toggle {
-	width: 30px;
-	background: white;
-	margin-top: 5px;
-}
-/* Actual Checkbox that WP Options data is pulled from */
-.uo_feature_checkbox{
-	position: absolute;
-	right: -6px;
-	bottom: -2px;
-}
-/* Label From Activating Feature Checkbox */
-.uo_feature_label{
+	/* Admin Header Container */
+	.uo-admin-header{
+		margin-bottom: 40px;
+		width: 98%;
+	}
+	.uo-admin-header a:focus, .uo-admin-header img:focus{
+		box-shadow: none;
+	}
 
-}
-/* Activated ON/OFF Toggle Switch*/
-.uo_feature_activated{
-	background: #29C129;
-}
-.uo_feature_activated .uo_feature_button_toggle{
-	margin-left: 40px;
-}
-/* De-activated ON/OFF Toggle Switch*/
-.uo_feature_deactivated{
-	background: #D24444;
-}
-.uo_feature_deactivated .uo_feature_button_toggle{
-	margin-left: 5px;
-}
+	/* Heading hr underline*/
+	hr.uo-underline{
+		border-top: 1px solid #DCDCDC;
+		border-bottom: 1px solid #FEA639;
+	}
+
+	@media only screen and (min-width: 1024px) {
+		hr.uo-underline {
+			margin-right: 7%;
+		}
+		.uo-admin-header p{
+			margin-right: 7%;
+		}
+	}
+
+	/* Feature Container*/
+	.uo_feature {
+		background: white;
+		width: 87%;
+		display: inline-table;
+		height: 170px;
+		border: 1px solid #D1D1D1;
+		padding: 20px;
+		margin-right: 4%;
+		margin-bottom: 50px;
+		position: relative;
+	}
+	@media only screen and (min-width: 768px) {
+		.uo_feature {
+			width: 40%;
+		}
+	}
+	@media only screen and (min-width: 1024px) {
+		.uo_feature {
+			width: 24%;
+		}
+	}
+
+	/* Feature Title*/
+	.uo_feature_title {
+		font-size: 1.5em;
+	}
+
+	/* Feature link to KB*/
+	.uo_feature_more_info {
+		padding-left: 7px;
+		color: #FEA639;
+	}
+	.uo_feature_more_info:focus {
+		webkit-box-shadow: none;
+		box-shadow: none;
+		color: #FEA639;
+	}
+
+	/* Feature Description*/
+	.uo_feature_description {
+		padding-top: 15px;
+	}
+
+	/* Icon Container*/
+	.uo_icon_container{
+		background: #0CA5B0;
+		background: #00A2E8;
+		width: 60px;
+		height: 60px;
+		border-radius: 10px 0;
+		position: absolute;
+		left: -10px;
+		bottom: -10px;
+		z-index: 20;
+	}
+
+	.uo_icon{
+		width: 28px;
+		height: 28px;
+		border: 2px solid white;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+	}
+
+	.uo_icon_text{
+		font-size: 27px;
+		color: white;
+		font-weight: bold;
+		letter-spacing: 2px;
+		margin-top: 20px;
+		display: block;
+		text-align: center;
+	}
+
+	.uo_icon_dashicon{
+		font-size: 36px;
+		padding-top: 10px;
+		padding-left: 11px;
+		color: white;
+	}
+	.uo_icon_fa{
+		font-size: 35px!important;
+		padding-top: 13px;
+		padding-left: 13px;
+		color: white;
+	}
+
+	/* Message if class needs dependants */
+	.uo_feature_button.uo_feature_needs_dependants {
+		width: 100%;
+		bottom: -3px;
+		height: 53px;
+		right: 0;
+		z-index: 10;
+	}
+
+	.uo_feature_needs_dependants div{
+		padding: 0 0 0 55px;
+		border-top: 2px solid #FEA639;
+	}
+
+	/* Container of ON/OFF Toggle Switch */
+	.uo_feature_button {
+		width: 75px;
+		height: 35px;
+		position: absolute;
+		right: -2px;
+		bottom: 7px;
+		cursor: pointer;
+	}
+
+	/* ON/OFF Toggle Switch */
+	.uo_feature_button_toggle {
+		width: 30px;
+		height: 25px;
+		background: white;
+		margin-top: 5px;
+	}
+	/* Actual Checkbox that WP Options data is pulled from */
+	.uo_feature_checkbox, .uo_feature_label{
+		position: absolute;
+		left: 10000px;
+		display: none!important;
+	}
+
+	/* Activated ON/OFF Toggle Switch*/
+	.uo_feature_activated{
+		background: #29C129;
+	}
+	.uo_feature_activated .uo_feature_button_toggle{
+		margin-left: 42px;
+	}
+	.uo_feature_activated .uo_feature_button_toggle:after{
+		content: 'ON';
+		font-size: 16px;
+		font-weight: bolder;
+		margin-left: -35px;
+		line-height: 24px;
+		color: white;
+
+	}
+
+	/* De-activated ON/OFF Toggle Switch*/
+	.uo_feature_deactivated{
+		background: #D24444;
+	}
+	.uo_feature_deactivated .uo_feature_button_toggle{
+		margin-left: 6px;
+	}
+	.uo_feature_deactivated .uo_feature_button_toggle:before{
+		content: 'OFF';
+		font-size: 16px;
+		font-weight: bolder;
+		padding-left: 35px;
+		line-height: 24px;
+		color: white;
+	}
+
+	/* Settings*/
+	.uo_settings_link .dashicons {
+		position: absolute;
+		right: -21px;
+		color: #00A2E8;
+		text-decoration: none;
+		background: #D1D1D1;
+		font-size: 25px;
+		width: 30px;
+		height: 30px;
+		top: 5px;
+		padding: 6px 5px 0;
+	}
+	#lean_overlay {
+		position: fixed;
+		z-index:100;
+		top: 0px;
+		left: 0px;
+		height:100%;
+		width:100%;
+		background: #000;
+		display: none;
+	}
+	.uo_settings{
+		max-width: 800px;
+		display: none;
+		width: 95%;
+		min-width: 300px;
+		display: none;
+		background: #FFF;
+		border-bottom: 6px solid #F9BA0F;
+		padding-bottom: 20px;
+	}
+	.uo_settings_header{
+		background: #C9C9C9;
+		background: #F9BA0F;
+		margin-bottom: 20px;
+	}
+	.uo_settings_header h2{
+		font-size: 23px;
+		margin: 0;
+		line-height: 63px;
+		padding-left: 20px;
+		color: white;
+	}
+	.uo_settings_single{
+		padding: 10px 20px;
+	}
+	input.uo_settings_form_field[type='text'] {
+		width: 60%;
+	}
+	.uo_settings_single span{
+		font-size: 15px;
+		font-weight: bold;
+		margin-right: 10px;
+	}
+
+	.uo_save_settings{
+		clear: both;
+		float: right;
+		margin-right: 20px;
+		padding: 9px 32px;
+		border: none;
+		color: white;
+		font-size: 16px;
+		font-weight: bold;
+		background: #A9A9A9;
+	}
+	.uo_save_settings:hover{
+		background: #F9860F;
+	}
+
+	/* LOADING SPINNER FROM: http://tobiasahlin.com/spinkit/ */
+	.sk-folding-cube {
+		background: white;
+		margin: 60px auto;
+		width: 40px;
+		height: 40px;
+		position: relative;
+		-webkit-transform: rotateZ(45deg);
+		transform: rotateZ(45deg);
+	}
+
+	.sk-folding-cube .sk-cube {
+		float: left;
+		width: 50%;
+		height: 50%;
+		position: relative;
+		-webkit-transform: scale(1.1);
+		-ms-transform: scale(1.1);
+		transform: scale(1.1);
+	}
+	.sk-folding-cube .sk-cube:before {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-color: #00A2E8;
+		-webkit-animation: sk-foldCubeAngle 2.4s infinite linear both;
+		animation: sk-foldCubeAngle 2.4s infinite linear both;
+		-webkit-transform-origin: 100% 100%;
+		-ms-transform-origin: 100% 100%;
+		transform-origin: 100% 100%;
+	}
+	.sk-folding-cube .sk-cube2 {
+		-webkit-transform: scale(1.1) rotateZ(90deg);
+		transform: scale(1.1) rotateZ(90deg);
+	}
+	.sk-folding-cube .sk-cube3 {
+		-webkit-transform: scale(1.1) rotateZ(180deg);
+		transform: scale(1.1) rotateZ(180deg);
+	}
+	.sk-folding-cube .sk-cube4 {
+		-webkit-transform: scale(1.1) rotateZ(270deg);
+		transform: scale(1.1) rotateZ(270deg);
+	}
+	.sk-folding-cube .sk-cube2:before {
+		-webkit-animation-delay: 0.3s;
+		animation-delay: 0.3s;
+	}
+	.sk-folding-cube .sk-cube3:before {
+		-webkit-animation-delay: 0.6s;
+		animation-delay: 0.6s;
+	}
+	.sk-folding-cube .sk-cube4:before {
+		-webkit-animation-delay: 0.9s;
+		animation-delay: 0.9s;
+	}
+	@-webkit-keyframes sk-foldCubeAngle {
+		0%, 10% {
+			-webkit-transform: perspective(140px) rotateX(-180deg);
+			transform: perspective(140px) rotateX(-180deg);
+			opacity: 0;
+		} 25%, 75% {
+			  -webkit-transform: perspective(140px) rotateX(0deg);
+			  transform: perspective(140px) rotateX(0deg);
+			  opacity: 1;
+		  } 90%, 100% {
+				-webkit-transform: perspective(140px) rotateY(180deg);
+				transform: perspective(140px) rotateY(180deg);
+				opacity: 0;
+			}
+	}
+
+	@keyframes sk-foldCubeAngle {
+		0%, 10% {
+			-webkit-transform: perspective(140px) rotateX(-180deg);
+			transform: perspective(140px) rotateX(-180deg);
+			opacity: 0;
+		} 25%, 75% {
+			  -webkit-transform: perspective(140px) rotateX(0deg);
+			  transform: perspective(140px) rotateX(0deg);
+			  opacity: 1;
+		  } 90%, 100% {
+				-webkit-transform: perspective(140px) rotateY(180deg);
+				transform: perspective(140px) rotateY(180deg);
+				opacity: 0;
+			}
+	}
+

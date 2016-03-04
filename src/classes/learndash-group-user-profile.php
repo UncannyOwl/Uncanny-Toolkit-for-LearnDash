@@ -6,7 +6,6 @@ if( ! defined( 'WPINC' ) ) {
 	die;
 }
 
-
 class LearndashGroupUserProfile extends Config implements RequiredFunctions{
 
 	/**
@@ -21,13 +20,36 @@ class LearndashGroupUserProfile extends Config implements RequiredFunctions{
 		// Add a simple settings link to our page from the plugins list
 		$prefix = is_network_admin() ? 'network_admin_' : ''; // TODO Multi-Site
 		add_filter( 'plugin_action_links_' . ULP_PLUGIN_BASENAME, array( __CLASS__, 'link_to_plugins_page' ), 10, 1);
-
 	}
 
+	/**
+	* Description of class in Admin View
+	*
+	* @return Array
+	*/
 	public static function get_details() {
-		$class_title = __( 'LearnDash Groups in User Profiles', Config::get_text_domain() );
-		$class_description = __( 'Display a list of all LearnDash Groups to which a user belongs on the user\'s profile page', Config::get_text_domain() );
-		return array( 'title' => $class_title, 'description ' => $class_description );
+		$class_title = __( 'LearnDash Groups in User Profiles', self::get_text_domain() );
+		$class_description = __( 'Display a list of all LearnDash Groups to which a user belongs on the user\'s profile page.', self::get_text_domain() );
+		$icon_styles = 'background: rgb(255, 255, 255); margin-top: 17px; width: 60px; padding: 2px 0;';
+		$class_icon = '<img style="'. $icon_styles .'" src="'. self::get_admin_media('LearnDash-Official-Logo.png') .'" />';
+
+		return array( 	'title' => $class_title,
+						'description' => $class_description,
+						'dependants_exist' => self::dependants_exist(),
+						'icon' => $class_icon );
+	}
+
+	/**
+	 * Does the plugin rely on another function or plugin
+	 *
+	 * return boolean || string Return either true or name of function or plugin
+	 */
+	public static function dependants_exist(){
+		global $learndash_post_types;
+		if( !isset($learndash_post_types) ){
+			return 'Plugin: LearnDash';
+		}
+		return true;
 	}
 
 	/**
@@ -40,7 +62,7 @@ class LearndashGroupUserProfile extends Config implements RequiredFunctions{
 		global $wpdb;
 
 		// title of section
-		$section_title = __( 'LearnDash Groups', Config::get_text_domain() );
+		$section_title = __( 'LearnDash Groups', self::get_text_domain() );
 		// User ID of user being viewed/edited
 		$user_ID = $user->ID;
 		// Meta key stored by learndash of user's groups
@@ -95,8 +117,8 @@ class LearndashGroupUserProfile extends Config implements RequiredFunctions{
 	 *
 	 * @return Array
 	 */
-	function link_to_plugins_page( $actions ) {
-		array_unshift($actions, '<a href="'.menu_page_url('uo-menu-slug', false).'">'.__( 'Settings', Config::get_text_domain() ).'</a>');
+	public static function link_to_plugins_page( $actions ) {
+		array_unshift($actions, '<a href="'.menu_page_url('uo-menu-slug', false).'">'.__( 'Settings', self::get_text_domain() ).'</a>');
 		return $actions;
 	}
 }

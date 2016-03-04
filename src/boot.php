@@ -4,7 +4,7 @@ namespace uncanny_learndash_public;
 
 use uncanny_learndash_public;
 
-class Boot {
+class Boot extends Config{
 	static $instance;
 	private static $active_classes;
 
@@ -34,7 +34,7 @@ class Boot {
 		// We need to check if spl auto loading is available when activating plugin
 		// Plugin will not activate if SPL extension is not enabled by throwing error
 		if( ! extension_loaded("SPL") ) {
-			$spl_error = __( "Please contact your hosting company to update to php version 5.3+ and enable spl extensions.", Config::get_text_domain() );
+			$spl_error = __( "Please contact your hosting company to update to php version 5.3+ and enable spl extensions.", self::get_text_domain() );
 			trigger_error( $spl_error, E_USER_ERROR );
 		}
 
@@ -48,23 +48,21 @@ class Boot {
 
 		$uncanny_learndash_public->admin_menu = new AdminMenu;
 
+		// Add admin menu ajax class to load and save settings
+		add_action( 'wp_ajax_settings_save' , array( get_parent_class(), 'ajax_settings_save' ) );// parent class is Config
+		add_action( 'wp_ajax_settings_load' , array( get_parent_class(), 'ajax_settings_load' ) );// parent class is Config
+
+
 		/* LOAD: LearndashGroupUserProfile*/
 		// Class Details:  Add Class to Admin Menu page
-		$class_name = 'LearndashGroupUserProfile';
-		$class_title = __('LearnDash Groups in User Profiles', Config::get_text_domain() );
-		$class_description = __('Display a list of all LearnDash Groups to which a user belongs on the user\'s profile page', Config::get_text_domain() );
-		Config::set_available_classes( $class_name, $class_title, $class_description );
-		// Include and run the file if it is activated in the Admin Menu Setting Page
-		if( array_key_exists( 'LearndashGroupUserProfile', self::$active_classes ) === true ) {
-			// Store the instance of the class plugin
-			$uncanny_learndash_public->learndash_group_user_profile = new LearndashGroupUserProfile;
-		}
+		$classes = self::get_available_classes();
+		if ( $classes ) {
+			foreach ( self::get_available_classes() as $class ) {
+				if( class_exists( $class ) ){
+					new $class;
+				}
 
-
-
-		if( array_key_exists( 'WidgetCert', self::$active_classes ) === true ) {
-			// Store the instance of the class plugin
-			$uncanny_learndash_public->widget_cert = new WidgetCert();
+			}
 		}
 
 	}
@@ -75,7 +73,7 @@ class Boot {
 	public static function auto_loader( $class ) {
 
 		// Remove Class's namespace eg: my_namespace/MyClassName to MyClassName
-		$class = str_replace( Config::get_namespace(), '', $class );
+		$class = str_replace( self::get_namespace(), '', $class );
 		$class = str_replace( '\\', '', $class );
 
 		// First Character of class name to lowercase eg: MyClassName to myClassName
@@ -88,15 +86,25 @@ class Boot {
 			// Split class name to hyphenated name eg: array( 'my', 'Class', 'Name') to my-Class-Name
 			$class_to_filename = implode( '-', $split_class_to_filename );
 		}
-
+		$file_name = 'interfaces/' . strtolower( $class_to_filename ) . '.php';
+		if ( file_exists( dirname( __FILE__ ) . '/' . $file_name ) ) {
+			include_once 'interfaces/' . strtolower( $class_to_filename ) . '.php';
+			// Manually debug to check if class is loading or not
+			//echo '<pre>'; var_dump( 'classes/' . strtolower( $class_to_filename ) . '.php is ' . $class .' '. self::$active_classes ); echo '</pre>';
+		}
 		// Create file name that will be loaded from the classes directory eg: my-Class-Name to my-class-name.php
 		$file_name = 'classes/' . strtolower( $class_to_filename ) . '.php';
-		if ( file_exists( dirname( __FILE__ ) . '/' . $file_name ) && array_key_exists( $class, self::$active_classes ) === true ) {
+		if ( file_exists( dirname( __FILE__ ) . '/' . $file_name ) ) {
 			include 'classes/' . strtolower( $class_to_filename ) . '.php';
 			// Manually debug to check if class is loading or not
 			//echo '<pre>'; var_dump( 'classes/' . strtolower( $class_to_filename ) . '.php is ' . $class .' '. self::$active_classes ); echo '</pre>';
 		}
-
+		$file_name =  strtolower( $class_to_filename ) . '.php';
+		if ( file_exists( dirname( __FILE__ ) . '/' . $file_name ) ){
+			include '' . strtolower( $class_to_filename ) . '.php';
+			// Manually debug to check if class is loading or not
+			//echo '<pre>'; var_dump( 'classes/' . strtolower( $class_to_filename ) . '.php is ' . $class .' '. self::$active_classes ); echo '</pre>';
+		}
 	}
 }
 
