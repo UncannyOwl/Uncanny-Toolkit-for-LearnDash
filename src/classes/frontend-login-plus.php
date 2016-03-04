@@ -118,7 +118,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions{
 
 	/**
 	 * HTML for modal to create settings
-	 *
+	 * @param String
 	 * @return boolean || string Return either false or settings html modal
 	 *
 	 */
