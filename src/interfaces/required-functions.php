@@ -22,5 +22,4 @@ interface RequiredFunctions {
 	 * @return mixed
 	 */
 	static function dependants_exist();
-	//static function get_class_settings();
 }
