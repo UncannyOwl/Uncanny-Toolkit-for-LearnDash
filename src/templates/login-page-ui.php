@@ -77,7 +77,7 @@ $login_form_args = array(
 	'id_submit'      => 'wp-submit',
 	'remember'       => true,
 	'value_username' => null,
-	'value_remember' => true
+	'value_remember' => true,
 );
 
 //get_header();
@@ -118,7 +118,6 @@ $login_form_args = array(
 			<p class="login-msg"><strong>Woops!</strong> Password Reset Failed.</p>
 			<?php
 		}
-
 	} elseif ( $reset_password ) {
 
 		if ( isset( $_GET['key'] ) && isset( $_GET['login'] ) ) {
@@ -161,19 +160,15 @@ $login_form_args = array(
 			<p class="login-msg"><strong>Woops!</strong> Password Reset Link Failed.</p>
 			<?php
 		}
-
-
 	} elseif ( $validate_password_reset ) {
 		if ( isset( $_GET['issue'] ) ) {
 
-			if ( $_GET['issue'] === 'invalidkey' ) {
+			if ( 'invalidkey' === $_GET['issue'] ) {
 				echo '<h2>Your password reset link is invalid.</h2>';
-			} elseif ( $_GET['issue'] === 'expiredkey' ) {
+			} elseif ( 'expiredkey' === $_GET['issue'] ) {
 				echo '<h2>Your password reset link is expired.</h2>';
 			}
-
 		} else {
-
 			$rp_cookie = 'wp-resetpass-' . COOKIEHASH;
 			if ( isset( $_COOKIE[ $rp_cookie ] ) && 0 < strpos( $_COOKIE[ $rp_cookie ], ':' ) ) {
 				list( $rp_login, $rp_key ) = explode( ':', wp_unslash( $_COOKIE[ $rp_cookie ] ), 2 );
@@ -182,7 +177,6 @@ $login_form_args = array(
 				if ( isset( $_POST['pass1'] ) && ! hash_equals( $rp_key, $_POST['rp_key'] ) ) {
 					$user = false;
 				}
-
 			} else {
 				$user = false;
 			}
@@ -191,9 +185,9 @@ $login_form_args = array(
 
 				setcookie( $rp_cookie, ' ', time() - YEAR_IN_SECONDS, '/login', COOKIE_DOMAIN, is_ssl(), true );
 				if ( $user && $user->get_error_code() === 'expired_key' ) {
-					wp_redirect( site_url( 'login/?action=validatepasswordreset&issue=expiredkey' ) );
+					wp_safe_redirect( site_url( 'login/?action=validatepasswordreset&issue=expiredkey' ) );
 				} else {
-					wp_redirect( site_url( 'login/?action=validatepasswordreset&issue=invalidkey' ) );
+					wp_safe_redirect( site_url( 'login/?action=validatepasswordreset&issue=invalidkey' ) );
 				}
 			}
 
@@ -207,16 +201,11 @@ $login_form_args = array(
 
 				reset_password( $user, $_POST['pass1'] );
 				setcookie( $rp_cookie, ' ', time() - YEAR_IN_SECONDS, '/login', COOKIE_DOMAIN, is_ssl(), true );
-				?>
-				<h2>Your password was reset successfully. Please Log-In.</h2>
-				<?php
 
+				printf( '<h2>%s</h2>', __( 'Your password was reset successfully. Please Log-In.', \uncanny_learndash_public\Config::get_text_domain() ) );
 				wp_login_form( $login_form_args );
-
 			}
-
 		}
-
 	} else {
 		?>
 		<h2>Login</h2>
