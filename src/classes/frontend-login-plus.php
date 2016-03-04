@@ -379,7 +379,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	 */
 	public static function login_failed() {
 		$login_page = get_permalink( self::get_login_redirect_page_id() );
-		wp_redirect( set_que$login_page . '?login=failed' );
+		wp_safe_redirect( add_query_arg( array( 'login' => 'failed' ),$login_page ) );
 		exit;
 	}
 
@@ -389,7 +389,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	public static function verify_username_password( $user, $username, $password ) {
 		$login_page = get_permalink( self::get_login_redirect_page_id() );;
 		if ( '' === $username || '' === $password ) {
-			wp_safe_redirect( $login_page . "?login=empty" );
+			wp_safe_redirect( add_query_arg( array( 'login' => 'empty' ),$login_page ) );
 			exit;
 		}
 	}
@@ -399,7 +399,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	 */
 	public static function logout_page() {
 		$login_page = get_permalink( self::get_login_redirect_page_id() );;
-		wp_safe_redirect( $login_page . "?login=false" );
+		wp_safe_redirect( add_query_arg( array( 'login' => 'false' ),$login_page ) );
 		exit;
 	}
 
