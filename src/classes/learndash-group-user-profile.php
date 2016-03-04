@@ -87,7 +87,12 @@ class LearndashGroupUserProfile extends Config implements RequiredFunctions {
 			// Loop through all the user's group ids and collect the title and link
 			$list_groups = '';
 			foreach ( $user_groups as $group_ID ) {
-				$group_permalink = site_url() . '/wp-admin/post.php?post=' . (int) $group_ID[0] . '&action=edit';
+				$group_permalink = add_query_arg(
+					array(
+						'post' => (int) $group_ID[0],
+						'action' => 'edit',
+					), admin_url( 'post.php' )
+				);
 				$group_title     = get_the_title( (int) $group_ID[0] ); // Get the group title
 				$list_groups .= sprintf( '<li><a href="%s">%s</a></li>', esc_url( $group_permalink ), esc_html( $group_title ) );// list of all the groups
 			}
