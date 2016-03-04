@@ -54,7 +54,7 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 		parent::__construct(
 			'uncanny_lms_cert_list', // Base ID
 			__( 'LMS Certificate List', Config::get_text_domain() ), // Name
-			array( 'description' => __( 'The list of LMS certificates for the current user.', 'text_domain' ) ) // Args
+			array( 'description' => __( 'Adds a new certificate widget that outputs links to all LearnDash certificates earned by the user.', 'text_domain' ) ) // Args
 		);
 	}
 

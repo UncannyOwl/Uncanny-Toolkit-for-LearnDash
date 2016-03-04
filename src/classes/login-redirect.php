@@ -33,7 +33,7 @@ class LoginRedirect extends Config implements RequiredFunctions {
 		$class_title = __( 'Login Redirect', self::get_text_domain() );
 
 		/* Sample Simple Description */
-		$class_description = __( 'Redirect non-admins after login', self::get_text_domain() );
+		$class_description = __( 'Redirects all non-admin roles to a specific URL after logging into the site.', self::get_text_domain() );
 
 		/* Icon as wp dashicon */
 		$class_icon = '<span class="uo_icon_dashicon dashicons dashicons-arrow-right-alt"></span>';
