@@ -94,8 +94,8 @@ class FrontendLoginPlus extends Config implements RequiredFunctions{
 	 */
 	public static function get_details() {
 
-		$class_title = __( 'FrontEnd Login', self::get_text_domain() );
-		$class_description = __( '', self::get_text_domain() );
+		$class_title = __( 'Front End Login', self::get_text_domain() );
+		$class_description = __( 'Adds a custom login form and can optionally force users to be verified by an admin before they can sign in.', self::get_text_domain() );
 		$class_icon = '<span class="uo_icon_dashicon dashicons dashicons-unlock"></span>';
 		return array(
 						'title' => $class_title,
