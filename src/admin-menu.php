@@ -127,7 +127,7 @@ class AdminMenu extends Boot {
 
 			<p><?php
 			printf(
-				__( 'This plugin makes it easier to incorporate some of the features we see most requested on LearnDash sites. We’re hard
+				__( 'This plugin makes it easier to incorporate some of the features we see most requested on LearnDash sites. We\'re hard
 				at work on a new Knowledge Base for this plugin, but for now, instructions are available at  
 				<a href="http://www.uncannyowl.com/uncanny-learndash-toolkit/" target="_blank">http://www.uncannyowl.com/uncanny-learndash-toolkit/</a>.', Config::get_text_domain() ) ,
 			esc_url( 'http://www.uncannyowl.com' ) );
@@ -135,9 +135,9 @@ class AdminMenu extends Boot {
 
 			<p><?php
 			printf(
-				__( 'This is the first Uncanny Owl LearnDash plugin that we’ve made available in the WordPress repository. We’ll be
+				__( 'This is the first Uncanny Owl LearnDash plugin that we\'ve made available in the WordPress repository. We\'ll be
 				releasing more over the next few months as well as adding new features to this plugin. Sign up for our mailing list 
-				at <a href="http://www.uncannyowl.com/" target="_blank">Uncanny Owl</a> so you don’t miss any updates!', Config::get_text_domain() ) ,
+				at <a href="http://www.uncannyowl.com/" target="_blank">Uncanny Owl</a> so you don\'t miss any updates!', Config::get_text_domain() ) ,
 			esc_url( 'http://www.uncannyowl.com' ) );
 			?></p>
 
