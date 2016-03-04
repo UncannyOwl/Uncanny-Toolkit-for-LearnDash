@@ -78,7 +78,7 @@ class MenuItemVisibility extends Config implements RequiredFunctions{
 	 * Include the custom admin walker
 	 */
 	public static function include_custom_walker() {
-		include_once( self::get_include('custom_walker_nav_menu.php') );
+		include_once( self::get_include('custom-walker-nav-menu.php') );
 	}
 
 	/**

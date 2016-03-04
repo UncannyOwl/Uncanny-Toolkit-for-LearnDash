@@ -73,7 +73,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions{
 			add_filter( 'authenticate', array(  __CLASS__, 'verify_username_password'), 1, 3  );
 			// Redirect from wp-login.php to custom login page if user logged out
 			add_action('wp_logout', array(  __CLASS__, 'logout_page' ) );
-			// !!!!REMOVED AND CHANGED TO SHORTCODE Set page template as Login Page(login_page.php) if page slug is login
+			// !!!!REMOVED AND CHANGED TO SHORTCODE Set page template as Login Page(login-page.php) if page slug is login
 			//add_filter( 'page_template', array(  __CLASS__, 'set_page_template' ) );
 			// Custom password retrieve message
 			add_filter( 'retrieve_password_message', array(  __CLASS__, 'custom_retrieve_password_message' ), 10, 4 );
@@ -348,7 +348,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions{
 	{
 
 		// if the slug or page title in login run the login page template
-		$page_template = self::get_template( '/login_page_ui.php' );
+		$page_template = self::get_template( '/login-page-ui.php' );
 
 		//Render Template
 		ob_start();
@@ -424,7 +424,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions{
 	}
 
 	/**
-	 * Set page template as Login Page(login_page.php) if page slug is 'login'
+	 * Set page template as Login Page(login-page.php) if page slug is 'login'
 	 */
 	public static function set_page_template( $page_template )
 	{
@@ -433,7 +433,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions{
 
 		// if the slug or page title in login run the login page template
 		if ( is_page( 'login' ) || $page_title == 'login') {
-			$page_template = self::get_template( '/login_page.php' );
+			$page_template = self::get_template( '/login-page.php' );
 		}
 		return $page_template;
 	}
