@@ -18,7 +18,7 @@ class LoginRedirect extends Config implements RequiredFunctions {
 		if ( true === self::dependants_exist() ) {
 
 			/* ADD FILTERS ACTIONS FUNCTION */
-			add_filter( 'login_redirect', array( __CLASS__, 'my_login_redirect' ), 10, 3 );
+			add_filter( 'login_redirect', array( __CLASS__, 'my_login_redirect' ), 10, 1 );
 		}
 
 	}
@@ -98,7 +98,7 @@ class LoginRedirect extends Config implements RequiredFunctions {
 	 *
 	 * @return string
 	 */
-	public static function my_login_redirect( $redirect_to, $request, $user ) {
+	public static function my_login_redirect( $redirect_to ) {
 
 		$login_redirect = false;
 
