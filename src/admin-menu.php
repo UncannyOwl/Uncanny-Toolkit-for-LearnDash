@@ -21,7 +21,7 @@ class AdminMenu extends Boot {
 			add_action( 'admin_enqueue_scripts', array( __CLASS__, 'scripts' ) );
 		}
 
-		parent::__construct();
+		//parent::__construct();
 	}
 
 	/**
