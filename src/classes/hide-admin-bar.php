@@ -81,8 +81,7 @@ class HideAdminBar extends Config implements RequiredFunctions {
 		$options = array();
 
 		foreach ( $roles as $role_value => $role_name ) {
-			$option_name = 'role[' . $role_value . '}';
-			array_push( $options, array( 'type' => 'checkbox', 'label' => $role_name, 'option_name' => $option_name ) );
+			array_push( $options, array( 'type' => 'checkbox', 'label' => $role_name, 'option_name' => $role_value ) );
 		}
 
 		// Build html
