@@ -2,11 +2,11 @@
 
 namespace uncanny_learndash_public;
 
-if( ! defined( 'WPINC' ) ) {
+if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
-class LoginRedirect extends Config implements RequiredFunctions{
+class LoginRedirect extends Config implements RequiredFunctions {
 
 
 	/**
@@ -15,10 +15,10 @@ class LoginRedirect extends Config implements RequiredFunctions{
 	 */
 	public function __construct() {
 
-		if( true === self::dependants_exist()){
+		if ( true === self::dependants_exist() ) {
 
 			/* ADD FILTERS ACTIONS FUNCTION */
-			add_filter( 'login_redirect', array( __CLASS__, 'my_login_redirect'), 10, 3 );
+			add_filter( 'login_redirect', array( __CLASS__, 'my_login_redirect' ), 10, 3 );
 		}
 
 	}
@@ -26,7 +26,7 @@ class LoginRedirect extends Config implements RequiredFunctions{
 	/**
 	 * Description of class in Admin View
 	 *
-	 * @return Array
+	 * @return array
 	 */
 	public static function get_details() {
 
@@ -38,12 +38,13 @@ class LoginRedirect extends Config implements RequiredFunctions{
 		/* Icon as wp dashicon */
 		$class_icon = '<span class="uo_icon_dashicon dashicons dashicons-arrow-right-alt"></span>';
 
-
-		return array( 	'title' => $class_title,
-						'description' => $class_description,
-						'dependants_exist' => self::dependants_exist(),
-						'settings' => self::get_class_settings( $class_title ),
-						'icon' => $class_icon );
+		return array(
+			'title'            => $class_title,
+			'description'      => $class_description,
+			'dependants_exist' => self::dependants_exist(),
+			'settings'         => self::get_class_settings( $class_title ),
+			'icon'             => $class_icon,
+		);
 
 	}
 
@@ -53,39 +54,38 @@ class LoginRedirect extends Config implements RequiredFunctions{
 	 * @return boolean || string Return either true or name of function or plugin
 	 *
 	 */
-	public static function dependants_exist(){
+	public static function dependants_exist() {
 		// Return true if no dependency or dependency is available
 		return true;
 	}
 
 	/**
-	* HTML for modal to create settings
-	*
-	* @return boolean || string Return either false or settings html modal
-	*
-	*/
-	public static function get_class_settings( $class_title ){
-
-
-
+	 * HTML for modal to create settings
+	 *
+	 * @param $class_title
+	 *
+	 * @return bool | string Return either false or settings html modal
+	 *
+	 */
+	public static function get_class_settings( $class_title ) {
 		// Create options
 		$options = array(
 
-				array(
-						'type' => 'text',
-						'label' => 'Login Redirect',
-						'option_name' => 'login_redirect'
-				),
-
+			array(
+				'type'        => 'text',
+				'label'       => 'Login Redirect',
+				'option_name' => 'login_redirect',
+			),
 		);
 
-
 		// Build html
-		$html = self::settings_output(array(
-				'class' => __CLASS__,
-				'title' => $class_title,
-				'options' => $options
-		));
+		$html = self::settings_output( array(
+			'class'   => __CLASS__,
+			'title'   => $class_title,
+			'options' => $options,
+			)
+		);
+
 		return $html;
 	}
 
@@ -93,22 +93,22 @@ class LoginRedirect extends Config implements RequiredFunctions{
 	 * Redirect user after successful login.
 	 *
 	 * @param string $redirect_to URL to redirect to.
-	 * @param string $request URL the user is coming from.
-	 * @param object $user Logged user's data.
+	 * @param string $request     URL the user is coming from.
+	 * @param object $user        Logged user's data.
+	 *
 	 * @return string
 	 */
 	public static function my_login_redirect( $redirect_to, $request, $user ) {
 
 		$login_redirect = false;
 
-		$settings  = get_option('LoginRedirect');
+		$settings = get_option( 'LoginRedirect' );
 
-		foreach($settings as $setting ){
+		foreach ( $settings as $setting ) {
 
-			if( 'login_redirect' === $setting['name']){
+			if ( 'login_redirect' === $setting['name'] ) {
 				$login_redirect = $setting['value'];
 			}
-
 		}
 
 		//is there a user to check?
@@ -121,16 +121,14 @@ class LoginRedirect extends Config implements RequiredFunctions{
 				//return $redirect_to;
 			}
 
-			if( !$login_redirect ) {
+			if ( ! $login_redirect ) {
 				// if redirect is not set than send them home
 				return home_url();
-			}else{
+			} else {
 				return $login_redirect;
 			}
-
 		} else {
 			return $redirect_to;
 		}
 	}
-
 }

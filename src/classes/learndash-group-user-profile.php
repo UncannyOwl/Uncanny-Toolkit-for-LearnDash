@@ -2,11 +2,11 @@
 
 namespace uncanny_learndash_public;
 
-if( ! defined( 'WPINC' ) ) {
+if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
-class LearndashGroupUserProfile extends Config implements RequiredFunctions{
+class LearndashGroupUserProfile extends Config implements RequiredFunctions {
 
 	/**
 	 * class constructor
@@ -21,20 +21,22 @@ class LearndashGroupUserProfile extends Config implements RequiredFunctions{
 	}
 
 	/**
-	* Description of class in Admin View
-	*
-	* @return Array
-	*/
+	 * Description of class in Admin View
+	 *
+	 * @return array
+	 */
 	public static function get_details() {
-		$class_title = __( 'LearnDash Groups in User Profiles', self::get_text_domain() );
+		$class_title       = __( 'LearnDash Groups in User Profiles', self::get_text_domain() );
 		$class_description = __( 'Displays a user\'s LearnDash Group memberships in the user profile.', self::get_text_domain() );
-		$icon_styles = 'background: rgb(255, 255, 255); margin-top: 17px; width: 60px; padding: 2px 0;';
-		$class_icon = '<img style="'. $icon_styles .'" src="'. self::get_admin_media('LearnDash-Official-Logo.png') .'" />';
+		$icon_styles       = 'background: rgb(255, 255, 255); margin-top: 17px; width: 60px; padding: 2px 0;';
+		$class_icon        = '<img style="' . esc_attr( $icon_styles ). '" src="' .  esc_url( self::get_admin_media( 'LearnDash-Official-Logo.png' ) ) . '" />';
 
-		return array( 	'title' => $class_title,
-						'description' => $class_description,
-						'dependants_exist' => self::dependants_exist(),
-						'icon' => $class_icon );
+		return array(
+			'title'            => $class_title,
+			'description'      => $class_description,
+			'dependants_exist' => self::dependants_exist(),
+			'icon'             => $class_icon,
+		);
 	}
 
 	/**
@@ -42,11 +44,12 @@ class LearndashGroupUserProfile extends Config implements RequiredFunctions{
 	 *
 	 * return boolean || string Return either true or name of function or plugin
 	 */
-	public static function dependants_exist(){
+	public static function dependants_exist() {
 		global $learndash_post_types;
-		if( !isset($learndash_post_types) ){
+		if ( ! isset( $learndash_post_types ) ) {
 			return 'Plugin: LearnDash';
 		}
+
 		return true;
 	}
 
@@ -66,7 +69,6 @@ class LearndashGroupUserProfile extends Config implements RequiredFunctions{
 		// Meta key stored by learndash of user's groups
 		$meta_key = '%learndash_group_users_%';
 
-
 		// Query to get all the users' groups
 		$group_query = $wpdb->prepare(
 			" SELECT `meta_value` FROM $wpdb->usermeta WHERE `user_id` = %d AND meta_key LIKE %s",
@@ -78,36 +80,39 @@ class LearndashGroupUserProfile extends Config implements RequiredFunctions{
 		$user_groups = $wpdb->get_results( $group_query, ARRAY_N );
 
 		// If the user is part of at least one group... lets create the LearnDash Group Section
-		if( !empty( $user_groups ) ){
+		if ( ! empty( $user_groups ) ) {
 			// Happy Filtering!
 			$section_title = apply_filters( 'learndash_users_groups_profile_title', $section_title );
 
 			// Loop through all the user's group ids and collect the title and link
 			$list_groups = '';
-			foreach( $user_groups as $group_ID ){
-				$group_permalink = site_url().'/wp-admin/post.php?post='.(int)$group_ID[0].'&action=edit';
-				$group_title = get_the_title( (int)$group_ID[0] ); // Get the group title
-				$list_groups .= sprintf( '<li><a href="%s">%s</a></li>', $group_permalink, $group_title);// list of all the groups
+			foreach ( $user_groups as $group_ID ) {
+				$group_permalink = add_query_arg(
+					array(
+						'post' => (int) $group_ID[0],
+						'action' => 'edit',
+					), admin_url( 'post.php' )
+				);
+				$group_title     = get_the_title( (int) $group_ID[0] ); // Get the group title
+				$list_groups .= sprintf( '<li><a href="%s">%s</a></li>', esc_url( $group_permalink ), esc_html( $group_title ) );// list of all the groups
 			}
 
 			?>
 			<table class="form-table">
 				<tbody>
-					<tr>
-						<th>
-							<h3><?php echo $section_title; ?></h3>
-						</th>
-						<td>
-							<ol>
-								<?php echo $list_groups; ?>
-							</ol>
-						</td>
-					</tr>
+				<tr>
+					<th>
+						<h3><?php echo esc_html( $section_title ); ?></h3>
+					</th>
+					<td>
+						<ol>
+							<?php echo esc_html( $list_groups ); ?>
+						</ol>
+					</td>
+				</tr>
 				</tbody>
 			</table>
 			<?php
 		}
-
 	}
-
 }
