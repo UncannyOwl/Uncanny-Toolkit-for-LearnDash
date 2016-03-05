@@ -2,11 +2,11 @@
 
 namespace uncanny_learndash_public;
 
-if( ! defined( 'WPINC' ) ) {
+if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
-class ShowHideContent extends Config implements RequiredFunctions{
+class ShowHideContent extends Config implements RequiredFunctions {
 
 
 	/**
@@ -15,10 +15,10 @@ class ShowHideContent extends Config implements RequiredFunctions{
 	 */
 	public function __construct() {
 
-		if( true === self::dependants_exist()){
+		if ( true === self::dependants_exist() ) {
 
 			//add a shortcode which calls the above function
-			add_shortcode('uo-show', array( __CLASS__, 'uo_show' ) );
+			add_shortcode( 'uo-show', array( __CLASS__, 'uo_show' ) );
 
 		}
 
@@ -27,24 +27,14 @@ class ShowHideContent extends Config implements RequiredFunctions{
 	/**
 	 * Description of class in Admin View
 	 *
-	 * @return Array
+	 * @return array
 	 */
 	public static function get_details() {
 
 		$class_title = __( 'Show Or Hide Content', self::get_text_domain() );
 
-		/* Sample Simple Description */
-		$class_description = __( 'Sample Description A', self::get_text_domain() );
-
 		/* Sample Simple Description with shortcode */
-		$class_description = __( '
-				<p>Show or hides content for logged in or logged out users by
-				set for="loggedin" or for="loggedout"</p>
-				<p>
-				<strong>[uo-show for=""]content[/uo-show]</strong>
-				</p>
-				',
-			self::get_text_domain() );
+		$class_description = __( 'Conditionally shows content to either logged in or logged out users. Great for Open course types.', self::get_text_domain() );
 
 		/* Icon as wp dashicon */
 		$class_icon = '<span class="uo_icon_dashicon dashicons dashicons-hidden"></span>';
@@ -59,33 +49,31 @@ class ShowHideContent extends Config implements RequiredFunctions{
 	 * @return boolean || string Return either true or name of function or plugin
 	 *
 	 */
-	public static function dependants_exist(){
+	public static function dependants_exist() {
 		// Return true if no depency or dependency is available
 		return true;
 	}
 
-	public static function uo_show ($atts, $content = null){
+	public static function uo_show( $atts, $content = null ) {
 
 		//check tha the user is logged in
-		if ( $atts['for']=="loggedin" ) {
-			if (is_user_logged_in() ) {
+		if ( 'loggedin' === $atts['for'] ) {
+			if ( is_user_logged_in() ) {
 				//user is logged in so show the content
-				return do_shortcode($content);
-			}else{
+				return do_shortcode( $content );
+			} else {
 				return '';
 			}
 		}
 
-		if ( $atts['for']=="loggedout") {
-			if (!is_user_logged_in() ){
-				return do_shortcode($content);
-			}else{
+		if ( 'loggedout' === $atts['for'] ) {
+			if ( ! is_user_logged_in() ) {
+				return do_shortcode( $content );
+			} else {
 				return '';
 			}
 		}
 
-		return do_shortcode($content);
-
+		return do_shortcode( $content );
 	}
-
 }

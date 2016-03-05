@@ -41,11 +41,11 @@ class Config {
 	 * @var bool
 	 */
 	private static $caching_on = false;
+
 	/**
 	 * @return boolean
 	 */
-	public static function is_caching_on()
-	{
+	public static function is_caching_on() {
 		return self::$caching_on;
 	}
 
@@ -68,6 +68,7 @@ class Config {
 				self::$available_plugins = array();
 			}
 		}
+
 		return self::$available_plugins;
 	}
 
@@ -117,82 +118,107 @@ class Config {
 
 	/**
 	 * @param string $file_name
+	 *
 	 * @return string
 	 */
 	public static function get_admin_media( $file_name ) {
-		$asset_url = plugins_url( 'assets/admin/media/'.$file_name, __FILE__ );
+		$asset_url = plugins_url( 'assets/admin/media/' . $file_name, __FILE__ );
+
 		return $asset_url;
 	}
+
 	/**
 	 * @param string $file_name
+	 *
 	 * @return string
 	 */
 	public static function get_admin_css( $file_name ) {
-		$asset_url = plugins_url( 'assets/admin/css/'.$file_name, __FILE__ );
+		$asset_url = plugins_url( 'assets/admin/css/' . $file_name, __FILE__ );
+
 		return $asset_url;
 	}
+
 	/**
 	 * @param string $file_name
+	 *
 	 * @return string
 	 */
 	public static function get_admin_js( $file_name ) {
-		$asset_url = plugins_url( 'assets/admin/js/'.$file_name, __FILE__ );
+		$asset_url = plugins_url( 'assets/admin/js/' . $file_name, __FILE__ );
+
 		return $asset_url;
 	}
+
 	/**
 	 * @param string $file_name
+	 *
 	 * @return string
 	 */
 	public static function get_site_media( $file_name ) {
-		$asset_url = plugins_url( 'assets/site/media/'.$file_name, __FILE__ );
+		$asset_url = plugins_url( 'assets/site/media/' . $file_name, __FILE__ );
+
 		return $asset_url;
 	}
+
 	/**
 	 * @param string $file_name
+	 *
 	 * @return string
 	 */
 	public static function get_site_css( $file_name ) {
-		$asset_url = plugins_url( 'assets/site/css/'.$file_name, __FILE__ );
+		$asset_url = plugins_url( 'assets/site/css/' . $file_name, __FILE__ );
+
 		return $asset_url;
 	}
+
 	/**
 	 * @param string $file_name
+	 *
 	 * @return string
 	 */
 	public static function get_site_js( $file_name ) {
-		$asset_url = plugins_url( 'assets/site/js/'.$file_name, __FILE__ );
+		$asset_url = plugins_url( 'assets/site/js/' . $file_name, __FILE__ );
+
 		return $asset_url;
 	}
+
 	/**
-	 * @param string $file_name		File name must be prefixed with a \ (foreword slash)
+	 * @param string $file_name File name must be prefixed with a \ (foreword slash)
+	 *
 	 * @return string
 	 */
 	public static function get_template( $file_name ) {
 		$asset_uri = dirname( __FILE__ ) . '\templates' . $file_name;
+
 		return $asset_uri;
 	}
+
 	/**
-	 * @param string $file_name		File name must be prefixed with a \ (foreword slash)
+	 * @param string $file_name File name must be prefixed with a \ (foreword slash)
+	 *
 	 * @return string
 	 */
 	public static function get_include( $file_name ) {
 		$asset_uri = dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'includes' . DIRECTORY_SEPARATOR . $file_name;
+
 		return $asset_uri;
 	}
+
 	/**
 	 * @return string
 	 */
 	public static function get_project_name() {
-		if ( null === self::$project_name ){
+		if ( null === self::$project_name ) {
 			self::$project_name = 'uncanny_learndash_public';
 		}
-		return  self::$project_name;
+
+		return self::$project_name;
 	}
 
 	/**
 	 * @param $project_name
 	 */
-	public static function set_project_name( $project_name ){
+	public static function set_project_name( $project_name ) {
 		self::$project_name = $project_name;
 	}
 
@@ -207,17 +233,20 @@ class Config {
 	 * @return string
 	 */
 	public static function get_css_prefix() {
-		if ( null === self::$css_prefix ){
+		if ( null === self::$css_prefix ) {
 			self::$css_prefix = str_replace( '_', '-', self::get_prefix() );
 		}
-		return  self::$css_prefix;
+
+		return self::$css_prefix;
 	}
+
 	/**
 	 * @return string
 	 */
 	public static function _get_prefix() {
 		return '_' . self::get_prefix();
 	}
+
 	/**
 	 * @return string
 	 */
@@ -251,16 +280,16 @@ class Config {
 	}
 
 	/**
-	 * @param array 	$array		Array where there is slashes in the key
+	 * @param array $array Array where there is slashes in the key
+	 *
 	 * @return array
 	 */
-	public static function stripslashes_deep( $array )
-	{
+	public static function stripslashes_deep( $array ) {
 		$new_array = array();
 
 		// strip slashes of all keys in array
-		foreach( $array as $key => $content ){
-			$key = stripslashes( $key );
+		foreach ( $array as $key => $content ) {
+			$key               = stripslashes( $key );
 			$new_array[ $key ] = $content;
 		}
 
@@ -272,18 +301,17 @@ class Config {
 	 * @param array		$settings
 	 * @return array
 	 */
-	public static function settings_output( $settings ){
+	public static function settings_output( $settings ) {
 
-		$class = $settings['class'];// define by __CLASS__ from related php file
-		$title = $settings['title'];
+		$class   = $settings['class'];// define by __CLASS__ from related php file
+		$title   = $settings['title'];
 		$options = $settings['options'];
-
 
 		//create unique clean html id from class name
 		$modal_id = stripslashes( $class );
 		$modal_id = str_replace( __NAMESPACE__, '', $modal_id );
 
-		$modal_link = '<a class="uo_settings_link" rel="leanModal" href="#'. $modal_id .'"><span class="dashicons dashicons-admin-generic"></span></a>';
+		$modal_link = '<a class="uo_settings_link" rel="leanModal" href="#' . $modal_id . '"><span class="dashicons dashicons-admin-generic"></span></a>';
 
 		ob_start();
 
@@ -305,48 +333,48 @@ class Config {
 
 			<div class="uo_settings_options">
 
-		<?php
+				<?php
 
-		// Create options
-		foreach( $options as $content ){
-			switch($content['type']){
+				// Create options
+				foreach ( $options as $content ) {
+					switch ( $content['type'] ) {
 
-				case 'html':
-					echo '<div class="uo_settings_single '.$content['class'].'">'.$content['inner_html'].'</div>';
-					break;
+						case 'html':
+							echo '<div class="uo_settings_single ' . $content['class'] . '">' . $content['inner_html'] . '</div>';
+							break;
 
-				case 'text':
-					echo '<div class="uo_settings_single"><span>'.$content['label'].'</span> <input class="uo_settings_form_field" name="'.$content['option_name'].'" type="text" /></div>';
-					break;
+						case 'text':
+							echo '<div class="uo_settings_single"><span>' . $content['label'] . '</span> <input class="uo_settings_form_field" name="' . $content['option_name'] . '" type="text" /></div>';
+							break;
 
-				case 'checkbox':
-					echo '<div class="uo_settings_single"><input class="uo_settings_form_field" name="'.$content['option_name'].'" type="checkbox" /> <span>'.$content['label'].'</span></div>';
-					break;
+						case 'checkbox':
+							echo '<div class="uo_settings_single"><input class="uo_settings_form_field" name="' . $content['option_name'] . '" type="checkbox" /> <span>' . $content['label'] . '</span></div>';
+							break;
 
-				case 'radio';
+						case 'radio';
 
-					$inputs = '';
-					foreach($content['radios'] as $radio ){
-						$inputs .= '<input class="uo_settings_form_field" type="radio" name="' . $content['radio_name'] . '" value="'.$radio['value'].'">'.$radio['text'].' ';
-					}
-					echo	'<div class="uo_settings_single"><span>'.$content['label'].'</span><br>' . $inputs . '</div>';
-					break;
+							$inputs = '';
+							foreach ( $content['radios'] as $radio ) {
+								$inputs .= '<input class="uo_settings_form_field" type="radio" name="' . $content['radio_name'] . '" value="' . $radio['value'] . '">' . $radio['text'] . ' ';
+							}
+							echo '<div class="uo_settings_single"><span>' . $content['label'] . '</span><br>' . $inputs . '</div>';
+							break;
 
-				case 'select':
-					$options = '';
-					foreach($content['options'] as $option ){
-						$options .= '<option value="'. $option['value'] .'"> ' . $option['text'] . '</option>';
-					}
-					echo 	'<div class="uo_settings_single"><span>'.$content['label'].'</span>
-								<select class="uo_settings_form_field" name="' . $content['select_name'] . '" >'.$options.'</select>
+						case 'select':
+							$options = '';
+							foreach ( $content['options'] as $option ) {
+								$options .= '<option value="' . $option['value'] . '"> ' . $option['text'] . '</option>';
+							}
+							echo '<div class="uo_settings_single"><span>' . $content['label'] . '</span>
+								<select class="uo_settings_form_field" name="' . $content['select_name'] . '" >' . $options . '</select>
 							</div>';
-					break;
+							break;
 
-			}
-		}
+					}
+				}
 
-		//Wrapper End - create button, close div.uo_setting, close div.uo_settings_options
-		?>
+				//Wrapper End - create button, close div.uo_setting, close div.uo_settings_options
+				?>
 				<button class="uo_save_settings">Save Settings</button>
 
 			</div>
@@ -366,12 +394,12 @@ class Config {
 	 */
 	public static function ajax_settings_save() {
 
-		if( current_user_can( 'activate_plugins' ) ){
+		if ( current_user_can( 'activate_plugins' ) ) {
 
-			if( isset($_POST['class']) ){
+			if ( isset( $_POST['class'] ) ) {
 
-				$class =  $_POST['class'];
-				$options = ( isset($_POST['options']) )? $_POST['options']: array();
+				$class   = $_POST['class'];
+				$options = ( isset( $_POST['options'] ) ) ? $_POST['options'] : array();
 
 				// Delete option and add option are called instead of update option because
 				// sometimes update value is equal to the existing value and a false
@@ -381,15 +409,14 @@ class Config {
 
 				$save_settings = add_option( $class, $options, 'no' );
 
-				$response = ( $save_settings )? 'success' : 'notsaved';
+				$response = ( $save_settings ) ? 'success' : 'notsaved';
 
-			}else{
-				$response  = 'Class for addon is not set.';
+			} else {
+				$response = 'Class for addon is not set.';
 			}
+		} else {
 
-		}else{
-
-			$response  = 'You must be an admin to save settings.';
+			$response = 'You must be an admin to save settings.';
 
 		}
 
@@ -404,23 +431,22 @@ class Config {
 	 */
 	public static function ajax_settings_load() {
 
-		if( current_user_can( 'activate_plugins' ) ){
+		if ( current_user_can( 'activate_plugins' ) ) {
 
-			if( isset($_POST['class']) ){
+			if ( isset( $_POST['class'] ) ) {
 
-				$class =  $_POST['class'];
+				$class = $_POST['class'];
 
 				$settings = get_option( $class, array() );
 
 				$response = json_encode( $settings );
 
-			}else{
-				$response  = 'Class for addon is not set.';
+			} else {
+				$response = 'Class for addon is not set.';
 			}
+		} else {
 
-		}else{
-
-			$response  = 'You must be an admin to save settings.';
+			$response = 'You must be an admin to save settings.';
 
 		}
 
@@ -429,5 +455,4 @@ class Config {
 		wp_die();
 
 	}
-
 }

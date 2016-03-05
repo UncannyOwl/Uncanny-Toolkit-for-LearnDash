@@ -29,10 +29,7 @@ class ShowCertificatesShortcode extends Config implements RequiredFunctions{
 	 */
 	public static function get_details() {
 		$class_title = __( 'Show LearnDash Certificates', Config::get_text_domain() );
-		$class_description = __( '
-					<p>List of all earned certificates</p>
-					<p><strong>[learndash-certificates]</strong></p>
-					<p><strong>[learndash-certificates title="Your Certificates" class="custom-css-class"]</strong></p>'
+		$class_description = __( 'Displays a list of LearnDash certificates (both course and quiz) earned by the user, with the most recent at the top.'
 				, Config::get_text_domain() );
 		$class_icon = '<span class="uo_icon_text">[/ ]</span>';//'<span class="dashicons dashicons-admin-users"></span>';
 		return array( 'title' => $class_title, 'description' => $class_description, 'dependants_exist' => self::dependants_exist(), 'icon' => $class_icon );

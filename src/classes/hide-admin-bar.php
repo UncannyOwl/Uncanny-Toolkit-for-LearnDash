@@ -32,7 +32,7 @@ class HideAdminBar extends Config implements RequiredFunctions{
 		$class_title = __( 'Hide Admin Bar', self::get_text_domain() );
 
 		/* Sample Simple Description */
-		$class_description = __( 'Hide the Admin bar for set of user defined in settings', self::get_text_domain() );
+		$class_description = __( 'Hides the Admin Bar at the top of WordPress pages based on the user role.', self::get_text_domain() );
 
 		/* Icon as wp dashicon */
 		$class_icon = '<span class="uo_icon_dashicon dashicons dashicons-admin-settings"></span>';
