@@ -106,7 +106,7 @@ class LearndashGroupUserProfile extends Config implements RequiredFunctions {
 					</th>
 					<td>
 						<ol>
-							<?php echo esc_html( $list_groups ); ?>
+							<?php echo $list_groups; ?>
 						</ol>
 					</td>
 				</tr>
