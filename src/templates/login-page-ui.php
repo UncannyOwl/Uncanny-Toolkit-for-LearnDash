@@ -1,6 +1,8 @@
 <?php
 /* Template Name: Uncanny Owl Login Page */
 
+$uo_public_text_domain = \uncanny_learndash_public\Config::get_text_domain();
+
 global $user_login;
 
 /* Login */
@@ -46,15 +48,15 @@ switch ( $login ) {
 
 	case 'failed':
 		$message_error   = __( 'Woops!', '' );
-		$message_warning = __( 'Invalid username and/or password.', '' );
+		$message_warning = __( 'Invalid username and/or password.',  $uo_public_text_domain );
 		break;
 	case 'empty':
 		$message_error   = __( 'Woops!', '' );
-		$message_warning = __( 'Username and/or Password is empty.', '' );
+		$message_warning = __( 'Username and/or Password is empty.', $uo_public_text_domain );
 		break;
 	case 'false':
 		$message_error   = __( '', '' );
-		$message_warning = __( 'You are logged out.', '' );
+		$message_warning = __( 'You are logged out.', $uo_public_text_domain );
 		break;
 	default:
 		$message_error   = '';
@@ -67,10 +69,10 @@ $login_form_args = array(
 	'echo'           => true,
 	'redirect'       => home_url( '/wp-admin/' ),
 	'form_id'        => 'loginform',
-	'label_username' => __( 'Username' ),
-	'label_password' => __( 'Password' ),
-	'label_remember' => __( 'Remember Me' ),
-	'label_log_in'   => __( 'Log In' ),
+	'label_username' => __( 'Username',  $uo_public_text_domain ),
+	'label_password' => __( 'Password',  $uo_public_text_domain ),
+	'label_remember' => __( 'Remember Me',  $uo_public_text_domain ),
+	'label_log_in'   => __( 'Log In',  $uo_public_text_domain ),
 	'id_username'    => 'user_login',
 	'id_password'    => 'user_pass',
 	'id_remember'    => 'rememberme',
@@ -80,7 +82,30 @@ $login_form_args = array(
 	'value_remember' => true,
 );
 
-//get_header();
+$innerText = Array(
+		'Hello'						=>  __( 'Hello', $uo_public_text_domain ),
+		'Logged-In-Message'			=>  __( 'You are already logged in', $uo_public_text_domain ),
+		'Logout'					=>  __( 'Logout', $uo_public_text_domain ),
+		'Password-Recovery-Title'	=>  __( 'Password Recovery', $uo_public_text_domain ),
+		'Password-Recovery-Label'	=>  __( 'Username or E-mail:', $uo_public_text_domain ),
+		'Success'					=>  __( 'Success!', $uo_public_text_domain ),
+		'Success-Email-Sent'		=>  __( 'Check your email for a reset password link.', $uo_public_text_domain ),
+		'Woops'						=>  __( 'Woops!', $uo_public_text_domain ),
+		'Failed-Send-Email'			=>  __( 'Password reset failed. To Send', $uo_public_text_domain ),
+		'Reset-Password-Title'		=>  __( 'Reset Password', $uo_public_text_domain ),
+		'New-Password'				=>  __( 'New Password', $uo_public_text_domain ),
+		'Confirm-Password'			=>  __( 'Confirm New Password', $uo_public_text_domain ),
+		'Password-Indicator-Hint'	=>  __( 'Hint: The password should be at least eight characters long. To make it stronger, use upper and lower case letters, numbers, and symbols like ! " ? $ % ^ &amp; )', $uo_public_text_domain ),
+		'Password-Reset-Link-Failed'=>  __( 'Password reset link failed.', $uo_public_text_domain ),
+		'Invalid-Reset-Key'			=>  __( 'Your password reset link is invalid.', $uo_public_text_domain ),
+		'Expired-Reset-Key'			=>  __( 'Your password reset link is expired.', $uo_public_text_domain ),
+		'Password-Not-Match'		=>  __( 'Your Passwords did not match. Please try again.', $uo_public_text_domain ),
+		'Reset-Success'				=>  __( 'Your password was reset successfully. Please Log-In.', $uo_public_text_domain ),
+		'Login-Title'				=>  __( 'Login', $uo_public_text_domain )
+);
+
+$innerText = apply_filters( 'uo-login-inner-text', $innerText );
+
 
 ?>
 <!-- section -->
@@ -91,16 +116,16 @@ $login_form_args = array(
 
 	<?php
 	if ( is_user_logged_in() ) {
-		echo '<div class="uo_logout"> Hello,
-                            <div class="uo_logout_user">', $user_login, '. You are already logged in.</div>
-                            <a id="wp-submit" href="', wp_logout_url(), '" title="Logout">Logout</a>
+		echo '<div class="uo_logout"> ' . $innerText['Hello'] . ',
+                            <div class="uo_logout_user">', $user_login, ' ' . $innerText['Logged-In-Message'] . '</div>
+                            <a id="wp-submit" href="', wp_logout_url(), '" title="Logout">' . $innerText['Logout'] . '</a>
                         </div>';
 	} else if ( $lost_password ) {
 		?>
-		<h2>Password Recovery</h2>
+		<h2><?php echo $innerText['Password-Recovery-Title']; ?></h2>
 		<form id="lostpasswordform" name="lostpasswordform" action="<?php echo site_url( 'wp-login.php?action=lostpassword', 'login_post' ) ?>" method="post">
 			<p>
-				<label for="user_login">Username or E-mail:</label>
+				<label for="user_login"><?php echo $innerText['Password-Recovery-Label']; ?></label>
 				<input size="20" type="text" name="user_login" id="user_login" value="">
 			</p>
 
@@ -111,11 +136,13 @@ $login_form_args = array(
 	} elseif ( $reset_password_sent ) {
 		if ( $reset_password_sent_success ) {
 			?>
-			<p class="login-msg"><strong>Success!</strong> Check your email for a reset password link.</p>
+			<p class="login-msg">
+				<strong><?php echo $innerText['Success']; ?></strong> <?php echo $innerText['Success-Email-Sent']; ?>
+			</p>
 			<?php
 		} else {
 			?>
-			<p class="login-msg"><strong>Woops!</strong> Password Reset Failed.</p>
+			<p class="login-msg"><strong><?php echo $innerText['Woops']; ?></strong> <?php echo $innerText['Failed-Send-Email']; ?></p>
 			<?php
 		}
 	} elseif ( $reset_password ) {
@@ -128,13 +155,13 @@ $login_form_args = array(
 			setcookie( $rp_cookie, $value, 0, '/login', COOKIE_DOMAIN, is_ssl(), true );
 
 			?>
-			<h2>Reset Password</h2>
+			<h2><?php echo $innerText['Reset-Password-Title']; ?></h2>
 			<form name="resetpassform" id="resetpassform" action="<?php echo esc_url( network_site_url( 'login?action=validatepasswordreset', 'login_post' ) ); ?>" method="post" autocomplete="off">
 				<input type="hidden" id="user_login" name="rp_login" value="<?php echo esc_attr( $rp_login ); ?>" autocomplete="off"/>
 
 				<div class="user-pass1-wrap">
 					<p>
-						<label for="pass1"><?php _e( 'New password' ) ?></label>
+						<label for="pass1"><?php echo $innerText['New-Password']; ?></label>
 					</p>
 					<div class="wp-pwd">
                             <span class="password-input-wrapper">
@@ -144,10 +171,10 @@ $login_form_args = array(
 					</div>
 				</div>
 				<p class="user-pass2-wrap">
-					<label for="pass2"><?php _e( 'Confirm new password' ) ?></label><br/>
+					<label for="pass2"><?php echo $innerText['Confirm-Password']; ?></label><br/>
 					<input type="password" name="pass2" id="pass2" class="input" size="20" value="" autocomplete="off"/>
 				</p>
-				<p class="description indicator-hint">Hint: The password should be at least eight characters long. To make it stronger, use upper and lower case letters, numbers, and symbols like ! " ? $ % ^ &amp; )</p>
+				<p class="description indicator-hint"><?php echo $innerText['Password-Indicator-Hint'] ; ?></p>
 				<br class="clear"/>
 				<input type="hidden" name="rp_key" value="<?php echo esc_attr( $rp_key ); ?>"/>
 				<p class="submit"><input type="submit" name="wp-submit" id="wp-submit" class="button button-primary button-large" value="<?php esc_attr_e( 'Reset Password' ); ?>"/></p>
@@ -157,16 +184,16 @@ $login_form_args = array(
 		} else {
 
 			?>
-			<p class="login-msg"><strong>Woops!</strong> Password Reset Link Failed.</p>
+			<p class="login-msg"><strong><?php echo $innerText['Woops']; ?></strong> <?php echo $innerText['Password-Reset-Link-Failed']; ?></p>
 			<?php
 		}
 	} elseif ( $validate_password_reset ) {
 		if ( isset( $_GET['issue'] ) ) {
 
 			if ( 'invalidkey' === $_GET['issue'] ) {
-				echo '<h2>Your password reset link is invalid.</h2>';
+				echo '<h2>'.$innerText['Invalid-Reset-Key'].'</h2>';
 			} elseif ( 'expiredkey' === $_GET['issue'] ) {
-				echo '<h2>Your password reset link is expired.</h2>';
+				echo '<h2>'.$innerText['Expired-Reset-Key'].'</h2>';
 			}
 		} else {
 			$rp_cookie = 'wp-resetpass-' . COOKIEHASH;
@@ -195,14 +222,15 @@ $login_form_args = array(
 
 			if ( isset( $_POST['pass1'] ) && $_POST['pass1'] != $_POST['pass2'] ) {
 
-				echo '<h2>Your Passwords did not match. Please try agian.</h2>';
+				echo '<h2>' . $innerText['Password-Not-Match'] . '</h2>';
 
 			} elseif ( isset( $_POST['pass1'] ) && ! empty( $_POST['pass1'] ) ) {
 
 				reset_password( $user, $_POST['pass1'] );
 				setcookie( $rp_cookie, ' ', time() - YEAR_IN_SECONDS, '/login', COOKIE_DOMAIN, is_ssl(), true );
 
-				printf( '<h2>%s</h2>', __( 'Your password was reset successfully. Please Log-In.', \uncanny_learndash_public\Config::get_text_domain() ) );
+				echo '<h2>' . $innerText['Reset-Success'] . '</h2>';
+
 				wp_login_form( $login_form_args );
 			}
 		}
@@ -216,5 +244,3 @@ $login_form_args = array(
 
 </section>
 <!-- /section -->
-
-<?php /*get_footer();*/ ?>
