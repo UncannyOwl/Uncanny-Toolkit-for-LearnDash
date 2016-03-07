@@ -32,7 +32,7 @@ class AdminMenu extends Boot {
 		$page_title = __( 'Uncanny LearnDash Toolkit', Config::get_text_domain() );
 		$menu_title = __( 'Uncanny Toolkit', Config::get_text_domain() );
 		$capability = 'manage_options';
-		$menu_slug = 'uo-menu-slug';
+		$menu_slug = 'uncanny-learnDash-toolkit';
 		$function = array( __CLASS__, 'options_menu_page_output' );
 
 		// Menu Icon blends into sidebar when the default admin color scheme is used
@@ -91,7 +91,7 @@ class AdminMenu extends Boot {
 	 * @paras string $hook Admin page being loaded
 	 */
 	public static function scripts( $hook ) {
-		if ( 'toplevel_page_uo-menu-slug' != $hook ) {
+		if ( 'toplevel_page_uncanny-learnDash-toolkit' != $hook ) {
 			return;
 		}
 
