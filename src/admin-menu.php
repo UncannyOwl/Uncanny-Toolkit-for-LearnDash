@@ -237,7 +237,7 @@ class AdminMenu extends Boot {
 
 					<?php
 					if ( true !== $dependants_exist ) {
-						echo '<div><strong>'. esc_html( $dependants_exist ) .'</strong>' . __( 'is needed for this add-on', Config::get_text_domain() ) . '</div>';
+						echo '<div><strong>'. esc_html( $dependants_exist ) .'</strong>' . __( ' is needed for this add-on', Config::get_text_domain() ) . '</div>';
 					} else {
 						?>
 						<div class="uo_feature_button_toggle"></div>
