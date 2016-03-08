@@ -32,14 +32,18 @@ class ShowHideContent extends Config implements RequiredFunctions {
 	public static function get_details() {
 
 		$class_title = __( 'Show Or Hide Content', self::get_text_domain() );
-
-		/* Sample Simple Description with shortcode */
+		$kb_link = null;
 		$class_description = __( 'Conditionally shows content to either logged in or logged out users. Great for Open course types.', self::get_text_domain() );
+		$class_icon = '<i class="uo_icon_fa fa fa-eye"></i>';
 
-		/* Icon as wp dashicon */
-		$class_icon = '<span class="uo_icon_dashicon dashicons dashicons-hidden"></span>';
-
-		return array( 'title' => $class_title, 'description' => $class_description, 'dependants_exist' => self::dependants_exist(), 'icon' => $class_icon );
+		return array(
+				'title'            => $class_title,
+				'kb_link'          => $kb_link,
+				'description'      => $class_description,
+				'dependants_exist' => self::dependants_exist(),
+				'settings' => false,
+				'icon'             => $class_icon,
+		);
 
 	}
 

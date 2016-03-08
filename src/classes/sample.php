@@ -88,6 +88,8 @@ class Sample extends Config implements RequiredFunctions {
 
 		// Return true if no dependency or dependency is available
 		return true;
+
+
 	}
 
 

@@ -46,19 +46,17 @@ class MenuItemVisibility extends Config implements RequiredFunctions {
 	public static function get_details() {
 
 		$class_title = __( 'Menu Item Visibility', self::get_text_domain() );
-
-		/* Simple Description */
+		$kb_link = null;
 		$class_description = __( 'Toggles the visibility of menu items based on whether or not users are signed in to the site.', self::get_text_domain() );
-
-		/* Icon as wp dashicon */
-		$class_icon = '<span class="uo_icon_dashicon dashicons dashicons-groups"></span>';
+		$class_icon = '<i class="uo_icon_fa fa fa-eye-slash"></i>';
 
 		return array(
-			'title'            => $class_title,
-			'description'      => $class_description,
-			'dependants_exist' => self::dependants_exist(),
-			'settings'         => false,
-			'icon'             => $class_icon,
+				'title'            => $class_title,
+				'kb_link'          => $kb_link,
+				'description'      => $class_description,
+				'dependants_exist' => self::dependants_exist(),
+				'settings'         => false,
+				'icon'             => $class_icon,
 		);
 
 	}

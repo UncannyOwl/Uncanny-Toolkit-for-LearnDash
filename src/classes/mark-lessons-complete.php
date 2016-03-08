@@ -33,15 +33,8 @@ class MarkLessonsComplete extends Config implements RequiredFunctions{
 	public static function get_details() {
 
 		$class_title = __( 'Mark Lessons Complete', self::get_text_domain() );
-
 		$kb_link = 'http://www.uncannyowl.com';
-
-		/* Sample Simple Description */
 		$class_description = __( 'Sample Description Mark Lessons Complete', self::get_text_domain() );
-
-		/* Sample Simple Description with shortcode */
-
-		/* Icon as fontawesome icon */
 		$class_icon = '<i class="uo_icon_fa fa fa-check"></i>';
 
 		return array( 	'title' => $class_title,
@@ -140,7 +133,7 @@ class MarkLessonsComplete extends Config implements RequiredFunctions{
 		$amount_quizzes_user_passed = 0;
 
 		$quiz_list_left = array();
-		
+
 		// Loop all quizzes in lessons
 		foreach( $quiz_list as $quiz ){
 

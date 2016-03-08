@@ -31,19 +31,17 @@ class LoginRedirect extends Config implements RequiredFunctions {
 	public static function get_details() {
 
 		$class_title = __( 'Login Redirect', self::get_text_domain() );
-
-		/* Sample Simple Description */
+		$kb_link = null;
 		$class_description = __( 'Redirects all non-admin roles to a specific URL after logging into the site.', self::get_text_domain() );
-
-		/* Icon as wp dashicon */
-		$class_icon = '<span class="uo_icon_dashicon dashicons dashicons-arrow-right-alt"></span>';
+		$class_icon = '<i class="uo_icon_fa fa fa-share"></i>';
 
 		return array(
-			'title'            => $class_title,
-			'description'      => $class_description,
-			'dependants_exist' => self::dependants_exist(),
-			'settings'         => self::get_class_settings( $class_title ),
-			'icon'             => $class_icon,
+				'title'            => $class_title,
+				'kb_link'          => $kb_link,
+				'description'      => $class_description,
+				'dependants_exist' => self::dependants_exist(),
+				'settings'         => self::get_class_settings( $class_title ),
+				'icon'             => $class_icon,
 		);
 
 	}

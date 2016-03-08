@@ -26,16 +26,18 @@ class LearndashGroupUserProfile extends Config implements RequiredFunctions {
 	 * @return array
 	 */
 	public static function get_details() {
-		$class_title       = __( 'LearnDash Groups in User Profiles', self::get_text_domain() );
+		$class_title = __( 'LearnDash Groups in User Profiles', self::get_text_domain() );
+		$kb_link = null;
 		$class_description = __( 'Displays a user\'s LearnDash Group memberships in the user profile.', self::get_text_domain() );
-		$icon_styles       = 'background: rgb(255, 255, 255); margin-top: 17px; width: 60px; padding: 2px 0;';
-		$class_icon        = '<img style="' . esc_attr( $icon_styles ). '" src="' .  esc_url( self::get_admin_media( 'LearnDash-Official-Logo.png' ) ) . '" />';
+		$class_icon = '<i class="uo_icon_fa fa fa-users"></i>';
 
 		return array(
-			'title'            => $class_title,
-			'description'      => $class_description,
-			'dependants_exist' => self::dependants_exist(),
-			'icon'             => $class_icon,
+				'title'            => $class_title,
+				'kb_link'          => $kb_link,
+				'description'      => $class_description,
+				'dependants_exist' => self::dependants_exist(),
+				'settings'         => false,
+				'icon'             => $class_icon,
 		);
 	}
 
