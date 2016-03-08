@@ -100,6 +100,7 @@ class Boot extends Config {
 		if ( file_exists( dirname( __FILE__ ) . '/' . $file_name ) ) {
 			include $file_name;
 		}
+
 	}
 }
 

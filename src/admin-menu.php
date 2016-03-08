@@ -173,6 +173,12 @@ class AdminMenu extends Boot {
 		}
 
 		foreach ( $classes_available as $key => $class ) {
+
+			// skip sample class
+			if( 'uncanny_learndash_public\Sample' === $key){
+				continue;
+			}
+
 			if ( false === $class ) {
 				?>
 					<div class="uo_feature">

@@ -39,4 +39,5 @@ include_once( dirname( __FILE__ ) . '/src/config.php' );
 
 // Load all plugin classes(functionality)
 include_once( dirname( __FILE__ ) . '/src/boot.php' );
+
 $uncanny_learndash_public = \uncanny_learndash_public\Boot::get_instance();
