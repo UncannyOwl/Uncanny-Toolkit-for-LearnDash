@@ -2,11 +2,9 @@
 
 namespace uncanny_learndash_public;
 
-use uncanny_learndash_public;
-
 class Boot extends Config {
+
 	static $instance;
-	private static $active_classes;
 
 	/**
 	 * Call this method to get singleton
@@ -38,13 +36,7 @@ class Boot extends Config {
 			trigger_error( $spl_error, E_USER_ERROR );
 		}
 
-		// Classes(functionality) must be activated in the Plugins options page in order to be loaded
-		self::$active_classes = (array) get_option( 'uncanny_public_active_classes', array() );
-
 		spl_autoload_register( array( __CLASS__, 'auto_loader' ) );
-
-		// Classes that are 'Must Use' are manually added
-		self::$active_classes['AdminMenu'] = '1';
 
 		$uncanny_learndash_public->admin_menu = new AdminMenu;
 
@@ -52,15 +44,21 @@ class Boot extends Config {
 		add_action( 'wp_ajax_settings_save', array( get_parent_class(), 'ajax_settings_save' ) );// parent class is Config
 		add_action( 'wp_ajax_settings_load', array( get_parent_class(), 'ajax_settings_load' ) );// parent class is Config
 
-		/* LOAD: LearndashGroupUserProfile*/
 		// Class Details:  Add Class to Admin Menu page
-		$classes = self::get_available_classes();
+		$classes = self::get_active_classes();
+
 		if ( $classes ) {
-			foreach ( self::get_available_classes() as $class ) {
-				if ( class_exists( $class ) ) {
+
+			foreach ( self::get_active_classes() as $class ) {
+
+				$class_namespace = explode( '\\'  ,$class );
+
+				if ( class_exists( $class ) && __NAMESPACE__ ===  $class_namespace[0] ) {
 					new $class;
 				}
+
 			}
+
 		}
 	}
 
@@ -94,11 +92,11 @@ class Boot extends Config {
 		// Create file name that will be loaded from the classes directory eg: my-Class-Name to my-class-name.php
 		$file_name = 'classes/' . strtolower( $class_to_filename ) . '.php';
 		if ( file_exists( dirname( __FILE__ ) . '/' . $file_name ) ) {
-			include $file_name;
+			include_once $file_name;
 		}
 		$file_name = strtolower( $class_to_filename ) . '.php';
 		if ( file_exists( dirname( __FILE__ ) . '/' . $file_name ) ) {
-			include $file_name;
+			include_once $file_name;
 		}
 
 	}

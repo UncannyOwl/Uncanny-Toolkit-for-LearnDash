@@ -61,7 +61,7 @@ class Config {
 	/**
 	 * @return array of class names
 	 */
-	public static function get_available_classes() {
+	public static function get_active_classes() {
 		if ( ! self::$available_plugins ) {
 			self::$available_plugins = get_option( 'uncanny_public_active_classes', array() );
 			if ( empty( self::$available_plugins ) ) {

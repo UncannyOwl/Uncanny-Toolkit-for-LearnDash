@@ -56,23 +56,49 @@ class AdminMenu extends Boot {
 	}
 
 	/**
+	 *
+	 * @param Array || Bool $external_paths
 	 * @return array
 	*/
-	public static function get_available_classes() {
+	public static function get_available_classes( $external_classes = false ) {
+
+		$class_details = Array();
+
 		// loop file in classes folded and call get_details
 		// check function exist first
 		$path = dirname( __FILE__ ) . '/classes/';
 		$files = scandir( $path );
+
+		$internal_details = self::get_class_details( $path, $files, __NAMESPACE__ );
+		$class_details = array_merge( $class_details, $internal_details );
+
+		if ( false !== $external_classes ){
+
+			foreach( $external_classes as $external_class ){
+				$external_files = scandir( $external_class['path'] );
+				$external_details = self::get_class_details( $external_class['path'], $external_files, $external_class['namespace'] );
+				$class_details = array_merge( $class_details, $external_details );
+			}
+
+		}
+
+		return $class_details;
+	}
+
+	private static function get_class_details( $path, $files, $name_space ){
+
 		$details = array();
+
 		foreach ( $files as $file ) {
-			if ( is_dir( $path . $file ) ) {
+			if ( is_dir( $path . $file ) || '..' === $file || '.' === $file ) {
 				continue;
 			}
+
 			//get class name
 			$class_name = str_replace( '.php', '', $file );
 			$class_name = str_replace( '-', ' ', $class_name );
 			$class_name = ucwords( $class_name );
-			$class_name = __NAMESPACE__  . '\\' . str_replace( ' ', '', $class_name );
+			$class_name = $name_space  . '\\' . str_replace( ' ', '', $class_name );
 
 			// test for required functions
 			$class = new ReflectionClass( $class_name );
@@ -84,6 +110,7 @@ class AdminMenu extends Boot {
 		}
 
 		return $details;
+
 	}
 
 	/*
@@ -109,10 +136,18 @@ class AdminMenu extends Boot {
 	 */
 	public static function options_menu_page_output() {
 
-		$classes_available = self::get_available_classes();
+		// check if custom ou plugin is available
+		$uo_custom_classes['path'] = self::check_for_uo_custom_plugin_classes('custom');
+		$uo_custom_classes['namespace'] = 'uncanny_custom_toolkit';
+
+		$uo_zpro_classes['path'] = self::check_for_uo_custom_plugin_classes('pro');
+		$uo_zpro_classes['namespace'] = 'uncanny_pro_toolkit';
+
+		// Get Available Classes from UO-Public
+		$classes_available = self::get_available_classes( array( $uo_custom_classes, $uo_zpro_classes ) );
 
 		// Get an array of options from the database
-		$active_classes = Config::get_available_classes();
+		$active_classes = Config::get_active_classes();
 
 		?>
 		<div class="uo-admin-header">
@@ -174,8 +209,10 @@ class AdminMenu extends Boot {
 
 		foreach ( $classes_available as $key => $class ) {
 
-			// skip sample class
-			if( 'uncanny_learndash_public\Sample' === $key){
+			// skip sample classes
+			if( 'uncanny_learndash_public\Sample' === $key ||
+				'uncanny_custom_toolkit\Sample' === $key ||
+				'uncanny_pro_toolkit\Sample' === $key ){
 				continue;
 			}
 
@@ -261,5 +298,62 @@ class AdminMenu extends Boot {
 			</div>
 		<?php
 		}
+	}
+
+	/*
+	 * Check for Uncanny Custom Toolkit
+	 *@param string
+	 *return bool || String false or uo-custom uri
+	*/
+	private static function check_for_uo_custom_plugin_classes( $uo_plugin ){
+
+		// plugins dir
+		$directory_contents = scandir( WP_PLUGIN_DIR );
+
+		// loop through all contents
+		foreach($directory_contents as $content){
+
+			// exclude parent directories
+			if( $content !=='.' or $content !== '..' ){
+
+				// create absolute path
+				$plugin_dir = WP_PLUGIN_DIR. '/' . $content;
+
+				if( is_dir( $plugin_dir ) ){
+
+					if( 'pro' === $uo_plugin ){
+						if( 'uo-zpro' === $content){
+							// Check if plugin is active
+								if ( is_plugin_active( $content.'/uncanny-toolkit-pro.php' ) ) {
+									return $plugin_dir.'/src/classes/';
+								}
+						}
+					}
+
+					if( 'custom' === $uo_plugin ){
+
+						$explode_directory = explode( '-', $content );
+						if( 3 === count( $explode_directory ) ){
+							// custom plugin directory is prefixed with client name
+							// check suffix uo-custom
+							if( 'uo' == $explode_directory[1] && 'custom' === $explode_directory[2] ){
+
+								// Check if plugin is active
+								if ( is_plugin_active( $content.'/uncanny-toolkit-custom.php' ) ) {
+									return $plugin_dir.'/src/classes/';
+								}
+
+							}
+						}
+
+					}
+
+				}
+
+			}
+		}
+
+		return false;
+
 	}
 }
