@@ -140,12 +140,11 @@ class AdminMenu extends Boot {
 		$uo_custom_classes['path'] = self::check_for_uo_custom_plugin_classes('custom');
 		$uo_custom_classes['namespace'] = 'uncanny_custom_toolkit';
 
-		$uo_zpro_classes['path'] = self::check_for_uo_custom_plugin_classes('pro');
-		var_dump($uo_zpro_classes['path']);
-		$uo_zpro_classes['namespace'] = 'uncanny_pro_toolkit';
+		$uo_pro_classes['path'] = self::check_for_uo_custom_plugin_classes('pro');
+		$uo_pro_classes['namespace'] = 'uncanny_pro_toolkit';
 
 		// Get Available Classes from UO-Public
-		$classes_available = self::get_available_classes( array( $uo_custom_classes, $uo_zpro_classes ) );
+		$classes_available = self::get_available_classes( array( $uo_custom_classes, $uo_pro_classes ) );
 
 		// Get an array of options from the database
 		$active_classes = Config::get_active_classes();
