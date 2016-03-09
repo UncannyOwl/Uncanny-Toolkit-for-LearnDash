@@ -141,6 +141,7 @@ class AdminMenu extends Boot {
 		$uo_custom_classes['namespace'] = 'uncanny_custom_toolkit';
 
 		$uo_zpro_classes['path'] = self::check_for_uo_custom_plugin_classes('pro');
+		var_dump($uo_zpro_classes['path']);
 		$uo_zpro_classes['namespace'] = 'uncanny_pro_toolkit';
 
 		// Get Available Classes from UO-Public
@@ -322,7 +323,7 @@ class AdminMenu extends Boot {
 				if( is_dir( $plugin_dir ) ){
 
 					if( 'pro' === $uo_plugin ){
-						if( 'uo-zpro' === $content){
+						if( 'uo-plugin-pro' === $content){
 							// Check if plugin is active
 								if ( is_plugin_active( $content.'/uncanny-toolkit-pro.php' ) ) {
 									return $plugin_dir.'/src/classes/';
