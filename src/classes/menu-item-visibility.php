@@ -10,13 +10,18 @@ class MenuItemVisibility extends Config implements RequiredFunctions {
 
 
 	/**
-	 * class constructor
-	 *
+	 * Class constructor
 	 */
 	public function __construct() {
+		add_action( 'plugins_loaded', array( __CLASS__, 'run_frontend_hooks' ) );
+	}
+
+	/*
+	 * Initialize frontend actions and filters
+	 */
+	public static function run_frontend_hooks(){
 
 		if ( true === self::dependants_exist() ) {
-
 			// Include custom walker class
 			add_action( 'admin_init', array( __CLASS__, 'include_custom_walker' ) );
 

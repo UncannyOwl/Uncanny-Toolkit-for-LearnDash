@@ -8,19 +8,21 @@ if( ! defined( 'WPINC' ) ) {
 
 class MarkLessonsComplete extends Config implements RequiredFunctions{
 
-
 	/**
-	 * class constructor
-	 *
+	 * Class constructor
 	 */
 	public function __construct() {
+		add_action( 'plugins_loaded', array( __CLASS__, 'run_frontend_hooks' ) );
+	}
 
-		if( true === self::dependants_exist()){
+	/*
+	 * Initialize frontend actions and filters
+	 */
+	public static function run_frontend_hooks(){
 
+		if ( true === self::dependants_exist() ) {
 			add_action( 'learndash_topic_completed', array( __CLASS__, 'check_learndash_topic_completed'), 10, 1);
 			add_action( 'learndash_lesson_completed', array( __CLASS__, 'check_learndash_lesson_completed'), 10, 1);
-
-
 		}
 
 	}

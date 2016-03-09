@@ -8,16 +8,20 @@ if ( ! defined( 'WPINC' ) ) {
 
 class ShowHideContent extends Config implements RequiredFunctions {
 
-
 	/**
-	 * class constructor
-	 *
+	 * Class constructor
 	 */
 	public function __construct() {
+		add_action( 'plugins_loaded', array( __CLASS__, 'run_frontend_hooks' ) );
+	}
+
+	/*
+	 * Initialize frontend actions and filters
+	 */
+	public static function run_frontend_hooks(){
 
 		if ( true === self::dependants_exist() ) {
 
-			//add a shortcode which calls the above function
 			add_shortcode( 'uo-show', array( __CLASS__, 'uo_show' ) );
 
 		}

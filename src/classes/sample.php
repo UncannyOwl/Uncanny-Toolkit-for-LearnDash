@@ -8,13 +8,18 @@ if ( ! defined( 'WPINC' ) ) {
 
 class Sample extends Config implements RequiredFunctions {
 
-
 	/**
-	 * class constructor
-	 *
+	 * Class constructor
 	 */
 	public function __construct() {
-		//TODO: remove
+		add_action( 'plugins_loaded', array( __CLASS__, 'run_frontend_hooks' ) );
+	}
+
+	/*
+	 * Initialize frontend actions and filters
+	 */
+	public static function run_frontend_hooks(){
+
 		if ( true === self::dependants_exist() ) {
 
 			/* ADD FILTERS ACTIONS FUNCTION */

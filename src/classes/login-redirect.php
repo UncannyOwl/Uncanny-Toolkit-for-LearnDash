@@ -8,16 +8,20 @@ if ( ! defined( 'WPINC' ) ) {
 
 class LoginRedirect extends Config implements RequiredFunctions {
 
-
 	/**
-	 * class constructor
-	 *
+	 * Class constructor
 	 */
 	public function __construct() {
+		add_action( 'plugins_loaded', array( __CLASS__, 'run_frontend_hooks' ) );
+	}
+
+	/*
+	 * Initialize frontend actions and filters
+	 */
+	public static function run_frontend_hooks(){
 
 		if ( true === self::dependants_exist() ) {
-
-			/* ADD FILTERS ACTIONS FUNCTION */
+			/* Hide admin bar on frontend for the user role */
 			add_filter( 'login_redirect', array( __CLASS__, 'my_login_redirect' ), 10, 1 );
 		}
 

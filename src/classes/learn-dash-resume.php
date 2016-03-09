@@ -15,12 +15,19 @@ class LearnDashResume extends Config implements RequiredFunctions {
 	 * Class constructor
 	 */
 	public function __construct() {
+		add_action( 'plugins_loaded', array( __CLASS__, 'run_frontend_hooks' ) );
+	}
+
+	/*
+	 * Initialize frontend actions and filters
+	 */
+	public static function run_frontend_hooks(){
+
 		if ( true === self::dependants_exist() ) {
-
-			add_action( 'wp_head', array( $this, 'find_last_known_learndash_page' ) );
+			add_action( 'wp_head', array( __CLASS__, 'find_last_known_learndash_page' ) );
 			add_shortcode( 'uo-learndash-resume', array( __CLASS__, 'learndash_resume' ) );
-
 		}
+
 	}
 
 
