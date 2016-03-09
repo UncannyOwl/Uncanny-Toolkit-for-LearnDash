@@ -188,7 +188,7 @@ class Config {
 	 * @return string
 	 */
 	public static function get_template( $file_name ) {
-		$asset_uri = dirname( __FILE__ ) . '\templates' . $file_name;
+		$asset_uri = dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . $file_name;
 
 		return $asset_uri;
 	}
