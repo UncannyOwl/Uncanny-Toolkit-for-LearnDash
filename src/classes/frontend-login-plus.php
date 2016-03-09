@@ -14,66 +14,86 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	// Meta key that will populate in our new column
 	private static $user_meta_key_col = 'uo_is_verified';
 
+
 	/**
-	 * class constructor
-	 *
+	 * Class constructor
 	 */
 	public function __construct() {
+		add_action( 'plugins_loaded', array( __CLASS__, 'run_frontend_hooks' ) );
+	}
+
+	/*
+	 * Initialize frontend actions and filters
+	 */
+	public static function run_frontend_hooks(){
 
 		if ( true === self::dependants_exist() ) {
 
 			/* CHECK IF PLUGIN NEEDS TO SET MANUAL VERIFICATION */
 			$uo_manual_verification = 'no';
-			$settings               = get_option( 'FrontendLoginPlus' );
+			$is_login_page_set = 'no';
+			$settings = get_option( 'FrontendLoginPlus' );
+
 			if ( false !== $settings ) {
 
 				foreach ( $settings as $setting ) {
+
 					if ( 'uo_frontendloginplus_needs_verifcation' === $setting['name'] && 'on' === $setting['value'] ) {
 						$uo_manual_verification = 'yes';
 					}
+
+					if ( 'login_page' === $setting['name'] && '0' !== $setting['value']) {
+						$is_login_page_set = 'yes';
+					}
+
 				}
 			}
 
-			/* Add Manual Verification */
-			if ( 'yes' === $uo_manual_verification ) {
+			if( 'yes' === $is_login_page_set ){
 
-				// Add new column to wp admin user list that states if the user is or isn't verified
-				add_filter( 'manage_users_columns', array( __CLASS__, 'add_meta_column' ) );
-				// Populate the new column
-				add_filter( 'manage_users_custom_column', array( __CLASS__, 'add_meta_column_content' ), 10, 3 );
+				/* Add Manual Verification */
+				if ( 'yes' === $uo_manual_verification ) {
 
-				// Add Custom fields to user profile : user is view their own profile
-				add_action( 'show_user_profile', array( __CLASS__, 'my_show_extra_profile_fields' ) );
-				// Add Custom fields to user profile : user is view another user's profile
-				add_action( 'edit_user_profile', array( __CLASS__, 'my_show_extra_profile_fields' ) );
-				// Save custom fields from user profiles : user is view their own profile
-				add_action( 'personal_options_update', array( __CLASS__, 'my_save_extra_profile_fields' ) );
-				// Save custom fields from user profile : user is view another user's profile
-				add_action( 'edit_user_profile_update', array( __CLASS__, 'my_save_extra_profile_fields' ) );
+					// Add new column to wp admin user list that states if the user is or isn't verified
+					add_filter( 'manage_users_columns', array( __CLASS__, 'add_meta_column' ) );
+					// Populate the new column
+					add_filter( 'manage_users_custom_column', array( __CLASS__, 'add_meta_column_content' ), 10, 3 );
 
-				// Prevent specific user from logging in
-				add_action( 'wp_login', array( $this, 'user_login' ), 10, 2 );
+					// Add Custom fields to user profile : user is view their own profile
+					add_action( 'show_user_profile', array( __CLASS__, 'my_show_extra_profile_fields' ) );
+					// Add Custom fields to user profile : user is view another user's profile
+					add_action( 'edit_user_profile', array( __CLASS__, 'my_show_extra_profile_fields' ) );
+					// Save custom fields from user profiles : user is view their own profile
+					add_action( 'personal_options_update', array( __CLASS__, 'my_save_extra_profile_fields' ) );
+					// Save custom fields from user profile : user is view another user's profile
+					add_action( 'edit_user_profile_update', array( __CLASS__, 'my_save_extra_profile_fields' ) );
+
+					// Prevent specific user from logging in
+					add_action( 'wp_login', array( __CLASS__, 'user_login' ), 10, 2 );
+
+				}
+
+				/* Redirect Login Page */
+				// Create Login Only Shortcode that can be added anywhere
+				add_shortcode( 'uo_login', array( __CLASS__, 'uo_login_form' ) );
+				// Create Login UI Shortcode that can be added anywhere
+				add_shortcode( 'uo_login_ui', array( __CLASS__, 'uo_login_ui' ) );
+				// Redirect from wp-login.php to custom login page
+				add_action( 'init', array( __CLASS__, 'redirect_login_page' ) );
+				// Redirect after lost password
+				add_filter( 'lostpassword_redirect', array( __CLASS__, 'redirect_lost_password' ) );
+				// Redirect to custom login page if login has failed
+				add_action( 'wp_login_failed', array( __CLASS__, 'login_failed' ) );
+				// Redirect to custom login page if username or password is empty
+				add_filter( 'authenticate', array( __CLASS__, 'verify_username_password' ), 1, 3 );
+				// Redirect from wp-login.php to custom login page if user logged out
+				add_action( 'wp_logout', array( __CLASS__, 'logout_page' ) );
+				// Custom password retrieve message
+				add_filter( 'retrieve_password_message', array( __CLASS__, 'custom_retrieve_password_message' ), 10, 4 );
+				// Add lost password link to login form
+				add_action( 'login_form_bottom', array( __CLASS__, 'add_lost_password_link' ) );
 
 			}
-
-			/* Redirect Login Page */
-			// Create Login Only Shortcode that can be added anywhere
-			add_shortcode( 'uo_login', array( __CLASS__, 'uo_login_form' ) );
-			// Create Login UI Shortcode that can be added anywhere
-			add_shortcode( 'uo_login_ui', array( __CLASS__, 'uo_login_ui' ) );
-			// Redirect from wp-login.php to custom login page
-			add_action( 'init', array( __CLASS__, 'redirect_login_page' ) );
-			// Redirect to custom login page if login has failed
-			add_action( 'wp_login_failed', array( __CLASS__, 'login_failed' ) );
-			// Redirect to custom login page if username or password is empty
-			add_filter( 'authenticate', array( __CLASS__, 'verify_username_password' ), 1, 3 );
-			// Redirect from wp-login.php to custom login page if user logged out
-			add_action( 'wp_logout', array( __CLASS__, 'logout_page' ) );
-			// Custom password retrieve message
-			add_filter( 'retrieve_password_message', array( __CLASS__, 'custom_retrieve_password_message' ), 10, 4 );
-			// Add lost password link to login form
-			add_action( 'login_form_bottom', array( __CLASS__, 'add_lost_password_link' ) );
-
 
 		}
 
@@ -123,10 +143,10 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 		// Get pages to populate drop down
 		$args = array(
-			'sort_order'  => 'asc',
-			'sort_column' => 'post_title',
-			'post_type'   => 'page',
-			'post_status' => 'publish',
+				'sort_order'  => 'asc',
+				'sort_column' => 'post_title',
+				'post_type'   => 'page',
+				'post_status' => 'publish',
 		);
 
 		$pages     = get_pages( $args );
@@ -139,28 +159,28 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		// Create options
 		$options = array(
 
-			array(
-				'type'        => 'checkbox',
-				'label'       => 'Manual User Verification',
-				'option_name' => 'uo_frontendloginplus_needs_verifcation',
-			),
+				array(
+						'type'        => 'checkbox',
+						'label'       => 'Manual User Verification',
+						'option_name' => 'uo_frontendloginplus_needs_verifcation',
+				),
 
-			array(
-				'type'        => 'select',
-				'label'       => 'Login Page',
-				'select_name' => 'login_page',
-				'options'     => $drop_down,
-			),
+				array(
+						'type'        => 'select',
+						'label'       => 'Login Page',
+						'select_name' => 'login_page',
+						'options'     => $drop_down,
+				),
 
 		);
 
 
 		// Build html
 		$html = self::settings_output( array(
-			'class'   => __CLASS__,
-			'title'   => $class_title,
-			'options' => $options,
-			)
+						'class'   => __CLASS__,
+						'title'   => $class_title,
+						'options' => $options,
+				)
 		);
 
 		return $html;
@@ -291,60 +311,63 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	public static function uo_login_form( $atts, $content = null ) {
 
 		if ( is_user_logged_in() ) {
-			do_shortcode( $content );
+			return do_shortcode( $content );
+		}else {
+
+
+			$username_label = (isset($atts['username-label']) ? $atts['username-label'] : __('Username', self::get_text_domain()));
+			$password_label = (isset($atts['password-label']) ? $atts['password-label'] : __('Password', self::get_text_domain()));
+			$rememberme_label = (isset($atts['rememberme-label']) ? $atts['rememberme-label'] : __('Remember Me', self::get_text_domain()));
+
+			$register_link = (isset($atts['register_link']) ? $atts['register_link'] : 'no');
+
+			if ('yes' !== $register_link) {
+				?>
+				<script type='text/javascript'>
+					jQuery(document).ready(function () {
+						jQuery('#user_login').attr('placeholder', '<?php echo $username_label; ?>');
+						jQuery('#user_pass').attr('placeholder', '<?php echo $password_label; ?>');
+					});
+				</script>
+				<?php
+			}
+
+			$placeholder = (isset($atts['placeholder']) ? $atts['placeholder'] : 'yes');
+			$redirect = (isset($atts['redirect']) ? $atts['redirect'] : home_url());
+			$submit_label = (isset($atts['submit-label']) ? $atts['submit-label'] : __('Log In', self::get_text_domain()));
+
+			if ('no' !== $placeholder) {
+				?>
+				<script type='text/javascript'>
+					jQuery(document).ready(function () {
+						jQuery('#user_login').attr('placeholder', '<?php echo $username_label; ?>');
+						jQuery('#user_pass').attr('placeholder', '<?php echo $password_label; ?>');
+					});
+				</script>
+				<?php
+			}
+
+
+			$login_form_args = array(
+					'echo' => false,
+					'redirect' => $redirect,
+					'form_id' => 'loginform',
+					'label_username' => $username_label,
+					'label_password' => $password_label,
+					'label_remember' => $rememberme_label,
+					'label_log_in' => $submit_label,
+					'id_username' => 'user_login',
+					'id_password' => 'user_pass',
+					'id_remember' => 'rememberme',
+					'id_submit' => 'wp-submit',
+					'remember' => true,
+					'value_username' => null,
+					'value_remember' => true,
+			);
+
+			return wp_login_form($login_form_args);
+
 		}
-
-		$username_label   = ( isset( $atts['username-label'] ) ? $atts['username-label'] : __( 'Username', self::get_text_domain() ) );
-		$password_label   = ( isset( $atts['password-label'] ) ? $atts['password-label'] : __( 'Password', self::get_text_domain() ) );
-		$rememberme_label = ( isset( $atts['rememberme-label'] ) ? $atts['rememberme-label'] : __( 'Remember Me', self::get_text_domain() ) );
-
-		$register_link = ( isset( $atts['register_link'] ) ? $atts['register_link'] : 'no' );
-
-		if ( 'yes' !== $register_link ) {
-			?>
-			<script type='text/javascript'>
-				jQuery(document).ready(function () {
-					jQuery('#user_login').attr('placeholder', '<?php echo $username_label; ?>');
-					jQuery('#user_pass').attr('placeholder', '<?php echo $password_label; ?>');
-				});
-			</script>
-			<?php
-		}
-
-		$placeholder  = ( isset( $atts['placeholder'] ) ? $atts['placeholder'] : 'yes' );
-		$redirect     = ( isset( $atts['redirect'] ) ? $atts['redirect'] : home_url() );
-		$submit_label = ( isset( $atts['submit-label'] ) ? $atts['submit-label'] : __( 'Log In', self::get_text_domain() ) );
-
-		if ( 'no' !== $placeholder ) {
-			?>
-			<script type='text/javascript'>
-				jQuery(document).ready(function () {
-					jQuery('#user_login').attr('placeholder', '<?php echo $username_label; ?>');
-					jQuery('#user_pass').attr('placeholder', '<?php echo $password_label; ?>');
-				});
-			</script>
-			<?php
-		}
-
-
-		$login_form_args = array(
-			'echo'           => false,
-			'redirect'       => $redirect,
-			'form_id'        => 'loginform',
-			'label_username' => $username_label,
-			'label_password' => $password_label,
-			'label_remember' => $rememberme_label,
-			'label_log_in'   => $submit_label,
-			'id_username'    => 'user_login',
-			'id_password'    => 'user_pass',
-			'id_remember'    => 'rememberme',
-			'id_submit'      => 'wp-submit',
-			'remember'       => true,
-			'value_username' => null,
-			'value_remember' => true,
-		);
-
-		return wp_login_form( $login_form_args );
 
 	}
 
@@ -405,6 +428,12 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		exit;
 	}
 
+	public static function redirect_lost_password( $lostpassword_redirect ) {
+		$login_page = get_permalink( self::get_login_redirect_page_id() );
+		wp_safe_redirect( add_query_arg( array( 'action' => 'forgot', 'success' => 'something' ),$login_page ) );
+	}
+
+
 	/**
 	 * Set wp-login redirect to frontend page
 	 */
@@ -434,7 +463,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 		// if the slug or page title in login run the login page template
 		if ( is_page( 'login' ) || 'login' === $page_title ) {
-			$page_template = self::get_template( '/login-page.php' );
+			$page_template = self::get_template( 'login-page.php' );
 		}
 
 		return $page_template;
@@ -444,19 +473,32 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	 * Add lost password link the login form
 	 */
 	public static function add_lost_password_link() {
-		return '<a class="forgot-link" href="/login/?action=lostpassword">' . __( 'Forgot Your Password?', Config::get_text_domain() ) . '</a>';
+		$login_page = get_permalink( self::get_login_redirect_page_id() );
+		$link = add_query_arg( array( 'action' => 'lostpassword' ),$login_page );
+		return '<a class="forgot-link" href="'. $link .'">' . __( 'Forgot Your Password?', Config::get_text_domain() ) . '</a>';
 	}
 
 	/*
 	 * Custom email message to retrieve password
 	 */
 	public static function custom_retrieve_password_message( $message, $key, $user_login, $user_data ) {
+
+		$login_page = get_permalink( self::get_login_redirect_page_id() );
+
+		$reset_args = array(
+				'action' 	=> 'rp',
+				'key'		=> $key,
+				'login'		=> rawurlencode( $user_login )
+		);
+
+		$reset_link = add_query_arg( $reset_args ,$login_page );
+
 		$new_message = __( 'Someone has requested a password reset for the following account:' ) . "\r\n\r\n";
 		$new_message .= network_home_url( '/' ) . "\r\n\r\n";
 		$new_message .= sprintf( __( 'Username: %s' ), $user_login ) . "\r\n\r\n";
 		$new_message .= __( 'If this was a mistake, just ignore this email and nothing will happen.' ) . "\r\n\r\n";
 		$new_message .= __( 'To reset your password, visit the following address:' ) . "\r\n\r\n";
-		$new_message .= '<' . network_site_url( "login/?action=rp&key=$key&login=" . rawurlencode( $user_login ), 'login' ) . ">\r\n";
+		$new_message .= '<' . $reset_link . ">\r\n";
 
 		return $new_message;
 	}

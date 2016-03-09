@@ -1,7 +1,7 @@
 <?php
 /* Template Name: Uncanny Owl Login Page */
-
 $uo_public_text_domain = \uncanny_learndash_public\Config::get_text_domain();
+$login_page = \uncanny_learndash_public\FrontendLoginPlus::get_login_redirect_page_id();
 
 global $user_login;
 
@@ -66,20 +66,20 @@ switch ( $login ) {
 $login_error = '<p class="login-msg"><strong>' . $message_error . '</strong> ' . $message_warning . '</p>';
 
 $login_form_args = array(
-	'echo'           => true,
-	'redirect'       => home_url( '/wp-admin/' ),
-	'form_id'        => 'loginform',
-	'label_username' => __( 'Username',  $uo_public_text_domain ),
-	'label_password' => __( 'Password',  $uo_public_text_domain ),
-	'label_remember' => __( 'Remember Me',  $uo_public_text_domain ),
-	'label_log_in'   => __( 'Log In',  $uo_public_text_domain ),
-	'id_username'    => 'user_login',
-	'id_password'    => 'user_pass',
-	'id_remember'    => 'rememberme',
-	'id_submit'      => 'wp-submit',
-	'remember'       => true,
-	'value_username' => null,
-	'value_remember' => true,
+		'echo'           => true,
+		'redirect'       => home_url( '/wp-admin/' ),
+		'form_id'        => 'loginform',
+		'label_username' => __( 'Username',  $uo_public_text_domain ),
+		'label_password' => __( 'Password',  $uo_public_text_domain ),
+		'label_remember' => __( 'Remember Me',  $uo_public_text_domain ),
+		'label_log_in'   => __( 'Log In',  $uo_public_text_domain ),
+		'id_username'    => 'user_login',
+		'id_password'    => 'user_pass',
+		'id_remember'    => 'rememberme',
+		'id_submit'      => 'wp-submit',
+		'remember'       => true,
+		'value_username' => null,
+		'value_remember' => true,
 );
 
 $innerText = Array(
@@ -91,7 +91,7 @@ $innerText = Array(
 		'Success'					=>  __( 'Success!', $uo_public_text_domain ),
 		'Success-Email-Sent'		=>  __( 'Check your email for a reset password link.', $uo_public_text_domain ),
 		'Woops'						=>  __( 'Woops!', $uo_public_text_domain ),
-		'Failed-Send-Email'			=>  __( 'Password reset failed. To Send', $uo_public_text_domain ),
+		'Failed-Send-Email'			=>  __( 'Password reset failed to Send.', $uo_public_text_domain ),
 		'Reset-Password-Title'		=>  __( 'Reset Password', $uo_public_text_domain ),
 		'New-Password'				=>  __( 'New Password', $uo_public_text_domain ),
 		'Confirm-Password'			=>  __( 'Confirm New Password', $uo_public_text_domain ),
@@ -129,7 +129,7 @@ $innerText = apply_filters( 'uo-login-inner-text', $innerText );
 				<input size="20" type="text" name="user_login" id="user_login" value="">
 			</p>
 
-			<input type="hidden" name="redirect_to" value="/login/?action=forgot&success=1">
+			<input type="hidden" name="redirect_to" value="<?php echo get_permalink( $login_page ); ?>?action=forgot&success=1">
 			<p class="submit"><input type="submit" name="wp-submit" id="wp-submit" value="Get New Password"/></p>
 		</form>
 		<?php
@@ -143,6 +143,7 @@ $innerText = apply_filters( 'uo-login-inner-text', $innerText );
 		} else {
 			?>
 			<p class="login-msg"><strong><?php echo $innerText['Woops']; ?></strong> <?php echo $innerText['Failed-Send-Email']; ?></p>
+			<p><a href="<?php echo get_permalink( $login_page ); ?>?action=lostpassword">Try again?</a></p>
 			<?php
 		}
 	} elseif ( $reset_password ) {
@@ -152,11 +153,11 @@ $innerText = apply_filters( 'uo-login-inner-text', $innerText );
 			$rp_login  = $_GET['login'];
 			$rp_cookie = 'wp-resetpass-' . COOKIEHASH;
 			$value     = sprintf( '%s:%s', wp_unslash( $_GET['login'] ), wp_unslash( $_GET['key'] ) );
-			setcookie( $rp_cookie, $value, 0, '/login', COOKIE_DOMAIN, is_ssl(), true );
+			setcookie( $rp_cookie, $value, 0, '/'.get_post_field( 'post_name', $login_page ), COOKIE_DOMAIN, is_ssl(), true );
 
 			?>
 			<h2><?php echo $innerText['Reset-Password-Title']; ?></h2>
-			<form name="resetpassform" id="resetpassform" action="<?php echo esc_url( network_site_url( 'login?action=validatepasswordreset', 'login_post' ) ); ?>" method="post" autocomplete="off">
+			<form name="resetpassform" id="resetpassform" action="<?php get_permalink( $login_page ); ?>?action=validatepasswordreset" method="post" autocomplete="off">
 				<input type="hidden" id="user_login" name="rp_login" value="<?php echo esc_attr( $rp_login ); ?>" autocomplete="off"/>
 
 				<div class="user-pass1-wrap">
@@ -166,7 +167,7 @@ $innerText = apply_filters( 'uo-login-inner-text', $innerText );
 					<div class="wp-pwd">
                             <span class="password-input-wrapper">
                                 <input type="password" data-reveal="1" data-pw="<?php echo esc_attr( wp_generate_password( 16 ) ); ?>" name="pass1" id="pass1" class="input" size="20" value="" autocomplete="off"
-                                       aria-describedby="pass-strength-result"/>
+									   aria-describedby="pass-strength-result"/>
                             </span>
 					</div>
 				</div>
@@ -212,9 +213,9 @@ $innerText = apply_filters( 'uo-login-inner-text', $innerText );
 
 				setcookie( $rp_cookie, ' ', time() - YEAR_IN_SECONDS, '/login', COOKIE_DOMAIN, is_ssl(), true );
 				if ( $user && $user->get_error_code() === 'expired_key' ) {
-					wp_safe_redirect( site_url( 'login/?action=validatepasswordreset&issue=expiredkey' ) );
+					wp_safe_redirect( get_permalink( $login_page ).'?action=validatepasswordreset&issue=expiredkey'  );
 				} else {
-					wp_safe_redirect( site_url( 'login/?action=validatepasswordreset&issue=invalidkey' ) );
+					wp_safe_redirect( get_permalink( $login_page ).'?action=validatepasswordreset&issue=invalidkey' );
 				}
 			}
 
