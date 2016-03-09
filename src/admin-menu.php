@@ -334,9 +334,9 @@ class AdminMenu extends Boot {
 
 						$explode_directory = explode( '-', $content );
 						if( 3 === count( $explode_directory ) ){
-							// custom plugin directory is prefixed with client name
-							// check suffix uo-custom
-							if( 'uo' == $explode_directory[1] && 'custom' === $explode_directory[2] ){
+							// custom plugin directory is may be prefixed with client name
+							// check suffix uo-custom-plugin
+							if( in_array( 'uo', $explode_directory ) && in_array( 'custom', $explode_directory ) && in_array( 'plugin', $explode_directory ) ){
 
 								// Check if plugin is active
 								if ( is_plugin_active( $content.'/uncanny-toolkit-custom.php' ) ) {
