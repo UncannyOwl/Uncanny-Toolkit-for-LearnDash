@@ -145,8 +145,8 @@ class ShowCertificatesShortcode extends Config implements RequiredFunctions {
 		ob_start();
 		?>
 		<div class="<?php echo esc_attr( $class ); ?>">
-			<div class="cert-list-title"><?php echo esc_html( $title ); ?></div>
-			<div class="certificate-list"><?php echo esc_html( $certificate_list ); ?></div>
+			<div class="cert-list-title"><?php echo $title; ?></div>
+			<div class="certificate-list"><?php echo $certificate_list; ?></div>
 		</div>
 
 		<?php
