@@ -62,7 +62,6 @@ switch ( $login ) {
 		$message_error   = '';
 		$message_warning = '';
 }
-
 $login_error = '<p class="login-msg"><strong>' . $message_error . '</strong> ' . $message_warning . '</p>';
 
 $login_form_args = array(

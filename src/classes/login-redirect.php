@@ -123,7 +123,7 @@ class LoginRedirect extends Config implements RequiredFunctions {
 				//return $redirect_to;
 			}
 
-			if ( ! $login_redirect ) {
+			if ( ! $login_redirect || '' === $login_redirect ) {
 				// if redirect is not set than send them home
 				return home_url();
 			} else {
