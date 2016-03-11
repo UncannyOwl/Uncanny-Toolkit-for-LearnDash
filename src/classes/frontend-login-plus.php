@@ -73,9 +73,6 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 				}
 
-				/* Redirect Login Page */
-				// Create Login Only Shortcode that can be added anywhere
-				add_shortcode( 'uo_login', array( __CLASS__, 'uo_login_form' ) );
 				// Create Login UI Shortcode that can be added anywhere
 				add_shortcode( 'uo_login_ui', array( __CLASS__, 'uo_login_ui' ) );
 				// Redirect from wp-login.php to custom login page
@@ -94,6 +91,10 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				add_action( 'login_form_bottom', array( __CLASS__, 'add_lost_password_link' ) );
 
 			}
+
+			/* Redirect Login Page */
+			// Create Login Only Shortcode that can be added anywhere
+			add_shortcode( 'uo_login', array( __CLASS__, 'uo_login_form' ) );
 
 		}
 
@@ -322,19 +323,12 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			$register_link = (isset($atts['register_link']) ? $atts['register_link'] : 'no');
 
 			if ('yes' !== $register_link) {
-				?>
-				<script type='text/javascript'>
-					jQuery(document).ready(function () {
-						jQuery('#user_login').attr('placeholder', '<?php echo $username_label; ?>');
-						jQuery('#user_pass').attr('placeholder', '<?php echo $password_label; ?>');
-					});
-				</script>
-				<?php
+				
 			}
 
 			$placeholder = (isset($atts['placeholder']) ? $atts['placeholder'] : 'yes');
 			$redirect = (isset($atts['redirect']) ? $atts['redirect'] : home_url());
-			$submit_label = (isset($atts['submit-label']) ? $atts['submit-label'] : __('Log In', self::get_text_domain()));
+			$submit_label = (isset($atts['#loginform']) ? $atts['submit-label'] : __('Log In', self::get_text_domain()));
 
 			if ('no' !== $placeholder) {
 				?>
