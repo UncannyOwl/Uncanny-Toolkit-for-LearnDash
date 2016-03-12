@@ -47,22 +47,27 @@ if ( isset( $_GET['action'] ) ) {
 switch ( $login ) {
 
 	case 'failed':
-		$message_error   = __( 'Woops!', '' );
+		$message_error   = __( 'Woops!', $uo_public_text_domain );
 		$message_warning = __( 'Invalid username and/or password.',  $uo_public_text_domain );
 		break;
 	case 'empty':
-		$message_error   = __( 'Woops!', '' );
+		$message_error   = __( 'Woops!', $uo_public_text_domain );
 		$message_warning = __( 'Username and/or Password is empty.', $uo_public_text_domain );
 		break;
 	case 'false':
-		$message_error   = __( '', '' );
+		$message_error   = __( '', $uo_public_text_domain );
 		$message_warning = __( 'You are logged out.', $uo_public_text_domain );
+		break;
+	case 'notverified':
+		$message_error   = __( 'Woops!', $uo_public_text_domain );
+		$message_warning = __( 'This account is not verified.', $uo_public_text_domain );
 		break;
 	default:
 		$message_error   = '';
 		$message_warning = '';
 }
 $login_error = '<p class="login-msg"><strong>' . $message_error . '</strong> ' . $message_warning . '</p>';
+$login_error = apply_filters( 'uo_frontend_login_error', $login_error, $login, $message_error, $message_warning);
 
 $login_form_args = array(
 		'echo'           => true,

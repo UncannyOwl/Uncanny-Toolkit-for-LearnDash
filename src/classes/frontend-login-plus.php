@@ -68,9 +68,6 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 					// Save custom fields from user profile : user is view another user's profile
 					add_action( 'edit_user_profile_update', array( __CLASS__, 'my_save_extra_profile_fields' ) );
 
-					// Prevent specific user from logging in
-					add_action( 'wp_login', array( __CLASS__, 'user_login' ), 10, 2 );
-
 				}
 
 				// Create Login UI Shortcode that can be added anywhere
@@ -289,36 +286,6 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 	}
 
-	/*
-	 * After login check to see if user account is disabled
-	 *
-	 * @since 1.0.0
-	 * @param string $user_login
-	 * @param object $user
-	 */
-	public function user_login( $user_login, $user = null ) {
-
-		if ( ! $user ) {
-			$user = get_user_by( 'login', $user_login );
-		}
-		if ( ! $user ) {
-			// not logged in - definitely not disabled
-			return;
-		}
-
-		$user_verified_value = get_user_meta( $user->ID, self::$user_meta_key_col, true );
-
-		// Is the use logging in disabled?
-		if ( '1' !== $user_verified_value ) {
-
-			wp_logout();
-
-			$redirect = home_url();
-			wp_safe_redirect( $redirect );
-
-		}
-	}
-
 	/**
 	 * Show a notice to users who try to login and are disabled
 	 *
@@ -435,7 +402,43 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	 * Redirect to custom login page if useranme or password is empty
 	 */
 	public static function verify_username_password( $user, $username, $password ) {
+
+		$uo_manual_verification = 'no';
+
+		$settings = get_option( 'FrontendLoginPlus' );
+
+		if ( false !== $settings ) {
+
+			foreach ( $settings as $setting ) {
+
+				if ( 'uo_frontendloginplus_needs_verifcation' === $setting['name'] && 'on' === $setting['value'] ) {
+					$uo_manual_verification = 'yes';
+				}
+
+			}
+		}
+
 		$login_page = get_permalink( self::get_login_redirect_page_id() );
+
+		if( 'yes' === $uo_manual_verification){
+
+			$user = get_user_by( 'login', $username );
+
+
+			$user_verified_value = get_user_meta( $user->ID, self::$user_meta_key_col, true );
+
+			// Is the use logging in disabled?
+			if ( '1' !== $user_verified_value ) {
+				wp_destroy_current_session();
+				wp_clear_auth_cookie();
+				wp_safe_redirect( add_query_arg( array( 'login' => 'notverified' ), $login_page ) );
+				exit;
+			}
+
+		}
+
+
+
 		if ( '' === $username || '' === $password ) {
 			wp_safe_redirect( add_query_arg( array( 'login' => 'empty' ),$login_page ) );
 			exit;
@@ -475,21 +478,6 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		}
 
 		return (int) $page_id;
-	}
-
-	/**
-	 * Set page template as Login Page(login-page.php) if page slug is 'login'
-	 */
-	public static function set_page_template( $page_template ) {
-		//get lowercase version on page title
-		$page_title = strtolower( get_the_title() );
-
-		// if the slug or page title in login run the login page template
-		if ( is_page( 'login' ) || 'login' === $page_title ) {
-			$page_template = self::get_template( 'login-page.php' );
-		}
-
-		return $page_template;
 	}
 
 	/*

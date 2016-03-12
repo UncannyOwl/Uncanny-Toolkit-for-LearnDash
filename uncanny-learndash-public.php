@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Uncanny LearnDash Functionality
-Version: 0.1.7
+Version: 0.1.8
 Description: This plugin adds a variety of functions to LearnDash sites that help improve the learner experience and LearnDash development workflow. After building dozens of LearnDash platforms, we combined the functions that are common across LearnDash sites into this single plugin.
 Author: uncannyowl.com
 Author URI: uncannyowl.com
