@@ -257,6 +257,36 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		}
 
 		update_user_meta( $user_id, 'uo_is_verified', $_POST['uo_is_verified'] );
+
+		$verified = get_user_meta( $user_id, 'uo_is_verified', true );
+		$verified_email_sent = get_user_meta( $user_id, 'uo_verified_email_sent', true );
+
+		if( $verified === '1' && 'yes' !== $verified_email_sent ){
+
+			$user = get_userdata( $user_id );
+
+			$blog_name = get_option('blogname');
+			$admin_email = get_option('admin_email');
+
+			$from = $blog_name . ' <' . $admin_email . '>';
+			$headers[] = 'From: ' . $from;
+			$headers = apply_filters( 'uo_verified_email_headers',  $headers, $user );
+
+			$to = $user->user_email;
+			$subject = $blog_name . ' - Account Verified';
+			$subject = apply_filters( 'uo_verified_email_subject',  $subject, $user);
+			$message = "The account for the user name '".$user->user_login."' has been verified \r\n\n";
+			$message.= "Please visit ".home_url()." to login \r\n";
+			$message = apply_filters( 'uo_verified_email_subject',  $message, $user );
+			$mailed = wp_mail( $to, $subject, $message, $headers );
+
+			// after wp_mail successful
+			if( $mailed ){
+				update_user_meta( $user_id, 'uo_verified_email_sent', 'yes' );
+			}
+
+		}
+
 	}
 
 	/*
@@ -322,7 +352,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			$register_link = (isset($atts['register_link']) ? $atts['register_link'] : 'no');
 
 			if ('yes' !== $register_link) {
-				
+
 			}
 
 			$placeholder = (isset($atts['placeholder']) ? $atts['placeholder'] : 'yes');
