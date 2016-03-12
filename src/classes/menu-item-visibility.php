@@ -208,6 +208,10 @@ class MenuItemVisibility extends Config implements RequiredFunctions {
 	 */
 	public static function exclude_menu_items( $items ) {
 
+		if( is_admin() ){
+			return $items;
+		}
+
 		$hide_children_of = array();
 
 		// Iterate over the items to search and destroy
