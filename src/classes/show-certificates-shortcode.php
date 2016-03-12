@@ -78,6 +78,12 @@ class ShowCertificatesShortcode extends Config implements RequiredFunctions {
 	 */
 	public static function learndash_certificates( $atts ) {
 
+		if( !is_user_logged_in () ){
+			return '';
+		}
+
+		$user_id = get_current_user_id();
+
 		if ( isset( $atts['class'] ) ) {
 			$class = $atts['class'];
 		} else {
@@ -100,20 +106,24 @@ class ShowCertificatesShortcode extends Config implements RequiredFunctions {
 
 		/* GET Certificates For Courses*/
 		$args = array(
-			'post_type'      => 'sfwd-courses',
-			'posts_per_page' => - 1,
-			'post_status'    => 'publish',
-			'orderby'        => 'title',
-			'order'          => 'ASC',
+				'post_type'      => 'sfwd-courses',
+				'posts_per_page' => - 1,
+				'post_status'    => 'publish',
+				'orderby'        => 'title',
+				'order'          => 'ASC',
 		);
 
 		$courses = get_posts( $args );
-		$certificate_link = '';
+
 		foreach ( $courses as $course ) {
 
+			$certificate_id = learndash_get_setting( $course->ID, 'certificate' );
+			$certificate_object = get_post( $certificate_id );
+			$certificate_title = $certificate_object->post_title;
 			$certificate_link = learndash_get_course_certificate_link( $course->ID );
+
 			if ( $certificate_link && '' !== $certificate_link ) {
-				$certificate_list .= '<a href="' . $certificate_link . '">' . $course->post_title . '</a><br>';
+				$certificate_list .= '<a href="' . $certificate_link . '">' . $certificate_title . '</a><br>';
 			}
 		}
 
@@ -132,7 +142,13 @@ class ShowCertificatesShortcode extends Config implements RequiredFunctions {
 					$quiz_title      = ! empty( $quiz_attempt['post']->post_title ) ? $quiz_attempt['post']->post_title : $quiz_title_fallback;
 
 					if ( ! empty( $certificateLink ) ) {
-						$certificate_list .= '<a href="' . esc_url( $certificate_link ) . '">' . esc_html( $quiz_title ) . '</a><br>';
+
+						$meta = get_post_meta( $quiz_attempt['post']->ID, '_sfwd-quiz', true );
+						$certificate_id = $meta['sfwd-quiz_certificate'];
+						$certificate_object = get_post( $certificate_id );
+						$certificate_title = $certificate_object->post_title;
+
+						$certificate_list .= '<a href="' . esc_url( $certificateLink ) . '">' . $certificate_title . '</a><br>';
 					}
 				}
 			}
@@ -179,13 +195,13 @@ class ShowCertificatesShortcode extends Config implements RequiredFunctions {
 				$quiz_attempt['post'] = get_post( $quiz_attempt['quiz'] );
 				$c                    = learndash_certificate_details( $quiz_attempt['quiz'], $user_id );
 				if (
-					get_current_user_id() == $user_id &&
-					! empty( $c['certificateLink'] ) &&
-					(
-					( isset( $quiz_attempt['percentage'] ) &&
-					  $quiz_attempt['percentage'] >= $c['certificate_threshold'] * 100
-					)
-					)
+						get_current_user_id() == $user_id &&
+						! empty( $c['certificateLink'] ) &&
+						(
+						( isset( $quiz_attempt['percentage'] ) &&
+								$quiz_attempt['percentage'] >= $c['certificate_threshold'] * 100
+						)
+						)
 				) {
 					$quiz_attempt['certificate']          = $c;
 					$quiz_attempt['certificate']['count'] = $count;

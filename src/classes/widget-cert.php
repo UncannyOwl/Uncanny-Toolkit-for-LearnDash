@@ -54,9 +54,9 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 		add_action( 'widgets_init', array( __CLASS__, 'register_cert_widget' ) );
 
 		parent::__construct(
-			'uncanny_lms_cert_list', // Base ID
-			__( 'LMS Certificate List', Config::get_text_domain() ), // Name
-			array( 'description' => __( 'Adds a new certificate widget that outputs links to all LearnDash certificates earned by the user.', 'text_domain' ) ) // Args
+				'uncanny_lms_cert_list', // Base ID
+				__( 'LMS Certificate List', Config::get_text_domain() ), // Name
+				array( 'description' => __( 'Adds a new certificate widget that outputs links to all LearnDash certificates earned by the user.', 'text_domain' ) ) // Args
 		);
 	}
 
@@ -98,6 +98,10 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 	 */
 	public function widget( $args, $instance ) {
 
+		if( !is_user_logged_in () ){
+			return '';
+		}
+
 		echo $args['before_widget'];
 
 		if ( ! empty( $instance['title'] ) ) {
@@ -106,11 +110,11 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 
 		/* GET Certificates For Courses*/
 		$args = array(
-			'post_type'      => 'sfwd-courses',
-			'posts_per_page' => - 1,
-			'post_status'    => 'publish',
-			'orderby'        => 'title',
-			'order'          => 'ASC',
+				'post_type'      => 'sfwd-courses',
+				'posts_per_page' => - 1,
+				'post_status'    => 'publish',
+				'orderby'        => 'title',
+				'order'          => 'ASC',
 		);
 
 		$courses = get_posts( $args );
@@ -120,9 +124,13 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 
 		foreach ( $courses as $course ) {
 
+			$certificate_id = learndash_get_setting( $course->ID, 'certificate' );
+			$certificate_object = get_post( $certificate_id );
+			$certificate_title = $certificate_object->post_title;
 			$certificate_link = learndash_get_course_certificate_link( $course->ID );
+
 			if ( $certificate_link && '' !== $certificate_link ) {
-				$certificate_list .= '<li><a href="' . $certificate_link . '" title="' . esc_html( __( 'Your certificate for :', Config::get_text_domain() ) . $course->post_title ) . '" class="count-' . $course_certificate_count . '">' . $course->post_title . '</a></li>';
+				$certificate_list .= '<li><a href="' . $certificate_link . '" title="' . esc_html( __( 'Your certificate for :', Config::get_text_domain() ) . $course->post_title ) . '" class="count-' . $course_certificate_count . '">' . $certificate_title . '</a></li>';
 				$course_certificate_count ++;
 			}
 		}
@@ -130,8 +138,8 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 		$quiz_attempts = self::quiz_attempts();
 
 		printf( '<div class="uncanny-cert-widget-list uncanny-cert-widget-%d" data-row="%d">',
-			count( $quiz_attempts ) + $course_certificate_count,
-			( count( $quiz_attempts ) > $instance['list_height'] ) ? $instance['list_height'] : count( $quiz_attempts ) + $course_certificate_count
+				count( $quiz_attempts ) + $course_certificate_count,
+				( count( $quiz_attempts ) > $instance['list_height'] ) ? $instance['list_height'] : count( $quiz_attempts ) + $course_certificate_count
 		);
 
 		if ( ! empty( $quiz_attempts ) || '' !== $certificate_list ) {
@@ -149,12 +157,15 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 				$quiz_title      = ! empty( $quiz_attempt['post']->post_title ) ? $quiz_attempt['post']->post_title : @$quiz_attempt['quiz_title'];
 
 				if ( ! empty( $certificateLink ) ) {
-					/** @noinspection HtmlUnknownTarget */
+					$meta = get_post_meta( $quiz_attempt['post']->ID, '_sfwd-quiz', true );
+					$certificate_id = $meta['sfwd-quiz_certificate'];
+					$certificate_object = get_post( $certificate_id );
+					$certificate_title = $certificate_object->post_title;
 					printf( '<li><a href="%s" title="%s" class="count-%d"> %s</a></li>',
-						esc_url( $certificateLink ),
-						esc_html( __( 'Your certificate for :', Config::get_text_domain() ) . $quiz_title ),
-						$count + $course_certificate_count,
-						esc_html( $quiz_title )
+							esc_url( $certificateLink ),
+							esc_html( __( 'Your certificate for :', Config::get_text_domain() ) . $quiz_title ),
+							$count + $course_certificate_count,
+							esc_html( $certificate_title )
 					);
 				}
 			}
@@ -196,13 +207,13 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 				$quiz_attempt['post'] = get_post( $quiz_attempt['quiz'] );
 				$c                    = learndash_certificate_details( $quiz_attempt['quiz'], $user_id );
 				if (
-					get_current_user_id() === $user_id &&
-					! empty( $c['certificateLink'] ) &&
-					(
+						get_current_user_id() === $user_id &&
+						! empty( $c['certificateLink'] ) &&
+						(
 						( isset( $quiz_attempt['percentage'] ) &&
-						  $quiz_attempt['percentage'] >= $c['certificate_threshold'] * 100
+								$quiz_attempt['percentage'] >= $c['certificate_threshold'] * 100
 						)
-					)
+						)
 				) {
 					$quiz_attempt['certificate']          = $c;
 					$quiz_attempt['certificate']['count'] = $count;
@@ -235,36 +246,36 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 		<p>
 			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:' ); ?></label>
 			<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>"
-			       name="<?php echo $this->get_field_name( 'title' ); ?>" type="text"
-			       value="<?php echo esc_attr( $title ); ?>">
+				   name="<?php echo $this->get_field_name( 'title' ); ?>" type="text"
+				   value="<?php echo esc_attr( $title ); ?>">
 		</p>
 		<p>
 			<label
-				for="<?php echo $this->get_field_id( 'no_certs' ); ?>"><?php _e( 'No certificates message:', Config::get_text_domain() ); ?></label>
+					for="<?php echo $this->get_field_id( 'no_certs' ); ?>"><?php _e( 'No certificates message:', Config::get_text_domain() ); ?></label>
 			<input class="widefat" id="<?php echo $this->get_field_id( 'no_certs' ); ?>"
-			       name="<?php echo $this->get_field_name( 'no_certs' ); ?>" type="text"
-			       value="<?php echo esc_attr( $no_certs ); ?>">
+				   name="<?php echo $this->get_field_name( 'no_certs' ); ?>" type="text"
+				   value="<?php echo esc_attr( $no_certs ); ?>">
 		</p>
 		<p>
 			<label
-				for="<?php echo $this->get_field_id( 'more_certs' ); ?>"><?php _e( 'More certificates message:', Config::get_text_domain() ); ?></label><br/>
+					for="<?php echo $this->get_field_id( 'more_certs' ); ?>"><?php _e( 'More certificates message:', Config::get_text_domain() ); ?></label><br/>
 			<input class="widefat" id="<?php echo $this->get_field_id( 'more_certs' ); ?>"
-			       name="<?php echo $this->get_field_name( 'more_certs' ); ?>" type="text"
-			       value="<?php echo esc_attr( $more_certs ); ?>">
+				   name="<?php echo $this->get_field_name( 'more_certs' ); ?>" type="text"
+				   value="<?php echo esc_attr( $more_certs ); ?>">
 		</p>
 		<p>
 			<label
-				for="<?php echo $this->get_field_id( 'list_height' ); ?>"><?php _e( 'The max number of certificates shown at the start:', Config::get_text_domain() ); ?></label>
+					for="<?php echo $this->get_field_id( 'list_height' ); ?>"><?php _e( 'The max number of certificates shown at the start:', Config::get_text_domain() ); ?></label>
 			<input class="" id="<?php echo $this->get_field_id( 'list_height' ); ?>"
-			       name="<?php echo $this->get_field_name( 'list_height' ); ?>" type="text"
-			       value="<?php echo absint( $list_height ); ?>">
+				   name="<?php echo $this->get_field_name( 'list_height' ); ?>" type="text"
+				   value="<?php echo absint( $list_height ); ?>">
 		</p>
 		<p>
 			<input class="" id="<?php echo $this->get_field_id( 'show_fails' ); ?>"
-			       name="<?php echo $this->get_field_name( 'show_fails' ); ?>" type="checkbox"
-			       value="true" <?php checked( true, $show_fails, true ) ?>>
+				   name="<?php echo $this->get_field_name( 'show_fails' ); ?>" type="checkbox"
+				   value="true" <?php checked( true, $show_fails, true ) ?>>
 			<label
-				for="<?php echo $this->get_field_id( 'show_fails' ); ?>"><?php _e( 'Show Quizzes that the user failed', Config::get_text_domain() ); ?></label>
+					for="<?php echo $this->get_field_id( 'show_fails' ); ?>"><?php _e( 'Show Quizzes that the user failed', Config::get_text_domain() ); ?></label>
 
 		</p>
 
