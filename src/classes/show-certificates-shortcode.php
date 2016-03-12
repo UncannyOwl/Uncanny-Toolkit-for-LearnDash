@@ -82,8 +82,6 @@ class ShowCertificatesShortcode extends Config implements RequiredFunctions {
 			return '';
 		}
 
-		$user_id = get_current_user_id();
-
 		if ( isset( $atts['class'] ) ) {
 			$class = $atts['class'];
 		} else {
@@ -93,7 +91,7 @@ class ShowCertificatesShortcode extends Config implements RequiredFunctions {
 		if ( isset( $atts['title'] ) ) {
 			$title = $atts['title'];
 		} else {
-			$title = __( 'Your Certificates', Config::get_text_domain() );
+			$title = '';
 		}
 
 		if ( isset( $atts['no-cert-message'] ) ) {
