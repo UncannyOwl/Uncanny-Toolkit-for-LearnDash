@@ -240,7 +240,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				<td>
 					<label for="rich_editing">
 						<input type="checkbox" name="uo_is_verified" value="1" <?php checked( $checked, $current, $echo ); ?>/>
-						Once user is verified they will be allowed to login
+						Verify this user and allow them to log in
 					</label>
 				</td>
 			</tr>
@@ -284,7 +284,6 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			wp_logout();
 
 			$redirect = home_url();
-			$redirect = apply_filters( 'uo_unverified_users_redirect', $redirect );
 			wp_safe_redirect( $redirect );
 
 		}

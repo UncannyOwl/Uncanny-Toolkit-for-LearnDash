@@ -120,7 +120,7 @@ class LoginRedirect extends Config implements RequiredFunctions {
 			//check for admins
 			if ( in_array( 'administrator', $user->roles ) ) {
 				// redirect them to the default place
-				//return $redirect_to;
+				return $redirect_to;
 			}
 
 			if ( ! $login_redirect || '' === $login_redirect ) {
