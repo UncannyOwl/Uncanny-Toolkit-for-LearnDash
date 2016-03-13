@@ -302,7 +302,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	public function user_login_message( $message ) {
 		// Show the error message if it seems to be a disabled user
 		if ( isset( $_GET['unverified'] ) && 1 === $_GET['unverified'] ) {
-			$message = '<div id="login_error">' . apply_filters( 'uo_unverified_users_notice', __( "We haven't verified this account", self::get_text_domain() ) ) . '</div>';
+			$message = '<div id="login_error">' . apply_filters( 'uo_unverified_users_notice', __( "We haven't verified this account.", self::get_text_domain() ) ) . '</div>';
 		}
 
 		return $message;
@@ -510,7 +510,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		$new_message = __( 'Someone has requested a password reset for the following account:' ) . "\r\n\r\n";
 		$new_message .= network_home_url( '/' ) . "\r\n\r\n";
 		$new_message .= sprintf( __( 'Username: %s' ), $user_login ) . "\r\n\r\n";
-		$new_message .= __( 'If this was a mistake, just ignore this email and nothing will happen.' ) . "\r\n\r\n";
+		$new_message .= __( 'If this was a mistake or you didn\'t request a change, you can safely ignore this email.' ) . "\r\n\r\n";
 		$new_message .= __( 'To reset your password, visit the following address:' ) . "\r\n\r\n";
 		$new_message .= '<' . $reset_link . ">\r\n";
 
