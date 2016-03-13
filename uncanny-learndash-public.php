@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Uncanny LearnDash Functionality
-Version: 0.1.8
+Version: 0.2.0
 Description: This plugin adds a variety of functions to LearnDash sites that help improve the learner experience and LearnDash development workflow. After building dozens of LearnDash platforms, we combined the functions that are common across LearnDash sites into this single plugin.
 Author: uncannyowl.com
 Author URI: uncannyowl.com
@@ -12,6 +12,25 @@ Domain Path: /languages
 
 // All Class instance are store in Global Variable $uncanny_learndash_public
 global $uncanny_learndash_public;
+
+/* On first activation, redirect to toolkit settings page */
+register_activation_hook(__FILE__, 'uncanny_learndash_toolkit_plugin_activate');
+add_action('admin_init', 'uncanny_learndash_toolkit_plugin_redirect');
+
+function uncanny_learndash_toolkit_plugin_activate() {
+	update_option('uncanny_learndash_toolkit_plugin_do_activation_redirect', 'yes' );
+}
+function uncanny_learndash_toolkit_plugin_redirect() {
+	if ( 'yes' === get_option('uncanny_learndash_toolkit_plugin_do_activation_redirect', 'no') ) {
+
+		update_option('uncanny_learndash_toolkit_plugin_do_activation_redirect', 'no');
+
+		if(!isset($_GET['activate-multi']))
+		{
+			wp_redirect("admin.php?page=uncanny-learnDash-toolkit");
+		}
+	}
+}
 
 
 if ( ! isset( $uncanny_learndash_public ) ) {
