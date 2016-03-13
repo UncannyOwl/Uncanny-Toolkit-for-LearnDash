@@ -1,6 +1,6 @@
 <?php
 
-namespace uncanny_learndash_public;
+namespace uncanny_learndash_toolkit;
 
 if ( ! defined( 'WPINC' ) ) {
 	die;

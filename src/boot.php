@@ -1,6 +1,6 @@
 <?php
 
-namespace uncanny_learndash_public;
+namespace uncanny_learndash_toolkit;
 
 class Boot extends Config {
 
@@ -23,10 +23,10 @@ class Boot extends Config {
 	 */
 	protected function __construct() {
 
-		global $uncanny_learndash_public;
+		global $uncanny_learndash_toolkit;
 
-		if ( ! isset( $uncanny_learndash_public ) ) {
-			$uncanny_learndash_public = new \stdClass();
+		if ( ! isset( $uncanny_learndash_toolkit ) ) {
+			$uncanny_learndash_toolkit = new \stdClass();
 		}
 
 		// We need to check if spl auto loading is available when activating plugin
@@ -38,7 +38,7 @@ class Boot extends Config {
 
 		spl_autoload_register( array( __CLASS__, 'auto_loader' ) );
 
-		$uncanny_learndash_public->admin_menu = new AdminMenu;
+		$uncanny_learndash_toolkit->admin_menu = new AdminMenu;
 
 		// Add admin menu ajax class to load and save settings
 		add_action( 'wp_ajax_settings_save', array( get_parent_class(), 'ajax_settings_save' ) );// parent class is Config

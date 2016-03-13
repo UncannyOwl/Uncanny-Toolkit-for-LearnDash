@@ -1,17 +1,17 @@
 <?php
 /*
 Plugin Name: Uncanny LearnDash Toolkit
-Version: 0.2.1
+Version: 0.2.2
 Description: Extend the LearnDash plugin with a variety of complementary features to make building engaging learner experiences even easier.
 Author: www.uncannyowl.com
 Author URI: www.uncannyowl.com
 Plugin URI: www.uncannyowl.com/uncanny-learndash-toolkit/
-Text Domain: uncanny_learndash_public
+Text Domain: uncanny_learndash_toolkit
 Domain Path: /languages
 */
 
-// All Class instance are store in Global Variable $uncanny_learndash_public
-global $uncanny_learndash_public;
+// All Class instance are store in Global Variable $uncanny_learndash_toolkit
+global $uncanny_learndash_toolkit;
 
 /* On first activation, redirect to toolkit settings page */
 register_activation_hook(__FILE__, 'uncanny_learndash_toolkit_plugin_activate');
@@ -38,4 +38,4 @@ include_once( dirname( __FILE__ ) . '/src/config.php' );
 // Load all plugin classes(functionality)
 include_once( dirname( __FILE__ ) . '/src/boot.php' );
 
-$uncanny_learndash_public = \uncanny_learndash_public\Boot::get_instance();
+$uncanny_learndash_toolkit = \uncanny_learndash_toolkit\Boot::get_instance();

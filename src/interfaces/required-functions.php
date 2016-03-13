@@ -1,10 +1,10 @@
 <?php
 
-namespace uncanny_learndash_public;
+namespace uncanny_learndash_toolkit;
 
 /**
  * Interface RequiredFunctions
- * @package uncanny_learndash_public
+ * @package uncanny_learndash_toolkit
  */
 interface RequiredFunctions {
 	/**

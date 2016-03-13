@@ -1,6 +1,6 @@
 <?php
 
-namespace uncanny_learndash_public;
+namespace uncanny_learndash_toolkit;
 
 
 class Config {
@@ -209,7 +209,7 @@ class Config {
 	 */
 	public static function get_project_name() {
 		if ( null === self::$project_name ) {
-			self::$project_name = 'uncanny_learndash_public';
+			self::$project_name = 'uncanny_learndash_toolkit';
 		}
 
 		return self::$project_name;

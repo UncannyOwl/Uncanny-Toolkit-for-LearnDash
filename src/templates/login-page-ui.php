@@ -1,7 +1,7 @@
 <?php
 /* Template Name: Uncanny Owl Login Page */
-$uo_public_text_domain = \uncanny_learndash_public\Config::get_text_domain();
-$login_page = \uncanny_learndash_public\FrontendLoginPlus::get_login_redirect_page_id();
+$uo_public_text_domain = \uncanny_learndash_toolkit\Config::get_text_domain();
+$login_page = \uncanny_learndash_toolkit\FrontendLoginPlus::get_login_redirect_page_id();
 
 global $user_login;
 

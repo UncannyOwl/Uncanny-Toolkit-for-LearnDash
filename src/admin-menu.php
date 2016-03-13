@@ -1,6 +1,6 @@
 <?php
 
-namespace uncanny_learndash_public;
+namespace uncanny_learndash_toolkit;
 
 use ReflectionClass;
 
@@ -52,7 +52,7 @@ class AdminMenu extends Boot {
 	 * Whitelisted Options that are saved on the page
 	 */
 	public static function register_options_menu_page_settings() {
-		register_setting( 'uncanny_learndash_public-group', 'uncanny_public_active_classes' );
+		register_setting( 'uncanny_learndash_toolkit-group', 'uncanny_public_active_classes' );
 	}
 
 	/**
@@ -102,7 +102,7 @@ class AdminMenu extends Boot {
 
 			// test for required functions
 			$class = new ReflectionClass( $class_name );
-			if ( $class->implementsInterface( 'uncanny_learndash_public\RequiredFunctions' ) ) {
+			if ( $class->implementsInterface( 'uncanny_learndash_toolkit\RequiredFunctions' ) ) {
 				$details[ $class_name ] = $class_name::get_details();
 			} else {
 				$details[ $class_name ] = false;
@@ -179,8 +179,8 @@ class AdminMenu extends Boot {
 		</div>
 		<form method="post" action="options.php">
 		<?php
-		settings_fields( 'uncanny_learndash_public-group' );
-		do_settings_sections( 'uncanny_learndash_public-group' );
+		settings_fields( 'uncanny_learndash_toolkit-group' );
+		do_settings_sections( 'uncanny_learndash_toolkit-group' );
 		?>
 		<div class="uo_feature_container">
 			<?php self::create_features( $classes_available, $active_classes ); ?>
@@ -210,7 +210,7 @@ class AdminMenu extends Boot {
 		foreach ( $classes_available as $key => $class ) {
 
 			// skip sample classes
-			if( 'uncanny_learndash_public\Sample' === $key ||
+			if( 'uncanny_learndash_toolkit\Sample' === $key ||
 				'uncanny_custom_toolkit\Sample' === $key ||
 				'uncanny_pro_toolkit\Sample' === $key ){
 				continue;
