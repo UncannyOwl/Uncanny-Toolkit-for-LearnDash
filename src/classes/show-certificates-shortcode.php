@@ -101,6 +101,7 @@ class ShowCertificatesShortcode extends Config implements RequiredFunctions {
 		}
 
 		$certificate_list = '';
+		$certificate_titles = Array();
 
 		/* GET Certificates For Courses*/
 		$args = array(
@@ -121,7 +122,10 @@ class ShowCertificatesShortcode extends Config implements RequiredFunctions {
 			$certificate_link = learndash_get_course_certificate_link( $course->ID );
 
 			if ( $certificate_link && '' !== $certificate_link ) {
-				$certificate_list .= '<a href="' . $certificate_link . '">' . $certificate_title . '</a><br>';
+				if( ! in_array( $certificate_title, $certificate_titles )){
+					$certificate_list .= '<a href="' . $certificate_link . '">' . $certificate_title . '</a><br>';
+					array_push( $certificate_titles, $certificate_title );
+				}
 			}
 		}
 
@@ -146,7 +150,11 @@ class ShowCertificatesShortcode extends Config implements RequiredFunctions {
 						$certificate_object = get_post( $certificate_id );
 						$certificate_title = $certificate_object->post_title;
 
-						$certificate_list .= '<a href="' . esc_url( $certificateLink ) . '">' . $certificate_title . '</a><br>';
+						if( ! in_array( $certificate_title, $certificate_titles )){
+							$certificate_list .= '<a href="' . esc_url( $certificateLink ) . '">' . $certificate_title . '</a><br>';
+							array_push( $certificate_titles, $certificate_title );
+						}
+
 					}
 				}
 			}

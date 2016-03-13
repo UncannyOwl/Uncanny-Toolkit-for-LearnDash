@@ -121,6 +121,7 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 
 		$course_certificate_count = 0;
 		$certificate_list         = '';
+		$certificate_titles = Array();
 
 		foreach ( $courses as $course ) {
 
@@ -130,8 +131,17 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 			$certificate_link = learndash_get_course_certificate_link( $course->ID );
 
 			if ( $certificate_link && '' !== $certificate_link ) {
-				$certificate_list .= '<li><a href="' . $certificate_link . '" title="' . esc_html( __( 'Your certificate for :', Config::get_text_domain() ) . $course->post_title ) . '" class="count-' . $course_certificate_count . '">' . $certificate_title . '</a></li>';
-				$course_certificate_count ++;
+
+				if ( $certificate_link && '' !== $certificate_link ) {
+					if( ! in_array( $certificate_title, $certificate_titles )){
+						$certificate_list .= '<li><a href="' . $certificate_link . '" title="' . esc_html( __( 'Your certificate for :', Config::get_text_domain() ) . $course->post_title ) . '" class="count-' . $course_certificate_count . '">' . $certificate_title . '</a></li>';
+						$course_certificate_count ++;
+						array_push( $certificate_titles, $certificate_title );
+					}
+				}
+
+
+
 			}
 		}
 
@@ -161,12 +171,16 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 					$certificate_id = $meta['sfwd-quiz_certificate'];
 					$certificate_object = get_post( $certificate_id );
 					$certificate_title = $certificate_object->post_title;
-					printf( '<li><a href="%s" title="%s" class="count-%d"> %s</a></li>',
-							esc_url( $certificateLink ),
-							esc_html( __( 'Your certificate for :', Config::get_text_domain() ) . $quiz_title ),
-							$count + $course_certificate_count,
-							esc_html( $certificate_title )
-					);
+
+					if( ! in_array( $certificate_title, $certificate_titles )){
+						printf( '<li><a href="%s" title="%s" class="count-%d"> %s</a></li>',
+								esc_url( $certificateLink ),
+								esc_html( __( 'Your certificate for :', Config::get_text_domain() ) . $quiz_title ),
+								$count + $course_certificate_count,
+								esc_html( $certificate_title )
+						);
+						array_push( $certificate_titles, $certificate_title );
+					}
 				}
 			}
 

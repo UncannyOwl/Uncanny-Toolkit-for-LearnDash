@@ -270,11 +270,14 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			$headers = apply_filters( 'uo_verified_email_headers',  $headers, $user );
 
 			$to = $user->user_email;
+
 			$subject = $blog_name . ' - Account Verified';
 			$subject = apply_filters( 'uo_verified_email_subject',  $subject, $user);
-			$message = "The account for the user name '".$user->user_login."' has been verified \r\n\n";
-			$message.= "Please visit ".home_url()." to login \r\n";
-			$message = apply_filters( 'uo_verified_email_subject',  $message, $user );
+
+			$message = 'Your account has been approved! \r\n\n';
+			$message.= "Please visit ". home_url() ." to login \r\n";
+			$message = apply_filters( 'uo_verified_email_message',  $message, $user );
+
 			$mailed = wp_mail( $to, $subject, $message, $headers );
 
 			// after wp_mail successful
