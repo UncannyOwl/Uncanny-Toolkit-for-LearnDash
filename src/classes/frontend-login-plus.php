@@ -466,7 +466,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	/**
 	 * Set wp-login redirect to frontend page
 	 */
-	private static function get_login_redirect_page_id() {
+	public static function get_login_redirect_page_id() {
 
 		$page_id = 0;
 

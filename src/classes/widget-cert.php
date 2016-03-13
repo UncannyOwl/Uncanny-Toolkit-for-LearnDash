@@ -66,35 +66,14 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 	}
 
 	/**
-	 * inject script into footer only load if needed
-	 */
-	public static function add_js_to_footer() {
-		?>
-		<script type="application/javascript">
-			var row_height = jQuery('.uncanny-cert-widget-list li:first').height();
-			var $list = jQuery('.uncanny-cert-widget-list');
-			var row_count = $list.attr('data-row');
-			var div_height = row_height * row_count + 'px';
-			$list.css({height: div_height, overflow: 'hidden'});
-			jQuery('.uncanny-cert-more-link').on('click', function (event) {
-				event.preventDefault();
-				var target_height = jQuery(this).parent().find('ul').height();
-				var list_div = jQuery(this).parent().children('.uncanny-cert-widget-list');
-				list_div.animate({height: target_height}, 500);
-				jQuery(this).hide(); // hide as we are not toggling and this has no action
-			});
-
-		</script>
-		<?php
-	}
-
-	/**
 	 * Front-end display of widget.
 	 *
 	 * @see WP_Widget::widget()
 	 *
 	 * @param array $args     Widget arguments.
 	 * @param array $instance Saved values from database.
+	 *
+	 * @return null
 	 */
 	public function widget( $args, $instance ) {
 
@@ -119,7 +98,6 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 
 		$courses = get_posts( $args );
 
-		$course_certificate_count = 0;
 		$certificate_list         = '';
 		$certificate_titles = Array();
 
@@ -134,8 +112,7 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 
 				if ( $certificate_link && '' !== $certificate_link ) {
 					if( ! in_array( $certificate_title, $certificate_titles )){
-						$certificate_list .= '<li><a href="' . $certificate_link . '" title="' . esc_html( __( 'Your certificate for :', Config::get_text_domain() ) . $course->post_title ) . '" class="count-' . $course_certificate_count . '">' . $certificate_title . '</a></li>';
-						$course_certificate_count ++;
+						$certificate_list .= '<li><a href="' . $certificate_link . '" title="' . esc_html( __( 'Your certificate for :', Config::get_text_domain() ) . $course->post_title ) . '">' . $certificate_title . '</a></li>';
 						array_push( $certificate_titles, $certificate_title );
 					}
 				}
@@ -147,10 +124,7 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 
 		$quiz_attempts = self::quiz_attempts();
 
-		printf( '<div class="uncanny-cert-widget-list uncanny-cert-widget-%d" data-row="%d">',
-				count( $quiz_attempts ) + $course_certificate_count,
-				( count( $quiz_attempts ) > $instance['list_height'] ) ? $instance['list_height'] : count( $quiz_attempts ) + $course_certificate_count
-		);
+		echo '<div class="uncanny-cert-widget-list">';
 
 		if ( ! empty( $quiz_attempts ) || '' !== $certificate_list ) {
 
@@ -163,7 +137,6 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 			foreach ( $quiz_attempts as $k => $quiz_attempt ) {
 
 				$certificateLink = $quiz_attempt['certificate']['certificateLink'];
-				$count           = $quiz_attempt['certificate']['count'];
 				$quiz_title      = ! empty( $quiz_attempt['post']->post_title ) ? $quiz_attempt['post']->post_title : @$quiz_attempt['quiz_title'];
 
 				if ( ! empty( $certificateLink ) ) {
@@ -173,10 +146,9 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 					$certificate_title = $certificate_object->post_title;
 
 					if( ! in_array( $certificate_title, $certificate_titles )){
-						printf( '<li><a href="%s" title="%s" class="count-%d"> %s</a></li>',
+						printf( '<li><a href="%s" title="%s" > %s</a></li>',
 								esc_url( $certificateLink ),
 								esc_html( __( 'Your certificate for :', Config::get_text_domain() ) . $quiz_title ),
-								$count + $course_certificate_count,
 								esc_html( $certificate_title )
 						);
 						array_push( $certificate_titles, $certificate_title );
@@ -186,12 +158,6 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 
 			echo '</ul></div>';
 
-			// add the show more link one and more certs
-			if ( ( $instance['list_height'] < count( $quiz_attempts ) ) && ! empty( $instance['more_certs'] ) ) {
-				printf( '<a href="#" class="uncanny-cert-more-link">%s</a>', $instance['more_certs'] );
-				// and add the js to make it work
-				add_action( 'wp_print_footer_scripts', array( __CLASS__, 'add_js_to_footer' ) );
-			}
 		} else {
 			printf( '<p>%s</p></div>', esc_html( $instance['no_certs'] ) );
 		}
@@ -215,7 +181,6 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 
 		$user_id            = $current_user->ID;
 		$quiz_attempts_meta = get_user_meta( $user_id, '_sfwd-quizzes', true );
-		$count              = 0;
 		if ( ! ( empty( $quiz_attempts_meta ) || false === $quiz_attempts_meta ) ) {
 			foreach ( $quiz_attempts_meta as $quiz_attempt ) {
 				$quiz_attempt['post'] = get_post( $quiz_attempt['quiz'] );
@@ -229,12 +194,10 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 						)
 						)
 				) {
-					$quiz_attempt['certificate']          = $c;
-					$quiz_attempt['certificate']['count'] = $count;
+					$quiz_attempt['certificate'] = $c;
 				}
 
 				$quiz_attempts[] = $quiz_attempt;
-				$count ++;
 			}
 		}
 
@@ -253,9 +216,7 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 	public function form( $instance ) {
 		$title       = ! empty( $instance['title'] ) ? $instance['title'] : __( 'Your certificates', Config::get_text_domain() );
 		$no_certs    = ! empty( $instance['no_certs'] ) ? $instance['no_certs'] : __( 'Complete courses to earn certificates', Config::get_text_domain() );
-		$more_certs  = ! empty( $instance['more_certs'] ) ? $instance['more_certs'] : __( 'see more certificates', Config::get_text_domain() );
-		$list_height = ! empty( $instance['list_height'] ) ? $instance['list_height'] : _X( '5', 'list height in px', Config::get_text_domain() );
-		$show_fails  = ! empty( $instance['show_fails'] ) ? (bool) $instance['show_fails'] : false;
+
 		?>
 		<p>
 			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:' ); ?></label>
@@ -269,28 +230,6 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 			<input class="widefat" id="<?php echo $this->get_field_id( 'no_certs' ); ?>"
 				   name="<?php echo $this->get_field_name( 'no_certs' ); ?>" type="text"
 				   value="<?php echo esc_attr( $no_certs ); ?>">
-		</p>
-		<p>
-			<label
-					for="<?php echo $this->get_field_id( 'more_certs' ); ?>"><?php _e( 'More certificates message:', Config::get_text_domain() ); ?></label><br/>
-			<input class="widefat" id="<?php echo $this->get_field_id( 'more_certs' ); ?>"
-				   name="<?php echo $this->get_field_name( 'more_certs' ); ?>" type="text"
-				   value="<?php echo esc_attr( $more_certs ); ?>">
-		</p>
-		<p>
-			<label
-					for="<?php echo $this->get_field_id( 'list_height' ); ?>"><?php _e( 'The max number of certificates shown at the start:', Config::get_text_domain() ); ?></label>
-			<input class="" id="<?php echo $this->get_field_id( 'list_height' ); ?>"
-				   name="<?php echo $this->get_field_name( 'list_height' ); ?>" type="text"
-				   value="<?php echo absint( $list_height ); ?>">
-		</p>
-		<p>
-			<input class="" id="<?php echo $this->get_field_id( 'show_fails' ); ?>"
-				   name="<?php echo $this->get_field_name( 'show_fails' ); ?>" type="checkbox"
-				   value="true" <?php checked( true, $show_fails, true ) ?>>
-			<label
-					for="<?php echo $this->get_field_id( 'show_fails' ); ?>"><?php _e( 'Show Quizzes that the user failed', Config::get_text_domain() ); ?></label>
-
 		</p>
 
 		<?php
@@ -310,9 +249,6 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 		$instance                = array();
 		$instance['title']       = ( ! empty( $new_instance['title'] ) ) ? strip_tags( $new_instance['title'] ) : '';
 		$instance['no_certs']    = ( ! empty( $new_instance['no_certs'] ) ) ? strip_tags( $new_instance['no_certs'] ) : '';
-		$instance['more_certs']  = ( ! empty( $new_instance['more_certs'] ) ) ? strip_tags( $new_instance['more_certs'] ) : '';
-		$instance['list_height'] = ( ! empty( $new_instance['list_height'] ) ) ? absint( $new_instance['list_height'] ) : '5';
-		$instance['show_fails']  = ( true == $new_instance['show_fails'] ) ? true : false;
 
 		return $instance;
 	}
