@@ -34,10 +34,10 @@ class MarkLessonsComplete extends Config implements RequiredFunctions{
 	 */
 	public static function get_details() {
 
-		$class_title = __( 'Mark Lessons Complete', self::get_text_domain() );
-		$kb_link = 'http://www.uncannyowl.com';
-		$class_description = __( 'Sample Description Mark Lessons Complete', self::get_text_domain() );
-		$class_icon = '<i class="uo_icon_fa fa fa-check"></i>';
+		$class_title = __( 'Topics Autocomplete Lessons', self::get_text_domain() );
+		$kb_link = null;
+		$class_description = __( 'Automatically marks lessons as completed when all topics and quizzes for that lesson are marked complete.', self::get_text_domain() );
+		$class_icon = '<i class="uo_icon_fa fa fa-check-circle-o"></i>';
 
 		return array( 	'title' => $class_title,
 			'kb_link' => $kb_link, // OR set as null not to display
