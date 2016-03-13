@@ -2,6 +2,10 @@
 /*** - Activator Screen - ***/
 /***************************/
 
+	/* Icon in sidebar menu*/
+	#adminmenu .current .toplevel_page_uncanny-learnDash-toolkit .wp-menu-image img {
+		opacity: 1;
+	}
 	/* Admin Header Container */
 	.uo-admin-header{
 		margin-bottom: 40px;
