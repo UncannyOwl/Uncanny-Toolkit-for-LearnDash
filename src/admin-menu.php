@@ -21,7 +21,6 @@ class AdminMenu extends Boot {
 			add_action( 'admin_enqueue_scripts', array( __CLASS__, 'scripts' ) );
 		}
 
-		//parent::__construct();
 	}
 
 	/**
@@ -52,7 +51,7 @@ class AdminMenu extends Boot {
 	 * Whitelisted Options that are saved on the page
 	 */
 	public static function register_options_menu_page_settings() {
-		register_setting( 'uncanny_learndash_toolkit-group', 'uncanny_public_active_classes' );
+		register_setting( 'uncanny_learndash_toolkit-group', 'uncanny_toolkit_active_classes' );
 	}
 
 	/**
@@ -77,6 +76,7 @@ class AdminMenu extends Boot {
 			foreach( $external_classes as $external_class ){
 				$external_files = scandir( $external_class['path'] );
 				$external_details = self::get_class_details( $external_class['path'], $external_files, $external_class['namespace'] );
+
 				$class_details = array_merge( $class_details, $external_details );
 			}
 

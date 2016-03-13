@@ -63,7 +63,7 @@ class Config {
 	 */
 	public static function get_active_classes() {
 		if ( ! self::$available_plugins ) {
-			self::$available_plugins = get_option( 'uncanny_public_active_classes', array() );
+			self::$available_plugins = get_option( 'uncanny_toolkit_active_classes', array() );
 			if ( empty( self::$available_plugins ) ) {
 				self::$available_plugins = array();
 			}
