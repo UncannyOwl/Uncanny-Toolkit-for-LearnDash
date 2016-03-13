@@ -1,11 +1,11 @@
 <?php
 /*
-Plugin Name: Uncanny LearnDash Functionality
+Plugin Name: Uncanny LearnDash Toolkit
 Version: 0.1.8
-Description: This plugin adds a variety of functions to LearnDash sites that help improve the learner experience and LearnDash development workflow. After building dozens of LearnDash platforms, we combined the functions that are common across LearnDash sites into this single plugin.
-Author: uncannyowl.com
-Author URI: uncannyowl.com
-Plugin URI: uncannyowl.com
+Description: Extend the LearnDash plugin with a variety of complementary features to make building engaging learner experiences even easier.
+Author: www.uncannyowl.com
+Author URI: www.uncannyowl.com
+Plugin URI: www.uncannyowl.com/uncanny-learndash-toolkit/
 Text Domain: uncanny_learndash_public
 Domain Path: /languages
 */
