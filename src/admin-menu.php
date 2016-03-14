@@ -171,8 +171,8 @@ class AdminMenu extends Boot {
 			<p><?php
 			printf(
 				__( 'This is the first Uncanny Owl LearnDash plugin that we\'ve made available in the WordPress repository. We\'ll be
-				releasing more over the next few months as well as adding new features to this plugin. Sign up for our mailing list 
-				at <a href="http://www.uncannyowl.com/" target="_blank">Uncanny Owl</a> so you don\'t miss any updates!', Config::get_text_domain() ) ,
+				releasing more over the next few months as well as adding new features to this plugin. Visit us at 
+				<a href="http://www.uncannyowl.com/" target="_blank">Uncanny Owl</a> so you don\'t miss any updates!', Config::get_text_domain() ) ,
 			esc_url( 'http://www.uncannyowl.com' ) );
 			?></p>
 
