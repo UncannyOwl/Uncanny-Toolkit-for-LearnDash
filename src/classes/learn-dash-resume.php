@@ -72,22 +72,30 @@ class LearnDashResume extends Config implements RequiredFunctions {
 	 * @static
 	 */
 	public static function find_last_known_learndash_page() {
-		/* declare $post as global so we get the post->ID of the current page / post */
-		global $post;
-		/* Limit the plugin to LearnDash specific post types */
-		$learn_dash_post_types = apply_filters( 'last_known_learndash_post_types',
-			array(
-				'sfwd-courses',
-				'sfwd-lessons',
-				'sfwd-topic',
-				'sfwd-quiz',
-				'sfwd-certificates',
-				'sfwd-certificates',
-				'sfwd-assignment',
-			)
-		);
-		if ( is_singular( $learn_dash_post_types ) ) {
-			update_option( 'learndash_last_known_page', $post->ID );
+
+		$user = wp_get_current_user();
+
+		if( $user->exists() ){
+
+			/* declare $post as global so we get the post->ID of the current page / post */
+			global $post;
+			/* Limit the plugin to LearnDash specific post types */
+			$learn_dash_post_types = apply_filters( 'last_known_learndash_post_types',
+					array(
+							'sfwd-courses',
+							'sfwd-lessons',
+							'sfwd-topic',
+							'sfwd-quiz',
+							'sfwd-certificates',
+							'sfwd-certificates',
+							'sfwd-assignment',
+					)
+			);
+
+			if ( is_singular( $learn_dash_post_types ) ) {
+				update_user_meta( $user->ID, 'learndash_last_known_page', $post->ID );
+			}
+
 		}
 	}
 
@@ -99,34 +107,41 @@ class LearnDashResume extends Config implements RequiredFunctions {
 	 * @return string
 	 */
 	public static function learndash_resume() {
-		$last_know_page_id = get_option( 'learndash_last_known_page' );
 
-		// get_option returns false if option not set
-		if ( false !== $last_know_page_id ) {
-			$post_type   = get_post_type( $last_know_page_id ); // getting post_type of last page.
-			$label       = get_post_type_object( $post_type ); // getting Labels of the post type.
-			$title       = get_the_title( $last_know_page_id );
-			$link_text   = apply_filters( 'learndash_resume_link_text', 'RESUME' );
-			$css_classes = apply_filters( 'learndash_resume_css_classes', 'learndash-resume-button' );
-			ob_start();
-			printf( '<a href="%s" title="%s" class="%s">%s</a>',
-				get_permalink( $last_know_page_id ),
-				esc_attr(
-					sprintf( _x( 'Resume %s: %s', 'LMS shortcode Resume link title "Resume post_type_name: Post_title ', Config::get_text_domain() ),
-						$label->labels->singular_name,
-						$title
-					)
-				),
-				esc_attr( $css_classes ),
-				//todo: wwhy in tranlation
-				sprintf( _x( '<input type="submit" value="%s" name="sfwd_mark_complete">', '', Config::get_text_domain() ),
-					esc_attr( $link_text )
-				)
-			);
-			$resumelink = ob_get_contents();
-			ob_end_clean();
+		$user = wp_get_current_user();
 
-			return $resumelink;
+		if( $user->exists() ) {
+
+			$last_know_page_id = get_user_meta($user->ID, 'learndash_last_known_page', true);
+
+			// get_option returns false if option not set
+			if ('' !== $last_know_page_id) {
+				$post_type = get_post_type($last_know_page_id); // getting post_type of last page.
+				$label = get_post_type_object($post_type); // getting Labels of the post type.
+				$title = get_the_title($last_know_page_id);
+				$link_text = apply_filters('learndash_resume_link_text', 'RESUME');
+				$css_classes = apply_filters('learndash_resume_css_classes', 'learndash-resume-button');
+				ob_start();
+				printf('<a href="%s" title="%s" class="%s">%s</a>',
+						get_permalink($last_know_page_id),
+						esc_attr(
+								sprintf(_x('Resume %s: %s', 'LMS shortcode Resume link title "Resume post_type_name: Post_title ', Config::get_text_domain()),
+										$label->labels->singular_name,
+										$title
+								)
+						),
+						esc_attr($css_classes),
+						//todo: wwhy in tranlation
+						sprintf(_x('<input type="submit" value="%s" name="sfwd_mark_complete">', '', Config::get_text_domain()),
+								esc_attr($link_text)
+						)
+				);
+				$resumelink = ob_get_contents();
+				ob_end_clean();
+
+				return $resumelink;
+			}
+
 		}
 
 		return '';
