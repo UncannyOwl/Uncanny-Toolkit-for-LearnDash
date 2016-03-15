@@ -31,6 +31,9 @@ class MenuItemVisibility extends Config implements RequiredFunctions {
 			// Add new fields to the custom admin walker menu
 			add_action( 'wp_nav_menu_item_uo_fields', array( __CLASS__, 'custom_fields' ), 10, 4 );
 
+			// add new fields via hook
+			add_action( 'wp_nav_menu_item_custom_fields', array( __CLASS__, 'custom_fields' ), 10, 4 );
+
 			// Save new custom admin walker menu item meta fields
 			add_action( 'wp_update_nav_menu_item', array( __CLASS__, 'nav_update' ), 10, 2 );
 
