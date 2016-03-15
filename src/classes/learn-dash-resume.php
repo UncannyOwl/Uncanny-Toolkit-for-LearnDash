@@ -75,7 +75,7 @@ class LearnDashResume extends Config implements RequiredFunctions {
 
 		$user = wp_get_current_user();
 
-		if( $user->exists() ){
+		if( is_user_logged_in() ){
 
 			/* declare $post as global so we get the post->ID of the current page / post */
 			global $post;
@@ -110,7 +110,7 @@ class LearnDashResume extends Config implements RequiredFunctions {
 
 		$user = wp_get_current_user();
 
-		if( $user->exists() ) {
+		if( is_user_logged_in() ) {
 
 			$last_know_page_id = get_user_meta($user->ID, 'learndash_last_known_page', true);
 
