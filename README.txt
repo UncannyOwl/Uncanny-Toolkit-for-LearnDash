@@ -28,7 +28,7 @@ If you are not using any of the functions in this plugin, please remember to tur
 We’ll continue adding features over the next few months. Breadcrumb shortcodes and printable learner transcripts are next on our list!
 
 == Installation ==
-1. Upload the plugin zip file to the `/wp-content/plugins/` directory
+1. Upload the contents of the plugin zip file to the `/wp-content/plugins/` directory
 2. Activate the plugin through the \'Plugins\' menu in WordPress
 
 == Screenshots ==
