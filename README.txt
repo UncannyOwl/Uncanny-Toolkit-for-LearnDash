@@ -36,8 +36,8 @@ We’ll continue adding features over the next few months. Breadcrumb shortcodes
 
 == Changelog ==
 
-= 1.2 =
-* First public released version
+= 1.0 =
+* Public release
 
 == Upgrade Notice ==
 
