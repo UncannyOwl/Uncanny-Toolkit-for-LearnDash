@@ -66,6 +66,7 @@ class AdminMenu extends Boot {
 		// loop file in classes folded and call get_details
 		// check function exist first
 		$path = dirname( __FILE__ ) . '/classes/';
+
 		$files = scandir( $path );
 
 		$internal_details = self::get_class_details( $path, $files, __NAMESPACE__ );
@@ -74,10 +75,14 @@ class AdminMenu extends Boot {
 		if ( false !== $external_classes ){
 
 			foreach( $external_classes as $external_class ){
-				$external_files = scandir( $external_class['path'] );
-				$external_details = self::get_class_details( $external_class['path'], $external_files, $external_class['namespace'] );
 
-				$class_details = array_merge( $class_details, $external_details );
+				// Make sure that the external path being loaded exists
+				if( false !== $external_class['path'] ){
+					$external_files = scandir( $external_class['path'] );
+					$external_details = self::get_class_details( $external_class['path'], $external_files, $external_class['namespace'] );
+					$class_details = array_merge( $class_details, $external_details );
+				}
+
 			}
 
 		}

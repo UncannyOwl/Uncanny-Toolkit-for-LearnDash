@@ -38,6 +38,10 @@ We’ll continue adding features over the next few months. Breadcrumb shortcodes
 
 = 1.0 =
 * Public release
+= 1.0.1 =
+* OB Clean Buffer Before AJAX Response
+* Make sure UO Custom And Pro Paths Exist
+* Set Addon Option default as Array()
 
 == Upgrade Notice ==
 

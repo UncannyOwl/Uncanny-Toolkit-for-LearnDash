@@ -104,7 +104,7 @@ class LoginRedirect extends Config implements RequiredFunctions {
 
 		$login_redirect = false;
 
-		$settings = get_option( 'LoginRedirect' );
+		$settings = get_option( 'LoginRedirect', Array() );
 
 		foreach ( $settings as $setting ) {
 

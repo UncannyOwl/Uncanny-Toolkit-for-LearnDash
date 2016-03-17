@@ -32,9 +32,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			/* CHECK IF PLUGIN NEEDS TO SET MANUAL VERIFICATION */
 			$uo_manual_verification = 'no';
 			$is_login_page_set = 'no';
-			$settings = get_option( 'FrontendLoginPlus' );
-
-			if ( false !== $settings ) {
+			$settings = get_option( 'FrontendLoginPlus', Array() );
 
 				foreach ( $settings as $setting ) {
 
@@ -47,7 +45,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 					}
 
 				}
-			}
+
 
 			if( 'yes' === $is_login_page_set ){
 
@@ -408,7 +406,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 		$uo_manual_verification = 'no';
 
-		$settings = get_option( 'FrontendLoginPlus' );
+		$settings = get_option( 'FrontendLoginPlus',Array() );
 
 		if ( false !== $settings ) {
 
@@ -470,15 +468,14 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 		$page_id = 0;
 
-		$settings = get_option( 'FrontendLoginPlus' );
-		if ( false !== $settings ) {
+		$settings = get_option( 'FrontendLoginPlus', Array() );
 
 			foreach ( $settings as $setting ) {
 				if ( 'login_page' === $setting['name'] ) {
 					$page_id = $setting['value'];
 				}
 			}
-		}
+
 
 		return (int) $page_id;
 	}

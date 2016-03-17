@@ -420,6 +420,9 @@ class Config {
 
 		}
 
+		// Clean Buffer before Response
+		ob_clean();
+
 		echo $response;
 
 		wp_die();
@@ -449,6 +452,9 @@ class Config {
 			$response = 'You must be an admin to save settings.';
 
 		}
+
+		// Clean Buffer before Response
+		ob_clean();
 
 		echo $response;
 

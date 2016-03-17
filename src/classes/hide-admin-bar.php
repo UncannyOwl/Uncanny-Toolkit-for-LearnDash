@@ -112,7 +112,7 @@ class HideAdminBar extends Config implements RequiredFunctions {
 			$user_roles = $current_user->roles;
 			$user_role  = array_shift( $user_roles );
 
-			$hide_roles = get_option( 'HideAdminBar' );
+			$hide_roles = get_option( 'HideAdminBar', Array() );
 
 			foreach ( $hide_roles as $role ) {
 
