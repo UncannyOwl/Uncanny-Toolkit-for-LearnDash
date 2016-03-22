@@ -84,7 +84,8 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				add_filter( 'retrieve_password_message', array( __CLASS__, 'custom_retrieve_password_message' ), 10, 4 );
 				// Add lost password link to login form
 				add_action( 'login_form_bottom', array( __CLASS__, 'add_lost_password_link' ) );
-
+				// Add shortcode to page with warning if it wasn't added
+				add_action( 'loop_end', array( __CLASS__, 'maybe_add_ui_shortcode' ) );
 			}
 
 			/* Redirect Login Page */
@@ -512,5 +513,29 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		$new_message .= '<' . $reset_link . ">\r\n";
 
 		return $new_message;
+	}
+
+	public static function maybe_add_ui_shortcode(){
+
+		global $post;
+
+		$settings = get_option( 'FrontendLoginPlus', Array() );
+
+		foreach ( $settings as $setting ) {
+
+			if ( 'login_page' === $setting['name'] && '0' !== $setting['value']) {
+				$login_page_id = $setting['value'];
+				if( $post->ID == (int)$login_page_id ){
+					if ( !has_shortcode( $post->post_content, 'uo_login_ui' ) ) {
+						echo 'Notice: You need to add this shortcode to [uo_login_ui] to this page.';
+						echo do_shortcode( '[uo_login_ui]' );
+					}
+				}
+
+			}
+
+		}
+
+
 	}
 }
