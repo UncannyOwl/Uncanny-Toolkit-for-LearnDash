@@ -42,6 +42,7 @@ We’ll continue adding features over the next few months. Breadcrumb shortcodes
 * OB Clean Buffer Before AJAX Response
 * Make sure UO Custom And Pro Paths Exist
 * Set Addon Option default as Array()
+* Prevent login lockout
 
 == Upgrade Notice ==
 
