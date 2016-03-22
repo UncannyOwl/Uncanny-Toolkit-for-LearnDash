@@ -42,9 +42,9 @@ We welcome contributions to the Uncanny LearnDash Toolkit! The plugin is managed
 
 = 1.0.1 =
 * OB Clean Buffer Before AJAX Response
-* Make sure UO Custom And Pro Paths Exist
+* Improve support for custom extensions
 * Set Addon Option default as Array()
-* Prevent login lockout
+* Prevent login lockout if login page set incorrectly
 
 = 1.0 =
 * Public release
