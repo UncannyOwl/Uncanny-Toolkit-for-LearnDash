@@ -527,7 +527,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				$login_page_id = $setting['value'];
 				if( $post->ID == (int)$login_page_id ){
 					if ( !has_shortcode( $post->post_content, 'uo_login_ui' ) ) {
-						echo 'Notice: You need to add this shortcode to [uo_login_ui] to this page.';
+						echo '<strong>Note: This page has been set as the login page for this site.  The form below has been added for your convenience.  To hide this message, add the shortcode [uo_login_ui] to this page.</strong>';
 						echo do_shortcode( '[uo_login_ui]' );
 					}
 				}
