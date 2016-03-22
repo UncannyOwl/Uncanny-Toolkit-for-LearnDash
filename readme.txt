@@ -16,14 +16,14 @@ https://www.youtube.com/watch?v=FKsN0oTx-rM
 
 The current version of the Uncanny LearnDash Toolkit includes the following functions:
 
-* Front End Login: Replace wp-login with a simple shortcode that you can drop onto any page to allow better branding of the login experience. User verification is also available to manage registrations.
-* Hide Admin Bar: Hide the WordPress admin bar for any roles that you want.
-* LearnDash Resume Button: Allow users to pick up where they left off in a LearnDash course by clicking a button.
-* LearnDash Groups in User Profiles: Easily identify LearnDash Group membership from user profile pages.
-* Login Redirect: Send learners to a custom dashboard or course after they sign in.
-* Menu Item Visibility: Control the visibility of menu entries based on whether or not the user is signed in.
-* Show LearnDash Certificates: Use a simple shortcode to display a list of all certificates (course and quiz) earned by the current user.
-* Show or Hide Content: Use shortcodes to show or hide content based on whether or not a user is signed in. Great for Open course types.
+* **Front End Login**: Replace wp-login with a simple shortcode that you can drop onto any page to allow better branding of the login experience. User verification is also available to manage registrations.
+* **Hide Admin Bar**: Hide the WordPress admin bar for any roles that you want.
+* **LearnDash Resume Button**: Allow users to pick up where they left off in a LearnDash course by clicking a button.
+* **LearnDash Groups in User Profiles**: Easily identify LearnDash Group membership from user profile pages.
+* **Login Redirect**: Send learners to a custom dashboard or course after they sign in.
+* **Menu Item Visibility**: Control the visibility of menu entries based on whether or not the user is signed in.
+* **Show LearnDash Certificates**: Use a simple shortcode to display a list of all certificates (course and quiz) earned by the current user.
+* **Show or Hide Content**: Use shortcodes to show or hide content based on whether or not a user is signed in. Great for Open course types.
 
 If you are not using any of the functions in this plugin, please remember to turn them off to maximize performance.
 
