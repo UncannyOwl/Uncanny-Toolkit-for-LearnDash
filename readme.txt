@@ -1,16 +1,18 @@
 === Uncanny LearnDash Toolkit ===
 Contributors: UncannyOwl
-Tags: LearnDash
+Tags: LearnDash, eLearning, LMS
 Requires at least: 3.3
 Tested up to: 4.4.2
 Stable tag: 4.4.2
 License: LearnDash Groups in User Profiles is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or any later version.   LearnDash Groups in User Profiles is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.   You should have received a copy of the GNU General Public License along with LearnDash Groups in User Profiles. If not, see {URI to Plugin License}.
 License URI: https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
 
-This plugin extends LearnDash with a variety of optional functions that we find useful on typical LearnDash sites.
+Extend LearnDash with a variety of useful functions that make it even easier to build great learner experiences with LearnDash.
 
 == Description ==
 This plugin adds a variety of functions to LearnDash sites that help improve the learner experience and LearnDash development workflow. After building dozens of LearnDash platforms, we combined the functions that are common across LearnDash sites into this single plugin.
+
+https://www.youtube.com/watch?v=FKsN0oTx-rM
 
 The current version of the Uncanny LearnDash Toolkit includes the following functions:
 
@@ -25,24 +27,27 @@ The current version of the Uncanny LearnDash Toolkit includes the following func
 
 If you are not using any of the functions in this plugin, please remember to turn them off to maximize performance.
 
-We’ll continue adding features over the next few months. Breadcrumb shortcodes and printable learner transcripts are next on our list!
+More information about how to use the Toolkit, including a 40-minute instructional screencast, is available at (http://www.uncannyowl.com/uncanny-learndash-toolkit/).
+
+We welcome contributions to the Uncanny LearnDash Toolkit! The plugin is managed in a [Bitbucket Repository](https://bitbucket.org/uncannyowl/uncanny-learndash-toolkit). 
 
 == Installation ==
-1. Upload the contents of the plugin zip file to the `/wp-content/plugins/` directory
-2. Activate the plugin through the \'Plugins\' menu in WordPress
+1. Upload the contents of the plugin zip file to the `/wp-content/plugins/` directory.
+2. Activate the plugin through the Plugins menu in WordPress.
 
 == Screenshots ==
 1. Uncanny LearnDash Toolkit Dashboard
 
 == Changelog ==
 
-= 1.0 =
-* Public release
 = 1.0.1 =
 * OB Clean Buffer Before AJAX Response
 * Make sure UO Custom And Pro Paths Exist
 * Set Addon Option default as Array()
 * Prevent login lockout
+
+= 1.0 =
+* Public release
 
 == Upgrade Notice ==
 
