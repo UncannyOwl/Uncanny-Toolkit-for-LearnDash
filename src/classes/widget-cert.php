@@ -112,7 +112,7 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 
 				if ( $certificate_link && '' !== $certificate_link ) {
 					if( ! in_array( $certificate_title, $certificate_titles )){
-						$certificate_list .= '<li><a href="' . $certificate_link . '" title="' . esc_html( __( 'Your certificate for :', Config::get_text_domain() ) . $course->post_title ) . '">' . $certificate_title . '</a></li>';
+						$certificate_list .= '<li><a target="_blank" href="' . $certificate_link . '" title="' . esc_html( __( 'Your certificate for :', Config::get_text_domain() ) . $course->post_title ) . '">' . $certificate_title . '</a></li>';
 						array_push( $certificate_titles, $certificate_title );
 					}
 				}
@@ -146,7 +146,7 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 					$certificate_title = $certificate_object->post_title;
 
 					if( ! in_array( $certificate_title, $certificate_titles )){
-						printf( '<li><a href="%s" title="%s" > %s</a></li>',
+						printf( '<li><a target="_blank" href="%s" title="%s" > %s</a></li>',
 								esc_url( $certificateLink ),
 								esc_html( __( 'Your certificate for :', Config::get_text_domain() ) . $quiz_title ),
 								esc_html( $certificate_title )

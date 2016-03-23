@@ -40,6 +40,9 @@ We welcome contributions to the Uncanny LearnDash Toolkit! The plugin is managed
 
 == Changelog ==
 
+= 1.0.2 =
+* Open Certificate links in new window
+
 = 1.0.1 =
 * OB Clean Buffer Before AJAX Response
 * Improve support for custom extensions

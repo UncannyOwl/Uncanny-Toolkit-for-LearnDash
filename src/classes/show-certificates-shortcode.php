@@ -123,7 +123,7 @@ class ShowCertificatesShortcode extends Config implements RequiredFunctions {
 
 			if ( $certificate_link && '' !== $certificate_link ) {
 				if( ! in_array( $certificate_title, $certificate_titles )){
-					$certificate_list .= '<a href="' . $certificate_link . '">' . $certificate_title . '</a><br>';
+					$certificate_list .= '<a target="_blank" href="' . $certificate_link . '">' . $certificate_title . '</a><br>';
 					array_push( $certificate_titles, $certificate_title );
 				}
 			}
@@ -151,7 +151,7 @@ class ShowCertificatesShortcode extends Config implements RequiredFunctions {
 						$certificate_title = $certificate_object->post_title;
 
 						if( ! in_array( $certificate_title, $certificate_titles )){
-							$certificate_list .= '<a href="' . esc_url( $certificateLink ) . '">' . $certificate_title . '</a><br>';
+							$certificate_list .= '<a target="_blank" href="' . esc_url( $certificateLink ) . '">' . $certificate_title . '</a><br>';
 							array_push( $certificate_titles, $certificate_title );
 						}
 
