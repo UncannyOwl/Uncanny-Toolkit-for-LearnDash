@@ -46,7 +46,7 @@ class Sample extends Config implements RequiredFunctions {
 				',	self::get_text_domain() );
 
 		/* Icon as text - max four characters wil fit */
-		$class_icon = '<span class="uo_icon_text">[/ ]</span>'; // Shortcode
+		$class_icon = '<span class="uo_icon_text">[ /]</span>'; // Shortcode
 
 		/* Icon as wp dashicon */
 		$class_icon = '<span class="uo_icon_dashicon dashicons dashicons-admin-users"></span>';

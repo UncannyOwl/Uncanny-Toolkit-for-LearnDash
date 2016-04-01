@@ -70,6 +70,7 @@ class AdminMenu extends Boot {
 		$files = scandir( $path );
 
 		$internal_details = self::get_class_details( $path, $files, __NAMESPACE__ );
+
 		$class_details = array_merge( $class_details, $internal_details );
 
 		if ( false !== $external_classes ){
