@@ -223,6 +223,8 @@
 		background: #FFF;
 		border-bottom: 6px solid #F9BA0F;
 		padding-bottom: 20px;
+		bottom: 10px;
+		overflow-y: auto;
 	}
 	.uo_settings_header{
 		background: #C9C9C9;

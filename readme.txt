@@ -43,6 +43,7 @@ We welcome contributions to the Uncanny LearnDash Toolkit! The plugin is managed
 = 1.0.2 =
 * Open Certificate links in new window
 * Fix blank settings page on older server configuration
+* Fix settings modal on small screens
 
 = 1.0.1 =
 * OB Clean Buffer Before AJAX Response
