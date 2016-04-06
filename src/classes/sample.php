@@ -118,7 +118,8 @@ class Sample extends Config implements RequiredFunctions {
 		);
 
 		$pages     = get_pages( $args );
-		$drop_down = array( [ 'value' => 0, 'text' => '- Select Page -' ] );
+		$drop_down = array();
+		array_push( $drop_down, array(  'value' => 0, 'text' => '- Select Page -' ) );
 
 		foreach ( $pages as $page ) {
 			array_push( $drop_down, array( 'value' => $page->ID, 'text' => $page->post_title ) );
