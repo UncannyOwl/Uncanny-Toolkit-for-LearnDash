@@ -51,6 +51,11 @@ class Boot extends Config {
 
 			foreach ( self::get_active_classes() as $class ) {
 
+				// Some wp installs remove slashes during db calls, being extra safe when comparing DB vs php values
+				if ( strpos($class, '\\') === false) {
+					$class = str_replace( 'toolkit', 'toolkit\\', $class );
+				}
+
 				$class_namespace = explode( '\\'  ,$class );
 
 				if ( class_exists( $class ) && __NAMESPACE__ ===  $class_namespace[0] ) {

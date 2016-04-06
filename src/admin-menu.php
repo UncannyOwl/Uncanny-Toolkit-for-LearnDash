@@ -295,7 +295,8 @@ class AdminMenu extends Boot {
 						</label>
 						<input class="uo_feature_checkbox" type="checkbox" id="<?php echo esc_attr( $class_name ); ?>" name="uncanny_toolkit_active_classes[<?php echo esc_attr( $class_name ) ?>]" value="<?php echo esc_attr( $class_name ) ?>" <?php
 						if (  array_key_exists( $class_name, $active_classes ) ) {
-							checked( $active_classes[ $class_name ], $class_name, true );
+						// Some wp installs remove slashes during db calls, being extra safe when comparing DB vs php values with stripslashes
+							checked( stripslashes(  $active_classes[ $class_name ] ), stripslashes( $class_name ), true );
 						}
 						?>
 						/>
