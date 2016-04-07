@@ -41,6 +41,8 @@ We welcome contributions to the Uncanny LearnDash Toolkit! The plugin is managed
 
 == Changelog ==
 
+= 1.1.1 =
+* NEW FEATURE: Breadcrumbs as part of uncanny toolkit
 
 = 1.1 =
 * NEW FEATURE: Log In/Log Out Links

@@ -43,6 +43,8 @@ function uncanny_learndash_toolkit_plugin_settings_link($links) {
 	return $links;
 }
 
+	// Load breadcrumb front-end plugin function
+	include_once( dirname( __FILE__ ) . '/src/learn-dash-breadcrumbs-function.php' );
 
 // Plugins Configurations File
 include_once( dirname( __FILE__ ) . '/src/config.php' );
