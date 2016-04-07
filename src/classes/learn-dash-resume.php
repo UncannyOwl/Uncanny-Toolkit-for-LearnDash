@@ -156,13 +156,10 @@
 					$title       = get_the_title( $last_know_page_id );
 					$resume_text = 'RESUME';
 
-					$options = get_option( str_replace( '\\', '', __CLASS__ ) );
-					if ( ! empty( $options ) ) {
-						foreach ( $options as $option ) {
-							if ( in_array( 'learn-dash-resume-button-text', $option ) ) {
-								$resume_text = $option[ 'value' ];
-							}
-						}
+					$options = self::get_settings_value( 'learn-dash-resume-button-text', __CLASS__ );
+
+					if ( strlen( trim( $options ) ) ) {
+						$resume_text = $options;
 					}
 
 					$link_text = apply_filters( 'learndash_resume_link_text', $resume_text );

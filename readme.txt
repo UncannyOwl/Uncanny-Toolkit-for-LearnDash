@@ -40,12 +40,15 @@ We welcome contributions to the Uncanny LearnDash Toolkit! The plugin is managed
 
 == Changelog ==
 
+= 1.0.3 =
+* Added setting to change Resume button text
+* Added functionality to grab saved option from database.
+
 = 1.0.2 =
 * Open Certificate links in new window
 * Fix blank settings page on older server configuration
 * Fix auto loading on older server configuration
 * Fix settings modal on small screens
-* Added setting to change 'Resume Button' text
 
 = 1.0.1 =
 * OB Clean Buffer Before AJAX Response
