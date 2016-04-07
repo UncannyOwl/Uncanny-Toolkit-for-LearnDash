@@ -8,6 +8,15 @@ global $user_login;
 /* Login */
 $login = ( isset( $_GET['login'] ) ) ? $_GET['login'] : 'not-set';
 
+
+/* Registration */
+$register = false;
+if( isset( $_GET['action'] ) ){
+	if ( 'register' === $_GET['action'] ) {
+		//$register = true;
+	}
+}
+
 /* Lost Password */
 $lost_password = false;
 if ( isset( $_GET['action'] ) ) {
@@ -62,6 +71,10 @@ switch ( $login ) {
 		$message_error   = __( 'Woops!', $uo_public_text_domain );
 		$message_warning = __( 'This account is not verified.', $uo_public_text_domain );
 		break;
+	case 'registration-disabled':
+		$message_error   = __( 'Woops!', $uo_public_text_domain );
+		$message_warning = __( 'We do not allow registrations.', $uo_public_text_domain );
+		break;
 	default:
 		$message_error   = '';
 		$message_warning = '';
@@ -105,7 +118,8 @@ $innerText = Array(
 		'Expired-Reset-Key'			=>  __( 'Your password reset link is expired.', $uo_public_text_domain ),
 		'Password-Not-Match'		=>  __( 'Your Passwords did not match. Please try again.', $uo_public_text_domain ),
 		'Reset-Success'				=>  __( 'Your password was reset successfully. Please Log-In.', $uo_public_text_domain ),
-		'Login-Title'				=>  __( 'Login', $uo_public_text_domain )
+		'Login-Title'				=>  __( 'Login', $uo_public_text_domain ),
+		'Register-Link'				=>  __( 'Register', $uo_public_text_domain )
 );
 
 $innerText = apply_filters( 'uo-login-inner-text', $innerText );
@@ -138,7 +152,7 @@ $innerText = apply_filters( 'uo-login-inner-text', $innerText );
 		</form>
 		<?php
 	} elseif ( $reset_password_sent ) {
-		if ( $reset_password_sent_success ) {
+		if ($reset_password_sent_success) {
 			?>
 			<p class="login-msg">
 				<strong><?php echo $innerText['Success']; ?></strong> <?php echo $innerText['Success-Email-Sent']; ?>
@@ -146,10 +160,28 @@ $innerText = apply_filters( 'uo-login-inner-text', $innerText );
 			<?php
 		} else {
 			?>
-			<p class="login-msg"><strong><?php echo $innerText['Woops']; ?></strong> <?php echo $innerText['Failed-Send-Email']; ?></p>
-			<p><a href="<?php echo get_permalink( $login_page ); ?>?action=lostpassword">Try again?</a></p>
+			<p class="login-msg">
+				<strong><?php echo $innerText['Woops']; ?></strong> <?php echo $innerText['Failed-Send-Email']; ?></p>
+			<p><a href="<?php echo get_permalink($login_page); ?>?action=lostpassword">Try again?</a></p>
 			<?php
 		}
+	}elseif ( $register ){
+		?>
+		<form name="registerform" id="registerform" action="http://www.uopublicplugin.dev/wp-login.php?action=register" method="post" novalidate="novalidate">
+			<p>
+				<label for="user_login">Username<br>
+					<input type="text" name="user_login" id="user_login" class="input" value="" size="20"></label>
+			</p>
+			<p>
+				<label for="user_email">Email<br>
+					<input type="email" name="user_email" id="user_email" class="input" value="" size="25"></label>
+			</p>
+			<p id="reg_passmail">Registration confirmation will be emailed to you.</p>
+			<br class="clear">
+			<input type="hidden" name="redirect_to" value="">
+			<p class="submit"><input type="submit" name="wp-submit" id="wp-submit" class="button button-primary button-large" value="Register"></p>
+		</form>
+		<?php
 	} elseif ( $reset_password ) {
 
 		if ( isset( $_GET['key'] ) && isset( $_GET['login'] ) ) {
@@ -244,6 +276,12 @@ $innerText = apply_filters( 'uo-login-inner-text', $innerText );
 		<h2>Login</h2>
 		<?php
 		wp_login_form( $login_form_args );
+
+		// Add registration link allowed
+		if ( get_option( 'users_can_register' ) ) {
+			echo '<a class="register-link" href="'.wp_registration_url().'" >'.$innerText['Register-Link'].'</a>';
+		}
+
 	}
 	?>
 
