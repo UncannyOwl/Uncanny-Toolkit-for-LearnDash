@@ -273,7 +273,7 @@ class Config {
 	 */
 	public static function get_version() {
 		if ( null === self::$version ) {
-			self::$version = '1.0.2';
+			self::$version = '1.1.1';
 		}
 
 		return self::$version;
