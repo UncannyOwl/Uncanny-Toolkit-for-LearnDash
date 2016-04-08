@@ -41,6 +41,8 @@ We welcome contributions to the Uncanny LearnDash Toolkit! The plugin is managed
 1. Uncanny LearnDash Toolkit Dashboard
 
 == Changelog ==
+= 1.1.2 =
+* Fixed Breadcrumbs and added Separator setting to toolkit instead of static font-awesome
 
 = 1.1.1 =
 * NEW FEATURE: LearnDash Breadcrumbs

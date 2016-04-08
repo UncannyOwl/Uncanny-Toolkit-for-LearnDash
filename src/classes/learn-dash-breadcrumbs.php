@@ -1,14 +1,6 @@
 <?php
-	/**
-	 * Created by PhpStorm.
-	 * User: Saad
-	 * Date: 2016-04-07
-	 * Time: 12:48 PM
-	 */
-	
 	namespace uncanny_learndash_toolkit;
 
-	
 	/**
 	 * Class learndashBreadcrumbs
 	 * @package uncanny_custom_toolkit
@@ -29,9 +21,7 @@
 			if ( true === self::dependants_exist() ) {
 
 				/* ADD FILTERS ACTIONS FUNCTION */
-				add_shortcode( 'sfwd-breadcrumbs', array( __CLASS__, 'learndash_breadcrumbs' ) );
-				add_action( 'wp_head', array( __CLASS__, 'load_font_awesome' ) );
-
+				add_shortcode( 'learndash-breadcrumbs', array( __CLASS__, 'learndash_breadcrumbs' ) );
 				//Disable WP SEO breadcrumbs
 				add_filter( 'wpseo_breadcrumb_output', array( __CLASS__, 'wpseo_learndash_breadcrumbs' ) );
 			}
@@ -45,7 +35,6 @@
 		 * @return mixed
 		 */
 		static function dependants_exist() {
-			// TODO: Implement dependants_exist() method.7
 			/* Checks for LearnDash */
 			global $learndash_post_types;
 
@@ -58,28 +47,19 @@
 
 		/**
 		 *
-		 */
-		static function load_font_awesome() {
-			wp_register_style( 'font-awesome', '//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css', false, '4.5.0' );
-			wp_enqueue_style( 'font-awesome' );
-		}
-
-		/**
-		 *
 		 *
 		 * @static
 		 * @return mixed
 		 */
 		static function get_details() {
-			// TODO: Implement get_details() method.
 			$class_title = __( 'LearnDash Breadcrumbs', self::get_text_domain() );
 
 			$kb_link = null;
 
 			/* Sample Simple Description with shortcode */
-			$class_description = __( '<p>Easily implement LearnDash LMS Breadcrumbs that supports courses, lessons, topics and quizzes.  Also supports custom post types with or without taxonomies & tags, pages and blog posts.  Can also be called by shortcode [sfwd-breadcrumbs]</p>', self::get_text_domain() );
+			$class_description = __( 'Implement Breadcrumbs that supports courses, lessons, topics and quizzes. Also supports woocommerce, custom post types with or without taxonomies & tags, pages and blog posts. Use shortcode [learndash-breadcrumbs] or add &lt;? learndash_breadcrumbs() ?&gt; in the template.', self::get_text_domain() );
 
-			/* Icon as fontawesome icon */
+			/* Icon as font awesome icon */
 			$class_icon = '<i class="uo_icon_fa fa fa-link"></i>';
 
 			return array(
@@ -87,20 +67,17 @@
 				'kb_link'          => $kb_link, // OR set as null not to display
 				'description'      => $class_description,
 				'dependants_exist' => self::dependants_exist(),
-				'settings'         => self::get_class_settings(),
+				'settings'         => self::get_class_settings( $class_title ),
 				//'settings'         => false,
 				'icon'             => $class_icon,
 			);
 		}
 
+
 		/**
-		 * HTML for modal to create settings
-		 *
-		 * @static
-		 *
 		 * @param $class_title
 		 *
-		 * @return HTML
+		 * @return array (html)
 		 */
 		public static function get_class_settings( $class_title ) {
 			$pages[]   = array( 'value' => 0, 'text' => '-- Select Page --' );
@@ -125,6 +102,11 @@
 					'label'       => 'Dashboard Link',
 					'select_name' => 'learn-dash-breadcrumbs-dashboard-link',
 					'options'     => $pages,
+				),
+				array(
+					'type'        => 'text',
+					'label'       => 'Dashboard Link Separator',
+					'option_name' => 'learn-dash-breadcrumbs-dashboard-separator',
 				),
 			);
 
@@ -151,17 +133,20 @@
 		 *
 		 * @return string
 		 */
-		public function learndash_breadcrumbs( $echo = true ) {
+		public static function learndash_breadcrumbs( $echo = true ) {
 			global $wp_query;
+			//$wp_query = new WP_Query();
 
 			// Define main variables
-			$trail          = array();
-			$trail[]        = self::lms_build_anchor_links( get_bloginfo( 'url' ), __( 'Home', self::get_text_domain() ) );
-			$dashboard_link = get_permalink( get_page_by_path( '/dashboard' ) );
-			$dashboard_text = 'Dashboard';
+			$trail               = array();
+			$trail[]             = self::lms_build_anchor_links( get_bloginfo( 'url' ), __( 'Home', self::get_text_domain() ) );
+			$dashboard_link      = get_permalink( get_page_by_path( '/dashboard' ) );
+			$dashboard_text      = 'Dashboard';
+			$dashboard_separator = '&raquo;';
 
-			$get_dashboard_text = self::get_settings_value( 'learn-dash-breadcrumbs-dashboard-text', __CLASS__ );
-			$get_dashboard_link = self::get_settings_value( 'learn-dash-breadcrumbs-dashboard-link', __CLASS__ );
+			$get_dashboard_text      = self::get_settings_value( 'learn-dash-breadcrumbs-dashboard-text', __CLASS__ );
+			$get_dashboard_link      = self::get_settings_value( 'learn-dash-breadcrumbs-dashboard-link', __CLASS__ );
+			$get_dashboard_separator = self::get_settings_value( 'learn-dash-breadcrumbs-dashboard-separator', __CLASS__ );
 
 			if ( strlen( trim( $get_dashboard_text ) ) ) {
 				$dashboard_text = $get_dashboard_text;
@@ -169,6 +154,10 @@
 
 			if ( strlen( trim( $get_dashboard_link ) ) ) {
 				$dashboard_link = get_permalink( $get_dashboard_link );
+			}
+
+			if ( strlen( trim( $get_dashboard_separator ) ) ) {
+				$dashboard_separator = $get_dashboard_separator;
 			}
 
 			$dashboard_link = self::lms_build_anchor_links( $dashboard_link, $dashboard_text );
@@ -331,7 +320,7 @@
 			$breadcrumb = '<nav class="' . esc_attr( $classes ) . '"><div class="breadcrumb-trail">';
 
 			// Separator HTML
-			$separator = '<span class="sep">' . '<span class="fa fa-angle-right"></span>' . '</span>';
+			$separator = '<span class="sep"> ' . $dashboard_separator . ' </span>';
 
 			// Join all trail items into a string
 			$breadcrumb .= implode( $separator, $trail );
@@ -341,9 +330,10 @@
 
 			if ( false === $echo ) {
 				return $breadcrumb;
+			}else{
+				// Display breadcrumbs
+				echo $breadcrumb;
 			}
-			// Display breadcrumbs
-			echo $breadcrumb;
 		}
 
 		/**
@@ -355,11 +345,7 @@
 		public static function lms_build_anchor_links( $permalink, $title ) {
 
 			return sprintf(
-				'<span itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
-							<a href="%1$s" title="%2$s" rel="%3$s" class="trail-begin">
-								<span itemprop="%2$s">%4$s</span>
-							</a>
-						</span>',
+				'<span itemscope="" itemtype="http://schema.org/Breadcrumb"><a href="%1$s" title="%2$s" rel="%3$s" class="trail-begin"><span itemprop="%2$s">%4$s</span></a></span>',
 				esc_url( $permalink ),
 				esc_attr( $title ),
 				sanitize_title( $title ),
@@ -409,6 +395,7 @@
 			}
 		}
 
+
 		/**
 		 * @return null
 		 */
@@ -429,5 +416,6 @@
 			else {
 				return null;
 			}
+			return null;
 		}
 	}
