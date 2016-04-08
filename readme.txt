@@ -25,7 +25,7 @@ The current version of the Uncanny LearnDash Toolkit includes the following func
 * **Show LearnDash Certificates**: Use a simple shortcode to display a list of all certificates (course and quiz) earned by the current user.
 * **Show or Hide Content**: Use shortcodes to show or hide content based on whether or not a user is signed in. Great for Open course types.
 * **Log In/Log Out Links**: Add Log In and Log Out links to menus, or to any page or widget with a shortcode.
-* **LearnDash Breadcrumbs**: Add Log In and Log Out links to menus, or to any page or widget with a shortcode.
+* **LearnDash Breadcrumbs**: Implement Breadcrumbs that supports courses, lessons, topics and quizzes. Also supports woocommerce, custom post types with or without taxonomies & tags, pages and blog posts.
 
 If you are not using any of the functions in this plugin, please remember to turn them off to maximize performance.
 
@@ -41,8 +41,6 @@ We welcome contributions to the Uncanny LearnDash Toolkit! The plugin is managed
 1. Uncanny LearnDash Toolkit Dashboard
 
 == Changelog ==
-= 1.1.2 =
-* Fixed Breadcrumbs and added Separator setting to toolkit instead of static font-awesome
 
 = 1.1.1 =
 * NEW FEATURE: LearnDash Breadcrumbs
@@ -52,6 +50,8 @@ We welcome contributions to the Uncanny LearnDash Toolkit! The plugin is managed
 * Fixed redirect from wp registration page
 * Added registration link to uo_login_ui
 * Added setting to change Resume button text
+
+= 1.0.1 =
 * Open Certificate links in new window
 * Fix blank settings page on older server configuration
 * Fix auto loading on older server configuration
