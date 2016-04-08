@@ -470,9 +470,9 @@ class Config {
 	public static function get_settings_value( $key, $class ) {
 
 		$class = str_replace( __NAMESPACE__, '', stripslashes( $class ));
-		$options = get_option( $class, null );
+		$options = get_option( $class, '' );
 
-		if ( ! empty( $options ) && $options != null ) {
+		if ( ! empty( $options ) && $options != '' ) {
 			foreach ( $options as $option ) {
 				if ( in_array( $key, $option ) ) {
 					return $option[ 'value' ];

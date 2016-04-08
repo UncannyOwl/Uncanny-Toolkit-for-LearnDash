@@ -1,11 +1,5 @@
 <?php
-	/**
-	 * Created by PhpStorm.
-	 * User: Saad
-	 * Date: 2016-04-07
-	 * Time: 6:39 PM
-	 */
-
+	/* This function is only going to be used in templates instead of shortcode everytime.  */
 	use uncanny_learndash_toolkit\learnDashBreadcrumbs;
 
 	function learndash_breadcrumbs( $return = true ) {
