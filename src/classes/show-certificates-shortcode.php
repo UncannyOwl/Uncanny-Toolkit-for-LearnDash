@@ -6,6 +6,10 @@ if (!defined('WPINC')) {
 	die;
 }
 
+/**
+ * Class ShowCertificatesShortcode
+ * @package uncanny_custom_toolkit
+ */
 class ShowCertificatesShortcode extends Config implements RequiredFunctions
 {
 

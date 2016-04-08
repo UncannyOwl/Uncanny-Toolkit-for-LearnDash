@@ -6,7 +6,10 @@ if (!defined('WPINC')) {
 	die;
 }
 
-
+/**
+ * Class FrontendLoginPlus
+ * @package uncanny_custom_toolkit
+ */
 class FrontendLoginPlus extends Config implements RequiredFunctions
 {
 

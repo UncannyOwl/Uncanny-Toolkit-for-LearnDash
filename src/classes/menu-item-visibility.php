@@ -6,6 +6,10 @@ if (!defined('WPINC')) {
 	die;
 }
 
+/**
+ * Class MenuItemVisibility
+ * @package uncanny_custom_toolkit
+ */
 class MenuItemVisibility extends Config implements RequiredFunctions
 {
 

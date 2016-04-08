@@ -6,6 +6,10 @@ if (!defined('WPINC')) {
 	die;
 }
 
+/**
+ * Class WidgetCert
+ * @package uncanny_custom_toolkit
+ */
 class WidgetCert extends \WP_Widget implements RequiredFunctions
 {
 	static $instance;

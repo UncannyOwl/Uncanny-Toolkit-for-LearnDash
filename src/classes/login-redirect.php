@@ -6,6 +6,10 @@ if (!defined('WPINC')) {
 	die;
 }
 
+/**
+ * Class LoginRedirect
+ * @package uncanny_custom_toolkit
+ */
 class LoginRedirect extends Config implements RequiredFunctions
 {
 

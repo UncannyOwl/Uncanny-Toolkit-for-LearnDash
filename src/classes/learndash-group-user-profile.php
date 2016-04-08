@@ -6,6 +6,10 @@ if (!defined('WPINC')) {
 	die;
 }
 
+/**
+ * Class LearndashGroupUserProfile
+ * @package uncanny_custom_toolkit
+ */
 class LearndashGroupUserProfile extends Config implements RequiredFunctions
 {
 

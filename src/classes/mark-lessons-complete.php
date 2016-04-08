@@ -6,6 +6,10 @@ if (!defined('WPINC')) {
 	die;
 }
 
+/**
+ * Class MarkLessonsComplete
+ * @package uncanny_custom_toolkit
+ */
 class MarkLessonsComplete extends Config implements RequiredFunctions
 {
 

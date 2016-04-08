@@ -6,6 +6,10 @@ if (!defined('WPINC')) {
 	die;
 }
 
+/**
+ * Class ShowHideContent
+ * @package uncanny_custom_toolkit
+ */
 class ShowHideContent extends Config implements RequiredFunctions
 {
 
