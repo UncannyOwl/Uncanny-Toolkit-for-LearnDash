@@ -34,10 +34,10 @@ class LoginLogoutMenu extends Config implements RequiredFunctions
 				add_filter('wp_setup_nav_menu_item', array(__CLASS__, 'override_setup_nav_menu_item'));
 				add_filter('wp_nav_menu_objects', array(__CLASS__, 'filter_wp_nav_menu_objects'));
 
-				add_shortcode( 'uo_login', array( __CLASS__, 'login_link' ) );
-				add_shortcode( 'uo_loginout', array( __CLASS__, 'loginout_link') );
-				add_shortcode( 'uo_logout', array( __CLASS__, 'logout_link') );
-				add_shortcode( 'uo_register', array( __CLASS__, 'register_link') );
+				add_shortcode('uo_login', array(__CLASS__, 'login_link'));
+				add_shortcode('uo_loginout', array(__CLASS__, 'loginout_link'));
+				add_shortcode('uo_logout', array(__CLASS__, 'logout_link'));
+				add_shortcode('uo_register', array(__CLASS__, 'register_link'));
 
 			}
 		}
@@ -279,57 +279,61 @@ class LoginLogoutMenu extends Config implements RequiredFunctions
 		return $sorted_menu_items;
 	}
 
-	public static function login_link( $atts, $content = null ) {
+	public static function login_link($atts, $content = null)
+	{
 		$atts = shortcode_atts(array(
-				"edit_tag" => "",
-				"redirect" => esc_url( $_SERVER['REQUEST_URI'] )
-		), $atts, 'login' );
+			"edit_tag" => "",
+			"redirect" => esc_url($_SERVER['REQUEST_URI'])
+		), $atts, 'login');
 
-		$edit_tag = esc_html( strip_tags( $atts['edit_tag'] ) );
-		$href = wp_login_url( $atts['redirect'] );
-		$content = $content != '' ? $content : __( 'Log In' );
+		$edit_tag = esc_html(strip_tags($atts['edit_tag']));
+		$href = wp_login_url($atts['redirect']);
+		$content = $content != '' ? $content : __('Log In');
 
-		return '<a href="' . esc_url( $href ) . '"' . $atts['edit_tag'] . '>' . $content . '</a>';
+		return '<a href="' . esc_url($href) . '"' . $atts['edit_tag'] . '>' . $content . '</a>';
 	}
 
-	public static function loginout_link( $atts, $content = null ) {
+	public static function loginout_link($atts, $content = null)
+	{
 		$atts = shortcode_atts(array(
-				"edit_tag" => "",
-				"redirect" => esc_url( $_SERVER['REQUEST_URI'] )
-		), $atts, 'loginout' );
+			"edit_tag" => "",
+			"redirect" => esc_url($_SERVER['REQUEST_URI'])
+		), $atts, 'loginout');
 
-		$edit_tag = strip_tags( $atts['edit_tag'] );
-		$href = is_user_logged_in() ? wp_logout_url( $atts['redirect'] ) : wp_login_url( $atts['redirect'] );
-		if ( $content && strstr( $content, '|' ) != '' ) { // the "|" char is used to split titles
-			$content = explode( '|', $content );
+		$edit_tag = strip_tags($atts['edit_tag']);
+		$href = is_user_logged_in() ? wp_logout_url($atts['redirect']) : wp_login_url($atts['redirect']);
+		if ($content && strstr($content, '|') != '') { // the "|" char is used to split titles
+			$content = explode('|', $content);
 			$content = is_user_logged_in() ? $content[1] : $content[0];
 		} else {
-			$content = is_user_logged_in() ? __( 'Logout' ) : __( 'Log In' );
+			$content = is_user_logged_in() ? __('Logout') : __('Log In');
 		}
 
-		return '<a href="' . esc_url( $href ) . '"' . $atts['edit_tag'] . '>' . $content . '</a>';
+		return '<a href="' . esc_url($href) . '"' . $atts['edit_tag'] . '>' . $content . '</a>';
 	}
 
-	public static function logout_link( $atts, $content = null ) {
+	public static function logout_link($atts, $content = null)
+	{
 		$atts = shortcode_atts(array(
-				"edit_tag" => "",
-				"redirect" => esc_url( $_SERVER['REQUEST_URI'] )
-		), $atts, 'logout' );
+			"edit_tag" => "",
+			"redirect" => esc_url($_SERVER['REQUEST_URI'])
+		), $atts, 'logout');
 
-		$href = wp_logout_url( $atts['redirect'] );
-		$edit_tag = esc_html( strip_tags( $atts['edit_tag'] ) );
-		$content = $content != '' ? $content : __( 'Logout' );
+		$href = wp_logout_url($atts['redirect']);
+		$edit_tag = esc_html(strip_tags($atts['edit_tag']));
+		$content = $content != '' ? $content : __('Logout');
 
-		return '<a href="' . esc_url( $href ) . '"' . $atts['edit_tag'] . '>' . $content . '</a>';
+		return '<a href="' . esc_url($href) . '"' . $atts['edit_tag'] . '>' . $content . '</a>';
 	}
 
-	public static function register_link( $atts, $content = null ) {
-		if( is_user_logged_in() ) {
+	public static function register_link($atts, $content = null)
+	{
+		if (is_user_logged_in()) {
 			return '';
 		}
-		$href = site_url( 'wp-login.php?action=register', 'login' );
-		$content = $content != '' ? $content : __( 'Register' );
-		$link = '<a href="' . $href. '">' . $content . '</a>';
+		$href = site_url('wp-login.php?action=register', 'login');
+		$content = $content != '' ? $content : __('Register');
+		$link = '<a href="' . $href . '">' . $content . '</a>';
 		return $link;
 	}
 }

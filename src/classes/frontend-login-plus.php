@@ -406,29 +406,30 @@ class FrontendLoginPlus extends Config implements RequiredFunctions
 		$page_viewed = basename($_SERVER['REQUEST_URI']);
 
 		$registering = false;
-		if ( isset( $_GET['action'] ) ) {
-			if( $_GET['action'] !== 'register'){
+		if (isset($_GET['action'])) {
+			if ($_GET['action'] !== 'register') {
 				$registering = true;
 			}
 		}
 
 		$registration_disable = false;
-		if ( isset( $_GET['registration'] ) ) {
-			if( $_GET['registration'] === 'disabled'){
+		if (isset($_GET['registration'])) {
+			if ($_GET['registration'] === 'disabled') {
 				$registration_disable = true;
 				wp_safe_redirect(add_query_arg(array('login' => 'registration-disabled'), $login_page));
 				exit();
 			}
 		}
 
-		if ($page_viewed == "wp-login.php" && 'GET' === $_SERVER['REQUEST_METHOD'] && !$registering ) {
+		if ($page_viewed == "wp-login.php" && 'GET' === $_SERVER['REQUEST_METHOD'] && !$registering) {
 			wp_safe_redirect($login_page);
 			exit;
 		}
 
 	}
 
-	public static function redirect_registration(){
+	public static function redirect_registration()
+	{
 		$login_page = get_permalink(self::get_login_redirect_page_id());
 		wp_safe_redirect(add_query_arg(array('action' => 'register'), $login_page));
 		exit;

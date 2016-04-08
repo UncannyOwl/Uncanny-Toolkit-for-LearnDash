@@ -77,7 +77,7 @@
 
 		/**
 		 * HTML for modal to create settings
-		 * 
+		 *
 		 * @param $class_title
 		 *
 		 * @return array (html)

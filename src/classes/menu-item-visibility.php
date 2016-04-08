@@ -2,46 +2,49 @@
 
 namespace uncanny_learndash_toolkit;
 
-if ( ! defined( 'WPINC' ) ) {
+if (!defined('WPINC')) {
 	die;
 }
 
-class MenuItemVisibility extends Config implements RequiredFunctions {
+class MenuItemVisibility extends Config implements RequiredFunctions
+{
 
 
 	/**
 	 * Class constructor
 	 */
-	public function __construct() {
-		add_action( 'plugins_loaded', array( __CLASS__, 'run_frontend_hooks' ) );
+	public function __construct()
+	{
+		add_action('plugins_loaded', array(__CLASS__, 'run_frontend_hooks'));
 	}
 
 	/*
 	 * Initialize frontend actions and filters
 	 */
-	public static function run_frontend_hooks(){
+	public static function run_frontend_hooks()
+	{
 
-		if ( true === self::dependants_exist() ) {
+		if (true === self::dependants_exist()) {
 			// Include custom walker class
-			add_action( 'admin_init', array( __CLASS__, 'include_custom_walker' ) );
+			add_action('admin_init', array(__CLASS__, 'include_custom_walker'));
 
 			// Replace the admin walker menu
-			add_filter( 'wp_edit_nav_menu_walker', array( __CLASS__, 'edit_nav_menu_walker' ) );
+			add_filter('wp_edit_nav_menu_walker', array(__CLASS__, 'edit_nav_menu_walker'));
 
 			// Add new fields to the custom admin walker menu
-			add_action( 'wp_nav_menu_item_uo_fields', array( __CLASS__, 'custom_fields' ), 10, 4 );
+			add_action('wp_nav_menu_item_uo_fields', array(__CLASS__, 'custom_fields'), 10, 4);
 
 			// add new fields via hook
-			add_action( 'wp_nav_menu_item_custom_fields', array( __CLASS__, 'custom_fields' ), 10, 4 );
+			add_action('wp_nav_menu_item_custom_fields', array(__CLASS__, 'custom_fields'), 10, 4);
 
 			// Save new custom admin walker menu item meta fields
-			add_action( 'wp_update_nav_menu_item', array( __CLASS__, 'nav_update' ), 10, 2 );
+			add_action('wp_update_nav_menu_item', array(__CLASS__, 'nav_update'), 10, 2);
 
 			// Add meta to menu items
-			add_filter( 'wp_setup_nav_menu_item', array( __CLASS__, 'setup_nav_item' ) );
+			add_filter('wp_setup_nav_menu_item', array(__CLASS__, 'setup_nav_item'));
 
 			// Exclude items form menu
-			add_filter( 'wp_get_nav_menu_items', array( __CLASS__, 'exclude_menu_items' ) );
+			add_filter('wp_get_nav_menu_items', array(__CLASS__, 'exclude_menu_items'));
 		}
 
 	}
@@ -51,20 +54,21 @@ class MenuItemVisibility extends Config implements RequiredFunctions {
 	 *
 	 * @return array
 	 */
-	public static function get_details() {
+	public static function get_details()
+	{
 
-		$class_title = __( 'Menu Item Visibility', self::get_text_domain() );
+		$class_title = __('Menu Item Visibility', self::get_text_domain());
 		$kb_link = null;
-		$class_description = __( 'Toggles the visibility of menu items based on whether or not users are signed in to the site.', self::get_text_domain() );
+		$class_description = __('Toggles the visibility of menu items based on whether or not users are signed in to the site.', self::get_text_domain());
 		$class_icon = '<i class="uo_icon_fa fa fa-eye-slash"></i>';
 
 		return array(
-				'title'            => $class_title,
-				'kb_link'          => $kb_link,
-				'description'      => $class_description,
-				'dependants_exist' => self::dependants_exist(),
-				'settings'         => false,
-				'icon'             => $class_icon,
+			'title' => $class_title,
+			'kb_link' => $kb_link,
+			'description' => $class_description,
+			'dependants_exist' => self::dependants_exist(),
+			'settings' => false,
+			'icon' => $class_icon,
 		);
 
 	}
@@ -75,7 +79,8 @@ class MenuItemVisibility extends Config implements RequiredFunctions {
 	 * @return boolean || string Return either true or name of function or plugin
 	 *
 	 */
-	public static function dependants_exist() {
+	public static function dependants_exist()
+	{
 
 		// Return true if no dependency or dependency is available
 		return true;
@@ -84,14 +89,16 @@ class MenuItemVisibility extends Config implements RequiredFunctions {
 	/**
 	 * Include the custom admin walker
 	 */
-	public static function include_custom_walker() {
-		include_once( self::get_include( 'custom-walker-nav-menu.php' ) );
+	public static function include_custom_walker()
+	{
+		include_once(self::get_include('custom-walker-nav-menu.php'));
 	}
 
 	/**
 	 * Override the Admin Menu Walker
 	 */
-	public static function edit_nav_menu_walker( $walker ) {
+	public static function edit_nav_menu_walker($walker)
+	{
 		return 'CustomWalkerNavMenu';
 	}
 
@@ -105,49 +112,59 @@ class MenuItemVisibility extends Config implements RequiredFunctions {
 	 * @param $depth
 	 * @param $args
 	 */
-	public static function custom_fields( $item_id, $item, $depth, $args ) {
+	public static function custom_fields($item_id, $item, $depth, $args)
+	{
 
 		/* Get the roles saved for the post. */
-		$roles = get_post_meta( $item->ID, '_nav_menu_role', true );
+		$roles = get_post_meta($item->ID, '_nav_menu_role', true);
 
 		// by default nothing is checked (will match "everyone" radio)
 		$logged_in_out = '';
 
 		// specific roles are saved as an array, so "in" or an array equals "in" is checked
-		if ( 'in' == $roles ) {
+		if ('in' == $roles) {
 			$logged_in_out = 'in';
-		} elseif ( 'out' == $roles ) {
+		} elseif ('out' == $roles) {
 			$logged_in_out = 'out';
 		}
 
 		?>
 
-		<input type="hidden" name="nav-menu-role-nonce" value="<?php echo wp_create_nonce( 'nav-menu-nonce-name' ); ?>"/>
+		<input type="hidden" name="nav-menu-role-nonce" value="<?php echo wp_create_nonce('nav-menu-nonce-name'); ?>"/>
 
 		<div class="field-nav_menu_role nav_menu_logged_in_out_field description-wide" style="margin: 5px 0;">
-			<span class="description"><?php echo __( 'Display Mode', self::get_text_domain() ); ?></span>
+			<span class="description"><?php echo __('Display Mode', self::get_text_domain()); ?></span>
 			<br/>
 
 			<input type="hidden" class="nav-menu-id" value="<?php echo $item->ID; ?>"/>
 
 			<div class="logged-input-holder" style="float: left; width: 35%;">
-				<input type="radio" class="nav-menu-logged-in-out" name="nav-menu-logged-in-out[<?php echo $item->ID; ?>]" id="nav_menu_logged_in-for-<?php echo $item->ID; ?>" <?php checked( 'in', $logged_in_out ); ?> value="in"/>
+				<input type="radio" class="nav-menu-logged-in-out"
+					   name="nav-menu-logged-in-out[<?php echo $item->ID; ?>]"
+					   id="nav_menu_logged_in-for-<?php echo $item->ID; ?>" <?php checked('in', $logged_in_out); ?>
+					   value="in"/>
 				<label for="nav_menu_logged_in-for-<?php echo $item->ID; ?>">
-					<?php echo __( 'Logged In Users', self::get_text_domain() ); ?>
+					<?php echo __('Logged In Users', self::get_text_domain()); ?>
 				</label>
 			</div>
 
 			<div class="logged-input-holder" style="float: left; width: 35%;">
-				<input type="radio" class="nav-menu-logged-in-out" name="nav-menu-logged-in-out[<?php echo $item->ID; ?>]" id="nav_menu_logged_out-for-<?php echo $item->ID; ?>" <?php checked( 'out', $logged_in_out ); ?> value="out"/>
+				<input type="radio" class="nav-menu-logged-in-out"
+					   name="nav-menu-logged-in-out[<?php echo $item->ID; ?>]"
+					   id="nav_menu_logged_out-for-<?php echo $item->ID; ?>" <?php checked('out', $logged_in_out); ?>
+					   value="out"/>
 				<label for="nav_menu_logged_out-for-<?php echo $item->ID; ?>">
-					<?php echo __( 'Logged Out Users', self::get_text_domain() ); ?>
+					<?php echo __('Logged Out Users', self::get_text_domain()); ?>
 				</label>
 			</div>
 
 			<div class="logged-input-holder" style="float: left; width: 30%;">
-				<input type="radio" class="nav-menu-logged-in-out" name="nav-menu-logged-in-out[<?php echo $item->ID; ?>]" id="nav_menu_by_role-for-<?php echo $item->ID; ?>" <?php checked( '', $logged_in_out ); ?> value=""/>
+				<input type="radio" class="nav-menu-logged-in-out"
+					   name="nav-menu-logged-in-out[<?php echo $item->ID; ?>]"
+					   id="nav_menu_by_role-for-<?php echo $item->ID; ?>" <?php checked('', $logged_in_out); ?>
+					   value=""/>
 				<label for="nav_menu_by_role-for-<?php echo $item->ID; ?>">
-					<?php echo __( 'Everyone', self::get_text_domain() ); ?>
+					<?php echo __('Everyone', self::get_text_domain()); ?>
 				</label>
 			</div>
 
@@ -166,18 +183,19 @@ class MenuItemVisibility extends Config implements RequiredFunctions {
 	 * @return string
 	 * @since 1.0
 	 */
-	public static function nav_update( $menu_id, $menu_item_db_id ) {
+	public static function nav_update($menu_id, $menu_item_db_id)
+	{
 
 		$saved_data = false;
 
-		if ( isset( $_POST['nav-menu-logged-in-out'][ $menu_item_db_id ] ) && in_array( $_POST['nav-menu-logged-in-out'][ $menu_item_db_id ], array( 'in', 'out' ) ) ) {
-			$saved_data = $_POST['nav-menu-logged-in-out'][ $menu_item_db_id ];
+		if (isset($_POST['nav-menu-logged-in-out'][$menu_item_db_id]) && in_array($_POST['nav-menu-logged-in-out'][$menu_item_db_id], array('in', 'out'))) {
+			$saved_data = $_POST['nav-menu-logged-in-out'][$menu_item_db_id];
 		}
 
-		if ( $saved_data ) {
-			update_post_meta( $menu_item_db_id, '_nav_menu_role', $saved_data );
+		if ($saved_data) {
+			update_post_meta($menu_item_db_id, '_nav_menu_role', $saved_data);
 		} else {
-			delete_post_meta( $menu_item_db_id, '_nav_menu_role' );
+			delete_post_meta($menu_item_db_id, '_nav_menu_role');
 		}
 
 	}
@@ -191,11 +209,12 @@ class MenuItemVisibility extends Config implements RequiredFunctions {
 	 *
 	 * @return null
 	 */
-	public static function setup_nav_item( $menu_item ) {
+	public static function setup_nav_item($menu_item)
+	{
 
-		$roles = get_post_meta( $menu_item->ID, '_nav_menu_role', true );
+		$roles = get_post_meta($menu_item->ID, '_nav_menu_role', true);
 
-		if ( ! empty( $roles ) ) {
+		if (!empty($roles)) {
 			$menu_item->roles = $roles;
 		}
 
@@ -209,41 +228,42 @@ class MenuItemVisibility extends Config implements RequiredFunctions {
 	 *
 	 * @return
 	 */
-	public static function exclude_menu_items( $items ) {
+	public static function exclude_menu_items($items)
+	{
 
-		if( is_admin() ){
+		if (is_admin()) {
 			return $items;
 		}
 
 		$hide_children_of = array();
 
 		// Iterate over the items to search and destroy
-		foreach ( $items as $key => $item ) {
+		foreach ($items as $key => $item) {
 
 			$visible = true;
 
 			// hide any item that is the child of a hidden item
-			if ( in_array( $item->menu_item_parent, $hide_children_of ) ) {
-				$visible            = false;
+			if (in_array($item->menu_item_parent, $hide_children_of)) {
+				$visible = false;
 				$hide_children_of[] = $item->ID; // for nested menus
 			}
 
 			// check any item that has NMR roles set
-			if ( $visible && isset( $item->roles ) ) {
+			if ($visible && isset($item->roles)) {
 
 				// check all logged in, all logged out, or role
-				switch ( $item->roles ) {
+				switch ($item->roles) {
 					case 'in' :
 						$visible = is_user_logged_in() ? true : false;
 						break;
 					case 'out' :
-						$visible = ! is_user_logged_in() ? true : false;
+						$visible = !is_user_logged_in() ? true : false;
 						break;
 					default:
 						$visible = false;
-						if ( is_array( $item->roles ) && ! empty( $item->roles ) ) {
-							foreach ( $item->roles as $role ) {
-								if ( current_user_can( $role ) ) {
+						if (is_array($item->roles) && !empty($item->roles)) {
+							foreach ($item->roles as $role) {
+								if (current_user_can($role)) {
 									$visible = true;
 								}
 							}
@@ -254,12 +274,12 @@ class MenuItemVisibility extends Config implements RequiredFunctions {
 			}
 
 			// add filter to work with plugins that don't use traditional roles
-			$visible = apply_filters( 'nav_menu_roles_item_visibility', $visible, $item );
+			$visible = apply_filters('nav_menu_roles_item_visibility', $visible, $item);
 
 			// unset non-visible item
-			if ( ! $visible ) {
+			if (!$visible) {
 				$hide_children_of[] = $item->ID; // store ID of item
-				unset( $items[ $key ] );
+				unset($items[$key]);
 			}
 		}
 
