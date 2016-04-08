@@ -6,6 +6,7 @@
 	 * @package uncanny_custom_toolkit
 	 */
 	class learnDashBreadcrumbs extends Config implements RequiredFunctions {
+
 		/**
 		 * Class constructor
 		 */
@@ -29,7 +30,7 @@
 		}
 
 		/**
-		 *
+		 * Does the plugin rely on another function or plugin
 		 *
 		 * @static
 		 * @return mixed
@@ -46,7 +47,7 @@
 		}
 
 		/**
-		 *
+		 * Description of class in Admin View
 		 *
 		 * @static
 		 * @return mixed
@@ -75,6 +76,8 @@
 
 
 		/**
+		 * HTML for modal to create settings
+		 * 
 		 * @param $class_title
 		 *
 		 * @return array (html)
