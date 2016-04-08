@@ -92,7 +92,7 @@ jQuery( document ).ready(function( $ ) {
 	$("a[rel*=leanModal]").leanModal();
 
 	//Reset save options button if Options changed
-	$('.uo_settings_options').on('change', '.uo_settings_form_field', function(){
+	$('.uo_settings_options').on('change keyup', '.uo_settings_form_field', function(){
 		var save_settings_button = $(this).closest('.uo_settings_options').find('.uo_save_settings');
 		save_settings_button.html('Save Settings');
 		save_settings_button.css('background','#A9A9A9');
@@ -101,6 +101,9 @@ jQuery( document ).ready(function( $ ) {
 	// SAVE SETTINGS
 	$('.uo_save_settings').on('click', function(e) {
 		e.preventDefault();
+		$('.uo_settings_options').hide('slow');
+		$('.sk-folding-cube').delay(500).show('slow');
+
 		var button = $(this);
 		var settings_class = $(this).closest('.uo_settings').attr('id');
 		var options = $(this).closest('.uo_settings_options').find('input, select').serializeArray();
@@ -124,6 +127,9 @@ jQuery( document ).ready(function( $ ) {
 				console.log( response );
 			}
 
+			$('.sk-folding-cube').delay(1500).hide('slow');
+			$('.uo_settings_options').delay(2000).show('slow');
+
 		});
 
 	});
@@ -145,6 +151,7 @@ jQuery( document ).ready(function( $ ) {
 			'action': 'settings_load',
 			'class' : settings_class
 		};
+
 		console.log(data);
 		$.post( ajaxurl, data, function (response) {
 			console.log(response);
