@@ -30,7 +30,6 @@ class learnDashBreadcrumbs extends Config implements RequiredFunctions {
 
 	/**
 	 *
-	 *
 	 * @static
 	 * @return mixed
 	 */
