@@ -57,7 +57,7 @@
 			$kb_link = null;
 
 			/* Sample Simple Description with shortcode */
-			$class_description = __( 'Implement Breadcrumbs that supports courses, lessons, topics and quizzes. Also supports woocommerce, custom post types with or without taxonomies & tags, pages and blog posts. Use shortcode [learndash-breadcrumbs] or add &lt;? learndash_breadcrumbs() ?&gt; in the template.', self::get_text_domain() );
+			$class_description = __( 'Easily add breadcrumb links that work with courses, lessons, topics and quizzes using a shortcode or template change. WooCommerce is also supported.', self::get_text_domain() );
 
 			/* Icon as font awesome icon */
 			$class_icon = '<i class="uo_icon_fa fa fa-link"></i>';
