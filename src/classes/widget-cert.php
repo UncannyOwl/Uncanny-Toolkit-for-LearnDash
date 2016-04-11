@@ -21,9 +21,9 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions
 	 */
 	public static function get_details()
 	{
-		$class_title = __('LearnDash Certificate Widget', Config::get_text_domain());
+		$class_title = esc_html__('LearnDash Certificate Widget', Config::get_text_domain());
 		$kb_link = null;
-		$class_description = __('Custom Widget that displays all certificates the user has earned.', Config::get_text_domain());
+		$class_description = esc_html__('Custom Widget that displays all certificates the user has earned.', Config::get_text_domain());
 		$class_icon = '<i class="uo_icon_fa fa fa-bookmark "></i>';
 
 		return array(
@@ -63,8 +63,8 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions
 
 		parent::__construct(
 			'uncanny_lms_cert_list', // Base ID
-			__('Certificates - Uncanny Toolkit', Config::get_text_domain()), // Name
-			array('description' => __('Adds a new certificate widget that outputs links to all LearnDash certificates earned by the user.', 'text_domain')) // Args
+				esc_html__('Certificates - Uncanny Toolkit', Config::get_text_domain()), // Name
+			array('description' => esc_html__('Adds a new certificate widget that outputs links to all LearnDash certificates earned by the user.', 'text_domain')) // Args
 		);
 	}
 
@@ -122,7 +122,7 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions
 
 				if ($certificate_link && '' !== $certificate_link) {
 					if (!in_array($certificate_title, $certificate_titles)) {
-						$certificate_list .= '<li><a target="_blank" href="' . $certificate_link . '" title="' . esc_html(__('Your certificate for :', Config::get_text_domain()) . $course->post_title) . '">' . $certificate_title . '</a></li>';
+						$certificate_list .= '<li><a target="_blank" href="' . $certificate_link . '" title="' . esc_html__('Your certificate for :', Config::get_text_domain() . $course->post_title) . '">' . $certificate_title . '</a></li>';
 						array_push($certificate_titles, $certificate_title);
 					}
 				}
@@ -157,7 +157,7 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions
 					if (!in_array($certificate_title, $certificate_titles)) {
 						printf('<li><a target="_blank" href="%s" title="%s" > %s</a></li>',
 							esc_url($certificateLink),
-							esc_html(__('Your certificate for :', Config::get_text_domain()) . $quiz_title),
+							esc_html__('Your certificate for :', Config::get_text_domain() . $quiz_title),
 							esc_html($certificate_title)
 						);
 						array_push($certificate_titles, $certificate_title);
@@ -225,8 +225,8 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions
 	 */
 	public function form($instance)
 	{
-		$title = !empty($instance['title']) ? $instance['title'] : __('Your certificates', Config::get_text_domain());
-		$no_certs = !empty($instance['no_certs']) ? $instance['no_certs'] : __('Complete courses to earn certificates', Config::get_text_domain());
+		$title = !empty($instance['title']) ? $instance['title'] : esc_html__('Your certificates', Config::get_text_domain());
+		$no_certs = !empty($instance['no_certs']) ? $instance['no_certs'] : esc_html__('Complete courses to earn certificates', Config::get_text_domain());
 
 		?>
 		<p>
@@ -237,7 +237,7 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions
 		</p>
 		<p>
 			<label
-				for="<?php echo $this->get_field_id('no_certs'); ?>"><?php _e('No certificates message:', Config::get_text_domain()); ?></label>
+				for="<?php echo $this->get_field_id('no_certs'); ?>"><?php esc_html_e('No certificates message:', Config::get_text_domain()); ?></label>
 			<input class="widefat" id="<?php echo $this->get_field_id('no_certs'); ?>"
 				   name="<?php echo $this->get_field_name('no_certs'); ?>" type="text"
 				   value="<?php echo esc_attr($no_certs); ?>">

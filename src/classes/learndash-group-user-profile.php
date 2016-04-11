@@ -44,9 +44,9 @@ class LearndashGroupUserProfile extends Config implements RequiredFunctions
 	 */
 	public static function get_details()
 	{
-		$class_title = __('LearnDash Groups in User Profiles', self::get_text_domain());
+		$class_title = esc_html__('LearnDash Groups in User Profiles', self::get_text_domain());
 		$kb_link = null;
-		$class_description = __('Displays a user\'s LearnDash Group memberships in the user profile.', self::get_text_domain());
+		$class_description = esc_html__('Displays a user\'s LearnDash Group memberships in the user profile.', self::get_text_domain());
 		$class_icon = '<i class="uo_icon_fa fa fa-users"></i>';
 
 		return array(
@@ -85,7 +85,7 @@ class LearndashGroupUserProfile extends Config implements RequiredFunctions
 		global $wpdb;
 
 		// title of section
-		$section_title = __('LearnDash Groups', self::get_text_domain());
+		$section_title = esc_html__('LearnDash Groups', self::get_text_domain());
 		// User ID of user being viewed/edited
 		$user_ID = $user->ID;
 		// Meta key stored by learndash of user's groups

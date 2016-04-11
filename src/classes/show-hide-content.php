@@ -43,9 +43,9 @@ class ShowHideContent extends Config implements RequiredFunctions
 	public static function get_details()
 	{
 
-		$class_title = __('Show Or Hide Content', self::get_text_domain());
+		$class_title = esc_html__('Show Or Hide Content', self::get_text_domain());
 		$kb_link = null;
-		$class_description = __('Conditionally shows content to either logged in or logged out users. Great for Open course types.', self::get_text_domain());
+		$class_description = esc_html__('Conditionally shows content to either logged in or logged out users. Great for Open course types.', self::get_text_domain());
 		$class_icon = '<i class="uo_icon_fa fa fa-eye"></i>';
 
 		return array(

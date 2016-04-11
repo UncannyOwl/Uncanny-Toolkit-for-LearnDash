@@ -43,12 +43,12 @@ class Sample extends Config implements RequiredFunctions
 	public static function get_details()
 	{
 
-		$class_title = __('Sample Title', self::get_text_domain());
+		$class_title = esc_html__('Sample Title', self::get_text_domain());
 
 		$kb_link = 'http://www.uncannyowl.com';
 
 		/* Sample Simple Description with shortcode */
-		$class_description = __('
+		$class_description = esc_html__('
 				<p>Sample Description B</p>
 				<p><strong>[sample-shortcode]</strong></p>
 				', self::get_text_domain());
@@ -141,7 +141,7 @@ class Sample extends Config implements RequiredFunctions
 			array(
 				'type' => 'html',
 				'class' => 'uo-additional-information',
-				'inner_html' => '<div>Some Extra Information for the user</div>', // TODO: tranaslations
+				'inner_html' => esc_html__('<div>Some Extra Information for the user</div>', self::get_text_domain()),
 			),
 
 			array(

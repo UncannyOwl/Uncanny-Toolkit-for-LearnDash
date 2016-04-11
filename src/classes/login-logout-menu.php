@@ -52,12 +52,12 @@ class LoginLogoutMenu extends Config implements RequiredFunctions
 	public static function get_details()
 	{
 
-		$class_title = __('Log In/Log Out Links', self::get_text_domain());
+		$class_title = esc_html__('Log In/Log Out Links', self::get_text_domain());
 
 		$kb_link = null;
 
 		/* Sample Simple Description with shortcode */
-		$class_description = __('<p>Add Log In and Log Out links to menus, or to any page or widget with a shortcode. </p>', self::get_text_domain());
+		$class_description = esc_html__('<p>Add Log In and Log Out links to menus, or to any page or widget with a shortcode. </p>', self::get_text_domain());
 
 		/* Icon as fontawesome icon */
 		$class_icon = '<i class="uo_icon_fa fa fa-bars"></i>';

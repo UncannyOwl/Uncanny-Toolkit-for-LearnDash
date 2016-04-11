@@ -44,10 +44,10 @@ class ShowCertificatesShortcode extends Config implements RequiredFunctions
 	public static function get_details()
 	{
 
-		$class_title = __('Show LearnDash Certificates', Config::get_text_domain());
+		$class_title = esc_html__('Show LearnDash Certificates', self::get_text_domain());
 		$kb_link = null;
-		$class_description = __('Displays a list of LearnDash certificates (both course and quiz) earned by the user, with the most recent at the top.'
-			, Config::get_text_domain());
+		$class_description = esc_html__('Displays a list of LearnDash certificates (both course and quiz) earned by the user, with the most recent at the top.'
+			, self::get_text_domain());
 		$class_icon = '<i class="uo_icon_fa fa fa-certificate"></i>';
 
 		return array(
@@ -107,7 +107,7 @@ class ShowCertificatesShortcode extends Config implements RequiredFunctions
 		if (isset($atts['no-cert-message'])) {
 			$no_cert_message = $atts['no-cert-message'];
 		} else {
-			$no_cert_message = __('Complete courses to earn certificates', Config::get_text_domain());
+			$no_cert_message = esc_html__('Complete courses to earn certificates', self::get_text_domain());
 		}
 
 		$certificate_list = '';

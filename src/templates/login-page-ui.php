@@ -56,24 +56,24 @@ if ( isset( $_GET['action'] ) ) {
 switch ( $login ) {
 
 	case 'failed':
-		$message_error   = __( 'Woops!', $uo_public_text_domain );
-		$message_warning = __( 'Invalid username and/or password.',  $uo_public_text_domain );
+		$message_error   = esc_html__( 'Woops!', $uo_public_text_domain );
+		$message_warning = esc_html__( 'Invalid username and/or password.',  $uo_public_text_domain );
 		break;
 	case 'empty':
-		$message_error   = __( 'Woops!', $uo_public_text_domain );
-		$message_warning = __( 'Username and/or Password is empty.', $uo_public_text_domain );
+		$message_error   = esc_html__( 'Woops!', $uo_public_text_domain );
+		$message_warning = esc_html__( 'Username and/or Password is empty.', $uo_public_text_domain );
 		break;
 	case 'false':
-		$message_error   = __( '', $uo_public_text_domain );
-		$message_warning = __( 'You are logged out.', $uo_public_text_domain );
+		$message_error   = esc_html__( '', $uo_public_text_domain );
+		$message_warning = esc_html__( 'You are logged out.', $uo_public_text_domain );
 		break;
 	case 'notverified':
-		$message_error   = __( 'Woops!', $uo_public_text_domain );
-		$message_warning = __( 'This account is not verified.', $uo_public_text_domain );
+		$message_error   = esc_html__( 'Woops!', $uo_public_text_domain );
+		$message_warning = esc_html__( 'This account is not verified.', $uo_public_text_domain );
 		break;
 	case 'registration-disabled':
-		$message_error   = __( 'Woops!', $uo_public_text_domain );
-		$message_warning = __( 'We do not allow registrations.', $uo_public_text_domain );
+		$message_error   = esc_html__( 'Woops!', $uo_public_text_domain );
+		$message_warning = esc_html__( 'We do not allow registrations.', $uo_public_text_domain );
 		break;
 	default:
 		$message_error   = '';
@@ -86,10 +86,10 @@ $login_form_args = array(
 		'echo'           => true,
 		'redirect'       => home_url( '/wp-admin/' ),
 		'form_id'        => 'loginform',
-		'label_username' => __( 'Username',  $uo_public_text_domain ),
-		'label_password' => __( 'Password',  $uo_public_text_domain ),
-		'label_remember' => __( 'Remember Me',  $uo_public_text_domain ),
-		'label_log_in'   => __( 'Log In',  $uo_public_text_domain ),
+		'label_username' => esc_html__( 'Username',  $uo_public_text_domain ),
+		'label_password' => esc_html__( 'Password',  $uo_public_text_domain ),
+		'label_remember' => esc_html__( 'Remember Me',  $uo_public_text_domain ),
+		'label_log_in'   => esc_html__( 'Log In',  $uo_public_text_domain ),
 		'id_username'    => 'user_login',
 		'id_password'    => 'user_pass',
 		'id_remember'    => 'rememberme',
@@ -100,26 +100,26 @@ $login_form_args = array(
 );
 
 $innerText = Array(
-		'Hello'						=>  __( 'Hello', $uo_public_text_domain ),
-		'Logged-In-Message'			=>  __( 'You are already logged in', $uo_public_text_domain ),
-		'Logout'					=>  __( 'Logout', $uo_public_text_domain ),
-		'Password-Recovery-Title'	=>  __( 'Password Recovery', $uo_public_text_domain ),
-		'Password-Recovery-Label'	=>  __( 'Username or E-mail:', $uo_public_text_domain ),
-		'Success'					=>  __( 'Success!', $uo_public_text_domain ),
-		'Success-Email-Sent'		=>  __( 'Check your email for a reset password link.', $uo_public_text_domain ),
-		'Woops'						=>  __( 'Woops!', $uo_public_text_domain ),
-		'Failed-Send-Email'			=>  __( 'Password reset failed to Send.', $uo_public_text_domain ),
-		'Reset-Password-Title'		=>  __( 'Reset Password', $uo_public_text_domain ),
-		'New-Password'				=>  __( 'New Password', $uo_public_text_domain ),
-		'Confirm-Password'			=>  __( 'Confirm New Password', $uo_public_text_domain ),
-		'Password-Indicator-Hint'	=>  __( 'Hint: The password should be at least eight characters long. To make it stronger, use upper and lower case letters, numbers, and symbols like ! " ? $ % ^ &amp; )', $uo_public_text_domain ),
-		'Password-Reset-Link-Failed'=>  __( 'Password reset link failed.', $uo_public_text_domain ),
-		'Invalid-Reset-Key'			=>  __( 'Your password reset link is invalid.', $uo_public_text_domain ),
-		'Expired-Reset-Key'			=>  __( 'Your password reset link is expired.', $uo_public_text_domain ),
-		'Password-Not-Match'		=>  __( 'Your Passwords did not match. Please try again.', $uo_public_text_domain ),
-		'Reset-Success'				=>  __( 'Your password was reset successfully. Please Log-In.', $uo_public_text_domain ),
-		'Login-Title'				=>  __( 'Login', $uo_public_text_domain ),
-		'Register-Link'				=>  __( 'Register', $uo_public_text_domain )
+		'Hello'						=> esc_html__( 'Hello', $uo_public_text_domain ),
+		'Logged-In-Message'			=> esc_html__( 'You are already logged in', $uo_public_text_domain ),
+		'Logout'					=> esc_html__( 'Logout', $uo_public_text_domain ),
+		'Password-Recovery-Title'	=> esc_html__( 'Password Recovery', $uo_public_text_domain ),
+		'Password-Recovery-Label'	=> esc_html__( 'Username or E-mail:', $uo_public_text_domain ),
+		'Success'					=> esc_html__( 'Success!', $uo_public_text_domain ),
+		'Success-Email-Sent'		=> esc_html__( 'Check your email for a reset password link.', $uo_public_text_domain ),
+		'Woops'						=> esc_html__( 'Woops!', $uo_public_text_domain ),
+		'Failed-Send-Email'			=> esc_html__( 'Password reset failed to Send.', $uo_public_text_domain ),
+		'Reset-Password-Title'		=> esc_html__( 'Reset Password', $uo_public_text_domain ),
+		'New-Password'				=> esc_html__( 'New Password', $uo_public_text_domain ),
+		'Confirm-Password'			=> esc_html__( 'Confirm New Password', $uo_public_text_domain ),
+		'Password-Indicator-Hint'	=> esc_html__( 'Hint: The password should be at least eight characters long. To make it stronger, use upper and lower case letters, numbers, and symbols like ! " ? $ % ^ &amp; )', $uo_public_text_domain ),
+		'Password-Reset-Link-Failed'=> esc_html__( 'Password reset link failed.', $uo_public_text_domain ),
+		'Invalid-Reset-Key'			=> esc_html__( 'Your password reset link is invalid.', $uo_public_text_domain ),
+		'Expired-Reset-Key'			=> esc_html__( 'Your password reset link is expired.', $uo_public_text_domain ),
+		'Password-Not-Match'		=> esc_html__( 'Your Passwords did not match. Please try again.', $uo_public_text_domain ),
+		'Reset-Success'				=> esc_html__( 'Your password was reset successfully. Please Log-In.', $uo_public_text_domain ),
+		'Login-Title'				=> esc_html__( 'Login', $uo_public_text_domain ),
+		'Register-Link'				=> esc_html__( 'Register', $uo_public_text_domain )
 );
 
 $innerText = apply_filters( 'uo-login-inner-text', $innerText );

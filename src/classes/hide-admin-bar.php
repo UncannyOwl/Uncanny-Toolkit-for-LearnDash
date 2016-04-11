@@ -34,9 +34,9 @@ class HideAdminBar extends Config implements RequiredFunctions {
 	 */
 	public static function get_details() {
 
-		$class_title = __( 'Hide Admin Bar', self::get_text_domain() );
+		$class_title = esc_html__( 'Hide Admin Bar', self::get_text_domain() );
 		$kb_link = null;
-		$class_description = __( 'Hides the Admin Bar at the top of WordPress pages based on the user role.', self::get_text_domain() );
+		$class_description = esc_html__( 'Hides the Admin Bar at the top of WordPress pages based on the user role.', self::get_text_domain() );
 		$class_icon = '<i class="uo_icon_fa fa fa-minus-square-o"></i>';
 
 		return array(

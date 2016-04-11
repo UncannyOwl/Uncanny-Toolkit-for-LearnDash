@@ -28,8 +28,8 @@ class AdminMenu extends Boot {
 	 */
 	public static function register_options_menu_page() {
 
-		$page_title = __( 'Uncanny LearnDash Toolkit', Config::get_text_domain() );
-		$menu_title = __( 'Uncanny Toolkit', Config::get_text_domain() );
+		$page_title = esc_html__( 'Uncanny LearnDash Toolkit', Config::get_text_domain() );
+		$menu_title = esc_html__( 'Uncanny Toolkit', Config::get_text_domain() );
 		$capability = 'manage_options';
 		$menu_slug = 'uncanny-learnDash-toolkit';
 		$function = array( __CLASS__, 'options_menu_page_output' );
@@ -164,11 +164,11 @@ class AdminMenu extends Boot {
 
 			<hr class="uo-underline">
 
-			<h2><?php _e( 'Thanks for using the Uncanny LearnDash Toolkit!', Config::get_text_domain() ); ?></h2>
+			<h2><?php esc_html_e( 'Thanks for using the Uncanny LearnDash Toolkit!', Config::get_text_domain() ); ?></h2>
 
 			<p><?php
 			printf(
-				__( 'This plugin makes it easier to incorporate some of the features we see most requested on LearnDash sites. We\'re hard
+				esc_html__( 'This plugin makes it easier to incorporate some of the features we see most requested on LearnDash sites. We\'re hard
 				at work on a new Knowledge Base for this plugin, but for now, instructions are available at  
 				<a href="http://www.uncannyowl.com/uncanny-learndash-toolkit/" target="_blank">http://www.uncannyowl.com/uncanny-learndash-toolkit/</a>.', Config::get_text_domain() ) ,
 			esc_url( 'http://www.uncannyowl.com' ) );
@@ -176,7 +176,7 @@ class AdminMenu extends Boot {
 
 			<p><?php
 			printf(
-				__( 'This is the first Uncanny Owl LearnDash plugin that we\'ve made available in the WordPress repository. We\'ll be
+				esc_html__( 'This is the first Uncanny Owl LearnDash plugin that we\'ve made available in the WordPress repository. We\'ll be
 				releasing more over the next few months as well as adding new features to this plugin. Visit us at 
 				<a href="http://www.uncannyowl.com/" target="_blank">Uncanny Owl</a> so you don\'t miss any updates!', Config::get_text_domain() ) ,
 			esc_url( 'http://www.uncannyowl.com' ) );
@@ -286,12 +286,12 @@ class AdminMenu extends Boot {
 
 					<?php
 					if ( true !== $dependants_exist ) {
-						echo '<div><strong>'. esc_html( $dependants_exist ) .'</strong>' . __( ' is needed for this add-on', Config::get_text_domain() ) . '</div>';
+						echo '<div><strong>'. esc_html( $dependants_exist ) .'</strong>' . esc_html__( ' is needed for this add-on', Config::get_text_domain() ) . '</div>';
 					} else {
 						?>
 						<div class="uo_feature_button_toggle"></div>
 						<label class="uo_feature_label" for="<?php echo esc_attr( $class_name ) ?>">
-							<?php echo ( __( 'Activate ', Config::get_text_domain() ) . $class['title'] ); ?>
+							<?php echo ( esc_html__( 'Activate ', Config::get_text_domain() ) . $class['title'] ); ?>
 						</label>
 						<input class="uo_feature_checkbox" type="checkbox" id="<?php echo esc_attr( $class_name ); ?>" name="uncanny_toolkit_active_classes[<?php echo esc_attr( $class_name ) ?>]" value="<?php echo esc_attr( $class_name ) ?>" <?php
 						if (  array_key_exists( $class_name, $active_classes ) ) {

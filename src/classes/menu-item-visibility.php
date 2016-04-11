@@ -61,9 +61,9 @@ class MenuItemVisibility extends Config implements RequiredFunctions
 	public static function get_details()
 	{
 
-		$class_title = __('Menu Item Visibility', self::get_text_domain());
+		$class_title = esc_html__('Menu Item Visibility', self::get_text_domain());
 		$kb_link = null;
-		$class_description = __('Toggles the visibility of menu items based on whether or not users are signed in to the site.', self::get_text_domain());
+		$class_description = esc_html__('Toggles the visibility of menu items based on whether or not users are signed in to the site.', self::get_text_domain());
 		$class_icon = '<i class="uo_icon_fa fa fa-eye-slash"></i>';
 
 		return array(
@@ -137,7 +137,7 @@ class MenuItemVisibility extends Config implements RequiredFunctions
 		<input type="hidden" name="nav-menu-role-nonce" value="<?php echo wp_create_nonce('nav-menu-nonce-name'); ?>"/>
 
 		<div class="field-nav_menu_role nav_menu_logged_in_out_field description-wide" style="margin: 5px 0;">
-			<span class="description"><?php echo __('Display Mode', self::get_text_domain()); ?></span>
+			<span class="description"><?php echo esc_html__('Display Mode', self::get_text_domain()); ?></span>
 			<br/>
 
 			<input type="hidden" class="nav-menu-id" value="<?php echo $item->ID; ?>"/>
@@ -148,7 +148,7 @@ class MenuItemVisibility extends Config implements RequiredFunctions
 					   id="nav_menu_logged_in-for-<?php echo $item->ID; ?>" <?php checked('in', $logged_in_out); ?>
 					   value="in"/>
 				<label for="nav_menu_logged_in-for-<?php echo $item->ID; ?>">
-					<?php echo __('Logged In Users', self::get_text_domain()); ?>
+					<?php echo esc_html__('Logged In Users', self::get_text_domain()); ?>
 				</label>
 			</div>
 
@@ -158,7 +158,7 @@ class MenuItemVisibility extends Config implements RequiredFunctions
 					   id="nav_menu_logged_out-for-<?php echo $item->ID; ?>" <?php checked('out', $logged_in_out); ?>
 					   value="out"/>
 				<label for="nav_menu_logged_out-for-<?php echo $item->ID; ?>">
-					<?php echo __('Logged Out Users', self::get_text_domain()); ?>
+					<?php echo esc_html__('Logged Out Users', self::get_text_domain()); ?>
 				</label>
 			</div>
 
@@ -168,7 +168,7 @@ class MenuItemVisibility extends Config implements RequiredFunctions
 					   id="nav_menu_by_role-for-<?php echo $item->ID; ?>" <?php checked('', $logged_in_out); ?>
 					   value=""/>
 				<label for="nav_menu_by_role-for-<?php echo $item->ID; ?>">
-					<?php echo __('Everyone', self::get_text_domain()); ?>
+					<?php echo esc_html__('Everyone', self::get_text_domain()); ?>
 				</label>
 			</div>
 

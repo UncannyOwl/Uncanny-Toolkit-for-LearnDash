@@ -51,8 +51,8 @@
 		 */
 		public static function get_details() {
 
-			$class_title       = __( 'LearnDash Resume Button', Config::get_text_domain() );
-			$class_description = __(
+			$class_title       = esc_html__( 'LearnDash Resume Button', Config::get_text_domain() );
+			$class_description = esc_html__(
 				'Inserts a button that allows learners to return to the course, lesson or topic they last visited.',
 				Config::get_text_domain() );
 			$class_icon        = '<i class="uo_icon_fa fa fa-refresh"></i>';
@@ -171,7 +171,7 @@
 						get_permalink( $last_know_page_id ),
 						esc_attr(
 							sprintf(
-								_x( 'Resume %s: %s', 'LMS shortcode Resume link title "Resume post_type_name: Post_title ', Config::get_text_domain() ),
+									esc_html_x( 'Resume %s: %s', 'LMS shortcode Resume link title "Resume post_type_name: Post_title ', Config::get_text_domain() ),
 								$label->labels->singular_name,
 								$title
 							)
@@ -179,7 +179,7 @@
 						esc_attr( $css_classes ),
 						//todo: wwhy in tranlation
 						sprintf(
-							_x( '<input type="submit" value="%s" name="sfwd_mark_complete">', '', Config::get_text_domain() ),
+								esc_html_x( '<input type="submit" value="%s" name="sfwd_mark_complete">', '', Config::get_text_domain() ),
 							esc_attr( $link_text )
 						)
 					);

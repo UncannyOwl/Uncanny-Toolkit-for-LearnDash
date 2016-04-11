@@ -42,9 +42,9 @@ class LoginRedirect extends Config implements RequiredFunctions
 	public static function get_details()
 	{
 
-		$class_title = __('Login Redirect', self::get_text_domain());
+		$class_title = esc_html__('Login Redirect', self::get_text_domain());
 		$kb_link = null;
-		$class_description = __('Redirects all non-admin roles to a specific URL after logging into the site.', self::get_text_domain());
+		$class_description = esc_html__('Redirects all non-admin roles to a specific URL after logging into the site.', self::get_text_domain());
 		$class_icon = '<i class="uo_icon_fa fa fa-share"></i>';
 
 		return array(

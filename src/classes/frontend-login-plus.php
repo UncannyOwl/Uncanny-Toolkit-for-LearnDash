@@ -115,7 +115,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions
 
 		$class_title = __('Front End Login', self::get_text_domain());
 		$kb_link = null;
-		$class_description = __('Adds a custom login form and can optionally force users to be verified by an admin before they can sign in.', self::get_text_domain());
+		$class_description = esc_html__('Adds a custom login form and can optionally force users to be verified by an admin before they can sign in.', self::get_text_domain());
 		$class_icon = '<i class="uo_icon_fa fa fa-sign-in"></i>';
 
 		return array(
@@ -321,7 +321,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions
 	{
 		// Show the error message if it seems to be a disabled user
 		if (isset($_GET['unverified']) && 1 === $_GET['unverified']) {
-			$message = '<div id="login_error">' . apply_filters('uo_unverified_users_notice', __("We haven't verified this account.", self::get_text_domain())) . '</div>';
+			$message = '<div id="login_error">' . apply_filters('uo_unverified_users_notice', esc_html__("We haven't verified this account.", self::get_text_domain())) . '</div>';
 		}
 
 		return $message;
@@ -335,9 +335,9 @@ class FrontendLoginPlus extends Config implements RequiredFunctions
 		} else {
 
 
-			$username_label = (isset($atts['username-label']) ? $atts['username-label'] : __('Username', self::get_text_domain()));
-			$password_label = (isset($atts['password-label']) ? $atts['password-label'] : __('Password', self::get_text_domain()));
-			$rememberme_label = (isset($atts['rememberme-label']) ? $atts['rememberme-label'] : __('Remember Me', self::get_text_domain()));
+			$username_label = (isset($atts['username-label']) ? $atts['username-label'] : esc_html__('Username', self::get_text_domain()));
+			$password_label = (isset($atts['password-label']) ? $atts['password-label'] : esc_html__('Password', self::get_text_domain()));
+			$rememberme_label = (isset($atts['rememberme-label']) ? $atts['rememberme-label'] : esc_html__('Remember Me', self::get_text_domain()));
 
 			$register_link = (isset($atts['register_link']) ? $atts['register_link'] : 'no');
 
@@ -347,7 +347,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions
 
 			$placeholder = (isset($atts['placeholder']) ? $atts['placeholder'] : 'yes');
 			$redirect = (isset($atts['redirect']) ? $atts['redirect'] : home_url());
-			$submit_label = (isset($atts['#loginform']) ? $atts['submit-label'] : __('Log In', self::get_text_domain()));
+			$submit_label = (isset($atts['#loginform']) ? $atts['submit-label'] : esc_html__('Log In', self::get_text_domain()));
 
 			if ('no' !== $placeholder) {
 				?>
@@ -539,7 +539,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions
 	{
 		$login_page = get_permalink(self::get_login_redirect_page_id());
 		$link = add_query_arg(array('action' => 'lostpassword'), $login_page);
-		return '<a class="forgot-link" href="' . $link . '">' . __('Forgot Your Password?', Config::get_text_domain()) . '</a>';
+		return '<a class="forgot-link" href="' . $link . '">' . esc_html__('Forgot Your Password?', Config::get_text_domain()) . '</a>';
 	}
 
 	/*
