@@ -6,7 +6,6 @@
 	 * @package uncanny_custom_toolkit
 	 */
 	class learnDashBreadcrumbs extends Config implements RequiredFunctions {
-
 		/**
 		 * Class constructor
 		 */
@@ -30,7 +29,7 @@
 		}
 
 		/**
-		 * Does the plugin rely on another function or plugin
+		 *
 		 *
 		 * @static
 		 * @return mixed
@@ -47,7 +46,7 @@
 		}
 
 		/**
-		 * Description of class in Admin View
+		 *
 		 *
 		 * @static
 		 * @return mixed
@@ -76,8 +75,6 @@
 
 
 		/**
-		 * HTML for modal to create settings
-		 *
 		 * @param $class_title
 		 *
 		 * @return array (html)
@@ -97,18 +94,18 @@
 
 				array(
 					'type'        => 'text',
-					'label'       => 'Dashboard Text',
+					'label'       => 'Dashboard Page Title',
 					'option_name' => 'learn-dash-breadcrumbs-dashboard-text',
 				),
 				array(
 					'type'        => 'select',
-					'label'       => 'Dashboard Link',
+					'label'       => 'Dashboard Page',
 					'select_name' => 'learn-dash-breadcrumbs-dashboard-link',
 					'options'     => $pages,
 				),
 				array(
 					'type'        => 'text',
-					'label'       => 'Dashboard Link Separator',
+					'label'       => 'Breadcrumbs Separator',
 					'option_name' => 'learn-dash-breadcrumbs-dashboard-separator',
 				),
 			);
@@ -333,7 +330,7 @@
 
 			if ( false === $echo ) {
 				return $breadcrumb;
-			}else{
+			} else {
 				// Display breadcrumbs
 				echo $breadcrumb;
 			}
@@ -419,6 +416,7 @@
 			else {
 				return null;
 			}
+
 			return null;
 		}
 	}
