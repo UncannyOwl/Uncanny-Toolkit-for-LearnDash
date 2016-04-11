@@ -25,7 +25,7 @@ The current version of the Uncanny LearnDash Toolkit includes the following func
 * **Show LearnDash Certificates**: Use a simple shortcode to display a list of all certificates (course and quiz) earned by the current user.
 * **Show or Hide Content**: Use shortcodes to show or hide content based on whether or not a user is signed in. Great for Open course types.
 * **Log In/Log Out Links**: Add Log In and Log Out links to menus, or to any page or widget with a shortcode.
-* **LearnDash Breadcrumbs**: Implement Breadcrumbs that supports courses, lessons, topics and quizzes. Also supports woocommerce, custom post types with or without taxonomies & tags, pages and blog posts.
+* **LearnDash Breadcrumbs**: Add breadcrumb links that support courses, lessons, topics and quizzes. Also supports woocommerce, custom post types with or without taxonomies & tags, pages and blog posts.
 
 If you are not using any of the functions in this plugin, please remember to turn them off to maximize performance.
 
@@ -44,8 +44,8 @@ We welcome contributions to the Uncanny LearnDash Toolkit! The plugin is managed
 
 = 1.2 =
 * NEW FEATURE: LearnDash Breadcrumbs
-* Fix course completion time in cvs output
-* Fix translation text domain
+* Fixed course completion time in CSV output
+* Fixed translation text domain
 
 = 1.1 =
 * NEW FEATURE: Log In/Log Out Links
@@ -55,13 +55,13 @@ We welcome contributions to the Uncanny LearnDash Toolkit! The plugin is managed
 
 = 1.0.1 =
 * Open Certificate links in new window
-* Fix blank settings page on older server configuration
-* Fix auto loading on older server configuration
-* Fix settings modal on small screens
+* Fixed blank settings page on older server configuration
+* Fixed auto loading on older server configuration
+* Fixed settings modal on small screens
 * OB Clean Buffer Before AJAX Response
-* Improve support for custom extensions
+* Improved support for custom extensions
 * Set Addon Option default as Array()
-* Prevent login lockout if login page set incorrectly
+* Prevented login lockout if login page set incorrectly
 
 = 1.0 =
 * Public release
