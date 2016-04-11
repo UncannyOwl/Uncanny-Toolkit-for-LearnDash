@@ -1,12 +1,12 @@
 <?php
 /*
 Plugin Name: Uncanny LearnDash Toolkit
-Version: 1.1.1
+Version: 1.2
 Description: Extend the LearnDash plugin with a variety of complementary features to make building engaging learner experiences even easier.
 Author: www.uncannyowl.com
 Author URI: www.uncannyowl.com
 Plugin URI: www.uncannyowl.com/uncanny-learndash-toolkit/
-Text Domain: uncanny_learndash_toolkit
+Text Domain: uncanny-learndash-toolkit
 Domain Path: /languages
 */
 
@@ -43,8 +43,8 @@ function uncanny_learndash_toolkit_plugin_settings_link($links) {
 	return $links;
 }
 
-	// Load breadcrumb front-end plugin function
-	include_once( dirname( __FILE__ ) . '/src/learn-dash-breadcrumbs-function.php' );
+// Load breadcrumb front-end plugin function
+include_once( dirname( __FILE__ ) . '/src/learn-dash-breadcrumbs-function.php' );
 
 // Plugins Configurations File
 include_once( dirname( __FILE__ ) . '/src/config.php' );

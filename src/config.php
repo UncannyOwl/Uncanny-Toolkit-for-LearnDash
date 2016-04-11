@@ -251,7 +251,7 @@ class Config {
 	 * @return string
 	 */
 	public static function get_text_domain() {
-		return self::get_project_name();
+		return 'uncanny-learndash-toolkit';
 	}
 
 	/**
@@ -273,7 +273,7 @@ class Config {
 	 */
 	public static function get_version() {
 		if ( null === self::$version ) {
-			self::$version = '1.1.1';
+			self::$version = '1.2';
 		}
 
 		return self::$version;
