@@ -143,7 +143,7 @@ class learnDashBreadcrumbs extends Config implements RequiredFunctions {
 		// Define main variables
 		$trail               = array();
 		$trail[]             = self::lms_build_anchor_links( get_bloginfo( 'url' ), esc_html__( 'Home', 'uncanny-learndash-toolkit' ) );
-		//$dashboard_link      = get_permalink( get_page_by_path( '/dashboard' ) );
+		$dashboard_link      = get_post_type_archive_link( 'sfwd-courses' );
 		$dashboard_text      = 'Dashboard';
 		$dashboard_separator = '&raquo;';
 
@@ -155,11 +155,8 @@ class learnDashBreadcrumbs extends Config implements RequiredFunctions {
 			$dashboard_text = $get_dashboard_text;
 		}
 
-		if ( strlen( trim( $get_dashboard_link ) ) && '0' !== $get_dashboard_link) {
+		if ( strlen( trim( $get_dashboard_link ) ) && '0' !== $get_dashboard_link ) {
 			$dashboard_link = get_permalink( $get_dashboard_link );
-			//REMOVE COURSE ARCHIVE PAGE
-		}else{
-			//REMOVE DASHBOARD LINK
 		}
 
 		if ( strlen( trim( $get_dashboard_separator ) ) ) {
@@ -345,6 +342,8 @@ class learnDashBreadcrumbs extends Config implements RequiredFunctions {
 				),
 				'br'     => array(),
 				'em'     => array(),
+				'span'   => array(),
+				'nav'    => array(),
 				'strong' => array(),
 			) );
 		}
