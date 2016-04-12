@@ -7,19 +7,19 @@ namespace uncanny_learndash_toolkit;
  * @package uncanny_learndash_toolkit
  */
 interface RequiredFunctions {
-	/**
-	 *
-	 *
-	 * @static
-	 * @return mixed
-	 */
-	static function get_details();
 
 	/**
-	 *
-	 *
+	 * @public
 	 * @static
 	 * @return mixed
 	 */
-	static function dependants_exist();
+	public static function get_details();
+
+	/**
+	 * @public
+	 * @static
+	 * @return mixed
+	 */
+	public static function dependants_exist();
+
 }
