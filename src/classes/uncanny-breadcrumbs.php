@@ -136,20 +136,22 @@ class uncannyBreadcrumbs extends Config implements RequiredFunctions {
 	 *
 	 * @return string
 	 */
-	public static function uo_breadcrumbs( $echo = true ) {
+	public static function uo_breadcrumbs() {
 		global $wp_query;
 		//$wp_query = new WP_Query();
 
 		// Define main variables
-		$trail               = array();
-		$trail[]             = self::uo_build_anchor_links( get_bloginfo( 'url' ), esc_html__( 'Home', 'uncanny-learndash-toolkit' ) );
-		$dashboard_link      = get_post_type_archive_link( 'sfwd-courses' );
+		$trail   = array();
+		$trail[] = self::uo_build_anchor_links( get_bloginfo( 'url' ), esc_html__( 'Home', 'uncanny-learndash-toolkit' ) );
+		//$dashboard_link      = get_post_type_archive_link( 'sfwd-courses' );
+		$dashboard_link      = '';
 		$dashboard_text      = 'Dashboard';
 		$dashboard_separator = '&raquo;';
 
 		$get_dashboard_text      = self::get_settings_value( 'uncanny-breadcrumbs-dashboard-text', __CLASS__ );
 		$get_dashboard_link      = self::get_settings_value( 'uncanny-breadcrumbs-dashboard-link', __CLASS__ );
 		$get_dashboard_separator = self::get_settings_value( 'uncanny-breadcrumbs-dashboard-separator', __CLASS__ );
+		$course_archive_link     = self::uo_build_anchor_links( get_post_type_archive_link( 'sfwd-courses' ), esc_html__( 'Courses', 'uncanny-learndash-toolkit' ) );
 
 		if ( strlen( trim( $get_dashboard_text ) ) ) {
 			$dashboard_text = $get_dashboard_text;
@@ -157,14 +159,12 @@ class uncannyBreadcrumbs extends Config implements RequiredFunctions {
 
 		if ( strlen( trim( $get_dashboard_link ) ) && '0' !== $get_dashboard_link ) {
 			$dashboard_link = get_permalink( $get_dashboard_link );
+			$dashboard_link = self::uo_build_anchor_links( $dashboard_link, $dashboard_text );
 		}
 
 		if ( strlen( trim( $get_dashboard_separator ) ) ) {
 			$dashboard_separator = $get_dashboard_separator;
 		}
-
-		$dashboard_link = self::uo_build_anchor_links( $dashboard_link, $dashboard_text );
-
 		$lesson_id = false;
 
 
@@ -203,7 +203,7 @@ class uncannyBreadcrumbs extends Config implements RequiredFunctions {
 							}
 						}
 					}
-					$trail[] = get_the_title( $post_id );
+					//$trail[] = get_the_title( $post_id );
 				} else {
 					// Regular pages. See if the page has any ancestors. Add in the trail if ancestors are found
 					$ancestors = get_ancestors( $post_id, 'page' );
@@ -213,38 +213,53 @@ class uncannyBreadcrumbs extends Config implements RequiredFunctions {
 							$trail[] = self::uo_build_anchor_links( get_permalink( $page ), get_the_title( $page ) );
 						}
 					}
-					$trail[] = get_the_title( $post_id );
+					//$trail[] = get_the_title( $post_id );
 				}
 			} elseif ( 'sfwd-courses' === $post_type ) {
 				// See if Single Course is being displayed.
-				$trail[] = $dashboard_link;
-				$trail[] = self::uo_build_anchor_links( get_post_type_archive_link( 'sfwd-courses' ), esc_html__( 'Courses', 'uncanny-learndash-toolkit' ) );
-				$trail[] = get_the_title( $post_id );
+				if ( strlen( trim( $get_dashboard_link ) ) && '0' !== $get_dashboard_link ) {
+					$trail[] = $dashboard_link;
+				} else {
+					$trail[] = $course_archive_link;
+				}
+				//$trail[] = get_the_title( $post_id );
 			} elseif ( 'sfwd-lessons' === $post_type ) {
 				// See if Single Lesson is being displayed.
 				$course_id = get_post_meta( $post_id, 'course_id', true ); // Getting Parent Course ID
-				$trail[]   = $dashboard_link;
-				$trail[]   = self::uo_build_anchor_links( get_post_type_archive_link( 'sfwd-courses' ), esc_html__( 'Courses', 'uncanny-learndash-toolkit' ) ); // Getting Main Course Page Link
-				$trail[]   = self::uo_build_anchor_links( get_permalink( $course_id ), get_the_title( $course_id ) ); // Getting Lesson's Course Link
-				$trail[]   = get_the_title( $post_id );
+				if ( strlen( trim( $get_dashboard_link ) ) && '0' !== $get_dashboard_link ) {
+					$trail[] = $dashboard_link;
+				} else {
+					$trail[] = $course_archive_link;
+				}
+				$trail[] = self::uo_build_anchor_links( get_permalink( $course_id ), get_the_title( $course_id ) ); // Getting Lesson's Course Link
+				//$trail[] = get_the_title( $post_id );
 			} elseif ( 'sfwd-topic' === $post_type ) {
 				// See if single Topic is being displayed
 				$course_id = get_post_meta( $post_id, 'course_id', true ); // Getting Parent Course ID
 				$lesson_id = get_post_meta( $post_id, 'lesson_id', true ); // Getting Parent Lesson ID
-				$trail[]   = $dashboard_link;
-				$trail[]   = self::uo_build_anchor_links( get_post_type_archive_link( 'sfwd-courses' ), esc_html__( 'Courses', 'uncanny-learndash-toolkit' ) );  // Getting Main Course Page Link
-				$trail[]   = self::uo_build_anchor_links( get_permalink( $course_id ), get_the_title( $course_id ) ); // Getting Lesson's Course Link
-				$trail[]   = self::uo_build_anchor_links( get_permalink( $lesson_id ), get_the_title( $lesson_id ) ); // Getting Topics's Lesson Link
-				$trail[]   = get_the_title( $post_id );
+				if ( strlen( trim( $get_dashboard_link ) ) && '0' !== $get_dashboard_link ) {
+					$trail[] = $dashboard_link;
+				} else {
+					$trail[] = $course_archive_link;
+				}
+				$trail[] = self::uo_build_anchor_links( get_permalink( $course_id ), get_the_title( $course_id ) ); // Getting Lesson's Course Link
+				$trail[] = self::uo_build_anchor_links( get_permalink( $lesson_id ), get_the_title( $lesson_id ) ); // Getting Topics's Lesson Link
+				//$trail[] = get_the_title( $post_id );
 			} elseif ( 'sfwd-quiz' === $post_type ) {
 				// See if quiz is being displayed
 				$course_id = get_post_meta( $post_id, 'course_id', true ); // Getting Parent Course ID
-				$trail[]   = $dashboard_link;
-				$topic_id  = get_post_meta( $post_id, 'lesson_id', true ); // Getting Parent Topic/Lesson ID
+				if ( strlen( trim( $get_dashboard_link ) ) && '0' !== $get_dashboard_link ) {
+					$trail[] = $dashboard_link;
+				}
+				$topic_id = get_post_meta( $post_id, 'lesson_id', true ); // Getting Parent Topic/Lesson ID
 				if ( 'sfwd-topic' === get_post_type( $topic_id ) ) {
 					$lesson_id = get_post_meta( $topic_id, 'lesson_id', true ); // Getting Parent Lesson ID
 				}
-				$trail[] = self::uo_build_anchor_links( get_post_type_archive_link( 'sfwd-courses' ), esc_html__( 'Courses', 'uncanny-learndash-toolkit' ) );  // Getting Main Course Page Link
+				if ( strlen( trim( $get_dashboard_link ) ) && '0' !== $get_dashboard_link ) {
+					$trail[] = $dashboard_link;
+				} else {
+					$trail[] = $course_archive_link;
+				}
 				$trail[] = self::uo_build_anchor_links( get_permalink( $course_id ), get_the_title( $course_id ) ); // Getting Lesson's Course Link
 				//If $lesson_id is false, the quiz is associated with a lesson and course but not a topic.
 				if ( $lesson_id ) {
@@ -254,7 +269,7 @@ class uncannyBreadcrumbs extends Config implements RequiredFunctions {
 				if ( $topic_id ) {
 					$trail[] = self::uo_build_anchor_links( get_permalink( $topic_id ), get_the_title( $topic_id ) );
 				}
-				$trail[] = get_the_title( $post_id );
+				//$trail[] = get_the_title( $post_id );
 
 			} else {
 				// Add shop page to single product
@@ -278,7 +293,7 @@ class uncannyBreadcrumbs extends Config implements RequiredFunctions {
 				if ( self::lms_get_taxonomy( $post_id, $post_type ) ) {
 					$trail[] = self::lms_get_taxonomy( $post_id, $post_type );
 				}
-				$trail[] = get_the_title( $post_id );
+				//$trail[] = get_the_title( $post_id );
 			}
 		}
 		// If it's an Archive
@@ -331,32 +346,7 @@ class uncannyBreadcrumbs extends Config implements RequiredFunctions {
 		// Close breadcrumbs
 		$breadcrumb .= '</div></nav>';
 
-		if ( false === $echo ) {
-			return $breadcrumb;
-		} else {
-			// Display breadcrumbs
-			echo wp_kses( $breadcrumb, array(
-				'a'    => array(
-					'href'  => array(),
-					'title' => array(),
-					'class' => array(),
-					'target' => array(),
-				),
-				'br'   => array(),
-				'i'    => array(
-					'title' => array(),
-					'class' => array(),
-				),
-				'span' => array(
-					'title' => array(),
-					'class' => array(),
-				),
-				'nav'  => array(
-					'title' => array(),
-					'class' => array(),
-				),
-			) );
-		}
+		return $breadcrumb;
 	}
 
 	/**

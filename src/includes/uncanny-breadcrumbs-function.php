@@ -1,11 +1,36 @@
 <?php
 /* This function is only going to be used in templates instead of shortcode.  */
 
-function uo_breadcrumbs( $return = true ) {
+/**
+ * @param bool $echo
+ *
+ * @return string
+ */
+function uo_breadcrumbs( $echo = true ) {
 	$crumb = new \uncanny_learndash_toolkit\uncannyBreadcrumbs();
-	if ( ! $return ) {
-		return $crumb->uo_breadcrumbs( false );
+	if ( ! $echo ) {
+		return $crumb->uo_breadcrumbs();
 	} else {
-		$crumb->uo_breadcrumbs();
+		echo wp_kses( $crumb->uo_breadcrumbs(), array(
+			'a'    => array(
+				'href'   => array(),
+				'title'  => array(),
+				'class'  => array(),
+				'target' => array(),
+			),
+			'br'   => array(),
+			'i'    => array(
+				'title' => array(),
+				'class' => array(),
+			),
+			'span' => array(
+				'title' => array(),
+				'class' => array(),
+			),
+			'nav'  => array(
+				'title' => array(),
+				'class' => array(),
+			),
+		) );
 	}
 }
