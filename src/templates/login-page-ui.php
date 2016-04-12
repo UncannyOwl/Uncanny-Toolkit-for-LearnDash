@@ -1,7 +1,6 @@
 <?php
 /* Template Name: Uncanny Owl Login Page */
-$uo_public_text_domain = \uncanny_learndash_toolkit\Config::get_text_domain();
-$login_page = \uncanny_learndash_toolkit\FrontendLoginPlus::get_login_redirect_page_id();
+$login_page            = \uncanny_learndash_toolkit\FrontendLoginPlus::get_login_redirect_page_id();
 
 global $user_login;
 
@@ -11,7 +10,7 @@ $login = ( isset( $_GET['login'] ) ) ? $_GET['login'] : 'not-set';
 
 /* Registration */
 $register = false;
-if( isset( $_GET['action'] ) ){
+if ( isset( $_GET['action'] ) ) {
 	if ( 'register' === $_GET['action'] ) {
 		//$register = true;
 	}
@@ -56,73 +55,77 @@ if ( isset( $_GET['action'] ) ) {
 switch ( $login ) {
 
 	case 'failed':
-		$message_error   = esc_html__( 'Woops!', $uo_public_text_domain );
-		$message_warning = esc_html__( 'Invalid username and/or password.',  $uo_public_text_domain );
+		$message_error   = esc_html__( 'Woops!', 'uncanny-learndash-toolkit' );
+		$message_warning = esc_html__( 'Invalid username and/or password.', 'uncanny-learndash-toolkit' );
 		break;
 	case 'empty':
-		$message_error   = esc_html__( 'Woops!', $uo_public_text_domain );
-		$message_warning = esc_html__( 'Username and/or Password is empty.', $uo_public_text_domain );
+		$message_error   = esc_html__( 'Woops!', 'uncanny-learndash-toolkit' );
+		$message_warning = esc_html__( 'Username and/or Password is empty.', 'uncanny-learndash-toolkit' );
 		break;
 	case 'false':
-		$message_error   = esc_html__( '', $uo_public_text_domain );
-		$message_warning = esc_html__( 'You are logged out.', $uo_public_text_domain );
+		$message_error   = esc_html__( '', 'uncanny-learndash-toolkit' );
+		$message_warning = esc_html__( 'You are logged out.', 'uncanny-learndash-toolkit' );
 		break;
 	case 'notverified':
-		$message_error   = esc_html__( 'Woops!', $uo_public_text_domain );
-		$message_warning = esc_html__( 'This account is not verified.', $uo_public_text_domain );
+		$message_error   = esc_html__( 'Woops!', 'uncanny-learndash-toolkit' );
+		$message_warning = esc_html__( 'This account is not verified.', 'uncanny-learndash-toolkit' );
 		break;
 	case 'registration-disabled':
-		$message_error   = esc_html__( 'Woops!', $uo_public_text_domain );
-		$message_warning = esc_html__( 'We do not allow registrations.', $uo_public_text_domain );
+		$message_error   = esc_html__( 'Woops!', 'uncanny-learndash-toolkit' );
+		$message_warning = esc_html__( 'We do not allow registrations.', 'uncanny-learndash-toolkit' );
 		break;
 	default:
 		$message_error   = '';
 		$message_warning = '';
 }
+
 $login_error = '<p class="login-msg"><strong>' . $message_error . '</strong> ' . $message_warning . '</p>';
-$login_error = apply_filters( 'uo_frontend_login_error', $login_error, $login, $message_error, $message_warning);
+
+$login_error = apply_filters( 'uo_frontend_login_error', $login_error, $login, $message_error, $message_warning );
 
 $login_form_args = array(
-		'echo'           => true,
-		'redirect'       => home_url( '/wp-admin/' ),
-		'form_id'        => 'loginform',
-		'label_username' => esc_html__( 'Username',  $uo_public_text_domain ),
-		'label_password' => esc_html__( 'Password',  $uo_public_text_domain ),
-		'label_remember' => esc_html__( 'Remember Me',  $uo_public_text_domain ),
-		'label_log_in'   => esc_html__( 'Log In',  $uo_public_text_domain ),
-		'id_username'    => 'user_login',
-		'id_password'    => 'user_pass',
-		'id_remember'    => 'rememberme',
-		'id_submit'      => 'wp-submit',
-		'remember'       => true,
-		'value_username' => null,
-		'value_remember' => true,
+	'echo'           => true,
+	'redirect'       => home_url( '/wp-admin/' ),
+	'form_id'        => 'loginform',
+	'label_username' => esc_html__( 'Username', 'uncanny-learndash-toolkit' ),
+	'label_password' => esc_html__( 'Password', 'uncanny-learndash-toolkit' ),
+	'label_remember' => esc_html__( 'Remember Me', 'uncanny-learndash-toolkit' ),
+	'label_log_in'   => esc_html__( 'Log In', 'uncanny-learndash-toolkit' ),
+	'id_username'    => 'user_login',
+	'id_password'    => 'user_pass',
+	'id_remember'    => 'rememberme',
+	'id_submit'      => 'wp-submit',
+	'remember'       => true,
+	'value_username' => null,
+	'value_remember' => true,
 );
+
+$login_form_args = apply_filters( 'uo_frontend_login_error', $login_form_args );
 
 $innerText = Array(
-		'Hello'						=> esc_html__( 'Hello', $uo_public_text_domain ),
-		'Logged-In-Message'			=> esc_html__( 'You are already logged in', $uo_public_text_domain ),
-		'Logout'					=> esc_html__( 'Logout', $uo_public_text_domain ),
-		'Password-Recovery-Title'	=> esc_html__( 'Password Recovery', $uo_public_text_domain ),
-		'Password-Recovery-Label'	=> esc_html__( 'Username or E-mail:', $uo_public_text_domain ),
-		'Success'					=> esc_html__( 'Success!', $uo_public_text_domain ),
-		'Success-Email-Sent'		=> esc_html__( 'Check your email for a reset password link.', $uo_public_text_domain ),
-		'Woops'						=> esc_html__( 'Woops!', $uo_public_text_domain ),
-		'Failed-Send-Email'			=> esc_html__( 'Password reset failed to Send.', $uo_public_text_domain ),
-		'Reset-Password-Title'		=> esc_html__( 'Reset Password', $uo_public_text_domain ),
-		'New-Password'				=> esc_html__( 'New Password', $uo_public_text_domain ),
-		'Confirm-Password'			=> esc_html__( 'Confirm New Password', $uo_public_text_domain ),
-		'Password-Indicator-Hint'	=> esc_html__( 'Hint: The password should be at least eight characters long. To make it stronger, use upper and lower case letters, numbers, and symbols like ! " ? $ % ^ &amp; )', $uo_public_text_domain ),
-		'Password-Reset-Link-Failed'=> esc_html__( 'Password reset link failed.', $uo_public_text_domain ),
-		'Invalid-Reset-Key'			=> esc_html__( 'Your password reset link is invalid.', $uo_public_text_domain ),
-		'Expired-Reset-Key'			=> esc_html__( 'Your password reset link is expired.', $uo_public_text_domain ),
-		'Password-Not-Match'		=> esc_html__( 'Your Passwords did not match. Please try again.', $uo_public_text_domain ),
-		'Reset-Success'				=> esc_html__( 'Your password was reset successfully. Please Log-In.', $uo_public_text_domain ),
-		'Login-Title'				=> esc_html__( 'Login', $uo_public_text_domain ),
-		'Register-Link'				=> esc_html__( 'Register', $uo_public_text_domain )
+	'Hello'                      => esc_html__( 'Hello', 'uncanny-learndash-toolkit' ),
+	'Logged-In-Message'          => esc_html__( 'You are already logged in', 'uncanny-learndash-toolkit' ),
+	'Logout'                     => esc_html__( 'Logout', 'uncanny-learndash-toolkit' ),
+	'Password-Recovery-Title'    => esc_html__( 'Password Recovery', 'uncanny-learndash-toolkit' ),
+	'Password-Recovery-Label'    => esc_html__( 'Username or E-mail:', 'uncanny-learndash-toolkit' ),
+	'Success'                    => esc_html__( 'Success!', 'uncanny-learndash-toolkit' ),
+	'Success-Email-Sent'         => esc_html__( 'Check your email for a reset password link.', 'uncanny-learndash-toolkit' ),
+	'Woops'                      => esc_html__( 'Woops!', 'uncanny-learndash-toolkit' ),
+	'Failed-Send-Email'          => esc_html__( 'Password reset failed to Send.', 'uncanny-learndash-toolkit' ),
+	'Reset-Password-Title'       => esc_html__( 'Reset Password', 'uncanny-learndash-toolkit' ),
+	'New-Password'               => esc_html__( 'New Password', 'uncanny-learndash-toolkit' ),
+	'Confirm-Password'           => esc_html__( 'Confirm New Password', 'uncanny-learndash-toolkit' ),
+	'Password-Indicator-Hint'    => esc_html__( 'Hint: The password should be at least eight characters long. To make it stronger, use upper and lower case letters, numbers, and symbols like ! " ? $ % ^ &amp; )', 'uncanny-learndash-toolkit' ),
+	'Password-Reset-Link-Failed' => esc_html__( 'Password reset link failed.', 'uncanny-learndash-toolkit' ),
+	'Invalid-Reset-Key'          => esc_html__( 'Your password reset link is invalid.', 'uncanny-learndash-toolkit' ),
+	'Expired-Reset-Key'          => esc_html__( 'Your password reset link is expired.', 'uncanny-learndash-toolkit' ),
+	'Password-Not-Match'         => esc_html__( 'Your Passwords did not match. Please try again.', 'uncanny-learndash-toolkit' ),
+	'Reset-Success'              => esc_html__( 'Your password was reset successfully. Please Log-In.', 'uncanny-learndash-toolkit' ),
+	'Login-Title'                => esc_html__( 'Login', 'uncanny-learndash-toolkit' ),
+	'Register-Link'              => esc_html__( 'Register', 'uncanny-learndash-toolkit' )
 );
 
-$innerText = apply_filters( 'uo-login-inner-text', $innerText );
+$innerText = apply_filters( 'uo-login-inner-text', $innerText, $login );
 
 
 ?>
@@ -133,6 +136,18 @@ $innerText = apply_filters( 'uo-login-inner-text', $innerText );
 	</div>
 
 	<?php
+	/*
+	 * before_uo_login_ui hook
+	 *
+	 * @arg bool $lost_password
+	 * @arg bool $reset_password_sent
+	 * @arg bool $reset_password_sent_success
+	 * @arg bool $register
+	 * @arg bool $reset_password
+	 * @arg bool $validate_password_reset
+	 */
+	do_action( 'before_uo_login_ui', $lost_password, $reset_password_sent, $reset_password_sent_success, $register, $reset_password, $validate_password_reset);
+
 	if ( is_user_logged_in() ) {
 		echo '<div class="uo_logout"> ' . $innerText['Hello'] . ',
                             <div class="uo_logout_user">', $user_login, ' ' . $innerText['Logged-In-Message'] . '</div>
@@ -141,18 +156,21 @@ $innerText = apply_filters( 'uo-login-inner-text', $innerText );
 	} else if ( $lost_password ) {
 		?>
 		<h2><?php echo $innerText['Password-Recovery-Title']; ?></h2>
-		<form id="lostpasswordform" name="lostpasswordform" action="<?php echo site_url( 'wp-login.php?action=lostpassword', 'login_post' ) ?>" method="post">
+		<form id="lostpasswordform" name="lostpasswordform"
+		      action="<?php echo site_url( 'wp-login.php?action=lostpassword', 'login_post' ) ?>" method="post">
 			<p>
 				<label for="user_login"><?php echo $innerText['Password-Recovery-Label']; ?></label>
 				<input size="20" type="text" name="user_login" id="user_login" value="">
 			</p>
 
-			<input type="hidden" name="redirect_to" value="<?php echo get_permalink( $login_page ); ?>?action=forgot&success=1">
+			<input type="hidden" name="redirect_to"
+			       value="<?php echo get_permalink( $login_page ); ?>?action=forgot&success=1">
+
 			<p class="submit"><input type="submit" name="wp-submit" id="wp-submit" value="Get New Password"/></p>
 		</form>
 		<?php
 	} elseif ( $reset_password_sent ) {
-		if ($reset_password_sent_success) {
+		if ( $reset_password_sent_success ) {
 			?>
 			<p class="login-msg">
 				<strong><?php echo $innerText['Success']; ?></strong> <?php echo $innerText['Success-Email-Sent']; ?>
@@ -162,24 +180,29 @@ $innerText = apply_filters( 'uo-login-inner-text', $innerText );
 			?>
 			<p class="login-msg">
 				<strong><?php echo $innerText['Woops']; ?></strong> <?php echo $innerText['Failed-Send-Email']; ?></p>
-			<p><a href="<?php echo get_permalink($login_page); ?>?action=lostpassword">Try again?</a></p>
+			<p><a href="<?php echo get_permalink( $login_page ); ?>?action=lostpassword">Try again?</a></p>
 			<?php
 		}
-	}elseif ( $register ){
+	} elseif ( $register ) {
 		?>
-		<form name="registerform" id="registerform" action="http://www.uopublicplugin.dev/wp-login.php?action=register" method="post" novalidate="novalidate">
+		<form name="registerform" id="registerform" action="http://www.uopublicplugin.dev/wp-login.php?action=register"
+		      method="post" novalidate="novalidate">
 			<p>
 				<label for="user_login">Username<br>
 					<input type="text" name="user_login" id="user_login" class="input" value="" size="20"></label>
 			</p>
+
 			<p>
 				<label for="user_email">Email<br>
 					<input type="email" name="user_email" id="user_email" class="input" value="" size="25"></label>
 			</p>
+
 			<p id="reg_passmail">Registration confirmation will be emailed to you.</p>
 			<br class="clear">
 			<input type="hidden" name="redirect_to" value="">
-			<p class="submit"><input type="submit" name="wp-submit" id="wp-submit" class="button button-primary button-large" value="Register"></p>
+
+			<p class="submit"><input type="submit" name="wp-submit" id="wp-submit"
+			                         class="button button-primary button-large" value="Register"></p>
 		</form>
 		<?php
 	} elseif ( $reset_password ) {
@@ -189,21 +212,27 @@ $innerText = apply_filters( 'uo-login-inner-text', $innerText );
 			$rp_login  = $_GET['login'];
 			$rp_cookie = 'wp-resetpass-' . COOKIEHASH;
 			$value     = sprintf( '%s:%s', wp_unslash( $_GET['login'] ), wp_unslash( $_GET['key'] ) );
-			setcookie( $rp_cookie, $value, 0, '/'.get_post_field( 'post_name', $login_page ), COOKIE_DOMAIN, is_ssl(), true );
+			setcookie( $rp_cookie, $value, 0, '/' . get_post_field( 'post_name', $login_page ), COOKIE_DOMAIN, is_ssl(), true );
 
 			?>
 			<h2><?php echo $innerText['Reset-Password-Title']; ?></h2>
-			<form name="resetpassform" id="resetpassform" action="<?php get_permalink( $login_page ); ?>?action=validatepasswordreset" method="post" autocomplete="off">
-				<input type="hidden" id="user_login" name="rp_login" value="<?php echo esc_attr( $rp_login ); ?>" autocomplete="off"/>
+			<form name="resetpassform" id="resetpassform"
+			      action="<?php get_permalink( $login_page ); ?>?action=validatepasswordreset" method="post"
+			      autocomplete="off">
+				<input type="hidden" id="user_login" name="rp_login" value="<?php echo esc_attr( $rp_login ); ?>"
+				       autocomplete="off"/>
 
 				<div class="user-pass1-wrap">
 					<p>
 						<label for="pass1"><?php echo $innerText['New-Password']; ?></label>
 					</p>
+
 					<div class="wp-pwd">
                             <span class="password-input-wrapper">
-                                <input type="password" data-reveal="1" data-pw="<?php echo esc_attr( wp_generate_password( 16 ) ); ?>" name="pass1" id="pass1" class="input" size="20" value="" autocomplete="off"
-									   aria-describedby="pass-strength-result"/>
+                                <input type="password" data-reveal="1"
+                                       data-pw="<?php echo esc_attr( wp_generate_password( 16 ) ); ?>" name="pass1"
+                                       id="pass1" class="input" size="20" value="" autocomplete="off"
+                                       aria-describedby="pass-strength-result"/>
                             </span>
 					</div>
 				</div>
@@ -211,26 +240,32 @@ $innerText = apply_filters( 'uo-login-inner-text', $innerText );
 					<label for="pass2"><?php echo $innerText['Confirm-Password']; ?></label><br/>
 					<input type="password" name="pass2" id="pass2" class="input" size="20" value="" autocomplete="off"/>
 				</p>
-				<p class="description indicator-hint"><?php echo $innerText['Password-Indicator-Hint'] ; ?></p>
+
+				<p class="description indicator-hint"><?php echo $innerText['Password-Indicator-Hint']; ?></p>
 				<br class="clear"/>
 				<input type="hidden" name="rp_key" value="<?php echo esc_attr( $rp_key ); ?>"/>
-				<p class="submit"><input type="submit" name="wp-submit" id="wp-submit" class="button button-primary button-large" value="<?php esc_attr_e( 'Reset Password' ); ?>"/></p>
+
+				<p class="submit"><input type="submit" name="wp-submit" id="wp-submit"
+				                         class="button button-primary button-large"
+				                         value="<?php esc_attr_e( 'Reset Password' ); ?>"/></p>
 			</form>
 			<?php
 
 		} else {
 
 			?>
-			<p class="login-msg"><strong><?php echo $innerText['Woops']; ?></strong> <?php echo $innerText['Password-Reset-Link-Failed']; ?></p>
+			<p class="login-msg">
+				<strong><?php echo $innerText['Woops']; ?></strong> <?php echo $innerText['Password-Reset-Link-Failed']; ?>
+			</p>
 			<?php
 		}
 	} elseif ( $validate_password_reset ) {
 		if ( isset( $_GET['issue'] ) ) {
 
 			if ( 'invalidkey' === $_GET['issue'] ) {
-				echo '<h2>'.$innerText['Invalid-Reset-Key'].'</h2>';
+				echo '<h2>' . $innerText['Invalid-Reset-Key'] . '</h2>';
 			} elseif ( 'expiredkey' === $_GET['issue'] ) {
-				echo '<h2>'.$innerText['Expired-Reset-Key'].'</h2>';
+				echo '<h2>' . $innerText['Expired-Reset-Key'] . '</h2>';
 			}
 		} else {
 			$rp_cookie = 'wp-resetpass-' . COOKIEHASH;
@@ -249,9 +284,9 @@ $innerText = apply_filters( 'uo-login-inner-text', $innerText );
 
 				setcookie( $rp_cookie, ' ', time() - YEAR_IN_SECONDS, '/login', COOKIE_DOMAIN, is_ssl(), true );
 				if ( $user && $user->get_error_code() === 'expired_key' ) {
-					wp_safe_redirect( get_permalink( $login_page ).'?action=validatepasswordreset&issue=expiredkey'  );
+					wp_safe_redirect( get_permalink( $login_page ) . '?action=validatepasswordreset&issue=expiredkey' );
 				} else {
-					wp_safe_redirect( get_permalink( $login_page ).'?action=validatepasswordreset&issue=invalidkey' );
+					wp_safe_redirect( get_permalink( $login_page ) . '?action=validatepasswordreset&issue=invalidkey' );
 				}
 			}
 
@@ -279,10 +314,21 @@ $innerText = apply_filters( 'uo-login-inner-text', $innerText );
 
 		// Add registration link allowed
 		if ( get_option( 'users_can_register' ) ) {
-			echo '<a class="register-link" href="'.wp_registration_url().'" >'.$innerText['Register-Link'].'</a>';
+			echo '<a class="register-link" href="' . wp_registration_url() . '" >' . $innerText['Register-Link'] . '</a>';
 		}
 
 	}
+	/*
+	 * after_uo_login_ui hook
+	 *
+	 * @arg bool $lost_password
+	 * @arg bool $reset_password_sent
+	 * @arg bool $reset_password_sent_success
+	 * @arg bool $register
+	 * @arg bool $reset_password
+	 * @arg bool $validate_password_reset
+	 */
+	do_action( 'after_uo_login_ui', $lost_password, $reset_password_sent, $reset_password_sent_success, $register, $reset_password, $validate_password_reset);
 	?>
 
 </section>
