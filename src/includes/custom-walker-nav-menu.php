@@ -93,11 +93,11 @@ class CustomWalkerNavMenu extends Walker_Nav_Menu {
 		if ( ! empty( $item->_invalid ) ) {
 			$classes[] = 'menu-item-invalid';
 			/* translators: %s: title of menu item which is invalid */
-			$title = sprintf( __( '%s (Invalid)' , 'nav-menu-roles' ), $item->title );
+			$title = sprintf( esc_html__( '%s (Invalid)' , 'uncanny-learndash-toolkit' ), $item->title );
 		} elseif ( isset( $item->post_status ) && 'draft' == $item->post_status ) {
 			$classes[] = 'pending';
 			/* translators: %s: title of menu item in draft status */
-			$title = sprintf( __( '%s (Pending)', 'nav-menu-roles' ), $item->title );
+			$title = sprintf( esc_html__( '%s (Pending)', 'uncanny-learndash-toolkit' ), $item->title );
 		}
 
 		$title = ( ! isset( $item->label ) || '' == $item->label ) ? $title : $item->label;
@@ -111,7 +111,7 @@ class CustomWalkerNavMenu extends Walker_Nav_Menu {
 	<li id="menu-item-<?php echo $item_id; ?>" class="<?php echo implode( ' ', $classes ); ?>">
 		<div class="menu-item-bar">
 			<div class="menu-item-handle">
-				<span class="item-title"><span class="menu-item-title"><?php echo esc_html( $title ); ?></span> <span class="is-submenu" <?php echo $submenu_text; ?>><?php _e( 'sub item' , 'nav-menu-roles' ); ?></span></span>
+				<span class="item-title"><span class="menu-item-title"><?php echo esc_html( $title ); ?></span> <span class="is-submenu" <?php echo $submenu_text; ?>><?php esc_html_e( 'sub item' , 'uncanny-learndash-toolkit' ); ?></span></span>
                     <span class="item-controls">
                         <span class="item-type"><?php echo esc_html( $item->type_label ); ?></span>
                         <span class="item-order hide-if-js">
@@ -126,7 +126,7 @@ class CustomWalkerNavMenu extends Walker_Nav_Menu {
 								),
 								'move-menu_item'
 							);
-							?>" class="item-move-up"><abbr title="<?php esc_attr_e( 'Move up', 'nav-menu-roles' ); ?>">&#8593;</abbr></a>
+							?>" class="item-move-up"><abbr title="<?php esc_attr_e( 'Move up', 'uncanny-learndash-toolkit' ); ?>">&#8593;</abbr></a>
                             |
                             <a href="<?php
 							echo wp_nonce_url(
@@ -139,11 +139,11 @@ class CustomWalkerNavMenu extends Walker_Nav_Menu {
 								),
 								'move-menu_item'
 							);
-							?>" class="item-move-down"><abbr title="<?php esc_attr_e( 'Move down', 'nav-menu-roles' ); ?>">&#8595;</abbr></a>
+							?>" class="item-move-down"><abbr title="<?php esc_attr_e( 'Move down', 'uncanny-learndash-toolkit' ); ?>">&#8595;</abbr></a>
                         </span>
-                        <a class="item-edit" id="edit-<?php echo $item_id; ?>" title="<?php esc_attr_e( 'Edit Menu Item', 'nav-menu-roles' ); ?>" href="<?php
+                        <a class="item-edit" id="edit-<?php echo $item_id; ?>" title="<?php esc_attr_e( 'Edit Menu Item', 'uncanny-learndash-toolkit' ); ?>" href="<?php
 						echo ( isset( $_GET['edit-menu-item'] ) && $item_id == $_GET['edit-menu-item'] ) ? admin_url( 'nav-menus.php' ) : add_query_arg( 'edit-menu-item', $item_id, remove_query_arg( $removed_args, admin_url( 'nav-menus.php#menu-item-settings-' . $item_id ) ) );
-						?>"><?php _e( 'Edit Menu Item' , 'nav-menu-roles' ); ?></a>
+						?>"><?php esc_html_e( 'Edit Menu Item' , 'uncanny-learndash-toolkit' ); ?></a>
                     </span>
 			</div>
 		</div>
@@ -152,46 +152,46 @@ class CustomWalkerNavMenu extends Walker_Nav_Menu {
 			<?php if ( 'custom' == $item->type ) : ?>
 				<p class="field-url description description-wide">
 					<label for="edit-menu-item-url-<?php echo $item_id; ?>">
-						<?php _e( 'URL' , 'nav-menu-roles' ); ?><br />
+						<?php esc_html_e( 'URL' , 'uncanny-learndash-toolkit' ); ?><br />
 						<input type="text" id="edit-menu-item-url-<?php echo $item_id; ?>" class="widefat code edit-menu-item-url" name="menu-item-url[<?php echo $item_id; ?>]" value="<?php echo esc_attr( $item->url ); ?>" />
 					</label>
 				</p>
 			<?php endif; ?>
 			<p class="description description-wide">
 				<label for="edit-menu-item-title-<?php echo $item_id; ?>">
-					<?php _e( 'Navigation Label' , 'nav-menu-roles' ); ?><br />
+					<?php esc_html_e( 'Navigation Label' , 'uncanny-learndash-toolkit' ); ?><br />
 					<input type="text" id="edit-menu-item-title-<?php echo $item_id; ?>" class="widefat edit-menu-item-title" name="menu-item-title[<?php echo $item_id; ?>]" value="<?php echo esc_attr( $item->title ); ?>" />
 				</label>
 			</p>
 			<p class="field-title-attribute description description-wide">
 				<label for="edit-menu-item-attr-title-<?php echo $item_id; ?>">
-					<?php _e( 'Title Attribute' , 'nav-menu-roles' ); ?><br />
+					<?php esc_html_e( 'Title Attribute' , 'uncanny-learndash-toolkit' ); ?><br />
 					<input type="text" id="edit-menu-item-attr-title-<?php echo $item_id; ?>" class="widefat edit-menu-item-attr-title" name="menu-item-attr-title[<?php echo $item_id; ?>]" value="<?php echo esc_attr( $item->post_excerpt ); ?>" />
 				</label>
 			</p>
 			<p class="field-link-target description">
 				<label for="edit-menu-item-target-<?php echo $item_id; ?>">
 					<input type="checkbox" id="edit-menu-item-target-<?php echo $item_id; ?>" value="_blank" name="menu-item-target[<?php echo $item_id; ?>]"<?php checked( $item->target, '_blank' ); ?> />
-					<?php _e( 'Open link in a new tab' , 'nav-menu-roles' ); ?>
+					<?php esc_html_e( 'Open link in a new tab' , 'uncanny-learndash-toolkit' ); ?>
 				</label>
 			</p>
 			<p class="field-css-classes description description-thin">
 				<label for="edit-menu-item-classes-<?php echo $item_id; ?>">
-					<?php _e( 'CSS Classes (optional)' , 'nav-menu-roles' ); ?><br />
+					<?php esc_html_e( 'CSS Classes (optional)' , 'uncanny-learndash-toolkit' ); ?><br />
 					<input type="text" id="edit-menu-item-classes-<?php echo $item_id; ?>" class="widefat code edit-menu-item-classes" name="menu-item-classes[<?php echo $item_id; ?>]" value="<?php echo esc_attr( implode( ' ', $item->classes ) ); ?>" />
 				</label>
 			</p>
 			<p class="field-xfn description description-thin">
 				<label for="edit-menu-item-xfn-<?php echo $item_id; ?>">
-					<?php _e( 'Link Relationship (XFN)' , 'nav-menu-roles' ); ?><br />
+					<?php esc_html_e( 'Link Relationship (XFN)' , 'uncanny-learndash-toolkit' ); ?><br />
 					<input type="text" id="edit-menu-item-xfn-<?php echo $item_id; ?>" class="widefat code edit-menu-item-xfn" name="menu-item-xfn[<?php echo $item_id; ?>]" value="<?php echo esc_attr( $item->xfn ); ?>" />
 				</label>
 			</p>
 			<p class="field-description description description-wide">
 				<label for="edit-menu-item-description-<?php echo $item_id; ?>">
-					<?php _e( 'Description' , 'nav-menu-roles' ); ?><br />
+					<?php esc_html_e( 'Description' , 'uncanny-learndash-toolkit' ); ?><br />
 					<textarea id="edit-menu-item-description-<?php echo $item_id; ?>" class="widefat edit-menu-item-description" rows="3" cols="20" name="menu-item-description[<?php echo $item_id; ?>]"><?php echo esc_html( $item->description ); // textarea_escaped ?></textarea>
-					<span class="description"><?php _e( 'The description will be displayed in the menu if the current theme supports it.', 'nav-menu-roles' ); ?></span>
+					<span class="description"><?php esc_html_e( 'The description will be displayed in the menu if the current theme supports it.', 'uncanny-learndash-toolkit' ); ?></span>
 				</label>
 			</p>
 
@@ -203,19 +203,19 @@ class CustomWalkerNavMenu extends Walker_Nav_Menu {
 
 			<p class="field-move hide-if-no-js description description-wide">
 				<label>
-					<span><?php _e( 'Move' , 'nav-menu-roles' ); ?></span>
-					<a href="#" class="menus-move menus-move-up" data-dir="up"><?php _e( 'Up one' , 'nav-menu-roles' ); ?></a>
-					<a href="#" class="menus-move menus-move-down" data-dir="down"><?php _e( 'Down one' , 'nav-menu-roles' ); ?></a>
+					<span><?php esc_html_e( 'Move' , 'uncanny-learndash-toolkit' ); ?></span>
+					<a href="#" class="menus-move menus-move-up" data-dir="up"><?php esc_html_e( 'Up one' , 'uncanny-learndash-toolkit' ); ?></a>
+					<a href="#" class="menus-move menus-move-down" data-dir="down"><?php esc_html_e( 'Down one' , 'uncanny-learndash-toolkit' ); ?></a>
 					<a href="#" class="menus-move menus-move-left" data-dir="left"></a>
 					<a href="#" class="menus-move menus-move-right" data-dir="right"></a>
-					<a href="#" class="menus-move menus-move-top" data-dir="top"><?php _e( 'To the top' , 'nav-menu-roles' ); ?></a>
+					<a href="#" class="menus-move menus-move-top" data-dir="top"><?php esc_html_e( 'To the top' , 'uncanny-learndash-toolkit' ); ?></a>
 				</label>
 			</p>
 
 			<div class="menu-item-actions description-wide submitbox">
 				<?php if ( 'custom' != $item->type && false !== $original_title ) : ?>
 					<p class="link-to-original">
-						<?php printf( __( 'Original: %s', 'nav-menu-roles' ), '<a href="' . esc_attr( $item->url ) . '">' . esc_html( $original_title ) . '</a>' ); ?>
+						<?php printf( esc_html__( 'Original: %s', 'uncanny-learndash-toolkit' ), '<a href="' . esc_attr( $item->url ) . '">' . esc_html( $original_title ) . '</a>' ); ?>
 					</p>
 				<?php endif; ?>
 				<a class="item-delete submitdelete deletion" id="delete-<?php echo $item_id; ?>" href="<?php
@@ -228,8 +228,8 @@ class CustomWalkerNavMenu extends Walker_Nav_Menu {
 						admin_url( 'nav-menus.php' )
 					),
 					'delete-menu_item_' . $item_id
-				); ?>"><?php _e( 'Remove' , 'nav-menu-roles' ); ?></a> <span class="meta-sep hide-if-no-js"> | </span> <a class="item-cancel submitcancel hide-if-no-js" id="cancel-<?php echo $item_id; ?>" href="<?php echo esc_url( add_query_arg( array( 'edit-menu-item' => $item_id, 'cancel' => time() ), admin_url( 'nav-menus.php' ) ) );
-				?>#menu-item-settings-<?php echo $item_id; ?>"><?php _e( 'Cancel', 'nav-menu-roles' ); ?></a>
+				); ?>"><?php esc_html_e( 'Remove' , 'uncanny-learndash-toolkit' ); ?></a> <span class="meta-sep hide-if-no-js"> | </span> <a class="item-cancel submitcancel hide-if-no-js" id="cancel-<?php echo $item_id; ?>" href="<?php echo esc_url( add_query_arg( array( 'edit-menu-item' => $item_id, 'cancel' => time() ), admin_url( 'nav-menus.php' ) ) );
+				?>#menu-item-settings-<?php echo $item_id; ?>"><?php esc_html_e( 'Cancel', 'uncanny-learndash-toolkit' ); ?></a>
 			</div>
 
 			<input class="menu-item-data-db-id" type="hidden" name="menu-item-db-id[<?php echo $item_id; ?>]" value="<?php echo $item_id; ?>" />

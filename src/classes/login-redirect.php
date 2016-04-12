@@ -42,9 +42,9 @@ class LoginRedirect extends Config implements RequiredFunctions
 	public static function get_details()
 	{
 
-		$class_title = esc_html__('Login Redirect', self::get_text_domain());
+		$class_title = esc_html__('Login Redirect', 'uncanny-learndash-toolkit');
 		$kb_link = null;
-		$class_description = esc_html__('Redirects all non-admin roles to a specific URL after logging into the site.', self::get_text_domain());
+		$class_description = esc_html__('Redirects all non-admin roles to a specific URL after logging into the site.', 'uncanny-learndash-toolkit');
 		$class_icon = '<i class="uo_icon_fa fa fa-share"></i>';
 
 		return array(
@@ -105,8 +105,6 @@ class LoginRedirect extends Config implements RequiredFunctions
 	 * Redirect user after successful login.
 	 *
 	 * @param string $redirect_to URL to redirect to.
-	 * @param string $request URL the user is coming from.
-	 * @param object $user Logged user's data.
 	 *
 	 * @return string
 	 */

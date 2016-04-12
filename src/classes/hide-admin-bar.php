@@ -18,7 +18,7 @@ class HideAdminBar extends Config implements RequiredFunctions {
 	/*
 	 * Initialize frontend actions and filters
 	 */
-	public static function run_frontend_hooks(){
+	public static function run_frontend_hooks() {
 
 		if ( true === self::dependants_exist() ) {
 			/* Hide admin bar on frontend for the user role */
@@ -34,18 +34,18 @@ class HideAdminBar extends Config implements RequiredFunctions {
 	 */
 	public static function get_details() {
 
-		$class_title = esc_html__( 'Hide Admin Bar', self::get_text_domain() );
-		$kb_link = null;
-		$class_description = esc_html__( 'Hides the Admin Bar at the top of WordPress pages based on the user role.', self::get_text_domain() );
-		$class_icon = '<i class="uo_icon_fa fa fa-minus-square-o"></i>';
+		$class_title       = esc_html__( 'Hide Admin Bar', 'uncanny-learndash-toolkit' );
+		$kb_link           = null;
+		$class_description = esc_html__( 'Hides the Admin Bar at the top of WordPress pages based on the user role.', 'uncanny-learndash-toolkit' );
+		$class_icon        = '<i class="uo_icon_fa fa fa-minus-square-o"></i>';
 
 		return array(
-				'title'            => $class_title,
-				'kb_link'          => $kb_link, // OR set as null not to display
-				'description'      => $class_description,
-				'dependants_exist' => self::dependants_exist(),
-				'settings'         => self::get_class_settings( $class_title ),
-				'icon'             => $class_icon,
+			'title'            => $class_title,
+			'kb_link'          => $kb_link, // OR set as null not to display
+			'description'      => $class_description,
+			'dependants_exist' => self::dependants_exist(),
+			'settings'         => self::get_class_settings( $class_title ),
+			'icon'             => $class_icon,
 		);
 
 	}
@@ -75,7 +75,7 @@ class HideAdminBar extends Config implements RequiredFunctions {
 		global $wp_roles;
 
 		if ( ! isset( $wp_roles ) ) {
-			$wp_roles = new WP_Roles();
+			$wp_roles = new \WP_Roles();
 			$roles    = $wp_roles->get_names();
 		} else {
 			$roles = $wp_roles->get_names();

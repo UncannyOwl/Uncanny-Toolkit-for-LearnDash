@@ -6,6 +6,7 @@ namespace uncanny_learndash_toolkit;
  * @package uncanny_custom_toolkit
  */
 class learnDashBreadcrumbs extends Config implements RequiredFunctions {
+
 	/**
 	 * Class constructor
 	 */
@@ -29,10 +30,10 @@ class learnDashBreadcrumbs extends Config implements RequiredFunctions {
 	}
 
 	/**
+	 * Does the plugin rely on another function or plugin
 	 *
+	 * @return boolean || string Return either true or name of function or plugin
 	 *
-	 * @static
-	 * @return mixed
 	 */
 	public static function dependants_exist() {
 		/* Checks for LearnDash */
@@ -46,18 +47,17 @@ class learnDashBreadcrumbs extends Config implements RequiredFunctions {
 	}
 
 	/**
+	 * Description of class in Admin View
 	 *
-	 *
-	 * @static
-	 * @return mixed
+	 * @return array
 	 */
 	public static function get_details() {
-		$class_title = esc_html__( 'LearnDash Breadcrumbs', self::get_text_domain() );
+		$class_title = esc_html__( 'LearnDash Breadcrumbs', 'uncanny-learndash-toolkit' );
 
 		$kb_link = null;
 
 		/* Sample Simple Description with shortcode */
-		$class_description = esc_html__( 'Implement Breadcrumbs that supports courses, lessons, topics and quizzes. Also supports woocommerce, custom post types with or without taxonomies & tags, pages and blog posts. Use shortcode [learndash-breadcrumbs] or add &lt;? learndash_breadcrumbs() ?&gt; in the template.', self::get_text_domain() );
+		$class_description = esc_html__( 'Easily add breadcrumb links that work with courses, lessons, topics and quizzes using a shortcode or template change. WooCommerce is also supported.', 'uncanny-learndash-toolkit' );
 
 		/* Icon as font awesome icon */
 		$class_icon = '<i class="uo_icon_fa fa fa-link"></i>';
@@ -75,9 +75,12 @@ class learnDashBreadcrumbs extends Config implements RequiredFunctions {
 
 
 	/**
-	 * @param $class_title
+	 * HTML for modal to create settings
 	 *
-	 * @return array (html)
+	 * @param String
+	 *
+	 * @return boolean || string Return either false or settings html modal
+	 *
 	 */
 	public static function get_class_settings( $class_title ) {
 		$pages[]   = array( 'value' => 0, 'text' => '-- Select Page --' );
@@ -139,8 +142,8 @@ class learnDashBreadcrumbs extends Config implements RequiredFunctions {
 
 		// Define main variables
 		$trail               = array();
-		$trail[]             = self::lms_build_anchor_links( get_bloginfo( 'url' ), esc_html__( 'Home', self::get_text_domain() ) );
-		$dashboard_link      = get_permalink( get_page_by_path( '/dashboard' ) );
+		$trail[]             = self::lms_build_anchor_links( get_bloginfo( 'url' ), esc_html__( 'Home', 'uncanny-learndash-toolkit' ) );
+		//$dashboard_link      = get_permalink( get_page_by_path( '/dashboard' ) );
 		$dashboard_text      = 'Dashboard';
 		$dashboard_separator = '&raquo;';
 
@@ -152,8 +155,11 @@ class learnDashBreadcrumbs extends Config implements RequiredFunctions {
 			$dashboard_text = $get_dashboard_text;
 		}
 
-		if ( strlen( trim( $get_dashboard_link ) ) ) {
+		if ( strlen( trim( $get_dashboard_link ) ) && '0' !== $get_dashboard_link) {
 			$dashboard_link = get_permalink( $get_dashboard_link );
+			//REMOVE COURSE ARCHIVE PAGE
+		}else{
+			//REMOVE DASHBOARD LINK
 		}
 
 		if ( strlen( trim( $get_dashboard_separator ) ) ) {
@@ -215,13 +221,13 @@ class learnDashBreadcrumbs extends Config implements RequiredFunctions {
 			} elseif ( 'sfwd-courses' === $post_type ) {
 				// See if Single Course is being displayed.
 				$trail[] = $dashboard_link;
-				$trail[] = self::lms_build_anchor_links( get_post_type_archive_link( 'sfwd-courses' ), esc_html__( 'Courses', self::get_text_domain() ) );
+				$trail[] = self::lms_build_anchor_links( get_post_type_archive_link( 'sfwd-courses' ), esc_html__( 'Courses', 'uncanny-learndash-toolkit' ) );
 				$trail[] = get_the_title( $post_id );
 			} elseif ( 'sfwd-lessons' === $post_type ) {
 				// See if Single Lesson is being displayed.
 				$course_id = get_post_meta( $post_id, 'course_id', true ); // Getting Parent Course ID
 				$trail[]   = $dashboard_link;
-				$trail[]   = self::lms_build_anchor_links( get_post_type_archive_link( 'sfwd-courses' ), esc_html__( 'Courses', self::get_text_domain() ) ); // Getting Main Course Page Link
+				$trail[]   = self::lms_build_anchor_links( get_post_type_archive_link( 'sfwd-courses' ), esc_html__( 'Courses', 'uncanny-learndash-toolkit' ) ); // Getting Main Course Page Link
 				$trail[]   = self::lms_build_anchor_links( get_permalink( $course_id ), get_the_title( $course_id ) ); // Getting Lesson's Course Link
 				$trail[]   = get_the_title( $post_id );
 			} elseif ( 'sfwd-topic' === $post_type ) {
@@ -229,7 +235,7 @@ class learnDashBreadcrumbs extends Config implements RequiredFunctions {
 				$course_id = get_post_meta( $post_id, 'course_id', true ); // Getting Parent Course ID
 				$lesson_id = get_post_meta( $post_id, 'lesson_id', true ); // Getting Parent Lesson ID
 				$trail[]   = $dashboard_link;
-				$trail[]   = self::lms_build_anchor_links( get_post_type_archive_link( 'sfwd-courses' ), esc_html__( 'Courses', self::get_text_domain() ) );  // Getting Main Course Page Link
+				$trail[]   = self::lms_build_anchor_links( get_post_type_archive_link( 'sfwd-courses' ), esc_html__( 'Courses', 'uncanny-learndash-toolkit' ) );  // Getting Main Course Page Link
 				$trail[]   = self::lms_build_anchor_links( get_permalink( $course_id ), get_the_title( $course_id ) ); // Getting Lesson's Course Link
 				$trail[]   = self::lms_build_anchor_links( get_permalink( $lesson_id ), get_the_title( $lesson_id ) ); // Getting Topics's Lesson Link
 				$trail[]   = get_the_title( $post_id );
@@ -241,7 +247,7 @@ class learnDashBreadcrumbs extends Config implements RequiredFunctions {
 				if ( 'sfwd-topic' === get_post_type( $topic_id ) ) {
 					$lesson_id = get_post_meta( $topic_id, 'lesson_id', true ); // Getting Parent Lesson ID
 				}
-				$trail[] = self::lms_build_anchor_links( get_post_type_archive_link( 'sfwd-courses' ), esc_html__( 'Courses', self::get_text_domain() ) );  // Getting Main Course Page Link
+				$trail[] = self::lms_build_anchor_links( get_post_type_archive_link( 'sfwd-courses' ), esc_html__( 'Courses', 'uncanny-learndash-toolkit' ) );  // Getting Main Course Page Link
 				$trail[] = self::lms_build_anchor_links( get_permalink( $course_id ), get_the_title( $course_id ) ); // Getting Lesson's Course Link
 				//If $lesson_id is false, the quiz is associated with a lesson and course but not a topic.
 				if ( $lesson_id ) {
@@ -289,23 +295,23 @@ class learnDashBreadcrumbs extends Config implements RequiredFunctions {
 					$trail[] = get_the_date(); // If its Single Day Archive
 				}
 				if ( is_month() ) {
-					$trail[] = get_the_date( __( 'F Y', self::get_text_domain() ) ) . esc_html__( ' Archives', self::get_text_domain() ); // If Mothly Archives
+					$trail[] = get_the_date( __( 'F Y', 'uncanny-learndash-toolkit' ) ) . esc_html__( ' Archives', 'uncanny-learndash-toolkit' ); // If Mothly Archives
 				}
 				if ( is_year() ) {
-					$trail[] = get_the_date( __( 'Y', self::get_text_domain() ) ) . esc_html__( ' Archives', self::get_text_domain() ); // If its Yearly Archives
+					$trail[] = get_the_date( __( 'Y', 'uncanny-learndash-toolkit' ) ) . esc_html__( ' Archives', 'uncanny-learndash-toolkit' ); // If its Yearly Archives
 				}
 				if ( is_author() ) {
 					$trail[] = get_the_author(); // If its Author's Archives
 				}
 			} elseif ( is_post_type_archive( 'sfwd-courses' ) ) {
-				$trail[] = esc_html__( 'Courses', self::get_text_domain() );
+				$trail[] = esc_html__( 'Courses', 'uncanny-learndash-toolkit' );
 			} elseif ( is_post_type_archive( 'product' ) ) {
-				$trail[] = esc_html__( 'Shop', self::get_text_domain() );
+				$trail[] = esc_html__( 'Shop', 'uncanny-learndash-toolkit' );
 			}
 		}
 
 		if ( is_search() ) {
-			$trail[] = esc_html__( 'Search', self::get_text_domain() );
+			$trail[] = esc_html__( 'Search', 'uncanny-learndash-toolkit' );
 			$trail[] = get_search_query();
 		}
 

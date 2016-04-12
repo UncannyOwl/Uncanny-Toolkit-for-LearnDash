@@ -182,18 +182,25 @@ class AdminMenu extends Boot {
 
 			<p><?php
 			printf(
-				esc_html__( 'This plugin makes it easier to incorporate some of the features we see most requested on LearnDash sites. We\'re hard
+				__( 'This plugin makes it easier to incorporate some of the features we see most requested on LearnDash sites. We\'re hard
 				at work on a new Knowledge Base for this plugin, but for now, instructions are available at  
-				<a href="http://www.uncannyowl.com/uncanny-learndash-toolkit/" target="_blank">http://www.uncannyowl.com/uncanny-learndash-toolkit/</a>.', 'uncanny-learndash-toolkit' ) ,
-			esc_url( 'http://www.uncannyowl.com' ) );
+				<a href="%s" target="_blank">http://www.uncannyowl.com/uncanny-learndash-toolkit/</a>.', 'uncanny-learndash-toolkit' ) ,
+			esc_url( 'http://www.uncannyowl.com/uncanny-learndash-toolkit/' ) );
 			?></p>
 
 			<p><?php
 			printf(
-				esc_html__( 'This is the first Uncanny Owl LearnDash plugin that we\'ve made available in the WordPress repository. We\'ll be
+				__( 'This is the first Uncanny Owl LearnDash plugin that we\'ve made available in the WordPress repository. We\'ll be
 				releasing more over the next few months as well as adding new features to this plugin. Visit us at 
-				<a href="http://www.uncannyowl.com/" target="_blank">Uncanny Owl</a> so you don\'t miss any updates!', 'uncanny-learndash-toolkit' ) ,
-			esc_url( 'http://www.uncannyowl.com' ) );
+				<a href="%s" target="_blank">Uncanny Owl</a> so you don\'t miss any updates!', 'uncanny-learndash-toolkit' ) ,
+			esc_url( 'http://www.uncannyowl.com/' ) );
+			?></p>
+
+			<p><?php
+			printf(
+				__( 'Developer are allowed to create pull request to help find bugs and enhance the plugin on
+				<a href="%s" target="_blank">BitBucket</a>.', 'uncanny-learndash-toolkit' ) ,
+			esc_url( 'https://bitbucket.org/uncannyowl/uncanny-learndash-toolkit/' ) );
 			?></p>
 
 		</div>

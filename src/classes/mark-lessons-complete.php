@@ -38,14 +38,14 @@ class MarkLessonsComplete extends Config implements RequiredFunctions
 	/**
 	 * Description of class in Admin View
 	 *
-	 * @return Array
+	 * @return array
 	 */
 	public static function get_details()
 	{
 
-		$class_title = esc_html__('Topics Autocomplete Lessons', self::get_text_domain());
+		$class_title = esc_html__('Topics Autocomplete Lessons', 'uncanny-learndash-toolkit');
 		$kb_link = null;
-		$class_description = esc_html__('Automatically marks lessons as completed when all topics and quizzes for that lesson are marked complete.', self::get_text_domain());
+		$class_description = esc_html__('Automatically marks lessons as completed when all topics and quizzes for that lesson are marked complete.', 'uncanny-learndash-toolkit');
 		$class_icon = '<i class="uo_icon_fa fa fa-check-circle-o"></i>';
 
 		return array('title' => $class_title,

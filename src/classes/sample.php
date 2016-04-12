@@ -43,15 +43,12 @@ class Sample extends Config implements RequiredFunctions
 	public static function get_details()
 	{
 
-		$class_title = esc_html__('Sample Title', self::get_text_domain());
+		$class_title = esc_html__('Sample Title', 'uncanny-learndash-toolkit');
 
 		$kb_link = 'http://www.uncannyowl.com';
 
 		/* Sample Simple Description with shortcode */
-		$class_description = esc_html__('
-				<p>Sample Description B</p>
-				<p><strong>[sample-shortcode]</strong></p>
-				', self::get_text_domain());
+		$class_description = esc_html__('Sample Description B</p>', 'uncanny-learndash-toolkit');
 
 		/* Icon as text - max four characters wil fit */
 		$class_icon = '<span class="uo_icon_text">[ /]</span>'; // Shortcode
@@ -109,12 +106,9 @@ class Sample extends Config implements RequiredFunctions
 
 	/**
 	 * HTML for modal to create settings
-	 *
-	 * @static
-	 *
 	 * @param $class_title
 	 *
-	 * @return HTML
+	 * @return string
 	 */
 	public static function get_class_settings($class_title)
 	{
@@ -141,7 +135,7 @@ class Sample extends Config implements RequiredFunctions
 			array(
 				'type' => 'html',
 				'class' => 'uo-additional-information',
-				'inner_html' => esc_html__('<div>Some Extra Information for the user</div>', self::get_text_domain()),
+				'inner_html' => __('<div>Some Extra Information for the user</div>', 'uncanny-learndash-toolkit'),
 			),
 
 			array(

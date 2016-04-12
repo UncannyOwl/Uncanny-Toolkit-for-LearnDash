@@ -51,10 +51,8 @@
 		 */
 		public static function get_details() {
 
-			$class_title       = esc_html__( 'LearnDash Resume Button', Config::get_text_domain() );
-			$class_description = esc_html__(
-				'Inserts a button that allows learners to return to the course, lesson or topic they last visited.',
-				Config::get_text_domain() );
+			$class_title       = esc_html__( 'LearnDash Resume Button', 'uncanny-learndash-toolkit' );
+			$class_description = esc_html__( 'Inserts a button that allows learners to return to the course, lesson or topic they last visited.', 'uncanny-learndash-toolkit' );
 			$class_icon        = '<i class="uo_icon_fa fa fa-refresh"></i>';
 
 			return array(
@@ -75,7 +73,7 @@
 		 *
 		 * @param $class_title
 		 *
-		 * @return HTML
+		 * @return string
 		 */
 		public static function get_class_settings( $class_title ) {
 
@@ -154,15 +152,15 @@
 					$post_type   = get_post_type( $last_know_page_id ); // getting post_type of last page.
 					$label       = get_post_type_object( $post_type ); // getting Labels of the post type.
 					$title       = get_the_title( $last_know_page_id );
-					$resume_text = 'RESUME';
+					$resume_link_text = 'RESUME';
 
 					$options = self::get_settings_value( 'learn-dash-resume-button-text', __CLASS__ );
 
 					if ( strlen( trim( $options ) ) ) {
-						$resume_text = $options;
+						$resume_link_text = $options;
 					}
 
-					$link_text = apply_filters( 'learndash_resume_link_text', $resume_text );
+					$resume_link_text = apply_filters( 'learndash_resume_link_text', $resume_link_text );
 
 					$css_classes = apply_filters( 'learndash_resume_css_classes', 'learndash-resume-button' );
 					ob_start();
@@ -171,22 +169,19 @@
 						get_permalink( $last_know_page_id ),
 						esc_attr(
 							sprintf(
-									esc_html_x( 'Resume %s: %s', 'LMS shortcode Resume link title "Resume post_type_name: Post_title ', Config::get_text_domain() ),
+									esc_html_x( 'Resume %s: %s', 'LMS shortcode Resume link title "Resume post_type_name: Post_title ', 'uncanny-learndash-toolkit' ),
 								$label->labels->singular_name,
 								$title
 							)
 						),
 						esc_attr( $css_classes ),
-						//todo: wwhy in tranlation
-						sprintf(
-								esc_html_x( '<input type="submit" value="%s" name="sfwd_mark_complete">', '', Config::get_text_domain() ),
-							esc_attr( $link_text )
-						)
-					);
-					$resumelink = ob_get_contents();
+						esc_attr( $resume_link_text )
+						);
+
+					$resume_link = ob_get_contents();
 					ob_end_clean();
 
-					return $resumelink;
+					return $resume_link;
 				}
 
 			}
