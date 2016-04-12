@@ -32,7 +32,7 @@ class Boot extends Config {
 		// We need to check if spl auto loading is available when activating plugin
 		// Plugin will not activate if SPL extension is not enabled by throwing error
 		if ( ! extension_loaded( 'SPL' ) ) {
-			$spl_error = esc_html__( 'Please contact your hosting company to update to php version 5.3+ and enable spl extensions.', self::get_text_domain() );
+			$spl_error = esc_html__( 'Please contact your hosting company to update to php version 5.3+ and enable spl extensions.', 'uncanny-learndash-toolkit' );
 			trigger_error( $spl_error, E_USER_ERROR );
 		}
 

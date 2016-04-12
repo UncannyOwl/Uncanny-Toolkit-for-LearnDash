@@ -8,6 +8,10 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
+/**
+ * Class AdminMenu
+ * @package uncanny_custom_toolkit
+ */
 class AdminMenu extends Boot {
 
 	/**
@@ -28,8 +32,8 @@ class AdminMenu extends Boot {
 	 */
 	public static function register_options_menu_page() {
 
-		$page_title = esc_html__( 'Uncanny LearnDash Toolkit', Config::get_text_domain() );
-		$menu_title = esc_html__( 'Uncanny Toolkit', Config::get_text_domain() );
+		$page_title = esc_html__( 'Uncanny LearnDash Toolkit', 'uncanny-learndash-toolkit' );
+		$menu_title = esc_html__( 'Uncanny Toolkit', 'uncanny-learndash-toolkit' );
 		$capability = 'manage_options';
 		$menu_slug = 'uncanny-learnDash-toolkit';
 		$function = array( __CLASS__, 'options_menu_page_output' );
@@ -55,9 +59,11 @@ class AdminMenu extends Boot {
 	}
 
 	/**
+	 * Populates an array of classes in internal and external file in the classes folder
 	 *
-	 * @param Array || Bool $external_paths
-	 * @return array
+*@param mixed(Array || false) $external_classes
+	 *
+	* @return array
 	*/
 	public static function get_available_classes( $external_classes = false ) {
 
@@ -91,6 +97,14 @@ class AdminMenu extends Boot {
 		return $class_details;
 	}
 
+	/*
+	 * get_class_details
+	 * @param string $path
+	 * @param array $files
+	 * @param string $namespace
+	 *
+	 * @return array $details
+	 */
 	private static function get_class_details( $path, $files, $name_space ){
 
 		$details = array();
@@ -143,10 +157,10 @@ class AdminMenu extends Boot {
 	public static function options_menu_page_output() {
 
 		// check if custom ou plugin is available
-		$uo_custom_classes['path'] = self::check_for_uo_custom_plugin_classes('custom');
+		$uo_custom_classes['path'] = self::check_for_other_uo_plugin_classes('custom');
 		$uo_custom_classes['namespace'] = 'uncanny_custom_toolkit';
 
-		$uo_pro_classes['path'] = self::check_for_uo_custom_plugin_classes('pro');
+		$uo_pro_classes['path'] = self::check_for_other_uo_plugin_classes('pro');
 		$uo_pro_classes['namespace'] = 'uncanny_pro_toolkit';
 
 		// Get Available Classes from UO-Public
@@ -164,13 +178,13 @@ class AdminMenu extends Boot {
 
 			<hr class="uo-underline">
 
-			<h2><?php esc_html_e( 'Thanks for using the Uncanny LearnDash Toolkit!', Config::get_text_domain() ); ?></h2>
+			<h2><?php esc_html_e( 'Thanks for using the Uncanny LearnDash Toolkit!', 'uncanny-learndash-toolkit' ); ?></h2>
 
 			<p><?php
 			printf(
 				esc_html__( 'This plugin makes it easier to incorporate some of the features we see most requested on LearnDash sites. We\'re hard
 				at work on a new Knowledge Base for this plugin, but for now, instructions are available at  
-				<a href="http://www.uncannyowl.com/uncanny-learndash-toolkit/" target="_blank">http://www.uncannyowl.com/uncanny-learndash-toolkit/</a>.', Config::get_text_domain() ) ,
+				<a href="http://www.uncannyowl.com/uncanny-learndash-toolkit/" target="_blank">http://www.uncannyowl.com/uncanny-learndash-toolkit/</a>.', 'uncanny-learndash-toolkit' ) ,
 			esc_url( 'http://www.uncannyowl.com' ) );
 			?></p>
 
@@ -178,7 +192,7 @@ class AdminMenu extends Boot {
 			printf(
 				esc_html__( 'This is the first Uncanny Owl LearnDash plugin that we\'ve made available in the WordPress repository. We\'ll be
 				releasing more over the next few months as well as adding new features to this plugin. Visit us at 
-				<a href="http://www.uncannyowl.com/" target="_blank">Uncanny Owl</a> so you don\'t miss any updates!', Config::get_text_domain() ) ,
+				<a href="http://www.uncannyowl.com/" target="_blank">Uncanny Owl</a> so you don\'t miss any updates!', 'uncanny-learndash-toolkit' ) ,
 			esc_url( 'http://www.uncannyowl.com' ) );
 			?></p>
 
@@ -198,10 +212,11 @@ class AdminMenu extends Boot {
 	}
 
 	/*
+	 * Add add-ons to options page
+	 *
 	 * @param Array() $classes_available
 	 * @param Array() $active_classes
 	 *
-	 * return echoed String
 	 */
 	public static function create_features( $classes_available, $active_classes ) {
 
@@ -227,7 +242,7 @@ class AdminMenu extends Boot {
 					<div class="uo_feature">
 						<div class="uo_feature_title"><?php echo esc_html( $key ) ?></div>
 						<div class="uo_feature_description"><?php
-							esc_html_e( 'This class is not configured properly. Contact Support for assistance.',  Config::get_text_domain() );
+							esc_html_e( 'This class is not configured properly. Contact Support for assistance.', 'uncanny-learndash-toolkit' );
 						?></div>
 					</div>
 				<?php
@@ -286,12 +301,12 @@ class AdminMenu extends Boot {
 
 					<?php
 					if ( true !== $dependants_exist ) {
-						echo '<div><strong>'. esc_html( $dependants_exist ) .'</strong>' . esc_html__( ' is needed for this add-on', Config::get_text_domain() ) . '</div>';
+						echo '<div><strong>'. esc_html( $dependants_exist ) .'</strong>' . esc_html__( ' is needed for this add-on', 'uncanny-learndash-toolkit' ) . '</div>';
 					} else {
 						?>
 						<div class="uo_feature_button_toggle"></div>
 						<label class="uo_feature_label" for="<?php echo esc_attr( $class_name ) ?>">
-							<?php echo ( esc_html__( 'Activate ', Config::get_text_domain() ) . $class['title'] ); ?>
+							<?php echo ( esc_html__( 'Activate ', 'uncanny-learndash-toolkit' ) . $class['title'] ); ?>
 						</label>
 						<input class="uo_feature_checkbox" type="checkbox" id="<?php echo esc_attr( $class_name ); ?>" name="uncanny_toolkit_active_classes[<?php echo esc_attr( $class_name ) ?>]" value="<?php echo esc_attr( $class_name ) ?>" <?php
 						if (  array_key_exists( $class_name, $active_classes ) ) {
@@ -308,11 +323,12 @@ class AdminMenu extends Boot {
 	}
 
 	/*
-	 * Check for Uncanny Custom Toolkit
-	 *@param string
-	 *return bool || String false or uo-custom uri
+	 * Check for Adds that are located in other UO plugins
+	 *@param string $uo_plugin
+	 *
+	 *return mixed(false || String)
 	*/
-	private static function check_for_uo_custom_plugin_classes( $uo_plugin ){
+	private static function check_for_other_uo_plugin_classes( $uo_plugin ){
 
 		// plugins dir
 		$directory_contents = scandir( WP_PLUGIN_DIR );

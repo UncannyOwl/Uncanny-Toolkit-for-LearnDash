@@ -250,13 +250,6 @@ class Config {
 	/**
 	 * @return string
 	 */
-	public static function get_text_domain() {
-		return 'uncanny-learndash-toolkit';
-	}
-
-	/**
-	 * @return string
-	 */
 	public static function get_namespace() {
 		return self::get_project_name();
 	}
