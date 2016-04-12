@@ -14,32 +14,33 @@ Domain Path: /languages
 global $uncanny_learndash_toolkit;
 
 // On first activation, redirect to toolkit settings page
-register_activation_hook(__FILE__, 'uncanny_learndash_toolkit_plugin_activate');
-add_action('admin_init', 'uncanny_learndash_toolkit_plugin_redirect');
+register_activation_hook( __FILE__, 'uncanny_learndash_toolkit_plugin_activate' );
+add_action( 'admin_init', 'uncanny_learndash_toolkit_plugin_redirect' );
 
 function uncanny_learndash_toolkit_plugin_activate() {
-	update_option('uncanny_learndash_toolkit_plugin_do_activation_redirect', 'yes' );
+	update_option( 'uncanny_learndash_toolkit_plugin_do_activation_redirect', 'yes' );
 }
+
 function uncanny_learndash_toolkit_plugin_redirect() {
-	if ( 'yes' === get_option('uncanny_learndash_toolkit_plugin_do_activation_redirect', 'no') ) {
+	if ( 'yes' === get_option( 'uncanny_learndash_toolkit_plugin_do_activation_redirect', 'no' ) ) {
 
-		update_option('uncanny_learndash_toolkit_plugin_do_activation_redirect', 'no');
+		update_option( 'uncanny_learndash_toolkit_plugin_do_activation_redirect', 'no' );
 
-		if(!isset($_GET['activate-multi']))
-		{
-			wp_redirect("admin.php?page=uncanny-learnDash-toolkit");
+		if ( ! isset( $_GET['activate-multi'] ) ) {
+			wp_redirect( admin_url( 'admin.php?page=uncanny-learnDash-toolkit' ) );
 		}
 	}
 }
 
 // Add settings link on plugin page
-$uncanny_learndash_toolkit_plugin_basename = plugin_basename(__FILE__);
+$uncanny_learndash_toolkit_plugin_basename = plugin_basename( __FILE__ );
 
-add_filter( 'plugin_action_links_'.$uncanny_learndash_toolkit_plugin_basename, 'uncanny_learndash_toolkit_plugin_settings_link' );
+add_filter( 'plugin_action_links_' . $uncanny_learndash_toolkit_plugin_basename, 'uncanny_learndash_toolkit_plugin_settings_link' );
 
-function uncanny_learndash_toolkit_plugin_settings_link($links) {
-	$settings_link = '<a href="admin.php?page=uncanny-learnDash-toolkit">Settings</a>';
-	array_unshift($links, $settings_link);
+function uncanny_learndash_toolkit_plugin_settings_link( $links ) {
+	$settings_link = '<a href="' . admin_url( 'admin.php?page=uncanny-learnDash-toolkit' ) . '">Settings</a>';
+	array_unshift( $links, $settings_link );
+
 	return $links;
 }
 
