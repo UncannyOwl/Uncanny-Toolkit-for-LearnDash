@@ -5,7 +5,7 @@ namespace uncanny_learndash_toolkit;
  * Class learndashBreadcrumbs
  * @package uncanny_custom_toolkit
  */
-class uncannyBreadcrumbs extends Config implements RequiredFunctions {
+class Breadcrumbs extends Config implements RequiredFunctions {
 
 	/**
 	 * Class constructor
