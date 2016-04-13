@@ -40,6 +40,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			/* CHECK IF PLUGIN NEEDS TO SET MANUAL VERIFICATION */
 			$uo_manual_verification = 'no';
 			$is_login_page_set      = 'no';
+			$uo_frontend_registration = 'no';
 			$settings               = get_option( 'FrontendLoginPlus', Array() );
 
 			foreach ( $settings as $setting ) {
@@ -89,7 +90,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				// Redirect to custom login page if login has failed
 				add_action( 'wp_login_failed', array( __CLASS__, 'login_failed' ) );
 
-				if( 'yes' === $uo_frontend_registration){
+				if( 'yes' === $uo_frontend_registration ){
 					// Redirect to custom login page after registration
 					add_filter( 'registration_redirect', array( __CLASS__, 'redirect_registration' ) );
 					// Redirect User after registration errors
