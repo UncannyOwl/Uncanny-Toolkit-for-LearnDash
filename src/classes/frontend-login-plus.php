@@ -6,6 +6,8 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
+include_once( Config::get_include( 'custom-user-notification.php' ) );
+
 /**
  * Class FrontendLoginPlus
  * @package uncanny_custom_toolkit
@@ -80,17 +82,15 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				// Redirect to custom login page if login has failed
 				add_action( 'wp_login_failed', array( __CLASS__, 'login_failed' ) );
 				// Redirect to custom login page after registration
-				//https://codex.wordpress.org/Plugin_API/Action_Reference/register_form
-				// TODO add_filter( 'registration_redirect', array(__CLASS__, 'redirect_registration' ) );
+				add_filter( 'registration_redirect', array( __CLASS__, 'redirect_registration' ) );
+				// Redirect User after registration errors
+				add_action( 'register_post', array( __CLASS__, 'redirect_registration_errors' ), 10, 3 );
 				// Redirect to custom login page if username or password is empty
-				add_filter( 'authenticate', array( __CLASS__, 'verify_username_password' ), 1, 3 );
+				add_filter( 'authenticate', array( __CLASS__, 'verify_username_password' ), 10, 3 );
 				// Redirect from wp-login.php to custom login page if user logged out
 				add_action( 'wp_logout', array( __CLASS__, 'logout_page' ) );
 				// Custom password retrieve message
-				add_filter( 'retrieve_password_message', array(
-					__CLASS__,
-					'custom_retrieve_password_message'
-				), 10, 4 );
+				add_filter( 'retrieve_password_message', array( __CLASS__, 'custom_retrieve_password_message'), 10, 4 );
 				// Add lost password link to login form
 				add_action( 'login_form_bottom', array( __CLASS__, 'add_lost_password_link' ) );
 				// Add shortcode to page with warning if it wasn't added
@@ -410,18 +410,27 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 		$registering = false;
 		if ( isset( $_GET['action'] ) ) {
-			if ( $_GET['action'] !== 'register' ) {
+			if ( $_GET['action'] === 'register' ) {
 				$registering = true;
 			}
 		}
 
-		$registration_disable = false;
 		if ( isset( $_GET['registration'] ) ) {
 			if ( $_GET['registration'] === 'disabled' ) {
-				$registration_disable = true;
-				wp_safe_redirect( add_query_arg( array( 'login' => 'registration-disabled' ), $login_page ) );
+				wp_safe_redirect( add_query_arg( array(
+					'action'   => 'register',
+					'wp-error' => 'registration-disabled'
+				), $login_page ) );
 				exit();
 			}
+		}
+
+		if ( isset( $_GET['checkemail'] ) && 'registered' == $_GET['checkemail'] ) {
+			wp_safe_redirect( add_query_arg( array(
+				'action'   => 'register',
+				'wp-error' => 'registration-success'
+			), $login_page ) );
+			exit();
 		}
 
 		if ( $page_viewed == "wp-login.php" && 'GET' === $_SERVER['REQUEST_METHOD'] && ! $registering ) {
@@ -435,8 +444,41 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	 * Redirect from registration to custom login page
 	 */
 	public static function redirect_registration() {
+
 		$login_page = get_permalink( self::get_login_redirect_page_id() );
-		wp_safe_redirect( add_query_arg( array( 'action' => 'register' ), $login_page ) );
+
+		$query           = array();
+		$query['action'] = 'register';
+
+		if ( isset( $_GET['checkemail'] ) && 'registered' == $_GET['checkemail'] ) {
+			$query['registered'] = 'success';
+		}
+
+		wp_safe_redirect( add_query_arg( $query, $login_page ) );
+		exit;
+	}
+
+	/*
+	 * Redirect from registration errors to custom login page
+	 * @param string   $sanitized_user_login The submitted username after being sanitized.
+	 * @param string   $user_email           The submitted email.
+	 * @param WP_Error $errors               Contains any errors with submitted username and email,
+	 *                                       e.g., an empty field, an invalid username or email,
+	 *                                       e.g., an empty field, an invalid username or email,
+	 */
+	public static function redirect_registration_errors( $sanitized_user_login, $user_email, $errors ) {
+
+		if ( ! empty( $errors->errors ) ) {
+			$error_code = $errors->get_error_code();
+			self::redirect_registration_error( $error_code );
+			exit();
+		}
+
+	}
+
+	public static function redirect_registration_error( $error_code ) {
+		$login_page = get_permalink( self::get_login_redirect_page_id() );
+		wp_safe_redirect( add_query_arg( array( 'action' => 'register', 'wp-error' => $error_code ), $login_page ) );
 		exit;
 	}
 
@@ -548,7 +590,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	 */
 	public static function custom_retrieve_password_message( $message, $key, $user_login, $user_data ) {
 
-	//todo add filters and escape translations
+		//todo add filters and escape translations
 
 		$login_page = get_permalink( self::get_login_redirect_page_id() );
 

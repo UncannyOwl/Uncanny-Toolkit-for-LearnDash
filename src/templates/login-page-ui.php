@@ -1,18 +1,68 @@
 <?php
 /* Template Name: Uncanny Owl Login Page */
-$login_page            = \uncanny_learndash_toolkit\FrontendLoginPlus::get_login_redirect_page_id();
+$login_page      = \uncanny_learndash_toolkit\FrontendLoginPlus::get_login_redirect_page_id();
+$message_error   = '';
+$message_warning = '';
 
 global $user_login;
 
 /* Login */
 $login = ( isset( $_GET['login'] ) ) ? $_GET['login'] : 'not-set';
 
-
 /* Registration */
-$register = false;
+$register      = false;
+$register_show = true;
 if ( isset( $_GET['action'] ) ) {
+
 	if ( 'register' === $_GET['action'] ) {
-		//$register = true;
+
+		$register = true;
+		$error    = false;
+
+		if ( isset( $_GET['wp-error'] ) ) {
+
+			$error = $_GET['wp-error'];
+
+			switch ( $error ) {
+
+				case 'empty_username':
+					$message_error   = esc_html__( 'Woops!', 'uncanny-learndash-toolkit' );
+					$message_warning = esc_html__( 'Please enter a username.', 'uncanny-learndash-toolkit' );
+					break;
+				case 'invalid_username':
+					$message_error   = esc_html__( 'Woops!', 'uncanny-learndash-toolkit' );
+					$message_warning = esc_html__( 'This username is invalid because it uses illegal characters. Please enter a valid username.', 'uncanny-learndash-toolkit' );
+					break;
+				case 'username_exists':
+					$message_error   = esc_html__( 'Woops!', 'uncanny-learndash-toolkit' );
+					$message_warning = esc_html__( 'his username is already registered. Please choose another one.', 'uncanny-learndash-toolkit' );
+					break;
+				case 'empty_email':
+					$message_error   = esc_html__( 'Woops!', 'uncanny-learndash-toolkit' );
+					$message_warning = esc_html__( 'Please type your email address.', 'uncanny-learndash-toolkit' );
+					break;
+				case 'invalid_email':
+					$message_error   = esc_html__( 'Woops!', 'uncanny-learndash-toolkit' );
+					$message_warning = esc_html__( 'The email address is not correct.', 'uncanny-learndash-toolkit' );
+					break;
+				case 'email_exists':
+					$message_error   = esc_html__( 'Woops!', 'uncanny-learndash-toolkit' );
+					$message_warning = esc_html__( 'This email is already registered, please choose another one.', 'uncanny-learndash-toolkit' );
+					break;
+				case 'registration-disabled':
+					$message_error   = esc_html__( 'Woops!', 'uncanny-learndash-toolkit' );
+					$message_warning = esc_html__( 'We do not allow registrations.', 'uncanny-learndash-toolkit' );
+					$register_show   = false;
+					break;
+				case 'registration-success':
+					$message_error   = esc_html__( 'Success!', 'uncanny-learndash-toolkit' );
+					$message_warning = esc_html__( 'Registration complete. Registration confirmation has been emailed to you.', 'uncanny-learndash-toolkit' );
+					$register_show   = false;
+					break;
+			}
+
+		}
+
 	}
 }
 
@@ -70,13 +120,6 @@ switch ( $login ) {
 		$message_error   = esc_html__( 'Woops!', 'uncanny-learndash-toolkit' );
 		$message_warning = esc_html__( 'This account is not verified.', 'uncanny-learndash-toolkit' );
 		break;
-	case 'registration-disabled':
-		$message_error   = esc_html__( 'Woops!', 'uncanny-learndash-toolkit' );
-		$message_warning = esc_html__( 'We do not allow registrations.', 'uncanny-learndash-toolkit' );
-		break;
-	default:
-		$message_error   = '';
-		$message_warning = '';
 }
 
 $login_error = '<p class="login-msg"><strong>' . $message_error . '</strong> ' . $message_warning . '</p>';
@@ -146,7 +189,7 @@ $innerText = apply_filters( 'uo-login-inner-text', $innerText, $login );
 	 * @arg bool $reset_password
 	 * @arg bool $validate_password_reset
 	 */
-	do_action( 'before_uo_login_ui', $lost_password, $reset_password_sent, $reset_password_sent_success, $register, $reset_password, $validate_password_reset);
+	do_action( 'before_uo_login_ui', $lost_password, $reset_password_sent, $reset_password_sent_success, $register, $reset_password, $validate_password_reset );
 
 	if ( is_user_logged_in() ) {
 		echo '<div class="uo_logout"> ' . $innerText['Hello'] . ',
@@ -184,27 +227,31 @@ $innerText = apply_filters( 'uo-login-inner-text', $innerText, $login );
 			<?php
 		}
 	} elseif ( $register ) {
-		?>
-		<form name="registerform" id="registerform" action="http://www.uopublicplugin.dev/wp-login.php?action=register"
-		      method="post" novalidate="novalidate">
-			<p>
-				<label for="user_login">Username<br>
-					<input type="text" name="user_login" id="user_login" class="input" value="" size="20"></label>
-			</p>
+		if ( $register_show ) {
+			?>
+			<form name="registerform" id="registerform" action="<?php echo wp_login_url(); ?>?action=register"
+			      method="post" novalidate="novalidate">
+				<p>
+					<label for="user_login">Username<br>
+						<input type="text" name="user_login" id="user_login" class="input" value="" size="20"></label>
+				</p>
 
-			<p>
-				<label for="user_email">Email<br>
-					<input type="email" name="user_email" id="user_email" class="input" value="" size="25"></label>
-			</p>
+				<p>
+					<label for="user_email">Email<br>
+						<input type="email" name="user_email" id="user_email" class="input" value="" size="25"></label>
+				</p>
 
-			<p id="reg_passmail">Registration confirmation will be emailed to you.</p>
-			<br class="clear">
-			<input type="hidden" name="redirect_to" value="">
+				<?php do_action( 'register_form' ); ?>
 
-			<p class="submit"><input type="submit" name="wp-submit" id="wp-submit"
-			                         class="button button-primary button-large" value="Register"></p>
-		</form>
-		<?php
+				<p id="reg_passmail">Registration confirmation will be emailed to you.</p>
+				<br class="clear">
+				<input type="hidden" name="redirect_to" value="">
+
+				<p class="submit"><input type="submit" name="wp-submit" id="wp-submit"
+				                         class="button button-primary button-large" value="Register"></p>
+			</form>
+			<?php
+		}
 	} elseif ( $reset_password ) {
 
 		if ( isset( $_GET['key'] ) && isset( $_GET['login'] ) ) {
@@ -217,7 +264,7 @@ $innerText = apply_filters( 'uo-login-inner-text', $innerText, $login );
 			?>
 			<h2><?php echo $innerText['Reset-Password-Title']; ?></h2>
 			<form name="resetpassform" id="resetpassform"
-			      action="<?php get_permalink( $login_page ); ?>?action=validatepasswordreset" method="post"
+			      action="?action=validatepasswordreset" method="post"
 			      autocomplete="off">
 				<input type="hidden" id="user_login" name="rp_login" value="<?php echo esc_attr( $rp_login ); ?>"
 				       autocomplete="off"/>
@@ -328,7 +375,7 @@ $innerText = apply_filters( 'uo-login-inner-text', $innerText, $login );
 	 * @arg bool $reset_password
 	 * @arg bool $validate_password_reset
 	 */
-	do_action( 'after_uo_login_ui', $lost_password, $reset_password_sent, $reset_password_sent_success, $register, $reset_password, $validate_password_reset);
+	do_action( 'after_uo_login_ui', $lost_password, $reset_password_sent, $reset_password_sent_success, $register, $reset_password, $validate_password_reset );
 	?>
 
 </section>
