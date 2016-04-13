@@ -9,60 +9,64 @@ global $user_login;
 /* Login */
 $login = ( isset( $_GET['login'] ) ) ? $_GET['login'] : 'not-set';
 
+
 /* Registration */
-$register      = false;
-$register_show = true;
-if ( isset( $_GET['action'] ) ) {
+$register = false;
+if ( '' !== \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_registration', 'FrontendLoginPlus' ) ) {
 
-	if ( 'register' === $_GET['action'] ) {
+	$register_show = true;
+	if ( isset( $_GET['action'] ) ) {
 
-		$register = true;
-		$error    = false;
+		if ( 'register' === $_GET['action'] ) {
 
-		if ( isset( $_GET['wp-error'] ) ) {
+			$register = true;
+			$error    = false;
 
-			$error = $_GET['wp-error'];
+			if ( isset( $_GET['wp-error'] ) ) {
 
-			switch ( $error ) {
+				$error = $_GET['wp-error'];
 
-				case 'empty_username':
-					$message_error   = esc_html__( 'Woops!', 'uncanny-learndash-toolkit' );
-					$message_warning = esc_html__( 'Please enter a username.', 'uncanny-learndash-toolkit' );
-					break;
-				case 'invalid_username':
-					$message_error   = esc_html__( 'Woops!', 'uncanny-learndash-toolkit' );
-					$message_warning = esc_html__( 'This username is invalid because it uses illegal characters. Please enter a valid username.', 'uncanny-learndash-toolkit' );
-					break;
-				case 'username_exists':
-					$message_error   = esc_html__( 'Woops!', 'uncanny-learndash-toolkit' );
-					$message_warning = esc_html__( 'his username is already registered. Please choose another one.', 'uncanny-learndash-toolkit' );
-					break;
-				case 'empty_email':
-					$message_error   = esc_html__( 'Woops!', 'uncanny-learndash-toolkit' );
-					$message_warning = esc_html__( 'Please type your email address.', 'uncanny-learndash-toolkit' );
-					break;
-				case 'invalid_email':
-					$message_error   = esc_html__( 'Woops!', 'uncanny-learndash-toolkit' );
-					$message_warning = esc_html__( 'The email address is not correct.', 'uncanny-learndash-toolkit' );
-					break;
-				case 'email_exists':
-					$message_error   = esc_html__( 'Woops!', 'uncanny-learndash-toolkit' );
-					$message_warning = esc_html__( 'This email is already registered, please choose another one.', 'uncanny-learndash-toolkit' );
-					break;
-				case 'registration-disabled':
-					$message_error   = esc_html__( 'Woops!', 'uncanny-learndash-toolkit' );
-					$message_warning = esc_html__( 'We do not allow registrations.', 'uncanny-learndash-toolkit' );
-					$register_show   = false;
-					break;
-				case 'registration-success':
-					$message_error   = esc_html__( 'Success!', 'uncanny-learndash-toolkit' );
-					$message_warning = esc_html__( 'Registration complete. Registration confirmation has been emailed to you.', 'uncanny-learndash-toolkit' );
-					$register_show   = false;
-					break;
+				switch ( $error ) {
+
+					case 'empty_username':
+						$message_error   = esc_html__( 'Woops!', 'uncanny-learndash-toolkit' );
+						$message_warning = esc_html__( 'Please enter a username.', 'uncanny-learndash-toolkit' );
+						break;
+					case 'invalid_username':
+						$message_error   = esc_html__( 'Woops!', 'uncanny-learndash-toolkit' );
+						$message_warning = esc_html__( 'This username is invalid because it uses illegal characters. Please enter a valid username.', 'uncanny-learndash-toolkit' );
+						break;
+					case 'username_exists':
+						$message_error   = esc_html__( 'Woops!', 'uncanny-learndash-toolkit' );
+						$message_warning = esc_html__( 'his username is already registered. Please choose another one.', 'uncanny-learndash-toolkit' );
+						break;
+					case 'empty_email':
+						$message_error   = esc_html__( 'Woops!', 'uncanny-learndash-toolkit' );
+						$message_warning = esc_html__( 'Please type your email address.', 'uncanny-learndash-toolkit' );
+						break;
+					case 'invalid_email':
+						$message_error   = esc_html__( 'Woops!', 'uncanny-learndash-toolkit' );
+						$message_warning = esc_html__( 'The email address is not correct.', 'uncanny-learndash-toolkit' );
+						break;
+					case 'email_exists':
+						$message_error   = esc_html__( 'Woops!', 'uncanny-learndash-toolkit' );
+						$message_warning = esc_html__( 'This email is already registered, please choose another one.', 'uncanny-learndash-toolkit' );
+						break;
+					case 'registration-disabled':
+						$message_error   = esc_html__( 'Woops!', 'uncanny-learndash-toolkit' );
+						$message_warning = esc_html__( 'We do not allow registrations.', 'uncanny-learndash-toolkit' );
+						$register_show   = false;
+						break;
+					case 'registration-success':
+						$message_error   = esc_html__( 'Success!', 'uncanny-learndash-toolkit' );
+						$message_warning = esc_html__( 'Registration complete. Registration confirmation has been emailed to you.', 'uncanny-learndash-toolkit' );
+						$register_show   = false;
+						break;
+				}
+
 			}
 
 		}
-
 	}
 }
 

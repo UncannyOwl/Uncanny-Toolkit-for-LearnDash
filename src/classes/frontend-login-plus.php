@@ -6,7 +6,10 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
-include_once( Config::get_include( 'custom-user-notification.php' ) );
+if( '' !== Config::get_settings_value( 'uo_frontend_registration', 'FrontendLoginPlus' ) ){
+	include_once( Config::get_include( 'custom-user-notification.php' ) );
+}
+
 
 /**
  * Class FrontendLoginPlus
@@ -49,6 +52,10 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 					$is_login_page_set = 'yes';
 				}
 
+				if ( 'uo_frontend_registration' === $setting['name'] && '0' !== $setting['value'] ) {
+					$uo_frontend_registration = 'yes';
+				}
+
 			}
 
 
@@ -81,16 +88,24 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				add_filter( 'lostpassword_redirect', array( __CLASS__, 'redirect_lost_password' ) );
 				// Redirect to custom login page if login has failed
 				add_action( 'wp_login_failed', array( __CLASS__, 'login_failed' ) );
-				// Redirect to custom login page after registration
-				add_filter( 'registration_redirect', array( __CLASS__, 'redirect_registration' ) );
-				// Redirect User after registration errors
-				add_action( 'register_post', array( __CLASS__, 'redirect_registration_errors' ), 10, 3 );
+
+				if( 'yes' === $uo_frontend_registration){
+					// Redirect to custom login page after registration
+					add_filter( 'registration_redirect', array( __CLASS__, 'redirect_registration' ) );
+					// Redirect User after registration errors
+					add_action( 'register_post', array( __CLASS__, 'redirect_registration_errors' ), 10, 3 );
+				}
+
 				// Redirect to custom login page if username or password is empty
 				add_filter( 'authenticate', array( __CLASS__, 'verify_username_password' ), 10, 3 );
 				// Redirect from wp-login.php to custom login page if user logged out
 				add_action( 'wp_logout', array( __CLASS__, 'logout_page' ) );
+
 				// Custom password retrieve message
-				add_filter( 'retrieve_password_message', array( __CLASS__, 'custom_retrieve_password_message'), 10, 4 );
+				add_filter( 'retrieve_password_message', array(
+					__CLASS__,
+					'custom_retrieve_password_message'
+				), 10, 4 );
 				// Add lost password link to login form
 				add_action( 'login_form_bottom', array( __CLASS__, 'add_lost_password_link' ) );
 				// Add shortcode to page with warning if it wasn't added
@@ -174,6 +189,12 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				'label'       => 'Manual User Verification',
 				'option_name' => 'uo_frontendloginplus_needs_verifcation',
 			),
+
+			/*array(
+				'type'        => 'checkbox',
+				'label'       => 'Frontend Registration',
+				'option_name' => 'uo_frontend_registration',
+			),*/
 
 			array(
 				'type'        => 'select',
@@ -414,7 +435,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				$registering = true;
 			}
 		}
-
+/*
 		if ( isset( $_GET['registration'] ) ) {
 			if ( $_GET['registration'] === 'disabled' ) {
 				wp_safe_redirect( add_query_arg( array(
@@ -432,7 +453,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			), $login_page ) );
 			exit();
 		}
-
+*/
 		if ( $page_viewed == "wp-login.php" && 'GET' === $_SERVER['REQUEST_METHOD'] && ! $registering ) {
 			wp_safe_redirect( $login_page );
 			exit;
@@ -529,11 +550,18 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			}
 
 		}
+		
+		$registering = false;
+		if ( isset( $_GET['checkemail'] ) && 'registered' == $_GET['checkemail'] ) {
+			$registering = true;
+		}
 
+		if ( '' === $username || '' === $password  ) {
+			if( false === $registering ){
+				wp_safe_redirect( add_query_arg( array( 'login' => 'empty' ), $login_page ) );
+				exit;
+			}
 
-		if ( '' === $username || '' === $password ) {
-			wp_safe_redirect( add_query_arg( array( 'login' => 'empty' ), $login_page ) );
-			exit;
 		}
 	}
 
