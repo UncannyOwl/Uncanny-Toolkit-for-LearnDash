@@ -198,8 +198,7 @@ class AdminMenu extends Boot {
 
 			<p><?php
 			printf(
-				__( 'Developer are allowed to create pull request to help find bugs and enhance the plugin on
-				<a href="%s" target="_blank">BitBucket</a>.', 'uncanny-learndash-toolkit' ) ,
+				__( 'Developers are welcome to create pull requests on <a href="%s" target="_blank"><i class="fa fa-bitbucket" aria-hidden="true"> Bitbucket</i></a>.', 'uncanny-learndash-toolkit' ) ,
 			esc_url( 'https://bitbucket.org/uncannyowl/uncanny-learndash-toolkit/' ) );
 			?></p>
 
@@ -234,6 +233,15 @@ class AdminMenu extends Boot {
 				$active_classes = Config::stripslashes_deep( $active_classes );
 			}
 		}
+
+
+
+		// Sort add ons alphabetically by title
+		$add_on_titles = array();
+		foreach ($classes_available as $key => $row) {
+		    $add_on_titles[$key] = $row['title'];
+		}
+		array_multisort($add_on_titles, SORT_ASC, $classes_available);
 
 		foreach ( $classes_available as $key => $class ) {
 
