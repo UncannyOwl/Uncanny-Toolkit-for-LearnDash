@@ -30,6 +30,7 @@ class ShowHideContent extends Config implements RequiredFunctions
 		if (true === self::dependants_exist()) {
 
 			add_shortcode('uo-show', array(__CLASS__, 'uo_show'));
+			add_shortcode('uo_show', array(__CLASS__, 'uo_show'));
 
 		}
 

@@ -31,6 +31,7 @@ class ShowCertificatesShortcode extends Config implements RequiredFunctions
 
 			// Show quiz and course certificates shortcode
 			add_shortcode('uo-learndash-certificates', array(__CLASS__, 'learndash_certificates'));
+			add_shortcode('uo_learndash_certificates', array(__CLASS__, 'learndash_certificates'));
 
 		}
 

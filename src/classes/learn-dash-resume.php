@@ -26,6 +26,7 @@
 			if ( true === self::dependants_exist() ) {
 				add_action( 'wp_head', array( __CLASS__, 'find_last_known_learndash_page' ) );
 				add_shortcode( 'uo-learndash-resume', array( __CLASS__, 'learndash_resume' ) );
+				add_shortcode( 'uo_learndash_resume', array( __CLASS__, 'learndash_resume' ) );
 			}
 
 		}
