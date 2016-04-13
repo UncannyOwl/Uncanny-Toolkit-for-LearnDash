@@ -49,7 +49,7 @@ We welcome contributions to the Uncanny LearnDash Toolkit! The plugin is managed
 * Added sorting of features by name on admin settings page
 * Added bitbucket pull requests for developers
 * Fixed all shortcode now use _ rather than -
-* Added simple user registration to Front End Login feature
+* Dev Only Added simple user registration to Front End Login feature
 * Added translation support
 * Fixed course completion time in LearnDash CVS Reports
 
