@@ -46,6 +46,12 @@ We welcome contributions to the Uncanny LearnDash Toolkit! The plugin is managed
 * NEW FEATURE: LearnDash Breadcrumbs
 * Fixed course completion time in CSV output
 * Fixed translation text domain
+* Added sorting of features by name on admin settings page
+* Added bitbucket pull requests for developers
+* Fixed all shortcode now use _ rather than -
+* Added simple user registration to Front End Login feature
+* Added translation support
+* Fixed course completion time in LearnDash CVS Reports
 
 = 1.1 =
 * NEW FEATURE: Log In/Log Out Links
