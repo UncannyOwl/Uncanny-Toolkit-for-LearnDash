@@ -184,22 +184,34 @@ class Config {
 
 	/**
 	 * @param string $file_name File name must be prefixed with a \ (foreword slash)
+	 * @param mixed $file (false || __FILE__ )
 	 *
 	 * @return string
 	 */
-	public static function get_template( $file_name ) {
-		$asset_uri = dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . $file_name;
+	public static function get_template( $file_name, $file = false ) {
+
+		if( false === $file ){
+			$file = __FILE__;
+		}
+
+		$asset_uri = dirname( $file ) . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . $file_name;
 
 		return $asset_uri;
 	}
 
 	/**
 	 * @param string $file_name File name must be prefixed with a \ (foreword slash)
+	 * @param mixed $file (false || __FILE__ )
 	 *
 	 * @return string
 	 */
-	public static function get_include( $file_name ) {
-		$asset_uri = dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'includes' . DIRECTORY_SEPARATOR . $file_name;
+	public static function get_include( $file_name,  $file = false ) {
+
+		if( false === $file ){
+			$file = __FILE__;
+		}
+
+		$asset_uri = dirname( $file ) . DIRECTORY_SEPARATOR . 'includes' . DIRECTORY_SEPARATOR . $file_name;
 
 		return $asset_uri;
 	}
@@ -266,7 +278,7 @@ class Config {
 	 */
 	public static function get_version() {
 		if ( null === self::$version ) {
-			self::$version = '1.2.1';
+			self::$version = '1.2.2';
 		}
 
 		return self::$version;
