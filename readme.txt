@@ -42,6 +42,9 @@ We welcome contributions to the Uncanny LearnDash Toolkit! The plugin is managed
 
 == Changelog ==
 
+= 1.2.2 =
+* Fixed Multiple Breadcrumbs dashboard links on quiz page.
+
 = 1.2.1 =
 * Fixed missing file
 
