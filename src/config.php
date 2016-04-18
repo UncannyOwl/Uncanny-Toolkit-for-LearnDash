@@ -200,11 +200,11 @@ class Config {
 	}
 
 	/**
-	 * @param string $file_name File name must be prefixed with a \ (foreword slash)
-	 * @param mixed $file (false || __FILE__ )
-	 *
-	 * @return string
-	 */
+ * @param string $file_name File name must be prefixed with a \ (foreword slash)
+ * @param mixed $file (false || __FILE__ )
+ *
+ * @return string
+ */
 	public static function get_include( $file_name,  $file = false ) {
 
 		if( false === $file ){
