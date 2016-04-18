@@ -7,7 +7,7 @@
  * @return string
  */
 function uo_breadcrumbs( $echo = true ) {
-	$crumb = new \uncanny_learndash_toolkit\uncannyBreadcrumbs();
+	$crumb = new \uncanny_learndash_toolkit\Breadcrumbs();
 	if ( ! $echo ) {
 		return $crumb->uo_breadcrumbs();
 	} else {
