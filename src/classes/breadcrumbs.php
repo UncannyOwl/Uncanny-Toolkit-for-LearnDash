@@ -250,15 +250,13 @@ class Breadcrumbs extends Config implements RequiredFunctions {
 				$course_id = get_post_meta( $post_id, 'course_id', true ); // Getting Parent Course ID
 				if ( strlen( trim( $get_dashboard_link ) ) && '0' !== $get_dashboard_link ) {
 					$trail[] = $dashboard_link;
+				} else {
+					$trail[] = $course_archive_link;
 				}
+
 				$topic_id = get_post_meta( $post_id, 'lesson_id', true ); // Getting Parent Topic/Lesson ID
 				if ( 'sfwd-topic' === get_post_type( $topic_id ) ) {
 					$lesson_id = get_post_meta( $topic_id, 'lesson_id', true ); // Getting Parent Lesson ID
-				}
-				if ( strlen( trim( $get_dashboard_link ) ) && '0' !== $get_dashboard_link ) {
-					$trail[] = $dashboard_link;
-				} else {
-					$trail[] = $course_archive_link;
 				}
 				$trail[] = self::uo_build_anchor_links( get_permalink( $course_id ), get_the_title( $course_id ) ); // Getting Lesson's Course Link
 				//If $lesson_id is false, the quiz is associated with a lesson and course but not a topic.

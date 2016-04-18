@@ -42,6 +42,9 @@ We welcome contributions to the Uncanny LearnDash Toolkit! The plugin is managed
 
 == Changelog ==
 
+= 1.2.2 =
+* Fixed duplicate breadcrumbs on quiz pages
+
 = 1.2.1 =
 * Fixed missing file
 
