@@ -1,5 +1,5 @@
 === Uncanny LearnDash Toolkit ===
-Contributors: UncannyOwl
+Contributors: uncannyowl
 Tags: LearnDash, eLearning, LMS
 Requires at least: 3.3
 Tested up to: 4.5
