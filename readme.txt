@@ -12,11 +12,11 @@ Extend LearnDash with a variety of useful functions that make it even easier to 
 == Description ==
 **Important: This plugin requires PHP 5.2 or higher and LearnDash 2.2 or higher.**
 
-The Uncanny Owl Toolkit adds a variety of functions to LearnDash sites that help improve the learner experience and LearnDash development workflow. After building dozens of LearnDash platforms, we combined the functions that are common across LearnDash sites into this single plugin.
+The Uncanny LearnDash Toolkit adds a dozen exciting new features to LearnDash sites that improve the learner experience and make development easier. 
 
 https://www.youtube.com/watch?v=FKsN0oTx-rM
 
-The current version of the Uncanny LearnDash Toolkit includes the following functions:
+The Uncanny LearnDash Toolkit adds the following features to your LearnDash site:
 
 * **Front End Login**: Replace wp-login with a simple shortcode that you can drop onto any page to allow better branding of the login experience. User verification is also available to manage registrations.
 * **Hide Admin Bar**: Hide the WordPress admin bar for any roles that you want.
@@ -28,8 +28,6 @@ The current version of the Uncanny LearnDash Toolkit includes the following func
 * **Show or Hide Content**: Use shortcodes to show or hide content based on whether or not a user is signed in. Great for Open course types.
 * **Log In/Log Out Links**: Add Log In and Log Out links to menus, or to any page or widget with a shortcode.
 * **LearnDash Breadcrumbs**: Add breadcrumb links that support courses, lessons, topics and quizzes. Also supports woocommerce, custom post types with or without taxonomies & tags, pages and blog posts.
-
-If you are not using any of the functions in this plugin, please remember to turn them off to maximize performance.
 
 More information about how to use the Toolkit, including a 40-minute instructional screencast, is available at (http://www.uncannyowl.com/uncanny-learndash-toolkit/).
 
