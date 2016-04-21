@@ -10,7 +10,9 @@ License URI: https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
 Extend LearnDash with a variety of useful functions that make it even easier to build great learner experiences with LearnDash.
 
 == Description ==
-This plugin adds a variety of functions to LearnDash sites that help improve the learner experience and LearnDash development workflow. After building dozens of LearnDash platforms, we combined the functions that are common across LearnDash sites into this single plugin.
+**Important: This plugin requires PHP 5.2 or higher and LearnDash 2.2 or higher.**
+
+The Uncanny Owl Toolkit adds a variety of functions to LearnDash sites that help improve the learner experience and LearnDash development workflow. After building dozens of LearnDash platforms, we combined the functions that are common across LearnDash sites into this single plugin.
 
 https://www.youtube.com/watch?v=FKsN0oTx-rM
 
