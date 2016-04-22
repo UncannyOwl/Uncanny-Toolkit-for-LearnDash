@@ -44,6 +44,13 @@ function uncanny_learndash_toolkit_plugin_settings_link( $links ) {
 	return $links;
 }
 
+// Allow Translations to be loaded
+add_action( 'plugins_loaded', 'uncanny_learndash_toolkit_text_domain' );
+
+function uncanny_learndash_toolkit_text_domain() {
+	load_plugin_textdomain( 'uncanny-learndash-toolkit', FALSE, basename( dirname( __FILE__ ) ) . '/languages/' );
+}
+
 // Load breadcrumb front-end plugin function
 include_once( dirname( __FILE__ ) . '/src/includes/uncanny-breadcrumbs-function.php' );
 
