@@ -187,7 +187,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 			array(
 				'type'        => 'checkbox',
-				'label'       => 'Manual User Verification',
+				'label'       => esc_html__( 'Manual User Verification', 'uncanny-learndash-toolkit' ),
 				'option_name' => 'uo_frontendloginplus_needs_verifcation',
 			),
 
@@ -199,7 +199,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 			array(
 				'type'        => 'select',
-				'label'       => 'Login Page',
+				'label'       => esc_html__( 'Login Page', 'uncanny-learndash-toolkit' ),
 				'select_name' => 'login_page',
 				'options'     => $drop_down,
 			),
@@ -315,7 +315,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			$subject = $blog_name . ' - Account Verified';
 			$subject = apply_filters( 'uo_verified_email_subject', $subject, $user );
 
-			$message = 'Your account has been approved! \r\n\n';
+			$message = "Your account has been approved! \r\n\n";
 			$message .= "Please visit " . home_url() . " to login \r\n";
 			$message = apply_filters( 'uo_verified_email_message', $message, $user );
 

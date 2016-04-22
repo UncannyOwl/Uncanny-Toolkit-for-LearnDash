@@ -135,19 +135,19 @@ class Sample extends Config implements RequiredFunctions {
 
 			array(
 				'type'        => 'checkbox',
-				'label'       => 'Settings A',
+				'label'       => esc_html__('Settings A', 'uncanny-learndash-toolkit' ),
 				'option_name' => 'a',
 			),
 
 			array(
 				'type'        => 'text',
-				'label'       => 'Settings B',
+				'label'       => esc_html__('Settings B', 'uncanny-learndash-toolkit' ),
 				'option_name' => 'b',
 			),
 
 			array(
 				'type'       => 'radio',
-				'label'      => 'Settings Gender',
+				'label'      => esc_html__('Settings Gender', 'uncanny-learndash-toolkit' ),
 				'radio_name' => 'uo_gender',
 				'radios'     => array(
 					array( 'value' => 'male', 'text' => 'Male' ),
@@ -158,7 +158,7 @@ class Sample extends Config implements RequiredFunctions {
 
 			array(
 				'type'        => 'select',
-				'label'       => 'Settings Car',
+				'label'       => esc_html__('Settings Car', 'uncanny-learndash-toolkit' ),
 				'select_name' => 'car',
 				'options'     => array(
 					array( 'value' => 'volvo', 'text' => 'Volvo' ),
@@ -169,7 +169,7 @@ class Sample extends Config implements RequiredFunctions {
 
 			array(
 				'type'        => 'select',
-				'label'       => 'Login Page',
+				'label'       => esc_html__('Login Page', 'uncanny-learndash-toolkit' ),
 				'select_name' => 'login_page',
 				'options'     => $drop_down,
 			),

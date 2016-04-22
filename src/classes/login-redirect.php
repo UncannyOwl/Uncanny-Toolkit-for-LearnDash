@@ -85,7 +85,7 @@ class LoginRedirect extends Config implements RequiredFunctions
 
 			array(
 				'type' => 'text',
-				'label' => 'Login Redirect',
+				'label' => esc_html__( 'Login Redirect', 'uncanny-learndash-toolkit' ),
 				'option_name' => 'login_redirect',
 			),
 		);

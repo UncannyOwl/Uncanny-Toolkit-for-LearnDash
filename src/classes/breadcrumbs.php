@@ -92,23 +92,24 @@ class Breadcrumbs extends Config implements RequiredFunctions {
 		foreach ( $get_pages as $page ) {
 			$pages[] = array( 'value' => $page->ID, 'text' => get_the_title( $page->ID ) );
 		}
+
 		// Create options
 		$options = array(
 
 			array(
 				'type'        => 'text',
-				'label'       => 'Dashboard Page Title',
+				'label'       => esc_html__( 'Dashboard Page Title', 'uncanny-learndash-toolkit' ),
 				'option_name' => 'uncanny-breadcrumbs-dashboard-text',
 			),
 			array(
 				'type'        => 'select',
-				'label'       => 'Dashboard Page',
+				'label'       => esc_html__( 'Dashboard Page', 'uncanny-learndash-toolkit' ),
 				'select_name' => 'uncanny-breadcrumbs-dashboard-link',
 				'options'     => $pages,
 			),
 			array(
 				'type'        => 'text',
-				'label'       => 'Breadcrumbs Separator',
+				'label'       => esc_html__( 'Breadcrumbs Separator', 'uncanny-learndash-toolkit' ),
 				'option_name' => 'uncanny-breadcrumbs-dashboard-separator',
 			),
 		);
