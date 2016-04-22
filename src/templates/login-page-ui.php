@@ -263,7 +263,7 @@ $innerText = apply_filters( 'uo-login-inner-text', $innerText, $login );
 			$rp_login  = $_GET['login'];
 			$rp_cookie = 'wp-resetpass-' . COOKIEHASH;
 			$value     = sprintf( '%s:%s', wp_unslash( $_GET['login'] ), wp_unslash( $_GET['key'] ) );
-			setcookie( $rp_cookie, $value, 0, '/' . get_post_field( 'post_name', $login_page ), COOKIE_DOMAIN, is_ssl(), true );
+			//setcookie( $rp_cookie, $value, 0, '/' . get_post_field( 'post_name', $login_page ), COOKIE_DOMAIN, is_ssl(), true );
 
 			?>
 			<h2><?php echo $innerText['Reset-Password-Title']; ?></h2>
@@ -333,7 +333,7 @@ $innerText = apply_filters( 'uo-login-inner-text', $innerText, $login );
 
 			if ( ! $user || is_wp_error( $user ) && ! isset( $_POST['pass1'] ) ) {
 
-				setcookie( $rp_cookie, ' ', time() - YEAR_IN_SECONDS, '/login', COOKIE_DOMAIN, is_ssl(), true );
+				//setcookie( $rp_cookie, ' ', time() - YEAR_IN_SECONDS, '/login', COOKIE_DOMAIN, is_ssl(), true );
 				if ( $user && $user->get_error_code() === 'expired_key' ) {
 					wp_safe_redirect( get_permalink( $login_page ) . '?action=validatepasswordreset&issue=expiredkey' );
 				} else {
@@ -350,7 +350,7 @@ $innerText = apply_filters( 'uo-login-inner-text', $innerText, $login );
 			} elseif ( isset( $_POST['pass1'] ) && ! empty( $_POST['pass1'] ) ) {
 
 				reset_password( $user, $_POST['pass1'] );
-				setcookie( $rp_cookie, ' ', time() - YEAR_IN_SECONDS, '/login', COOKIE_DOMAIN, is_ssl(), true );
+				//setcookie( $rp_cookie, ' ', time() - YEAR_IN_SECONDS, '/login', COOKIE_DOMAIN, is_ssl(), true );
 
 				echo '<h2>' . $innerText['Reset-Success'] . '</h2>';
 
