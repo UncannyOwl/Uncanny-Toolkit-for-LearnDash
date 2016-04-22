@@ -85,13 +85,8 @@ class LearnDashResume extends Config implements RequiredFunctions {
 				'type'        => 'text',
 				'label'       => esc_html__( 'Resume Button Text', 'uncanny-learndash-toolkit' ),
 				'option_name' => 'learn-dash-resume-button-text',
-			),
+			)
 
-			array(
-				'type'        => 'checkbox',
-				'label'       => esc_html__( 'Add LearnDash Mark Complete Button Styles', 'uncanny-learndash-toolkit' ),
-				'option_name' => 'a',
-			),
 		);
 
 		// Build html
@@ -161,18 +156,20 @@ class LearnDashResume extends Config implements RequiredFunctions {
 				$title            = get_the_title( $last_know_page_id );
 				$resume_link_text = 'RESUME';
 
-				$options = self::get_settings_value( 'learn-dash-resume-button-text', __CLASS__ );
+				// Resume Link Text
+				$link_text = self::get_settings_value( 'learn-dash-resume-button-text', __CLASS__ );
 
-				if ( strlen( trim( $options ) ) ) {
-					$resume_link_text = $options;
+				if ( strlen( trim( $link_text ) ) ) {
+					$resume_link_text = $link_text;
 				}
 
 				$resume_link_text = apply_filters( 'learndash_resume_link_text', $resume_link_text );
 
 				$css_classes = apply_filters( 'learndash_resume_css_classes', 'learndash-resume-button' );
+
 				ob_start();
 				printf(
-					'<a href="%s" title="%s" class="%s">%s</a>',
+					'<a href="%s" title="%s" class="%s"><input type="submit" value="%s" class=""></a>',
 					get_permalink( $last_know_page_id ),
 					esc_attr(
 						sprintf(
