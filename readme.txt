@@ -42,6 +42,9 @@ We welcome contributions to the Uncanny LearnDash Toolkit! The plugin is managed
 
 == Changelog ==
 
+= 1.2.4 =
+* Added PHP/LearnDash version checking
+
 = 1.2.3 =
 * Tested with WordPress 4.5
 * Fixed breadcrumbs function
