@@ -67,13 +67,14 @@ function learndash_version_notice() {
 		<!-- No Notice Style below WordPress -->
 		<style>
 			.notice-error {
-				border-left-color: #dc3232!important;
+				border-left-color: #dc3232 !important;
 			}
+
 			.notice {
 				background: #fff;
 				border-left: 4px solid #fff;
-				-webkit-box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
-				box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
+				-webkit-box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .1);
+				box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .1);
 				margin: 5px 15px 2px;
 				padding: 1px 12px;
 			}
@@ -104,6 +105,21 @@ function learndash_version_notice() {
 						esc_html__( 'The Uncanny LearnDash Toolkit requires LearnDash version 2.1 or higher to work properly.
 						Please make sure you have version 2.1 or higher installed before using any LearnDash modules in the Toolkit.
 						Your current version is: %s', 'uncanny-learndash-toolkit' ),
+
+						$learn_dash_version
+					); ?>
+				</h3>
+			</div>
+			<?php
+
+		} elseif ( class_exists( 'SFWD_LMS' ) ) {
+
+			?>
+			<div class="notice notice-error">
+				<h3><?php echo sprintf(
+
+						esc_html__( 'The Uncanny LearnDash Toolkit requires LearnDash version 2.1 or higher to work properly.
+						Please make sure you have version 2.1 or higher installed before using any LearnDash modules in the Toolkit.', 'uncanny-learndash-toolkit' ),
 
 						$learn_dash_version
 					); ?>
