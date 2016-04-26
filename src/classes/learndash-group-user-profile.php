@@ -28,7 +28,7 @@ class LearndashGroupUserProfile extends Config implements RequiredFunctions
 	{
 
 		if (true === self::dependants_exist()) {
-			/* Hide admin bar on frontend for the user role */
+
 			// Add learndash groups field when the user is view there own profile
 			add_action('show_user_profile', array(__CLASS__, 'show_users_groups_profile_fields'));
 			// Add learndash groups field when the user is view another users profile
