@@ -184,8 +184,8 @@ class AdminMenu extends Boot {
 			printf(
 				__( 'This plugin makes it easier to incorporate some of the features we see most requested on LearnDash sites. We\'re hard
 				at work on a new Knowledge Base for this plugin, but for now, instructions are available at  
-				<a href="%s" target="_blank">http://www.uncannyowl.com/uncanny-learndash-toolkit/</a>.', 'uncanny-learndash-toolkit' ) ,
-			esc_url( 'http://www.uncannyowl.com/uncanny-learndash-toolkit/' ) );
+				<a href="%s" target="_blank">https://www.uncannyowl.com/uncanny-learndash-toolkit/</a>.', 'uncanny-learndash-toolkit' ) ,
+			esc_url( 'https://www.uncannyowl.com/uncanny-learndash-toolkit/' ) );
 			?></p>
 
 			<p><?php
@@ -193,7 +193,7 @@ class AdminMenu extends Boot {
 				__( 'This is the first Uncanny Owl LearnDash plugin that we\'ve made available in the WordPress repository. We\'ll be
 				releasing more over the next few months as well as adding new features to this plugin. Visit us at 
 				<a href="%s" target="_blank">Uncanny Owl</a> so you don\'t miss any updates!', 'uncanny-learndash-toolkit' ) ,
-			esc_url( 'http://www.uncannyowl.com/' ) );
+			esc_url( 'https://www.uncannyowl.com/' ) );
 			?></p>
 
 			<p><?php
