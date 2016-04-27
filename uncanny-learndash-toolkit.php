@@ -13,6 +13,11 @@ Domain Path: /languages
 // All Class instance are store in Global Variable $uncanny_learndash_toolkit
 global $uncanny_learndash_toolkit;
 
+//Define version
+if( !defined('UNCANNY_TOOLKIT_VERSION')){
+	define('UNCANNY_TOOLKIT_VERSION', '1.2.4');
+}
+
 // Show admin notices for minimum versions of PHP, WordPress, and LearnDash
 add_action( 'admin_notices', 'learndash_version_notice' );
 
