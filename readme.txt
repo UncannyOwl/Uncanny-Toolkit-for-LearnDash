@@ -10,7 +10,7 @@ License URI: https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
 Extend LearnDash with a variety of useful functions that make it even easier to build great learner experiences with LearnDash.
 
 == Description ==
-**Important: This plugin requires PHP 5.2 or higher and LearnDash 2.2 or higher.**
+**Important: This plugin requires PHP 5.3 or higher and LearnDash 2.1 or higher.**
 
 The Uncanny LearnDash Toolkit adds a dozen exciting new features to LearnDash sites that improve the learner experience and make development easier. 
 
@@ -43,7 +43,7 @@ We welcome contributions to the Uncanny LearnDash Toolkit! The plugin is managed
 == Changelog ==
 
 = 1.2.4 =
-* Added PHP/LearnDash version checking
+* Added PHP/LearnDash/WP version checking
 * Fix cookies for password reset and registration
 * Updated resume button to match theme button style
 * Fix verified user email formatting
