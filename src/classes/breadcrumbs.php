@@ -140,7 +140,8 @@ class Breadcrumbs extends Config implements RequiredFunctions {
 	public static function uo_breadcrumbs() {
 		global $wp_query;
 		//$wp_query = new WP_Query();
-
+		$learn_dash_labels = new \LearnDash_Custom_Label();
+		$course_label      = $learn_dash_labels::get_label( 'courses' );
 		// Define main variables
 		$trail   = array();
 		$trail[] = self::uo_build_anchor_links( get_bloginfo( 'url' ), esc_html__( 'Home', 'uncanny-learndash-toolkit' ) );
@@ -152,7 +153,8 @@ class Breadcrumbs extends Config implements RequiredFunctions {
 		$get_dashboard_text      = self::get_settings_value( 'uncanny-breadcrumbs-dashboard-text', __CLASS__ );
 		$get_dashboard_link      = self::get_settings_value( 'uncanny-breadcrumbs-dashboard-link', __CLASS__ );
 		$get_dashboard_separator = self::get_settings_value( 'uncanny-breadcrumbs-dashboard-separator', __CLASS__ );
-		$course_archive_link     = self::uo_build_anchor_links( get_post_type_archive_link( 'sfwd-courses' ), esc_html__( 'Courses', 'uncanny-learndash-toolkit' ) );
+		$course_archive_link     = self::uo_build_anchor_links( get_post_type_archive_link( 'sfwd-courses' ), esc_html__( $course_label, 'uncanny-learndash-toolkit' ) );
+		//$course_archive_link     = self::uo_build_anchor_links( get_post_type_archive_link( 'sfwd-courses' ), esc_html__( 'Courses', 'uncanny-learndash-toolkit' ) );
 
 		if ( strlen( trim( $get_dashboard_text ) ) ) {
 			$dashboard_text = $get_dashboard_text;
@@ -315,7 +317,7 @@ class Breadcrumbs extends Config implements RequiredFunctions {
 					$trail[] = get_the_author(); // If its Author's Archives
 				}
 			} elseif ( is_post_type_archive( 'sfwd-courses' ) ) {
-				$trail[] = esc_html__( 'Courses', 'uncanny-learndash-toolkit' );
+				$trail[] = esc_html__( $course_label, 'uncanny-learndash-toolkit' );
 			} elseif ( is_post_type_archive( 'product' ) ) {
 				$trail[] = esc_html__( 'Shop', 'uncanny-learndash-toolkit' );
 			}
