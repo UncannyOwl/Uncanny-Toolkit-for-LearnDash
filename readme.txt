@@ -42,6 +42,9 @@ We welcome contributions to the Uncanny LearnDash Toolkit! The plugin is managed
 
 == Changelog ==
 
+= 1.2.5 =
+* Fixed bug of course completion time without quiz / topics
+
 = 1.2.4 =
 * Added PHP/LearnDash/WP version checking
 * Fix cookies for password reset and registration
