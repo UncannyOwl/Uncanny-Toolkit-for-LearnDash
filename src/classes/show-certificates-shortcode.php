@@ -2,7 +2,7 @@
 
 namespace uncanny_learndash_toolkit;
 
-if (!defined('WPINC')) {
+if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
@@ -10,28 +10,25 @@ if (!defined('WPINC')) {
  * Class ShowCertificatesShortcode
  * @package uncanny_custom_toolkit
  */
-class ShowCertificatesShortcode extends Config implements RequiredFunctions
-{
+class ShowCertificatesShortcode extends Config implements RequiredFunctions {
 
 	/**
 	 * Class constructor
 	 */
-	public function __construct()
-	{
-		add_action('plugins_loaded', array(__CLASS__, 'run_frontend_hooks'));
+	public function __construct() {
+		add_action( 'plugins_loaded', array( __CLASS__, 'run_frontend_hooks' ) );
 	}
 
 	/*
 	 * Initialize frontend actions and filters
 	 */
-	public static function run_frontend_hooks()
-	{
+	public static function run_frontend_hooks() {
 
-		if (true === self::dependants_exist()) {
+		if ( true === self::dependants_exist() ) {
 
 			// Show quiz and course certificates shortcode
-			add_shortcode('uo-learndash-certificates', array(__CLASS__, 'learndash_certificates'));
-			add_shortcode('uo_learndash_certificates', array(__CLASS__, 'learndash_certificates'));
+			add_shortcode( 'uo-learndash-certificates', array( __CLASS__, 'learndash_certificates' ) );
+			add_shortcode( 'uo_learndash_certificates', array( __CLASS__, 'learndash_certificates' ) );
 
 		}
 
@@ -42,22 +39,21 @@ class ShowCertificatesShortcode extends Config implements RequiredFunctions
 	 *
 	 * @return array
 	 */
-	public static function get_details()
-	{
+	public static function get_details() {
 
-		$class_title = esc_html__('Show LearnDash Certificates', 'uncanny-learndash-toolkit');
-		$kb_link = null;
-		$class_description = esc_html__('Displays a list of LearnDash certificates (both course and quiz) earned by the user, with the most recent at the top.'
-			, 'uncanny-learndash-toolkit');
-		$class_icon = '<i class="uo_icon_fa fa fa-certificate"></i>';
+		$class_title       = esc_html__( 'Show LearnDash Certificates', 'uncanny-learndash-toolkit' );
+		$kb_link           = null;
+		$class_description = esc_html__( 'Displays a list of LearnDash certificates (both course and quiz) earned by the user, with the most recent at the top.'
+			, 'uncanny-learndash-toolkit' );
+		$class_icon        = '<i class="uo_icon_fa fa fa-certificate"></i>';
 
 		return array(
-			'title' => $class_title,
-			'kb_link' => $kb_link,
-			'description' => $class_description,
+			'title'            => $class_title,
+			'kb_link'          => $kb_link,
+			'description'      => $class_description,
 			'dependants_exist' => self::dependants_exist(),
-			'settings' => false,
-			'icon' => $class_icon,
+			'settings'         => self::get_class_settings( $class_title ),
+			'icon'             => $class_icon,
 		);
 
 	}
@@ -67,14 +63,53 @@ class ShowCertificatesShortcode extends Config implements RequiredFunctions
 	 *
 	 * return boolean || string Return either true or name of function or plugin
 	 */
-	public static function dependants_exist()
-	{
+	public static function dependants_exist() {
 		global $learndash_post_types;
-		if (!isset($learndash_post_types)) {
+		if ( ! isset( $learndash_post_types ) ) {
 			return 'Plugin: LearnDash';
 		}
 
 		return true;
+	}
+
+	/**
+	 * HTML for modal to create settings
+	 *
+	 * @param String
+	 *
+	 * @return boolean || string Return either false or settings html modal
+	 *
+	 */
+	public static function get_class_settings( $class_title ) {
+
+		// Create options
+		$options = array(
+
+			array(
+				'type'        => 'checkbox',
+				'label'       => esc_html__( 'Allow Multiple Certificate Names', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_allow_multiple_certificate_names',
+			),
+
+			array(
+				'type'       => 'html',
+				'class'      => 'uo-additional-information',
+				'inner_html' => __( '<div>This is handy when you have a single certificate attached to multiple courae and you want
+												them all displayed.</div><br><br>', 'uncanny-learndash-toolkit' ),
+			),
+
+		);
+
+
+		// Build html
+		$html = self::settings_output( array(
+				'class'   => __CLASS__,
+				'title'   => $class_title,
+				'options' => $options,
+			)
+		);
+
+		return $html;
 	}
 
 	/**
@@ -86,84 +121,91 @@ class ShowCertificatesShortcode extends Config implements RequiredFunctions
 	 *
 	 * @return string
 	 */
-	public static function learndash_certificates($atts)
-	{
+	public static function learndash_certificates( $atts ) {
 
-		if (!is_user_logged_in()) {
+		if ( ! is_user_logged_in() ) {
 			return '';
 		}
 
-		if (isset($atts['class'])) {
+		if ( isset( $atts['class'] ) ) {
 			$class = $atts['class'];
 		} else {
 			$class = 'certificate-list-container';
 		}
 
-		if (isset($atts['title'])) {
+		if ( isset( $atts['title'] ) ) {
 			$title = $atts['title'];
 		} else {
 			$title = '';
 		}
 
-		if (isset($atts['no-cert-message'])) {
+		if ( isset( $atts['no-cert-message'] ) ) {
 			$no_cert_message = $atts['no-cert-message'];
 		} else {
-			$no_cert_message = esc_html__('Complete courses to earn certificates', 'uncanny-learndash-toolkit');
+			$no_cert_message = esc_html__( 'Complete courses to earn certificates', 'uncanny-learndash-toolkit' );
 		}
 
-		$certificate_list = '';
+		$certificate_list   = '';
 		$certificate_titles = Array();
+
+		$allow_multiple_cert_titles = self::get_settings_value( 'uo_allow_multiple_certificate_names', __CLASS__ );
 
 		/* GET Certificates For Courses*/
 		$args = array(
-			'post_type' => 'sfwd-courses',
-			'posts_per_page' => -1,
-			'post_status' => 'publish',
-			'orderby' => 'title',
-			'order' => 'ASC',
+			'post_type'      => 'sfwd-courses',
+			'posts_per_page' => - 1,
+			'post_status'    => 'publish',
+			'orderby'        => 'title',
+			'order'          => 'ASC',
 		);
 
-		$courses = get_posts($args);
+		$courses = get_posts( $args );
 
-		foreach ($courses as $course) {
+		foreach ( $courses as $course ) {
 
-			$certificate_id = learndash_get_setting($course->ID, 'certificate');
-			$certificate_object = get_post($certificate_id);
-			$certificate_title = $certificate_object->post_title;
-			$certificate_link = learndash_get_course_certificate_link($course->ID);
+			$certificate_id     = learndash_get_setting( $course->ID, 'certificate' );
+			$certificate_object = get_post( $certificate_id );
+			$certificate_title  = $certificate_object->post_title;
+			$certificate_link   = learndash_get_course_certificate_link( $course->ID );
 
-			if ($certificate_link && '' !== $certificate_link) {
-				if (!in_array($certificate_title, $certificate_titles)) {
+			if ( $certificate_link && '' !== $certificate_link ) {
+
+				if ( ! in_array( $certificate_title, $certificate_titles ) ) {
 					$certificate_list .= '<a target="_blank" href="' . $certificate_link . '">' . $certificate_title . '</a><br>';
-					array_push($certificate_titles, $certificate_title);
+					if ( 'on' !==  $allow_multiple_cert_titles ) {
+						array_push( $certificate_titles, $certificate_title );
+					}
 				}
+
 			}
 		}
 
 		/* GET Certificates for Quizzes*/
 		$quiz_attempts = self::quiz_attempts();
 
-		if (!empty($quiz_attempts)) {
+		if ( ! empty( $quiz_attempts ) ) {
 
-			$quiz_attempts = array_reverse($quiz_attempts);
+			$quiz_attempts = array_reverse( $quiz_attempts );
 
-			foreach ($quiz_attempts as $k => $quiz_attempt) {
+			foreach ( $quiz_attempts as $k => $quiz_attempt ) {
 
-				if (isset($quiz_attempt['certificate'])) {
-					$certificateLink = $quiz_attempt['certificate']['certificateLink'];
-					$quiz_title_fallback = (isset($quiz_attempt['quiz_title'])) ? $quiz_attempt['quiz_title'] : '';
-					$quiz_title = !empty($quiz_attempt['post']->post_title) ? $quiz_attempt['post']->post_title : $quiz_title_fallback;
+				if ( isset( $quiz_attempt['certificate'] ) ) {
+					$certificateLink     = $quiz_attempt['certificate']['certificateLink'];
+					$quiz_title_fallback = ( isset( $quiz_attempt['quiz_title'] ) ) ? $quiz_attempt['quiz_title'] : '';
+					$quiz_title          = ! empty( $quiz_attempt['post']->post_title ) ? $quiz_attempt['post']->post_title : $quiz_title_fallback;
 
-					if (!empty($certificateLink)) {
+					if ( ! empty( $certificateLink ) ) {
 
-						$meta = get_post_meta($quiz_attempt['post']->ID, '_sfwd-quiz', true);
-						$certificate_id = $meta['sfwd-quiz_certificate'];
-						$certificate_object = get_post($certificate_id);
-						$certificate_title = $certificate_object->post_title;
+						$meta               = get_post_meta( $quiz_attempt['post']->ID, '_sfwd-quiz', true );
+						$certificate_id     = $meta['sfwd-quiz_certificate'];
+						$certificate_object = get_post( $certificate_id );
+						$certificate_title  = $certificate_object->post_title;
 
-						if (!in_array($certificate_title, $certificate_titles)) {
-							$certificate_list .= '<a target="_blank" href="' . esc_url($certificateLink) . '">' . $certificate_title . '</a><br>';
-							array_push($certificate_titles, $certificate_title);
+						if ( ! in_array( $certificate_title, $certificate_titles ) ) {
+							$certificate_list .= '<a target="_blank" href="' . esc_url( $certificateLink ) . '">' . $certificate_title . '</a><br>';
+							if ( 'on' !==  $allow_multiple_cert_titles ) {
+								array_push( $certificate_titles, $certificate_title );
+							}
 						}
 
 					}
@@ -171,13 +213,13 @@ class ShowCertificatesShortcode extends Config implements RequiredFunctions
 			}
 		}
 
-		if ('' === $certificate_list) {
+		if ( '' === $certificate_list ) {
 			$certificate_list = $no_cert_message;
 		}
 
 		ob_start();
 		?>
-		<div class="<?php echo esc_attr($class); ?>">
+		<div class="<?php echo esc_attr( $class ); ?>">
 			<div class="cert-list-title"><?php echo $title; ?></div>
 			<div class="certificate-list"><?php echo $certificate_list; ?></div>
 		</div>
@@ -195,38 +237,37 @@ class ShowCertificatesShortcode extends Config implements RequiredFunctions
 	 * modified from code in wp-content/plugins/sfwd-lms/course_info_widget.php
 	 * @return array
 	 */
-	private static function quiz_attempts()
-	{
+	private static function quiz_attempts() {
 
 		$quiz_attempts = array();
-		$current_user = wp_get_current_user();
+		$current_user  = wp_get_current_user();
 
-		if (empty($current_user->ID)) {
+		if ( empty( $current_user->ID ) ) {
 			return $quiz_attempts;
 		}
 
-		$user_id = $current_user->ID;
-		$quiz_attempts_meta = get_user_meta($user_id, '_sfwd-quizzes', true);
-		$count = 0;
-		if (!(empty($quiz_attempts_meta) || false === $quiz_attempts_meta)) {
-			foreach ($quiz_attempts_meta as $quiz_attempt) {
-				$quiz_attempt['post'] = get_post($quiz_attempt['quiz']);
-				$c = learndash_certificate_details($quiz_attempt['quiz'], $user_id);
+		$user_id            = $current_user->ID;
+		$quiz_attempts_meta = get_user_meta( $user_id, '_sfwd-quizzes', true );
+		$count              = 0;
+		if ( ! ( empty( $quiz_attempts_meta ) || false === $quiz_attempts_meta ) ) {
+			foreach ( $quiz_attempts_meta as $quiz_attempt ) {
+				$quiz_attempt['post'] = get_post( $quiz_attempt['quiz'] );
+				$c                    = learndash_certificate_details( $quiz_attempt['quiz'], $user_id );
 				if (
 					get_current_user_id() == $user_id &&
-					!empty($c['certificateLink']) &&
+					! empty( $c['certificateLink'] ) &&
 					(
-					(isset($quiz_attempt['percentage']) &&
-						$quiz_attempt['percentage'] >= $c['certificate_threshold'] * 100
+					( isset( $quiz_attempt['percentage'] ) &&
+					  $quiz_attempt['percentage'] >= $c['certificate_threshold'] * 100
 					)
 					)
 				) {
-					$quiz_attempt['certificate'] = $c;
+					$quiz_attempt['certificate']          = $c;
 					$quiz_attempt['certificate']['count'] = $count;
 				}
 
 				$quiz_attempts[] = $quiz_attempt;
-				$count++;
+				$count ++;
 			}
 		}
 
