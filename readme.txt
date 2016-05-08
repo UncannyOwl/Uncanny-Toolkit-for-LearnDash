@@ -42,6 +42,9 @@ We welcome contributions to the Uncanny LearnDash Toolkit! The plugin is managed
 
 == Changelog ==
 
+= 1.2.6 =
+* Added allow multiple certificates in list
+
 = 1.2.5 =
 * Fixed course completion date issue with Topics Autocomplete Lessons
 * Added support for alternate course labels (Thanks Eben Hale!)
