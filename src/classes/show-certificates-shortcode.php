@@ -52,7 +52,6 @@ class ShowCertificatesShortcode extends Config implements RequiredFunctions {
 			'kb_link'          => $kb_link,
 			'description'      => $class_description,
 			'dependants_exist' => self::dependants_exist(),
-			'settings'         => self::get_class_settings( $class_title ),
 			'icon'             => $class_icon,
 		);
 
@@ -70,46 +69,6 @@ class ShowCertificatesShortcode extends Config implements RequiredFunctions {
 		}
 
 		return true;
-	}
-
-	/**
-	 * HTML for modal to create settings
-	 *
-	 * @param String
-	 *
-	 * @return boolean || string Return either false or settings html modal
-	 *
-	 */
-	public static function get_class_settings( $class_title ) {
-
-		// Create options
-		$options = array(
-
-			array(
-				'type'        => 'checkbox',
-				'label'       => esc_html__( 'Allow Multiple Certificate Names', 'uncanny-learndash-toolkit' ),
-				'option_name' => 'uo_allow_multiple_certificate_names',
-			),
-
-			array(
-				'type'       => 'html',
-				'class'      => 'uo-additional-information',
-				'inner_html' => __( '<div>This is handy when you have a single certificate attached to multiple courae and you want
-												them all displayed.</div><br><br>', 'uncanny-learndash-toolkit' ),
-			),
-
-		);
-
-
-		// Build html
-		$html = self::settings_output( array(
-				'class'   => __CLASS__,
-				'title'   => $class_title,
-				'options' => $options,
-			)
-		);
-
-		return $html;
 	}
 
 	/**
@@ -146,9 +105,6 @@ class ShowCertificatesShortcode extends Config implements RequiredFunctions {
 		}
 
 		$certificate_list   = '';
-		$certificate_titles = Array();
-
-		$allow_multiple_cert_titles = self::get_settings_value( 'uo_allow_multiple_certificate_names', __CLASS__ );
 
 		/* GET Certificates For Courses*/
 		$args = array(
@@ -170,12 +126,7 @@ class ShowCertificatesShortcode extends Config implements RequiredFunctions {
 
 			if ( $certificate_link && '' !== $certificate_link ) {
 
-				if ( ! in_array( $certificate_title, $certificate_titles ) ) {
-					$certificate_list .= '<a target="_blank" href="' . $certificate_link . '">' . $certificate_title . '</a><br>';
-					if ( 'on' !==  $allow_multiple_cert_titles ) {
-						array_push( $certificate_titles, $certificate_title );
-					}
-				}
+				$certificate_list .= '<a target="_blank" href="' . $certificate_link . '">' . $certificate_title . '</a><br>';
 
 			}
 		}
@@ -201,12 +152,7 @@ class ShowCertificatesShortcode extends Config implements RequiredFunctions {
 						$certificate_object = get_post( $certificate_id );
 						$certificate_title  = $certificate_object->post_title;
 
-						if ( ! in_array( $certificate_title, $certificate_titles ) ) {
-							$certificate_list .= '<a target="_blank" href="' . esc_url( $certificateLink ) . '">' . $certificate_title . '</a><br>';
-							if ( 'on' !==  $allow_multiple_cert_titles ) {
-								array_push( $certificate_titles, $certificate_title );
-							}
-						}
+						$certificate_list .= '<a target="_blank" href="' . esc_url( $certificateLink ) . '">' . $certificate_title . '</a><br>';
 
 					}
 				}
