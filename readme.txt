@@ -44,6 +44,7 @@ We welcome contributions to the Uncanny LearnDash Toolkit! The plugin is managed
 
 = 1.2.6 =
 * Added same name certificates to list
+* Fixed Uncanny Certificate Widget closing </div> tag
 
 = 1.2.5 =
 * Fixed course completion date issue with Topics Autocomplete Lessons

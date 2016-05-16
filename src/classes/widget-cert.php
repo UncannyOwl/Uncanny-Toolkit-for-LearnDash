@@ -92,7 +92,7 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 		}
 
 		/* GET Certificates For Courses*/
-		$args = array(
+		$post_args = array(
 			'post_type'      => 'sfwd-courses',
 			'posts_per_page' => - 1,
 			'post_status'    => 'publish',
@@ -100,9 +100,10 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 			'order'          => 'ASC',
 		);
 
-		$courses = get_posts( $args );
+		$courses = get_posts( $post_args );
 
-		$certificate_list = '';
+		$certificate_list   = '';
+		$certificate_titles = Array();
 
 		foreach ( $courses as $course ) {
 
@@ -114,8 +115,12 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 			if ( $certificate_link && '' !== $certificate_link ) {
 
 				if ( $certificate_link && '' !== $certificate_link ) {
-					$certificate_list .= '<li><a target="_blank" href="' . $certificate_link . '" title="' . esc_html__( 'Your certificate for :', 'uncanny-learndash-toolkit' . $course->post_title ) . '">' . $certificate_title . '</a></li>';
+					if ( ! in_array( $certificate_title, $certificate_titles ) ) {
+						$certificate_list .= '<li><a target="_blank" href="' . $certificate_link . '" title="' . esc_html__( 'Your certificate for :', 'uncanny-learndash-toolkit' . $course->post_title ) . '">' . $certificate_title . '</a></li>';
+						array_push( $certificate_titles, $certificate_title );
+					}
 				}
+
 
 			}
 		}
@@ -146,11 +151,14 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 						$certificate_object = get_post( $certificate_id );
 						$certificate_title  = $certificate_object->post_title;
 
-						printf( '<li><a target="_blank" href="%s" title="%s" > %s</a></li>',
-							esc_url( $certificateLink ),
-							esc_html__( 'Your certificate for :', 'uncanny-learndash-toolkit' . $quiz_title ),
-							esc_html( $certificate_title )
-						);
+						if ( ! in_array( $certificate_title, $certificate_titles ) ) {
+							printf( '<li><a target="_blank" href="%s" title="%s" > %s</a></li>',
+								esc_url( $certificateLink ),
+								esc_html__( 'Your certificate for :', 'uncanny-learndash-toolkit' . $quiz_title ),
+								esc_html( $certificate_title )
+							);
+							array_push( $certificate_titles, $certificate_title );
+						}
 					}
 				}
 
@@ -158,7 +166,7 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 
 			if ( 0 === $certificate_count ) {
 				printf( '<li> %s</li>',
-					esc_html__( 'Complete courses to earn certificates', 'uncanny-learndash-toolkit' )
+						esc_html__( 'Complete courses to earn certificates', 'uncanny-learndash-toolkit' )
 				);
 			}
 
@@ -168,7 +176,7 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 			printf( '<p>%s</p></div>', esc_html( $instance['no_certs'] ) );
 		}
 
-		//echo $args['after_widget'];
+		echo $args['after_widget'];
 		return null;
 	}
 
