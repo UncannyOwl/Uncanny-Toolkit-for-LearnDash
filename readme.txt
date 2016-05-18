@@ -43,7 +43,7 @@ We welcome contributions to the Uncanny LearnDash Toolkit! The plugin is managed
 == Changelog ==
 
 = 1.2.6 =
-* Added same name certificates to list
+* Allowed certificates with the same name
 * Fixed Uncanny Certificate Widget closing </div> tag
 
 = 1.2.5 =
