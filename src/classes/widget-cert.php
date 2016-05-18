@@ -115,12 +115,8 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 			if ( $certificate_link && '' !== $certificate_link ) {
 
 				if ( $certificate_link && '' !== $certificate_link ) {
-					if ( ! in_array( $certificate_title, $certificate_titles ) ) {
-						$certificate_list .= '<li><a target="_blank" href="' . $certificate_link . '" title="' . esc_html__( 'Your certificate for :', 'uncanny-learndash-toolkit' . $course->post_title ) . '">' . $certificate_title . '</a></li>';
-						array_push( $certificate_titles, $certificate_title );
-					}
+					$certificate_list .= '<li><a target="_blank" href="' . $certificate_link . '" title="' . esc_html__( 'Your certificate for :', 'uncanny-learndash-toolkit' . $course->post_title ) . '">' . $certificate_title . '</a></li>';
 				}
-
 
 			}
 		}
@@ -151,14 +147,11 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 						$certificate_object = get_post( $certificate_id );
 						$certificate_title  = $certificate_object->post_title;
 
-						if ( ! in_array( $certificate_title, $certificate_titles ) ) {
-							printf( '<li><a target="_blank" href="%s" title="%s" > %s</a></li>',
-								esc_url( $certificateLink ),
-								esc_html__( 'Your certificate for :', 'uncanny-learndash-toolkit' . $quiz_title ),
-								esc_html( $certificate_title )
-							);
-							array_push( $certificate_titles, $certificate_title );
-						}
+						printf( '<li><a target="_blank" href="%s" title="%s" > %s</a></li>',
+							esc_url( $certificateLink ),
+							esc_html__( 'Your certificate for :', 'uncanny-learndash-toolkit' . $quiz_title ),
+							esc_html( $certificate_title )
+						);
 					}
 				}
 
@@ -166,7 +159,7 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 
 			if ( 0 === $certificate_count ) {
 				printf( '<li> %s</li>',
-						esc_html__( 'Complete courses to earn certificates', 'uncanny-learndash-toolkit' )
+					esc_html__( 'Complete courses to earn certificates', 'uncanny-learndash-toolkit' )
 				);
 			}
 
