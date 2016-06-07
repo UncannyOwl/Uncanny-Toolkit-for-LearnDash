@@ -250,6 +250,10 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				$message = '<span style="color:green;">Verified</span>';
 			}
 
+			if( user_can( $user_id, 'activate_plugins') ){
+				$message = '<span style="color:green;">Auto Verified</span>';
+			}
+
 			return $message;
 		}
 
@@ -262,6 +266,12 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	 */
 	public static function my_show_extra_profile_fields( $user ) {
 		$checked = esc_attr( get_user_meta( $user->ID, 'uo_is_verified', true ) );
+
+		if( user_can( $user->ID, 'activate_plugins') ){
+			$checked = '1';
+		}
+
+
 		$current = true;
 		$echo    = true;
 		?>
@@ -569,6 +579,11 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 
 			$user_verified_value = get_user_meta( $user->ID, self::$user_meta_key_col, true );
+
+			// bypass admins
+			if(user_can( $user->ID, 'activate_plugins') ){
+				$user_verified_value = '1';
+			}
 
 			// Is the use logging in disabled?
 			if ( '1' !== $user_verified_value ) {
