@@ -26,7 +26,7 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 
 		if ( true === self::dependants_exist() ) {
 			add_action( 'learndash_topic_completed', array( __CLASS__, 'check_learndash_topic_completed' ), 10, 1 );
-			add_action( 'learndash_lesson_completed', array( __CLASS__, 'check_learndash_lesson_completed' ), 10, 1 );
+			//add_action( 'learndash_lesson_completed', array( __CLASS__, 'check_learndash_lesson_completed' ), 10, 1 );
 			add_action( 'wp', array( __CLASS__, 'check_course_completed' ) );
 		}
 
@@ -72,6 +72,9 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 		return true;
 	}
 
+	/**
+	 * @param $data
+	 */
 	public static function check_learndash_topic_completed( $data ) {
 
 		$lesson_id = $data['lesson']->ID;
@@ -82,7 +85,13 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 
 			// Check if all topics and quizzes are complete in lesson
 			if ( true === $lesson_completed['topics_completed'] && true === $lesson_completed['quizzes_completed'] ) {
-				learndash_process_mark_complete( null, $lesson_id );
+				$mark_complete = learndash_process_mark_complete( null, $lesson_id );
+				if ( $mark_complete ) {
+					//Adding Lesson completed dummy filter so that BadgeOS ( or any other plugin ) hooking in to
+					//learndash_lesson_completed can run here.
+					add_filter( 'learndash_lesson_completed', array( __CLASS__, 'learndash_lesson_completed_filter' ) );
+					learndash_get_next_lesson_redirect( $data['lesson'] );
+				}
 			}
 
 			// If quizzes are not complete
@@ -106,13 +115,18 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 
 	}
 
+	/**
+	 *
+	 */
+	public static function learndash_lesson_completed_filter() {
+	}
+
 	/*
 	 * Since we marked the lesson complete manually in check_learndash_topic_completed()
 	 * when we completed a topic, make sure we redirect to the next lesson or
 	 * learndash will redirect to the current lesson
 	*/
 	public static function check_learndash_lesson_completed( $data ) {
-		learndash_get_next_lesson_redirect( $data['lesson'] );
 	}
 
 	/*
@@ -226,5 +240,4 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 
 
 	}
-
 }
