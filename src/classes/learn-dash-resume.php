@@ -148,12 +148,16 @@ class LearnDashResume extends Config implements RequiredFunctions {
 		if ( is_user_logged_in() ) {
 
 			$last_know_page_id = get_user_meta( $user->ID, 'learndash_last_known_page', true );
+			$last_know_post_object = get_post($last_know_page_id);
 
-			// get_option returns false if option not set
-			if ( '' !== $last_know_page_id ) {
-				$post_type        = get_post_type( $last_know_page_id ); // getting post_type of last page.
+			// Make sure the post exists and that the user hit a page that was a post
+			// if $last_know_page_id returns '' then get post will return current pages post object
+			// so we need to make sure first that the $last_know_page_id is returning something and
+			// that the something is a valid post
+			if ( '' !== $last_know_page_id && null !== $last_know_post_object) {
+				$post_type        = $last_know_post_object->post_type; // getting post_type of last page.
 				$label            = get_post_type_object( $post_type ); // getting Labels of the post type.
-				$title            = get_the_title( $last_know_page_id );
+				$title            = $last_know_post_object->post_title;
 				$resume_link_text = 'RESUME';
 
 				// Resume Link Text
