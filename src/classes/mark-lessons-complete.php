@@ -156,26 +156,27 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 		$amount_quizzes_user_passed = 0;
 
 		$quiz_list_left = array();
+		if ( ( is_array( $user_quizzes ) && ! empty( $user_quizzes ) ) && ( is_array( $quiz_list ) && ! empty( $quiz_list ) ) ) {
+			// Loop all quizzes in lessons
+			foreach ( $quiz_list as $quiz ) {
 
-		// Loop all quizzes in lessons
-		foreach ( $quiz_list as $quiz ) {
+				array_push( $quiz_list_left, $quiz['post']->ID );
+				// Loop all quizzes completed by user
+				foreach ( $user_quizzes as $user_quiz ) {
 
-			array_push( $quiz_list_left, $quiz['post']->ID );
-			// Loop all quizzes completed by user
-			foreach ( $user_quizzes as $user_quiz ) {
+					// check if lesson quiz id and completed quiz id match
+					if ( $quiz['post']->ID === (int) $user_quiz['quiz'] ) {
 
-				// check if lesson quiz id and completed quiz id match
-				if ( $quiz['post']->ID === (int) $user_quiz['quiz'] ) {
+						// Check if the quiz was passed
+						if ( 1 === $user_quiz['pass'] ) {
+							$amount_quizzes_user_passed ++;
+						}
 
-					// Check if the quiz was passed
-					if ( 1 === $user_quiz['pass'] ) {
-						$amount_quizzes_user_passed ++;
 					}
 
 				}
 
 			}
-
 		}
 
 		if ( $amount_quizzes_user_passed === $amount_quizzes_in_lesson ) {
