@@ -45,7 +45,7 @@ We welcome contributions to the Uncanny LearnDash Toolkit! The plugin is managed
 = 1.2.7 =
 * Fixed learndash_lesson_completed to allow hooks from BadgeOS and other plugins
 * Fixed Topics Autocomplete Lessons invalid argument for foreach() for non-logged in users
-* Exclude admin users from manual verification script
+* Excluded admin users from manual verification script
 
 = 1.2.6 =
 * Allowed certificates with the same name
