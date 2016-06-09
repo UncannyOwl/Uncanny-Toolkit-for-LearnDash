@@ -363,23 +363,29 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	public static function set_cookies() {
 
 		global $post;
-		$current_post_id = $post->ID;
-		$login_page_id   = self::get_login_redirect_page_id();
 
-		if ( $current_post_id === $login_page_id ) {
+		if( null !== $post){
 
-			/* Set Reset Password Cookie */
-			if ( isset( $_GET['action'] ) ) {
-				if ( 'rp' === $_GET['action'] ) {
+			$current_post_id = $post->ID;
 
-					if ( isset( $_GET['key'] ) && isset( $_GET['login'] ) ) {
+			$login_page_id   = self::get_login_redirect_page_id();
 
-						$rp_cookie = 'wp-resetpass-' . COOKIEHASH;
-						$value     = sprintf( '%s:%s', wp_unslash( $_GET['login'] ), wp_unslash( $_GET['key'] ) );
-						setcookie( $rp_cookie, $value, 0, '/' . get_post_field( 'post_name', $login_page_id ), COOKIE_DOMAIN, is_ssl(), true );
+			if ( $current_post_id === $login_page_id ) {
+
+				/* Set Reset Password Cookie */
+				if ( isset( $_GET['action'] ) ) {
+					if ( 'rp' === $_GET['action'] ) {
+
+						if ( isset( $_GET['key'] ) && isset( $_GET['login'] ) ) {
+
+							$rp_cookie = 'wp-resetpass-' . COOKIEHASH;
+							$value     = sprintf( '%s:%s', wp_unslash( $_GET['login'] ), wp_unslash( $_GET['key'] ) );
+							setcookie( $rp_cookie, $value, 0, '/' . get_post_field( 'post_name', $login_page_id ), COOKIE_DOMAIN, is_ssl(), true );
+						}
+
 					}
-
 				}
+
 			}
 
 		}
