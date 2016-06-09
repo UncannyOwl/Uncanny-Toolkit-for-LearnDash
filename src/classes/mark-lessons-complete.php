@@ -210,34 +210,40 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 	 * @param int $course_id
 	 *
 	 */
-	public static function check_course_completed() {
+	public static function check_course_completed()
+	{
 		global $post;
-		$post_id = $post->ID;
 
-		if ( 'sfwd_courses' === get_post_type( $post_id ) ) {
+		if (null !== $post){
+
+			$post_id = $post->ID;
+
+		if ('sfwd_courses' === get_post_type($post_id)) {
 			$course_id = $post_id;
 		} else {
-			$course_id = learndash_get_course_id( $post_id );
+			$course_id = learndash_get_course_id($post_id);
 		}
 
-		if ( '' !== $course_id ) {
+		if ('' !== $course_id) {
 
-			$course_progress = get_user_meta( get_current_user_id(), '_sfwd-course_progress', true );
+			$course_progress = get_user_meta(get_current_user_id(), '_sfwd-course_progress', true);
 
-			if ( isset( $course_progress[ $course_id ] ) ) {
+			if (isset($course_progress[$course_id])) {
 
-				if ( $course_progress[ $course_id ]['total'] == $course_progress[ $course_id ]['completed'] ) {
+				if ($course_progress[$course_id]['total'] == $course_progress[$course_id]['completed']) {
 
-					do_action( 'learndash_course_completed', array(
-							'user'     => wp_get_current_user(),
-							'course'   => get_post( $course_id ),
-							'progress' => $course_progress,
-						)
+					do_action('learndash_course_completed', array(
+									'user' => wp_get_current_user(),
+									'course' => get_post($course_id),
+									'progress' => $course_progress,
+							)
 					);
 				}
 
 			}
 		}
+			
+	}
 
 
 	}
