@@ -280,10 +280,12 @@ class AdminMenu extends Boot {
 				$icon = $class['icon'];
 			}
 
-			if ( false === $class['settings'] || ! isset( $class['settings'] ) ) {
-				$class['settings']['modal'] = '';
-				$class['settings']['link'] = '';
-			}
+
+            if ( ! isset( $class['settings'] ) || false === $class['settings']  ) {
+                $class['settings']['modal'] = '';
+                $class['settings']['link'] = '';
+            }
+
 
 		?>
 
