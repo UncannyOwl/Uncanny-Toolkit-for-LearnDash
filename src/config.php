@@ -362,7 +362,7 @@ class Config {
 							foreach ( $content['radios'] as $radio ) {
 								$inputs .= '<input class="uo_settings_form_field" type="radio" name="' . $content['radio_name'] . '" value="' . $radio['value'] . '">' . $radio['text'] . ' ';
 							}
-							echo '<div class="uo_settings_single"><span>' . $content['label'] . '</span><br>' . $inputs . '</div>';
+							echo '<div class="uo_settings_single"><span>' . $content['label'] . '</span><br><br>' . $inputs . '</div>';
 							break;
 
 						case 'select':
