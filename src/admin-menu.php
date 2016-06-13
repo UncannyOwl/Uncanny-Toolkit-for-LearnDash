@@ -362,7 +362,7 @@ class AdminMenu extends Boot {
 				if( is_dir( $plugin_dir ) ){
 
 					if( 'pro' === $uo_plugin ){
-						if( 'uo-plugin-pro' === $content){
+						if( 'uo-plugin-pro' === $content || 'uncanny-toolkit-pro' === $content){
 							// Check if plugin is active
 								if ( is_plugin_active( $content.'/uncanny-toolkit-pro.php' ) ) {
 									return $plugin_dir.'/src/classes/';
@@ -377,6 +377,15 @@ class AdminMenu extends Boot {
 							// custom plugin directory is may be prefixed with client name
 							// check suffix uo-custom-plugin
 							if( in_array( 'uo', $explode_directory ) && in_array( 'custom', $explode_directory ) && in_array( 'plugin', $explode_directory ) ){
+
+								// Check if plugin is active
+								if ( is_plugin_active( $content.'/uncanny-toolkit-custom.php' ) ) {
+									return $plugin_dir.'/src/classes/';
+								}
+
+							}
+
+							if( 'uncanny-toolkit-custom' === $content ){
 
 								// Check if plugin is active
 								if ( is_plugin_active( $content.'/uncanny-toolkit-custom.php' ) ) {
