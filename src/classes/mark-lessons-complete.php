@@ -25,9 +25,9 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 	public static function run_frontend_hooks() {
 
 		if ( true === self::dependants_exist() ) {
-			add_action( 'learndash_topic_completed', array( __CLASS__, 'check_learndash_topic_completed' ), 10, 1 );
+			add_action( 'learndash_topic_completed', array( __CLASS__, 'check_learndash_topic_completed' ), 20, 1 );
 			//add_action( 'learndash_lesson_completed', array( __CLASS__, 'check_learndash_lesson_completed' ), 10, 1 );
-			add_action( 'wp', array( __CLASS__, 'check_course_completed' ) );
+			add_action( 'wp', array( __CLASS__, 'check_course_completed' ), 20 );
 		}
 
 	}
@@ -90,7 +90,12 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 					//Adding Lesson completed dummy filter so that BadgeOS ( or any other plugin ) hooking in to
 					//learndash_lesson_completed can run here.
 					add_filter( 'learndash_lesson_completed', array( __CLASS__, 'learndash_lesson_completed_filter' ) );
-					learndash_get_next_lesson_redirect( $data['lesson'] );
+
+					// only redirect if lesson does not have auto-complete on
+					if( self::maybe_redirect( $data['lesson'] ) ){
+						learndash_get_next_lesson_redirect( $data['lesson'] );
+					}
+
 				}
 			}
 
@@ -102,10 +107,16 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 				foreach ( $Lesson_quiz_ids as $quiz_id ) {
 
 					$is_quiz_notcomplete = learndash_is_quiz_notcomplete( null, array( $quiz_id ) );
+
 					// Redirect to first incomplete quiz in list
 					if ( $is_quiz_notcomplete ) {
-						wp_safe_redirect( get_permalink( $quiz_id ) );
-						exit;
+
+						// only redirect if lesson does not have auto-complete on
+						if( self::maybe_redirect( $data['lesson'] ) ) {
+							wp_safe_redirect(get_permalink($quiz_id));
+							exit;
+						}
+
 					}
 
 				}
@@ -113,6 +124,44 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 			}
 		}
 
+	}
+
+	/*
+	 * Only redirect if the Pro module Auto complete lessons/Topics is off for lesson
+	 * @param object $lesson_post_object custom post type lesson object
+	 *
+	 * @return bool $maybe_redirect
+	 */
+	private static function  maybe_redirect( $lesson_post_object){
+
+		$active_classes = Config::get_active_classes();
+
+		$maybe_redirect = true;
+
+		// is auto-complete active
+		if( in_array('uncanny_pro_toolkit\LessonTopicAutoComplete', $active_classes) ){
+			$maybe_redirect = false;
+
+			$feature_auto_complete_default = self::get_settings_value( 'uo_global_auto_complete', 'uncanny_pro_toolkit/LessonTopicAutoComplete' );
+			$post_options_auto_complete = learndash_get_setting( $lesson_post_object );
+
+			// Is this lesson using auto-complete
+			if( isset($post_options_auto_complete['uo_auto_complete']) ){
+
+				if( 'disabled' === $post_options_auto_complete['uo_auto_complete'] ){
+					$maybe_redirect = true;
+				}
+			}
+
+			// Is the lesson not set
+			if( ! isset($post_options_auto_complete['uo_auto_complete']) ){
+				if( '' !== $feature_auto_complete_default || 'auto_complete_only_lesson_topics_set' !== $feature_auto_complete_default){
+					$maybe_redirect = false;
+				}
+			}
+		}
+
+		return $maybe_redirect;
 	}
 
 	/**
