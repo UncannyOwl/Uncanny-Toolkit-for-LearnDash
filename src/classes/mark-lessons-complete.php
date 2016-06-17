@@ -90,7 +90,12 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 					//Adding Lesson completed dummy filter so that BadgeOS ( or any other plugin ) hooking in to
 					//learndash_lesson_completed can run here.
 					add_filter( 'learndash_lesson_completed', array( __CLASS__, 'learndash_lesson_completed_filter' ) );
-
+					if ( isset( $_POST['post'] ) && isset( $_POST['uploadfile'] ) ) {
+						$post = get_post( $_POST['post'] );
+						if ( lesson_hasassignments( $post ) ) {
+							learndash_approve_assignment( get_current_user_id(), $_POST['post'] );
+						}
+					}
 					// only redirect if lesson does not have auto-complete on
 					if( self::maybe_redirect( $data['lesson'] ) ){
 						learndash_get_next_lesson_redirect( $data['lesson'] );
@@ -267,32 +272,32 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 
 			$post_id = $post->ID;
 
-		if ('sfwd_courses' === get_post_type($post_id)) {
-			$course_id = $post_id;
-		} else {
-			$course_id = learndash_get_course_id($post_id);
-		}
-
-		if ('' !== $course_id) {
-
-			$course_progress = get_user_meta(get_current_user_id(), '_sfwd-course_progress', true);
-
-			if (isset($course_progress[$course_id])) {
-
-				if ($course_progress[$course_id]['total'] == $course_progress[$course_id]['completed']) {
-
-					do_action('learndash_course_completed', array(
-									'user' => wp_get_current_user(),
-									'course' => get_post($course_id),
-									'progress' => $course_progress,
-							)
-					);
-				}
-
+			if ('sfwd_courses' === get_post_type($post_id)) {
+				$course_id = $post_id;
+			} else {
+				$course_id = learndash_get_course_id($post_id);
 			}
+
+			if ('' !== $course_id) {
+
+				$course_progress = get_user_meta(get_current_user_id(), '_sfwd-course_progress', true);
+
+				if (isset($course_progress[$course_id])) {
+
+					if ($course_progress[$course_id]['total'] == $course_progress[$course_id]['completed']) {
+
+						do_action('learndash_course_completed', array(
+								'user' => wp_get_current_user(),
+								'course' => get_post($course_id),
+								'progress' => $course_progress,
+							)
+						);
+					}
+
+				}
+			}
+
 		}
-			
-	}
 
 
 	}

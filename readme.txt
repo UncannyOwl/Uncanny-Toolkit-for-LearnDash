@@ -43,6 +43,7 @@ We welcome contributions to the Uncanny LearnDash Toolkit! The plugin is managed
 == Changelog ==
 
 = 1.2.8 =
+* Fixed automatic approval of assignment when Topics Autocomplete Lessons module is on
 
 = 1.2.7 =
 * Fixed learndash_lesson_completed to allow hooks from BadgeOS and other plugins
