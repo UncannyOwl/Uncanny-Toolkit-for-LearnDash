@@ -90,10 +90,10 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 					//Adding Lesson completed dummy filter so that BadgeOS ( or any other plugin ) hooking in to
 					//learndash_lesson_completed can run here.
 					add_filter( 'learndash_lesson_completed', array( __CLASS__, 'learndash_lesson_completed_filter' ) );
-					if ( isset( $_POST['post'] ) && isset( $_POST['uploadfile'] ) ) {
-						$post = get_post( $_POST['post'] );
+					if ( ( isset( $_POST['post'] ) && absint( $_POST['post'] ) ) && isset( $_POST['uploadfile'] ) ) {
+						$post = get_post( absint( $_POST['post'] ) );
 						if ( lesson_hasassignments( $post ) ) {
-							learndash_approve_assignment( get_current_user_id(), $_POST['post'] );
+							learndash_approve_assignment( get_current_user_id(), absint( $_POST['post'] ) );
 						}
 					}
 					// only redirect if lesson does not have auto-complete on
