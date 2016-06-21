@@ -6,7 +6,7 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
-if( '' !== Config::get_settings_value( 'uo_frontend_registration', 'FrontendLoginPlus' ) ){
+if ( '' !== Config::get_settings_value( 'uo_frontend_registration', 'FrontendLoginPlus' ) ) {
 	include_once( Config::get_include( 'custom-user-notification.php' ) );
 }
 
@@ -38,10 +38,10 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		if ( true === self::dependants_exist() ) {
 
 			/* CHECK IF PLUGIN NEEDS TO SET MANUAL VERIFICATION */
-			$uo_manual_verification = 'no';
-			$is_login_page_set      = 'no';
+			$uo_manual_verification   = 'no';
+			$is_login_page_set        = 'no';
 			$uo_frontend_registration = 'no';
-			$settings               = get_option( 'FrontendLoginPlus', Array() );
+			$settings                 = get_option( 'FrontendLoginPlus', Array() );
 
 			foreach ( $settings as $setting ) {
 
@@ -92,7 +92,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				// Redirect to custom login page if login has failed
 				add_action( 'wp_login_failed', array( __CLASS__, 'login_failed' ) );
 
-				if( 'yes' === $uo_frontend_registration ){
+				if ( 'yes' === $uo_frontend_registration ) {
 					// Redirect to custom login page after registration
 					add_filter( 'registration_redirect', array( __CLASS__, 'redirect_registration' ) );
 					// Redirect User after registration errors
@@ -211,11 +211,10 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 		// Build html
 		$html = self::settings_output( array(
-				'class'   => __CLASS__,
-				'title'   => $class_title,
-				'options' => $options,
-			)
-		);
+			'class'   => __CLASS__,
+			'title'   => $class_title,
+			'options' => $options,
+		) );
 
 		return $html;
 	}
@@ -250,7 +249,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				$message = '<span style="color:green;">Verified</span>';
 			}
 
-			if( user_can( $user_id, 'activate_plugins') ){
+			if ( user_can( $user_id, 'activate_plugins' ) ) {
 				$message = '<span style="color:green;">Auto Verified</span>';
 			}
 
@@ -267,7 +266,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	public static function my_show_extra_profile_fields( $user ) {
 		$checked = esc_attr( get_user_meta( $user->ID, 'uo_is_verified', true ) );
 
-		if( user_can( $user->ID, 'activate_plugins') ){
+		if ( user_can( $user->ID, 'activate_plugins' ) ) {
 			$checked = '1';
 		}
 
@@ -364,11 +363,11 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 		global $post;
 
-		if( null !== $post){
+		if ( null !== $post ) {
 
 			$current_post_id = $post->ID;
 
-			$login_page_id   = self::get_login_redirect_page_id();
+			$login_page_id = self::get_login_redirect_page_id();
 
 			if ( $current_post_id === $login_page_id ) {
 
@@ -480,25 +479,25 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				$registering = true;
 			}
 		}
-/*
-		if ( isset( $_GET['registration'] ) ) {
-			if ( $_GET['registration'] === 'disabled' ) {
-				wp_safe_redirect( add_query_arg( array(
-					'action'   => 'register',
-					'wp-error' => 'registration-disabled'
-				), $login_page ) );
-				exit();
-			}
-		}
+		/*
+				if ( isset( $_GET['registration'] ) ) {
+					if ( $_GET['registration'] === 'disabled' ) {
+						wp_safe_redirect( add_query_arg( array(
+							'action'   => 'register',
+							'wp-error' => 'registration-disabled'
+						), $login_page ) );
+						exit();
+					}
+				}
 
-		if ( isset( $_GET['checkemail'] ) && 'registered' == $_GET['checkemail'] ) {
-			wp_safe_redirect( add_query_arg( array(
-				'action'   => 'register',
-				'wp-error' => 'registration-success'
-			), $login_page ) );
-			exit();
-		}
-*/
+				if ( isset( $_GET['checkemail'] ) && 'registered' == $_GET['checkemail'] ) {
+					wp_safe_redirect( add_query_arg( array(
+						'action'   => 'register',
+						'wp-error' => 'registration-success'
+					), $login_page ) );
+					exit();
+				}
+		*/
 		if ( $page_viewed == "wp-login.php" && 'GET' === $_SERVER['REQUEST_METHOD'] && ! $registering ) {
 			wp_safe_redirect( $login_page );
 			exit;
@@ -587,7 +586,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			$user_verified_value = get_user_meta( $user->ID, self::$user_meta_key_col, true );
 
 			// bypass admins
-			if(user_can( $user->ID, 'activate_plugins') ){
+			if ( user_can( $user->ID, 'activate_plugins' ) ) {
 				$user_verified_value = '1';
 			}
 
@@ -600,14 +599,14 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			}
 
 		}
-		
+
 		$registering = false;
 		if ( isset( $_GET['checkemail'] ) && 'registered' == $_GET['checkemail'] ) {
 			$registering = true;
 		}
 
-		if ( '' === $username || '' === $password  ) {
-			if( false === $registering ){
+		if ( '' === $username || '' === $password ) {
+			if ( false === $registering ) {
 				wp_safe_redirect( add_query_arg( array( 'login' => 'empty' ), $login_page ) );
 				exit;
 			}
