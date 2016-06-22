@@ -164,6 +164,10 @@ jQuery( document ).ready(function( $ ) {
 					element.val(option['value']);
 				}
 
+				if( element.is( 'input[type="color"]' ) ){
+					element.val(option['value']);
+				}
+
 				if( element.is( 'input[type="checkbox"]' ) ){
 					if( 'on' === option['value'] ){
 						element.prop( "checked", true );
