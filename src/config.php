@@ -190,7 +190,7 @@ class Config {
 	 */
 	public static function get_template( $file_name, $file = false ) {
 
-		if( false === $file ){
+		if ( false === $file ) {
 			$file = __FILE__;
 		}
 
@@ -200,14 +200,14 @@ class Config {
 	}
 
 	/**
- * @param string $file_name File name must be prefixed with a \ (foreword slash)
- * @param mixed $file (false || __FILE__ )
- *
- * @return string
- */
-	public static function get_include( $file_name,  $file = false ) {
+	 * @param string $file_name File name must be prefixed with a \ (foreword slash)
+	 * @param mixed $file (false || __FILE__ )
+	 *
+	 * @return string
+	 */
+	public static function get_include( $file_name, $file = false ) {
 
-		if( false === $file ){
+		if ( false === $file ) {
 			$file = __FILE__;
 		}
 
@@ -349,7 +349,11 @@ class Config {
 							break;
 
 						case 'text':
-							echo '<div class="uo_settings_single"><span>' . $content['label'] . '</span> <input class="uo_settings_form_field" name="' . $content['option_name'] . '" type="text" /></div>';
+							echo '<div class="uo_settings_single"><span>' . $content['label'] . '</span> <input placeholder="' . $content['placeholder'] . '" class="uo_settings_form_field" name="' . $content['option_name'] . '" type="text" /></div>';
+							break;
+
+						case 'color':
+							echo '<div class="uo_settings_single"><span>' . $content['label'] . '</span> <input class="uo_settings_form_field" name="' . $content['option_name'] . '" type="color" /></div>';
 							break;
 
 						case 'checkbox':
@@ -466,6 +470,7 @@ class Config {
 		wp_die();
 
 	}
+
 	/**
 	 * @param $key
 	 * @param $class
@@ -474,13 +479,13 @@ class Config {
 	 */
 	public static function get_settings_value( $key, $class ) {
 
-		$class = str_replace( __NAMESPACE__, '', stripslashes( $class ));
+		$class   = str_replace( __NAMESPACE__, '', stripslashes( $class ) );
 		$options = get_option( $class, '' );
 
 		if ( ! empty( $options ) && $options != '' ) {
 			foreach ( $options as $option ) {
 				if ( in_array( $key, $option ) ) {
-					return $option[ 'value' ];
+					return $option['value'];
 					break;
 				}
 			}
