@@ -349,7 +349,7 @@ class Config {
 							break;
 
 						case 'text':
-							echo '<div class="uo_settings_single"><span>' . $content['label'] . '</span> <input placeholder="' . $content['placeholder'] . '" class="uo_settings_form_field" name="' . $content['option_name'] . '" type="text" /></div>';
+							echo '<div class="uo_settings_single"><span>' . $content['label'] . '</span> <input placeholder="' . $content['placeholder'] . '" class="uo_settings_form_field ' . $content['class'] . '" name="' . $content['option_name'] . '" type="text" /></div>';
 							break;
 
 						case 'color':
