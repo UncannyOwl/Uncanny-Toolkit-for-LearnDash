@@ -178,27 +178,35 @@ class AdminMenu extends Boot {
 
 			<hr class="uo-underline">
 
+			<div class="ad-pro-toolkit">
+				<h2><?php esc_html_e( 'The pro modules for the Uncanny LearnDash Toolkit are', 'uncanny-learndash-toolkit' ); ?></h2>
+				<h1><?php esc_html_e( 'NOW AVAILABLE!', 'uncanny-learndash-toolkit' ); ?></h1>
+				<div>
+					<a href="" class="uo-ad-button uo-ad-button-orange" target="_blank"><?php esc_html_e( 'Learn More', 'uncanny-learndash-toolkit' ); ?></a>
+					<a href="" class="uo-ad-button uo-ad-button-green" target="_blank"><?php esc_html_e( 'Upgrade Now', 'uncanny-learndash-toolkit' ); ?></a>
+				</div>
+			</div>
+
 			<h2><?php esc_html_e( 'Thanks for using the Uncanny LearnDash Toolkit!', 'uncanny-learndash-toolkit' ); ?></h2>
 
 			<p><?php
 			printf(
-				__( 'This plugin makes it easier to incorporate some of the features we see most requested on LearnDash sites. We\'re hard
-				at work on a new Knowledge Base for this plugin, but for now, instructions are available at  
-				<a href="%s" target="_blank">https://www.uncannyowl.com/uncanny-learndash-toolkit/</a>.', 'uncanny-learndash-toolkit' ) ,
-			esc_url( 'https://www.uncannyowl.com/uncanny-learndash-toolkit/' ) );
+				__( 'This plugin adds a number of simple but essential functions to LearnDash sites. To learn more about
+				how to use these modules properly, please visit our introduction at <a href="%s" target="_blank" >https://www.uncannyowl.com/uncanny-learndash-toolkit/</a>
+				and Knowledge Base at <a href="%s" target="_blank" >https://www.uncannyowl.com/knowledge-base/</a>.', 'uncanny-learndash-toolkit' ) ,
+			esc_url( 'https://www.uncannyowl.com/uncanny-learndash-toolkit/' ), esc_url( 'https://www.uncannyowl.com/knowledge-base/' ) );
 			?></p>
 
 			<p><?php
 			printf(
-				__( 'This is the first Uncanny Owl LearnDash plugin that we\'ve made available in the WordPress repository. We\'ll be
-				releasing more over the next few months as well as adding new features to this plugin. Visit us at 
-				<a href="%s" target="_blank">Uncanny Owl</a> so you don\'t miss any updates!', 'uncanny-learndash-toolkit' ) ,
-			esc_url( 'https://www.uncannyowl.com/' ) );
+				__( 'Instructions for the Pro modules are available at https://www.uncannyowl.com/uncanny-learndash-toolkit-pro/
+				and in the Knowledge Base at <a href="%s" target="_blank" >https://www.uncannyowl.com/knowledge-base/</a>.' , 'uncanny-learndash-toolkit' ) ,
+			esc_url( 'https://www.uncannyowl.com/knowledge-base/' ) );
 			?></p>
 
 			<p><?php
 			printf(
-				__( 'Developers are welcome to create pull requests on <a href="%s" target="_blank"><i class="fa fa-bitbucket" aria-hidden="true"> Bitbucket</i></a>.', 'uncanny-learndash-toolkit' ) ,
+				__( 'Developers are invited to review and suggest changes to the Toolkit on  <a href="%s" target="_blank"><i class="fa fa-bitbucket" aria-hidden="true"> Bitbucket</i></a>.', 'uncanny-learndash-toolkit' ) ,
 			esc_url( 'https://bitbucket.org/uncannyowl/uncanny-learndash-toolkit/' ) );
 			?></p>
 

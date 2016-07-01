@@ -2,6 +2,61 @@
 /*** - Activator Screen - ***/
 /***************************/
 
+.toplevel_page_uncanny-learnDash-toolkit div#wpcontent{
+    /*background: white;*/
+}
+.ad-pro-toolkit {
+    margin-right: 7%;
+    background-attachment: fixed !important;
+    text-align: center;
+    padding: 25px;
+    background-color: red;
+    background-image: radial-gradient( #ffffff, #00a2e8 );
+    margin-top: -3px;
+    margin-bottom: 50px;
+    border-bottom: 2px solid #fea639;
+}
+.ad-pro-toolkit h1, .ad-pro-toolkit h2{
+    color: white;
+}
+.ad-pro-toolkit h2{
+    font-weight: normal;
+    font-size: 25px;
+}
+.ad-pro-toolkit h1{
+    font-weight: bolder;
+    font-size: 35px;
+}
+
+a.uo-ad-button {
+    text-decoration: none;
+    color: white;
+    font-size: 20px;
+    padding: 8px 0;
+    width: 150px;
+    display: inline-block;
+    text-align: center;
+    margin: 15px;
+    border:1px solid;
+}
+
+.uo-ad-button-orange{
+    background: #ffcb3f;
+    border-color: white;
+}
+.uo-ad-button-green{
+    background: #29c129;
+    border-color: #29c129!important;
+}
+.uo-admin-header p {
+    font-size: 13px;
+    font-weight: 600;
+    color: #4b4b4b;
+}
+.uo-admin-header p a {
+    color: #13abec;
+    font-size: 14px;
+}
 /* Icon in sidebar menu*/
 #adminmenu .current .toplevel_page_uncanny-learnDash-toolkit .wp-menu-image img {
     opacity: 1;
