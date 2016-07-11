@@ -211,10 +211,11 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 		// Build html
 		$html = self::settings_output( array(
-			'class'   => __CLASS__,
-			'title'   => $class_title,
-			'options' => $options,
-		) );
+				'class'   => __CLASS__,
+				'title'   => $class_title,
+				'options' => $options,
+			)
+		);
 
 		return $html;
 	}
@@ -333,7 +334,23 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			$mailed = wp_mail( $to, $subject, $message, $headers );
 
 			// after wp_mail successful
-			if ( $mailed ) {
+
+			$from      = $blog_name . ' <' . $admin_email . '>';
+			$headers[] = 'From: ' . $from;
+			$headers   = apply_filters( 'uo_verified_email_headers', $headers, $user );
+
+			$to = $admin_email;
+
+			$subject = $blog_name . ' - Account Verified';
+			$subject = apply_filters( 'uo_verified_email_subject', $subject, $user );
+
+			$message = $user->user_email . " account has been approved! \r\n\n";
+			$message .= "Visit  " . admin_url( 'user-edit.php?user_id=' . $user->id ) . " to view / edit user. \r\n";
+			$message      = apply_filters( 'uo_verified_email_message', $message, $user );
+			$admin_mailed = wp_mail( $to, $subject, $message, $headers );
+
+			// after wp_mail successful
+			if ( $admin_mailed && $mailed ) {
 				update_user_meta( $user_id, 'uo_verified_email_sent', 'yes' );
 			}
 
