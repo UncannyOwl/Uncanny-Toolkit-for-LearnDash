@@ -132,6 +132,12 @@ jQuery( document ).ready(function( $ ) {
 			$('.sk-folding-cube').delay(1500).hide('slow');
 			$('.uo_settings_options').delay(2000).show('slow');
 
+			setTimeout(
+					function() {
+						$(button).html('Save Settings');
+						$(button).css('background','#A9A9A9');
+					}, 5000);
+
 		});
 
 	});
