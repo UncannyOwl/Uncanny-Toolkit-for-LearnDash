@@ -140,12 +140,12 @@ class AdminMenu extends Boot {
 	public static function scripts( $hook ) {
 
 		if ( 'toplevel_page_uncanny-learnDash-toolkit' === $hook || 'uncanny-toolkit_page_uncanny-pro-license-activation' === $hook) {
-		// Admin CSS
-		wp_enqueue_style( 'uo-menu-slug-css', Config::get_admin_css( 'admin-style.css' ) );
-		// Admin JS
-		wp_enqueue_script( 'uo-menu-slug-js', Config::get_admin_js( 'script.js' ), array( 'jquery' ), false, true );
-		// Admin CSS
-		wp_enqueue_style( 'uo-menu-slug-css-fontawesome', 'https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css' );
+			// Admin CSS
+			wp_enqueue_style( 'uo-menu-slug-css', Config::get_admin_css( 'admin-style.css' ) );
+			// Admin JS
+			wp_enqueue_script( 'uo-menu-slug-js', Config::get_admin_js( 'script.js' ), array( 'jquery' ), false, true );
+			// Admin CSS
+			wp_enqueue_style( 'uo-menu-slug-css-fontawesome', 'https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css' );
 		}
 
 	}
@@ -162,6 +162,14 @@ class AdminMenu extends Boot {
 		$uo_pro_classes['path'] = self::check_for_other_uo_plugin_classes('pro');
 		$uo_pro_classes['namespace'] = 'uncanny_pro_toolkit';
 
+		if( !$uo_pro_classes['path'] ){
+			$show_pro_ad = '';
+			$show_toolkit_heading = 'style="display:none;"';
+		}else{
+			$show_pro_ad = 'style="display:none;"';
+			$show_toolkit_heading = '';
+		}
+
 		// Get Available Classes from UO-Public
 		$classes_available = self::get_available_classes( array( $uo_custom_classes, $uo_pro_classes ) );
 
@@ -177,7 +185,7 @@ class AdminMenu extends Boot {
 
 			<hr class="uo-underline">
 
-			<div class="ad-pro-toolkit">
+			<div class="ad-pro-toolkit" <?php echo $show_pro_ad; ?>>
 				<h2><?php esc_html_e( 'The pro modules for the Uncanny LearnDash Toolkit are', 'uncanny-learndash-toolkit' ); ?></h2>
 				<h1><?php esc_html_e( 'NOW AVAILABLE!', 'uncanny-learndash-toolkit' ); ?></h1>
 				<div>
@@ -185,22 +193,28 @@ class AdminMenu extends Boot {
 					<a href="" class="uo-ad-button uo-ad-button-green" target="_blank"><?php esc_html_e( 'Upgrade Now', 'uncanny-learndash-toolkit' ); ?></a>
 				</div>
 			</div>
+			<div class="ad-pro-toolkit" <?php echo $show_toolkit_heading; ?>>
+				<h2>
+					<?php esc_html_e( 'Thanks for using the Uncanny LearnDash Toolkit!', 'uncanny-learndash-toolkit' ); ?>
+					<br><br>
+					<?php _e( 'Click <i class="fa fa-info-circle"></i> on the features to get more information.', 'uncanny-learndash-toolkit' ); ?>
+				</h2>
+			</div>
 
-			<h2><?php esc_html_e( 'Thanks for using the Uncanny LearnDash Toolkit!', 'uncanny-learndash-toolkit' ); ?></h2>
+			<h2 <?php echo $show_pro_ad; ?>><?php esc_html_e( 'Thanks for using the Uncanny LearnDash Toolkit!', 'uncanny-learndash-toolkit' ); ?></h2>
 
 			<p><?php
 			printf(
 				__( 'This plugin adds a number of simple but essential functions to LearnDash sites. To learn more about
 				how to use these modules properly, please visit our introduction at <a href="%s" target="_blank" >https://www.uncannyowl.com/uncanny-learndash-toolkit/</a>
-				and Knowledge Base at <a href="%s" target="_blank" >https://www.uncannyowl.com/knowledge-base/</a>.', 'uncanny-learndash-toolkit' ) ,
-			esc_url( 'https://www.uncannyowl.com/uncanny-learndash-toolkit/' ), esc_url( 'https://www.uncannyowl.com/knowledge-base/' ) );
+				and Knowledge Base at <a href="%s" target="_blank" >https://www.uncannyowl.com/article-categories/uncanny-learndash-toolkit/</a>.', 'uncanny-learndash-toolkit' ) ,
+			esc_url( 'https://www.uncannyowl.com/uncanny-learndash-toolkit/' ), esc_url( 'https://www.uncannyowl.com/article-categories/uncanny-learndash-toolkit/' ) );
 			?></p>
 
-			<p><?php
+			<p <?php echo $show_toolkit_heading;?>><?php
 			printf(
-				__( 'Instructions for the Pro modules are available at https://www.uncannyowl.com/uncanny-learndash-toolkit-pro/
-				and in the Knowledge Base at <a href="%s" target="_blank" >https://www.uncannyowl.com/knowledge-base/</a>.' , 'uncanny-learndash-toolkit' ) ,
-			esc_url( 'https://www.uncannyowl.com/knowledge-base/' ) );
+				__( 'Instructions for the Pro modules in the Knowledge Base at <a href="%s" target="_blank" >https://www.uncannyowl.com/article-categories/uncanny-toolkit-pro/</a>.' , 'uncanny-learndash-toolkit' ) ,
+			esc_url( 'https://www.uncannyowl.com/article-categories/uncanny-toolkit-pro/' ) );
 			?></p>
 
 			<p><?php
