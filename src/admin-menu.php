@@ -138,16 +138,15 @@ class AdminMenu extends Boot {
 	 * @paras string $hook Admin page being loaded
 	 */
 	public static function scripts( $hook ) {
-		if ( 'toplevel_page_uncanny-learnDash-toolkit' != $hook ) {
-			return;
-		}
 
+		if ( 'toplevel_page_uncanny-learnDash-toolkit' === $hook || 'uncanny-toolkit_page_uncanny-pro-license-activation' === $hook) {
 		// Admin CSS
 		wp_enqueue_style( 'uo-menu-slug-css', Config::get_admin_css( 'admin-style.css' ) );
 		// Admin JS
 		wp_enqueue_script( 'uo-menu-slug-js', Config::get_admin_js( 'script.js' ), array( 'jquery' ), false, true );
 		// Admin CSS
 		wp_enqueue_style( 'uo-menu-slug-css-fontawesome', 'https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css' );
+		}
 
 	}
 
