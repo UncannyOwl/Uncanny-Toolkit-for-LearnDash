@@ -121,13 +121,13 @@ hr.uo-underline {
 /* Feature link to KB*/
 .uo_feature_more_info {
     padding-left: 7px;
-    color: #FEA639;
+    color: #9a9a9a;
 }
 
 .uo_feature_more_info:focus {
     webkit-box-shadow: none;
     box-shadow: none;
-    color: #FEA639;
+    color: #9a9a9a;
 }
 
 /* Feature Description*/
@@ -137,7 +137,6 @@ hr.uo-underline {
 
 /* Icon Container*/
 .uo_icon_container {
-    background: #0CA5B0;
     background: #00A2E8;
     width: 60px;
     height: 60px;
