@@ -48,6 +48,7 @@ We welcome contributions to the Uncanny LearnDash Toolkit! The plugin is managed
 * Added links to Pro version
 * Added color picker
 * Enhance security for mark lessons complete
+* Added Knowledge Base articles links to features
 
 = 1.2.7 =
 * Fixed learndash_lesson_completed to allow hooks from BadgeOS and other plugins
