@@ -54,7 +54,7 @@ class LoginLogoutMenu extends Config implements RequiredFunctions
 
 		$class_title = esc_html__('Log In/Log Out Links', 'uncanny-learndash-toolkit');
 
-		$kb_link = null;
+		$kb_link = 'https://www.uncannyowl.com/knowledge-base/log-inlog-links/';
 
 		/* Sample Simple Description with shortcode */
 		$class_description = esc_html__('Add Log In and Log Out links to menus, or to any page or widget with a shortcode.', 'uncanny-learndash-toolkit');

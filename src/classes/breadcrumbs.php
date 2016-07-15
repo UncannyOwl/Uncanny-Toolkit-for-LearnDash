@@ -54,7 +54,7 @@ class Breadcrumbs extends Config implements RequiredFunctions {
 	public static function get_details() {
 		$class_title = esc_html__( 'Breadcrumbs', 'uncanny-learndash-toolkit' );
 
-		$kb_link = null;
+		$kb_link = 'https://www.uncannyowl.com/knowledge-base/learndash-breadcrumb-links/';
 
 		/* Sample Simple Description with shortcode */
 		$class_description = esc_html__( 'Easily add breadcrumb links that work with courses, lessons, topics and quizzes using a shortcode or template change. WooCommerce is also supported.', 'uncanny-learndash-toolkit' );

@@ -131,7 +131,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	public static function get_details() {
 
 		$class_title       = esc_html__( 'Front End Login', 'uncanny-learndash-toolkit' );
-		$kb_link           = null;
+		$kb_link           = 'https://www.uncannyowl.com/knowledge-base/front-end-login/';
 		$class_description = esc_html__( 'Adds a custom login form and can optionally force users to be verified by an admin before they can sign in.', 'uncanny-learndash-toolkit' );
 		$class_icon        = '<i class="uo_icon_fa fa fa-sign-in"></i>';
 

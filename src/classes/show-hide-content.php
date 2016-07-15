@@ -45,7 +45,7 @@ class ShowHideContent extends Config implements RequiredFunctions
 	{
 
 		$class_title = esc_html__('Show Or Hide Content', 'uncanny-learndash-toolkit');
-		$kb_link = null;
+		$kb_link = 'https://www.uncannyowl.com/knowledge-base/show-hide-content/';
 		$class_description = esc_html__('Conditionally shows content to either logged in or logged out users. Great for Open course types.', 'uncanny-learndash-toolkit');
 		$class_icon = '<i class="uo_icon_fa fa fa-eye"></i>';
 

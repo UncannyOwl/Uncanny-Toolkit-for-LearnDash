@@ -53,12 +53,13 @@ class LearnDashResume extends Config implements RequiredFunctions {
 	public static function get_details() {
 
 		$class_title       = esc_html__( 'LearnDash Resume Button', 'uncanny-learndash-toolkit' );
+		$kb_link           = 'https://www.uncannyowl.com/knowledge-base/learndash-resume/';
 		$class_description = esc_html__( 'Inserts a button that allows learners to return to the course, lesson or topic they last visited.', 'uncanny-learndash-toolkit' );
 		$class_icon        = '<i class="uo_icon_fa fa fa-refresh"></i>';
 
 		return array(
 			'title'            => $class_title,
-			'kb_link'          => null,
+			'kb_link'          => $kb_link,
 			'description'      => $class_description,
 			'dependants_exist' => self::dependants_exist(),
 			'settings'         => self::get_class_settings( $class_title ),
