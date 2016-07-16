@@ -103,8 +103,8 @@ jQuery( document ).ready(function( $ ) {
 	// SAVE SETTINGS
 	$('.uo_save_settings').on('click', function(e) {
 		e.preventDefault();
-		$('.uo_settings_options').hide('slow');
-		$('.sk-folding-cube').delay(500).show('slow');
+		$('.uo_settings_options').hide('fast');
+		$('.sk-folding-cube').show('fast');
 
 		var button = $(this);
 		var settings_class = $(this).closest('.uo_settings').attr('id');
@@ -129,8 +129,10 @@ jQuery( document ).ready(function( $ ) {
 				console.log( response );
 			}
 
-			$('.sk-folding-cube').delay(1500).hide('slow');
-			$('.uo_settings_options').delay(2000).show('slow');
+			//$('.sk-folding-cube').delay(1500).hide('slow');
+			$('.sk-folding-cube').hide();
+			//$('.uo_settings_options').delay(2000).show('slow');
+			$('.uo_settings_options').show('fast');
 
 			setTimeout(
 					function() {
@@ -139,6 +141,7 @@ jQuery( document ).ready(function( $ ) {
 					}, 5000);
 
 		});
+
 
 	});
 
@@ -200,9 +203,11 @@ jQuery( document ).ready(function( $ ) {
 
 			});
 			// Hide Spinner
-			$('.sk-folding-cube').delay(1000).hide('slow');
+			//$('.sk-folding-cube').delay(1000).hide('slow');
+			$('.sk-folding-cube').hide('fast');
 			// Show Settings Hide
-			settings_container.delay(1000).show('slow')
+			//settings_container.delay(1000).show('slow')
+			settings_container.show('fast');
             settings_container.find('.uo-color-picker').wpColorPicker();
 		});
 	});
