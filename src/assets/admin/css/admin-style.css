@@ -6,15 +6,16 @@
     /*background: white;*/
 }
 .ad-pro-toolkit {
-    margin-right: 7%;
-    background-attachment: fixed !important;
     text-align: center;
-    padding: 25px;
-    background-color: red;
-    background-image: radial-gradient( #ffffff, #00a2e8 );
+    padding: 10px 20px;
     margin-top: -3px;
     margin-bottom: 50px;
     border-bottom: 2px solid #fea639;
+    background: #b3dced;
+    background: -moz-linear-gradient(45deg, #b3dced 0%, #29b8e5 50%, #bce0ee 100%);
+    background: -webkit-linear-gradient(45deg, #b3dced 0%,#29b8e5 50%,#bce0ee 100%);
+    background: linear-gradient(45deg, #b3dced 0%,#29b8e5 50%,#bce0ee 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b3dced', endColorstr='#bce0ee',GradientType=1 );
 }
 .ad-pro-toolkit h1, .ad-pro-toolkit h2{
     color: white;
@@ -22,10 +23,14 @@
 .ad-pro-toolkit h2{
     font-weight: normal;
     font-size: 25px;
+    line-height: 25px;
 }
 .ad-pro-toolkit h1{
     font-weight: bolder;
     font-size: 35px;
+    line-height: 30px;
+    display: inline-block;
+    margin-top: 0;
 }
 
 a.uo-ad-button {
@@ -36,17 +41,36 @@ a.uo-ad-button {
     width: 150px;
     display: inline-block;
     text-align: center;
-    margin: 15px;
     border:1px solid;
 }
 
 .uo-ad-button-orange{
     background: #ffcb3f;
     border-color: white;
+    margin-right: 10%;
+    float: left;
 }
 .uo-ad-button-green{
     background: #29c129;
     border-color: #29c129!important;
+    margin-left: 10%;
+    float: right;
+}
+@media only screen and (max-width: 1065px) {
+    .ad-pro-toolkit h1{
+        display: block;
+    }
+    .uo-ad-button-orange{
+        margin-right: 10px;
+        margin-left: 10px;
+        float: none;
+        margin-bottom: 10px;
+    }
+    .uo-ad-button-green{
+        margin-left: 10px;
+        margin-right: 10px;
+        float: none;
+    }
 }
 .uo-admin-header p {
     font-size: 13px;
@@ -84,6 +108,9 @@ hr.uo-underline {
     }
 
     .uo-admin-header p {
+        margin-right: 7%;
+    }
+    .ad-pro-toolkit {
         margin-right: 7%;
     }
 }
