@@ -204,7 +204,7 @@ class AdminMenu extends Boot {
 
 			<p <?php echo $show_toolkit_heading;?>><?php
 			printf(
-				__( 'Instructions for the Pro modules in the Knowledge Base at <a href="%s" target="_blank" >https://www.uncannyowl.com/article-categories/uncanny-toolkit-pro/</a>.' , 'uncanny-learndash-toolkit' ) ,
+				__( 'Instructions for the Pro suite of modules are in the Knowledge Base at <a href="%s" target="_blank" >https://www.uncannyowl.com/article-categories/uncanny-toolkit-pro/</a>.' , 'uncanny-learndash-toolkit' ) ,
 			esc_url( 'https://www.uncannyowl.com/article-categories/uncanny-toolkit-pro/' ) );
 			?></p>
 
