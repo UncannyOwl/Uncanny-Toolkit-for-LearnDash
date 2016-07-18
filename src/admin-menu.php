@@ -186,10 +186,12 @@ class AdminMenu extends Boot {
 			<hr class="uo-underline">
 
 			<div class="ad-pro-toolkit" <?php echo $show_pro_ad; ?>>
-				<h2><?php esc_html_e( 'The pro modules for the Uncanny LearnDash Toolkit are', 'uncanny-learndash-toolkit' ); ?></h2>
+				<h2><?php esc_html_e( 'The Pro modules for the Uncanny LearnDash Toolkit are', 'uncanny-learndash-toolkit' ); ?></h2>
 				<h1><?php esc_html_e( 'NOW AVAILABLE!', 'uncanny-learndash-toolkit' ); ?></h1>
+				<div>
 					<a href="http://www.uncannyowl.com/uncanny-learndash-toolkit-pro/" class="uo-ad-button uo-ad-button-orange" target="_blank"><?php esc_html_e( 'Learn More', 'uncanny-learndash-toolkit' ); ?></a>
 					<a href="http://www.uncannyowl.com/downloads/uncanny-learndash-toolkit-pro/" class="uo-ad-button uo-ad-button-green" target="_blank"><?php esc_html_e( 'Upgrade Now', 'uncanny-learndash-toolkit' ); ?></a>
+				</div>
 			</div>
 
 			<h2><?php esc_html_e( 'Thanks for using the Uncanny LearnDash Toolkit!', 'uncanny-learndash-toolkit' ); ?></h2>

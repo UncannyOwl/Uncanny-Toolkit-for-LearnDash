@@ -47,14 +47,14 @@ a.uo-ad-button {
 .uo-ad-button-orange{
     background: #ffcb3f;
     border-color: white;
-    margin-right: 10%;
-    float: left;
+    margin-right: 20px;
+    color: #41a1c0!important;
+
 }
 .uo-ad-button-green{
     background: #29c129;
     border-color: #29c129!important;
-    margin-left: 10%;
-    float: right;
+    margin-left: 20px;
 }
 @media only screen and (max-width: 1065px) {
     .ad-pro-toolkit h1{
