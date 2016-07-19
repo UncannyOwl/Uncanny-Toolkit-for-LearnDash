@@ -376,7 +376,7 @@ class AdminMenu extends Boot {
 				if( is_dir( $plugin_dir ) ){
 
 					if( 'pro' === $uo_plugin ){
-						if( 'uo-plugin-pro' === $content || 'uncanny-toolkit-pro' === $content){
+						if( 'uo-plugin-pro' === $content || 'uncanny-learndash-toolkit-pro' === $content){
 							// Check if plugin is active
 								if ( is_plugin_active( $content.'/uncanny-toolkit-pro.php' ) ) {
 									return $plugin_dir.'/src/classes/';
