@@ -102,7 +102,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				// Redirect to custom login page if username or password is empty
 				add_filter( 'authenticate', array( __CLASS__, 'verify_username_password' ), 10, 3 );
 				// Redirect from wp-login.php to custom login page if user logged out
-				add_action( 'wp_logout', array( __CLASS__, 'logout_page' ) );
+				add_action( 'wp_logout', array( __CLASS__, 'logout_page' ), 20, 1);
 
 				// Custom password retrieve message
 				add_filter( 'retrieve_password_message', array(

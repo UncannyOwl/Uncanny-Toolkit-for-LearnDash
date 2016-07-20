@@ -2,7 +2,7 @@
 
 namespace uncanny_learndash_toolkit;
 
-if (!defined('WPINC')) {
+if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
@@ -10,26 +10,24 @@ if (!defined('WPINC')) {
  * Class LoginRedirect
  * @package uncanny_custom_toolkit
  */
-class LoginRedirect extends Config implements RequiredFunctions
-{
+class LoginRedirect extends Config implements RequiredFunctions {
 
 	/**
 	 * Class constructor
 	 */
-	public function __construct()
-	{
-		add_action('plugins_loaded', array(__CLASS__, 'run_frontend_hooks'));
+	public function __construct() {
+		add_action( 'plugins_loaded', array( __CLASS__, 'run_frontend_hooks' ) );
 	}
 
 	/*
 	 * Initialize frontend actions and filters
 	 */
-	public static function run_frontend_hooks()
-	{
+	public static function run_frontend_hooks() {
 
-		if (true === self::dependants_exist()) {
+		if ( true === self::dependants_exist() ) {
 			/* Hide admin bar on frontend for the user role */
-			add_filter('login_redirect', array(__CLASS__, 'my_login_redirect'), 10, 1);
+			add_filter( 'login_redirect', array( __CLASS__, 'login_redirect' ), 10, 1 );
+			add_action( 'wp_logout', array( __CLASS__, 'logout_redirect' ), 10, 1 );
 		}
 
 	}
@@ -39,21 +37,20 @@ class LoginRedirect extends Config implements RequiredFunctions
 	 *
 	 * @return array
 	 */
-	public static function get_details()
-	{
+	public static function get_details() {
 
-		$class_title = esc_html__('Login Redirect', 'uncanny-learndash-toolkit');
-		$kb_link = 'https://www.uncannyowl.com/knowledge-base/learndash-login-redirect/';
-		$class_description = esc_html__('Redirects all non-admin roles to a specific URL after logging into the site.', 'uncanny-learndash-toolkit');
-		$class_icon = '<i class="uo_icon_fa fa fa-share"></i>';
+		$class_title       = esc_html__( 'Login/Logout Redirects', 'uncanny-learndash-toolkit' );
+		$kb_link           = 'https://www.uncannyowl.com/knowledge-base/learndash-login-redirect/';
+		$class_description = esc_html__( 'Redirects all non-admin roles to a specific URL after logging into and/or out of the site.', 'uncanny-learndash-toolkit' );
+		$class_icon        = '<i class="uo_icon_fa fa fa-share"></i>';
 
 		return array(
-			'title' => $class_title,
-			'kb_link' => $kb_link,
-			'description' => $class_description,
+			'title'            => $class_title,
+			'kb_link'          => $kb_link,
+			'description'      => $class_description,
 			'dependants_exist' => self::dependants_exist(),
-			'settings' => self::get_class_settings($class_title),
-			'icon' => $class_icon,
+			'settings'         => self::get_class_settings( $class_title ),
+			'icon'             => $class_icon,
 		);
 
 	}
@@ -64,8 +61,7 @@ class LoginRedirect extends Config implements RequiredFunctions
 	 * @return boolean || string Return either true or name of function or plugin
 	 *
 	 */
-	public static function dependants_exist()
-	{
+	public static function dependants_exist() {
 		// Return true if no dependency or dependency is available
 		return true;
 	}
@@ -78,25 +74,29 @@ class LoginRedirect extends Config implements RequiredFunctions
 	 * @return bool | string Return either false or settings html modal
 	 *
 	 */
-	public static function get_class_settings($class_title)
-	{
+	public static function get_class_settings( $class_title ) {
 		// Create options
 		$options = array(
 
 			array(
-				'type' => 'text',
-				'label' => esc_html__( 'Login Redirect', 'uncanny-learndash-toolkit' ),
+				'type'        => 'text',
+				'label'       => esc_html__( 'Login Redirect', 'uncanny-learndash-toolkit' ),
 				'option_name' => 'login_redirect',
+			),
+
+			array(
+				'type'        => 'text',
+				'label'       => esc_html__( 'Logout Redirect', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'logout_redirect',
 			),
 		);
 
 		// Build html
-		$html = self::settings_output(array(
-				'class' => __CLASS__,
-				'title' => $class_title,
-				'options' => $options,
-			)
-		);
+		$html = self::settings_output( array(
+			'class'   => __CLASS__,
+			'title'   => $class_title,
+			'options' => $options,
+		) );
 
 		return $html;
 	}
@@ -108,16 +108,15 @@ class LoginRedirect extends Config implements RequiredFunctions
 	 *
 	 * @return string
 	 */
-	public static function my_login_redirect($redirect_to)
-	{
+	public static function login_redirect( $redirect_to ) {
 
 		$login_redirect = false;
 
-		$settings = get_option('LoginRedirect', Array());
+		$settings = get_option( 'LoginRedirect', Array() );
 
-		foreach ($settings as $setting) {
+		foreach ( $settings as $setting ) {
 
-			if ('login_redirect' === $setting['name']) {
+			if ( 'login_redirect' === $setting['name'] ) {
 				$login_redirect = $setting['value'];
 			}
 		}
@@ -125,14 +124,14 @@ class LoginRedirect extends Config implements RequiredFunctions
 		//is there a user to check?
 		global $user;
 
-		if (isset($user->roles) && is_array($user->roles)) {
+		if ( isset( $user->roles ) && is_array( $user->roles ) ) {
 			//check for admins
-			if (in_array('administrator', $user->roles)) {
+			if ( in_array( 'administrator', $user->roles ) ) {
 				// redirect them to the default place
 				return $redirect_to;
 			}
 
-			if (!$login_redirect || '' === $login_redirect) {
+			if ( ! $login_redirect || '' === $login_redirect ) {
 				// if redirect is not set than send them home
 				return home_url();
 			} else {
@@ -142,4 +141,32 @@ class LoginRedirect extends Config implements RequiredFunctions
 			return $redirect_to;
 		}
 	}
+
+
+	/**
+	 * Redirect from wp-login.php to custom login page if user logged out
+	 */
+	public static function logout_redirect() {
+
+		$login_redirect = false;
+
+		$settings = get_option( 'LoginRedirect', Array() );
+
+		foreach ( $settings as $setting ) {
+
+			if ( 'logout_redirect' === $setting['name'] ) {
+				$login_redirect = $setting['value'];
+			}
+		}
+
+		if ( ! $login_redirect || '' === $login_redirect ) {
+			// if redirect is not set than do nothing for now
+		} else {
+			wp_safe_redirect( $login_redirect );
+			exit;
+		}
+
+
+	}
+
 }
