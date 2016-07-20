@@ -146,6 +146,9 @@ class AdminMenu extends Boot {
 			wp_enqueue_script( 'uo-menu-slug-js', Config::get_admin_js( 'script.js' ), array( 'jquery' ), false, true );
 			// Admin CSS
 			wp_enqueue_style( 'uo-menu-slug-css-fontawesome', 'https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css' );
+			// Load Native WP Color Picker
+			wp_enqueue_style( 'wp-color-picker' );
+			wp_enqueue_script( 'wp-color-picker');
 		}
 
 	}
