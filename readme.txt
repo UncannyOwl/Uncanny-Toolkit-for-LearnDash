@@ -43,12 +43,14 @@ We welcome contributions to the Uncanny LearnDash Toolkit! The plugin is managed
 == Changelog ==
 
 = 1.3.0 =
+* Added logged out redirect
 * Fixed automatic approval of assignment when Topics Autocomplete Lessons module is on
 * Added admin notification when user is manually approved
 * Added links to Pro version
 * Added color picker
 * Enhance security for mark lessons complete
 * Added Knowledge Base articles links to features
+* Fixed widget certificate link
 
 = 1.2.7 =
 * Fixed learndash_lesson_completed to allow hooks from BadgeOS and other plugins
