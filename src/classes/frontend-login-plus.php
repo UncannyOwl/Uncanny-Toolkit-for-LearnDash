@@ -102,7 +102,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				// Redirect to custom login page if username or password is empty
 				add_filter( 'authenticate', array( __CLASS__, 'verify_username_password' ), 10, 3 );
 				// Redirect from wp-login.php to custom login page if user logged out
-				add_action( 'wp_logout', array( __CLASS__, 'logout_page' ), 20, 1);
+				add_action( 'wp_logout', array( __CLASS__, 'logout_page' ), 20, 1 );
 
 				// Custom password retrieve message
 				add_filter( 'retrieve_password_message', array(
@@ -206,16 +206,21 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				'options'     => $drop_down,
 			),
 
+			/*array(
+				'type'        => 'checkbox',
+				'label'       => esc_html__( 'Hide "Login UI" when user is logged in.', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'hide_logged_in_ui'
+			)*/
+
 		);
 
 
 		// Build html
 		$html = self::settings_output( array(
-				'class'   => __CLASS__,
-				'title'   => $class_title,
-				'options' => $options,
-			)
-		);
+			'class'   => __CLASS__,
+			'title'   => $class_title,
+			'options' => $options,
+		) );
 
 		return $html;
 	}
@@ -409,6 +414,14 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	}
 
 	public static function uo_login_form( $atts, $content = null ) {
+
+		/*$hide_logged_in_ui = self::get_settings_value( 'hide_logged_in_ui', __CLASS__ );
+
+		if(is_user_logged_in() && '' === $hide_logged_in_ui ){
+
+		}else{
+
+		}*/
 
 		if ( is_user_logged_in() ) {
 			return do_shortcode( $content );
