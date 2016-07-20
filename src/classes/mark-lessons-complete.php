@@ -40,7 +40,7 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 	public static function get_details() {
 
 		$class_title       = esc_html__( 'Topics Autocomplete Lessons', 'uncanny-learndash-toolkit' );
-		$kb_link           = null;
+		$kb_link           = 'http://www.uncannyowl.com/knowledge-base/topics-autocomplete-lessons/';
 		$class_description = esc_html__( 'Automatically marks lessons as completed when all topics and quizzes for that lesson are marked complete.', 'uncanny-learndash-toolkit' );
 		$class_icon        = '<i class="uo_icon_fa fa fa-check-circle-o"></i>';
 

@@ -62,7 +62,7 @@ class MenuItemVisibility extends Config implements RequiredFunctions
 	{
 
 		$class_title = esc_html__('Menu Item Visibility', 'uncanny-learndash-toolkit');
-		$kb_link = null;
+		$kb_link = 'http://www.uncannyowl.com/knowledge-base/menu-item-visibility/';
 		$class_description = esc_html__('Toggles the visibility of menu items based on whether or not users are signed in to the site.', 'uncanny-learndash-toolkit');
 		$class_icon = '<i class="uo_icon_fa fa fa-eye-slash"></i>';
 
