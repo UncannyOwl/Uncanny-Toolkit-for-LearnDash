@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Uncanny LearnDash Toolkit
-Version: 1.3
+Version: 1.3.1
 Description: Extend the LearnDash plugin with a variety of complementary features to make building engaging learner experiences even easier.
 Author: www.uncannyowl.com
 Author URI: www.uncannyowl.com
@@ -15,7 +15,7 @@ global $uncanny_learndash_toolkit;
 
 // Define version
 if( !defined('UNCANNY_TOOLKIT_VERSION')){
-	define('UNCANNY_TOOLKIT_VERSION', '1.3.0');
+	define('UNCANNY_TOOLKIT_VERSION', '1.3.1');
 }
 
 // Show admin notices for minimum versions of PHP, WordPress, and LearnDash
@@ -134,31 +134,6 @@ function learndash_version_notice() {
 
 		}
 
-	}
-}
-
-add_action( 'current_screen', 'uncanny_learnDash_toolkit_not_screen' );
-
-
-function uncanny_learnDash_toolkit_not_screen() {
-
-	$current_screen = get_current_screen();
-
-	if( $current_screen ->id !== "toplevel_page_uncanny-learnDash-toolkit" ) {
-		add_action( 'admin_notices', 'uncanny_learnDash_toolkit_notice_available' );
-	}
-
-}
-
-/*
- * Notice shown on toolkit page if an update is needed before pro can add clasees
- */
-function uncanny_learnDash_toolkit_notice_available() {
-	if(! defined('UO_STORE_URL') ) {
-		$class        = 'notice updated is-dismissible';
-		$warning_text = __( 'The Uncanny LearnDash Toolkit Pro modules are now available! Visit <a href="https://www.uncannyowl.com/uncanny-learndash-toolkit-pro/">https://www.uncannyowl.com/uncanny-learndash-toolkit-pro/</a> to learn more.', 'uncanny-learndash-toolkit' );
-		$message      = __( $warning_text, 'uncanny-pro-toolkit' );
-		printf( '<div class="%1$s"><h4>%2$s</h4></div>', $class, $message );
 	}
 }
 
