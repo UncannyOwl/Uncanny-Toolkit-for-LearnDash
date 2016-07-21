@@ -42,15 +42,18 @@ We welcome contributions to the Uncanny LearnDash Toolkit! The plugin is managed
 
 == Changelog ==
 
+= 1.3.1 =
+* Blocked Pro reminders from appearing on page reloads after dismissal
+
 = 1.3.0 =
-* Added logged out redirect
-* Fixed automatic approval of assignment when Topics Autocomplete Lessons module is on
+* Added logout redirect setting
+* Added color pickers
+* Added links to Pro modules plugin
 * Added admin notification when user is manually approved
-* Added links to Pro version
-* Added color picker
-* Enhance security for mark lessons complete
-* Added Knowledge Base articles links to features
+* Added links to Knowledge Base articles for all modules
+* Fixed automatic approval of assignment when Topics Autocomplete Lessons module is on
 * Fixed widget certificate link
+* Enhanced security for mark lessons complete
 
 = 1.2.7 =
 * Fixed learndash_lesson_completed to allow hooks from BadgeOS and other plugins
