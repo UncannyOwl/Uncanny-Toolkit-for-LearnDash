@@ -2,7 +2,7 @@
 
 namespace uncanny_learndash_toolkit;
 
-if (!defined('WPINC')) {
+if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
@@ -10,29 +10,26 @@ if (!defined('WPINC')) {
  * Class LearndashGroupUserProfile
  * @package uncanny_custom_toolkit
  */
-class LearndashGroupUserProfile extends Config implements RequiredFunctions
-{
+class LearndashGroupUserProfile extends Config implements RequiredFunctions {
 
 	/**
 	 * Class constructor
 	 */
-	public function __construct()
-	{
-		add_action('plugins_loaded', array(__CLASS__, 'run_frontend_hooks'));
+	public function __construct() {
+		add_action( 'plugins_loaded', array( __CLASS__, 'run_frontend_hooks' ) );
 	}
 
 	/*
 	 * Initialize frontend actions and filters
 	 */
-	public static function run_frontend_hooks()
-	{
+	public static function run_frontend_hooks() {
 
-		if (true === self::dependants_exist()) {
+		if ( true === self::dependants_exist() ) {
 
 			// Add learndash groups field when the user is view there own profile
-			add_action('show_user_profile', array(__CLASS__, 'show_users_groups_profile_fields'));
+			add_action( 'show_user_profile', array( __CLASS__, 'show_users_groups_profile_fields' ) );
 			// Add learndash groups field when the user is view another users profile
-			add_action('edit_user_profile', array(__CLASS__, 'show_users_groups_profile_fields'));
+			add_action( 'edit_user_profile', array( __CLASS__, 'show_users_groups_profile_fields' ) );
 		}
 
 	}
@@ -42,20 +39,19 @@ class LearndashGroupUserProfile extends Config implements RequiredFunctions
 	 *
 	 * @return array
 	 */
-	public static function get_details()
-	{
-		$class_title = esc_html__('LearnDash Groups in User Profiles', 'uncanny-learndash-toolkit');
-		$kb_link = 'https://www.uncannyowl.com/knowledge-base/learndash-groups-user-profiles/';
-		$class_description = esc_html__('Displays a user\'s LearnDash Group memberships in the user profile.', 'uncanny-learndash-toolkit');
-		$class_icon = '<i class="uo_icon_fa fa fa-users"></i>';
+	public static function get_details() {
+		$class_title       = esc_html__( 'LearnDash Groups in User Profiles', 'uncanny-learndash-toolkit' );
+		$kb_link           = 'https://www.uncannyowl.com/knowledge-base/learndash-groups-user-profiles/';
+		$class_description = esc_html__( 'Displays a user\'s LearnDash Group memberships in the user profile.', 'uncanny-learndash-toolkit' );
+		$class_icon        = '<i class="uo_icon_fa fa fa-users"></i>';
 
 		return array(
-			'title' => $class_title,
-			'kb_link' => $kb_link,
-			'description' => $class_description,
+			'title'            => $class_title,
+			'kb_link'          => $kb_link,
+			'description'      => $class_description,
 			'dependants_exist' => self::dependants_exist(),
-			'settings' => false,
-			'icon' => $class_icon,
+			'settings'         => false,
+			'icon'             => $class_icon,
 		);
 	}
 
@@ -64,10 +60,9 @@ class LearndashGroupUserProfile extends Config implements RequiredFunctions
 	 *
 	 * return boolean || string Return either true or name of function or plugin
 	 */
-	public static function dependants_exist()
-	{
+	public static function dependants_exist() {
 		global $learndash_post_types;
-		if (!isset($learndash_post_types)) {
+		if ( ! isset( $learndash_post_types ) ) {
 			return 'Plugin: LearnDash';
 		}
 
@@ -79,13 +74,12 @@ class LearndashGroupUserProfile extends Config implements RequiredFunctions
 	 *
 	 * @return string
 	 */
-	public static function show_users_groups_profile_fields($user)
-	{
+	public static function show_users_groups_profile_fields( $user ) {
 
 		global $wpdb;
 
 		// title of section
-		$section_title = esc_html__('LearnDash Groups', 'uncanny-learndash-toolkit');
+		$section_title = esc_html__( 'LearnDash Groups', 'uncanny-learndash-toolkit' );
 		// User ID of user being viewed/edited
 		$user_ID = $user->ID;
 		// Meta key stored by learndash of user's groups
@@ -99,24 +93,26 @@ class LearndashGroupUserProfile extends Config implements RequiredFunctions
 		);
 
 		// Collect data from the database
-		$user_groups = $wpdb->get_results($group_query, ARRAY_N);
+		$user_groups = $wpdb->get_results( $group_query, ARRAY_N );
 
 		// If the user is part of at least one group... lets create the LearnDash Group Section
-		if (!empty($user_groups)) {
+		if ( ! empty( $user_groups ) ) {
 			// Happy Filtering!
-			$section_title = apply_filters('learndash_users_groups_profile_title', $section_title);
+			$section_title = apply_filters( 'learndash_users_groups_profile_title', $section_title );
 
 			// Loop through all the user's group ids and collect the title and link
 			$list_groups = '';
-			foreach ($user_groups as $group_ID) {
-				$group_permalink = add_query_arg(
-					array(
-						'post' => (int)$group_ID[0],
-						'action' => 'edit',
-					), admin_url('post.php')
-				);
-				$group_title = get_the_title((int)$group_ID[0]); // Get the group title
-				$list_groups .= sprintf('<li><a href="%s">%s</a></li>', esc_url($group_permalink), esc_html($group_title));// list of all the groups
+			foreach ( $user_groups as $group_ID ) {
+				if ( ! empty( $group_ID[0] ) && is_numeric( $group_ID[0] ) ) {
+					$group_permalink = add_query_arg(
+						array(
+							'post'   => (int) $group_ID[0],
+							'action' => 'edit',
+						), admin_url( 'post.php' )
+					);
+					$group_title     = get_the_title( (int) $group_ID[0] ); // Get the group title
+					$list_groups .= sprintf( '<li><a href="%s">%s</a></li>', esc_url( $group_permalink ), esc_html( $group_title ) );// list of all the groups
+				}
 			}
 
 			?>
@@ -124,7 +120,7 @@ class LearndashGroupUserProfile extends Config implements RequiredFunctions
 				<tbody>
 				<tr>
 					<th>
-						<h3><?php echo esc_html($section_title); ?></h3>
+						<h3><?php echo esc_html( $section_title ); ?></h3>
 					</th>
 					<td>
 						<ol>
