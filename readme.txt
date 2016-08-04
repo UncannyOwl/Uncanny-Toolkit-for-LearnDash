@@ -3,7 +3,7 @@ Contributors: uncannyowl
 Tags: LearnDash, eLearning, LMS
 Requires at least: 4.0
 Tested up to: 4.5.3
-Stable tag: 1.3.1
+Stable tag: 1.3.2
 License: LearnDash Groups in User Profiles is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or any later version.   LearnDash Groups in User Profiles is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.   You should have received a copy of the GNU General Public License along with LearnDash Groups in User Profiles. If not, see {URI to Plugin License}.
 License URI: https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
 
@@ -44,6 +44,7 @@ We welcome contributions to the Uncanny LearnDash Toolkit! The plugin is managed
 
 = 1.3.2 =
 * Fixed LearnDash Group User Profile module to only show group name if the group ID is not empty and is numeric.
+* Added uo_login_link shortcode to replace deprecated uo_login in Login/Logout Menu
 
 = 1.3.1 =
 * Blocked Pro reminders from appearing on page reloads after dismissal
