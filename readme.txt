@@ -43,6 +43,7 @@ We welcome contributions to the Uncanny LearnDash Toolkit! The plugin is managed
 == Changelog ==
 
 = 1.3.2 =
+* Tested of WordPress 4.6
 * Fixed LearnDash Group User Profile module to only show group name if the group ID is not empty and is numeric.
 * Added uo_login_link shortcode to replace deprecated uo_login in Login/Logout Menu
 
