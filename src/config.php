@@ -349,15 +349,15 @@ class Config {
 							break;
 
 						case 'text':
-							echo '<div class="uo_settings_single"><span>' . $content['label'] . '</span> <input placeholder="' . $content['placeholder'] . '" class="uo_settings_form_field ' . $content['class'] . '" name="' . $content['option_name'] . '" type="text" /></div>';
+							echo '<div class="uo_settings_single"><div class="uo_settings_label">' . $content['label'] . '</div><div class="uo_settings_input"><input placeholder="' . $content['placeholder'] . '" class="uo_settings_form_field ' . $content['class'] . '" name="' . $content['option_name'] . '" type="text" /></div></div>';
 							break;
 
 						case 'color':
-							echo '<div class="uo_settings_single"><span>' . $content['label'] . '</span> <input class="uo_settings_form_field" name="' . $content['option_name'] . '" type="color" /></div>';
+							echo '<div class="uo_settings_single"><div class="uo_settings_label">' . $content['label'] . '</div><div class="uo_settings_input"><input class="uo_settings_form_field" name="' . $content['option_name'] . '" type="color" /></div></div>';
 							break;
 
 						case 'checkbox':
-							echo '<div class="uo_settings_single"><input class="uo_settings_form_field" name="' . $content['option_name'] . '" type="checkbox" /> <span>' . $content['label'] . '</span></div>';
+							echo '<div class="uo_settings_single"><div class="uo_settings_label">' . $content['label'] . '</div><div class="uo_settings_input"><input class="uo_settings_form_field" name="' . $content['option_name'] . '" type="checkbox" /></div></div>';
 							break;
 
 						case 'radio';
@@ -366,7 +366,7 @@ class Config {
 							foreach ( $content['radios'] as $radio ) {
 								$inputs .= '<input class="uo_settings_form_field" type="radio" name="' . $content['radio_name'] . '" value="' . $radio['value'] . '">' . $radio['text'] . ' ';
 							}
-							echo '<div class="uo_settings_single"><span>' . $content['label'] . '</span><br><br>' . $inputs . '</div>';
+							echo '<div class="uo_settings_single"><div class="uo_settings_label">' . $content['label'] . '</div><div class="uo_settings_input">' . $inputs . '</div></div>';
 							break;
 
 						case 'select':
@@ -374,8 +374,8 @@ class Config {
 							foreach ( $content['options'] as $option ) {
 								$options .= '<option value="' . $option['value'] . '"> ' . $option['text'] . '</option>';
 							}
-							echo '<div class="uo_settings_single"><span>' . $content['label'] . '</span>
-								<select class="uo_settings_form_field" name="' . $content['select_name'] . '" >' . $options . '</select>
+							echo '<div class="uo_settings_single"><div class="uo_settings_label">' . $content['label'] . '</div>
+								<div class="uo_settings_input"><select class="uo_settings_form_field" name="' . $content['select_name'] . '" >' . $options . '</select></div>
 							</div>';
 							break;
 

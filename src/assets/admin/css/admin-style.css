@@ -353,11 +353,28 @@ hr.uo-underline {
 }
 
 .uo_settings_single {
-    padding: 10px 20px;
+    padding: 15px 20px;
+}
+.uo_settings_single .uo_settings_label{
+    width: 20%;
+    display: inline-block;
+    padding-right: 5%;
+    font-size: 15px;
+    font-weight: bold;
+    border-bottom: 1px solid #dfdfdf;
+    padding-bottom: 6px;
+}
+.uo_settings_single .uo_settings_input{
+    width: 65%;
+    display: inline-block;
+    margin-left: 2%;
 }
 
 input.uo_settings_form_field[type='text'] {
     width: 60%;
+}
+input[type=radio].uo_settings_form_field {
+    margin-right: 12px;
 }
 
 .uo_settings_single span {
