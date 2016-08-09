@@ -92,6 +92,8 @@ class Sample extends Config implements RequiredFunctions {
 	 * reflection class. The class does not need to be initialized to get the details
 	 * @see uncanny_learndash_toolkit/AdminMenu::get_class_details()
 	 *
+	 * @since 1.0.0
+	 *
 	 * @return array $class_details
 	 */
 	public static function get_details() {
@@ -166,6 +168,8 @@ class Sample extends Config implements RequiredFunctions {
 	 *
 	 * If the dependency does not exists then the on/off switch on the module is replace with a message.
 	 *
+	 * @since 1.0.0
+	 *
 	 * @return boolean || string
 	 */
 	public static function dependants_exist() {
@@ -193,6 +197,8 @@ class Sample extends Config implements RequiredFunctions {
 
 	/**
 	 * Create an array that defines the html output of module modal settings inputs
+	 *
+	 * @since 1.0.0
 	 *
 	 * @param $class_title
 	 *
