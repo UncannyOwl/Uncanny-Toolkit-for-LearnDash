@@ -120,6 +120,12 @@ class AdminMenu extends Boot {
 			$class_name = ucwords( $class_name );
 			$class_name = $name_space  . '\\' . str_replace( ' ', '', $class_name );
 
+			if(!class_exists($class_name)){
+				//Possible blank screen error debug
+				//var_dump($class_name);
+				continue;
+			}
+
 			// test for required functions
 			$class = new ReflectionClass( $class_name );
 			if ( $class->implementsInterface( 'uncanny_learndash_toolkit\RequiredFunctions' ) ) {
