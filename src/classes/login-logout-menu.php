@@ -34,7 +34,6 @@ class LoginLogoutMenu extends Config implements RequiredFunctions
 				add_filter('wp_setup_nav_menu_item', array(__CLASS__, 'override_setup_nav_menu_item'));
 				add_filter('wp_nav_menu_objects', array(__CLASS__, 'filter_wp_nav_menu_objects'));
 
-				add_shortcode('uo_login', array(__CLASS__, 'login_link'));
 				add_shortcode('uo_login_link', array(__CLASS__, 'login_link'));
 				add_shortcode('uo_loginout', array(__CLASS__, 'loginout_link'));
 				add_shortcode('uo_logout', array(__CLASS__, 'logout_link'));
