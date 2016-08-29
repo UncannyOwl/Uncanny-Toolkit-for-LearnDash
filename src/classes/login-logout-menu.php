@@ -21,6 +21,8 @@ class LoginLogoutMenu extends Config implements RequiredFunctions
 
 	/*
 	 * Initialize frontend actions and filters
+	 * 
+	 * @deprecated v1.3.2 uo_login shortcode
 	 */
 	public static function run_frontend_hooks()
 	{
