@@ -81,12 +81,15 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 
 		$lesson_completed = self::check_lesson_complete( $lesson_id );
 
-		if ( false !== $lesson_completed ) {
+		if ( $lesson_completed ) {
 
 			// Check if all topics and quizzes are complete in lesson
 			if ( true === $lesson_completed['topics_completed'] && true === $lesson_completed['quizzes_completed'] ) {
+
 				$mark_complete = learndash_process_mark_complete( null, $lesson_id );
+
 				if ( $mark_complete ) {
+
 					//Adding Lesson completed dummy filter so that BadgeOS ( or any other plugin ) hooking in to
 					//learndash_lesson_completed can run here.
 					add_filter( 'learndash_lesson_completed', array( __CLASS__, 'learndash_lesson_completed_filter' ) );
@@ -96,6 +99,7 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 							learndash_approve_assignment( get_current_user_id(), absint( $_POST['post'] ) );
 						}
 					}
+
 					// only redirect if lesson does not have auto-complete on
 					if( self::maybe_redirect( $data['lesson'] ) ){
 						learndash_get_next_lesson_redirect( $data['lesson'] );
@@ -107,7 +111,7 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 			// If quizzes are not complete
 			if ( is_array( $lesson_completed['quizzes_completed'] ) ) {
 
-				$Lesson_quiz_ids = $lesson_completed['quizzes_completed'];
+				$Lesson_quiz_ids = $lesson_completed['quiz_list_left'];
 
 				foreach ( $Lesson_quiz_ids as $quiz_id ) {
 
@@ -236,7 +240,7 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 		if ( $amount_quizzes_user_passed === $amount_quizzes_in_lesson ) {
 			$quizzes_completed = true;
 		} else {
-			$quizzes_completed = $quiz_list_left;
+			$quizzes_completed = false;
 		}
 
 		// Check if all topics in lesson were completed
@@ -245,7 +249,8 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 
 		$completion_status = array(
 			'topics_completed'  => $topics_completed,
-			'quizzes_completed' => $quizzes_completed
+			'quizzes_completed' => $quizzes_completed,
+			'quiz_list_left' => $quiz_list_left
 		);
 
 		// when all topics are completed and
