@@ -48,6 +48,7 @@ We welcome contributions to the Uncanny LearnDash Toolkit! The plugin is managed
 * Added uo_login_link shortcode to replace deprecated uo_login in Login/Logout Menu
 * Fixed multiple escape slash issue with custom module
 * Aesthetically enhanced module settings pop-up
+* Rename Front-End Login error label Woops to Oops
 
 = 1.3.1 =
 * Blocked Pro reminders from appearing on page reloads after dismissal
