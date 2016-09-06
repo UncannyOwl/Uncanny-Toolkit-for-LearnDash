@@ -341,7 +341,13 @@ class AdminMenu extends Boot {
 
 					<?php
 					if ( true !== $dependants_exist ) {
+
+					if (strpos($dependants_exist, '@uo_custom_message') !== false) {
+						$dependants_exist = str_replace("@uo_custom_message", "", $dependants_exist);
+						echo '<div><strong>'. esc_html( $dependants_exist ) .'</strong></div>';
+					}else{
 						echo '<div><strong>'. esc_html( $dependants_exist ) .'</strong>' . esc_html__( ' is needed for this add-on', 'uncanny-learndash-toolkit' ) . '</div>';
+					}
 					} else {
 						?>
 						<div class="uo_feature_button_toggle"></div>
