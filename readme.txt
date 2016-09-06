@@ -49,6 +49,7 @@ We welcome contributions to the Uncanny LearnDash Toolkit! The plugin is managed
 * Fixed multiple escape slash issue with custom module
 * Aesthetically enhanced module settings pop-up
 * Rename Front-End Login error label Woops to Oops
+* Fixed compatibility with Nav Menu roles
 
 = 1.3.1 =
 * Blocked Pro reminders from appearing on page reloads after dismissal
