@@ -49,6 +49,7 @@ We welcome contributions to the Uncanny LearnDash Toolkit! The plugin is managed
 * Improved compatibility with Nav Menu Roles plugin
 * Fixed LearnDash Group User Profile module to only show group name if group ID is valid
 * Fixed multiple escape slash issue with custom module
+* Fixed auto completion of lessons if topics are complete but quiz is not
 * Reworded Front-End Login error label
 
 = 1.3.1 =
