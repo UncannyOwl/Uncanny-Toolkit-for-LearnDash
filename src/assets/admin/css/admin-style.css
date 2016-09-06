@@ -243,6 +243,7 @@ hr.uo-underline {
 	right: 0;
 	width: 100%;
 	z-index: 10;
+	line-height:16px;
 }
 
 .uo_feature_needs_dependants div {
