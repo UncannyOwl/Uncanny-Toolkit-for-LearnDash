@@ -43,13 +43,13 @@ We welcome contributions to the Uncanny LearnDash Toolkit! The plugin is managed
 == Changelog ==
 
 = 1.3.2 =
-* Tested of WordPress 4.6
-* Fixed LearnDash Group User Profile module to only show group name if the group ID is not empty and is numeric.
 * Added uo_login_link shortcode to replace deprecated uo_login in Login/Logout Menu
+* Added WordPress 4.6 support
+* Improved design of module settings
+* Improved compatibility with Nav Menu Roles plugin
+* Fixed LearnDash Group User Profile module to only show group name if group ID is valid
 * Fixed multiple escape slash issue with custom module
-* Aesthetically enhanced module settings pop-up
-* Rename Front-End Login error label Woops to Oops
-* Fixed compatibility with Nav Menu roles
+* Reworded Front-End Login error label
 
 = 1.3.1 =
 * Blocked Pro reminders from appearing on page reloads after dismissal
@@ -81,9 +81,9 @@ We welcome contributions to the Uncanny LearnDash Toolkit! The plugin is managed
 
 = 1.2.4 =
 * Added PHP/LearnDash/WP version checking
-* Fix cookies for password reset and registration
+* Fixed cookies for password reset and registration
 * Updated resume button to match theme button style
-* Fix verified user email formatting
+* Fixed verified user email formatting
 
 = 1.2.3 =
 * Tested with WordPress 4.5
