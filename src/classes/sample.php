@@ -150,14 +150,14 @@ class Sample extends Config implements RequiredFunctions {
 		$icon_styles = 'width: 40px;  padding-top: 5px; padding-left: 9px;';
 		$class_icon  = '<img style="' . $icon_styles . '" src="' . self::get_admin_media( 'gravity-forms-icon.png' ) . '" />';
 
-		$class_details = [
+		$class_details = array(
 			'title'            => $class_title,
 			'kb_link'          => $kb_link,
 			'description'      => $class_description,
 			'dependants_exist' => $class_dependents_available,
 			'settings'         => $class_settings,
 			'icon'             => $class_icon,
-		];
+		);
 
 		return $class_details;
 
