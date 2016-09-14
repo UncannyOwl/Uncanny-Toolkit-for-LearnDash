@@ -164,12 +164,16 @@ class AdminMenu extends Boot {
 	 */
 	public static function options_menu_page_output() {
 
-		// check if custom ou plugin is available
+		// Scan plugins directory for custom plugin
 		$uo_custom_classes['path'] = self::check_for_other_uo_plugin_classes('custom');
 		$uo_custom_classes['namespace'] = 'uncanny_custom_toolkit';
 
+		// Scan plugins directory for pro plugin
 		$uo_pro_classes['path'] = self::check_for_other_uo_plugin_classes('pro');
 		$uo_pro_classes['namespace'] = 'uncanny_pro_toolkit';
+
+		// Load Custom banner text from uncannyowl.com
+
 
 		if( !$uo_pro_classes['path'] ){
 			$show_pro_ad = '';
