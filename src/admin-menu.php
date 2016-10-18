@@ -182,42 +182,13 @@ class AdminMenu extends Boot {
 			$pro_ad.= '<a href="http://www.uncannyowl.com/downloads/uncanny-learndash-toolkit-pro/" class="uo-ad-button uo-ad-button-green" target="_blank">Upgrade Now</a>';
 			$pro_ad.= '</div>';
 			$show_pro_toolkit_heading = 'style="display:none;"';
-			$pro_version = '0_0_0';
 		}else{
 			$show_pro_toolkit_heading = '';
-			$pro_version = str_replace('.', '_', UNCANNY_TOOLKIT_PRO_VERSION );
-		}
-
-		$free_version = str_replace('.', '_', UNCANNY_TOOLKIT_VERSION );
-
-		// Add Key to prevent cached data
-		$characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-		$random_key = '';
-		$max = strlen($characters) - 1;
-		$random_string_length = 20;
-		 for ($i = 0; $i < $random_string_length; $i++) {
-			  $random_key .= $characters[mt_rand(0, $max)];
-		 }
-
-		 // Load Custom banner text from uncannyowl.com
-		$resp = wp_remote_get( 'https://www.uncannyowl.com/wp-json/uncanny_toolkit_banner/v1/get_banner_external/'.$free_version.'/'.$pro_version.'/'.$random_key.'/' );
-
-		$dynamic_ad = '';
-		if ( 200 == $resp['response']['code'] ) {
-			$body = json_decode( $resp['body'] );
-			if( true === $body->dynamic_banner){
-				$dynamic_ad = urldecode($body->html);
-			}
 		}
 
 		$show_pro_ad = 'style="display:none;"';
 		if( '' !== $pro_ad ){
 			$show_pro_ad = '';
-		}
-
-		$show_dynamic_ad = 'style="display:none;"';
-		if( '' !== $dynamic_ad){
-			$show_dynamic_ad = '';
 		}
 
 		// Get Available Classes from UO-Public
@@ -237,10 +208,6 @@ class AdminMenu extends Boot {
 
 			<div class="ad-pro-toolkit" <?php echo $show_pro_ad; ?>>
 				<?php echo $pro_ad; ?>
-			</div>
-
-			<div class="dynamic-ad-toolkit" <?php echo $show_dynamic_ad; ?>>
-				<?php echo $dynamic_ad; ?>
 			</div>
 
 			<h2><?php esc_html_e( 'Thanks for using the Uncanny LearnDash Toolkit!', 'uncanny-learndash-toolkit' ); ?></h2>
