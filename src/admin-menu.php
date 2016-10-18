@@ -187,7 +187,7 @@ class AdminMenu extends Boot {
 		}
 
 		$free_version = str_replace('.', '_', UNCANNY_TOOLKIT_VERSION );
-		$resp = wp_remote_get( 'http://staging.uncannycloud.com/wp-json/uncanny_toolkit_banner/v1/get_banner_external/'.$free_version.'/'.$pro_version.'/' );
+		$resp = wp_remote_get( 'https://www.uncannyowl.com/wp-json/uncanny_toolkit_banner/v1/get_banner_external/'.$free_version.'/'.$pro_version.'/' );
 
 		$dynamic_ad = '';
 		if ( 200 == $resp['response']['code'] ) {
