@@ -42,6 +42,11 @@ We welcome contributions to the Uncanny LearnDash Toolkit! The plugin is managed
 
 == Changelog ==
 
+= 1.3.3 =
+* Added: Dynamic announcement banner to admin UI
+* Updated: Changed log in link shortcode [uo_login] to [uo_login_link]
+* Fixed: Log in link redirects to login empty
+
 = 1.3.2 =
 * Added uo_login_link shortcode to replace deprecated uo_login in Login/Logout Menu
 * Added WordPress 4.6 support
