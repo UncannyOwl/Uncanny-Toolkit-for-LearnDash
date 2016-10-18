@@ -587,7 +587,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	}
 
 	/**
-	 * Redirect to custom login page if useranme or password is empty
+	 * Redirect to custom login page if username or password is empty
 	 */
 	public static function verify_username_password( $user, $username, $password ) {
 

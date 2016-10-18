@@ -297,7 +297,7 @@ class LoginLogoutMenu extends Config implements RequiredFunctions {
 		), $atts, 'login' );
 
 		$edit_tag = esc_html( strip_tags( $atts['edit_tag'] ) );
-		$href     = wp_login_url( $atts['redirect'] );
+		$href     = wp_login_url( /*$atts['redirect']*/ );
 		$content  = $content != '' ? $content : __( 'Log In' );
 
 		return '<a href="' . esc_url( $href ) . '"' . $atts['edit_tag'] . '>' . $content . '</a>';
@@ -310,7 +310,7 @@ class LoginLogoutMenu extends Config implements RequiredFunctions {
 		), $atts, 'loginout' );
 
 		$edit_tag = strip_tags( $atts['edit_tag'] );
-		$href     = is_user_logged_in() ? wp_logout_url( $atts['redirect'] ) : wp_login_url( $atts['redirect'] );
+		$href     = is_user_logged_in() ? wp_logout_url( /*$atts['redirect']*/ ) : wp_login_url( /*$atts['redirect']*/ );
 		if ( $content && strstr( $content, '|' ) != '' ) { // the "|" char is used to split titles
 			$content = explode( '|', $content );
 			$content = is_user_logged_in() ? $content[1] : $content[0];
@@ -327,7 +327,7 @@ class LoginLogoutMenu extends Config implements RequiredFunctions {
 			"redirect" => esc_url( $_SERVER['REQUEST_URI'] )
 		), $atts, 'logout' );
 
-		$href     = wp_logout_url( $atts['redirect'] );
+		$href     = wp_logout_url( /*$atts['redirect']*/ );
 		$edit_tag = esc_html( strip_tags( $atts['edit_tag'] ) );
 		$content  = $content != '' ? $content : __( 'Logout' );
 
