@@ -171,12 +171,40 @@ class AdminMenu extends Boot {
 		$uo_pro_classes['path'] = self::check_for_other_uo_plugin_classes('pro');
 		$uo_pro_classes['namespace'] = 'uncanny_pro_toolkit';
 
+		$pro_ad = '';
 		if( !$uo_pro_classes['path'] ){
-			$show_pro_ad = '';
-			$show_toolkit_heading = 'style="display:none;"';
+			$pro_ad = '<h2>The Pro modules for the Uncanny LearnDash Toolkit are</h2>';
+			$pro_ad.= '<h1>NOW AVAILABLE!</h1>';
+			$pro_ad.= '<div>';
+			$pro_ad.= '<a href="http://www.uncannyowl.com/uncanny-learndash-toolkit-pro/" class="uo-ad-button uo-ad-button-orange" target="_blank">Learn More></a>';
+			$pro_ad.= '<a href="http://www.uncannyowl.com/downloads/uncanny-learndash-toolkit-pro/" class="uo-ad-button uo-ad-button-green" target="_blank">Upgrade Now</a>';
+			$pro_ad.= '</div>';
+			$show_pro_toolkit_heading = 'style="display:none;"';
+			$pro_version = '0_0_0';
 		}else{
-			$show_pro_ad = 'style="display:none;"';
-			$show_toolkit_heading = '';
+			$show_pro_toolkit_heading = '';
+			$pro_version = str_replace('.', '_', UNCANNY_TOOLKIT_PRO_VERSION );
+		}
+
+		$free_version = str_replace('.', '_', UNCANNY_TOOLKIT_VERSION );
+		$resp = wp_remote_get( 'http://staging.uncannycloud.com/wp-json/uncanny_toolkit_banner/v1/get_banner_external/'.$free_version.'/'.$pro_version.'/' );
+
+		$dynamic_ad = '';
+		if ( 200 == $resp['response']['code'] ) {
+			$body = json_decode( $resp['body'] );
+			if( true === $body->dynamic_banner){
+				$dynamic_ad = urldecode($body->html);
+			}
+		}
+
+		$show_pro_ad = 'style="display:none;"';
+		if( '' !== $pro_ad ){
+			$show_pro_ad = '';
+		}
+
+		$show_dynamic_ad = 'style="display:none;"';
+		if( '' !== $dynamic_ad){
+			$show_dynamic_ad = '';
 		}
 
 		// Get Available Classes from UO-Public
@@ -188,6 +216,10 @@ class AdminMenu extends Boot {
 		?>
 		<div class="uo-admin-header">
 
+			<div class="dynamic-ad-toolkit" <?php echo $show_dynamic_ad; ?>>
+				<?php echo $dynamic_ad; ?>
+			</div>
+
 			<a href="http://www.uncannyowl.com" target="_blank">
 				<img src="<?php echo esc_url( Config::get_admin_media( 'Uncanny-Owl-logo.png' ) ); ?>" />
 			</a>
@@ -195,13 +227,9 @@ class AdminMenu extends Boot {
 			<hr class="uo-underline">
 
 			<div class="ad-pro-toolkit" <?php echo $show_pro_ad; ?>>
-				<h2><?php esc_html_e( 'The Pro modules for the Uncanny LearnDash Toolkit are', 'uncanny-learndash-toolkit' ); ?></h2>
-				<h1><?php esc_html_e( 'NOW AVAILABLE!', 'uncanny-learndash-toolkit' ); ?></h1>
-				<div>
-					<a href="http://www.uncannyowl.com/uncanny-learndash-toolkit-pro/" class="uo-ad-button uo-ad-button-orange" target="_blank"><?php esc_html_e( 'Learn More', 'uncanny-learndash-toolkit' ); ?></a>
-					<a href="http://www.uncannyowl.com/downloads/uncanny-learndash-toolkit-pro/" class="uo-ad-button uo-ad-button-green" target="_blank"><?php esc_html_e( 'Upgrade Now', 'uncanny-learndash-toolkit' ); ?></a>
-				</div>
+				<?php echo $pro_ad; ?>
 			</div>
+
 
 			<h2><?php esc_html_e( 'Thanks for using the Uncanny LearnDash Toolkit!', 'uncanny-learndash-toolkit' ); ?></h2>
 
@@ -213,17 +241,21 @@ class AdminMenu extends Boot {
 			esc_url( 'https://www.uncannyowl.com/uncanny-learndash-toolkit/' ), esc_url( 'https://www.uncannyowl.com/article-categories/uncanny-learndash-toolkit/' ) );
 			?></p>
 
-			<p <?php echo $show_toolkit_heading;?>><?php
-			printf(
-				__( 'Instructions for the Pro suite of modules are in the Knowledge Base at <a href="%s" target="_blank" >https://www.uncannyowl.com/article-categories/uncanny-toolkit-pro/</a>.' , 'uncanny-learndash-toolkit' ) ,
-			esc_url( 'https://www.uncannyowl.com/article-categories/uncanny-toolkit-pro/' ) );
-			?></p>
+			<p <?php echo $show_pro_toolkit_heading;?>>
+				<?php
+				printf(
+					__( 'Instructions for the Pro suite of modules are in the Knowledge Base at <a href="%s" target="_blank" >https://www.uncannyowl.com/article-categories/uncanny-toolkit-pro/</a>.' , 'uncanny-learndash-toolkit' ) ,
+				esc_url( 'https://www.uncannyowl.com/article-categories/uncanny-toolkit-pro/' ) );
+				?>
+			</p>
 
-			<p><?php
-			printf(
-				__( 'Developers are invited to review and suggest changes to the Toolkit on  <a href="%s" target="_blank"><i class="fa fa-bitbucket" aria-hidden="true"> Bitbucket</i></a>.', 'uncanny-learndash-toolkit' ) ,
-			esc_url( 'https://bitbucket.org/uncannyowl/uncanny-learndash-toolkit/' ) );
-			?></p>
+			<p>
+				<?php
+				printf(
+					__( 'Developers are invited to review and suggest changes to the Toolkit on  <a href="%s" target="_blank"><i class="fa fa-bitbucket" aria-hidden="true"> Bitbucket</i></a>.', 'uncanny-learndash-toolkit' ) ,
+				esc_url( 'https://bitbucket.org/uncannyowl/uncanny-learndash-toolkit/' ) );
+				?>
+			</p>
 
 		</div>
 		<form method="post" action="options.php">
@@ -341,7 +373,13 @@ class AdminMenu extends Boot {
 
 					<?php
 					if ( true !== $dependants_exist ) {
+
+					if (strpos($dependants_exist, '@uo_custom_message') !== false) {
+						$dependants_exist = str_replace("@uo_custom_message", "", $dependants_exist);
+						echo '<div><strong>'. esc_html( $dependants_exist ) .'</strong></div>';
+					}else{
 						echo '<div><strong>'. esc_html( $dependants_exist ) .'</strong>' . esc_html__( ' is needed for this add-on', 'uncanny-learndash-toolkit' ) . '</div>';
+					}
 					} else {
 						?>
 						<div class="uo_feature_button_toggle"></div>
