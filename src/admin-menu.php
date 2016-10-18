@@ -187,7 +187,16 @@ class AdminMenu extends Boot {
 		}
 
 		$free_version = str_replace('.', '_', UNCANNY_TOOLKIT_VERSION );
-		$resp = wp_remote_get( 'https://www.uncannyowl.com/wp-json/uncanny_toolkit_banner/v1/get_banner_external/'.$free_version.'/'.$pro_version.'/' );
+
+		// Add Key to prevent cached data
+		$characters = '%ABCDEFGHIJKLMNOPQRSTUVWXYZ-abcdefghijklmnopqrstuvwxyz_0123456789';
+		$random_key = '';
+		$max = strlen($characters) - 1;
+		$random_string_length = 20;
+		 for ($i = 0; $i < $random_string_length; $i++) {
+			  $random_key .= $characters[mt_rand(0, $max)];
+		 }
+		$resp = wp_remote_get( 'https://www.uncannyowl.com/wp-json/uncanny_toolkit_banner/v1/get_banner_external/'.$free_version.'/'.$pro_version.'/'.$random_key.'/' );
 
 		$dynamic_ad = '';
 		if ( 200 == $resp['response']['code'] ) {
