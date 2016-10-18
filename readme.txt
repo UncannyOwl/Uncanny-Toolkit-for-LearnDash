@@ -42,6 +42,11 @@ We welcome contributions to the Uncanny LearnDash Toolkit! The plugin is managed
 
 == Changelog ==
 
+= 1.3.3 =
+* Added: Dynamic announcement banner to admin UI
+* Updated: Changed log in link shortcode [uo_login] to [uo_login_link]
+* Fixed: Log in link redirects to login empty
+
 = 1.3.2 =
 * Tested of WordPress 4.6
 * Fixed LearnDash Group User Profile module to only show group name if the group ID is not empty and is numeric.
