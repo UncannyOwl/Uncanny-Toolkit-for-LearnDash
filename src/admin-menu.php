@@ -180,25 +180,31 @@ class AdminMenu extends Boot {
 			$pro_ad.= '<a href="http://www.uncannyowl.com/downloads/uncanny-learndash-toolkit-pro/" class="uo-ad-button uo-ad-button-green" target="_blank">Upgrade Now</a>';
 			$pro_ad.= '</div>';
 			$show_pro_toolkit_heading = 'style="display:none;"';
+			$pro_version = '0_0_0';
 		}else{
 			$show_pro_toolkit_heading = '';
+			$pro_version = str_replace('.', '_', UNCANNY_TOOLKIT_PRO_VERSION );
 		}
 
-		$resp = wp_remote_get( 'http://staging.uncannycloud.com/wp-json/uncanny_toolkit_banner/v1/get_banner_external' );
+		$free_version = str_replace('.', '_', UNCANNY_TOOLKIT_VERSION );
+		$resp = wp_remote_get( 'http://staging.uncannycloud.com/wp-json/uncanny_toolkit_banner/v1/get_banner_external/'.$free_version.'/'.$pro_version.'/' );
 
 		$dynamic_ad = '';
 		if ( 200 == $resp['response']['code'] ) {
 			$body = json_decode( $resp['body'] );
 			if( true === $body->dynamic_banner){
 				$dynamic_ad = urldecode($body->html);
-				// If there is a dynamic add and pro toolkit is not installed show the dynamic ad
-				$pro_ad = '';
 			}
 		}
 
-		$show_ad = 'style="display:none;"';
-		if( '' !== $pro_ad || '' !== $dynamic_ad){
-			$show_ad = '';
+		$show_pro_ad = 'style="display:none;"';
+		if( '' !== $pro_ad ){
+			$show_pro_ad = '';
+		}
+
+		$show_dynamic_ad = 'style="display:none;"';
+		if( '' !== $dynamic_ad){
+			$show_dynamic_ad = '';
 		}
 
 		// Get Available Classes from UO-Public
@@ -210,17 +216,20 @@ class AdminMenu extends Boot {
 		?>
 		<div class="uo-admin-header">
 
+			<div class="dynamic-ad-toolkit" <?php echo $show_dynamic_ad; ?>>
+				<?php echo $dynamic_ad; ?>
+			</div>
+
 			<a href="http://www.uncannyowl.com" target="_blank">
 				<img src="<?php echo esc_url( Config::get_admin_media( 'Uncanny-Owl-logo.png' ) ); ?>" />
 			</a>
 
 			<hr class="uo-underline">
 
-			<div class="ad-pro-toolkit" <?php echo $show_ad; ?>>
+			<div class="ad-pro-toolkit" <?php echo $show_pro_ad; ?>>
 				<?php echo $pro_ad; ?>
-				<?php echo $dynamic_ad; ?>
-
 			</div>
+
 
 			<h2><?php esc_html_e( 'Thanks for using the Uncanny LearnDash Toolkit!', 'uncanny-learndash-toolkit' ); ?></h2>
 
