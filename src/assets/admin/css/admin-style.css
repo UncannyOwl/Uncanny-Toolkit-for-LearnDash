@@ -14,7 +14,15 @@
 	border-bottom: 2px solid #fea639;
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#b3dced', endColorstr='#bce0ee', GradientType=1);
 	margin-bottom: 50px;
-	margin-top: -3px;
+	margin-top: -6px;
+	padding: 10px 20px;
+	text-align: center;
+}
+
+.dynamic-ad-toolkit {
+	background: #ffffff;
+	border-left: 4px solid #000000;
+	margin-top: 5px;
 	padding: 10px 20px;
 	text-align: center;
 }
