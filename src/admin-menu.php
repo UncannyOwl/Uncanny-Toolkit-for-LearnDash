@@ -216,10 +216,6 @@ class AdminMenu extends Boot {
 		?>
 		<div class="uo-admin-header">
 
-			<div class="dynamic-ad-toolkit" <?php echo $show_dynamic_ad; ?>>
-				<?php echo $dynamic_ad; ?>
-			</div>
-
 			<a href="http://www.uncannyowl.com" target="_blank">
 				<img src="<?php echo esc_url( Config::get_admin_media( 'Uncanny-Owl-logo.png' ) ); ?>" />
 			</a>
@@ -230,6 +226,9 @@ class AdminMenu extends Boot {
 				<?php echo $pro_ad; ?>
 			</div>
 
+			<div class="dynamic-ad-toolkit" <?php echo $show_dynamic_ad; ?>>
+				<?php echo $dynamic_ad; ?>
+			</div>
 
 			<h2><?php esc_html_e( 'Thanks for using the Uncanny LearnDash Toolkit!', 'uncanny-learndash-toolkit' ); ?></h2>
 

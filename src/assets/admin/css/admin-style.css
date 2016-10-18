@@ -13,7 +13,7 @@
 	background: linear-gradient(45deg, #b3dced 0%, #29b8e5 50%, #bce0ee 100%);
 	border-bottom: 2px solid #fea639;
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#b3dced', endColorstr='#bce0ee', GradientType=1);
-	margin-bottom: 50px;
+	margin-bottom: 20px;
 	margin-top: -6px;
 	padding: 10px 20px;
 	text-align: center;
@@ -24,7 +24,6 @@
 	border-left: 5px solid #000000;
 	margin-top: 5px;
 	padding: 10px 20px;
-	text-align: center;
 }
 
 .ad-pro-toolkit h1, .ad-pro-toolkit h2 {
@@ -131,6 +130,10 @@ hr.uo-underline {
 	}
 
 	.ad-pro-toolkit {
+		margin-right: 7%;
+	}
+
+	.dynamic-ad-toolkit {
 		margin-right: 7%;
 	}
 }
