@@ -191,7 +191,7 @@ class AdminMenu extends Boot {
 		$free_version = str_replace('.', '_', UNCANNY_TOOLKIT_VERSION );
 
 		// Add Key to prevent cached data
-		$characters = '%ABCDEFGHIJKLMNOPQRSTUVWXYZ-abcdefghijklmnopqrstuvwxyz_0123456789';
+		$characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 		$random_key = '';
 		$max = strlen($characters) - 1;
 		$random_string_length = 20;
