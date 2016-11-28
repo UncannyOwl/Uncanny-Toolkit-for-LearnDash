@@ -108,7 +108,7 @@ jQuery( document ).ready(function( $ ) {
 
 		var button = $(this);
 		var settings_class = $(this).closest('.uo_settings').attr('id');
-		var options = $(this).closest('.uo_settings_options').find('input, select').serializeArray();
+		var options = $(this).closest('.uo_settings_options').find('input, select, textare').serializeArray();
 
 		var data = {
 
@@ -172,6 +172,10 @@ jQuery( document ).ready(function( $ ) {
 				var element = $('#'+settings_class).find('[name="'+ option['name'] +'"]');
 
 				if( element.is( 'input[type="text"]' ) ){
+					element.val(option['value']);
+				}
+
+				if( element.is( 'textarea' ) ){
 					element.val(option['value']);
 				}
 

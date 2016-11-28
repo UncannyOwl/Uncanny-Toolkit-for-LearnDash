@@ -323,20 +323,20 @@ class Config {
 		//Wrapper Start - open div.uo_setting, open div.uo_settings_options
 		?>
 
-		<div id="<?php echo $modal_id; ?>" class="uo_settings">
+        <div id="<?php echo $modal_id; ?>" class="uo_settings">
 
-			<div class="uo_settings_header">
-				<h2>Settings: <?php echo $title; ?></h2>
-			</div>
+            <div class="uo_settings_header">
+                <h2>Settings: <?php echo $title; ?></h2>
+            </div>
 
-			<div class="sk-folding-cube">
-				<div class="sk-cube1 sk-cube"></div>
-				<div class="sk-cube2 sk-cube"></div>
-				<div class="sk-cube4 sk-cube"></div>
-				<div class="sk-cube3 sk-cube"></div>
-			</div>
+            <div class="sk-folding-cube">
+                <div class="sk-cube1 sk-cube"></div>
+                <div class="sk-cube2 sk-cube"></div>
+                <div class="sk-cube4 sk-cube"></div>
+                <div class="sk-cube3 sk-cube"></div>
+            </div>
 
-			<div class="uo_settings_options">
+            <div class="uo_settings_options">
 
 				<?php
 
@@ -354,6 +354,10 @@ class Config {
 
 						case 'color':
 							echo '<div class="uo_settings_single"><div class="uo_settings_label">' . $content['label'] . '</div><div class="uo_settings_input"><input class="uo_settings_form_field" name="' . $content['option_name'] . '" type="color" /></div></div>';
+							break;
+
+						case 'textarea':
+							echo '<div class="uo_settings_single"><div class="uo_settings_label">' . $content['label'] . '</div><div class="uo_settings_input"><textarea rows="7" cols="65" class="uo_settings_form_field ' . $content['class'] . '" name="' . $content['option_name'] . '" id="' . $content['option_name'] . '" placeholder="' . $content['placeholder'] . '" ></textarea></div></div>';
 							break;
 
 						case 'checkbox':
@@ -384,11 +388,11 @@ class Config {
 
 				//Wrapper End - create button, close div.uo_setting, close div.uo_settings_options
 				?>
-				<button class="uo_save_settings">Save Settings</button>
+                <button class="uo_save_settings">Save Settings</button>
 
-			</div>
+            </div>
 
-		</div>
+        </div>
 
 		<?php
 

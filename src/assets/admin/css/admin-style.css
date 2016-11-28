@@ -20,8 +20,8 @@
 }
 
 .dynamic-ad-toolkit {
-	background: #ffffff;
-	border-left: 4px solid #000000;
+	background: #fff;
+	border-left: 4px solid #000;
 	margin-top: 5px;
 	padding: 10px 20px;
 }
@@ -254,7 +254,7 @@ hr.uo-underline {
 	right: 0;
 	width: 100%;
 	z-index: 10;
-	line-height:16px;
+	line-height: 16px;
 }
 
 .uo_feature_needs_dependants div {
@@ -388,6 +388,7 @@ hr.uo-underline {
 	padding-bottom: 6px;
 	padding-right: 5%;
 	width: 35%;
+	vertical-align: top;
 }
 
 .uo_settings_single .uo_settings_input {
