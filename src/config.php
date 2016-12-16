@@ -494,6 +494,12 @@ class Config {
 		return '';
 	}
 
+	
+	/**
+	 * @param string $trace
+	 * @param string $trace_name
+	 * @param string $file_name
+	 */
 	public static function trace_logs( $trace = '', $trace_name = '', $file_name = 'logs' ) {
 		$timestamp   = date( 'F d, Y H:i:s' );
 		$boundary    = "\n---------------=- {$timestamp} -=---------------\n";
