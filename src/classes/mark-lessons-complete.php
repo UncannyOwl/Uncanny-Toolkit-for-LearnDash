@@ -216,36 +216,35 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 		$quiz_list_left = array();
                 
                 if ( is_array( $quiz_list ) && ! empty( $quiz_list ) ) {
-                    // Loop all quizzes in lessons
-                    foreach ( $quiz_list as $quiz ) {
-                        //Check if the user has attempted at least one quiz
-                        if ( is_array( $user_quizzes ) && ! empty( $user_quizzes ) ) {
-                            // Loop all quizzes completed by user
-                            foreach ( $user_quizzes as $user_quiz ) {
-                                // check if lesson quiz id and completed quiz id match, i.e. user attempted the quiz
-                                if ( $quiz['post']->ID === (int) $user_quiz['quiz'] ) {
-                                        // Check if the quiz was passed
-                                        if ( 1 === $user_quiz['pass'] ) {
-                                                $amount_quizzes_user_passed ++;
-                                        }
-                                        // Quiz was attempted but not passed
+			// Loop all quizzes in lessons
+			foreach ( $quiz_list as $quiz ) {
+                                if ( is_array( $user_quizzes ) && ! empty( $user_quizzes ) ) {
+                                    // Loop all quizzes completed by user
+                                    foreach ( $user_quizzes as $user_quiz ) {
+					// check if lesson quiz id and completed quiz id match
+					if ( $quiz['post']->ID === (int) $user_quiz['quiz'] ) {
+						// Check if the quiz was passed
+						if ( 1 === $user_quiz['pass'] ) {
+							$amount_quizzes_user_passed ++;
+						}
+                                                // Quiz was attempted but not passed
+                                                else {
+                                                    array_push( $quiz_list_left, $quiz['post']->ID );
+                                                }
+					}
                                         else {
+                                            // Quiz was not attempted
                                             array_push( $quiz_list_left, $quiz['post']->ID );
                                         }
-                                }
-                                else {
-                                    // Quiz was not attempted
-                                    array_push( $quiz_list_left, $quiz['post']->ID );
-                                }
 
-                            }
-                        }
+                                    }
+                                }
                         else {
                             // User has not yet attempted any quizzes
                             array_push( $quiz_list_left, $quiz['post']->ID );
                         }
-                    }
-                }
+			}
+		}
 
 		if ( $amount_quizzes_user_passed === $amount_quizzes_in_lesson ) {
 			$quizzes_completed = true;
