@@ -493,7 +493,12 @@ class Config {
 
 		return '';
 	}
+<<<<<<< HEAD
 
+=======
+	
+	
+>>>>>>> 1.3.5_-_Adding_textarea_field
 	
 	/**
 	 * @param string $trace
@@ -508,5 +513,8 @@ class Config {
 		$file        = WP_CONTENT_DIR . '/uo-' . $file_name . '.log';
 		error_log( $boundary . $log_type . $final_trace . $boundary, 3, $file );
 	}
+<<<<<<< HEAD
 
+=======
+>>>>>>> 1.3.5_-_Adding_textarea_field
 }
