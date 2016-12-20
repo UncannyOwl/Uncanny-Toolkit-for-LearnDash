@@ -486,9 +486,9 @@ class Config {
 		$class   = str_replace( __NAMESPACE__, '', stripslashes( $class ) );
 		$options = get_option( $class, '' );
 
-		if ( ! empty( $options ) && $options != '' ) {
+		if ( ! empty( $options ) && '' !== $options ) {
 			foreach ( $options as $option ) {
-				if ( in_array( $key, $option ) ) {
+				if ( in_array( $key, $option, true ) ) {
 					return $option['value'];
 					break;
 				}
@@ -496,5 +496,21 @@ class Config {
 		}
 
 		return '';
+	}
+	
+	
+	
+	/**
+	 * @param string $trace
+	 * @param string $trace_name
+	 * @param string $file_name
+	 */
+	public static function trace_logs( $trace = '', $trace_name = '', $file_name = 'logs' ) {
+		$timestamp   = date( 'F d, Y H:i:s' );
+		$boundary    = "\n---------------=- {$timestamp} -=---------------\n";
+		$log_type    = "---------------=- {$trace_name} -=---------------\n\n";
+		$final_trace = print_r( $trace, true );
+		$file        = WP_CONTENT_DIR . '/uo-' . $file_name . '.log';
+		error_log( $boundary . $log_type . $final_trace . $boundary, 3, $file );
 	}
 }
