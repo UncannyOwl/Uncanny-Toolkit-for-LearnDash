@@ -108,7 +108,7 @@ jQuery( document ).ready(function( $ ) {
 
 		var button = $(this);
 		var settings_class = $(this).closest('.uo_settings').attr('id');
-		var options = $(this).closest('.uo_settings_options').find('input, select, textare').serializeArray();
+		var options = $(this).closest('.uo_settings_options').find('input, select, textarea').serializeArray();
 
 		var data = {
 
