@@ -507,10 +507,11 @@ class Config {
 	 */
 	public static function trace_logs( $trace = '', $trace_name = '', $file_name = 'logs' ) {
 		$timestamp   = date( 'F d, Y H:i:s' );
-		$boundary    = "\n---------------=- {$timestamp} -=---------------\n";
-		$log_type    = "---------------=- {$trace_name} -=---------------\n\n";
+		$boundary    = "\n===========================<<<< {$timestamp} >>>>===========================\n";
+		$log_type    = "*******************************[[[[[[[[[[ {$trace_name} ]]]]]]]]]]*******************************\n";
+		$log_end     = "\n===========================<<<< TRACE END >>>>===========================\n\n";
 		$final_trace = print_r( $trace, true );
 		$file        = WP_CONTENT_DIR . '/uo-' . $file_name . '.log';
-		error_log( $boundary . $log_type . $final_trace . $boundary, 3, $file );
+		error_log( $boundary . $log_type . $final_trace . $log_end, 3, $file );
 	}
 }
