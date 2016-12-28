@@ -101,7 +101,7 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 					}
 
 					// only redirect if lesson does not have auto-complete on
-					if( self::maybe_redirect( $data['lesson'] ) ){
+					if ( self::maybe_redirect( $data['lesson'] ) ) {
 						learndash_get_next_lesson_redirect( $data['lesson'] );
 					}
 
@@ -121,8 +121,8 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 					if ( $is_quiz_notcomplete ) {
 
 						// only redirect if lesson does not have auto-complete on
-						if( self::maybe_redirect( $data['lesson'] ) ) {
-							wp_safe_redirect(get_permalink($quiz_id));
+						if ( self::maybe_redirect( $data['lesson'] ) ) {
+							wp_safe_redirect( get_permalink( $quiz_id ) );
 							exit;
 						}
 
@@ -141,30 +141,30 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 	 *
 	 * @return bool $maybe_redirect
 	 */
-	private static function  maybe_redirect( $lesson_post_object){
+	private static function maybe_redirect( $lesson_post_object ) {
 
 		$active_classes = Config::get_active_classes();
 
 		$maybe_redirect = true;
 
 		// is auto-complete active
-		if( in_array('uncanny_pro_toolkit\LessonTopicAutoComplete', $active_classes) ){
+		if ( in_array( 'uncanny_pro_toolkit\LessonTopicAutoComplete', $active_classes ) ) {
 			$maybe_redirect = false;
 
 			$feature_auto_complete_default = self::get_settings_value( 'uo_global_auto_complete', 'uncanny_pro_toolkit/LessonTopicAutoComplete' );
-			$post_options_auto_complete = learndash_get_setting( $lesson_post_object );
+			$post_options_auto_complete    = learndash_get_setting( $lesson_post_object );
 
 			// Is this lesson using auto-complete
-			if( isset($post_options_auto_complete['uo_auto_complete']) ){
+			if ( isset( $post_options_auto_complete['uo_auto_complete'] ) ) {
 
-				if( 'disabled' === $post_options_auto_complete['uo_auto_complete'] ){
+				if ( 'disabled' === $post_options_auto_complete['uo_auto_complete'] ) {
 					$maybe_redirect = true;
 				}
 			}
 
 			// Is the lesson not set
-			if( ! isset($post_options_auto_complete['uo_auto_complete']) ){
-				if( '' !== $feature_auto_complete_default || 'auto_complete_only_lesson_topics_set' !== $feature_auto_complete_default){
+			if ( ! isset( $post_options_auto_complete['uo_auto_complete'] ) ) {
+				if ( '' !== $feature_auto_complete_default || 'auto_complete_only_lesson_topics_set' !== $feature_auto_complete_default ) {
 					$maybe_redirect = false;
 				}
 			}
@@ -212,37 +212,38 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 		// Compare amount of quizzes in lesson with the amount of matching user quizzes passed
 		$amount_quizzes_in_lesson   = count( $quiz_list );
 		$amount_quizzes_user_passed = 0;
+		$quizzes_passed             = array();
 
 		$quiz_list_left = array();
-                
-                if ( is_array( $quiz_list ) && ! empty( $quiz_list ) ) {
+
+		if ( is_array( $quiz_list ) && ! empty( $quiz_list ) ) {
 			// Loop all quizzes in lessons
 			foreach ( $quiz_list as $quiz ) {
-                                if ( is_array( $user_quizzes ) && ! empty( $user_quizzes ) ) {
-                                    // Loop all quizzes completed by user
-                                    foreach ( $user_quizzes as $user_quiz ) {
-					// check if lesson quiz id and completed quiz id match
-					if ( $quiz['post']->ID === (int) $user_quiz['quiz'] ) {
-						// Check if the quiz was passed
-						if ( 1 === $user_quiz['pass'] ) {
-							$amount_quizzes_user_passed ++;
+				if ( is_array( $user_quizzes ) && ! empty( $user_quizzes ) ) {
+					// Loop all quizzes completed by user
+					foreach ( $user_quizzes as $user_quiz ) {
+						// check if lesson quiz id and completed quiz id match
+						if ( $quiz['post']->ID === (int) $user_quiz['quiz'] ) {
+							// Check if the quiz was passed
+							if ( 1 === $user_quiz['pass'] ) {
+								if ( ! key_exists( (int) $user_quiz['quiz'], $quizzes_passed ) ) {
+									$quizzes_passed[ (int) $user_quiz['quiz'] ] = true;
+									$amount_quizzes_user_passed ++;
+								}
+							} // Quiz was attempted but not passed
+							else {
+								array_push( $quiz_list_left, $quiz['post']->ID );
+							}
+						} else {
+							// Quiz was not attempted
+							array_push( $quiz_list_left, $quiz['post']->ID );
 						}
-                                                // Quiz was attempted but not passed
-                                                else {
-                                                    array_push( $quiz_list_left, $quiz['post']->ID );
-                                                }
-					}
-                                        else {
-                                            // Quiz was not attempted
-                                            array_push( $quiz_list_left, $quiz['post']->ID );
-                                        }
 
-                                    }
-                                }
-                        else {
-                            // User has not yet attempted any quizzes
-                            array_push( $quiz_list_left, $quiz['post']->ID );
-                        }
+					}
+				} else {
+					// User has not yet attempted any quizzes
+					array_push( $quiz_list_left, $quiz['post']->ID );
+				}
 			}
 		}
 
@@ -259,7 +260,7 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 		$completion_status = array(
 			'topics_completed'  => $topics_completed,
 			'quizzes_completed' => $quizzes_completed,
-			'quiz_list_left' => $quiz_list_left
+			'quiz_list_left'    => $quiz_list_left,
 		);
 
 		// when all topics are completed and
@@ -278,31 +279,30 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 	 * @param int $course_id
 	 *
 	 */
-	public static function check_course_completed()
-	{
+	public static function check_course_completed() {
 		global $post;
 
-		if (null !== $post){
+		if ( null !== $post ) {
 
 			$post_id = $post->ID;
 
-			if ('sfwd_courses' === get_post_type($post_id)) {
+			if ( 'sfwd_courses' === get_post_type( $post_id ) ) {
 				$course_id = $post_id;
 			} else {
-				$course_id = learndash_get_course_id($post_id);
+				$course_id = learndash_get_course_id( $post_id );
 			}
 
-			if ('' !== $course_id) {
+			if ( '' !== $course_id ) {
 
-				$course_progress = get_user_meta(get_current_user_id(), '_sfwd-course_progress', true);
+				$course_progress = get_user_meta( get_current_user_id(), '_sfwd-course_progress', true );
 
-				if (isset($course_progress[$course_id])) {
+				if ( isset( $course_progress[ $course_id ] ) ) {
 
-					if ($course_progress[$course_id]['total'] == $course_progress[$course_id]['completed']) {
+					if ( $course_progress[ $course_id ]['total'] == $course_progress[ $course_id ]['completed'] ) {
 
-						do_action('learndash_course_completed', array(
-								'user' => wp_get_current_user(),
-								'course' => get_post($course_id),
+						do_action( 'learndash_course_completed', array(
+								'user'     => wp_get_current_user(),
+								'course'   => get_post( $course_id ),
 								'progress' => $course_progress,
 							)
 						);
