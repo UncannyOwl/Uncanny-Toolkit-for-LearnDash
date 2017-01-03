@@ -43,12 +43,15 @@ class ShowCertificatesShortcode extends Config implements RequiredFunctions {
 
 		$class_title       = esc_html__( 'Show LearnDash Certificates', 'uncanny-learndash-toolkit' );
 		$kb_link           = 'http://www.uncannyowl.com/knowledge-base/show-learndash-certificates/';
-		$class_description = esc_html__( 'Displays a list of LearnDash certificates (both course and quiz) earned by the user, with the most recent at the top.'
-			, 'uncanny-learndash-toolkit' );
+		$class_description = esc_html__( 'Displays a list of LearnDash certificates (both course and quiz) earned by the user, with the most recent at the top.', 'uncanny-learndash-toolkit' );
 		$class_icon        = '<i class="uo_icon_fa fa fa-certificate"></i>';
+		$tags              = 'learndash';
+		$type              = 'free';
 
 		return array(
 			'title'            => $class_title,
+			'type'             => $type,
+			'tags'             => $tags,
 			'kb_link'          => $kb_link,
 			'description'      => $class_description,
 			'dependants_exist' => self::dependants_exist(),
@@ -104,7 +107,7 @@ class ShowCertificatesShortcode extends Config implements RequiredFunctions {
 			$no_cert_message = esc_html__( 'Complete courses to earn certificates', 'uncanny-learndash-toolkit' );
 		}
 
-		$certificate_list   = '';
+		$certificate_list = '';
 
 		/* GET Certificates For Courses*/
 		$args = array(
@@ -165,10 +168,10 @@ class ShowCertificatesShortcode extends Config implements RequiredFunctions {
 
 		ob_start();
 		?>
-		<div class="<?php echo esc_attr( $class ); ?>">
-			<div class="cert-list-title"><?php echo $title; ?></div>
-			<div class="certificate-list"><?php echo $certificate_list; ?></div>
-		</div>
+        <div class="<?php echo esc_attr( $class ); ?>">
+            <div class="cert-list-title"><?php echo $title; ?></div>
+            <div class="certificate-list"><?php echo $certificate_list; ?></div>
+        </div>
 
 		<?php
 
