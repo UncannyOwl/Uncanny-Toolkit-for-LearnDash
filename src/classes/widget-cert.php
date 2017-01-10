@@ -23,9 +23,13 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 		$kb_link           = 'http://www.uncannyowl.com/knowledge-base/learndash-certificate-widget/';
 		$class_description = esc_html__( 'Custom Widget that displays all certificates the user has earned.', 'uncanny-learndash-toolkit' );
 		$class_icon        = '<i class="uo_icon_fa fa fa-bookmark "></i>';
+		$tags              = 'learndash';
+		$type              = 'free';
 
 		return array(
 			'title'            => $class_title,
+			'type'             => $type,
+			'tags'             => $tags,
 			'kb_link'          => $kb_link, // OR set as null not to display
 			'description'      => $class_description,
 			'dependants_exist' => self::dependants_exist(),
@@ -115,7 +119,7 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 			if ( $certificate_link && '' !== $certificate_link ) {
 
 				if ( $certificate_link && '' !== $certificate_link ) {
-					$certificate_list .= '<li><a target="_blank" href="' . $certificate_link . '" title="' . esc_html__( 'Your certificate for: ', 'uncanny-learndash-toolkit'  ). $course->post_title . '">' . $certificate_title . '</a></li>';
+					$certificate_list .= '<li><a target="_blank" href="' . $certificate_link . '" title="' . esc_html__( 'Your certificate for: ', 'uncanny-learndash-toolkit' ) . $course->post_title . '">' . $certificate_title . '</a></li>';
 				}
 
 			}
@@ -149,8 +153,8 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 
 						printf( '<li><a target="_blank" href="%s" title="%s %s" >%s</a></li>',
 							esc_url( $certificateLink ),
-							esc_html__( 'Your certificate for :', 'uncanny-learndash-toolkit'  ),
-								$quiz_title,
+							esc_html__( 'Your certificate for :', 'uncanny-learndash-toolkit' ),
+							$quiz_title,
 							esc_html( $certificate_title )
 						);
 					}
@@ -171,6 +175,7 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 		}
 
 		echo $args['after_widget'];
+
 		return null;
 	}
 
@@ -235,7 +240,7 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 		</p>
 		<p>
 			<label
-				for="<?php echo $this->get_field_id( 'no_certs' ); ?>"><?php esc_html_e( 'No certificates message:', 'uncanny-learndash-toolkit' ); ?></label>
+					for="<?php echo $this->get_field_id( 'no_certs' ); ?>"><?php esc_html_e( 'No certificates message:', 'uncanny-learndash-toolkit' ); ?></label>
 			<input class="widefat" id="<?php echo $this->get_field_id( 'no_certs' ); ?>"
 			       name="<?php echo $this->get_field_name( 'no_certs' ); ?>" type="text"
 			       value="<?php echo esc_attr( $no_certs ); ?>">

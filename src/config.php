@@ -278,7 +278,7 @@ class Config {
 	 */
 	public static function get_version() {
 		if ( null === self::$version ) {
-			self::$version = '1.3.4';
+			self::$version = '1.3.7';
 		}
 
 		return self::$version;
@@ -323,20 +323,20 @@ class Config {
 		//Wrapper Start - open div.uo_setting, open div.uo_settings_options
 		?>
 
-        <div id="<?php echo $modal_id; ?>" class="uo_settings">
+		<div id="<?php echo $modal_id; ?>" class="uo_settings">
 
-            <div class="uo_settings_header">
-                <h2>Settings: <?php echo $title; ?></h2>
-            </div>
+			<div class="uo_settings_header">
+				<h2>Settings: <?php echo $title; ?></h2>
+			</div>
 
-            <div class="sk-folding-cube">
-                <div class="sk-cube1 sk-cube"></div>
-                <div class="sk-cube2 sk-cube"></div>
-                <div class="sk-cube4 sk-cube"></div>
-                <div class="sk-cube3 sk-cube"></div>
-            </div>
+			<div class="sk-folding-cube">
+				<div class="sk-cube1 sk-cube"></div>
+				<div class="sk-cube2 sk-cube"></div>
+				<div class="sk-cube4 sk-cube"></div>
+				<div class="sk-cube3 sk-cube"></div>
+			</div>
 
-            <div class="uo_settings_options">
+			<div class="uo_settings_options">
 
 				<?php
 
@@ -388,11 +388,11 @@ class Config {
 
 				//Wrapper End - create button, close div.uo_setting, close div.uo_settings_options
 				?>
-                <button class="uo_save_settings">Save Settings</button>
+				<button class="uo_save_settings">Save Settings</button>
 
-            </div>
+			</div>
 
-        </div>
+		</div>
 
 		<?php
 
@@ -400,6 +400,35 @@ class Config {
 
 		return array( 'link' => $modal_link, 'modal' => $html_options );
 
+	}
+
+	public static function ajax_activate_deactivate_module() {
+		if ( current_user_can( 'activate_plugins' ) ) {
+			if ( isset( $_POST['value'] ) ) {
+				$value          = stripslashes( $_POST['value'] );
+				$active_classes = get_option( 'uncanny_toolkit_active_classes', 0 );
+
+				if ( 0 !== $active_classes ) {
+					if ( ! is_array( $active_classes ) ) {
+						$active_classes = array();
+					}
+					if ( 1 === intval( $_POST['active'] ) ) {
+						$new_classes = array_merge( array( $value => $value ), $active_classes );
+					} elseif ( 0 === intval( $_POST['active'] ) ) {
+						unset( $active_classes[ $value ] );
+						$new_classes = $active_classes;
+					}
+					update_option( 'uncanny_toolkit_active_classes', $new_classes );
+					$response = 'success';
+				} else {
+					$save_settings = add_option( 'uncanny_toolkit_active_classes', array( $value => $value ), 'no' );
+					$response      = ( $save_settings ) ? 'success' : 'notsaved';
+				}
+				ob_clean();
+				echo $response;
+				wp_die();
+			}
+		}
 	}
 
 	/*
@@ -497,9 +526,8 @@ class Config {
 
 		return '';
 	}
-	
-	
-	
+
+
 	/**
 	 * @param string $trace
 	 * @param string $trace_name

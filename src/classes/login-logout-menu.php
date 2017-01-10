@@ -73,9 +73,13 @@ class LoginLogoutMenu extends Config implements RequiredFunctions {
 
 		/* Icon as fontawesome icon */
 		$class_icon = '<i class="uo_icon_fa fa fa-bars"></i>';
+		$tags       = 'user-handling';
+		$type       = 'free';
 
 		return array(
 			'title'            => $class_title,
+			'type'             => $type,
+			'tags'             => $tags,
 			'kb_link'          => $kb_link, // OR set as null not to display
 			'description'      => $class_description,
 			'dependants_exist' => self::dependants_exist(),

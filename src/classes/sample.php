@@ -149,9 +149,13 @@ class Sample extends Config implements RequiredFunctions {
 		$class_icon  = '<i class="uo_icon_fa fa fa-calendar"></i>';
 		$icon_styles = 'width: 40px;  padding-top: 5px; padding-left: 9px;';
 		$class_icon  = '<img style="' . $icon_styles . '" src="' . self::get_admin_media( 'gravity-forms-icon.png' ) . '" />';
+		$type        = 'free';
+		$tags        = 'learndash'; //learndash | general | user-handling
 
-		$class_details = array(
+		return array(
 			'title'            => $class_title,
+			'type'             => $type,
+			'tags'             => $tags,
 			'kb_link'          => $kb_link,
 			'description'      => $class_description,
 			'dependants_exist' => $class_dependents_available,

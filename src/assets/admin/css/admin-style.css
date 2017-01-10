@@ -151,15 +151,29 @@ hr.uo-underline {
 	width: 87%;
 }
 
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: 768px) and (max-width: 1023px) {
 	.uo_feature {
 		width: 40%;
 	}
 }
 
-@media only screen and (min-width: 1024px) {
+@media only screen and (min-width: 1024px) and (max-width: 1599px) {
 	.uo_feature {
-		width: 24%;
+		width: 25%;
+	}
+
+	.uo_feature:nth-child(3n+0) {
+		margin-right: 0;
+	}
+}
+
+@media only screen and (min-width: 1600px) {
+	.uo_feature {
+		width: 18.5%;
+	}
+
+	.uo_feature:nth-child(4n+0) {
+		margin-right: 0;
 	}
 }
 
@@ -251,10 +265,10 @@ hr.uo-underline {
 .uo_feature_button.uo_feature_needs_dependants {
 	bottom: -3px;
 	height: 53px;
+	line-height: 16px;
 	right: 0;
 	width: 100%;
 	z-index: 10;
-	line-height: 16px;
 }
 
 .uo_feature_needs_dependants div {
@@ -306,6 +320,29 @@ hr.uo-underline {
 
 }
 
+#filter select {
+	background: #52575c;
+	border-bottom-style: solid;
+	border-bottom-width: 4px;
+	border-color: #202224;
+	border-left: 0;
+	border-radius: 35px;
+	border-right: 0;
+	color: #dfdfdf;
+	font-weight: 500;
+	height: auto;
+	margin-right: 10px;
+	padding: 3px 12px 3px 12px;
+}
+
+@media only screen and (max-width: 768px) {
+	#filter select {
+		display: block;
+		margin-bottom: 10px;
+		width: 70%;
+	}
+}
+
 /* De-activated ON/OFF Toggle Switch*/
 .uo_feature_deactivated {
 	background: #d24444;
@@ -354,7 +391,6 @@ hr.uo-underline {
 	border-bottom: 6px solid #f9ba0f;
 	bottom: 10px;
 	display: none;
-	display: none;
 	max-width: 800px;
 	min-width: 300px;
 	overflow-y: auto;
@@ -364,11 +400,11 @@ hr.uo-underline {
 
 .uo_settings_header {
 	background: #c9c9c9;
-	background: #f9ba0f;
 	margin-bottom: 20px;
 }
 
 .uo_settings_header h2 {
+	background-color: #f9ba0f;
 	color: white;
 	font-size: 23px;
 	line-height: 63px;
@@ -387,8 +423,8 @@ hr.uo-underline {
 	font-weight: bold;
 	padding-bottom: 6px;
 	padding-right: 5%;
-	width: 35%;
 	vertical-align: top;
+	width: 35%;
 }
 
 .uo_settings_single .uo_settings_input {
@@ -533,3 +569,35 @@ input[type=radio].uo_settings_form_field {
 	}
 }
 
+.module_activated,
+.module_deactivated {
+	display: none;
+	font-size: 18px;
+	font-weight: bold;
+	left: 50%;
+	margin-left: -200px;
+	margin-top: -20px;
+	padding: 10px 20px;
+	position: fixed;
+	top: 50%;
+	width: auto;
+	z-index: 99;
+}
+
+.module_activated i,
+.module_deactivated i {
+	font-size: 18px;
+	margin-right: 8px;
+}
+
+.module_activated {
+	background: #dff2bf;
+	border: 1px green solid;
+	color: green;
+}
+
+.module_deactivated {
+	background: #ffbaba;
+	border: 1px crimson solid;
+	color: red;
+}
