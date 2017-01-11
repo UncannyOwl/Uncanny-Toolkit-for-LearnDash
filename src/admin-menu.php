@@ -154,6 +154,9 @@ class AdminMenu extends Boot {
 					<option value="0" selected="selected">--- Free & Pro Suite ---</option>
 					<option value="free">Free</option>
 					<option value="pro">Pro Suite</option>
+					<?php if ( $uo_custom_classes['path'] ) { ?>
+						<option value="custom">Site Specific Modules</option>
+					<?php } ?>
 				</select>
 				<select name="tags">
 					<option value="0">--- All Modules ---</option>
@@ -396,11 +399,21 @@ class AdminMenu extends Boot {
 			}
 			// Setting Modal Popup
 			//$toolkit_html .= $class['settings']['modal'];
+			if ( key_exists( 'tags', $class ) && ! empty( $class['tags'] ) ) {
+				$tags = $class['tags'];
+			} else {
+				$tags = 'general';
+			}
+			if ( key_exists( 'type', $class ) && ! empty( $class['type'] ) ) {
+				$type = $class['type'];
+			} else {
+				$type = 'custom';
+			}
 
 			$toolkit_html .= '<li class="uo_feature" data-id="' . str_replace( array(
 					'uncanny_learndash_toolkit',
 					'uncanny_pro_toolkit',
-				), '', stripslashes( $class_name ) ) . '" data-tags="' . $class['tags'] . '" data-active="' . $is_active . '" data-type="' . $class['type'] . '">';
+				), '', stripslashes( $class_name ) ) . '" data-tags="' . $tags . '" data-active="' . $is_active . '" data-type="' . $type . '">';
 
 			// Settings Modal Popup trigger
 			$toolkit_html .= $class['settings']['link'];
