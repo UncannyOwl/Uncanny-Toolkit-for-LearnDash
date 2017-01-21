@@ -403,7 +403,10 @@ class Config {
 	}
 
 	public static function ajax_activate_deactivate_module() {
-		if ( current_user_can( 'activate_plugins' ) ) {
+
+		$capability = apply_filters( 'toolkit_settings_module_switch_cap', 'activate_plugins' );
+
+		if ( current_user_can( $capability ) ) {
 			if ( isset( $_POST['value'] ) ) {
 				$value          = stripslashes( $_POST['value'] );
 				$active_classes = get_option( 'uncanny_toolkit_active_classes', 0 );
@@ -436,7 +439,9 @@ class Config {
 	 */
 	public static function ajax_settings_save() {
 
-		if ( current_user_can( 'activate_plugins' ) ) {
+		$capability = apply_filters( 'toolkit_settings_save_cap', 'activate_plugins' );
+
+		if ( current_user_can( $capability ) ) {
 
 			if ( isset( $_POST['class'] ) ) {
 
@@ -476,7 +481,9 @@ class Config {
 	 */
 	public static function ajax_settings_load() {
 
-		if ( current_user_can( 'activate_plugins' ) ) {
+		$capability = apply_filters( 'toolkit_settings_load_cap', 'activate_plugins' );
+
+		if ( current_user_can( $capability ) ) {
 
 			if ( isset( $_POST['class'] ) ) {
 
