@@ -326,7 +326,8 @@ class Config {
 		<div id="<?php echo $modal_id; ?>" class="uo_settings">
 
 			<div class="uo_settings_header">
-				<h2>Settings: <?php echo $title; ?></h2>
+				<!--<h2>Settings: <?php /*echo $title; */?></h2>-->
+				<h2><?php echo $title; ?></h2>
 			</div>
 
 			<div class="sk-folding-cube">
