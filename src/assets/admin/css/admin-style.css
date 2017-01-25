@@ -377,10 +377,10 @@ hr.uo-underline {
 	text-decoration: none;
 	top: 10px;
 	width: 30px;
-	-webkit-transition: background-color 0.2s ease-in; /* Safari */
-	transition: background-color 0.2s ease-in;
-	-webkit-transition-delay: 0.2s; /* Safari */
-	transition-delay: 0.2s;
+	-webkit-transition: background-color 0.1s ease-in; /* Safari */
+	transition: background-color 0.1s ease-in;
+	-webkit-transition-delay: 0.1s; /* Safari */
+	transition-delay: 0.1s;
 }
 
 .uo_settings_link .dashicons:hover {
@@ -480,10 +480,14 @@ input[type=radio].uo_settings_form_field {
 	font-weight: bold;
 	margin-right: 43px;
 	padding: 9px 32px;
+	-webkit-transition: background-color 0.1s ease-in; /* Safari */
+	transition: background-color 0.1s ease-in;
+	-webkit-transition-delay: 0.1s; /* Safari */
+	transition-delay: 0.1s;
 }
 
 .uo_save_settings:hover {
-	background: #f9860f;
+	background: #035278;
 }
 
 /* LOADING SPINNER FROM: http://tobiasahlin.com/spinkit/ */

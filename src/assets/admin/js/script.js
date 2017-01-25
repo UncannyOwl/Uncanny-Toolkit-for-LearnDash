@@ -164,10 +164,10 @@ jQuery(document).ready(function ($) {
 
 			if ('success' === response) {
 				$(button).html('Options Saved');
-				$(button).css('background', '#29C129');
+				$(button).css('background', '#238b23');
 			} else {
 				$(button).html('Error: Check Console');
-				$(button).css('background', 'orange');
+				$(button).css('background', '#ac2525');
 				//console.log(response);
 			}
 
