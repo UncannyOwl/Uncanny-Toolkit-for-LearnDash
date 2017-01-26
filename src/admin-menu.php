@@ -87,12 +87,25 @@ class AdminMenu extends Boot {
 		$pro_ad = '';
 
 		if ( ! $uo_pro_classes['path'] ) {
-			$pro_ad = '<h2>The Pro modules for the Uncanny LearnDash Toolkit are</h2>';
-			$pro_ad .= '<h1>NOW AVAILABLE!</h1>';
-			$pro_ad .= '<div>';
-			$pro_ad .= '<a href="http://www.uncannyowl.com/uncanny-learndash-toolkit-pro/" class="uo-ad-button uo-ad-button-orange" target="_blank">Learn More></a>';
-			$pro_ad .= '<a href="http://www.uncannyowl.com/downloads/uncanny-learndash-toolkit-pro/" class="uo-ad-button uo-ad-button-green" target="_blank">Upgrade Now</a>';
-			$pro_ad .= '</div>';
+			$pro_ad.= '<a href="http://www.uncannyowl.com/downloads/uncanny-learndash-toolkit-pro/" class="page-title-action" target="_blank">Upgrade Now</a>';
+                        $pro_ad.= '<p><strong>Ready to take your LearnDash site even further?</strong></p>';
+                        $pro_ad.= '<h2>Check out the Pro modules for the Uncanny LearnDash Toolkit!</h2>';
+			$pro_ad.= '<div class="list">';
+			$pro_ad.= '<li><a href="https://www.uncannyowl.com/knowledge-base/autocomplete-lessons-topics/" target="_blank">Autocomplete Lessons &amp; Topics</a></li>';
+                        $pro_ad.= '<li><a href="https://www.uncannyowl.com/knowledge-base/enhanced-course-grid/" target="_blank">Enhanced Course Grid</a></li>';
+                        $pro_ad.= '<li><a href="https://www.uncannyowl.com/knowledge-base/learndash-course-dashboard/" target="_blank">LearnDash Course Dashboard</a></li>';
+                        $pro_ad.= '<li><a href="https://www.uncannyowl.com/knowledge-base/simple-course-timer/" target="_blank">Simple Course Timer</a></li>';
+                        $pro_ad.= '<li><a href="https://www.uncannyowl.com/knowledge-base/send-certificates-by-email/" target="_blank">Send Certificates by Email</a></li>';
+                        $pro_ad.= '<li><a href="https://www.uncannyowl.com/knowledge-base/group-sign-up/" target="_blank">LearnDash Group Registration</a></li>';
+                        $pro_ad.= '<li><a href="https://www.uncannyowl.com/knowledge-base/ld-group-logo-list/" target="_blank">LearnDash Group Logo/List</a></li>';
+                        $pro_ad.= '<li><a href="https://www.uncannyowl.com/knowledge-base/group-leader-access/" target="_blank">Improved Group Leader Interface</a></li>';
+                        $pro_ad.= '<li><a href="https://www.uncannyowl.com/knowledge-base/duplicate-pages-posts/" target="_blank">Duplicate Pages &amp; Posts</a></li>';
+                        $pro_ad.= '<li><a href="https://www.uncannyowl.com/knowledge-base/days-until-course-expiry/" target="_blank">Days Until Course Expiry</a></li>';
+                        $pro_ad.= '<li><a href="https://www.uncannyowl.com/knowledge-base/learner-transcript/" target="_blank">Learner Transcript</a></li>';
+                        $pro_ad.= '<li><a href="https://www.uncannyowl.com/article-categories/uncanny-toolkit-pro/" target="_blank">...and much more!</a></li>';
+			$pro_ad.= '</div>';
+                        $pro_ad.= '<div style="clear:both;"></div>';
+                        
 			$show_pro_toolkit_heading = 'style="display:none;"';
 		} else {
 			$show_pro_toolkit_heading = '';
@@ -115,7 +128,7 @@ class AdminMenu extends Boot {
 				<img src="<?php echo esc_url( Config::get_admin_media( 'Uncanny-Owl-logo.png' ) ); ?>"/>
 			</a>
 			<hr class="uo-underline">
-			<div class="ad-pro-toolkit" <?php echo $show_pro_ad; ?>>
+			<div class="ad-pro-toolkit wrap" <?php echo $show_pro_ad; ?>>
 				<?php echo $pro_ad; ?>
 			</div>
 			<h2><?php esc_html_e( 'Thanks for using the Uncanny LearnDash Toolkit!', 'uncanny-learndash-toolkit' ); ?></h2>

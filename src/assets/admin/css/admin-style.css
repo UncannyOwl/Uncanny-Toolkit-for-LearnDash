@@ -7,18 +7,45 @@
 }
 
 .ad-pro-toolkit {
-	background: #b3dced;
-	background: -moz-linear-gradient(45deg, #b3dced 0%, #29b8e5 50%, #bce0ee 100%);
-	background: -webkit-linear-gradient(45deg, #b3dced 0%, #29b8e5 50%, #bce0ee 100%);
-	background: linear-gradient(45deg, #b3dced 0%, #29b8e5 50%, #bce0ee 100%);
-	border-bottom: 2px solid #fea639;
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#b3dced', endColorstr='#bce0ee', GradientType=1);
+	background: #FFF;
 	margin-bottom: 20px;
 	margin-top: -6px;
 	padding: 10px 20px;
-	text-align: center;
+        border-left: 4px solid #46b450;
 }
 
+.ad-pro-toolkit.wrap .page-title-action {
+    float:right;
+    margin-top:10px;
+    font-size:16px;
+}
+
+.ad-pro-toolkit p, .ad-pro-toolkit li {
+    margin:0;
+    line-height:normal;
+}
+
+.ad-pro-toolkit .list {
+  -webkit-columns: 3;
+  -moz-columns: 3;
+  columns: 3;
+}
+
+@media (max-width:1024px) {
+    .ad-pro-toolkit .list {
+        -webkit-columns: 2;
+        -moz-columns: 2;
+        columns: 2;
+    }
+}
+
+@media (max-width:767px) {
+    .ad-pro-toolkit .list {
+        -webkit-columns: 1;
+        -moz-columns: 1;
+        columns: 1;
+    }
+}
 .dynamic-ad-toolkit {
 	background: #fff;
 	border-left: 4px solid #000;
@@ -26,67 +53,13 @@
 	padding: 10px 20px;
 }
 
-.ad-pro-toolkit h1, .ad-pro-toolkit h2 {
-	color: white;
-}
-
 .ad-pro-toolkit h2 {
-	font-size: 25px;
-	font-weight: normal;
-	line-height: 25px;
-}
-
-.ad-pro-toolkit h1 {
-	display: inline-block;
-	font-size: 35px;
-	font-weight: bolder;
-	line-height: 30px;
-	margin-top: 0;
-}
-
-a.uo-ad-button {
-	border: 1px solid;
-	color: white;
-	display: inline-block;
 	font-size: 20px;
-	padding: 8px 0;
-	text-align: center;
-	text-decoration: none;
-	width: 150px;
+	font-weight: normal;
+        margin:5px 0 10px 0;
+        line-height:normal;
 }
 
-.uo-ad-button-orange {
-	background: #ffcb3f;
-	border-color: white;
-	color: #41a1c0 !important;
-	margin-right: 20px;
-
-}
-
-.uo-ad-button-green {
-	background: #29c129;
-	border-color: #29c129 !important;
-	margin-left: 20px;
-}
-
-@media only screen and (max-width: 1065px) {
-	.ad-pro-toolkit h1 {
-		display: block;
-	}
-
-	.uo-ad-button-orange {
-		float: none;
-		margin-bottom: 10px;
-		margin-left: 10px;
-		margin-right: 10px;
-	}
-
-	.uo-ad-button-green {
-		float: none;
-		margin-left: 10px;
-		margin-right: 10px;
-	}
-}
 
 .uo-admin-header p {
 	color: #4b4b4b;
