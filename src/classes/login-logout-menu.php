@@ -73,7 +73,7 @@ class LoginLogoutMenu extends Config implements RequiredFunctions {
 
 		/* Icon as fontawesome icon */
 		$class_icon = '<i class="uo_icon_fa fa fa-bars"></i>';
-		$tags       = 'user-handling';
+		$tags       = 'general';
 		$type       = 'free';
 
 		return array(

@@ -43,7 +43,7 @@ class LoginRedirect extends Config implements RequiredFunctions {
 		$kb_link           = 'https://www.uncannyowl.com/knowledge-base/learndash-login-redirect/';
 		$class_description = esc_html__( 'Redirects all non-admin roles to a specific URL after logging into and/or out of the site.', 'uncanny-learndash-toolkit' );
 		$class_icon        = '<i class="uo_icon_fa fa fa-share"></i>';
-		$tags              = 'user-handling';
+		$tags              = 'general';
 		$type              = 'free';
 
 		return array(
