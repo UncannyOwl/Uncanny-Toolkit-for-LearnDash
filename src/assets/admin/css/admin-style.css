@@ -151,7 +151,11 @@ hr.uo-underline {
 	margin-right: 4%;
 	padding: 20px;
 	position: relative;
-	width: 87%;
+	transition: background-color 0.1s ease-in;
+	-webkit-transition: background-color 0.1s ease-in;
+	transition-delay: 0.1s; /* Safari */
+	-webkit-transition-delay: 0.1s;
+	width: 87%; /* Safari */
 }
 
 @media only screen and (min-width: 768px) and (max-width: 1023px) {
@@ -189,12 +193,20 @@ hr.uo-underline {
 .uo_feature_more_info {
 	color: #9a9a9a;
 	padding-left: 7px;
+	transition: color 0.1s ease-in;
+	-webkit-transition: color 0.1s ease-in; /* Safari */
+	transition-delay: 0.1s;
+	-webkit-transition-delay: 0.1s; /* Safari */
 }
 
 .uo_feature_more_info:focus {
 	box-shadow: none;
 	color: #9a9a9a;
 	webkit-box-shadow: none;
+}
+
+.uo_feature_more_info:hover {
+	color: #414141
 }
 
 /* Feature Description*/
@@ -329,7 +341,7 @@ hr.uo-underline {
 	border-bottom-width: 4px;
 	border-color: #065981;
 	border-left: 0;
-	border-radius: 10px;
+	border-radius: 5px;
 	border-right: 0;
 	color: #fff;
 	font-weight: 500;
@@ -376,11 +388,11 @@ hr.uo-underline {
 	right: -20px;
 	text-decoration: none;
 	top: 10px;
+	transition: background-color 0.05s ease-in;
+	-webkit-transition: background-color 0.05s ease-in; /* Safari */
+	transition-delay: 0.05s;
+	-webkit-transition-delay: 0.05s; /* Safari */
 	width: 30px;
-	-webkit-transition: background-color 0.1s ease-in; /* Safari */
-	transition: background-color 0.1s ease-in;
-	-webkit-transition-delay: 0.1s; /* Safari */
-	transition-delay: 0.1s;
 }
 
 .uo_settings_link .dashicons:hover {
@@ -480,10 +492,10 @@ input[type=radio].uo_settings_form_field {
 	font-weight: bold;
 	margin-right: 43px;
 	padding: 9px 32px;
-	-webkit-transition: background-color 0.1s ease-in; /* Safari */
-	transition: background-color 0.1s ease-in;
-	-webkit-transition-delay: 0.1s; /* Safari */
-	transition-delay: 0.1s;
+	transition: background-color 0.1s ease-in; /* Safari */
+	-webkit-transition: background-color 0.1s ease-in;
+	transition-delay: 0.1s; /* Safari */
+	-webkit-transition-delay: 0.1s;
 }
 
 .uo_save_settings:hover {
@@ -623,4 +635,24 @@ input[type=radio].uo_settings_form_field {
 	background: #ffbaba;
 	border: 1px crimson solid;
 	color: red;
+}
+
+.uo-filters {
+
+}
+
+.uo-filters li {
+	display: inline-block;
+	margin-right: 15px;
+}
+
+.uo-filters li label {
+	display: block;
+	font-size: 16px;
+	font-weight: 500;
+	padding-bottom: 5px;
+}
+
+.uo_feature:hover {
+	background: #f6f6f6;
 }
