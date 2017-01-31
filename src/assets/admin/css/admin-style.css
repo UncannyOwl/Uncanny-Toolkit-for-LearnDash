@@ -194,6 +194,10 @@ hr.uo-underline {
 		line-height: 1.5em;
 		/*padding: 20px;*/
 	}
+
+	.uo_feature {
+		height: 225px;
+	}
 }
 
 @media only screen and (min-width: 1024px) and (max-width: 1599px) {
