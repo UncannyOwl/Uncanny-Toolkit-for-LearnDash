@@ -139,6 +139,12 @@ hr.uo-underline {
 }
 
 /* Feature Container*/
+.uo_feature_container #features {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+
 .uo_feature {
 	background: white;
 	border: 1px solid #d1d1d1;
@@ -527,6 +533,19 @@ input[type=radio].uo_settings_form_field {
 
 .uo_save_settings:hover {
 	background: #035278;
+}
+
+@media (max-width: 400px) {
+	.uo_settings_label {
+		display: block;
+		width: 100%;
+	}
+
+	.uo_settings_input {
+		margin-left: 0;
+		margin-top: 10px;
+		width: 100%;
+	}
 }
 
 /* LOADING SPINNER FROM: http://tobiasahlin.com/spinkit/ */
