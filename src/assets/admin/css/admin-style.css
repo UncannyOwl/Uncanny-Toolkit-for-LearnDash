@@ -192,7 +192,7 @@ hr.uo-underline {
 
 	.uo_settings_header {
 		line-height: 1.5em;
-		padding: 20px;
+		/*padding: 20px;*/
 	}
 }
 
@@ -490,7 +490,15 @@ hr.uo-underline {
 	width: 55%;
 }
 
+.uo_settings_single .uo_settings_input br {
+	line-height: 3em;
+}
+
 input.uo_settings_form_field[type='text'] {
+	width: 100%;
+}
+
+textarea.uo_settings_form_field {
 	width: 100%;
 }
 
@@ -536,15 +544,45 @@ input[type=radio].uo_settings_form_field {
 }
 
 @media (max-width: 400px) {
-	.uo_settings_label {
+	.uo_settings_single {
+		max-width: 250px;
+	}
+
+	.uo_settings_single .uo_settings_label {
 		display: block;
 		width: 100%;
 	}
 
-	.uo_settings_input {
+	.uo_settings_single .uo_settings_input,
+	.uo_settings_single .uo_settings_input textarea {
 		margin-left: 0;
 		margin-top: 10px;
 		width: 100%;
+	}
+
+	.uo_settings_options {
+		height: auto;
+		max-height: 500px;
+		overflow: scroll;
+	}
+
+	.uo_settings_single ul li {
+		display: block;
+		width: 100%;
+	}
+
+	.uo_settings_header h2 {
+		line-height: 1.2em;
+		padding: 15px 15px;
+		text-align: center;
+	}
+
+	.uo_settings_single.uo-additional-information div {
+		margin-top: 0 !important;
+	}
+
+	.uo_settings_input br {
+		line-height: 4em;
 	}
 }
 
