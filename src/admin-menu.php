@@ -148,21 +148,21 @@ class AdminMenu extends Boot {
 		<form id="filter">
 			<h3>Filter Modules:</h3>
 			<ul class="uo-filters">
-				<li>
-					<fieldset>
-						<label for="uo-type">Free/Pro Modules</label>
-						<select id="uo-type" name="type" <?php if ( ! $uo_pro_classes['path'] ) {
-							echo 'style="display:none"';
-						} ?>>
-							<option value="0" selected="selected">--- Free & Pro ---</option>
-							<option value="free">Free</option>
-							<option value="pro">Pro</option>
-							<?php if ( $uo_custom_classes['path'] ) { ?>
-								<option value="custom">Site Specific Modules</option>
-							<?php } ?>
-						</select>
-					</fieldset>
-				</li>
+				<?php if ( $uo_pro_classes['path'] ) { ?>
+					<li>
+						<fieldset>
+							<label for="uo-type">Free/Pro Modules</label>
+							<select id="uo-type" name="type">
+								<option value="0" selected="selected">--- Free & Pro ---</option>
+								<option value="free">Free</option>
+								<option value="pro">Pro</option>
+								<?php if ( $uo_custom_classes['path'] ) { ?>
+									<option value="custom">Custom Modules</option>
+								<?php } ?>
+							</select>
+						</fieldset>
+					</li>
+				<?php } ?>
 				<li>
 					<fieldset>
 						<label for="uo-tags">Module Category</label>
