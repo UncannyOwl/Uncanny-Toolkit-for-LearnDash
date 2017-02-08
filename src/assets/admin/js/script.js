@@ -38,13 +38,13 @@ jQuery(document).ready(function ($) {
 					$('#module_activated span').html(class_name + ' Activated.').parent().fadeIn();
 					var t = setTimeout(function () {
 						$('#module_activated').fadeOut();
-					}, 1500);
+					}, 2500);
 					parent.attr('data-active', 1);
 				} else if (0 === active) {
 					$('#module_deactivated span').html(class_name + ' Deactivated.').parent().fadeIn();
 					var t = setTimeout(function () {
 						$('#module_deactivated').fadeOut();
-					}, 2500);
+					}, 3000);
 					parent.attr('data-active', 2);
 				}
 			} else {
@@ -97,10 +97,14 @@ jQuery(document).ready(function ($) {
 					$(modal_id).fadeTo(200, 1);
 
 					var modal_width = $(modal_id).width();
-
+					var window_height = $(window).height();
+					var display = 'block';
+					if (window_height > 900) {
+						display = 'table';
+					}
 					$(modal_id).css({
 
-						'display': 'table',
+						'display': display,
 						'position': 'fixed',
 						'opacity': 0,
 						'z-index': 999,
@@ -160,10 +164,10 @@ jQuery(document).ready(function ($) {
 
 			if ('success' === response) {
 				$(button).html('Options Saved');
-				$(button).css('background', '#29C129');
+				$(button).css('background', '#238b23');
 			} else {
 				$(button).html('Error: Check Console');
-				$(button).css('background', 'orange');
+				$(button).css('background', '#ac2525');
 				//console.log(response);
 			}
 
@@ -175,7 +179,7 @@ jQuery(document).ready(function ($) {
 			setTimeout(
 				function () {
 					$(button).html('Save Settings');
-					$(button).css('background', '#A9A9A9');
+					$(button).removeAttr('style');
 				}, 5000);
 
 		});
