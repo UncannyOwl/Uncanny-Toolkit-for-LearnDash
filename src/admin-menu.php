@@ -128,9 +128,6 @@ class AdminMenu extends Boot {
 				<img src="<?php echo esc_url( Config::get_admin_media( 'Uncanny-Owl-logo.png' ) ); ?>"/>
 			</a>
 			<hr class="uo-underline">
-			<div class="ad-pro-toolkit wrap" <?php echo $show_pro_ad; ?>>
-				<?php echo $pro_ad; ?>
-			</div>
 			<h2><?php esc_html_e( 'Thanks for using the Uncanny LearnDash Toolkit!', 'uncanny-learndash-toolkit' ); ?></h2>
 			<p><?php
 				printf(
@@ -154,6 +151,11 @@ class AdminMenu extends Boot {
 				?>
 			</p>
 		</div>
+
+		<div class="ad-pro-toolkit wrap" <?php echo $show_pro_ad; ?>>
+			<?php echo $pro_ad; ?>
+		</div>
+
 		<div class="module_activated" id="module_activated">
 			<i class="fa fa-check-circle" aria-hidden="true"></i><span></span></div>
 		<div class="module_deactivated" id="module_deactivated">
