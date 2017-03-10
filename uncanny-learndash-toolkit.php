@@ -13,7 +13,7 @@ Domain Path: /languages
 // All Class instance are store in Global Variable $uncanny_learndash_toolkit
 global $uncanny_learndash_toolkit;
 
-// Define version
+// Define version test
 if ( ! defined( 'UNCANNY_TOOLKIT_VERSION' ) ) {
 	define( 'UNCANNY_TOOLKIT_VERSION', '1.3.6' );
 }
