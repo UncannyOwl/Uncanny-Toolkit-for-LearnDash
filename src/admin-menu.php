@@ -88,24 +88,24 @@ class AdminMenu extends Boot {
 
 		if ( ! $uo_pro_classes['path'] ) {
 			$pro_ad.= '<a href="http://www.uncannyowl.com/downloads/uncanny-learndash-toolkit-pro/" class="page-title-action" target="_blank">Upgrade Now</a>';
-                        $pro_ad.= '<p><strong>Ready to take your LearnDash site even further?</strong></p>';
-                        $pro_ad.= '<h2>Check out the Pro modules for the Uncanny LearnDash Toolkit!</h2>';
+			$pro_ad.= '<p><strong>Ready to take your LearnDash site even further?</strong></p>';
+			$pro_ad.= '<h2>Check out the Pro modules for the Uncanny LearnDash Toolkit!</h2>';
 			$pro_ad.= '<div class="list">';
 			$pro_ad.= '<li><a href="https://www.uncannyowl.com/knowledge-base/autocomplete-lessons-topics/" target="_blank">Autocomplete Lessons &amp; Topics</a></li>';
-                        $pro_ad.= '<li><a href="https://www.uncannyowl.com/knowledge-base/enhanced-course-grid/" target="_blank">Enhanced Course Grid</a></li>';
-                        $pro_ad.= '<li><a href="https://www.uncannyowl.com/knowledge-base/learndash-course-dashboard/" target="_blank">LearnDash Course Dashboard</a></li>';
-                        $pro_ad.= '<li><a href="https://www.uncannyowl.com/knowledge-base/simple-course-timer/" target="_blank">Simple Course Timer</a></li>';
-                        $pro_ad.= '<li><a href="https://www.uncannyowl.com/knowledge-base/send-certificates-by-email/" target="_blank">Send Certificates by Email</a></li>';
-                        $pro_ad.= '<li><a href="https://www.uncannyowl.com/knowledge-base/group-sign-up/" target="_blank">LearnDash Group Registration</a></li>';
-                        $pro_ad.= '<li><a href="https://www.uncannyowl.com/knowledge-base/ld-group-logo-list/" target="_blank">LearnDash Group Logo/List</a></li>';
-                        $pro_ad.= '<li><a href="https://www.uncannyowl.com/knowledge-base/group-leader-access/" target="_blank">Improved Group Leader Interface</a></li>';
-                        $pro_ad.= '<li><a href="https://www.uncannyowl.com/knowledge-base/duplicate-pages-posts/" target="_blank">Duplicate Pages &amp; Posts</a></li>';
-                        $pro_ad.= '<li><a href="https://www.uncannyowl.com/knowledge-base/days-until-course-expiry/" target="_blank">Days Until Course Expiry</a></li>';
-                        $pro_ad.= '<li><a href="https://www.uncannyowl.com/knowledge-base/learner-transcript/" target="_blank">Learner Transcript</a></li>';
-                        $pro_ad.= '<li><a href="https://www.uncannyowl.com/article-categories/uncanny-toolkit-pro/" target="_blank">...and much more!</a></li>';
+			$pro_ad.= '<li><a href="https://www.uncannyowl.com/knowledge-base/enhanced-course-grid/" target="_blank">Enhanced Course Grid</a></li>';
+			$pro_ad.= '<li><a href="https://www.uncannyowl.com/knowledge-base/import-learndash-users/" target="_blank">Import LearnDash Users</a></li>';
+			$pro_ad.= '<li><a href="https://www.uncannyowl.com/knowledge-base/learndash-course-dashboard/" target="_blank">LearnDash Course Dashboard</a></li>';
+			$pro_ad.= '<li><a href="https://www.uncannyowl.com/knowledge-base/simple-course-timer/" target="_blank">Simple Course Timer</a></li>';
+			$pro_ad.= '<li><a href="https://www.uncannyowl.com/knowledge-base/send-certificates-by-email/" target="_blank">Send Certificates by Email</a></li>';
+			$pro_ad.= '<li><a href="https://www.uncannyowl.com/knowledge-base/group-sign-up/" target="_blank">LearnDash Group Registration</a></li>';
+			$pro_ad.= '<li><a href="https://www.uncannyowl.com/knowledge-base/group-leader-access/" target="_blank">Improved Group Leader Interface</a></li>';
+			$pro_ad.= '<li><a href="https://www.uncannyowl.com/knowledge-base/duplicate-pages-posts/" target="_blank">Duplicate Pages &amp; Posts</a></li>';
+			$pro_ad.= '<li><a href="https://www.uncannyowl.com/knowledge-base/days-until-course-expiry/" target="_blank">Days Until Course Expiry</a></li>';
+			$pro_ad.= '<li><a href="https://www.uncannyowl.com/knowledge-base/learner-transcript/" target="_blank">Learner Transcript</a></li>';
+			$pro_ad.= '<li><a href="https://www.uncannyowl.com/article-categories/uncanny-toolkit-pro/" target="_blank">...and much more!</a></li>';
 			$pro_ad.= '</div>';
-                        $pro_ad.= '<div style="clear:both;"></div>';
-                        
+			$pro_ad.= '<div style="clear:both;"></div>';
+
 			$show_pro_toolkit_heading = 'style="display:none;"';
 		} else {
 			$show_pro_toolkit_heading = '';
