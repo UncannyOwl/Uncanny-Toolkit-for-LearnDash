@@ -41,7 +41,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			$uo_manual_verification   = 'no';
 			$is_login_page_set        = 'no';
 			$uo_frontend_registration = 'no';
-			$settings                 = get_option( 'FrontendLoginPlus', Array() );
+			$settings                 = get_option( 'FrontendLoginPlus', array() );
 
 			foreach ( $settings as $setting ) {
 
@@ -107,7 +107,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				// Custom password retrieve message
 				add_filter( 'retrieve_password_message', array(
 					__CLASS__,
-					'custom_retrieve_password_message'
+					'custom_retrieve_password_message',
 				), 10, 4 );
 				// Add lost password link to login form
 				add_action( 'login_form_bottom', array( __CLASS__, 'add_lost_password_link' ) );
@@ -134,9 +134,13 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		$kb_link           = 'https://www.uncannyowl.com/knowledge-base/front-end-login/';
 		$class_description = esc_html__( 'Adds a custom login form and can optionally force users to be verified by an admin before they can sign in.', 'uncanny-learndash-toolkit' );
 		$class_icon        = '<i class="uo_icon_fa fa fa-sign-in"></i>';
+		$tags              = 'user-handling';
+		$type              = 'free';
 
 		return array(
 			'title'            => $class_title,
+			'type'             => $type,
+			'tags'             => $tags,
 			'kb_link'          => $kb_link, // OR set as null not to display
 			'description'      => $class_description,
 			'dependants_exist' => self::dependants_exist(),
@@ -247,7 +251,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 		$user_verified_value = get_user_meta( $user_id, self::$user_meta_key_col, true );
 
-		if ( 'uo_column' == $column_name ) {
+		if ( 'uo_column' === $column_name ) {
 
 			$message = 'Not Verified';
 
@@ -403,14 +407,10 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 							$value     = sprintf( '%s:%s', wp_unslash( $_GET['login'] ), wp_unslash( $_GET['key'] ) );
 							setcookie( $rp_cookie, $value, 0, '/' . get_post_field( 'post_name', $login_page_id ), COOKIE_DOMAIN, is_ssl(), true );
 						}
-
 					}
 				}
-
 			}
-
 		}
-
 	}
 
 	public static function uo_login_form( $atts, $content = null ) {
@@ -505,7 +505,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 		$registering = false;
 		if ( isset( $_GET['action'] ) ) {
-			if ( $_GET['action'] === 'register' ) {
+			if ( 'register' === $_GET['action'] ) {
 				$registering = true;
 			}
 		}
@@ -528,7 +528,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 					exit();
 				}
 		*/
-		if ( $page_viewed == "wp-login.php" && 'GET' === $_SERVER['REQUEST_METHOD'] && ! $registering ) {
+		if ( 'wp-login.php' === $page_viewed && 'GET' === $_SERVER['REQUEST_METHOD'] && ! $registering ) {
 			wp_safe_redirect( $login_page );
 			exit;
 		}
@@ -545,7 +545,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		$query           = array();
 		$query['action'] = 'register';
 
-		if ( isset( $_GET['checkemail'] ) && 'registered' == $_GET['checkemail'] ) {
+		if ( isset( $_GET['checkemail'] ) && 'registered' === $_GET['checkemail'] ) {
 			$query['registered'] = 'success';
 		}
 
@@ -593,7 +593,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 		$uo_manual_verification = 'no';
 
-		$settings = get_option( 'FrontendLoginPlus', Array() );
+		$settings = get_option( 'FrontendLoginPlus', array() );
 
 		if ( false !== $settings ) {
 
@@ -602,36 +602,43 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				if ( 'uo_frontendloginplus_needs_verifcation' === $setting['name'] && 'on' === $setting['value'] ) {
 					$uo_manual_verification = 'yes';
 				}
-
 			}
 		}
 
 		$login_page = get_permalink( self::get_login_redirect_page_id() );
 
 		if ( 'yes' === $uo_manual_verification ) {
-
-			$user = get_user_by( 'login', $username );
-
-
-			$user_verified_value = get_user_meta( $user->ID, self::$user_meta_key_col, true );
-
-			// bypass admins
-			if ( user_can( $user->ID, 'activate_plugins' ) ) {
-				$user_verified_value = '1';
+			if ( is_email( $username ) ) {
+				$user = get_user_by( 'email', $username );
+			} else {
+				$user = get_user_by( 'login', $username );
 			}
 
-			// Is the use logging in disabled?
-			if ( '1' !== $user_verified_value ) {
-				wp_destroy_current_session();
-				wp_clear_auth_cookie();
-				wp_safe_redirect( add_query_arg( array( 'login' => 'notverified' ), $login_page ) );
+			if ( $user ) {
+
+				$user_verified_value = get_user_meta( $user->ID, self::$user_meta_key_col, true );
+
+				// bypass admins
+				if ( user_can( $user->ID, 'activate_plugins' ) ) {
+					$user_verified_value = '1';
+				}
+
+				// Is the use logging in disabled?
+				if ( '1' !== $user_verified_value ) {
+					wp_destroy_current_session();
+					wp_clear_auth_cookie();
+					wp_safe_redirect( add_query_arg( array( 'login' => 'notverified' ), $login_page ) );
+					exit;
+				}
+			} else {
+				$login_page = get_permalink( self::get_login_redirect_page_id() );
+				wp_safe_redirect( add_query_arg( array( 'login' => 'failed' ), $login_page ) );
 				exit;
 			}
-
 		}
 
 		$registering = false;
-		if ( isset( $_GET['checkemail'] ) && 'registered' == $_GET['checkemail'] ) {
+		if ( isset( $_GET['checkemail'] ) && 'registered' === $_GET['checkemail'] ) {
 			$registering = true;
 		}
 
@@ -669,7 +676,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 		$page_id = 0;
 
-		$settings = get_option( 'FrontendLoginPlus', Array() );
+		$settings = get_option( 'FrontendLoginPlus', array() );
 
 		foreach ( $settings as $setting ) {
 			if ( 'login_page' === $setting['name'] ) {
@@ -704,7 +711,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		$reset_args = array(
 			'action' => 'rp',
 			'key'    => $key,
-			'login'  => rawurlencode( $user_login )
+			'login'  => rawurlencode( $user_login ),
 		);
 
 		$reset_link = add_query_arg( $reset_args, $login_page );
@@ -727,7 +734,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 		global $post;
 
-		$settings = get_option( 'FrontendLoginPlus', Array() );
+		$settings = get_option( 'FrontendLoginPlus', array() );
 
 		foreach ( $settings as $setting ) {
 

@@ -56,9 +56,13 @@ class LearnDashResume extends Config implements RequiredFunctions {
 		$kb_link           = 'https://www.uncannyowl.com/knowledge-base/learndash-resume/';
 		$class_description = esc_html__( 'Inserts a button that allows learners to return to the course, lesson or topic they last visited.', 'uncanny-learndash-toolkit' );
 		$class_icon        = '<i class="uo_icon_fa fa fa-refresh"></i>';
+		$tags              = 'learndash';
+		$type              = 'free';
 
 		return array(
 			'title'            => $class_title,
+			'type'             => $type,
+			'tags'             => $tags,
 			'kb_link'          => $kb_link,
 			'description'      => $class_description,
 			'dependants_exist' => self::dependants_exist(),
@@ -148,14 +152,14 @@ class LearnDashResume extends Config implements RequiredFunctions {
 
 		if ( is_user_logged_in() ) {
 
-			$last_know_page_id = get_user_meta( $user->ID, 'learndash_last_known_page', true );
-			$last_know_post_object = get_post($last_know_page_id);
+			$last_know_page_id     = get_user_meta( $user->ID, 'learndash_last_known_page', true );
+			$last_know_post_object = get_post( $last_know_page_id );
 
 			// Make sure the post exists and that the user hit a page that was a post
 			// if $last_know_page_id returns '' then get post will return current pages post object
 			// so we need to make sure first that the $last_know_page_id is returning something and
 			// that the something is a valid post
-			if ( '' !== $last_know_page_id && null !== $last_know_post_object) {
+			if ( '' !== $last_know_page_id && null !== $last_know_post_object ) {
 				$post_type        = $last_know_post_object->post_type; // getting post_type of last page.
 				$label            = get_post_type_object( $post_type ); // getting Labels of the post type.
 				$title            = $last_know_post_object->post_title;

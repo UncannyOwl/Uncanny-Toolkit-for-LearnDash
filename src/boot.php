@@ -27,8 +27,19 @@ class Boot extends Config {
 		$uncanny_learndash_toolkit->admin_menu = new AdminMenu;
 
 		// Add admin menu ajax class to load and save settings
-		add_action( 'wp_ajax_settings_save', array( get_parent_class(), 'ajax_settings_save' ) );// parent class is Config
-		add_action( 'wp_ajax_settings_load', array( get_parent_class(), 'ajax_settings_load' ) );// parent class is Config
+		add_action( 'wp_ajax_settings_save', array(
+			get_parent_class(),
+			'ajax_settings_save',
+		) );// parent class is Config
+		add_action( 'wp_ajax_settings_load', array(
+			get_parent_class(),
+			'ajax_settings_load',
+		) );// parent class is Config
+
+		add_action( 'wp_ajax_activate_deactivate_module', array(
+			get_parent_class(),
+			'ajax_activate_deactivate_module',
+		) );// parent class is Config
 
 		// Class Details:  Add Class to Admin Menu page
 		$classes = self::get_active_classes();
