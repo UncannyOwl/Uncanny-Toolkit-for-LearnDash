@@ -57,11 +57,11 @@ class AdminMenu extends Boot {
 
 		if ( 'toplevel_page_uncanny-learnDash-toolkit' === $hook || 'uncanny-toolkit_page_uncanny-pro-license-activation' === $hook ) {
 			// Admin CSS
-			wp_enqueue_style( 'uo-menu-slug-css', Config::get_admin_css( 'admin-style.css' ), array(), '6' );
+			wp_enqueue_style( 'uo-menu-slug-css', Config::get_admin_css( 'admin-style.css' ), array(), '6.0.1' );
 			// Admin JS
-			wp_enqueue_script( 'uo-menu-slug-js', Config::get_admin_js( 'script.js' ), array( 'jquery' ), '6', true );
-			wp_enqueue_script( 'uo-quicksand-js', Config::get_admin_js( 'jquery.quicksand.js' ), array( 'jquery' ), '2.0', true );
-			wp_enqueue_script( 'quicksand-js', Config::get_admin_js( 'quicksand.js' ), array( 'jquery' ), '2.0', true );
+			wp_enqueue_script( 'uo-menu-slug-js', Config::get_admin_js( 'script.js' ), array( 'jquery' ), '6.0.1', true );
+			wp_enqueue_script( 'uo-quicksand-js', Config::get_admin_js( 'jquery.quicksand.js' ), array( 'jquery' ), '2.0.1', true );
+			wp_enqueue_script( 'quicksand-js', Config::get_admin_js( 'quicksand.js' ), array( 'jquery' ), '2.0.1', true );
 			// Admin CSS
 			wp_enqueue_style( 'uo-menu-slug-css-fontawesome', 'https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css' );
 			// Load Native WP Color Picker
