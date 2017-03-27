@@ -326,7 +326,7 @@ class Config {
 		<div id="<?php echo $modal_id; ?>" class="uo_settings">
 
 			<div class="uo_settings_header">
-				<!--<h2>Settings: <?php /*echo $title; */?></h2>-->
+				<!--<h2>Settings: <?php /*echo $title; */ ?></h2>-->
 				<h2><?php echo $title; ?></h2>
 			</div>
 
@@ -506,7 +506,7 @@ class Config {
 		// Clean Buffer before Response
 		ob_clean();
 
-		echo $response;
+		echo stripslashes( $response );
 
 		wp_die();
 

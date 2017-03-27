@@ -58,9 +58,7 @@ class Boot extends Config {
 				if ( class_exists( $class ) && __NAMESPACE__ === $class_namespace[0] ) {
 					new $class;
 				}
-
 			}
-
 		}
 	}
 
