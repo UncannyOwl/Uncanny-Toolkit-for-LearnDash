@@ -7,6 +7,12 @@
  * @return string
  */
 function uo_breadcrumbs( $echo = true ) {
+	$uo_active_classes = get_option( 'uncanny_toolkit_active_classes', 0 );
+	if ( 0 !== $uo_active_classes ) {
+		if ( ! key_exists( 'uncanny_learndash_toolkit\Breadcrumbs', $uo_active_classes ) ) {
+			return '';
+		}
+	}
 	$crumb = new \uncanny_learndash_toolkit\Breadcrumbs();
 	if ( ! $echo ) {
 		return $crumb->uo_breadcrumbs();
