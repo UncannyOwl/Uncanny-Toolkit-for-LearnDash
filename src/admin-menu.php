@@ -387,7 +387,10 @@ class AdminMenu extends Boot {
 
 		foreach ( $classes_available as $key => $class ) {
 			// skip sample classes
-			if ( strpos( $key, 'Sample' ) ) {
+			//if ( strpos( $key, 'Sample' ) ) {
+			//	continue;
+			//}
+			if ( 'uncanny_learndash_toolkit\Sample' === $key || 'uncanny_custom_toolkit\Sample' === $key || 'uncanny_pro_toolkit\Sample' === $key ) {
 				continue;
 			}
 			$class_name = $key;
