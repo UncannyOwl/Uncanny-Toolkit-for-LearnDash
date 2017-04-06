@@ -301,7 +301,7 @@ class Config {
 		return $new_array;
 	}
 
-	/*
+	/**
 	 * Loops through array of setting values and return an link and settings html
 	 * @param array		$settings
 	 * @return array

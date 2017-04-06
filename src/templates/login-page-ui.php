@@ -147,7 +147,7 @@ $login_form_args = array(
 	'value_remember' => true,
 );
 
-$login_form_args = apply_filters( 'uo_frontend_login_error', $login_form_args );
+$login_form_args = apply_filters( 'uo_frontend_login_args', $login_form_args );
 
 $innerText = Array(
 	'Hello'                      => esc_html__( 'Hello', 'uncanny-learndash-toolkit' ),
