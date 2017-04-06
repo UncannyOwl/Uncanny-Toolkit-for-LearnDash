@@ -57,11 +57,11 @@ class AdminMenu extends Boot {
 
 		if ( 'toplevel_page_uncanny-learnDash-toolkit' === $hook || 'uncanny-toolkit_page_uncanny-pro-license-activation' === $hook ) {
 			// Admin CSS
-			wp_enqueue_style( 'uo-menu-slug-css', Config::get_admin_css( 'admin-style.css' ), array(), '6.0.1' );
+			wp_enqueue_style( 'uo-menu-slug-css', Config::get_admin_css( 'admin-style.css' ), array(), UNCANNY_TOOLKIT_VERSION );
 			// Admin JS
-			wp_enqueue_script( 'uo-menu-slug-js', Config::get_admin_js( 'script.js' ), array( 'jquery' ), '6.0.1', true );
-			wp_enqueue_script( 'uo-quicksand-js', Config::get_admin_js( 'jquery.quicksand.js' ), array( 'jquery' ), '2.0.1', true );
-			wp_enqueue_script( 'quicksand-js', Config::get_admin_js( 'quicksand.js' ), array( 'jquery' ), '2.0.1', true );
+			wp_enqueue_script( 'uo-menu-slug-js', Config::get_admin_js( 'script.js' ), array( 'jquery' ), UNCANNY_TOOLKIT_VERSION, true );
+			wp_enqueue_script( 'uo-quicksand-js', Config::get_admin_js( 'jquery.quicksand.js' ), array( 'jquery' ), UNCANNY_TOOLKIT_VERSION, true );
+			wp_enqueue_script( 'quicksand-js', Config::get_admin_js( 'quicksand.js' ), array( 'jquery' ), UNCANNY_TOOLKIT_VERSION, true );
 			// Admin CSS
 			wp_enqueue_style( 'uo-menu-slug-css-fontawesome', 'https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css' );
 			// Load Native WP Color Picker
@@ -87,24 +87,24 @@ class AdminMenu extends Boot {
 		$pro_ad = '';
 
 		if ( ! $uo_pro_classes['path'] ) {
-			$pro_ad.= '<a href="http://www.uncannyowl.com/downloads/uncanny-learndash-toolkit-pro/" class="page-title-action" target="_blank">Upgrade Now</a>';
-			$pro_ad.= '<p><strong>Ready to take your LearnDash site even further?</strong></p>';
-			$pro_ad.= '<h2>Check out the Pro modules for the Uncanny LearnDash Toolkit!</h2>';
-			$pro_ad.= '<div class="list">';
-			$pro_ad.= '<li><a href="https://www.uncannyowl.com/knowledge-base/autocomplete-lessons-topics/" target="_blank">Autocomplete Lessons &amp; Topics</a></li>';
-			$pro_ad.= '<li><a href="https://www.uncannyowl.com/knowledge-base/enhanced-course-grid/" target="_blank">Enhanced Course Grid</a></li>';
-			$pro_ad.= '<li><a href="https://www.uncannyowl.com/knowledge-base/import-learndash-users/" target="_blank">Import LearnDash Users</a></li>';
-			$pro_ad.= '<li><a href="https://www.uncannyowl.com/knowledge-base/learndash-course-dashboard/" target="_blank">LearnDash Course Dashboard</a></li>';
-			$pro_ad.= '<li><a href="https://www.uncannyowl.com/knowledge-base/simple-course-timer/" target="_blank">Simple Course Timer</a></li>';
-			$pro_ad.= '<li><a href="https://www.uncannyowl.com/knowledge-base/send-certificates-by-email/" target="_blank">Send Certificates by Email</a></li>';
-			$pro_ad.= '<li><a href="https://www.uncannyowl.com/knowledge-base/group-sign-up/" target="_blank">LearnDash Group Registration</a></li>';
-			$pro_ad.= '<li><a href="https://www.uncannyowl.com/knowledge-base/group-leader-access/" target="_blank">Improved Group Leader Interface</a></li>';
-			$pro_ad.= '<li><a href="https://www.uncannyowl.com/knowledge-base/duplicate-pages-posts/" target="_blank">Duplicate Pages &amp; Posts</a></li>';
-			$pro_ad.= '<li><a href="https://www.uncannyowl.com/knowledge-base/days-until-course-expiry/" target="_blank">Days Until Course Expiry</a></li>';
-			$pro_ad.= '<li><a href="https://www.uncannyowl.com/knowledge-base/learner-transcript/" target="_blank">Learner Transcript</a></li>';
-			$pro_ad.= '<li><a href="https://www.uncannyowl.com/article-categories/uncanny-toolkit-pro/" target="_blank">...and much more!</a></li>';
-			$pro_ad.= '</div>';
-			$pro_ad.= '<div style="clear:both;"></div>';
+			$pro_ad .= '<a href="http://www.uncannyowl.com/downloads/uncanny-learndash-toolkit-pro/" class="page-title-action" target="_blank">Upgrade Now</a>';
+			$pro_ad .= '<p><strong>Ready to take your LearnDash site even further?</strong></p>';
+			$pro_ad .= '<h2>Check out the Pro modules for the Uncanny LearnDash Toolkit!</h2>';
+			$pro_ad .= '<div class="list">';
+			$pro_ad .= '<li><a href="https://www.uncannyowl.com/knowledge-base/autocomplete-lessons-topics/" target="_blank">Autocomplete Lessons &amp; Topics</a></li>';
+			$pro_ad .= '<li><a href="https://www.uncannyowl.com/knowledge-base/enhanced-course-grid/" target="_blank">Enhanced Course Grid</a></li>';
+			$pro_ad .= '<li><a href="https://www.uncannyowl.com/knowledge-base/import-learndash-users/" target="_blank">Import LearnDash Users</a></li>';
+			$pro_ad .= '<li><a href="https://www.uncannyowl.com/knowledge-base/learndash-course-dashboard/" target="_blank">LearnDash Course Dashboard</a></li>';
+			$pro_ad .= '<li><a href="https://www.uncannyowl.com/knowledge-base/simple-course-timer/" target="_blank">Simple Course Timer</a></li>';
+			$pro_ad .= '<li><a href="https://www.uncannyowl.com/knowledge-base/send-certificates-by-email/" target="_blank">Send Certificates by Email</a></li>';
+			$pro_ad .= '<li><a href="https://www.uncannyowl.com/knowledge-base/group-sign-up/" target="_blank">LearnDash Group Registration</a></li>';
+			$pro_ad .= '<li><a href="https://www.uncannyowl.com/knowledge-base/group-leader-access/" target="_blank">Improved Group Leader Interface</a></li>';
+			$pro_ad .= '<li><a href="https://www.uncannyowl.com/knowledge-base/duplicate-pages-posts/" target="_blank">Duplicate Pages &amp; Posts</a></li>';
+			$pro_ad .= '<li><a href="https://www.uncannyowl.com/knowledge-base/days-until-course-expiry/" target="_blank">Days Until Course Expiry</a></li>';
+			$pro_ad .= '<li><a href="https://www.uncannyowl.com/knowledge-base/learner-transcript/" target="_blank">Learner Transcript</a></li>';
+			$pro_ad .= '<li><a href="https://www.uncannyowl.com/article-categories/uncanny-toolkit-pro/" target="_blank">...and much more!</a></li>';
+			$pro_ad .= '</div>';
+			$pro_ad .= '<div style="clear:both;"></div>';
 
 			$show_pro_toolkit_heading = 'style="display:none;"';
 		} else {
@@ -464,7 +464,7 @@ class AdminMenu extends Boot {
 
 				if ( strpos( $dependants_exist, '@uo_custom_message' ) !== false ) {
 					$dependants_exist = str_replace( '@uo_custom_message', '', $dependants_exist );
-					$toolkit_html .= '<div><strong>' . esc_html( $dependants_exist ) . '</strong></div>';
+					$toolkit_html     .= '<div><strong>' . esc_html( $dependants_exist ) . '</strong></div>';
 				} else {
 					$toolkit_html .= '<div><strong>' . esc_html( $dependants_exist ) . '</strong>' . esc_html__( ' is needed for this add-on', 'uncanny-learndash-toolkit' ) . '</div>';
 				}
