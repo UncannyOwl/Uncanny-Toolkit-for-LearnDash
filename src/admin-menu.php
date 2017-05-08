@@ -410,7 +410,7 @@ class AdminMenu extends Boot {
 
 			$is_activated = 'uo_feature_deactivated';
 			$is_active    = 2;
-			if ( isset( $active_classes[ $class_name ] ) ) {
+			if ( isset( $active_classes[ $class_name ] ) || isset( $active_classes[ stripslashes( $class_name ) ] ) ) {
 				$is_activated = 'uo_feature_activated';
 				$is_active    = 1;
 			}
