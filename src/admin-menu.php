@@ -123,7 +123,7 @@ class AdminMenu extends Boot {
 		$active_classes = Config::get_active_classes();
 
 		?>
-		<div class="uo-admin-header">
+		<div class="uo-admin-header uo-wrap">
 			<a href="http://www.uncannyowl.com" target="_blank">
 				<img src="<?php echo esc_url( Config::get_admin_media( 'Uncanny-Owl-logo.png' ) ); ?>"/>
 			</a>
@@ -152,7 +152,7 @@ class AdminMenu extends Boot {
 			</p>
 		</div>
 
-		<div class="ad-pro-toolkit wrap" <?php echo $show_pro_ad; ?>>
+		<div class="ad-pro-toolkit uo-wrap" <?php echo $show_pro_ad; ?>>
 			<?php echo $pro_ad; ?>
 		</div>
 
