@@ -91,6 +91,7 @@ class AdminMenu extends Boot {
 			$pro_ad .= '<p><strong>Ready to take your LearnDash site even further?</strong></p>';
 			$pro_ad .= '<h2>Check out the Pro modules for the Uncanny LearnDash Toolkit!</h2>';
 			$pro_ad .= '<div class="list">';
+			$pro_ad .= '<li><a href="https://www.uncannyowl.com/knowledge-base/import-learndash-users/" target="_blank">Import LearnDash Users</a><span class="new-module">NEW!</span></li>';
 			$pro_ad .= '<li><a href="https://www.uncannyowl.com/knowledge-base/autocomplete-lessons-topics/" target="_blank">Autocomplete Lessons &amp; Topics</a></li>';
 			$pro_ad .= '<li><a href="https://www.uncannyowl.com/knowledge-base/enhanced-course-grid/" target="_blank">Enhanced Course Grid</a></li>';
 			$pro_ad .= '<li><a href="https://www.uncannyowl.com/knowledge-base/import-learndash-users/" target="_blank">Import LearnDash Users</a></li>';
@@ -100,7 +101,6 @@ class AdminMenu extends Boot {
 			$pro_ad .= '<li><a href="https://www.uncannyowl.com/knowledge-base/group-sign-up/" target="_blank">LearnDash Group Registration</a></li>';
 			$pro_ad .= '<li><a href="https://www.uncannyowl.com/knowledge-base/group-leader-access/" target="_blank">Improved Group Leader Interface</a></li>';
 			$pro_ad .= '<li><a href="https://www.uncannyowl.com/knowledge-base/duplicate-pages-posts/" target="_blank">Duplicate Pages &amp; Posts</a></li>';
-			$pro_ad .= '<li><a href="https://www.uncannyowl.com/knowledge-base/days-until-course-expiry/" target="_blank">Days Until Course Expiry</a></li>';
 			$pro_ad .= '<li><a href="https://www.uncannyowl.com/knowledge-base/learner-transcript/" target="_blank">Learner Transcript</a></li>';
 			$pro_ad .= '<li><a href="https://www.uncannyowl.com/article-categories/uncanny-toolkit-pro/" target="_blank">...and much more!</a></li>';
 			$pro_ad .= '</div>';
@@ -123,7 +123,7 @@ class AdminMenu extends Boot {
 		$active_classes = Config::get_active_classes();
 
 		?>
-		<div class="uo-admin-header">
+		<div class="uo-admin-header uo-wrap">
 			<a href="http://www.uncannyowl.com" target="_blank">
 				<img src="<?php echo esc_url( Config::get_admin_media( 'Uncanny-Owl-logo.png' ) ); ?>"/>
 			</a>
@@ -152,7 +152,7 @@ class AdminMenu extends Boot {
 			</p>
 		</div>
 
-		<div class="ad-pro-toolkit wrap" <?php echo $show_pro_ad; ?>>
+		<div class="ad-pro-toolkit uo-wrap" <?php echo $show_pro_ad; ?>>
 			<?php echo $pro_ad; ?>
 		</div>
 
@@ -410,7 +410,7 @@ class AdminMenu extends Boot {
 
 			$is_activated = 'uo_feature_deactivated';
 			$is_active    = 2;
-			if ( isset( $active_classes[ $class_name ] ) ) {
+			if ( isset( $active_classes[ $class_name ] ) || isset( $active_classes[ stripslashes( $class_name ) ] ) ) {
 				$is_activated = 'uo_feature_activated';
 				$is_active    = 1;
 			}
