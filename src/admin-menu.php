@@ -91,7 +91,7 @@ class AdminMenu extends Boot {
 			$pro_ad .= '<p><strong>Ready to take your LearnDash site even further?</strong></p>';
 			$pro_ad .= '<h2>Check out the Pro modules for the Uncanny LearnDash Toolkit!</h2>';
 			$pro_ad .= '<div class="list">';
-			$pro_ad .= '<li><a href="https://www.uncannyowl.com/knowledge-base/days-until-course-expiry/" target="_blank">Import LearnDash Users</a><span class="new-module">NEW!</span></li>';
+			$pro_ad .= '<li><a href="https://www.uncannyowl.com/knowledge-base/import-learndash-users/" target="_blank">Import LearnDash Users</a><span class="new-module">NEW!</span></li>';
 			$pro_ad .= '<li><a href="https://www.uncannyowl.com/knowledge-base/autocomplete-lessons-topics/" target="_blank">Autocomplete Lessons &amp; Topics</a></li>';
 			$pro_ad .= '<li><a href="https://www.uncannyowl.com/knowledge-base/enhanced-course-grid/" target="_blank">Enhanced Course Grid</a></li>';
 			$pro_ad .= '<li><a href="https://www.uncannyowl.com/knowledge-base/import-learndash-users/" target="_blank">Import LearnDash Users</a></li>';
