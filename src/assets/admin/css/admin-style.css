@@ -740,6 +740,6 @@ input[type=radio].uo_settings_form_field {
 	background: #46b450;
 	color: white;
 	margin-left: 3px;
-	padding: 1px 3px;
+	padding: 0 3px 2px 3px;
 	font-weight: bold;
 }
