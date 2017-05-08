@@ -716,3 +716,11 @@ input[type=radio].uo_settings_form_field {
 .uo_feature:hover {
 	background: #f6f6f6;
 }
+
+.new-module{
+	background: #46b450;
+	color: white;
+	margin-left: 3px;
+	padding: 1px 3px;
+	font-weight: bold;
+}
