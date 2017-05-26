@@ -506,7 +506,8 @@ class Config {
 		// Clean Buffer before Response
 		ob_clean();
 
-		echo stripslashes( $response );
+		//echo stripslashes( $response );
+		echo $response;
 
 		wp_die();
 
