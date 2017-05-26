@@ -492,7 +492,7 @@ class Config {
 
 				$settings = get_option( $class, array() );
 
-				$response = json_encode( $settings );
+				$response = wp_json_encode( $settings );
 
 			} else {
 				$response = 'Class for addon is not set.';
