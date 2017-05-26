@@ -213,21 +213,22 @@ jQuery(document).ready(function ($) {
 
 			$.each(saved_options, function (options_index, option) {
 				var element = $('#' + settings_class).find('[name="' + option['name'] + '"]');
-
+				var option_value = remove_slashes_from_strong(option['value']);
+				//console.log(option_value);
 				if (element.is('input[type="text"]')) {
-					element.val(option['value']);
+					element.val(option_value);
 				}
 
 				if (element.is('textarea')) {
-					element.val(option['value']);
+					element.val(option_value);
 				}
 
 				if (element.is('input[type="color"]')) {
-					element.val(option['value']);
+					element.val(option_value);
 				}
 
 				if (element.is('input[type="checkbox"]')) {
-					if ('on' === option['value']) {
+					if ('on' === option_value) {
 						element.prop("checked", true);
 					} else {
 						element.prop("checked", false);
@@ -237,7 +238,7 @@ jQuery(document).ready(function ($) {
 				if (element.is('input[type="radio"]')) {
 
 					$.each(element, function (radio_index, radio) {
-						if (option['value'] === $(radio).val()) {
+						if (option_value === $(radio).val()) {
 							$(radio).prop("checked", true);
 						}
 					});
@@ -245,7 +246,7 @@ jQuery(document).ready(function ($) {
 				}
 
 				if (element.is('select')) {
-					element.val(option['value']);
+					element.val(option_value);
 				}
 
 			});
@@ -259,5 +260,8 @@ jQuery(document).ready(function ($) {
 		});
 	});
 
+	function remove_slashes_from_strong(string){
+		return string.replace(new RegExp("\\\\", "g"), "");
+	}
 
 });
