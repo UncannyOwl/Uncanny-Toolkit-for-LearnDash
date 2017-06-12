@@ -83,6 +83,11 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 				// Set Cookies for login-page-ui.php early
 				add_action( 'wp', array( __CLASS__, 'set_cookies' ) );
+
+				add_action( 'wp', array( __CLASS__, 'maybe_set_cookies' ), 99 ); // Set cookies
+				add_action( 'shutdown', array( __CLASS__, 'maybe_set_cookies' ), 0 ); // Set cookies before shutdown and ob flushing
+
+
 				// Create Login UI Shortcode that can be added anywhere
 				add_shortcode( 'uo_login_ui', array( __CLASS__, 'uo_login_ui' ) );
 				// Redirect from wp-login.php to custom login page
@@ -122,6 +127,9 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		}
 
 	}
+
+
+
 
 	/**
 	 * Description of class in Admin View
@@ -285,21 +293,21 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		$echo    = true;
 		?>
 
-		<table class="form-table">
-			<tr class="user-rich-editing-wrap">
-				<th scope="row">
-					<h2>Verify User</h2>
-				</th>
-				<td>
-					<label for="rich_editing">
-						<input type="checkbox" name="uo_is_verified"
-						       value="1" <?php checked( $checked, $current, $echo ); ?>/>
-						Verify this user and allow them to log in
-					</label>
-				</td>
-			</tr>
+        <table class="form-table">
+            <tr class="user-rich-editing-wrap">
+                <th scope="row">
+                    <h2>Verify User</h2>
+                </th>
+                <td>
+                    <label for="rich_editing">
+                        <input type="checkbox" name="uo_is_verified"
+                               value="1" <?php checked( $checked, $current, $echo ); ?>/>
+                        Verify this user and allow them to log in
+                    </label>
+                </td>
+            </tr>
 
-		</table>
+        </table>
 
 		<?php
 	}
@@ -405,13 +413,46 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 							$rp_cookie = 'wp-resetpass-' . COOKIEHASH;
 							$value     = sprintf( '%s:%s', wp_unslash( $_GET['login'] ), wp_unslash( $_GET['key'] ) );
-							setcookie( $rp_cookie, $value, 0, get_post_field( 'post_name', $login_page_id ), COOKIE_DOMAIN, is_ssl(), true );
+
+							setcookie( $rp_cookie, $value, time()+3600, '/' . get_post_field( 'post_name', $login_page_id ), COOKIE_DOMAIN, is_ssl(), true );
 						}
 					}
 				}
 			}
 		}
 	}
+
+	public static function maybe_set_cookies(){
+
+		global $post;
+
+		if ( null !== $post ) {
+
+			$current_post_id = $post->ID;
+
+			$login_page_id = self::get_login_redirect_page_id();
+
+			if ( $current_post_id === $login_page_id ) {
+
+				/* Set Reset Password Cookie */
+				if ( isset( $_GET['action'] ) ) {
+					if ( 'rp' === $_GET['action'] ) {
+
+						if ( isset( $_GET['key'] ) && isset( $_GET['login'] ) ) {
+
+							$rp_cookie = 'wp-resetpass-' . COOKIEHASH;
+							$value     = sprintf( '%s:%s', wp_unslash( $_GET['login'] ), wp_unslash( $_GET['key'] ) );
+							setcookie( $rp_cookie, $value, 0, '/', COOKIE_DOMAIN, is_ssl(), true );
+						}
+					}
+				}
+			}
+		}
+
+
+
+	}
+
 
 	public static function uo_login_form( $atts, $content = null ) {
 
@@ -444,12 +485,12 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 			if ( 'no' !== $placeholder ) {
 				?>
-				<script type='text/javascript'>
-					jQuery(document).ready(function () {
-						jQuery('#user_login').attr('placeholder', '<?php echo $username_label; ?>');
-						jQuery('#user_pass').attr('placeholder', '<?php echo $password_label; ?>');
-					});
-				</script>
+                <script type='text/javascript'>
+                    jQuery(document).ready(function () {
+                        jQuery('#user_login').attr('placeholder', '<?php echo $username_label; ?>');
+                        jQuery('#user_pass').attr('placeholder', '<?php echo $password_label; ?>');
+                    });
+                </script>
 				<?php
 			}
 
