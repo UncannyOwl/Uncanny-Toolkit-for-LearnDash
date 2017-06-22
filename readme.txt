@@ -2,8 +2,8 @@
 Contributors: uncannyowl
 Tags: LearnDash, eLearning, LMS
 Requires at least: 4.0
-Tested up to: 4.7.4
-Stable tag: 2.0.5
+Tested up to: 4.8
+Stable tag: 2.0.6
 License: This plugin is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or any later version.   LearnDash Groups in User Profiles is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.   You should have received a copy of the GNU General Public License along with LearnDash Groups in User Profiles. If not, see {URI to Plugin License}.
 License URI: https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
 
@@ -41,6 +41,10 @@ We welcome contributions to the Uncanny LearnDash Toolkit! The plugin is managed
 1. Uncanny LearnDash Toolkit Dashboard
 
 == Changelog ==
+
+= 2.0.6 =
+* Fixed: Single quotes are saved properly in toolkit module settings
+* Fixed: Front end login reset password function on Edge and Safari
 
 = 2.0.5 =
 * Fixed: WooCommerce/Third Party plugin notices popping up in Pro Toolkit Ad banner
