@@ -104,10 +104,13 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 			'order'          => 'ASC',
 		);
 
+		echo '<div class="uncanny-cert-widget-list">';
+
+		echo '<ul>';
+
 		$courses = get_posts( $post_args );
 
 		$certificate_list   = '';
-		$certificate_titles = Array();
 
 		foreach ( $courses as $course ) {
 
@@ -118,30 +121,22 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 
 			if ( $certificate_link && '' !== $certificate_link ) {
 
-				if ( $certificate_link && '' !== $certificate_link ) {
-					$certificate_list .= '<li><a target="_blank" href="' . $certificate_link . '" title="' . esc_html__( 'Your certificate for: ', 'uncanny-learndash-toolkit' ) . $course->post_title . '">' . $certificate_title . '</a></li>';
-				}
+				$certificate_list .= '<li><a target="_blank" href="' . $certificate_link . '" title="' . esc_html__( 'Your certificate for: ', 'uncanny-learndash-toolkit' ) . $course->post_title . '">' . $certificate_title . '</a></li>';
+
 
 			}
 		}
 
 		$quiz_attempts = self::quiz_attempts();
 
-		echo '<div class="uncanny-cert-widget-list">';
-
-		if ( ! empty( $quiz_attempts ) || '' !== $certificate_list ) {
-
-			echo '<ul>';
-
-			echo $certificate_list;
+		if ( ! empty( $quiz_attempts ) ) {
 
 			$quiz_attempts     = array_reverse( $quiz_attempts );
-			$certificate_count = 0;
 
 			foreach ( $quiz_attempts as $k => $quiz_attempt ) {
 
 				if ( isset( $quiz_attempt['certificate'] ) ) {
-					$certificate_count ++;
+				    
 					$certificateLink = $quiz_attempt['certificate']['certificateLink'];
 					$quiz_title      = ! empty( $quiz_attempt['post']->post_title ) ? $quiz_attempt['post']->post_title : @$quiz_attempt['quiz_title'];
 
@@ -151,7 +146,7 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 						$certificate_object = get_post( $certificate_id );
 						$certificate_title  = $certificate_object->post_title;
 
-						printf( '<li><a target="_blank" href="%s" title="%s %s" >%s</a></li>',
+						$certificate_list .= sprintf( '<li><a target="_blank" href="%s" title="%s %s" >%s</a></li>',
 							esc_url( $certificateLink ),
 							esc_html__( 'Your certificate for :', 'uncanny-learndash-toolkit' ),
 							$quiz_title,
@@ -159,20 +154,23 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 						);
 					}
 				}
-
 			}
-
-			if ( 0 === $certificate_count ) {
-				printf( '<li> %s</li>',
-					esc_html__( 'Complete courses to earn certificates', 'uncanny-learndash-toolkit' )
-				);
-			}
-
-			echo '</ul></div>';
-
-		} else {
-			printf( '<p>%s</p></div>', esc_html( $instance['no_certs'] ) );
 		}
+
+		$certificate_list = apply_filters( 'certificate_list_widget', $certificate_list );
+
+		if( '' === $certificate_list  ){
+			printf( '<p>%s</p>', esc_html( $instance['no_certs'] ) );
+		}else{
+		    echo $certificate_list;
+        }
+
+
+
+		echo '</ul>';
+
+		//close .uncanny-cert-widget-list
+		echo '</div>';
 
 		echo $args['after_widget'];
 
@@ -232,19 +230,19 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 		$no_certs = ! empty( $instance['no_certs'] ) ? $instance['no_certs'] : esc_html__( 'Complete courses to earn certificates', 'uncanny-learndash-toolkit' );
 
 		?>
-		<p>
-			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:' ); ?></label>
-			<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>"
-			       name="<?php echo $this->get_field_name( 'title' ); ?>" type="text"
-			       value="<?php echo esc_attr( $title ); ?>">
-		</p>
-		<p>
-			<label
-					for="<?php echo $this->get_field_id( 'no_certs' ); ?>"><?php esc_html_e( 'No certificates message:', 'uncanny-learndash-toolkit' ); ?></label>
-			<input class="widefat" id="<?php echo $this->get_field_id( 'no_certs' ); ?>"
-			       name="<?php echo $this->get_field_name( 'no_certs' ); ?>" type="text"
-			       value="<?php echo esc_attr( $no_certs ); ?>">
-		</p>
+        <p>
+            <label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:' ); ?></label>
+            <input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>"
+                   name="<?php echo $this->get_field_name( 'title' ); ?>" type="text"
+                   value="<?php echo esc_attr( $title ); ?>">
+        </p>
+        <p>
+            <label
+                    for="<?php echo $this->get_field_id( 'no_certs' ); ?>"><?php esc_html_e( 'No certificates message:', 'uncanny-learndash-toolkit' ); ?></label>
+            <input class="widefat" id="<?php echo $this->get_field_id( 'no_certs' ); ?>"
+                   name="<?php echo $this->get_field_name( 'no_certs' ); ?>" type="text"
+                   value="<?php echo esc_attr( $no_certs ); ?>">
+        </p>
 
 		<?php
 	}
