@@ -116,6 +116,33 @@ class AdminMenu extends Boot {
 			$show_pro_ad = '';
 		}
 
+		$plugins_ad = '';
+		$other_plugins = '';
+
+		if( ! defined( 'UNCANNY_REPORTING_VERSION' ) ){
+			$other_plugins .= '<li><a href="https://www.uncannyowl.com/downloads/tin-canny-reporting/" target="_blank">Tin Canny Learndash Reporting</a> - Add powerful reporting tools and support for Tin Can and SCORM modules.</li>';
+        }
+
+		if( ! defined( 'UNCANNY_REPORTING_VERSION' ) ){
+			$other_plugins .= '<li><a href="https://www.uncannyowl.com/downloads/uncanny-learndash-codes/" target="_blank">Uncanny LearnDash Codes</a> - Generate codes to let users self-enroll into LearnDash groups and courses.</li>';
+		}
+
+		if( ! defined( 'UC_COUPON_PLUGIN_NAME' ) ){
+			$other_plugins .= '<li><a href="https://www.uncannyowl.com/downloads/uncanny-continuing-education-credits/" target="_blank">Uncanny Continuing Education Credits</a> - Track, report on and award certificates based on course credits.</li>';
+		}
+
+        $show_plugins_ad = 'style="display:none;"';
+		if ( '' !== $other_plugins ) {
+			$show_plugins_ad = '';
+			$plugins_ad .= '<h2>Looking for even more LearnDash features?</h2>';
+			$plugins_ad .= '<div class="">';
+			$plugins_ad .= $other_plugins;
+			$plugins_ad .= '</div>';
+			$plugins_ad .= '<div style="clear:both;"></div>';
+		}
+
+
+
 		// Get Available Classes from UO-Public
 		$classes_available = self::get_available_classes( array( $uo_custom_classes, $uo_pro_classes ) );
 
@@ -155,6 +182,12 @@ class AdminMenu extends Boot {
 		<div class="ad-pro-toolkit uo-wrap" <?php echo $show_pro_ad; ?>>
 			<?php echo $pro_ad; ?>
 		</div>
+
+        <div class="ad-pro-toolkit uo-wrap" <?php echo $show_plugins_ad; ?>>
+			<?php echo $plugins_ad; ?>
+        </div>
+
+
 
 		<div class="module_activated" id="module_activated">
 			<i class="fa fa-check-circle" aria-hidden="true"></i><span></span></div>
