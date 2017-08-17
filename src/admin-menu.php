@@ -91,18 +91,18 @@ class AdminMenu extends Boot {
 			$pro_ad .= '<p><strong>Ready to take your LearnDash site even further?</strong></p>';
 			$pro_ad .= '<h2>Check out the Pro modules for the Uncanny LearnDash Toolkit!</h2>';
 			$pro_ad .= '<div class="list">';
-			$pro_ad .= '<li><a href="https://www.uncannyowl.com/knowledge-base/enhanced-lessontopic-grid/" target="_blank">Enhanced Lesson/Topic Grid</a><span class="new-module">NEW!</span></li>';
-			$pro_ad .= '<li><a href="https://www.uncannyowl.com/knowledge-base/send-course-certificates-email/" target="_blank">Send Course Certificates by Email</a><span class="new-module">NEW!</span></li>';
-			$pro_ad .= '<li><a href="https://www.uncannyowl.com/knowledge-base/import-learndash-users/" target="_blank">Import LearnDash Users</a></li>';
-			$pro_ad .= '<li><a href="https://www.uncannyowl.com/knowledge-base/autocomplete-lessons-topics/" target="_blank">Autocomplete Lessons &amp; Topics</a></li>';
-			$pro_ad .= '<li><a href="https://www.uncannyowl.com/knowledge-base/enhanced-course-grid/" target="_blank">Enhanced Course Grid</a></li>';
-			$pro_ad .= '<li><a href="https://www.uncannyowl.com/knowledge-base/learndash-course-dashboard/" target="_blank">LearnDash Course Dashboard</a></li>';
-			$pro_ad .= '<li><a href="https://www.uncannyowl.com/knowledge-base/simple-course-timer/" target="_blank">Simple Course Timer</a></li>';
-			$pro_ad .= '<li><a href="https://www.uncannyowl.com/knowledge-base/send-certificates-by-email/" target="_blank">Send Quiz Certificates by Email</a></li>';
-			$pro_ad .= '<li><a href="https://www.uncannyowl.com/knowledge-base/group-sign-up/" target="_blank">LearnDash Group Registration</a></li>';
-			$pro_ad .= '<li><a href="https://www.uncannyowl.com/knowledge-base/ld-group-logo-list/" target="_blank">LearnDash Group Logo/List</a></li>';
-			$pro_ad .= '<li><a href="https://www.uncannyowl.com/knowledge-base/learner-transcript/" target="_blank">Learner Transcript</a></li>';
-			$pro_ad .= '<li><a href="https://www.uncannyowl.com/article-categories/uncanny-toolkit-pro/" target="_blank">...and much more!</a></li>';
+			$pro_ad .= '<li><a href="https://www.uncannyowl.com/knowledge-base/enhanced-lessontopic-grid/?utm_medium=freetoolkit&utm_campaign=settings" target="_blank">Enhanced Lesson/Topic Grid</a><span class="new-module">NEW!</span></li>';
+			$pro_ad .= '<li><a href="https://www.uncannyowl.com/knowledge-base/send-course-certificates-email/?utm_medium=freetoolkit&utm_campaign=settings" target="_blank">Send Course Certificates by Email</a><span class="new-module">NEW!</span></li>';
+			$pro_ad .= '<li><a href="https://www.uncannyowl.com/knowledge-base/import-learndash-users/?utm_medium=freetoolkit&utm_campaign=settings" target="_blank">Import LearnDash Users</a></li>';
+			$pro_ad .= '<li><a href="https://www.uncannyowl.com/knowledge-base/autocomplete-lessons-topics/?utm_medium=freetoolkit&utm_campaign=settings" target="_blank">Autocomplete Lessons &amp; Topics</a></li>';
+			$pro_ad .= '<li><a href="https://www.uncannyowl.com/knowledge-base/enhanced-course-grid/?utm_medium=freetoolkit&utm_campaign=settings" target="_blank">Enhanced Course Grid</a></li>';
+			$pro_ad .= '<li><a href="https://www.uncannyowl.com/knowledge-base/learndash-course-dashboard/?utm_medium=freetoolkit&utm_campaign=settings" target="_blank">LearnDash Course Dashboard</a></li>';
+			$pro_ad .= '<li><a href="https://www.uncannyowl.com/knowledge-base/simple-course-timer/?utm_medium=freetoolkit&utm_campaign=settings" target="_blank">Simple Course Timer</a></li>';
+			$pro_ad .= '<li><a href="https://www.uncannyowl.com/knowledge-base/send-certificates-by-email/?utm_medium=freetoolkit&utm_campaign=settings" target="_blank">Send Quiz Certificates by Email</a></li>';
+			$pro_ad .= '<li><a href="https://www.uncannyowl.com/knowledge-base/group-sign-up/?utm_medium=freetoolkit&utm_campaign=settings" target="_blank">LearnDash Group Registration</a></li>';
+			$pro_ad .= '<li><a href="https://www.uncannyowl.com/knowledge-base/ld-group-logo-list/?utm_medium=freetoolkit&utm_campaign=settings" target="_blank">LearnDash Group Logo/List</a></li>';
+			$pro_ad .= '<li><a href="https://www.uncannyowl.com/knowledge-base/learner-transcript/?utm_medium=freetoolkit&utm_campaign=settings" target="_blank">Learner Transcript</a></li>';
+			$pro_ad .= '<li><a href="https://www.uncannyowl.com/article-categories/uncanny-toolkit-pro/?utm_medium=freetoolkit&utm_campaign=settings" target="_blank">...and much more!</a></li>';
 			$pro_ad .= '</div>';
 			$pro_ad .= '<div style="clear:both;"></div>';
 
@@ -120,15 +120,15 @@ class AdminMenu extends Boot {
 		$other_plugins = '';
 
 		if( ! defined( 'UNCANNY_REPORTING_VERSION' ) ){
-			$other_plugins .= '<li><a href="https://www.uncannyowl.com/downloads/tin-canny-reporting/" target="_blank">Tin Canny Learndash Reporting</a> - Add powerful reporting tools and support for Tin Can and SCORM modules.</li>';
+			$other_plugins .= '<li><a href="https://www.uncannyowl.com/downloads/tin-canny-reporting/?utm_medium=freetoolkit&utm_campaign=settings" target="_blank">Tin Canny Learndash Reporting</a> - Add powerful reporting tools and support for Tin Can and SCORM modules.</li>';
         }
 
 		if( ! defined( 'UNCANNY_REPORTING_VERSION' ) ){
-			$other_plugins .= '<li><a href="https://www.uncannyowl.com/downloads/uncanny-learndash-codes/" target="_blank">Uncanny LearnDash Codes</a> - Generate codes to let users self-enroll into LearnDash groups and courses.</li>';
+			$other_plugins .= '<li><a href="https://www.uncannyowl.com/downloads/uncanny-learndash-codes/?utm_medium=freetoolkit&utm_campaign=settings" target="_blank">Uncanny LearnDash Codes</a> - Generate codes to let users self-enroll into LearnDash groups and courses.</li>';
 		}
 
 		if( ! defined( 'UC_COUPON_PLUGIN_NAME' ) ){
-			$other_plugins .= '<li><a href="https://www.uncannyowl.com/downloads/uncanny-continuing-education-credits/" target="_blank">Uncanny Continuing Education Credits</a> - Track, report on and award certificates based on course credits.</li>';
+			$other_plugins .= '<li><a href="https://www.uncannyowl.com/downloads/uncanny-continuing-education-credits/?utm_medium=freetoolkit&utm_campaign=settings" target="_blank">Uncanny Continuing Education Credits</a> - Track, report on and award certificates based on course credits.</li>';
 		}
 
         $show_plugins_ad = 'style="display:none;"';
