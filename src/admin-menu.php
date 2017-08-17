@@ -87,7 +87,7 @@ class AdminMenu extends Boot {
 		$pro_ad = '';
 
 		if ( ! $uo_pro_classes['path'] ) {
-			$pro_ad .= '<a href="http://www.uncannyowl.com/downloads/uncanny-learndash-toolkit-pro/" class="page-title-action" target="_blank">Upgrade Now</a>';
+			$pro_ad .= '<a href="http://www.uncannyowl.com/downloads/uncanny-learndash-toolkit-pro/?utm_medium=freetoolkit&utm_campaign=settings" class="page-title-action" target="_blank">Upgrade Now</a>';
 			$pro_ad .= '<p><strong>Ready to take your LearnDash site even further?</strong></p>';
 			$pro_ad .= '<h2>Check out the Pro modules for the Uncanny LearnDash Toolkit!</h2>';
 			$pro_ad .= '<div class="list">';
