@@ -1,46 +1,82 @@
+
 === Uncanny LearnDash Toolkit ===
 Contributors: uncannyowl
-Tags: LearnDash, eLearning, LMS
+Tags: LearnDash, eLearning, LMS, education, learning, courseware
 Requires at least: 4.0
 Tested up to: 4.8
-Stable tag: 2.0.6
+Stable tag: 2.1
 License: This plugin is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or any later version.   LearnDash Groups in User Profiles is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.   You should have received a copy of the GNU General Public License along with LearnDash Groups in User Profiles. If not, see {URI to Plugin License}.
 License URI: https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
 
 Extend LearnDash with a variety of useful functions that make it even easier to build great learner experiences with LearnDash.
 
 == Description ==
-**Important: This plugin requires PHP 5.3 or higher and LearnDash 2.1 or higher.**
+**Important: This plugin requires PHP 5.6 or higher and LearnDash 2.3 or higher.**
 
-The Uncanny LearnDash Toolkit adds a dozen exciting new features to LearnDash sites that improve the learner experience and make development easier. 
+The Uncanny LearnDash Toolkit adds a dozen exciting new features to LearnDash sites that improve the learner experience and simplify development. If you have a LearnDash site, this plugin will make things easier and faster. It’s the most popular LearnDash plugin in the WordPress repository and trusted on over 6,000 sites.
 
 https://www.youtube.com/watch?v=FKsN0oTx-rM
 
 The Uncanny LearnDash Toolkit adds the following features to your LearnDash site:
 
-* **Front End Login**: Replace wp-login with a simple shortcode that you can drop onto any page to allow better branding of the login experience. User verification is also available to manage registrations.
-* **Hide Admin Bar**: Hide the WordPress admin bar for any roles that you want.
+* **Front End Login**: Replace wp-login with a simple login form that you can add to any branded page. User verification is also available to manage registrations.
+* **Hide Admin Bar**: Hide the WordPress admin bar for specific user roles.
 * **LearnDash Resume Button**: Allow users to pick up where they left off in a LearnDash course by clicking a button.
 * **LearnDash Groups in User Profiles**: Easily identify LearnDash Group membership from user profile pages.
-* **Login Redirect**: Send learners to a custom dashboard or course after they sign in.
+* **Login/Logout Redirects**: Redirect learners to a specific URL after signing in or out of the site.
 * **Menu Item Visibility**: Control the visibility of menu entries based on whether or not the user is signed in.
 * **Show LearnDash Certificates**: Use a simple shortcode to display a list of all certificates (course and quiz) earned by the current user.
 * **Show or Hide Content**: Use shortcodes to show or hide content based on whether or not a user is signed in. Great for Open course types.
-* **Log In/Log Out Links**: Add Log In and Log Out links to menus, or to any page or widget with a shortcode.
-* **LearnDash Breadcrumbs**: Add breadcrumb links that support courses, lessons, topics and quizzes. Also supports woocommerce, custom post types with or without taxonomies & tags, pages and blog posts.
+* **Log In/Log Out Links**: Add Log In and Log Out links to menus, or to any page or widget with a shortcode. If you’ve been frustrated by signed in users seeing Login links, this will help.
+* **LearnDash Breadcrumbs**: Add breadcrumb links that support courses, lessons, topics and quizzes. Also supports WooCommerce, custom post types and more.
+* **LearnDash certificate Widget**: Display all the certificates a learner has earned using a widget.
+* **Topics Autocomplete Lessons**: Automatically mark lessons complete when all topics and quizzes for that lesson are marked complete.
 
-More information about how to use the Toolkit, including a 40-minute instructional screencast, is available at (http://www.uncannyowl.com/uncanny-learndash-toolkit/).
+More information about how to use the Toolkit, including a 40-minute instructional screencast, is available in our [knowledge base](https://www.uncannyowl.com/article-categories/uncanny-learndash-toolkit/?utm_medium=ldtoolkitreadme).
 
-We welcome contributions to the Uncanny LearnDash Toolkit! The plugin is managed in a [Bitbucket Repository](https://bitbucket.org/uncannyowl/uncanny-learndash-toolkit). 
+We welcome contributions to the Uncanny LearnDash Toolkit! The plugin is managed in a [Bitbucket Repository](https://bitbucket.org/uncannyowl/uncanny-learndash-toolkit).
+
+**Ready to take your LearnDash site even further?**
+
+Our [Pro version of the LearnDash Toolkit](https://www.uncannyowl.com/downloads/uncanny-learndash-toolkit-pro/?utm_medium=ldtoolkitreadme) adds a continuously expanding list of powerful features (20 at last count!) to the Toolkit. With the Pro modules, you can:
+
+* Autocomplete lessons and topics (no more "Mark Complete" buttons!)
+* Track the time users spend completing courses
+
+* Replace boring LearnDash tables with highly flexible grids of courses, lessons and topics (including featured images
+!)
+* Register users directly into LearnDash Groups when they create an account
+
+* Import users directly into LearnDash courses and groups safely and with validation
+
+* Send certificates by email
+* [And much more!](https://www.uncannyowl.com/downloads/uncanny-learndash-toolkit-pro/?utm_medium=ldtoolkitreadme)
+
+
+
+**More LearnDash Plugins!**
+
+Uncanny Owl offers a full suite of plugins that extend the LearnDash platform and make it easier to build and manage a great learning experience. Here are a few:
+
+* **[Tin Canny LearnDash Reporting](https://www.uncannyowl.com/downloads/tin-canny-reporting/?utm_medium=ldtoolkitreadme)**: Add support for your SCORM and Tin Can modules inside WordPress as well as powerful drill-down LearnDash reporting options.
+* **[The Uncanny LearnDash Codes](https://www.uncannyowl.com/downloads/uncanny-learndash-codes/?utm_medium=ldtoolkitreadme)**: An easier way to get your learners into LearnDash Groups or courses. Generate codes that can be used by learners to self-enrol into LearnDash groups and courses when they register, make a purchase, or are simply signed in.  Limit enrollment by generating a limited number of codes, or by creating a single code that can be redeemed X times.
+* **[Uncanny Continuing Education Credits](https://www.uncannyowl.com/downloads/uncanny-continuing-education-credits/?utm_medium=ldtoolkitreadme)**: Make it easy to track, report on and award certificates based on credits awarded for completing LearnDash courses. Assign credits, CEUs or CPD values to your courses and track the cumulative accomplishments of your learners.
+
+Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitter](https://twitter.com/uncannyowl), [Facebook](https://www.facebook.com/UncannyOwl/) and [YouTube](https://www.youtube.com/user/UncannyOwl).
 
 == Installation ==
-1. Upload the contents of the plugin zip file to the `/wp-content/plugins/` directory.
-2. Activate the plugin through the Plugins menu in WordPress.
+1. Ensure that your installation of WordPress is using PHP 5.6 or higher and LearnDash 2.3 or higher.
+2. Upload the contents of the plugin zip file to the `/wp-content/plugins/` directory.
+3. Activate the plugin through the Plugins menu in WordPress.
 
 == Screenshots ==
 1. Uncanny LearnDash Toolkit Dashboard
 
 == Changelog ==
+
+= 2.1 =
+* Updated: Certificate widget now recognizes course certificates
+* Fixed: Course complete action was called repeatedly when Topics Autocomplete Lessons module was active
 
 = 2.0.6 =
 * Fixed: Single quotes are saved properly in toolkit module settings
