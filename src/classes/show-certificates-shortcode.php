@@ -162,6 +162,8 @@ class ShowCertificatesShortcode extends Config implements RequiredFunctions {
 			}
 		}
 
+		$certificate_list = apply_filters( 'certificate_list_shortcode', $certificate_list );
+
 		if ( '' === $certificate_list ) {
 			$certificate_list = $no_cert_message;
 		}

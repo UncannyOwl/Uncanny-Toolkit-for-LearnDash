@@ -104,8 +104,6 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 			'order'          => 'ASC',
 		);
 
-		$certificate_count = 0;
-
 		echo '<div class="uncanny-cert-widget-list">';
 
 		echo '<ul>';
@@ -123,8 +121,7 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 
 			if ( $certificate_link && '' !== $certificate_link ) {
 
-				$certificate_count ++;
-				echo '<li><a target="_blank" href="' . $certificate_link . '" title="' . esc_html__( 'Your certificate for: ', 'uncanny-learndash-toolkit' ) . $course->post_title . '">' . $certificate_title . '</a></li>';
+				$certificate_list .= '<li><a target="_blank" href="' . $certificate_link . '" title="' . esc_html__( 'Your certificate for: ', 'uncanny-learndash-toolkit' ) . $course->post_title . '">' . $certificate_title . '</a></li>';
 
 
 			}
@@ -139,7 +136,7 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 			foreach ( $quiz_attempts as $k => $quiz_attempt ) {
 
 				if ( isset( $quiz_attempt['certificate'] ) ) {
-					$certificate_count ++;
+				    
 					$certificateLink = $quiz_attempt['certificate']['certificateLink'];
 					$quiz_title      = ! empty( $quiz_attempt['post']->post_title ) ? $quiz_attempt['post']->post_title : @$quiz_attempt['quiz_title'];
 
@@ -149,7 +146,7 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 						$certificate_object = get_post( $certificate_id );
 						$certificate_title  = $certificate_object->post_title;
 
-						printf( '<li><a target="_blank" href="%s" title="%s %s" >%s</a></li>',
+						$certificate_list .= sprintf( '<li><a target="_blank" href="%s" title="%s %s" >%s</a></li>',
 							esc_url( $certificateLink ),
 							esc_html__( 'Your certificate for :', 'uncanny-learndash-toolkit' ),
 							$quiz_title,
@@ -160,9 +157,13 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 			}
 		}
 
-		if( 0 === $certificate_count  ){
+		$certificate_list = apply_filters( 'certificate_list_widget', $certificate_list );
+
+		if( '' === $certificate_list  ){
 			printf( '<p>%s</p>', esc_html( $instance['no_certs'] ) );
-		}
+		}else{
+		    echo $certificate_list;
+        }
 
 
 
