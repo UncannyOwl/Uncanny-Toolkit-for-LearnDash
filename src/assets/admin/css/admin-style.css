@@ -7,18 +7,19 @@
 }
 
 .ad-pro-toolkit {
-	background: #FFF;
+	background: #fff;
 	margin-bottom: 30px;
 	padding: 15px 20px;
-        border-left: 4px solid #46b450;
+	border-left: 4px solid #46b450;
 }
 
 .ad-pro-toolkit.uo-wrap .page-title-action {
-    float:right;
-    margin-top:10px;
-    font-size:16px;
+	float: right;
+	margin-top: 10px;
+	font-size: 16px;
 }
-.uo-wrap .page-title-action{
+
+.uo-wrap .page-title-action {
 	margin-left: 4px;
 	padding: 4px 8px;
 	position: relative;
@@ -39,31 +40,32 @@
 }
 
 .ad-pro-toolkit p, .ad-pro-toolkit li {
-    margin:0;
-    line-height:normal;
+	margin: 0;
+	line-height: normal;
 }
 
 .ad-pro-toolkit .list {
-  -webkit-columns: 3;
-  -moz-columns: 3;
-  columns: 3;
+	-webkit-columns: 3;
+	-moz-columns: 3;
+	columns: 3;
 }
 
-@media (max-width:1024px) {
-    .ad-pro-toolkit .list {
-        -webkit-columns: 2;
-        -moz-columns: 2;
-        columns: 2;
-    }
+@media (max-width: 1024px) {
+	.ad-pro-toolkit .list {
+		-webkit-columns: 2;
+		-moz-columns: 2;
+		columns: 2;
+	}
 }
 
-@media (max-width:767px) {
-    .ad-pro-toolkit .list {
-        -webkit-columns: 1;
-        -moz-columns: 1;
-        columns: 1;
-    }
+@media (max-width: 767px) {
+	.ad-pro-toolkit .list {
+		-webkit-columns: 1;
+		-moz-columns: 1;
+		columns: 1;
+	}
 }
+
 .dynamic-ad-toolkit {
 	background: #fff;
 	border-left: 4px solid #000;
@@ -74,10 +76,9 @@
 .ad-pro-toolkit h2 {
 	font-size: 20px;
 	font-weight: normal;
-        margin:5px 0 10px 0;
-        line-height:normal;
+	margin: 5px 0 10px 0;
+	line-height: normal;
 }
-
 
 .uo-admin-header p {
 	color: #4b4b4b;
@@ -687,15 +688,16 @@ input[type=radio].uo_settings_form_field {
 .module_deactivated {
 	display: none;
 	font-size: 18px;
-	font-weight: bold;
+	/*font-weight: bold;*/
 	left: 50%;
 	margin-left: -200px;
 	margin-top: -20px;
-	padding: 10px 20px;
+	padding: 13px 25px;
 	position: fixed;
 	top: 50%;
 	width: auto;
 	z-index: 99;
+	border-radius: 5px;
 }
 
 .module_activated i,
@@ -706,14 +708,14 @@ input[type=radio].uo_settings_form_field {
 
 .module_activated {
 	background: #dff2bf;
-	border: 1px green solid;
-	color: green;
+	border: 1px #4f8a10 solid;
+	color: #4f8a10;
 }
 
 .module_deactivated {
 	background: #ffbaba;
-	border: 1px crimson solid;
-	color: red;
+	border: 1px #d8000c solid;
+	color: #d8000c;
 }
 
 .uo-filters {
@@ -736,7 +738,7 @@ input[type=radio].uo_settings_form_field {
 	background: #f6f6f6;
 }
 
-.new-module{
+.new-module {
 	background: #46b450;
 	color: white;
 	margin-left: 3px;

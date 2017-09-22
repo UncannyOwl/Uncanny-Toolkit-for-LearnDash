@@ -4,8 +4,8 @@ jQuery(document).ready(function ($) {
 	// SWITCH
 	//$('.uo_feature_button').click(function () {
 	$('body').delegate('.uo_feature_button', 'click', function () {
-		//$('#module_activated  span').html('');
-		//$('#module_deactivated span').html('');
+
+		$('body').append('<div id="backdrop" style="position:fixed; top:0px; left:0px; width:100%; height:100%; background:rgba(0,0,0,0.3); z-index:50;"><div class="sk-folding-cube" style="left: 50%; margin-left: -5px; margin-top: -20px; top: 50%; z-index: 99;"><div class="sk-cube1 sk-cube"></div><div class="sk-cube2 sk-cube"></div><div class="sk-cube4 sk-cube"></div><div class="sk-cube3 sk-cube"></div></div></div>')
 		$(this).toggleClass("uo_feature_activated uo_feature_deactivated");
 		var checkbox = $(this).children("input[type='checkbox']");
 		var parent = $(this).parent();
@@ -30,28 +30,36 @@ jQuery(document).ready(function ($) {
 			'active': active
 
 		};
-		//console.log(data);
 		$.post(ajaxurl, data, function (response) {
-			if ('success' === response) {
+			if ('success' === response.trim()) {
 				//success goes here
+				$('#backdrop .sk-folding-cube').hide();
 				if (1 === active) {
 					$('#module_activated span').html(class_name + ' Activated.').parent().fadeIn();
 					var t = setTimeout(function () {
 						$('#module_activated').fadeOut();
+						$('#backdrop').fadeOut(function () {
+							$(this).remove();
+						});
+
 					}, 2500);
 					parent.attr('data-active', 1);
 				} else if (0 === active) {
 					$('#module_deactivated span').html(class_name + ' Deactivated.').parent().fadeIn();
 					var t = setTimeout(function () {
 						$('#module_deactivated').fadeOut();
+						$('#backdrop').fadeOut(function () {
+							$(this).remove();
+						});
+
 					}, 3000);
 					parent.attr('data-active', 2);
 				}
 			} else {
 				console.log(response);
 			}
-
 		});
+
 	});
 
 
@@ -260,7 +268,7 @@ jQuery(document).ready(function ($) {
 		});
 	});
 
-	function remove_slashes_from_strong(string){
+	function remove_slashes_from_strong(string) {
 		return string.replace(new RegExp("\\\\", "g"), "");
 	}
 
