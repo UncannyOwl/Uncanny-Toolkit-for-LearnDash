@@ -89,7 +89,7 @@ class Sample extends Config implements RequiredFunctions {
 	 *
 	 * This information is only loaded in the admin settings page to create a module which includes an on/off switch
 	 * and settings modal pop up that populates module options in the WP DB. The details are retrieve by creating a
-	 * reflection class. The class does not need to be initialized to get the details
+	 * reflection class(http://php.net/manual/en/class.reflectionclass.php). The class does not need to be initialized to get the details
 	 * @see uncanny_learndash_toolkit/AdminMenu::get_class_details()
 	 *
 	 * @since 1.0.0
@@ -168,7 +168,7 @@ class Sample extends Config implements RequiredFunctions {
 	}
 
 	/*
-	 * Checks if the class is dependant on another plugin and/or theme
+	 * Checks if the class is dependant on another variable, function, plugin and/or theme
 	 *
 	 * If the dependency does not exists then the on/off switch on the module is replace with a message.
 	 *
