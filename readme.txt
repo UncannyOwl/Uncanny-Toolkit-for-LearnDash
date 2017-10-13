@@ -42,13 +42,9 @@ Our [Pro version of the LearnDash Toolkit](https://www.uncannyowl.com/downloads/
 
 * Autocomplete lessons and topics (no more "Mark Complete" buttons!)
 * Track the time users spend completing courses
-
-* Replace boring LearnDash tables with highly flexible grids of courses, lessons and topics (including featured images
-!)
+* Replace boring LearnDash tables with highly flexible grids of courses, lessons and topics (including featured images!)
 * Register users directly into LearnDash Groups when they create an account
-
 * Import users directly into LearnDash courses and groups safely and with validation
-
 * Send certificates by email
 * [And much more!](https://www.uncannyowl.com/downloads/uncanny-learndash-toolkit-pro/?utm_medium=ldtoolkitreadme)
 
