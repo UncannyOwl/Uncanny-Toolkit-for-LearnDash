@@ -90,7 +90,7 @@ class UserSwitching extends Config implements RequiredFunctions {
 		 * Description should be adapted from the post_content in the knowledge base article. Exclude any technical
 		 * documentation including: shortcodes, attributes, use cases, images, and/or steps. (approx. 25-200 characters)
 		 */
-		$class_description = esc_html__( 'View site with different users.', 'uncanny-learndash-toolkit' );
+		$class_description = esc_html__( 'Easily and securely switch between users.  Great for testing your site and troubleshooting user issues.', 'uncanny-learndash-toolkit' );
 
 		/*
 		 * Settings define the inputs that are added to the settings modal pop. If no seetings are needed, false can be
