@@ -303,7 +303,9 @@ class Config {
 
 	/**
 	 * Loops through array of setting values and return an link and settings html
-	 * @param array		$settings
+	 *
+	 * @param array $settings
+	 *
 	 * @return array
 	 */
 	public static function settings_output( $settings ) {
@@ -550,5 +552,17 @@ class Config {
 		$final_trace = print_r( $trace, true );
 		$file        = WP_CONTENT_DIR . '/uo-' . $file_name . '.log';
 		error_log( $boundary . $log_type . $final_trace . $log_end, 3, $file );
+	}
+
+
+	/**
+	 * @return bool
+	 */
+	public static function is_pro_active() {
+		if ( in_array( 'uncanny-toolkit-pro/uncanny-toolkit-pro.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }
