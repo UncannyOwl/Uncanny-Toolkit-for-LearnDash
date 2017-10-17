@@ -96,11 +96,17 @@ class Boot extends Config {
 				$message = "<h3>Message:</h3><p>{$message}</p><br /><hr /><h3>User Site Information:</h3>{$siteinfo}";
 			}
 
-			$to        = 'saad@uncannyowl.com';
+			$to        = 'support.41077.bb1dda3d33afb598@helpscout.net';
+			//$to        = 'saad@uncannyowl.com';
 			$subject   = 'Support Ticket - ' . $website;
 			$headers   = array( 'Content-Type: text/html; charset=UTF-8' );
 			$headers[] = 'From: ' . $name . ' <' . $email . '>';
 			wp_mail( $to, $subject, $message, $headers );
+			if ( isset( $_POST['page'] ) && isset( $_POST['tab'] ) ) {
+				$url = admin_url( 'admin.php' ) . '?page=' . esc_html( $_POST['page'] ) . '&tab=' . esc_html( $_POST['tab'] ) . '&sent=1&wpnonce=' . wp_create_nonce();
+				wp_safe_redirect( $url );
+				exit;
+			}
 		}
 	}
 
@@ -109,7 +115,15 @@ class Boot extends Config {
 	 */
 	public static function uo_admin_support_css() {
 		if ( isset( $_GET['page'] ) && 'uncanny-learnDash-toolkit-support' === $_GET['page'] ) {
-			wp_enqueue_style( 'admin-support-css', '//www.uncannyowl.com/wp-content/plugins/uncanny-extend-rest-api/admin-support.css', array(), UNCANNY_TOOLKIT_VERSION );
+			$version = UNCANNY_TOOLKIT_VERSION;
+			$json    = wp_remote_get( 'https://www.uncannyowl.com/wp-json/uncanny-rest-api/v1/version?wpnonce=' . wp_create_nonce( time() ) );
+			if ( 200 === $json['response']['code'] ) {
+				$data = json_decode( $json['body'], true );
+				if ( $data ) {
+					$version = $data;
+				}
+			}
+			wp_enqueue_style( 'admin-support-css', '//www.uncannyowl.com/wp-content/plugins/uncanny-extend-rest-api/admin-support.css', array(), $version );
 		}
 	}
 
