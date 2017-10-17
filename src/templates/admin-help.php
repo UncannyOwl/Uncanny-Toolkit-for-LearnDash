@@ -1,7 +1,6 @@
 <?php
 
 namespace uncanny_learndash_toolkit;
-//$existing_license = trim( get_option( 'uo_license_key' ) );
 
 ?>
 	<?php
@@ -10,7 +9,8 @@ if ( isset( $_GET['sent'] ) ) {
 	<h3>Your ticket has been created. Someone at Uncanny Owl will contact you regarding your issue.</h3>
 	<?php
 } else {
-	$existing_license = 'becf794485526516987e2ac71aadbbae';
+	$existing_license = trim( get_option( 'uo_license_key' ) );
+	//$existing_license = 'becf794485526516987e2ac71aadbbae';
 	$name             = '';
 	$email            = '';
 	if ( $existing_license ) {
