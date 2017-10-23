@@ -127,7 +127,7 @@ class AdminMenu extends Boot {
 			$other_plugins .= '<li><a href="https://www.uncannyowl.com/downloads/uncanny-learndash-codes/?utm_medium=freetoolkit&utm_campaign=settings" target="_blank">Uncanny LearnDash Codes</a> - Generate codes to let users self-enroll into LearnDash groups and courses.</li>';
 		}
 
-		if( ! defined( 'UC_COUPON_PLUGIN_NAME' ) ){
+		if( ! defined( 'CEU_PREFIX' ) ){
 			$other_plugins .= '<li><a href="https://www.uncannyowl.com/downloads/uncanny-continuing-education-credits/?utm_medium=freetoolkit&utm_campaign=settings" target="_blank">Uncanny Continuing Education Credits</a> - Track, report on and award certificates based on course credits.</li>';
 		}
 
