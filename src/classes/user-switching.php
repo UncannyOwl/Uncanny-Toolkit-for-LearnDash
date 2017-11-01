@@ -24,7 +24,7 @@ class UserSwitching extends Config implements RequiredFunctions {
 	 * @since 1.0.0
 	 */
 	public function __construct() {
-		add_action( 'plugins_loaded', array( __CLASS__, 'plugins_loaded' ) );
+		add_action( 'wp_loaded', array( __CLASS__, 'wp_loaded' ) );
 	}
 
 	/*
@@ -36,28 +36,31 @@ class UserSwitching extends Config implements RequiredFunctions {
 	 *
 	 * @since 1.0.0
 	 */
-	public static function plugins_loaded() {
-
-		// User Switching's auth_cookie
-		if ( ! defined( 'USER_SWITCHING_COOKIE' ) ) {
-			define( 'USER_SWITCHING_COOKIE', 'wordpress_user_sw_' . COOKIEHASH );
-		}
-
-// User Switching's secure_auth_cookie
-		if ( ! defined( 'USER_SWITCHING_SECURE_COOKIE' ) ) {
-			define( 'USER_SWITCHING_SECURE_COOKIE', 'wordpress_user_sw_secure_' . COOKIEHASH );
-		}
-
-// User Switching's logged_in_cookie
-		if ( ! defined( 'USER_SWITCHING_OLDUSER_COOKIE' ) ) {
-			define( 'USER_SWITCHING_OLDUSER_COOKIE', 'wordpress_user_sw_olduser_' . COOKIEHASH );
-		}
+	public static function wp_loaded() {
 
 		if ( ! class_exists( 'user_switching' ) ) {
+
+			// User Switching's auth_cookie
+			if ( ! defined( 'USER_SWITCHING_COOKIE' ) ) {
+				define( 'USER_SWITCHING_COOKIE', 'wordpress_user_sw_' . COOKIEHASH );
+			}
+
+			// User Switching's secure_auth_cookie
+			if ( ! defined( 'USER_SWITCHING_SECURE_COOKIE' ) ) {
+				define( 'USER_SWITCHING_SECURE_COOKIE', 'wordpress_user_sw_secure_' . COOKIEHASH );
+			}
+
+			// User Switching's logged_in_cookie
+			if ( ! defined( 'USER_SWITCHING_OLDUSER_COOKIE' ) ) {
+				define( 'USER_SWITCHING_OLDUSER_COOKIE', 'wordpress_user_sw_olduser_' . COOKIEHASH );
+			}
+
 			// Version 1.2.0 | By John Blackbourn
 			require_once( Config::get_include( 'user-switching.php' ) );
 			\user_switching::get_instance();
+
 		}
+
 	}
 
 	/**
@@ -80,8 +83,7 @@ class UserSwitching extends Config implements RequiredFunctions {
 		 * @type Null Will NOT show a link on the plugins settings page
 		 * @type String Will show a link icon on the user facing module
 		 */
-		$kb_link = null;
-		$kb_link = 'http://www.uncannyowl.com';
+		$kb_link = 'https://www.uncannyowl.com/knowledge-base/user-switching-module/';
 
 		// Title should match the post_title from Knowledge base article
 		$class_title = esc_html__( 'User Switching', 'uncanny-learndash-toolkit' );
