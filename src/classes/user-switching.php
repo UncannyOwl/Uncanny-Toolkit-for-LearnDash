@@ -24,7 +24,7 @@ class UserSwitching extends Config implements RequiredFunctions {
 	 * @since 1.0.0
 	 */
 	public function __construct() {
-		add_action( 'wp_loaded', array( __CLASS__, 'wp_loaded' ) );
+		add_action( 'plugins_loaded', array( __CLASS__, 'plugins_loaded' ) );
 	}
 
 	/*
@@ -36,31 +36,51 @@ class UserSwitching extends Config implements RequiredFunctions {
 	 *
 	 * @since 1.0.0
 	 */
-	public static function wp_loaded() {
+	public static function plugins_loaded() {
 
-		if ( ! class_exists( 'user_switching' ) ) {
 
-			// User Switching's auth_cookie
-			if ( ! defined( 'USER_SWITCHING_COOKIE' ) ) {
-				define( 'USER_SWITCHING_COOKIE', 'wordpress_user_sw_' . COOKIEHASH );
+		// If user switching plugin is active. Make sure we turn on off the user switching module
+		// TODO not working yet
+		if ( in_array( 'user-switching\user-switching.php', (array) get_option( 'active_plugins', array() ) ) ) {
+
+			deactivate_plugins( '/plugin-folder/plugin-name.php' );
+
+			$active_classes = get_option( 'uncanny_toolkit_active_classes', 0 );
+
+			if ( 0 !== $active_classes ) {
+				if ( is_array( $active_classes ) && isset( $active_classes['uncanny_learndash_toolkit\UserSwitching'] ) ) {
+					unset( $active_classes['uncanny_learndash_toolkit\UserSwitching'] );
+					$new_classes = $active_classes;
+					update_option( 'uncanny_toolkit_active_classes', $new_classes );
+				}
 			}
 
-			// User Switching's secure_auth_cookie
-			if ( ! defined( 'USER_SWITCHING_SECURE_COOKIE' ) ) {
-				define( 'USER_SWITCHING_SECURE_COOKIE', 'wordpress_user_sw_secure_' . COOKIEHASH );
+		} else {
+
+			if ( ! class_exists( 'user_switching' ) ) {
+
+
+				// User Switching's auth_cookie
+				if ( ! defined( 'USER_SWITCHING_COOKIE' ) ) {
+					define( 'USER_SWITCHING_COOKIE', 'wordpress_user_sw_' . COOKIEHASH );
+				}
+
+				// User Switching's secure_auth_cookie
+				if ( ! defined( 'USER_SWITCHING_SECURE_COOKIE' ) ) {
+					define( 'USER_SWITCHING_SECURE_COOKIE', 'wordpress_user_sw_secure_' . COOKIEHASH );
+				}
+
+				// User Switching's logged_in_cookie
+				if ( ! defined( 'USER_SWITCHING_OLDUSER_COOKIE' ) ) {
+					define( 'USER_SWITCHING_OLDUSER_COOKIE', 'wordpress_user_sw_olduser_' . COOKIEHASH );
+				}
+
+				// Version 1.2.0 | By John Blackbourn
+				require_once( Config::get_include( 'user-switching.php' ) );
+				\user_switching::get_instance();
+
 			}
-
-			// User Switching's logged_in_cookie
-			if ( ! defined( 'USER_SWITCHING_OLDUSER_COOKIE' ) ) {
-				define( 'USER_SWITCHING_OLDUSER_COOKIE', 'wordpress_user_sw_olduser_' . COOKIEHASH );
-			}
-
-			// Version 1.2.0 | By John Blackbourn
-			require_once( Config::get_include( 'user-switching.php' ) );
-			\user_switching::get_instance();
-
 		}
-
 	}
 
 	/**
