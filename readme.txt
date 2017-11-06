@@ -13,7 +13,7 @@ Extend LearnDash with a variety of useful functions that make it even easier to 
 == Description ==
 **Important: This plugin requires PHP 5.6 or higher and LearnDash 2.3 or higher.**
 
-The Uncanny LearnDash Toolkit adds a dozen exciting new features to LearnDash sites that improve the learner experience and simplify development. If you have a LearnDash site, this plugin will make things easier and faster. Itâ€™s the most popular LearnDash plugin in the WordPress repository and trusted on over 6,000 sites.
+The Uncanny LearnDash Toolkit adds a dozen exciting new features to LearnDash sites that improve the learner experience and simplify development. If you have a LearnDash site, this plugin will make things easier and faster. It’s the most popular LearnDash plugin in the WordPress repository and trusted on over 6,000 sites.
 
 https://www.youtube.com/watch?v=FKsN0oTx-rM
 
@@ -27,7 +27,7 @@ The Uncanny LearnDash Toolkit adds the following features to your LearnDash site
 * **Menu Item Visibility**: Control the visibility of menu entries based on whether or not the user is signed in.
 * **Show LearnDash Certificates**: Use a simple shortcode to display a list of all certificates (course and quiz) earned by the current user.
 * **Show or Hide Content**: Use shortcodes to show or hide content based on whether or not a user is signed in. Great for Open course types.
-* **Log In/Log Out Links**: Add Log In and Log Out links to menus, or to any page or widget with a shortcode. If youâ€™ve been frustrated by signed in users seeing Login links, this will help.
+* **Log In/Log Out Links**: Add Log In and Log Out links to menus, or to any page or widget with a shortcode. If you’ve been frustrated by signed in users seeing Login links, this will help.
 * **LearnDash Breadcrumbs**: Add breadcrumb links that support courses, lessons, topics and quizzes. Also supports WooCommerce, custom post types and more.
 * **LearnDash certificate Widget**: Display all the certificates a learner has earned using a widget.
 * **Topics Autocomplete Lessons**: Automatically mark lessons complete when all topics and quizzes for that lesson are marked complete.
@@ -42,13 +42,9 @@ Our [Pro version of the LearnDash Toolkit](https://www.uncannyowl.com/downloads/
 
 * Autocomplete lessons and topics (no more "Mark Complete" buttons!)
 * Track the time users spend completing courses
-
-* Replace boring LearnDash tables with highly flexible grids of courses, lessons and topics (including featured images
-!)
+* Replace boring LearnDash tables with highly flexible grids of courses, lessons and topics (including featured images!)
 * Register users directly into LearnDash Groups when they create an account
-
 * Import users directly into LearnDash courses and groups safely and with validation
-
 * Send certificates by email
 * [And much more!](https://www.uncannyowl.com/downloads/uncanny-learndash-toolkit-pro/?utm_medium=ldtoolkitreadme)
 
