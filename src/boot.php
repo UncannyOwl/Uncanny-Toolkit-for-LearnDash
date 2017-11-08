@@ -26,10 +26,6 @@ class Boot extends Config {
 
 		$uncanny_learndash_toolkit->admin_menu = new AdminMenu;
 
-		add_action( 'admin_menu', array( __CLASS__, 'uo_support_menu' ) );
-		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'uo_admin_support_css' ) );
-
-
 		// Add admin menu ajax class to load and save settings
 		add_action( 'wp_ajax_settings_save', array(
 			get_parent_class(),
@@ -44,9 +40,7 @@ class Boot extends Config {
 			get_parent_class(),
 			'ajax_activate_deactivate_module',
 		) );// parent class is Config
-
-		add_action( 'admin_init', array( __CLASS__, 'uo_admin_help_process' ) );
-
+		
 		// Class Details:  Add Class to Admin Menu page
 		$classes = self::get_active_classes();
 
@@ -65,65 +59,6 @@ class Boot extends Config {
 					new $class;
 				}
 			}
-		}
-	}
-
-	/**
-	 *
-	 */
-	public static function uo_support_menu() {
-		add_submenu_page( 'uncanny-learnDash-toolkit', 'Uncanny LearnDash Toolkit Support', 'Support', 'manage_options', 'uncanny-learnDash-toolkit-support', array(
-			__CLASS__,
-			'uo_support_page',
-		) );
-	}
-
-	/**
-	 *
-	 */
-	public static function uo_support_page() {
-		include( 'templates/admin-support.php' );
-	}
-
-	public static function uo_admin_help_process() {
-		if ( isset( $_POST['is_uncanny_help'] ) && check_admin_referer( 'uncanny0w1', 'is_uncanny_help' ) ) {
-			$name     = esc_html( $_POST['fullname'] );
-			$email    = esc_html( $_POST['email'] );
-			$website  = esc_html( $_POST['website'] );
-			$message  = esc_html( $_POST['message'] );
-			$siteinfo = stripslashes( $_POST['siteinfo'] );
-			if ( isset( $_POST['site-data'] ) && 'yes' === $_POST['site-data'] ) {
-				$message = "<h3>Message:</h3><p>{$message}</p><br /><hr /><h3>User Site Information:</h3>{$siteinfo}";
-			}
-
-			$to        = 'support.41077.bb1dda3d33afb598@helpscout.net';
-			//$to        = 'saad@uncannyowl.com';
-			$subject   = 'Support Ticket - ' . $website;
-			$headers   = array( 'Content-Type: text/html; charset=UTF-8' );
-			$headers[] = 'From: ' . $name . ' <' . $email . '>';
-			wp_mail( $to, $subject, $message, $headers );
-			if ( isset( $_POST['page'] ) && isset( $_POST['tab'] ) ) {
-				$url = admin_url( 'admin.php' ) . '?page=' . esc_html( $_POST['page'] ) . '&tab=' . esc_html( $_POST['tab'] ) . '&sent=1&wpnonce=' . wp_create_nonce();
-				wp_safe_redirect( $url );
-				exit;
-			}
-		}
-	}
-
-	/**
-	 *
-	 */
-	public static function uo_admin_support_css() {
-		if ( isset( $_GET['page'] ) && 'uncanny-learnDash-toolkit-support' === $_GET['page'] ) {
-			$version = UNCANNY_TOOLKIT_VERSION;
-			$json    = wp_remote_get( 'https://www.uncannyowl.com/wp-json/uncanny-rest-api/v1/version?wpnonce=' . wp_create_nonce( time() ) );
-			if ( 200 === $json['response']['code'] ) {
-				$data = json_decode( $json['body'], true );
-				if ( $data ) {
-					$version = $data;
-				}
-			}
-			wp_enqueue_style( 'admin-support-css', '//www.uncannyowl.com/wp-content/plugins/uncanny-extend-rest-api/admin-support.css', array(), $version );
 		}
 	}
 
