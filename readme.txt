@@ -70,6 +70,12 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 
 == Changelog ==
 
+= 2.2 =
+* New Module: User Switching - enables admins to easily switch to any other user - Based on User Switching by John Blackbourn: https://wordpress.org/plugins/user-switching/
+* Added: Support for LearnDash 2.5
+* Updated: Hide Admin Bar action priority (now 999)
+* Updated: Improved multisite support
+
 = 2.1 =
 * Updated: Certificate widget now recognizes course certificates
 * Fixed: Course complete action was called repeatedly when Topics Autocomplete Lessons module was active
