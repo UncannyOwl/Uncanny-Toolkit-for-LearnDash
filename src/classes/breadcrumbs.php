@@ -83,7 +83,7 @@ class Breadcrumbs extends Config implements RequiredFunctions {
 	 *
 	 * @param String
 	 *
-	 * @return boolean || string Return either false or settings html modal
+	 * @return string Return either false or settings html modal
 	 *
 	 */
 	public static function get_class_settings( $class_title ) {
@@ -133,7 +133,7 @@ class Breadcrumbs extends Config implements RequiredFunctions {
 	 * @return mixed
 	 */
 	public static function wpseo_uo_breadcrumbs() {
-		return self::uo_breadcrumbs( false );
+		return self::uo_breadcrumbs();
 	}
 
 	/**
@@ -232,7 +232,7 @@ class Breadcrumbs extends Config implements RequiredFunctions {
 				//$trail[] = get_the_title( $post_id );
 			} elseif ( 'sfwd-lessons' === $post_type ) {
 				// See if Single Lesson is being displayed.
-				$course_id = get_post_meta( $post_id, 'course_id', true ); // Getting Parent Course ID
+				$course_id = learndash_get_course_id($post_id);  // Getting Parent Course ID
 				if ( strlen( trim( $get_dashboard_link ) ) && '0' !== $get_dashboard_link ) {
 					$trail[] = $dashboard_link;
 				} else {
@@ -242,8 +242,8 @@ class Breadcrumbs extends Config implements RequiredFunctions {
 				//$trail[] = get_the_title( $post_id );
 			} elseif ( 'sfwd-topic' === $post_type ) {
 				// See if single Topic is being displayed
-				$course_id = get_post_meta( $post_id, 'course_id', true ); // Getting Parent Course ID
-				$lesson_id = get_post_meta( $post_id, 'lesson_id', true ); // Getting Parent Lesson ID
+				$course_id = learndash_get_course_id($post_id); // Getting Parent Course ID
+				$lesson_id = learndash_get_lesson_id( $post_id, $course_id ); // Getting Parent Lesson ID
 				if ( strlen( trim( $get_dashboard_link ) ) && '0' !== $get_dashboard_link ) {
 					$trail[] = $dashboard_link;
 				} else {
@@ -254,17 +254,19 @@ class Breadcrumbs extends Config implements RequiredFunctions {
 				//$trail[] = get_the_title( $post_id );
 			} elseif ( 'sfwd-quiz' === $post_type ) {
 				// See if quiz is being displayed
-				$course_id = get_post_meta( $post_id, 'course_id', true ); // Getting Parent Course ID
+				$course_id = learndash_get_course_id($post_id); // Getting Parent Course ID
 				if ( strlen( trim( $get_dashboard_link ) ) && '0' !== $get_dashboard_link ) {
 					$trail[] = $dashboard_link;
 				} else {
 					$trail[] = $course_archive_link;
 				}
 
-				$topic_id = get_post_meta( $post_id, 'lesson_id', true ); // Getting Parent Topic/Lesson ID
+				$topic_id = learndash_get_lesson_id( $post_id, $course_id ); // Getting Parent Topic/Lesson ID
+
 				if ( 'sfwd-topic' === get_post_type( $topic_id ) ) {
-					$lesson_id = get_post_meta( $topic_id, 'lesson_id', true ); // Getting Parent Lesson ID
+					$lesson_id = learndash_get_lesson_id( $post_id, $course_id ); // Getting Parent Lesson ID
 				}
+
 				$trail[] = self::uo_build_anchor_links( get_permalink( $course_id ), get_the_title( $course_id ) ); // Getting Lesson's Course Link
 				//If $lesson_id is false, the quiz is associated with a lesson and course but not a topic.
 				if ( $lesson_id ) {
