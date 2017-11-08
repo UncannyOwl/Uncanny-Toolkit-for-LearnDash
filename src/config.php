@@ -303,7 +303,9 @@ class Config {
 
 	/**
 	 * Loops through array of setting values and return an link and settings html
-	 * @param array		$settings
+	 *
+	 * @param array $settings
+	 *
 	 * @return array
 	 */
 	public static function settings_output( $settings ) {
@@ -405,7 +407,7 @@ class Config {
 
 	public static function ajax_activate_deactivate_module() {
 
-		$capability = apply_filters( 'toolkit_settings_module_switch_cap', 'activate_plugins' );
+		$capability = apply_filters( 'toolkit_settings_module_switch_cap', 'manage_options' );
 
 		if ( current_user_can( $capability ) ) {
 			if ( isset( $_POST['value'] ) ) {
@@ -440,7 +442,7 @@ class Config {
 	 */
 	public static function ajax_settings_save() {
 
-		$capability = apply_filters( 'toolkit_settings_save_cap', 'activate_plugins' );
+		$capability = apply_filters( 'toolkit_settings_save_cap', 'manage_options' );
 
 		if ( current_user_can( $capability ) ) {
 
@@ -482,7 +484,7 @@ class Config {
 	 */
 	public static function ajax_settings_load() {
 
-		$capability = apply_filters( 'toolkit_settings_load_cap', 'activate_plugins' );
+		$capability = apply_filters( 'toolkit_settings_load_cap', 'manage_options' );
 
 		if ( current_user_can( $capability ) ) {
 
@@ -528,7 +530,6 @@ class Config {
 			foreach ( $options as $option ) {
 				if ( in_array( $key, $option, true ) ) {
 					return $option['value'];
-					break;
 				}
 			}
 		}
@@ -550,5 +551,17 @@ class Config {
 		$final_trace = print_r( $trace, true );
 		$file        = WP_CONTENT_DIR . '/uo-' . $file_name . '.log';
 		error_log( $boundary . $log_type . $final_trace . $log_end, 3, $file );
+	}
+
+
+	/**
+	 * @return bool
+	 */
+	public static function is_pro_active() {
+		if ( in_array( 'uncanny-toolkit-pro/uncanny-toolkit-pro.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }
