@@ -3,8 +3,8 @@
 Contributors: uncannyowl
 Tags: LearnDash, eLearning, LMS, education, learning, courseware
 Requires at least: 4.0
-Tested up to: 4.8
-Stable tag: 2.1
+Tested up to: 4.8.3
+Stable tag: 2.2
 License: This plugin is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or any later version.   LearnDash Groups in User Profiles is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.   You should have received a copy of the GNU General Public License along with LearnDash Groups in User Profiles. If not, see {URI to Plugin License}.
 License URI: https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
 
@@ -13,7 +13,7 @@ Extend LearnDash with a variety of useful functions that make it even easier to 
 == Description ==
 **Important: This plugin requires PHP 5.6 or higher and LearnDash 2.3 or higher.**
 
-The Uncanny LearnDash Toolkit adds a dozen exciting new features to LearnDash sites that improve the learner experience and simplify development. If you have a LearnDash site, this plugin will make things easier and faster. It’s the most popular LearnDash plugin in the WordPress repository and trusted on over 6,000 sites.
+The Uncanny LearnDash Toolkit adds a dozen exciting new features to LearnDash sites that improve the learner experience and simplify development. If you have a LearnDash site, this plugin will make things easier and faster. It�s the most popular LearnDash plugin in the WordPress repository and trusted on over 6,000 sites.
 
 https://www.youtube.com/watch?v=FKsN0oTx-rM
 
@@ -27,7 +27,7 @@ The Uncanny LearnDash Toolkit adds the following features to your LearnDash site
 * **Menu Item Visibility**: Control the visibility of menu entries based on whether or not the user is signed in.
 * **Show LearnDash Certificates**: Use a simple shortcode to display a list of all certificates (course and quiz) earned by the current user.
 * **Show or Hide Content**: Use shortcodes to show or hide content based on whether or not a user is signed in. Great for Open course types.
-* **Log In/Log Out Links**: Add Log In and Log Out links to menus, or to any page or widget with a shortcode. If you’ve been frustrated by signed in users seeing Login links, this will help.
+* **Log In/Log Out Links**: Add Log In and Log Out links to menus, or to any page or widget with a shortcode. If you have been frustrated by signed in users seeing Login links, this will help.
 * **LearnDash Breadcrumbs**: Add breadcrumb links that support courses, lessons, topics and quizzes. Also supports WooCommerce, custom post types and more.
 * **LearnDash certificate Widget**: Display all the certificates a learner has earned using a widget.
 * **Topics Autocomplete Lessons**: Automatically mark lessons complete when all topics and quizzes for that lesson are marked complete.
@@ -69,6 +69,12 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 1. Uncanny LearnDash Toolkit Dashboard
 
 == Changelog ==
+
+= 2.2 =
+* New Module: User Switching - enables admins to easily switch to any other user - Based on User Switching by John Blackbourn: https://wordpress.org/plugins/user-switching/
+* Added: Support for LearnDash 2.5
+* Updated: Hide Admin Bar action priority (now 999)
+* Updated: Improved multisite support
 
 = 2.1 =
 * Updated: Certificate widget now recognizes course certificates
