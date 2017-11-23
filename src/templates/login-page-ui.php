@@ -2,9 +2,6 @@
 /* Template Name: Uncanny Owl Login Page */
 $login_page      = \uncanny_learndash_toolkit\FrontendLoginPlus::get_login_redirect_page_id();
 $user_name_label = \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_login_username_label', 'FrontendLoginPlus' );
-echo '<pre>';
-var_dump( $user_name_label );
-echo '</pre>';
 $message_error   = '';
 $message_warning = '';
 
