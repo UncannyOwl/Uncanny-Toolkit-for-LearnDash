@@ -85,7 +85,10 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				add_action( 'wp', array( __CLASS__, 'set_cookies' ) );
 
 				add_action( 'wp', array( __CLASS__, 'maybe_set_cookies' ), 99 ); // Set cookies
-				add_action( 'shutdown', array( __CLASS__, 'maybe_set_cookies' ), 0 ); // Set cookies before shutdown and ob flushing
+				add_action( 'shutdown', array(
+					__CLASS__,
+					'maybe_set_cookies'
+				), 0 ); // Set cookies before shutdown and ob flushing
 
 
 				// Create Login UI Shortcode that can be added anywhere
@@ -127,8 +130,6 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		}
 
 	}
-
-
 
 
 	/**
@@ -216,6 +217,19 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				'label'       => esc_html__( 'Login Page', 'uncanny-learndash-toolkit' ),
 				'select_name' => 'login_page',
 				'options'     => $drop_down,
+			),
+
+			array(
+				'type'        => 'select',
+				'label'       => esc_html__( 'Login Label', 'uncanny-learndash-toolkit' ),
+				'select_name' => 'uo_login_username_label',
+				'options'     => array(
+					array( 'value' => '', 'text' => '- Select Label -' ),
+					array( 'value' => 'Username', 'text' => 'Username'),
+					array( 'value' => 'Email', 'text' => 'Email'),
+					array( 'value' => 'Username Or Email', 'text' => 'Username Or Email'),
+					array( 'value' => 'Login', 'text' => 'Login')
+				)
 			),
 
 			/*array(
@@ -361,8 +375,8 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			$subject = $blog_name . ' - Account Verified';
 			$subject = apply_filters( 'uo_verified_email_subject', $subject, $user );
 
-			$message = $user->user_email . " account has been approved! \r\n\n";
-			$message .= "Visit  " . admin_url( 'user-edit.php?user_id=' . $user->id ) . " to view / edit user. \r\n";
+			$message      = $user->user_email . " account has been approved! \r\n\n";
+			$message      .= "Visit  " . admin_url( 'user-edit.php?user_id=' . $user->id ) . " to view / edit user. \r\n";
 			$message      = apply_filters( 'uo_verified_email_message', $message, $user );
 			$admin_mailed = wp_mail( $to, $subject, $message, $headers );
 
@@ -414,7 +428,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 							$rp_cookie = 'wp-resetpass-' . COOKIEHASH;
 							$value     = sprintf( '%s:%s', wp_unslash( $_GET['login'] ), wp_unslash( $_GET['key'] ) );
 
-							setcookie( $rp_cookie, $value, time()+3600, '/' . get_post_field( 'post_name', $login_page_id ), COOKIE_DOMAIN, is_ssl(), true );
+							setcookie( $rp_cookie, $value, time() + 3600, '/' . get_post_field( 'post_name', $login_page_id ), COOKIE_DOMAIN, is_ssl(), true );
 						}
 					}
 				}
@@ -422,7 +436,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		}
 	}
 
-	public static function maybe_set_cookies(){
+	public static function maybe_set_cookies() {
 
 		global $post;
 
@@ -448,7 +462,6 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				}
 			}
 		}
-
 
 
 	}

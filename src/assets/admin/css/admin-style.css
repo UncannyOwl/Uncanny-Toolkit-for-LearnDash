@@ -706,13 +706,13 @@ input[type=radio].uo_settings_form_field {
 	margin-right: 8px;
 }
 
-.module_activated {
+.module_activated, .module_deactivated  {
 	background: #dff2bf;
 	border: 1px #4f8a10 solid;
 	color: #4f8a10;
 }
 
-.module_deactivated {
+.module_fail {
 	background: #ffbaba;
 	border: 1px #d8000c solid;
 	color: #d8000c;

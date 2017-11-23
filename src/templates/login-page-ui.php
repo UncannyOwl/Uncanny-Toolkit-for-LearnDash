@@ -1,6 +1,10 @@
 <?php
 /* Template Name: Uncanny Owl Login Page */
 $login_page      = \uncanny_learndash_toolkit\FrontendLoginPlus::get_login_redirect_page_id();
+$user_name_label = \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_login_username_label', 'FrontendLoginPlus' );
+echo '<pre>';
+var_dump( $user_name_label );
+echo '</pre>';
 $message_error   = '';
 $message_warning = '';
 
@@ -134,7 +138,7 @@ $login_form_args = array(
 	'echo'           => true,
 	'redirect'       => home_url( '/wp-admin/' ),
 	'form_id'        => 'loginform',
-	'label_username' => esc_html__( 'Username', 'uncanny-learndash-toolkit' ),
+	'label_username' => ( ! empty( $user_name_label ) ) ? $user_name_label : esc_html__( 'Username', 'uncanny-learndash-toolkit' ),
 	'label_password' => esc_html__( 'Password', 'uncanny-learndash-toolkit' ),
 	'label_remember' => esc_html__( 'Remember Me', 'uncanny-learndash-toolkit' ),
 	'label_log_in'   => esc_html__( 'Log In', 'uncanny-learndash-toolkit' ),
@@ -157,7 +161,7 @@ $innerText = Array(
 	'Password-Recovery-Label'    => esc_html__( 'Username or E-mail:', 'uncanny-learndash-toolkit' ),
 	'Success'                    => esc_html__( 'Success!', 'uncanny-learndash-toolkit' ),
 	'Success-Email-Sent'         => esc_html__( 'Check your email for a reset password link.', 'uncanny-learndash-toolkit' ),
-	'Oops'                      => esc_html__( 'Oops!', 'uncanny-learndash-toolkit' ),
+	'Oops'                       => esc_html__( 'Oops!', 'uncanny-learndash-toolkit' ),
 	'Failed-Send-Email'          => esc_html__( 'Password reset failed to Send.', 'uncanny-learndash-toolkit' ),
 	'Reset-Password-Title'       => esc_html__( 'Reset Password', 'uncanny-learndash-toolkit' ),
 	'New-Password'               => esc_html__( 'New Password', 'uncanny-learndash-toolkit' ),
@@ -169,7 +173,9 @@ $innerText = Array(
 	'Password-Not-Match'         => esc_html__( 'Your Passwords did not match. Please try again.', 'uncanny-learndash-toolkit' ),
 	'Reset-Success'              => esc_html__( 'Your password was reset successfully. Please Log-In.', 'uncanny-learndash-toolkit' ),
 	'Login-Title'                => esc_html__( 'Login', 'uncanny-learndash-toolkit' ),
-	'Register-Link'              => esc_html__( 'Register', 'uncanny-learndash-toolkit' )
+	'Register-Link'              => esc_html__( 'Register', 'uncanny-learndash-toolkit' ),
+	'Try-again'                  => esc_html__( 'Try again?', 'uncanny-learndash-toolkit' ),
+	'Get-New-Password'           => esc_html__( 'Get New Password', 'uncanny-learndash-toolkit' )
 );
 
 $innerText = apply_filters( 'uo-login-inner-text', $innerText, $login );
@@ -178,9 +184,9 @@ $innerText = apply_filters( 'uo-login-inner-text', $innerText, $login );
 ?>
 <!-- section -->
 <section class="uo_loginForm">
-	<div class="uo_error">
+    <div class="uo_error">
 		<?php echo $login_error; ?>
-	</div>
+    </div>
 
 	<?php
 	/*
@@ -202,58 +208,61 @@ $innerText = apply_filters( 'uo-login-inner-text', $innerText, $login );
                         </div>';
 	} else if ( $lost_password ) {
 		?>
-		<h2><?php echo $innerText['Password-Recovery-Title']; ?></h2>
-		<form id="lostpasswordform" name="lostpasswordform"
-		      action="<?php echo site_url( 'wp-login.php?action=lostpassword', 'login_post' ) ?>" method="post">
-			<p>
-				<label for="user_login"><?php echo $innerText['Password-Recovery-Label']; ?></label>
-				<input size="20" type="text" name="user_login" id="user_login" value="">
-			</p>
+        <h2><?php echo $innerText['Password-Recovery-Title']; ?></h2>
+        <form id="lostpasswordform" name="lostpasswordform"
+              action="<?php echo site_url( 'wp-login.php?action=lostpassword', 'login_post' ) ?>" method="post">
+            <p>
+                <label for="user_login"><?php echo $innerText['Password-Recovery-Label']; ?></label>
+                <input size="20" type="text" name="user_login" id="user_login" value="">
+            </p>
 
-			<input type="hidden" name="redirect_to"
-			       value="<?php echo get_permalink( $login_page ); ?>?action=forgot&success=1">
+            <input type="hidden" name="redirect_to"
+                   value="<?php echo get_permalink( $login_page ); ?>?action=forgot&success=1">
 
-			<p class="submit"><input type="submit" name="wp-submit" id="wp-submit" value="Get New Password"/></p>
-		</form>
+            <p class="submit"><input type="submit" name="wp-submit" id="wp-submit"
+                                     value="<?php echo $innerText['Get-New-Password']; ?>"/></p>
+        </form>
 		<?php
 	} elseif ( $reset_password_sent ) {
 		if ( $reset_password_sent_success ) {
 			?>
-			<p class="login-msg">
-				<strong><?php echo $innerText['Success']; ?></strong> <?php echo $innerText['Success-Email-Sent']; ?>
-			</p>
+            <p class="login-msg">
+                <strong><?php echo $innerText['Success']; ?></strong> <?php echo $innerText['Success-Email-Sent']; ?>
+            </p>
 			<?php
 		} else {
 			?>
-			<p class="login-msg">
-				<strong><?php echo $innerText['Oops']; ?></strong> <?php echo $innerText['Failed-Send-Email']; ?></p>
-			<p><a href="<?php echo get_permalink( $login_page ); ?>?action=lostpassword">Try again?</a></p>
+            <p class="login-msg">
+                <strong><?php echo $innerText['Oops']; ?></strong> <?php echo $innerText['Failed-Send-Email']; ?></p>
+            <p>
+                <a href="<?php echo get_permalink( $login_page ); ?>?action=lostpassword"><?php echo $innerText['Try-again']; ?></a>
+            </p>
 			<?php
 		}
 	} elseif ( $register ) {
 		if ( $register_show ) {
 			?>
-			<form name="registerform" id="registerform" action="<?php echo wp_login_url(); ?>?action=register"
-			      method="post" novalidate="novalidate">
-				<p>
-					<label for="user_login">Username<br>
-						<input type="text" name="user_login" id="user_login" class="input" value="" size="20"></label>
-				</p>
+            <form name="registerform" id="registerform" action="<?php echo wp_login_url(); ?>?action=register"
+                  method="post" novalidate="novalidate">
+                <p>
+                    <label for="user_login">Username<br>
+                        <input type="text" name="user_login" id="user_login" class="input" value="" size="20"></label>
+                </p>
 
-				<p>
-					<label for="user_email">Email<br>
-						<input type="email" name="user_email" id="user_email" class="input" value="" size="25"></label>
-				</p>
+                <p>
+                    <label for="user_email">Email<br>
+                        <input type="email" name="user_email" id="user_email" class="input" value="" size="25"></label>
+                </p>
 
 				<?php do_action( 'register_form' ); ?>
 
-				<p id="reg_passmail">Registration confirmation will be emailed to you.</p>
-				<br class="clear">
-				<input type="hidden" name="redirect_to" value="">
+                <p id="reg_passmail">Registration confirmation will be emailed to you.</p>
+                <br class="clear">
+                <input type="hidden" name="redirect_to" value="">
 
-				<p class="submit"><input type="submit" name="wp-submit" id="wp-submit"
-				                         class="button button-primary button-large" value="Register"></p>
-			</form>
+                <p class="submit"><input type="submit" name="wp-submit" id="wp-submit"
+                                         class="button button-primary button-large" value="Register"></p>
+            </form>
 			<?php
 		}
 	} elseif ( $reset_password ) {
@@ -266,48 +275,48 @@ $innerText = apply_filters( 'uo-login-inner-text', $innerText, $login );
 			//setcookie( $rp_cookie, $value, 0, '/' . get_post_field( 'post_name', $login_page ), COOKIE_DOMAIN, is_ssl(), true );
 
 			?>
-			<h2><?php echo $innerText['Reset-Password-Title']; ?></h2>
-			<form name="resetpassform" id="resetpassform"
-			      action="?action=validatepasswordreset" method="post"
-			      autocomplete="off">
-				<input type="hidden" id="user_login" name="rp_login" value="<?php echo esc_attr( $rp_login ); ?>"
-				       autocomplete="off"/>
+            <h2><?php echo $innerText['Reset-Password-Title']; ?></h2>
+            <form name="resetpassform" id="resetpassform"
+                  action="?action=validatepasswordreset" method="post"
+                  autocomplete="off">
+                <input type="hidden" id="user_login" name="rp_login" value="<?php echo esc_attr( $rp_login ); ?>"
+                       autocomplete="off"/>
 
-				<div class="user-pass1-wrap">
-					<p>
-						<label for="pass1"><?php echo $innerText['New-Password']; ?></label>
-					</p>
+                <div class="user-pass1-wrap">
+                    <p>
+                        <label for="pass1"><?php echo $innerText['New-Password']; ?></label>
+                    </p>
 
-					<div class="wp-pwd">
+                    <div class="wp-pwd">
                             <span class="password-input-wrapper">
                                 <input type="password" data-reveal="1"
                                        data-pw="<?php echo esc_attr( wp_generate_password( 16 ) ); ?>" name="pass1"
                                        id="pass1" class="input" size="20" value="" autocomplete="off"
                                        aria-describedby="pass-strength-result"/>
                             </span>
-					</div>
-				</div>
-				<p class="user-pass2-wrap">
-					<label for="pass2"><?php echo $innerText['Confirm-Password']; ?></label><br/>
-					<input type="password" name="pass2" id="pass2" class="input" size="20" value="" autocomplete="off"/>
-				</p>
+                    </div>
+                </div>
+                <p class="user-pass2-wrap">
+                    <label for="pass2"><?php echo $innerText['Confirm-Password']; ?></label><br/>
+                    <input type="password" name="pass2" id="pass2" class="input" size="20" value="" autocomplete="off"/>
+                </p>
 
-				<p class="description indicator-hint"><?php echo $innerText['Password-Indicator-Hint']; ?></p>
-				<br class="clear"/>
-				<input type="hidden" name="rp_key" value="<?php echo esc_attr( $rp_key ); ?>"/>
+                <p class="description indicator-hint"><?php echo $innerText['Password-Indicator-Hint']; ?></p>
+                <br class="clear"/>
+                <input type="hidden" name="rp_key" value="<?php echo esc_attr( $rp_key ); ?>"/>
 
-				<p class="submit"><input type="submit" name="wp-submit" id="wp-submit"
-				                         class="button button-primary button-large"
-				                         value="<?php esc_attr_e( 'Reset Password' ); ?>"/></p>
-			</form>
+                <p class="submit"><input type="submit" name="wp-submit" id="wp-submit"
+                                         class="button button-primary button-large"
+                                         value="<?php esc_attr_e( 'Reset Password' ); ?>"/></p>
+            </form>
 			<?php
 
 		} else {
 
 			?>
-			<p class="login-msg">
-				<strong><?php echo $innerText['Oops']; ?></strong> <?php echo $innerText['Password-Reset-Link-Failed']; ?>
-			</p>
+            <p class="login-msg">
+                <strong><?php echo $innerText['Oops']; ?></strong> <?php echo $innerText['Password-Reset-Link-Failed']; ?>
+            </p>
 			<?php
 		}
 	} elseif ( $validate_password_reset ) {
@@ -359,7 +368,7 @@ $innerText = apply_filters( 'uo-login-inner-text', $innerText, $login );
 		}
 	} else {
 		?>
-		<h2>Login</h2>
+        <h2>Login</h2>
 		<?php
 		wp_login_form( $login_form_args );
 
