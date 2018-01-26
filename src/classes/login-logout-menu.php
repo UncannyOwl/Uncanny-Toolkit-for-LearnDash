@@ -154,7 +154,7 @@ class LoginLogoutMenu extends Config implements RequiredFunctions {
 				default:
 					$label = '';
 			}
-
+			$nav_menu_items[ $label ]                   = new \stdClass();
 			$nav_menu_items[ $label ]->db_id            = 0;
 			$nav_menu_items[ $label ]->object           = 'uo-login-logout-menu';
 			$nav_menu_items[ $label ]->object_id        = esc_attr( $url );
