@@ -13,7 +13,7 @@ Extend LearnDash with a variety of useful functions that make it even easier to 
 == Description ==
 **Important: This plugin requires PHP 5.6 or higher and LearnDash 2.3 or higher.**
 
-The Uncanny LearnDash Toolkit adds a dozen exciting new features to LearnDash sites that improve the learner experience and simplify development. If you have a LearnDash site, this plugin will make things easier and faster. It's the most popular LearnDash plugin in the WordPress repository and trusted on thousands of sites.
+The Uncanny LearnDash Toolkit adds over a dozen exciting new features to LearnDash sites that improve the learner experience and simplify development. Trusted to power over 8,000 LearnDash sites, it’s the easiest way to improve the learning experience for your students.
 
 https://www.youtube.com/watch?v=FKsN0oTx-rM
 
@@ -31,6 +31,7 @@ The Uncanny LearnDash Toolkit adds the following features to your LearnDash site
 * **LearnDash Breadcrumbs**: Add breadcrumb links that support courses, lessons, topics and quizzes. Also supports WooCommerce, custom post types and more.
 * **LearnDash certificate Widget**: Display all the certificates a learner has earned using a widget.
 * **Topics Autocomplete Lessons**: Automatically mark lessons complete when all topics and quizzes for that lesson are marked complete.
+* **User Switching**: View courses and the rest of your site as a specific user without requiring their password.
 
 More information about how to use the Toolkit, including a 40-minute instructional screencast, is available in our [knowledge base](https://www.uncannyowl.com/article-categories/uncanny-learndash-toolkit/?utm_medium=ldtoolkitreadme).
 
