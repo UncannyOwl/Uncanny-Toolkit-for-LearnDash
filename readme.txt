@@ -72,6 +72,15 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 
 == Changelog ==
 
+= 2.3 =
+* Added: New Module - Not Enrolled Redirect - Redirect a user to a specified URL if they attempt to access a course in which they are not enrolled
+* Added: Front-End Login - Added label setting for login form (Username, Email, Username or Email, Login)
+* Updated: Front End Login - Cleaned up some error messaging in the user interface
+* Updated: Front End Login - Made some additional strings translatable
+* Updated: User Switching code to version 1.3 of User Switching plugin by John Blackbourn
+* Updated: Confirmation message when disabling a toolkit module now appears in green instead of red
+* Fixed: JavaScript error on the Toolkit settings page in some environments when debug is enabled.
+
 = 2.2 =
 * New Module: User Switching - enables admins to easily switch to any other user - Based on User Switching by John Blackbourn: https://wordpress.org/plugins/user-switching/
 * Added: Support for LearnDash 2.5
