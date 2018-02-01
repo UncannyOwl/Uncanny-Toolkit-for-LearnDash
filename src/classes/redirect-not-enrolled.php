@@ -42,7 +42,7 @@ class RedirectNotEnrolled extends Config implements RequiredFunctions {
 	public static function get_details() {
 
 		$class_title       = esc_html__( 'Not Enrolled Redirect', 'uncanny-learndash-toolkit' );
-		$kb_link           = 'https://www.uncannyowl.com/?post_type=ht_kb&p=18566&preview=true';
+		$kb_link           = 'https://www.uncannyowl.com/knowledge-base/redirect-user-if-not-enrolled/';
 		$class_description = esc_html__( 'Redirects all non-admin roles to a specific URL if they are not enrolled in the course.', 'uncanny-learndash-toolkit' );
 		$class_icon        = '<i class="uo_icon_fa fa fa-share"></i>';
 		$tags              = 'learndash';
@@ -151,7 +151,7 @@ class RedirectNotEnrolled extends Config implements RequiredFunctions {
 
 						if ( ! sfwd_lms_has_access( $post->ID, get_current_user_id() ) ) {
 							// redirect them to the default place
-							wp_safe_redirect( $redirect_to );
+							wp_redirect( $redirect_to );
 							exit;
 						}
 
