@@ -13,7 +13,7 @@ Extend LearnDash with a variety of useful functions that make it even easier to 
 == Description ==
 **Important: This plugin requires PHP 5.6 or higher and LearnDash 2.3 or higher.**
 
-The Uncanny LearnDash Toolkit adds over a dozen exciting new features to LearnDash sites that improve the learner experience and simplify development. Trusted to power over 8,000 LearnDash sites, it’s the easiest way to improve the learning experience for your students.
+The Uncanny LearnDash Toolkit adds over a dozen exciting new features to LearnDash sites that improve the learner experience and simplify development. Trusted to power over 8,000 LearnDash sites, it's the easiest way to improve the learning experience for your students.
 
 https://www.youtube.com/watch?v=FKsN0oTx-rM
 
