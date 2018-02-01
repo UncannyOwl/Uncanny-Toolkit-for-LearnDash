@@ -407,6 +407,17 @@ class Config {
 
 	public static function ajax_activate_deactivate_module() {
 
+		/*
+	   * If WP DEBUG is not on do NOT return any php warning, notices, and/or fatal errors.
+	   * Well If it is a fatal error then this return is FUBAR anyway...
+	   * We do this because some badly configured servers will return notices and warnings switch get prepended or appended to the rest response.
+	   */
+		if ( defined( 'WP_DEBUG' ) ) {
+			if ( false === WP_DEBUG ) {
+				error_reporting( 0 );
+			}
+		}
+
 		$capability = apply_filters( 'toolkit_settings_module_switch_cap', 'manage_options' );
 
 		if ( current_user_can( $capability ) ) {
@@ -430,7 +441,7 @@ class Config {
 					$save_settings = add_option( 'uncanny_toolkit_active_classes', array( $value => $value ), 'no' );
 					$response      = ( $save_settings ) ? 'success' : 'notsaved';
 				}
-				ob_clean();
+
 				echo $response;
 				wp_die();
 			}
@@ -441,6 +452,18 @@ class Config {
 	 * @return string
 	 */
 	public static function ajax_settings_save() {
+
+
+		/*
+	   * If WP DEBUG is not on do NOT return any php warning, notices, and/or fatal errors.
+	   * Well If it is a fatal error then this return is FUBAR anyway...
+	   * We do this because some badly configured servers will return notices and warnings switch get prepended or appended to the rest response.
+	   */
+		if ( defined( 'WP_DEBUG' ) ) {
+			if ( false === WP_DEBUG ) {
+				error_reporting( 0 );
+			}
+		}
 
 		$capability = apply_filters( 'toolkit_settings_save_cap', 'manage_options' );
 
@@ -470,9 +493,6 @@ class Config {
 
 		}
 
-		// Clean Buffer before Response
-		ob_clean();
-
 		echo stripslashes( $response );
 
 		wp_die();
@@ -483,6 +503,17 @@ class Config {
 	 * @return string
 	 */
 	public static function ajax_settings_load() {
+
+	   /*
+	   * If WP DEBUG is not on do NOT return any php warning, notices, and/or fatal errors.
+	   * Well If it is a fatal error then this return is FUBAR anyway...
+	   * We do this because some badly configured servers will return notices and warnings switch get prepended or appended to the rest response.
+	   */
+		if ( defined( 'WP_DEBUG' ) ) {
+			if ( false === WP_DEBUG ) {
+				error_reporting( 0 );
+			}
+		}
 
 		$capability = apply_filters( 'toolkit_settings_load_cap', 'manage_options' );
 
@@ -504,9 +535,6 @@ class Config {
 			$response = 'You must be an admin to save settings.';
 
 		}
-
-		// Clean Buffer before Response
-		ob_clean();
 
 		//echo stripslashes( $response );
 		echo $response;
