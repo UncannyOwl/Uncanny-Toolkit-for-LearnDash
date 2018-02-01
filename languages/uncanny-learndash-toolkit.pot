@@ -612,7 +612,7 @@ msgid "Check your email for a reset password link."
 msgstr ""
 
 #: src/templates/login-page-ui.php:161
-msgid "Password reset failed to Send."
+msgid "Password reset email failed to send."
 msgstr ""
 
 #: src/templates/login-page-ui.php:162 src/templates/login-page-ui.php:301
@@ -647,11 +647,11 @@ msgid "Your password reset link is expired."
 msgstr ""
 
 #: src/templates/login-page-ui.php:169
-msgid "Your Passwords did not match. Please try again."
+msgid "YThe password values do not match."
 msgstr ""
 
 #: src/templates/login-page-ui.php:170
-msgid "Your password was reset successfully. Please Log-In."
+msgid "Your password was successfully reset. Please log in."
 msgstr ""
 
 #: src/templates/login-page-ui.php:171
