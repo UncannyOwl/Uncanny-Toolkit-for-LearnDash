@@ -647,7 +647,7 @@ msgid "Your password reset link is expired."
 msgstr ""
 
 #: src/templates/login-page-ui.php:169
-msgid "YThe password values do not match."
+msgid "The password values do not match."
 msgstr ""
 
 #: src/templates/login-page-ui.php:170
