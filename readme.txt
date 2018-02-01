@@ -32,6 +32,7 @@ The Uncanny LearnDash Toolkit adds the following features to your LearnDash site
 * **LearnDash certificate Widget**: Display all the certificates a learner has earned using a widget.
 * **Topics Autocomplete Lessons**: Automatically mark lessons complete when all topics and quizzes for that lesson are marked complete.
 * **User Switching**: View courses and the rest of your site as a specific user without requiring their password.
+* **Not Enrolled Redirect**: Redirect users to a specific URL if they are not enrolled in a course.
 
 More information about how to use the Toolkit, including a 40-minute instructional screencast, is available in our [knowledge base](https://www.uncannyowl.com/article-categories/uncanny-learndash-toolkit/?utm_medium=ldtoolkitreadme).
 
