@@ -49,9 +49,7 @@ function learndash_version_notice() {
 		<div class="notice notice-error">
 			<h3><?php echo sprintf(
 
-					esc_html__( 'The %s requires PHP version %s or higher (5.6 or higher is recommended).
-						Because you are using an unsupported version of PHP (%s), the Toolkit plugin will not initialize.
-						Please contact your hosting company to upgrade to PHP 5.6 or higher.', 'uncanny-learndash-toolkit'
+					esc_html__( 'The %s requires PHP version %s or higher (5.6 or higher is recommended). Because you are using an unsupported version of PHP (%s), the Toolkit plugin will not initialize. Please contact your hosting company to upgrade to PHP 5.6 or higher.', 'uncanny-learndash-toolkit'
 					),
 
 					'Uncanny LearnDash Toolkit',
@@ -107,9 +105,7 @@ function learndash_version_notice() {
 			<div class="notice notice-error">
 				<h3><?php echo sprintf(
 
-						esc_html__( 'The Uncanny LearnDash Toolkit requires LearnDash version 2.1 or higher to work properly.
-						Please make sure you have version 2.1 or higher installed before using any LearnDash modules in the Toolkit.
-						Your current version is: %s', 'uncanny-learndash-toolkit' ),
+						esc_html__( 'The Uncanny LearnDash Toolkit requires LearnDash version 2.1 or higher to work properly. Please make sure you have version 2.1 or higher installed before using any LearnDash modules in the Toolkit. Your current version is: %s', 'uncanny-learndash-toolkit' ),
 
 						$learn_dash_version
 					); ?>
@@ -123,8 +119,7 @@ function learndash_version_notice() {
 			<div class="notice notice-error">
 				<h3><?php echo sprintf(
 
-						esc_html__( 'The Uncanny LearnDash Toolkit requires LearnDash version 2.1 or higher to work properly.
-						Please make sure you have version 2.1 or higher installed before using any LearnDash modules in the Toolkit.', 'uncanny-learndash-toolkit' ),
+						esc_html__( 'The Uncanny LearnDash Toolkit requires LearnDash version 2.1 or higher to work properly. Please make sure you have version 2.1 or higher installed before using any LearnDash modules in the Toolkit.', 'uncanny-learndash-toolkit' ),
 
 						$learn_dash_version
 					); ?>
