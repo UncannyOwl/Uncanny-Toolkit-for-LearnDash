@@ -10,7 +10,6 @@ global $user_login;
 /* Login */
 $login = ( isset( $_GET['login'] ) ) ? $_GET['login'] : 'not-set';
 
-
 /* Registration */
 $register = false;
 if ( '' !== \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_registration', 'FrontendLoginPlus' ) ) {
@@ -182,6 +181,16 @@ $innerText = apply_filters( 'uo-login-inner-text', $innerText, $login );
 
 ?>
 <!-- section -->
+
+<style>
+
+#loginform label[for="user_login"],
+#loginform label[for="user_pass"] {
+	display: block;
+}
+
+</style>
+
 <section class="uo_loginForm">
     <div class="uo_error">
 		<?php echo $login_error; ?>

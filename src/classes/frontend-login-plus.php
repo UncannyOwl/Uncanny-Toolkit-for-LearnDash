@@ -496,19 +496,6 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			$redirect     = ( isset( $atts['redirect'] ) ? $atts['redirect'] : home_url() );
 			$submit_label = ( isset( $atts['#loginform'] ) ? $atts['submit-label'] : esc_html__( 'Log In', 'uncanny-learndash-toolkit' ) );
 
-			?>
-
-			<style>
-
-			#loginform label[for="user_login"],
-			#loginform label[for="user_pass"] {
-				display: block;
-			}
-
-			</style>
-
-			<?php
-
 			if ( 'no' !== $placeholder ) {
 				?>
                 <script type='text/javascript'>
