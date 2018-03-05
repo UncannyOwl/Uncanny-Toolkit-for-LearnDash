@@ -277,7 +277,7 @@ jQuery(document).ready(function ($) {
 			if (actual_view != new_view){
 				actual_view = new_view;
 
-				features.removeClass('selected');
+				$('.switch-btn').removeClass('selected');
 				$(this).addClass('selected');
 				
 				features.removeClass('grid-view list-view'); 
