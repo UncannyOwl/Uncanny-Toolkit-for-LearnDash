@@ -234,11 +234,11 @@ class AdminMenu extends Boot {
 			<div class="switch-view">
 				<div class="switch-btn grid-view selected" data-view="grid">
 					<i class="fa fa-table" aria-hidden="true"></i>
-					Grid view
+					<?php _e('Grid view', 'uncanny-learndash-toolkit'); ?>
 				</div>
 				<div class="switch-btn list-view" data-view="list">
 					<i class="fa fa-list-ul" aria-hidden="true"></i>
-					List view
+					<?php _e('List view', 'uncanny-learndash-toolkit'); ?>
 				</div>
 			</div>
 		</div>
