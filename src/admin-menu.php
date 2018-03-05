@@ -230,6 +230,18 @@ class AdminMenu extends Boot {
 				</li>
 			</ul>
 		</form>
+		<div class="switcher_content">
+			<div class="switch-view">
+				<div class="switch-btn grid-view" data-view="grid">
+					<i class="fa fa-table" aria-hidden="true"></i>
+					Grid view
+				</div>
+				<div class="switch-btn list-view" data-view="list">
+					<i class="fa fa-list-ul" aria-hidden="true"></i>
+					List view
+				</div>
+			</div>
+		</div>
 		<hr class="uo-underline">
 		<!--<form method="post" action="options.php">
 		--><?php
