@@ -275,6 +275,8 @@ jQuery(document).ready(function ($) {
 		$('.switch-btn').click(function(){
 			var new_view = $(this).hasClass('grid-view') ? 'grid' : 'list';
 			if (actual_view != new_view){
+				actual_view = new_view;
+				$(this).addClass('selected');
 				features.removeClass('grid-view list-view'); 
 				features.addClass(new_view+'-view'); 
 			}

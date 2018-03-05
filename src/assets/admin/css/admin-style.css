@@ -226,15 +226,25 @@ hr.uo-underline {
 	width: 100%;
 }
 
+.switcher_content:after {
+	content: '';
+	display: table;
+	clear: both;
+}
+
 	.switcher_content .switch-view {
 		float: left;
 		border: 1px solid #b1b1b1;
 		color: #5b5b5b;
+		background: #fff;
+		margin-bottom: 10px;
+		cursor: pointer;
 	}
 
 		.switcher_content .switch-view .switch-btn {
 			float: left;
-			padding: 3px 10px;
+			padding: 5px 12px;
+			font-size: 16px;
 		}
 
 		.switcher_content .switch-view .switch-btn.selected {
