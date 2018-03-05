@@ -276,7 +276,10 @@ jQuery(document).ready(function ($) {
 			var new_view = $(this).hasClass('grid-view') ? 'grid' : 'list';
 			if (actual_view != new_view){
 				actual_view = new_view;
+
+				features.removeClass('selected');
 				$(this).addClass('selected');
+				
 				features.removeClass('grid-view list-view'); 
 				features.addClass(new_view+'-view'); 
 			}

@@ -232,7 +232,7 @@ class AdminMenu extends Boot {
 		</form>
 		<div class="switcher_content">
 			<div class="switch-view">
-				<div class="switch-btn grid-view" data-view="grid">
+				<div class="switch-btn grid-view selected" data-view="grid">
 					<i class="fa fa-table" aria-hidden="true"></i>
 					Grid view
 				</div>
