@@ -10,7 +10,6 @@ global $user_login;
 /* Login */
 $login = ( isset( $_GET['login'] ) ) ? $_GET['login'] : 'not-set';
 
-
 /* Registration */
 $register = false;
 if ( '' !== \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_registration', 'FrontendLoginPlus' ) ) {
@@ -39,7 +38,7 @@ if ( '' !== \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_
 						break;
 					case 'username_exists':
 						$message_error   = esc_html__( 'Oops!', 'uncanny-learndash-toolkit' );
-						$message_warning = esc_html__( 'his username is already registered. Please choose another one.', 'uncanny-learndash-toolkit' );
+						$message_warning = esc_html__( 'This username is already registered. Please choose another one.', 'uncanny-learndash-toolkit' );
 						break;
 					case 'empty_email':
 						$message_error   = esc_html__( 'Oops!', 'uncanny-learndash-toolkit' );
@@ -118,7 +117,9 @@ switch ( $login ) {
 		$message_warning = esc_html__( 'Username and/or Password is empty.', 'uncanny-learndash-toolkit' );
 		break;
 	case 'false':
-		$message_error   = esc_html__( '', 'uncanny-learndash-toolkit' );
+		// Empty msgid. It is reserved by GNU gettext: gettext("") returns the header entry with meta information, not the empty string.
+		// $message_error   = esc_html__( '', 'uncanny-learndash-toolkit' ); 
+		$message_error 	 = '';
 		$message_warning = esc_html__( 'You are logged out.', 'uncanny-learndash-toolkit' );
 		break;
 	case 'notverified':
@@ -180,6 +181,16 @@ $innerText = apply_filters( 'uo-login-inner-text', $innerText, $login );
 
 ?>
 <!-- section -->
+
+<style>
+
+#loginform label[for="user_login"],
+#loginform label[for="user_pass"] {
+	display: block;
+}
+
+</style>
+
 <section class="uo_loginForm">
     <div class="uo_error">
 		<?php echo $login_error; ?>

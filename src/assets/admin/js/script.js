@@ -62,7 +62,6 @@ jQuery(document).ready(function ($) {
 
 	});
 
-
 	// SIMPLE MODAL POPUP
 	$.fn.extend({
 
@@ -267,6 +266,25 @@ jQuery(document).ready(function ($) {
 			settings_container.find('.uo-color-picker').wpColorPicker();
 		});
 	});
+
+	toolkit_view();
+	function toolkit_view(){
+		var actual_view = 'grid',
+			features = $('#features');
+
+		$('.switch-btn').click(function(){
+			var new_view = $(this).hasClass('grid-view') ? 'grid' : 'list';
+			if (actual_view != new_view){
+				actual_view = new_view;
+
+				$('.switch-btn').removeClass('selected');
+				$(this).addClass('selected');
+				
+				features.removeClass('grid-view list-view'); 
+				features.addClass(new_view+'-view'); 
+			}
+		});
+	}
 
 	function remove_slashes_from_strong(string) {
 		return string.replace(new RegExp("\\\\", "g"), "");

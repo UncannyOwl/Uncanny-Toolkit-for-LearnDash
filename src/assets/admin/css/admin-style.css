@@ -156,6 +156,103 @@ hr.uo-underline {
 	width: 87%; /* Safari */
 }
 
+#features.list-view {
+	width: 93%;
+	float: left;
+	display: block;
+}
+
+	#features.list-view .uo_feature {
+		width: 100%;
+		margin-right: 0;
+		height: auto;
+		box-sizing: border-box;
+		padding-right: 120px;
+		padding-bottom: 20px;
+		margin-bottom: 0;
+		-webkit-border-radius: 0;
+		-moz-border-radius: 0;
+		-ms-border-radius: 0;
+		-o-border-radius: 0;
+		border-radius: 0;
+	}
+
+		#features.list-view .uo_feature {
+			margin-left: 5px !important;
+		}
+
+		#features.list-view .uo_feature:not(:last-child) {
+			border-bottom: 0;
+		}
+
+		#features.list-view .uo_feature .uo_icon_container {
+			display: none;
+		}
+
+		#features.list-view .uo_feature .uo_feature_button {
+			top: 50%;
+			right: 30px;
+			transform: translateY(-50%);
+		}
+
+	#features.list-view .uo_feature[data-type='pro'] .uo_feature_title .uo_feature_more_info {
+		margin-right: 10px;
+	}
+
+	#features.list-view .uo_feature[data-type='pro'] .uo_feature_title:after {
+		content: 'Pro Module';
+		color: #fff;
+		padding: 1px 10px;
+		background: #0073aa;
+		-webkit-border-radius: 100px;
+		-moz-border-radius: 100px;
+		-ms-border-radius: 100px;
+		-o-border-radius: 100px;
+		border-radius: 100px;
+		font-size: 12px;
+		white-space: nowrap;
+	}
+
+	#features.list-view .uo_feature_description {
+		padding-top: 5px;
+	}
+
+	#features.list-view .uo_feature_title {
+		font-size: 1.3em;
+		font-weight: 600;
+	}
+
+.switcher_content {
+	width: 100%;
+}
+
+.switcher_content:after {
+	content: '';
+	display: table;
+	clear: both;
+}
+
+	.switcher_content .switch-view {
+		float: left;
+		border: 1px solid #b1b1b1;
+		color: #5b5b5b;
+		background: #fff;
+		margin-bottom: 10px;
+		cursor: pointer;
+	}
+
+		.switcher_content .switch-view .switch-btn {
+			float: left;
+			padding: 5px 12px;
+			font-size: 16px;
+		}
+
+		.switcher_content .switch-view .switch-btn.selected {
+			background: #0073aa;
+			color: #fff;
+			font-weight: 600;
+		}
+
 @media only screen and (min-width: 768px) and (max-width: 1023px) {
 	.uo_feature {
 		margin-left: 3%;

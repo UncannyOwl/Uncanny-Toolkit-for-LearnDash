@@ -161,10 +161,7 @@ class AdminMenu extends Boot {
 			<h2><?php esc_html_e( 'Thanks for using the Uncanny LearnDash Toolkit!', 'uncanny-learndash-toolkit' ); ?></h2>
 			<p><?php
 				printf(
-					__( 'This plugin adds a number of simple but essential functions to LearnDash sites. To learn more about
-				how to use these modules properly, please visit our introduction at <a href="%s" target="_blank" >https://www.uncannyowl.com/uncanny-learndash-toolkit/</a>
-				and Knowledge Base at <a href="%s" target="_blank" >https://www.uncannyowl.com/article-categories/uncanny-learndash-toolkit/</a>.', 'uncanny-learndash-toolkit' ),
-					esc_url( 'https://www.uncannyowl.com/uncanny-learndash-toolkit/' ), esc_url( 'https://www.uncannyowl.com/article-categories/uncanny-learndash-toolkit/' ) );
+					__( 'This plugin adds a number of simple but essential functions to LearnDash sites. To learn more about how to use these modules properly, please visit our introduction at <a href="%s" target="_blank" >https://www.uncannyowl.com/uncanny-learndash-toolkit/</a> and Knowledge Base at <a href="%s" target="_blank" >https://www.uncannyowl.com/article-categories/uncanny-learndash-toolkit/</a>.', 'uncanny-learndash-toolkit' ), esc_url( 'https://www.uncannyowl.com/uncanny-learndash-toolkit/' ), esc_url( 'https://www.uncannyowl.com/article-categories/uncanny-learndash-toolkit/' ) );
 				?></p>
 			<p <?php echo $show_pro_toolkit_heading; ?>>
 				<?php
@@ -233,6 +230,18 @@ class AdminMenu extends Boot {
 				</li>
 			</ul>
 		</form>
+		<div class="switcher_content">
+			<div class="switch-view">
+				<div class="switch-btn grid-view selected" data-view="grid">
+					<i class="fa fa-table" aria-hidden="true"></i>
+					<?php _e('Grid view', 'uncanny-learndash-toolkit'); ?>
+				</div>
+				<div class="switch-btn list-view" data-view="list">
+					<i class="fa fa-list-ul" aria-hidden="true"></i>
+					<?php _e('List view', 'uncanny-learndash-toolkit'); ?>
+				</div>
+			</div>
+		</div>
 		<hr class="uo-underline">
 		<!--<form method="post" action="options.php">
 		--><?php
