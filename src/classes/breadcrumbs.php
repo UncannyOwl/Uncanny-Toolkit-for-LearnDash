@@ -264,7 +264,7 @@ class Breadcrumbs extends Config implements RequiredFunctions {
 				$topic_id = learndash_get_lesson_id( $post_id, $course_id ); // Getting Parent Topic/Lesson ID
 
 				if ( 'sfwd-topic' === get_post_type( $topic_id ) ) {
-					$lesson_id = learndash_get_lesson_id( $post_id, $course_id ); // Getting Parent Lesson ID
+					$lesson_id = learndash_get_lesson_id( $topic_id, $course_id ); // Getting Parent Lesson ID
 				}
 
 				$trail[] = self::uo_build_anchor_links( get_permalink( $course_id ), get_the_title( $course_id ) ); // Getting Lesson's Course Link
