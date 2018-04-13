@@ -88,21 +88,21 @@ class AdminMenu extends Boot {
 
 		if ( ! $uo_pro_classes['path'] ) {
 			$pro_ad .= '<a href="http://www.uncannyowl.com/downloads/uncanny-learndash-toolkit-pro/?utm_medium=freetoolkit&utm_campaign=settings" class="page-title-action" target="_blank">Upgrade Now</a>';
-			$pro_ad .= '<p><strong>Ready to take your LearnDash site even further?</strong></p>';
-			$pro_ad .= '<h2>Check out the Pro modules for the Uncanny LearnDash Toolkit!</h2>';
+			$pro_ad .= '<p><strong>'.__( 'Ready to take your LearnDash site even further?', 'uncanny-learndash-toolkit' ).'</strong></p>';
+			$pro_ad .= '<h2>'.__( 'Check out the Pro modules for the Uncanny LearnDash Toolkit!', 'uncanny-learndash-toolkit' ).'</h2>';
 			$pro_ad .= '<div class="list">';
-			$pro_ad .= '<li><a href="https://www.uncannyowl.com/knowledge-base/enhanced-lessontopic-grid/?utm_medium=freetoolkit&utm_campaign=settings" target="_blank">Enhanced Lesson/Topic Grid</a><span class="new-module">NEW!</span></li>';
-			$pro_ad .= '<li><a href="https://www.uncannyowl.com/knowledge-base/send-course-certificates-email/?utm_medium=freetoolkit&utm_campaign=settings" target="_blank">Send Course Certificates by Email</a><span class="new-module">NEW!</span></li>';
-			$pro_ad .= '<li><a href="https://www.uncannyowl.com/knowledge-base/import-learndash-users/?utm_medium=freetoolkit&utm_campaign=settings" target="_blank">Import LearnDash Users</a></li>';
-			$pro_ad .= '<li><a href="https://www.uncannyowl.com/knowledge-base/autocomplete-lessons-topics/?utm_medium=freetoolkit&utm_campaign=settings" target="_blank">Autocomplete Lessons &amp; Topics</a></li>';
-			$pro_ad .= '<li><a href="https://www.uncannyowl.com/knowledge-base/enhanced-course-grid/?utm_medium=freetoolkit&utm_campaign=settings" target="_blank">Enhanced Course Grid</a></li>';
-			$pro_ad .= '<li><a href="https://www.uncannyowl.com/knowledge-base/learndash-course-dashboard/?utm_medium=freetoolkit&utm_campaign=settings" target="_blank">LearnDash Course Dashboard</a></li>';
-			$pro_ad .= '<li><a href="https://www.uncannyowl.com/knowledge-base/simple-course-timer/?utm_medium=freetoolkit&utm_campaign=settings" target="_blank">Simple Course Timer</a></li>';
-			$pro_ad .= '<li><a href="https://www.uncannyowl.com/knowledge-base/send-certificates-by-email/?utm_medium=freetoolkit&utm_campaign=settings" target="_blank">Send Quiz Certificates by Email</a></li>';
-			$pro_ad .= '<li><a href="https://www.uncannyowl.com/knowledge-base/group-sign-up/?utm_medium=freetoolkit&utm_campaign=settings" target="_blank">LearnDash Group Registration</a></li>';
-			$pro_ad .= '<li><a href="https://www.uncannyowl.com/knowledge-base/ld-group-logo-list/?utm_medium=freetoolkit&utm_campaign=settings" target="_blank">LearnDash Group Logo/List</a></li>';
-			$pro_ad .= '<li><a href="https://www.uncannyowl.com/knowledge-base/learner-transcript/?utm_medium=freetoolkit&utm_campaign=settings" target="_blank">Learner Transcript</a></li>';
-			$pro_ad .= '<li><a href="https://www.uncannyowl.com/article-categories/uncanny-toolkit-pro/?utm_medium=freetoolkit&utm_campaign=settings" target="_blank">...and much more!</a></li>';
+			$pro_ad .= '<li><a href="https://www.uncannyowl.com/knowledge-base/enhanced-lessontopic-grid/?utm_medium=freetoolkit&utm_campaign=settings" target="_blank">'.__( 'Enhanced Lesson/Topic Grid', 'uncanny-learndash-toolkit' ).'</a><span class="new-module">NEW!</span></li>';
+			$pro_ad .= '<li><a href="https://www.uncannyowl.com/knowledge-base/send-course-certificates-email/?utm_medium=freetoolkit&utm_campaign=settings" target="_blank">'.__( 'Send Course Certificates by Email', 'uncanny-learndash-toolkit' ).'</a><span class="new-module">NEW!</span></li>';
+			$pro_ad .= '<li><a href="https://www.uncannyowl.com/knowledge-base/import-learndash-users/?utm_medium=freetoolkit&utm_campaign=settings" target="_blank">'.__( 'Import LearnDash Users', 'uncanny-learndash-toolkit' ).'</a></li>';
+			$pro_ad .= '<li><a href="https://www.uncannyowl.com/knowledge-base/autocomplete-lessons-topics/?utm_medium=freetoolkit&utm_campaign=settings" target="_blank">'.__( 'Autocomplete Lessons &amp; Topics', 'uncanny-learndash-toolkit' ).'</a></li>';
+			$pro_ad .= '<li><a href="https://www.uncannyowl.com/knowledge-base/enhanced-course-grid/?utm_medium=freetoolkit&utm_campaign=settings" target="_blank">'.__( 'Enhanced Course Grid', 'uncanny-learndash-toolkit' ).'</a></li>';
+			$pro_ad .= '<li><a href="https://www.uncannyowl.com/knowledge-base/learndash-course-dashboard/?utm_medium=freetoolkit&utm_campaign=settings" target="_blank">'.__( 'LearnDash Course Dashboard', 'uncanny-learndash-toolkit' ).'</a></li>';
+			$pro_ad .= '<li><a href="https://www.uncannyowl.com/knowledge-base/simple-course-timer/?utm_medium=freetoolkit&utm_campaign=settings" target="_blank">'.__( 'Simple Course Timer', 'uncanny-learndash-toolkit' ).'</a></li>';
+			$pro_ad .= '<li><a href="https://www.uncannyowl.com/knowledge-base/send-certificates-by-email/?utm_medium=freetoolkit&utm_campaign=settings" target="_blank">'.__( 'Send Quiz Certificates by Email', 'uncanny-learndash-toolkit' ).'</a></li>';
+			$pro_ad .= '<li><a href="https://www.uncannyowl.com/knowledge-base/group-sign-up/?utm_medium=freetoolkit&utm_campaign=settings" target="_blank">'.__( 'LearnDash Group Registration', 'uncanny-learndash-toolkit' ).'</a></li>';
+			$pro_ad .= '<li><a href="https://www.uncannyowl.com/knowledge-base/ld-group-logo-list/?utm_medium=freetoolkit&utm_campaign=settings" target="_blank">'.__( 'LearnDash Group Logo/List', 'uncanny-learndash-toolkit' ).'</a></li>';
+			$pro_ad .= '<li><a href="https://www.uncannyowl.com/knowledge-base/learner-transcript/?utm_medium=freetoolkit&utm_campaign=settings" target="_blank">'.__( 'Learner Transcript', 'uncanny-learndash-toolkit' ).'</a></li>';
+			$pro_ad .= '<li><a href="https://www.uncannyowl.com/article-categories/uncanny-toolkit-pro/?utm_medium=freetoolkit&utm_campaign=settings" target="_blank">'.__( '...and much more!', 'uncanny-learndash-toolkit' ).'</a></li>';
 			$pro_ad .= '</div>';
 			$pro_ad .= '<div style="clear:both;"></div>';
 
@@ -120,25 +120,25 @@ class AdminMenu extends Boot {
 		$other_plugins = '';
 
 		if ( ! defined( 'UNCANNY_REPORTING_VERSION' ) ) {
-			$other_plugins .= '<li><a href="https://www.uncannyowl.com/downloads/tin-canny-reporting/?utm_medium=freetoolkit&utm_campaign=settings" target="_blank">Tin Canny Learndash Reporting</a> - Add powerful reporting tools and support for Tin Can and SCORM modules.</li>';
+			$other_plugins .= '<li><a href="https://www.uncannyowl.com/downloads/tin-canny-reporting/?utm_medium=freetoolkit&utm_campaign=settings" target="_blank">'.__( 'Tin Canny Learndash Reporting', 'uncanny-learndash-toolkit' ).'</a>'.__( ' - Add powerful reporting tools and support for Tin Can and SCORM modules.', 'uncanny-learndash-toolkit' ).'</li>';
 		}
 
 		if ( ! defined( 'CEU_VERSION' ) ) {
-			$other_plugins .= '<li><a href="https://www.uncannyowl.com/downloads/uncanny-continuing-education-credits/?utm_medium=freetoolkit&utm_campaign=settings" target="_blank">Uncanny Continuing Education Credits</a> - Track, report on and award certificates based on course credits.</li>';
+			$other_plugins .= '<li><a href="https://www.uncannyowl.com/downloads/uncanny-continuing-education-credits/?utm_medium=freetoolkit&utm_campaign=settings" target="_blank">'.__( 'Uncanny Continuing Education Credits', 'uncanny-learndash-toolkit' ).'</a>'.__( ' - Track, report on and award certificates based on course credits.', 'uncanny-learndash-toolkit' ).'</li>';
 		}
 
 		if ( ! defined( 'UNCANNY_REPORTING_VERSION' ) ) {
-			$other_plugins .= '<li><a href="https://www.uncannyowl.com/downloads/uncanny-learndash-codes/?utm_medium=freetoolkit&utm_campaign=settings" target="_blank">Uncanny LearnDash Codes</a> - Generate codes to let users self-enroll into LearnDash groups and courses.</li>';
+			$other_plugins .= '<li><a href="https://www.uncannyowl.com/downloads/uncanny-learndash-codes/?utm_medium=freetoolkit&utm_campaign=settings" target="_blank">'.__( 'Uncanny LearnDash Codes', 'uncanny-learndash-toolkit' ).'</a>'.__( ' - Generate codes to let users self-enroll into LearnDash groups and courses.', 'uncanny-learndash-toolkit' ).'</li>';
 		}
 
 		if ( ! defined( 'ULGM_VERSION' ) ) {
-			$other_plugins .= '<li><a href="https://www.uncannyowl.com/downloads/uncanny-learndash-groups/?utm_medium=freetoolkit&utm_campaign=settings" target="_blank">Uncanny LearnDash Groups</a> - A must-have plugin if you use LearnDash Groups.</li>';
+			$other_plugins .= '<li><a href="https://www.uncannyowl.com/downloads/uncanny-learndash-groups/?utm_medium=freetoolkit&utm_campaign=settings" target="_blank">'.__( 'Uncanny LearnDash Groups', 'uncanny-learndash-toolkit' ).'</a>'.__( ' - A must-have plugin if you use LearnDash Groups.', 'uncanny-learndash-toolkit' ).'</li>';
 		}
 
 		$show_plugins_ad = 'style="display:none;"';
 		if ( '' !== $other_plugins ) {
 			$show_plugins_ad = '';
-			$plugins_ad      .= '<h2>Looking for even more LearnDash features?</h2>';
+			$plugins_ad      .= '<h2>'.__( 'Looking for even more LearnDash features?', 'uncanny-learndash-toolkit' ).'</h2>';
 			$plugins_ad      .= '<div class="">';
 			$plugins_ad      .= $other_plugins;
 			$plugins_ad      .= '</div>';
@@ -200,34 +200,34 @@ class AdminMenu extends Boot {
 			<ul class="uo-filters">
 				<li <?php if ( ! $uo_pro_classes['path'] ) { ?>style="display: none;"<?php } ?>>
 					<fieldset>
-						<label for="uo-type">Free/Pro Modules</label>
+						<label for="uo-type"><?php _e( 'Free/Pro Modules', 'uncanny-learndash-toolkit' ); ?></label>
 						<select id="uo-type" name="type">
-							<option value="0" selected="selected">--- Free & Pro ---</option>
-							<option value="free">Free</option>
-							<option value="pro">Pro</option>
+							<option value="0" selected="selected"><?php _e( '--- Free & Pro ---', 'uncanny-learndash-toolkit' ); ?></option>
+							<option value="free"><?php _e( 'Free', 'uncanny-learndash-toolkit' ); ?></option>
+							<option value="pro"><?php _e( 'Pro', 'uncanny-learndash-toolkit' ); ?></option>
 							<?php if ( $uo_custom_classes['path'] ) { ?>
-								<option value="custom">Custom Modules</option>
+								<option value="custom"><?php _e( 'Custom Modules', 'uncanny-learndash-toolkit' ); ?></option>
 							<?php } ?>
 						</select>
 					</fieldset>
 				</li>
 				<li>
 					<fieldset>
-						<label for="uo-tags">Module Category</label>
+						<label for="uo-tags"><?php _e( 'Module Category', 'uncanny-learndash-toolkit' ); ?></label>
 						<select id="uo-tags" name="tags">
-							<option value="0">--- All Modules ---</option>
-							<option value="learndash">LearnDash</option>
-							<option value="general">General WordPress</option>
+							<option value="0"><?php _e( '--- All Modules ---', 'uncanny-learndash-toolkit' ); ?></option>
+							<option value="learndash"><?php _e( 'LearnDash', 'uncanny-learndash-toolkit' ); ?></option>
+							<option value="general"><?php _e( 'General WordPress', 'uncanny-learndash-toolkit' ); ?></option>
 						</select>
 					</fieldset>
 				</li>
 				<li>
 					<fieldset>
-						<label id="sort" for="uo-sort">Module Status</label>
+						<label id="sort" for="uo-sort"><?php _e( 'Module Status', 'uncanny-learndash-toolkit' ); ?></label>
 						<select name="sort">
-							<option value="0">--- Active & Inactive ---</option>
-							<option value="1">Active</option>
-							<option value="2">Inactive</option>
+							<option value="0"><?php _e( '--- Active & Inactive ---', 'uncanny-learndash-toolkit' ); ?></option>
+							<option value="1"><?php _e( 'Active', 'uncanny-learndash-toolkit' ); ?></option>
+							<option value="2"><?php _e( 'Inactive', 'uncanny-learndash-toolkit' ); ?></option>
 						</select>
 					</fieldset>
 				</li>

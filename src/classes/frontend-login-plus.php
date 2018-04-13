@@ -800,11 +800,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 						echo do_shortcode( '[uo_login_ui]' );
 					}
 				}
-
 			}
-
 		}
-
-
 	}
 }
