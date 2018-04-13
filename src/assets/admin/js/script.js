@@ -268,23 +268,41 @@ jQuery(document).ready(function ($) {
 	});
 
 	toolkit_view();
+
 	function toolkit_view(){
-		var actual_view = 'grid',
-			features = $('#features');
+
+		console.log('runnning');
+        let actual_view = 'grid';
+        if( localStorage.getItem('uoToolkitGrid') ){
+            actual_view = localStorage.getItem('uoToolkitGrid');
+		}
+
+		let features = $('#features');
+
+        if( 'list' === actual_view){
+            $('.switch-btn').removeClass('selected');
+            $('.switch-btn.list-view').addClass('selected');
+
+            features.removeClass('grid-view list-view');
+            features.addClass(actual_view+'-view');
+		}
 
 		$('.switch-btn').click(function(){
 			var new_view = $(this).hasClass('grid-view') ? 'grid' : 'list';
-			if (actual_view != new_view){
+			if (actual_view !== new_view){
 				actual_view = new_view;
+
+                localStorage.setItem('uoToolkitGrid', new_view);
 
 				$('.switch-btn').removeClass('selected');
 				$(this).addClass('selected');
-				
-				features.removeClass('grid-view list-view'); 
-				features.addClass(new_view+'-view'); 
+
+				features.removeClass('grid-view list-view');
+				features.addClass(new_view+'-view');
 			}
 		});
 	}
+
 
 	function remove_slashes_from_strong(string) {
 		return string.replace(new RegExp("\\\\", "g"), "");
