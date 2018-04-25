@@ -127,13 +127,19 @@ class LearnDashResume extends Config implements RequiredFunctions {
 					'sfwd-topic',
 					'sfwd-quiz',
 					'sfwd-certificates',
-					'sfwd-certificates',
 					'sfwd-assignment',
 				)
 			);
 
+			$step_id = $post->ID;
+			$step_course_id = learndash_get_course_id($step_id);
+
+			if( empty( $step_course_id ) ){
+				$step_course_id = 0;
+			}
+
 			if ( is_singular( $learn_dash_post_types ) ) {
-				update_user_meta( $user->ID, 'learndash_last_known_page', $post->ID );
+				update_user_meta( $user->ID, 'learndash_last_known_page', $step_id .','. $step_course_id );
 			}
 
 		}
@@ -152,14 +158,39 @@ class LearnDashResume extends Config implements RequiredFunctions {
 
 		if ( is_user_logged_in() ) {
 
-			$last_know_page_id     = get_user_meta( $user->ID, 'learndash_last_known_page', true );
-			$last_know_post_object = get_post( $last_know_page_id );
+			$last_know_step     = get_user_meta( $user->ID, 'learndash_last_known_page', true );
+
+			// User has not hit a LD module yet
+			if( empty($last_know_step)){
+
+				return 'testing: not hit';
+			}
+
+			$step_course_id = 0;
+
+			if( false !== strpos($last_know_step, ',') ){
+				$last_know_step = explode(',', $last_know_step);
+				$step_id = $last_know_step[0];
+				$step_course_id = $last_know_step[1];
+			}else{
+
+				// Sanity Check
+				if( absint($last_know_step)){
+					$step_id = $last_know_step;
+				}else{
+					return 'testing: sanity check';
+				}
+
+			}
+
+			$last_know_post_object = get_post( $step_id );
 
 			// Make sure the post exists and that the user hit a page that was a post
 			// if $last_know_page_id returns '' then get post will return current pages post object
 			// so we need to make sure first that the $last_know_page_id is returning something and
 			// that the something is a valid post
-			if ( '' !== $last_know_page_id && null !== $last_know_post_object ) {
+			if ( null !== $last_know_post_object ) {
+
 				$post_type        = $last_know_post_object->post_type; // getting post_type of last page.
 				$label            = get_post_type_object( $post_type ); // getting Labels of the post type.
 				$title            = $last_know_post_object->post_title;
@@ -177,9 +208,10 @@ class LearnDashResume extends Config implements RequiredFunctions {
 				$css_classes = apply_filters( 'learndash_resume_css_classes', 'learndash-resume-button' );
 
 				ob_start();
+
 				printf(
 					'<a href="%s" title="%s" class="%s"><input type="submit" value="%s" class=""></a>',
-					get_permalink( $last_know_page_id ),
+					learndash_get_step_permalink( $step_id, $step_course_id ),
 					esc_attr(
 						sprintf(
 							esc_html_x( 'Resume %s: %s', 'LMS shortcode Resume link title "Resume post_type_name: Post_title ', 'uncanny-learndash-toolkit' ),
@@ -199,6 +231,6 @@ class LearnDashResume extends Config implements RequiredFunctions {
 
 		}
 
-		return '';
+		return 'testing: not logged in';
 	}
 }
