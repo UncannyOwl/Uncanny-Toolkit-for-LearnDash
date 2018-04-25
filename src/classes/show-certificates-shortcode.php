@@ -122,16 +122,19 @@ class ShowCertificatesShortcode extends Config implements RequiredFunctions {
 
 		foreach ( $courses as $course ) {
 
-			$certificate_id     = learndash_get_setting( $course->ID, 'certificate' );
-			$certificate_object = get_post( $certificate_id );
-			$certificate_title  = $certificate_object->post_title;
-			$certificate_link   = learndash_get_course_certificate_link( $course->ID );
+			if(!empty($certificate_object)) {
 
-			if ( $certificate_link && '' !== $certificate_link ) {
+				$certificate_id     = learndash_get_setting( $course->ID, 'certificate' );
+				$certificate_object = get_post( $certificate_id );
+				$certificate_title  = $certificate_object->post_title;
+				$certificate_link   = learndash_get_course_certificate_link( $course->ID );
 
-				$certificate_list .= '<a target="_blank" href="' . $certificate_link . '">' . $certificate_title . '</a><br>';
-
+				if ( $certificate_link && '' !== $certificate_link ) {
+					$certificate_list .= '<a target="_blank" href="' . $certificate_link . '">' . $certificate_title . '</a><br>';
+				}
 			}
+
+
 		}
 
 		/* GET Certificates for Quizzes*/

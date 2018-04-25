@@ -110,20 +110,20 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 
 		$courses = get_posts( $post_args );
 
-		$certificate_list   = '';
+		$certificate_list = '';
 
 		foreach ( $courses as $course ) {
 
-			$certificate_id     = learndash_get_setting( $course->ID, 'certificate' );
-			$certificate_object = get_post( $certificate_id );
-			$certificate_title  = $certificate_object->post_title;
-			$certificate_link   = learndash_get_course_certificate_link( $course->ID );
+			if ( ! empty( $certificate_object ) ) {
 
-			if ( $certificate_link && '' !== $certificate_link ) {
+				$certificate_id     = learndash_get_setting( $course->ID, 'certificate' );
+				$certificate_object = get_post( $certificate_id );
+				$certificate_title  = $certificate_object->post_title;
+				$certificate_link   = learndash_get_course_certificate_link( $course->ID );
 
-				$certificate_list .= '<li><a target="_blank" href="' . $certificate_link . '" title="' . esc_html__( 'Your certificate for: ', 'uncanny-learndash-toolkit' ) . $course->post_title . '">' . $certificate_title . '</a></li>';
-
-
+				if ( $certificate_link && '' !== $certificate_link ) {
+					$certificate_list .= '<li><a target="_blank" href="' . $certificate_link . '" title="' . esc_html__( 'Your certificate for: ', 'uncanny-learndash-toolkit' ) . $course->post_title . '">' . $certificate_title . '</a></li>';
+				}
 			}
 		}
 
@@ -131,12 +131,12 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 
 		if ( ! empty( $quiz_attempts ) ) {
 
-			$quiz_attempts     = array_reverse( $quiz_attempts );
+			$quiz_attempts = array_reverse( $quiz_attempts );
 
 			foreach ( $quiz_attempts as $k => $quiz_attempt ) {
 
 				if ( isset( $quiz_attempt['certificate'] ) ) {
-				    
+
 					$certificateLink = $quiz_attempt['certificate']['certificateLink'];
 					$quiz_title      = ! empty( $quiz_attempt['post']->post_title ) ? $quiz_attempt['post']->post_title : @$quiz_attempt['quiz_title'];
 
@@ -159,12 +159,11 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 
 		$certificate_list = apply_filters( 'certificate_list_widget', $certificate_list );
 
-		if( '' === $certificate_list  ){
+		if ( '' === $certificate_list ) {
 			printf( '<p>%s</p>', esc_html( $instance['no_certs'] ) );
-		}else{
-		    echo $certificate_list;
-        }
-
+		} else {
+			echo $certificate_list;
+		}
 
 
 		echo '</ul>';
