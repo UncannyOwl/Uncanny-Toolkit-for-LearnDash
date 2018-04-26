@@ -117,7 +117,7 @@ jQuery(document).ready(function ($) {
             'z-index': 999,
             'left': 50 + '%',
             'margin-left': -(modal_width / 2) + 'px',
-            'top': '20%'
+            'top': '10%'
 
           })
 
