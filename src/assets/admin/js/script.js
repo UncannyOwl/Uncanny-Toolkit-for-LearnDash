@@ -227,9 +227,9 @@ jQuery(document).ready(function ($) {
           element.val(option_value)
         }
 
-        /*if (element.is('textarea')) {
-          element.val(option_value);
-        }*/
+        if (element.is('textarea')) {
+          element.val(option_value)
+        }
 
         if (element.is('input[type="color"]')) {
           element.val(option_value)
@@ -311,7 +311,9 @@ jQuery(document).ready(function ($) {
   function get_tinymce_content (id) {
     var content
     var inputid = id
-    var editor = tinyMCE.get(inputid)
+    if (is_tinyMce_active_func()) {
+      var editor = tinyMCE.get(inputid)
+    }
     var textArea = jQuery('textarea#' + inputid)
     if (textArea.length > 0 && textArea.is(':visible')) {
       content = textArea.val()
@@ -319,6 +321,12 @@ jQuery(document).ready(function ($) {
       content = editor.getContent()
     }
     return content
+  }
+
+  function is_tinyMce_active_func () {
+
+    var tinymceActive = (typeof tinyMCE != 'undefined') && tinyMCE.activeEditor && !tinyMCE.activeEditor.isHidden()
+    return tinymceActive
   }
 
 })
