@@ -106,9 +106,9 @@ jQuery(document).ready(function ($) {
           var modal_width = $(modal_id).width()
           var window_height = $(window).height()
           var display = 'block'
-          if (window_height > 900) {
+          /*if (window_height > 900) {
             display = 'table'
-          }
+          }*/
           $(modal_id).css({
 
             'display': display,
