@@ -163,7 +163,7 @@ class LearnDashResume extends Config implements RequiredFunctions {
 			// User has not hit a LD module yet
 			if( empty($last_know_step)){
 
-				return 'testing: not hit';
+				return '';
 			}
 
 			$step_course_id = 0;
@@ -178,7 +178,7 @@ class LearnDashResume extends Config implements RequiredFunctions {
 				if( absint($last_know_step)){
 					$step_id = $last_know_step;
 				}else{
-					return 'testing: sanity check';
+					return '';
 				}
 
 			}
@@ -231,6 +231,6 @@ class LearnDashResume extends Config implements RequiredFunctions {
 
 		}
 
-		return 'testing: not logged in';
+		return '';
 	}
 }
