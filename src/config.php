@@ -360,7 +360,22 @@ class Config {
 							break;
 
 						case 'textarea':
-							echo '<div class="uo_settings_single"><div class="uo_settings_label">' . $content['label'] . '</div><div class="uo_settings_input"><textarea rows="7" cols="65" class="uo_settings_form_field ' . $content['class'] . '" name="' . $content['option_name'] . '" id="' . $content['option_name'] . '" placeholder="' . $content['placeholder'] . '" ></textarea></div></div>';
+							//Fallback method for old toolkit
+							if ( version_compare( UNCANNY_TOOLKIT_VERSION, '2.4' ) >= 0 ) {
+								$settings        = array(
+									'media_buttons' => false,
+									'editor_height' => 275,
+								);
+								$initial_content = self::get_settings_value( $content['option_name'], $class );
+								if ( empty( $initial_content ) ) {
+									$initial_content = $content['placeholder'];
+								}
+								echo '<div class="uo_settings_single"><div class="uo_settings_label">' . $content['label'] . '</div><div class="uo_settings_input">';
+								wp_editor( $initial_content, $content['option_name'], $settings );
+								echo '</div></div>';
+							} else {
+								echo '<div class="uo_settings_single"><div class="uo_settings_label">' . $content['label'] . '</div><div class="uo_settings_input"><textarea rows="7" cols="65" class="uo_settings_form_field ' . $content['class'] . '" name="' . $content['option_name'] . '" id="' . $content['option_name'] . '" placeholder="' . $content['placeholder'] . '" ></textarea></div></div>';
+							}
 							break;
 
 						case 'checkbox':
@@ -479,7 +494,7 @@ class Config {
 				// positive is returned
 
 				delete_option( $class );
-
+				self::trace_logs( $options, 'options', 'save' );
 				$save_settings = add_option( $class, $options, 'no' );
 
 				$response = ( $save_settings ) ? 'success' : 'notsaved';
@@ -504,11 +519,11 @@ class Config {
 	 */
 	public static function ajax_settings_load() {
 
-	   /*
-	   * If WP DEBUG is not on do NOT return any php warning, notices, and/or fatal errors.
-	   * Well If it is a fatal error then this return is FUBAR anyway...
-	   * We do this because some badly configured servers will return notices and warnings switch get prepended or appended to the rest response.
-	   */
+		/*
+		* If WP DEBUG is not on do NOT return any php warning, notices, and/or fatal errors.
+		* Well If it is a fatal error then this return is FUBAR anyway...
+		* We do this because some badly configured servers will return notices and warnings switch get prepended or appended to the rest response.
+		*/
 		if ( defined( 'WP_DEBUG' ) ) {
 			if ( false === WP_DEBUG ) {
 				error_reporting( 0 );
