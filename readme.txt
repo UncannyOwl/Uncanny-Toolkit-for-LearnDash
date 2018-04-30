@@ -13,7 +13,7 @@ Extend LearnDash with a variety of useful functions that make it even easier to 
 == Description ==
 **Important: This plugin requires PHP 5.6 or higher and LearnDash 2.3 or higher.**
 
-The Uncanny LearnDash Toolkit adds over a dozen exciting new features to LearnDash sites that improve the learner experience and simplify development. Trusted to power over 8,000 LearnDash sites, it's the easiest way to improve the learning experience for your students.
+The Uncanny LearnDash Toolkit adds over a dozen exciting new features to LearnDash sites that improve the learner experience and simplify development. Trusted to power over 10,000 LearnDash sites, it's the easiest way to improve the learning experience for your students.
 
 https://www.youtube.com/watch?v=FKsN0oTx-rM
 
@@ -29,7 +29,7 @@ The Uncanny LearnDash Toolkit adds the following features to your LearnDash site
 * **Show or Hide Content**: Use shortcodes to show or hide content based on whether or not a user is signed in. Great for Open course types.
 * **Log In/Log Out Links**: Add Log In and Log Out links to menus, or to any page or widget with a shortcode. If you have been frustrated by signed in users seeing Login links, this will help.
 * **LearnDash Breadcrumbs**: Add breadcrumb links that support courses, lessons, topics and quizzes. Also supports WooCommerce, custom post types and more.
-* **LearnDash certificate Widget**: Display all the certificates a learner has earned using a widget.
+* **LearnDash Certificate Widget**: Display all the certificates a learner has earned using a widget.
 * **Topics Autocomplete Lessons**: Automatically mark lessons complete when all topics and quizzes for that lesson are marked complete.
 * **User Switching**: View courses and the rest of your site as a specific user without requiring their password.
 * **Not Enrolled Redirect**: Redirect users to a specific URL if they are not enrolled in a course.
@@ -40,7 +40,7 @@ We welcome contributions to the Uncanny LearnDash Toolkit! The plugin is managed
 
 **Ready to take your LearnDash site even further?**
 
-Our [Pro version of the LearnDash Toolkit](https://www.uncannyowl.com/downloads/uncanny-learndash-toolkit-pro/?utm_medium=ldtoolkitreadme) adds a continuously expanding list of powerful features (20 at last count!) to the Toolkit. With the Pro modules, you can:
+Our [Pro add-ons plugin for the LearnDash Toolkit](https://www.uncannyowl.com/downloads/uncanny-learndash-toolkit-pro/?utm_medium=ldtoolkitreadme) adds a continuously expanding list of powerful features (20 at last count!) to the Toolkit. With the Pro modules, you can:
 
 * Autocomplete lessons and topics (no more "Mark Complete" buttons!)
 * Track the time users spend completing courses
