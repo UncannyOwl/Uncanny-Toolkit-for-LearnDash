@@ -4,7 +4,7 @@ Contributors: uncannyowl
 Tags: LearnDash, eLearning, LMS, education, learning, courseware
 Requires at least: 4.0
 Tested up to: 4.9.2
-Stable tag: 2.3
+Stable tag: 2.4
 License: This plugin is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or any later version.   LearnDash Groups in User Profiles is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.   You should have received a copy of the GNU General Public License along with LearnDash Groups in User Profiles. If not, see {URI to Plugin License}.
 License URI: https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
 
@@ -72,6 +72,15 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 1. Uncanny LearnDash Toolkit Dashboard
 
 == Changelog ==
+
+= 2.4 =
+* Added: Additional string localizations
+* Added: List view for modules in Toolkit settings
+* Updated: Autocomplete Lessons and Topics: When enabled, a "Done" button is now added to last lesson in a course (returns user to course page)
+* Updated: Front End Login: Labels now positioned above login fields by default
+* Updated: LearnDash resume button: Improved compatibility with Shared Course Steps and Nested Permalinks enabled
+* Fixed: Breadcrumbs: Topic no longer appears twice in breadcrumbs on topic quizzes
+* Fixed: Certificate Widget: Notice no longer appears when no certificates have been earned
 
 = 2.3 =
 * Added: New Module - Not Enrolled Redirect - Redirect a user to a specified URL if they attempt to access a course in which they are not enrolled
