@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: Uncanny LearnDash Toolkit\n"
-"POT-Creation-Date: 2018-04-30 08:55-0700\n"
-"PO-Revision-Date: 2018-04-30 08:55-0700\n"
+"POT-Creation-Date: 2018-05-01 13:17-0700\n"
+"PO-Revision-Date: 2018-05-01 13:17-0700\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -370,7 +370,7 @@ msgstr ""
 msgid "Resume Button Text"
 msgstr ""
 
-#: src/classes/learn-dash-resume.php:217
+#: src/classes/learn-dash-resume.php:223
 #, php-format
 msgctxt "LMS shortcode Resume link title \"Resume post_type_name: Post_title "
 msgid "Resume %s: %s"
