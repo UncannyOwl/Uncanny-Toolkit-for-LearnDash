@@ -128,7 +128,12 @@ class RedirectNotEnrolled extends Config implements RequiredFunctions {
 
 			$post_options_timeout = learndash_get_setting( $post );
 
-			$redirect_to = $post_options_timeout['uo_redirect'];
+			if( isset( $post_options_timeout['uo_redirect']) ){
+				$redirect_to = $post_options_timeout['uo_redirect'];
+			}else{
+				$redirect_to = '';
+			}
+
 
 			if ( ! empty( $redirect_to ) ) {
 
