@@ -209,9 +209,15 @@ class LearnDashResume extends Config implements RequiredFunctions {
 
 				ob_start();
 
+				if( function_exists('learndash_get_step_permalink')){
+					$permalink = learndash_get_step_permalink( $step_id, $step_course_id );
+				}else{
+					$permalink = get_permalink( $step_id );
+				}
+
 				printf(
 					'<a href="%s" title="%s" class="%s"><input type="submit" value="%s" class=""></a>',
-					learndash_get_step_permalink( $step_id, $step_course_id ),
+					$permalink,
 					esc_attr(
 						sprintf(
 							esc_html_x( 'Resume %s: %s', 'LMS shortcode Resume link title "Resume post_type_name: Post_title ', 'uncanny-learndash-toolkit' ),
