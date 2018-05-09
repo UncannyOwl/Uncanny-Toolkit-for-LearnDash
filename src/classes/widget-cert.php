@@ -114,12 +114,12 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 
 		foreach ( $courses as $course ) {
 
-			if ( ! empty( $certificate_object ) ) {
+			$certificate_id     = learndash_get_setting( $course->ID, 'certificate' );
+			$certificate_object = get_post( $certificate_id );
 
-				$certificate_id     = learndash_get_setting( $course->ID, 'certificate' );
-				$certificate_object = get_post( $certificate_id );
-				$certificate_title  = $certificate_object->post_title;
-				$certificate_link   = learndash_get_course_certificate_link( $course->ID );
+			if ( ! empty( $certificate_object ) ) {
+				$certificate_title = $certificate_object->post_title;
+				$certificate_link  = learndash_get_course_certificate_link( $course->ID );
 
 				if ( $certificate_link && '' !== $certificate_link ) {
 					$certificate_list .= '<li><a target="_blank" href="' . $certificate_link . '" title="' . esc_html__( 'Your certificate for: ', 'uncanny-learndash-toolkit' ) . $course->post_title . '">' . $certificate_title . '</a></li>';
