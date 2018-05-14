@@ -370,6 +370,7 @@ class Config {
 								if ( empty( $initial_content ) ) {
 									$initial_content = $content['placeholder'];
 								}
+								$initial_content = stripslashes( $initial_content );
 								echo '<div class="uo_settings_single"><div class="uo_settings_label">' . $content['label'] . '</div><div class="uo_settings_input">';
 								wp_editor( $initial_content, $content['option_name'], $settings );
 								echo '</div></div>';
@@ -494,7 +495,7 @@ class Config {
 				// positive is returned
 
 				delete_option( $class );
-				self::trace_logs( $options, 'options', 'save' );
+				//self::trace_logs( $options, 'options', 'save' );
 				$save_settings = add_option( $class, $options, 'no' );
 
 				$response = ( $save_settings ) ? 'success' : 'notsaved';
