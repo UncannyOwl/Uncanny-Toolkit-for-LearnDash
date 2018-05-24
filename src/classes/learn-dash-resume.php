@@ -27,6 +27,7 @@ class LearnDashResume extends Config implements RequiredFunctions {
 			add_action( 'wp_head', array( __CLASS__, 'find_last_known_learndash_page' ) );
 			add_shortcode( 'uo-learndash-resume', array( __CLASS__, 'learndash_resume' ) );
 			add_shortcode( 'uo_learndash_resume', array( __CLASS__, 'learndash_resume' ) );
+			add_shortcode( 'uo_course_resume', array( __CLASS__, 'uo_course_resume' ) );
 		}
 
 	}
@@ -131,20 +132,113 @@ class LearnDashResume extends Config implements RequiredFunctions {
 				)
 			);
 
-			$step_id = $post->ID;
-			$step_course_id = learndash_get_course_id($step_id);
+			$step_id        = $post->ID;
+			$step_course_id = learndash_get_course_id( $step_id );
 
-			if( empty( $step_course_id ) ){
+			if ( empty( $step_course_id ) ) {
 				$step_course_id = 0;
 			}
 
 			if ( is_singular( $learn_dash_post_types ) ) {
-				update_user_meta( $user->ID, 'learndash_last_known_page', $step_id .','. $step_course_id );
+				update_user_meta( $user->ID, 'learndash_last_known_page', $step_id . ',' . $step_course_id );
+				if ( 'sfwd-courses' !== $post->post_type ) {
+					update_user_meta( $user->ID, 'learndash_last_known_course_' . $step_course_id, $step_id );
+				}
 			}
 
 		}
 	}
 
+	/**
+	 * @param $atts
+	 *
+	 * @return string
+	 */
+	public static function uo_course_resume( $atts ) {
+		$atts = shortcode_atts( array(
+			'course_id' => '',
+		), $atts, 'uo_course_resume' );
+
+		if ( is_user_logged_in() ) {
+			if ( ! empty( $atts['course_id'] ) ) {
+				$user           = wp_get_current_user();
+				$step_course_id = $atts['course_id'];
+				$course         = get_post( $step_course_id );
+				if ( 'sfwd-courses' === $course->post_type ) {
+					$last_know_step = get_user_meta( $user->ID, 'learndash_last_known_course_' . $step_course_id, true );
+
+					// User has not hit a LD module yet
+					if ( empty( $last_know_step ) ) {
+
+						return '';
+					}
+
+					//$step_course_id = 0;
+					// Sanity Check
+					if ( absint( $last_know_step ) ) {
+						$step_id = $last_know_step;
+					} else {
+						return '';
+					}
+
+
+					$last_know_post_object = get_post( $step_id );
+
+					// Make sure the post exists and that the user hit a page that was a post
+					// if $last_know_page_id returns '' then get post will return current pages post object
+					// so we need to make sure first that the $last_know_page_id is returning something and
+					// that the something is a valid post
+					if ( null !== $last_know_post_object ) {
+
+						$post_type        = $last_know_post_object->post_type; // getting post_type of last page.
+						$label            = get_post_type_object( $post_type ); // getting Labels of the post type.
+						$title            = $last_know_post_object->post_title;
+						$resume_link_text = __( 'RESUME', 'uncanny-learndash-toolkit' );
+
+						// Resume Link Text
+						$link_text = self::get_settings_value( 'learn-dash-resume-button-text', __CLASS__ );
+
+						if ( strlen( trim( $link_text ) ) ) {
+							$resume_link_text = $link_text;
+						}
+
+						$resume_link_text = apply_filters( 'learndash_resume_link_text', $resume_link_text );
+
+						$css_classes = apply_filters( 'learndash_resume_css_classes', 'learndash-resume-button' );
+
+						ob_start();
+
+						if ( function_exists( 'learndash_get_step_permalink' ) ) {
+							$permalink = learndash_get_step_permalink( $step_id, $step_course_id );
+						} else {
+							$permalink = get_permalink( $step_id );
+						}
+
+						printf(
+							'<a href="%s" title="%s" class="%s"><input type="submit" value="%s" class=""></a>',
+							$permalink,
+							esc_attr(
+								sprintf(
+									esc_html_x( 'Resume %s: %s', 'LMS shortcode Resume link title "Resume post_type_name: Post_title ', 'uncanny-learndash-toolkit' ),
+									$label->labels->singular_name,
+									$title
+								)
+							),
+							esc_attr( $css_classes ),
+							esc_attr( $resume_link_text )
+						);
+
+						$resume_link = ob_get_contents();
+						ob_end_clean();
+
+						return $resume_link;
+					}
+				}
+			}
+		}
+
+		return '';
+	}
 
 	/**
 	 *Adding [uo-learndash-resume] shortcode functionality which can be used anywhere on the website to take user back to last known page of LearnDash.
@@ -158,26 +252,26 @@ class LearnDashResume extends Config implements RequiredFunctions {
 
 		if ( is_user_logged_in() ) {
 
-			$last_know_step     = get_user_meta( $user->ID, 'learndash_last_known_page', true );
+			$last_know_step = get_user_meta( $user->ID, 'learndash_last_known_page', true );
 
 			// User has not hit a LD module yet
-			if( empty($last_know_step)){
+			if ( empty( $last_know_step ) ) {
 
 				return '';
 			}
 
 			$step_course_id = 0;
 
-			if( false !== strpos($last_know_step, ',') ){
-				$last_know_step = explode(',', $last_know_step);
-				$step_id = $last_know_step[0];
+			if ( false !== strpos( $last_know_step, ',' ) ) {
+				$last_know_step = explode( ',', $last_know_step );
+				$step_id        = $last_know_step[0];
 				$step_course_id = $last_know_step[1];
-			}else{
+			} else {
 
 				// Sanity Check
-				if( absint($last_know_step)){
+				if ( absint( $last_know_step ) ) {
 					$step_id = $last_know_step;
-				}else{
+				} else {
 					return '';
 				}
 
@@ -209,9 +303,9 @@ class LearnDashResume extends Config implements RequiredFunctions {
 
 				ob_start();
 
-				if( function_exists('learndash_get_step_permalink')){
+				if ( function_exists( 'learndash_get_step_permalink' ) ) {
 					$permalink = learndash_get_step_permalink( $step_id, $step_course_id );
-				}else{
+				} else {
 					$permalink = get_permalink( $step_id );
 				}
 
