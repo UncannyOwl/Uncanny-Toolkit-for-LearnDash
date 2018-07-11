@@ -119,6 +119,12 @@ class LearnDashResume extends Config implements RequiredFunctions {
 
 			/* declare $post as global so we get the post->ID of the current page / post */
 			global $post;
+
+			// Sanity check page doesn't exist
+			if ( ! is_object( $post ) ) {
+				return;
+			}
+
 			/* Limit the plugin to LearnDash specific post types */
 			$learn_dash_post_types = apply_filters(
 				'last_known_learndash_post_types',
