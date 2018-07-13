@@ -1,6 +1,13 @@
 <?php
 /* Template Name: Uncanny Owl Login Page */
 $login_page      = \uncanny_learndash_toolkit\FrontendLoginPlus::get_login_redirect_page_id();
+$login_page_url = get_permalink( $login_page );
+
+if( strpos($login_page_url, '?')){
+	$login_page_url = $login_page_url . '&';
+}else{
+	$login_page_url = $login_page_url . '?';
+}
 $user_name_label = \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_login_username_label', 'FrontendLoginPlus' );
 $message_error   = '';
 $message_warning = '';
@@ -225,7 +232,7 @@ $innerText = apply_filters( 'uo-login-inner-text', $innerText, $login );
             </p>
 
             <input type="hidden" name="redirect_to"
-                   value="<?php echo get_permalink( $login_page ); ?>?action=forgot&success=1">
+                   value="<?php echo $login_page_url ?>action=forgot&success=1">
 
             <p class="submit"><input type="submit" name="wp-submit" id="wp-submit"
                                      value="<?php echo $innerText['Get-New-Password']; ?>"/></p>
@@ -243,7 +250,7 @@ $innerText = apply_filters( 'uo-login-inner-text', $innerText, $login );
             <p class="login-msg">
                 <strong><?php echo $innerText['Oops']; ?></strong> <?php echo $innerText['Failed-Send-Email']; ?></p>
             <p>
-                <a href="<?php echo get_permalink( $login_page ); ?>?action=lostpassword"><?php echo $innerText['Try-again']; ?></a>
+                <a href="<?php echo $login_page_url ?>action=lostpassword"><?php echo $innerText['Try-again']; ?></a>
             </p>
 			<?php
 		}
@@ -352,9 +359,9 @@ $innerText = apply_filters( 'uo-login-inner-text', $innerText, $login );
 
 				//setcookie( $rp_cookie, ' ', time() - YEAR_IN_SECONDS, '/login', COOKIE_DOMAIN, is_ssl(), true );
 				if ( $user && $user->get_error_code() === 'expired_key' ) {
-					wp_safe_redirect( get_permalink( $login_page ) . '?action=validatepasswordreset&issue=expiredkey' );
+					wp_safe_redirect( $login_page_url . 'action=validatepasswordreset&issue=expiredkey' );
 				} else {
-					wp_safe_redirect( get_permalink( $login_page ) . '?action=validatepasswordreset&issue=invalidkey' );
+					wp_safe_redirect( $login_page_url . 'action=validatepasswordreset&issue=invalidkey' );
 				}
 			}
 
