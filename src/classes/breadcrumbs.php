@@ -116,6 +116,11 @@ class Breadcrumbs extends Config implements RequiredFunctions {
 				'label'       => esc_html__( 'Breadcrumbs Separator', 'uncanny-learndash-toolkit' ),
 				'option_name' => 'uncanny-breadcrumbs-dashboard-separator',
 			),
+			array(
+				'type'        => 'checkbox',
+				'label'       => esc_html__( 'Include Current Page', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uncanny-breadcrumbs-include-current-page',
+			),
 		);
 
 		// Build html
@@ -157,6 +162,7 @@ class Breadcrumbs extends Config implements RequiredFunctions {
 		$get_dashboard_text      = self::get_settings_value( 'uncanny-breadcrumbs-dashboard-text', __CLASS__ );
 		$get_dashboard_link      = self::get_settings_value( 'uncanny-breadcrumbs-dashboard-link', __CLASS__ );
 		$get_dashboard_separator = self::get_settings_value( 'uncanny-breadcrumbs-dashboard-separator', __CLASS__ );
+		$get_include_current_page = self::get_settings_value( 'uncanny-breadcrumbs-include-current-page', __CLASS__ );
 		$course_archive_link     = self::uo_build_anchor_links( get_post_type_archive_link( 'sfwd-courses' ), esc_html__( $course_label, 'uncanny-learndash-toolkit' ) );
 		//$course_archive_link     = self::uo_build_anchor_links( get_post_type_archive_link( 'sfwd-courses' ), esc_html__( 'Courses', 'uncanny-learndash-toolkit' ) );
 
@@ -173,7 +179,6 @@ class Breadcrumbs extends Config implements RequiredFunctions {
 			$dashboard_separator = $get_dashboard_separator;
 		}
 		$lesson_id = false;
-
 
 		// If it's on home page
 		if ( is_front_page() ) {
@@ -210,7 +215,9 @@ class Breadcrumbs extends Config implements RequiredFunctions {
 							}
 						}
 					}
-					//$trail[] = get_the_title( $post_id );
+					if($get_include_current_page === 'on'){
+                                            $trail[] = get_the_title( $post_id );
+                                        }
 				} else {
 					// Regular pages. See if the page has any ancestors. Add in the trail if ancestors are found
 					$ancestors = get_ancestors( $post_id, 'page' );
@@ -220,7 +227,9 @@ class Breadcrumbs extends Config implements RequiredFunctions {
 							$trail[] = self::uo_build_anchor_links( get_permalink( $page ), get_the_title( $page ) );
 						}
 					}
-					//$trail[] = get_the_title( $post_id );
+					if($get_include_current_page === 'on'){
+                                            $trail[] = get_the_title( $post_id );
+                                        }
 				}
 			} elseif ( 'sfwd-courses' === $post_type ) {
 				// See if Single Course is being displayed.
@@ -229,7 +238,9 @@ class Breadcrumbs extends Config implements RequiredFunctions {
 				} else {
 					$trail[] = $course_archive_link;
 				}
-				//$trail[] = get_the_title( $post_id );
+				if($get_include_current_page === 'on'){
+                                    $trail[] = get_the_title( $post_id );
+                                }
 			} elseif ( 'sfwd-lessons' === $post_type ) {
 				// See if Single Lesson is being displayed.
 				$course_id = learndash_get_course_id($post_id);  // Getting Parent Course ID
@@ -239,7 +250,10 @@ class Breadcrumbs extends Config implements RequiredFunctions {
 					$trail[] = $course_archive_link;
 				}
 				$trail[] = self::uo_build_anchor_links( get_permalink( $course_id ), get_the_title( $course_id ) ); // Getting Lesson's Course Link
-				//$trail[] = get_the_title( $post_id );
+                                
+				if($get_include_current_page === 'on'){
+                                    $trail[] = get_the_title( $post_id );
+                                }
 			} elseif ( 'sfwd-topic' === $post_type ) {
 				// See if single Topic is being displayed
 				$course_id = learndash_get_course_id($post_id); // Getting Parent Course ID
@@ -251,7 +265,9 @@ class Breadcrumbs extends Config implements RequiredFunctions {
 				}
 				$trail[] = self::uo_build_anchor_links( get_permalink( $course_id ), get_the_title( $course_id ) ); // Getting Lesson's Course Link
 				$trail[] = self::uo_build_anchor_links( get_permalink( $lesson_id ), get_the_title( $lesson_id ) ); // Getting Topics's Lesson Link
-				//$trail[] = get_the_title( $post_id );
+				if($get_include_current_page === 'on'){
+                                    $trail[] = get_the_title( $post_id );
+                                }
 			} elseif ( 'sfwd-quiz' === $post_type ) {
 				// See if quiz is being displayed
 				$course_id = learndash_get_course_id($post_id); // Getting Parent Course ID
@@ -276,7 +292,9 @@ class Breadcrumbs extends Config implements RequiredFunctions {
 				if ( $topic_id ) {
 					$trail[] = self::uo_build_anchor_links( get_permalink( $topic_id ), get_the_title( $topic_id ) );
 				}
-				//$trail[] = get_the_title( $post_id );
+				if($get_include_current_page === 'on'){
+                                    $trail[] = get_the_title( $post_id );
+                                }
 
 			} else {
 				// Add shop page to single product
@@ -300,7 +318,9 @@ class Breadcrumbs extends Config implements RequiredFunctions {
 				if ( self::lms_get_taxonomy( $post_id, $post_type ) ) {
 					$trail[] = self::lms_get_taxonomy( $post_id, $post_type );
 				}
-				//$trail[] = get_the_title( $post_id );
+				if($get_include_current_page === 'on'){
+                                    $trail[] = get_the_title( $post_id );
+                                }
 			}
 		}
 		// If it's an Archive
