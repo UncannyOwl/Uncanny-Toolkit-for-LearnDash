@@ -91,6 +91,11 @@ class LearnDashResume extends Config implements RequiredFunctions {
 				'type'        => 'text',
 				'label'       => esc_html__( 'Resume Button Text', 'uncanny-learndash-toolkit' ),
 				'option_name' => 'learn-dash-resume-button-text',
+			),
+			array(
+				'type'        => 'checkbox',
+				'label'       => esc_html__( 'Show Name of Last Course / Lesson / Topic', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'learn-dash-resume-show-name',
 			)
 
 		);
@@ -203,6 +208,7 @@ class LearnDashResume extends Config implements RequiredFunctions {
 
 						// Resume Link Text
 						$link_text = self::get_settings_value( 'learn-dash-resume-button-text', __CLASS__ );
+						$show_name = self::get_settings_value( 'learn-dash-resume-show-name', __CLASS__ );
 
 						if ( strlen( trim( $link_text ) ) ) {
 							$resume_link_text = $link_text;
@@ -233,6 +239,13 @@ class LearnDashResume extends Config implements RequiredFunctions {
 							esc_attr( $css_classes ),
 							esc_attr( $resume_link_text )
 						);
+                                                
+                                                if($show_name === 'on'){
+                                                    printf(
+                                                            '<div class="resume-item-name">%s</div>',
+                                                            $title							
+                                                    );
+                                                }
 
 						$resume_link = ob_get_contents();
 						ob_end_clean();
@@ -298,6 +311,7 @@ class LearnDashResume extends Config implements RequiredFunctions {
 
 				// Resume Link Text
 				$link_text = self::get_settings_value( 'learn-dash-resume-button-text', __CLASS__ );
+                                $show_name = self::get_settings_value( 'learn-dash-resume-show-name', __CLASS__ );
 
 				if ( strlen( trim( $link_text ) ) ) {
 					$resume_link_text = $link_text;
@@ -328,7 +342,13 @@ class LearnDashResume extends Config implements RequiredFunctions {
 					esc_attr( $css_classes ),
 					esc_attr( $resume_link_text )
 				);
-
+                                
+                                if($show_name === 'on'){
+                                    printf(
+                                            '<div class="resume-item-name">%s</div>',
+                                            $title							
+                                    );
+                                }
 				$resume_link = ob_get_contents();
 				ob_end_clean();
 
