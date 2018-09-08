@@ -123,7 +123,7 @@ class RedirectNotEnrolled extends Config implements RequiredFunctions {
 
 		global $post;
 
-		if ( ! is_admin() && 'sfwd-courses' === $post->post_type ) {
+		if ( ! is_admin() && $post != NULL && 'sfwd-courses' === $post->post_type ) {
 
 
 			$post_options_timeout = learndash_get_setting( $post );
