@@ -775,7 +775,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		$new_message .= sprintf( __( 'Username: %s' ), $user_login ) . "\r\n\r\n";
 		$new_message .= __( 'If this was a mistake or you didn\'t request a change, you can safely ignore this email.' ) . "\r\n\r\n";
 		$new_message .= __( 'To reset your password, visit the following address:' ) . "\r\n\r\n";
-		$new_message .= '<' . $reset_link . ">\r\n";
+		$new_message .= $new_message .= '<a href="' . $reset_link . '" >' . __( 'Reset Password') . "</a>\r\n";;
 
 		return $new_message;
 	}
