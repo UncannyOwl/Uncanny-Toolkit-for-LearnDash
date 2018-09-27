@@ -152,6 +152,10 @@ class LoginRedirect extends Config implements RequiredFunctions {
 	 */
 	public static function logout_redirect() {
 
+		if(defined('DOING_AJAX') && DOING_AJAX){
+			return;
+		}
+
 		$login_redirect = false;
 
 		$settings = get_option( 'LoginRedirect', Array() );
