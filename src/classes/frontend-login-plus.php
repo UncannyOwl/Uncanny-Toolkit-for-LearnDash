@@ -219,19 +219,6 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				'options'     => $drop_down,
 			),
 
-			array(
-				'type'        => 'select',
-				'label'       => esc_html__( 'Login Label', 'uncanny-learndash-toolkit' ),
-				'select_name' => 'uo_login_username_label',
-				'options'     => array(
-					array( 'value' => '', 'text' => '- Select Label -' ),
-					array( 'value' => 'Username', 'text' => 'Username'),
-					array( 'value' => 'Email', 'text' => 'Email'),
-					array( 'value' => 'Username Or Email', 'text' => 'Username Or Email'),
-					array( 'value' => 'Login', 'text' => 'Login')
-				)
-			),
-
 			/*array(
 				'type'        => 'checkbox',
 				'label'       => esc_html__( 'Hide "Login UI" when user is logged in.', 'uncanny-learndash-toolkit' ),
@@ -307,21 +294,21 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		$echo    = true;
 		?>
 
-        <table class="form-table">
-            <tr class="user-rich-editing-wrap">
-                <th scope="row">
-                    <h2>Verify User</h2>
-                </th>
-                <td>
-                    <label for="rich_editing">
-                        <input type="checkbox" name="uo_is_verified"
-                               value="1" <?php checked( $checked, $current, $echo ); ?>/>
-                        Verify this user and allow them to log in
-                    </label>
-                </td>
-            </tr>
+		<table class="form-table">
+			<tr class="user-rich-editing-wrap">
+				<th scope="row">
+					<h2>Verify User</h2>
+				</th>
+				<td>
+					<label for="rich_editing">
+						<input type="checkbox" name="uo_is_verified"
+						       value="1" <?php checked( $checked, $current, $echo ); ?>/>
+						Verify this user and allow them to log in
+					</label>
+				</td>
+			</tr>
 
-        </table>
+		</table>
 
 		<?php
 	}
@@ -466,7 +453,12 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 	}
 
-
+	/**
+	 * @param $atts
+	 * @param null $content
+	 *
+	 * @return string|void
+	 */
 	public static function uo_login_form( $atts, $content = null ) {
 
 		/*$hide_logged_in_ui = self::get_settings_value( 'hide_logged_in_ui', __CLASS__ );
@@ -498,12 +490,12 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 			if ( 'no' !== $placeholder ) {
 				?>
-                <script type='text/javascript'>
-                    jQuery(document).ready(function () {
-                        jQuery('#user_login').attr('placeholder', '<?php echo $username_label; ?>');
-                        jQuery('#user_pass').attr('placeholder', '<?php echo $password_label; ?>');
-                    });
-                </script>
+				<script type='text/javascript'>
+                  jQuery(document).ready(function () {
+                    jQuery('#user_login').attr('placeholder', '<?php echo $username_label; ?>')
+                    jQuery('#user_pass').attr('placeholder', '<?php echo $password_label; ?>')
+                  })
+				</script>
 				<?php
 			}
 
@@ -615,6 +607,11 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	 *                                       e.g., an empty field, an invalid username or email,
 	 *                                       e.g., an empty field, an invalid username or email,
 	 */
+	/**
+	 * @param $sanitized_user_login
+	 * @param $user_email
+	 * @param $errors
+	 */
 	public static function redirect_registration_errors( $sanitized_user_login, $user_email, $errors ) {
 
 		if ( ! empty( $errors->errors ) ) {
@@ -625,6 +622,9 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 	}
 
+	/**
+	 * @param $error_code
+	 */
 	public static function redirect_registration_error( $error_code ) {
 		$login_page = get_permalink( self::get_login_redirect_page_id() );
 		wp_safe_redirect( add_query_arg( array( 'action' => 'register', 'wp-error' => $error_code ), $login_page ) );
@@ -717,6 +717,9 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	/**
 	 * Redirect from wp-login.php to custom login page if user lost password
 	 */
+	/**
+	 * @param $lostpassword_redirect
+	 */
 	public static function redirect_lost_password( $lostpassword_redirect ) {
 		$login_page = get_permalink( self::get_login_redirect_page_id() );
 		wp_safe_redirect( add_query_arg( array( 'action' => 'forgot', 'success' => 'something' ), $login_page ) );
@@ -725,6 +728,9 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 	/**
 	 * Set wp-login redirect to frontend page
+	 */
+	/**
+	 * @return int
 	 */
 	public static function get_login_redirect_page_id() {
 
@@ -745,6 +751,9 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	/*
 	 * Add lost password link the login form
 	 */
+	/**
+	 * @return string
+	 */
 	public static function add_lost_password_link() {
 
 		$login_page = get_permalink( self::get_login_redirect_page_id() );
@@ -755,6 +764,14 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 	/*
 	 * Custom email message to retrieve password
+	 */
+	/**
+	 * @param $message
+	 * @param $key
+	 * @param $user_login
+	 * @param $user_data
+	 *
+	 * @return string
 	 */
 	public static function custom_retrieve_password_message( $message, $key, $user_login, $user_data ) {
 
@@ -775,7 +792,11 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		$new_message .= sprintf( __( 'Username: %s' ), $user_login ) . "\r\n\r\n";
 		$new_message .= __( 'If this was a mistake or you didn\'t request a change, you can safely ignore this email.' ) . "\r\n\r\n";
 		$new_message .= __( 'To reset your password, visit the following address:' ) . "\r\n\r\n";
-		$new_message .= '<' . $reset_link . ">\r\n";
+		if ( 'text/html' === apply_filters( 'wp_mail_content_type', 'text/html' ) ) {
+			$new_message .= sprintf( __( 'Reset password link: %s' ), $reset_link ) . "\r\n";
+		} else {
+			$new_message .= '<a href="' . $reset_link . '" >' . __( 'Reset Password' ) . "</a>\r\n";
+		}
 
 		return $new_message;
 	}
@@ -800,7 +821,11 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 						echo do_shortcode( '[uo_login_ui]' );
 					}
 				}
+
 			}
+
 		}
+
+
 	}
 }
