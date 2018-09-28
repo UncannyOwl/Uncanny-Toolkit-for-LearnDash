@@ -225,10 +225,10 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				'select_name' => 'uo_login_username_label',
 				'options'     => array(
 					array( 'value' => '', 'text' => '- Select Label -' ),
-					array( 'value' => 'Username', 'text' => 'Username'),
-					array( 'value' => 'Email', 'text' => 'Email'),
-					array( 'value' => 'Username Or Email', 'text' => 'Username Or Email'),
-					array( 'value' => 'Login', 'text' => 'Login')
+					array( 'value' => 'Username', 'text' => 'Username' ),
+					array( 'value' => 'Email', 'text' => 'Email' ),
+					array( 'value' => 'Username Or Email', 'text' => 'Username Or Email' ),
+					array( 'value' => 'Login', 'text' => 'Login' )
 				)
 			),
 
@@ -307,21 +307,21 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		$echo    = true;
 		?>
 
-        <table class="form-table">
-            <tr class="user-rich-editing-wrap">
-                <th scope="row">
-                    <h2>Verify User</h2>
-                </th>
-                <td>
-                    <label for="rich_editing">
-                        <input type="checkbox" name="uo_is_verified"
-                               value="1" <?php checked( $checked, $current, $echo ); ?>/>
-                        Verify this user and allow them to log in
-                    </label>
-                </td>
-            </tr>
+		<table class="form-table">
+			<tr class="user-rich-editing-wrap">
+				<th scope="row">
+					<h2>Verify User</h2>
+				</th>
+				<td>
+					<label for="rich_editing">
+						<input type="checkbox" name="uo_is_verified"
+						       value="1" <?php checked( $checked, $current, $echo ); ?>/>
+						Verify this user and allow them to log in
+					</label>
+				</td>
+			</tr>
 
-        </table>
+		</table>
 
 		<?php
 	}
@@ -498,12 +498,12 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 			if ( 'no' !== $placeholder ) {
 				?>
-                <script type='text/javascript'>
-                    jQuery(document).ready(function () {
-                        jQuery('#user_login').attr('placeholder', '<?php echo $username_label; ?>');
-                        jQuery('#user_pass').attr('placeholder', '<?php echo $password_label; ?>');
-                    });
-                </script>
+				<script type='text/javascript'>
+                  jQuery(document).ready(function () {
+                    jQuery('#user_login').attr('placeholder', '<?php echo $username_label; ?>')
+                    jQuery('#user_pass').attr('placeholder', '<?php echo $password_label; ?>')
+                  })
+				</script>
 				<?php
 			}
 
@@ -775,7 +775,11 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		$new_message .= sprintf( __( 'Username: %s' ), $user_login ) . "\r\n\r\n";
 		$new_message .= __( 'If this was a mistake or you didn\'t request a change, you can safely ignore this email.' ) . "\r\n\r\n";
 		$new_message .= __( 'To reset your password, visit the following address:' ) . "\r\n\r\n";
-		$new_message .= $new_message .= '<a href="' . $reset_link . '" >' . __( 'Reset Password') . "</a>\r\n";;
+		if ( 'text/html' == apply_filters( 'wp_mail_content_type', 'text/html' ) ) {
+			$new_message .= sprintf( __( 'Reset password link: %s' ), $reset_link ) . "\r\n";
+		} else {
+			$new_message .= '<a href="' . $reset_link . '" >' . __( 'Reset Password' ) . "</a>\r\n";
+		}
 
 		return $new_message;
 	}
