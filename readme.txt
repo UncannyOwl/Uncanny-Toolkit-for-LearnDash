@@ -2,9 +2,9 @@
 === Uncanny LearnDash Toolkit ===
 Contributors: uncannyowl
 Tags: LearnDash, eLearning, LMS, education, learning, courseware
-Requires at least: 4.0
-Tested up to: 4.9.5
-Stable tag: 2.4.2
+Requires at least: 4.6
+Tested up to: 4.9.8
+Stable tag: 2.5
 License: This plugin is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or any later version.   LearnDash Groups in User Profiles is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.   You should have received a copy of the GNU General Public License along with LearnDash Groups in User Profiles. If not, see {URI to Plugin License}.
 License URI: https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
 
@@ -45,8 +45,7 @@ Our [Pro add-ons plugin for the LearnDash Toolkit](https://www.uncannyowl.com/do
 * Autocomplete lessons and topics (no more "Mark Complete" buttons!)
 * Track the time users spend completing courses
 * Replace boring LearnDash tables with highly flexible grids of courses, lessons and topics (including featured images!)
-* Register users directly into LearnDash Groups when they create an account
-* Import users directly into LearnDash courses and groups safely and with validation
+* Import users directly into LearnDash courses and groups
 * Send certificates by email
 * [And much more!](https://www.uncannyowl.com/downloads/uncanny-learndash-toolkit-pro/?utm_medium=ldtoolkitreadme)
 
@@ -56,10 +55,10 @@ Our [Pro add-ons plugin for the LearnDash Toolkit](https://www.uncannyowl.com/do
 
 Uncanny Owl offers a full suite of plugins that extend the LearnDash platform and make it easier to build and manage a great learning experience. Here are a few:
 
+* **[Uncanny Automator](https://automatorplugin.com/better-elearning-courses-with-wordpress/)**: Create personal learning paths and connect LearnDash to over a dozen other plugins and Zapier. Choose from millions of LearnDash recipes to deliver better learning experiences to your students.
 * **[Tin Canny LearnDash Reporting](https://www.uncannyowl.com/downloads/tin-canny-reporting/?utm_medium=ldtoolkitreadme)**: Add support for your SCORM and Tin Can modules inside WordPress as well as powerful drill-down LearnDash reporting options.
 * **[Uncanny LearnDash Groups](https://www.uncannyowl.com/downloads/uncanny-learndash-groups/?utm_medium=ldtoolkitreadme)**: Make it easy for your customers and member organizations to manage their learners in the front end, track their progress with powerful reports, and buy courses and course licenses.
-* **[Uncanny LearnDash Codes](https://www.uncannyowl.com/downloads/uncanny-learndash-codes/?utm_medium=ldtoolkitreadme)**: An easier way to get your learners into LearnDash Groups or courses. Generate codes that can be used by learners to self-enrol into LearnDash groups and courses when they register, make a purchase, or are simply signed in.  Limit enrollment by generating a limited number of codes, or by creating a single code that can be redeemed X times.
-* **[Uncanny Continuing Education Credits](https://www.uncannyowl.com/downloads/uncanny-continuing-education-credits/?utm_medium=ldtoolkitreadme)**: Make it easy to track, report on and award certificates based on credits awarded for completing LearnDash courses. Assign credits, CEUs or CPD values to your courses and track the cumulative accomplishments of your learners.
+* **[Uncanny LearnDash Codes](https://www.uncannyowl.com/downloads/uncanny-learndash-codes/?utm_medium=ldtoolkitreadme)**: An easier way to get your learners into LearnDash Groups or courses. Generate codes that can be used by learners to self-enrol into LearnDash groups and courses when they register, make a purchase, or are simply signed in.
 
 Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitter](https://twitter.com/uncannyowl), [Facebook](https://www.facebook.com/UncannyOwl/) and [YouTube](https://www.youtube.com/user/UncannyOwl).
 
