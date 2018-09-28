@@ -72,6 +72,18 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 
 == Changelog ==
 
+= 2.5 =
+* Added: Course-specific Resume Button; can be placed on course pages
+* Added: Option to output Resume Button destination below resume button
+* Added: Option to include current page in LearnDash Breadcrumb trail
+* Updated: Improvements to the Reset Password functions of Front End Login module
+* Updated: Ignore AJAX requests on Logout Redirect
+* Updated: Removed 999 priority on Hide Admin Bar module to address incompatibility with Elementor builder
+* Fixed: Admins are no longer redirected to lessons when approving assignments with Topics Autocomplete Lessons module enabled
+* Fixed: Page doesn't exist error in Resume Button function in rare circumstances
+* Fixed: Notice in Redirect If Not Enrolled Module
+* Fixed: Removed slashes sometimes appended to email body content in Email Course/Quiz Certificate modules
+
 = 2.4.2 =
 * Fixed: Certificate widget and shortcode now display LearnDash certificates
 * Fixed: Certificate widget now correctly renders Uncanny Continuing Education certificates
