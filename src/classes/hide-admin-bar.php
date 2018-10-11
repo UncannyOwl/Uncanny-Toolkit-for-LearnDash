@@ -110,19 +110,29 @@ class HideAdminBar extends Config implements RequiredFunctions {
 	public static function show_admin_bar() {
 
 		if ( is_user_logged_in() ) {
+			$user       = new \WP_User(
+				get_current_user_id(),
+				'',
+				get_current_blog_id()
+			);
+			$user_roles = $user->roles;
+			if ( empty( $user_roles ) ) {
+				$user       = new \WP_User(
+					get_current_user_id(),
+					'',
+					1
+				);
+				$user_roles = $user->roles;
+			}
 
-			global $current_user;
+			$hide_roles = get_blog_option( get_current_blog_id(), 'HideAdminBar', '' );
 
-			$user_roles = $current_user->roles;
-			$user_role  = array_shift( $user_roles );
+			if ( $hide_roles ) {
+				foreach ( $hide_roles as $role ) {
 
-			$hide_roles = get_option( 'HideAdminBar', Array() );
-
-			foreach ( $hide_roles as $role ) {
-
-				if ( $user_role === $role['name'] && 'on' === $role['value'] ) {
-
-					return false;
+					if ( 'on' === $role['value'] && in_array( $role['name'], $user_roles ) ) {
+						return false;
+					}
 				}
 			}
 
