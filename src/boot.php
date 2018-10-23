@@ -2,6 +2,10 @@
 
 namespace uncanny_learndash_toolkit;
 
+/**
+ * Class Boot
+ * @package uncanny_learndash_toolkit
+ */
 class Boot extends Config {
 
 	/**
@@ -68,7 +72,22 @@ class Boot extends Config {
 	 *
 	 */
 	public static function uo_support_menu() {
-		add_submenu_page( 'uncanny-learnDash-toolkit', 'Uncanny LearnDash Toolkit Support', 'Support', 'manage_options', 'uncanny-learnDash-toolkit-support', array(
+		add_submenu_page(
+			'uncanny-learnDash-toolkit',
+			__( 'Uncanny LearnDash Toolkit Support', 'uncanny-learndash-toolkit' ),
+			__( 'Help', 'uncanny-learndash-toolkit' ),
+			'manage_options',
+			'uncanny-learnDash-toolkit-kb', array(
+			__CLASS__,
+			'uo_support_page',
+		) );
+
+		add_submenu_page(
+			'uncanny-learnDash-toolkit',
+			__( 'Uncanny LearnDash Toolkit Support', 'uncanny-learndash-toolkit' ),
+			__( 'LearnDash Plugins', 'uncanny-learndash-toolkit' ),
+			'manage_options',
+			'uncanny-learnDash-plugins', array(
 			__CLASS__,
 			'uo_support_page',
 		) );
@@ -110,7 +129,8 @@ class Boot extends Config {
 	 *
 	 */
 	public static function uo_admin_support_css() {
-		if ( isset( $_GET['page'] ) && 'uncanny-learnDash-toolkit-support' === $_GET['page'] ) {
+		$pages_to_include = [ 'uncanny-learnDash-plugins', 'uncanny-learnDash-toolkit-kb' ];
+		if ( isset( $_GET['page'] ) && in_array( $_GET['page'], $pages_to_include ) ) {
 			wp_enqueue_style( 'admin-support-css', '//www.uncannyowl.com/wp-content/plugins/uncanny-extend-rest-api/admin-support.css', array(), UNCANNY_TOOLKIT_VERSION );
 		}
 	}
