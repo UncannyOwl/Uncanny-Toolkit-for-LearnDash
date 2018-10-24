@@ -582,7 +582,7 @@ class Config {
 			}
 		}
 
-		return '';
+		return $default;
 	}
 
 

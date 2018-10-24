@@ -218,7 +218,14 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				'select_name' => 'login_page',
 				'options'     => $drop_down,
 			),
-
+			
+			array(
+				'type'        => 'text',
+				'label'       => esc_html__( 'Title Label', 'uncanny-learndash-toolkit' ),
+				'placeholder' => esc_html__( 'Login', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_frontend_login_title_label',
+			),
+			
 			array(
 				'type'        => 'select',
 				'label'       => esc_html__( 'Login Label', 'uncanny-learndash-toolkit' ),
@@ -231,7 +238,30 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 					array( 'value' => 'Login', 'text' => 'Login' )
 				)
 			),
-
+			array(
+				'type'        => 'text',
+				'label'       => esc_html__( 'Password Label', 'uncanny-learndash-toolkit' ),
+				'placeholder' => esc_html__( 'Password', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_frontend_login_password_label',
+			),
+			array(
+				'type'        => 'text',
+				'label'       => esc_html__( 'Remember Me Label', 'uncanny-learndash-toolkit' ),
+				'placeholder' => esc_html__( 'Remember Me', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_frontend_login_rememberme_label',
+			),
+            array(
+				'type'        => 'text',
+				'label'       => esc_html__( 'Forgot Your Password Label', 'uncanny-learndash-toolkit' ),
+				'placeholder' => esc_html__( 'Forgot Your Password', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_frontend_login_forgetpass_label',
+			),
+            array(
+				'type'        => 'text',
+				'label'       => esc_html__( 'Button Label', 'uncanny-learndash-toolkit' ),
+				'placeholder' => esc_html__( 'Log In', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_frontend_login_button_label',
+			),
 			/*array(
 				'type'        => 'checkbox',
 				'label'       => esc_html__( 'Hide "Login UI" when user is logged in.', 'uncanny-learndash-toolkit' ),
@@ -790,7 +820,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		$login_page = get_permalink( self::get_login_redirect_page_id() );
 		$link       = add_query_arg( array( 'action' => 'lostpassword' ), $login_page );
 
-		return '<a class="forgot-link" href="' . $link . '">' . esc_html__( 'Forgot Your Password?', 'uncanny-learndash-toolkit' ) . '</a>';
+		return '<a class="forgot-link" href="' . $link . '">' . \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_login_forgetpass_label', 'FrontendLoginPlus', esc_html__( 'Forgot Your Password?', 'uncanny-learndash-toolkit' ) ) . '</a>';
 	}
 
 	/*
