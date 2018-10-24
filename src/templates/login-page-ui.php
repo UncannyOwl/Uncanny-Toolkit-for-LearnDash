@@ -181,7 +181,7 @@ $innerText = Array(
 	'Password-Not-Match'         => esc_html__( 'The password values do not match.', 'uncanny-learndash-toolkit' ),
 	'Reset-Success'              => esc_html__( 'Your password was successfully reset. Please log in.', 'uncanny-learndash-toolkit' ),
 	'Login-Title'                => \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_login_title_label', 'FrontendLoginPlus', esc_html__( 'Login', 'uncanny-learndash-toolkit' ) ),
-	'Register-Link'              => esc_html__( 'Register', 'uncanny-learndash-toolkit' ),
+	'Register-Link'              => \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_register_link_label', 'FrontendLoginPlus', esc_html__( 'Register', 'uncanny-learndash-toolkit' ) ),
 	'Try-again'                  => esc_html__( 'Try again?', 'uncanny-learndash-toolkit' ),
 	'Get-New-Password'           => esc_html__( 'Get New Password', 'uncanny-learndash-toolkit' )
 );
@@ -394,7 +394,11 @@ $innerText = apply_filters( 'uo-login-inner-text', $innerText, $login );
 
             // Add registration link allowed
             if ( get_option( 'users_can_register' ) ) {
-                echo '<a class="register-link" href="' . wp_registration_url() . '" >' . $innerText['Register-Link'] . '</a>';
+	            $show_register = \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_show_register_link', 'FrontendLoginPlus' );
+                if( 'on' === $show_register ){
+	                echo '<a class="register-link" href="' . \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_register_link', 'FrontendLoginPlus', wp_registration_url() ) . '" >' . $innerText['Register-Link'] . '</a>';
+                }
+	            
             }
 
 	}
