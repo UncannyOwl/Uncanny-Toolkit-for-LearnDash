@@ -22,7 +22,7 @@ class HideAdminBar extends Config implements RequiredFunctions {
 
 		if ( true === self::dependants_exist() ) {
 			/* Hide admin bar on frontend for the user role */
-			add_filter( 'show_admin_bar', array( __CLASS__, 'show_admin_bar' ) );
+			add_filter( 'show_admin_bar', array( __CLASS__, 'show_admin_bar' ), 11 );
 		}
 
 	}
