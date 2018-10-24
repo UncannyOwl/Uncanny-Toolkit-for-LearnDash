@@ -218,7 +218,11 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				'select_name' => 'login_page',
 				'options'     => $drop_down,
 			),
-			
+			array(
+				'type'        => 'checkbox',
+				'label'       => esc_html__( 'Hide the Title', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_frontendloginplus_hide_title_label',
+			),
 			array(
 				'type'        => 'text',
 				'label'       => esc_html__( 'Title Label', 'uncanny-learndash-toolkit' ),

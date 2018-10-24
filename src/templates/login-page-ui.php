@@ -385,15 +385,17 @@ $innerText = apply_filters( 'uo-login-inner-text', $innerText, $login );
 			}
 		}
 	} else {
-		?>
-        <h2><?php echo $innerText['Login-Title']; ?></h2>
-		<?php
-		wp_login_form( $login_form_args );
+			$show_label = \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontendloginplus_hide_title_label', 'FrontendLoginPlus' );
+			if( 'on' !== $show_label){ ?>
+                <h2><?php echo $innerText['Login-Title']; ?></h2>
+            <?php
+            }
+		    wp_login_form( $login_form_args );
 
-		// Add registration link allowed
-		if ( get_option( 'users_can_register' ) ) {
-			echo '<a class="register-link" href="' . wp_registration_url() . '" >' . $innerText['Register-Link'] . '</a>';
-		}
+            // Add registration link allowed
+            if ( get_option( 'users_can_register' ) ) {
+                echo '<a class="register-link" href="' . wp_registration_url() . '" >' . $innerText['Register-Link'] . '</a>';
+            }
 
 	}
 	/*
