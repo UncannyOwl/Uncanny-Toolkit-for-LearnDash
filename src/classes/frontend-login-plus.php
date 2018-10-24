@@ -237,9 +237,49 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				'label'       => esc_html__( 'Hide "Login UI" when user is logged in.', 'uncanny-learndash-toolkit' ),
 				'option_name' => 'hide_logged_in_ui'
 			)*/
-
-		);
-
+			
+			array(
+				'type'        => 'checkbox',
+				'label'       => esc_html__( 'Show Register Link', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_frontend_show_register_link',
+			),
+			
+			array(
+				'type'        => 'text',
+				'label'       => esc_html__( 'Register Link', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_frontend_register_link',
+			),
+			
+			array(
+				'type'        => 'text',
+				'label'       => esc_html__( 'Register Link Label', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_frontend_register_link_label',
+			),
+			array(
+				'type'        => 'text',
+				'label'       => esc_html__( 'Custom invalid credentials error.', 'uncanny-learndash-toolkit' ),
+				'placeholder' => esc_html__( 'Invalid username and/or password.', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_frontend_login_failed_error',
+			),
+			array(
+				'type'        => 'text',
+				'label'       => esc_html__( 'Custom empty credentials error.', 'uncanny-learndash-toolkit' ),
+				'placeholder' => esc_html__( 'Username and/or Password is empty.', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_frontend_login_empty_error',
+			),
+			array(
+				'type'        => 'text',
+				'label'       => esc_html__( 'Custom logged out error.', 'uncanny-learndash-toolkit' ),
+				'placeholder' => esc_html__( 'You are logged out.', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_frontend_login_false_error',
+			),
+			array(
+				'type'        => 'text',
+				'label'       => esc_html__( 'Custom not verified error.', 'uncanny-learndash-toolkit' ),
+				'placeholder' => esc_html__( 'This account is not verified.', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_frontend_login_notverified_error',
+			),
+        );
 
 		// Build html
 		$html = self::settings_output( array(

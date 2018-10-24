@@ -562,10 +562,11 @@ class Config {
 	/**
 	 * @param $key
 	 * @param $class
-	 *
+	 * @param $default
+     *
 	 * @return string
 	 */
-	public static function get_settings_value( $key, $class ) {
+	public static function get_settings_value( $key, $class, $default = '' ) {
 
 		$class   = str_replace( __NAMESPACE__, '', stripslashes( $class ) );
 		$options = get_option( $class, '' );
@@ -573,6 +574,9 @@ class Config {
 		if ( ! empty( $options ) && '' !== $options ) {
 			foreach ( $options as $option ) {
 				if ( in_array( $key, $option, true ) ) {
+				    if( '' !== $default && '' === trim($option['value']) ){
+				        return $default;
+                    }
 					return $option['value'];
 				}
 			}
