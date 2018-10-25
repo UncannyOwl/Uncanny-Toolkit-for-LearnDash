@@ -198,7 +198,17 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		foreach ( $pages as $page ) {
 			array_push( $drop_down, array( 'value' => $page->ID, 'text' => $page->post_title ) );
 		}
-
+		
+		$password_reset_message = __( 'Someone has requested a password reset for the following account:' ) . "\r\n\r\n";
+		$password_reset_message .= network_home_url( '/' ) . "\r\n\r\n";
+		$password_reset_message .= __( 'Username: %User Login%' ) . "\r\n\r\n";
+		$password_reset_message .= __( 'If this was a mistake or you didn\'t request a change, you can safely ignore this email.' ) . "\r\n\r\n";
+		$password_reset_message .= __( 'To reset your password, visit the following address:' ) . "\r\n\r\n";
+		if ( 'text/html' == apply_filters( 'wp_mail_content_type', 'text/html' ) ) {
+			$password_reset_message .= __( 'Reset password link: %Reset Link%' ) . "\r\n";
+		} else {
+			$password_reset_message .= '<a href="%Reset Link%" >' . __( 'Reset Password' ) . "</a>\r\n";
+		}
 		// Create options
 		$options = array(
 
@@ -213,7 +223,11 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				'label'       => 'Frontend Registration',
 				'option_name' => 'uo_frontend_registration',
 			),*/
-
+			
+			array(
+				'type'       => 'html',
+				'inner_html' => '<h2>Login Form Settings</h2>',
+			),
 			array(
 				'type'        => 'select',
 				'label'       => esc_html__( 'Login Page', 'uncanny-learndash-toolkit' ),
@@ -268,9 +282,13 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				'placeholder' => esc_html__( 'Log In', 'uncanny-learndash-toolkit' ),
 				'option_name' => 'uo_frontend_login_button_label',
 			),
+			array(
+				'type'       => 'html',
+				'inner_html' => '<h2>Security Settings</h2>',
+			),
             array(
 				'type'        => 'text',
-				'label'       => esc_html__( 'reCaptcha Key', 'uncanny-learndash-toolkit' ),
+				'label'       => esc_html__( 'Google reCaptcha Key', 'uncanny-learndash-toolkit' ),
 				'placeholder' => esc_html__( '', 'uncanny-learndash-toolkit' ),
 				'option_name' => 'uo_frontend_login_recaptcha_key',
 			),
@@ -280,6 +298,10 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				'option_name' => 'hide_logged_in_ui'
 			)*/
 			
+			array(
+				'type'       => 'html',
+				'inner_html' => '<h2>Registration Link Settings</h2>',
+			),
 			array(
 				'type'        => 'checkbox',
 				'label'       => esc_html__( 'Show Register Link', 'uncanny-learndash-toolkit' ),
@@ -297,6 +319,25 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				'label'       => esc_html__( 'Register Link Label', 'uncanny-learndash-toolkit' ),
 				'option_name' => 'uo_frontend_register_link_label',
 			),
+			array(
+				'type'       => 'html',
+				'inner_html' => '<h2>Customize Email messages</h2>',
+			),
+            array(
+				'type'        => 'textarea',
+				'placeholder' => $password_reset_message,
+				'label'       => esc_html__( 'Customize Reset Password Body', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_frontend_resetpassword_email_body',
+			),
+            array(
+				'type'       => 'html',
+				'inner_html' => '<strong>Available variables for email body</strong><br /><ul><li><strong>%User Login%</strong> &mdash; Prints User\'s Login</li><li><strong>%Reset Link%</strong> &mdash; Prints Password Reset Link</li></ul>',
+			),
+			array(
+				'type'       => 'html',
+				'inner_html' => '<h2>Customize Error messages</h2>',
+			),
+			
 			array(
 				'type'        => 'text',
 				'label'       => esc_html__( 'Custom invalid credentials error.', 'uncanny-learndash-toolkit' ),
@@ -903,7 +944,12 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		} else {
 			$new_message .= '<a href="' . $reset_link . '" >' . __( 'Reset Password' ) . "</a>\r\n";
 		}
-
+		$custom_message = \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_resetpassword_email_body', 'FrontendLoginPlus' );
+		if( !empty( $custom_message ) ){
+			$custom_message = str_ireplace('%User Login%',$user_login,$custom_message);
+			$custom_message = str_ireplace('%Reset Link%',$reset_link,$custom_message);
+			return $custom_message;
+        }
 		return $new_message;
 	}
 
