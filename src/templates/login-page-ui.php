@@ -2,7 +2,10 @@
 /* Template Name: Uncanny Owl Login Page */
 $login_page      = \uncanny_learndash_toolkit\FrontendLoginPlus::get_login_redirect_page_id();
 $login_page_url = get_permalink( $login_page );
-
+$recaptcha_key = \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_login_recaptcha_key', 'FrontendLoginPlus' );
+if( '' !== trim($recaptcha_key)){
+	wp_enqueue_script( 'FrontendLoginPlus', 'https://www.google.com/recaptcha/api.js' );
+}
 if( strpos($login_page_url, '?')){
 	$login_page_url = $login_page_url . '&';
 }else{
@@ -170,15 +173,15 @@ $innerText = Array(
 	'Success'                    => esc_html__( 'Success!', 'uncanny-learndash-toolkit' ),
 	'Success-Email-Sent'         => esc_html__( 'Check your email for a reset password link.', 'uncanny-learndash-toolkit' ),
 	'Oops'                       => esc_html__( 'Oops!', 'uncanny-learndash-toolkit' ),
-	'Failed-Send-Email'          => esc_html__( 'Password reset email failed to send.', 'uncanny-learndash-toolkit' ),
+	'Failed-Send-Email'          => \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_login_failedsendemail_error', 'FrontendLoginPlus', esc_html__( 'Password reset email failed to send.', 'uncanny-learndash-toolkit' ) ),
 	'Reset-Password-Title'       => esc_html__( 'Reset Password', 'uncanny-learndash-toolkit' ),
 	'New-Password'               => esc_html__( 'New Password', 'uncanny-learndash-toolkit' ),
 	'Confirm-Password'           => esc_html__( 'Confirm New Password', 'uncanny-learndash-toolkit' ),
 	'Password-Indicator-Hint'    => esc_html__( 'Hint: The password should be at least eight characters long. To make it stronger, use upper and lower case letters, numbers, and symbols like ! " ? $ % ^ &amp; )', 'uncanny-learndash-toolkit' ),
-	'Password-Reset-Link-Failed' => esc_html__( 'Password reset link failed.', 'uncanny-learndash-toolkit' ),
-	'Invalid-Reset-Key'          => esc_html__( 'Your password reset link is invalid.', 'uncanny-learndash-toolkit' ),
-	'Expired-Reset-Key'          => esc_html__( 'Your password reset link is expired.', 'uncanny-learndash-toolkit' ),
-	'Password-Not-Match'         => esc_html__( 'The password values do not match.', 'uncanny-learndash-toolkit' ),
+	'Password-Reset-Link-Failed' => \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_login_passwordresetfailed_error', 'FrontendLoginPlus', esc_html__( 'Password reset link failed.', 'uncanny-learndash-toolkit' ) ),
+	'Invalid-Reset-Key'          => \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_login_invalidresetkey_error', 'FrontendLoginPlus', esc_html__( 'Your password reset link is invalid.', 'uncanny-learndash-toolkit' ) ),
+	'Expired-Reset-Key'          => \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_login_expiredresetkey_error', 'FrontendLoginPlus', esc_html__( 'Your password reset link is expired.', 'uncanny-learndash-toolkit' ) ),
+	'Password-Not-Match'         => \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_login_passwordnotmatch_error', 'FrontendLoginPlus', esc_html__( 'The password values do not match.', 'uncanny-learndash-toolkit' ) ),
 	'Reset-Success'              => esc_html__( 'Your password was successfully reset. Please log in.', 'uncanny-learndash-toolkit' ),
 	'Login-Title'                => \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_login_title_label', 'FrontendLoginPlus', esc_html__( 'Login', 'uncanny-learndash-toolkit' ) ),
 	'Register-Link'              => \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_register_link_label', 'FrontendLoginPlus', esc_html__( 'Register', 'uncanny-learndash-toolkit' ) ),
@@ -200,7 +203,26 @@ $innerText = apply_filters( 'uo-login-inner-text', $innerText, $login );
 }
 
 </style>
+<?php if( '' !== trim($recaptcha_key)){?>
+    <script>
+        jQuery(document).ready(function () {
+            jQuery("form").each(function () {
+                jQuery(this).find(':input[type="submit"]').prop('disabled', true);
+            });
+        });
+        function correctCaptcha() {
+            jQuery("form").each(function () {
+                jQuery(this).find(':input[type="submit"]').prop('disabled', false);
+            });
+        }
 
+        function expiredCaptcha() {
+            jQuery("form").each(function () {
+                jQuery(this).find(':input[type="submit"]').prop('disabled', true);
+            });
+        }
+    </script>
+<?php }?>
 <section class="uo_loginForm">
     <div class="uo_error">
 		<?php echo $login_error; ?>
@@ -236,7 +258,9 @@ $innerText = apply_filters( 'uo-login-inner-text', $innerText, $login );
 
             <input type="hidden" name="redirect_to"
                    value="<?php echo $login_page_url ?>action=forgot&success=1">
-
+	        <?php if( '' !== trim($recaptcha_key)){?>
+                <div class="g-recaptcha" data-sitekey="<?php echo $recaptcha_key;?>" data-callback="correctCaptcha" data-expired-callback="expiredCaptcha"></div>
+            <?php }?>
             <p class="submit"><input type="submit" name="wp-submit" id="wp-submit"
                                      value="<?php echo $innerText['Get-New-Password']; ?>"/></p>
         </form>
@@ -277,7 +301,9 @@ $innerText = apply_filters( 'uo-login-inner-text', $innerText, $login );
                 <p id="reg_passmail">Registration confirmation will be emailed to you.</p>
                 <br class="clear">
                 <input type="hidden" name="redirect_to" value="">
-
+	            <?php if( '' !== trim($recaptcha_key)){?>
+                    <div class="g-recaptcha" data-sitekey="<?php echo $recaptcha_key;?>" data-callback="correctCaptcha" data-expired-callback="expiredCaptcha"></div>
+	            <?php }?>
                 <p class="submit"><input type="submit" name="wp-submit" id="wp-submit"
                                          class="button button-primary button-large" value="Register"></p>
             </form>
@@ -322,7 +348,9 @@ $innerText = apply_filters( 'uo-login-inner-text', $innerText, $login );
                 <p class="description indicator-hint"><?php echo $innerText['Password-Indicator-Hint']; ?></p>
                 <br class="clear"/>
                 <input type="hidden" name="rp_key" value="<?php echo esc_attr( $rp_key ); ?>"/>
-
+	            <?php if( '' !== trim($recaptcha_key)){?>
+                    <div class="g-recaptcha" data-sitekey="<?php echo $recaptcha_key;?>" data-callback="correctCaptcha" data-expired-callback="expiredCaptcha"></div>
+	            <?php }?>
                 <p class="submit"><input type="submit" name="wp-submit" id="wp-submit"
                                          class="button button-primary button-large"
                                          value="<?php esc_attr_e( 'Reset Password' ); ?>"/></p>

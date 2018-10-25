@@ -121,6 +121,8 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				add_action( 'login_form_bottom', array( __CLASS__, 'add_lost_password_link' ) );
 				// Add shortcode to page with warning if it wasn't added
 				add_action( 'loop_end', array( __CLASS__, 'maybe_add_ui_shortcode' ) );
+				// Add lost password link to login form
+				add_action( 'login_form_middle', array( __CLASS__, 'add_recaptcha_box' ) );
 			}
 
 			/* Redirect Login Page */
@@ -266,6 +268,12 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				'placeholder' => esc_html__( 'Log In', 'uncanny-learndash-toolkit' ),
 				'option_name' => 'uo_frontend_login_button_label',
 			),
+            array(
+				'type'        => 'text',
+				'label'       => esc_html__( 'reCaptcha Key', 'uncanny-learndash-toolkit' ),
+				'placeholder' => esc_html__( '', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_frontend_login_recaptcha_key',
+			),
 			/*array(
 				'type'        => 'checkbox',
 				'label'       => esc_html__( 'Hide "Login UI" when user is logged in.', 'uncanny-learndash-toolkit' ),
@@ -312,6 +320,36 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				'label'       => esc_html__( 'Custom not verified error.', 'uncanny-learndash-toolkit' ),
 				'placeholder' => esc_html__( 'This account is not verified.', 'uncanny-learndash-toolkit' ),
 				'option_name' => 'uo_frontend_login_notverified_error',
+			),
+            array(
+				'type'        => 'text',
+				'label'       => esc_html__( 'Custom invalid reset key error.', 'uncanny-learndash-toolkit' ),
+				'placeholder' => esc_html__( 'Your password reset link is invalid.', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_frontend_login_invalidresetkey_error',
+			),
+            array(
+				'type'        => 'text',
+				'label'       => esc_html__( 'Custom expired reset key error.', 'uncanny-learndash-toolkit' ),
+				'placeholder' => esc_html__( 'Your password reset link is expired.', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_frontend_login_expiredresetkey_error',
+			),
+            array(
+				'type'        => 'text',
+				'label'       => esc_html__( 'Custom password not match error.', 'uncanny-learndash-toolkit' ),
+				'placeholder' => esc_html__( 'The password values do not match.', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_frontend_login_passwordnotmatch_error',
+			),
+            array(
+				'type'        => 'text',
+				'label'       => esc_html__( 'Custom password reset failed error.', 'uncanny-learndash-toolkit' ),
+				'placeholder' => esc_html__( 'Password reset link failed.', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_frontend_login_passwordresetfailed_error',
+			),
+            array(
+				'type'        => 'text',
+				'label'       => esc_html__( 'Custom failed send email error.', 'uncanny-learndash-toolkit' ),
+				'placeholder' => esc_html__( 'Password reset email failed to send.', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_frontend_login_failedsendemail_error',
 			),
         );
 
@@ -825,6 +863,17 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		$link       = add_query_arg( array( 'action' => 'lostpassword' ), $login_page );
 
 		return '<a class="forgot-link" href="' . $link . '">' . \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_login_forgetpass_label', 'FrontendLoginPlus', esc_html__( 'Forgot Your Password?', 'uncanny-learndash-toolkit' ) ) . '</a>';
+	}
+	
+	/*
+	 * Add reCaptcha to the login form
+	 */
+	public static function add_recaptcha_box() {
+
+		$recaptcha_key = \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_login_recaptcha_key', 'FrontendLoginPlus' );
+        if( '' !== trim($recaptcha_key)){
+	        return '<div class="g-recaptcha" data-sitekey="'.$recaptcha_key.'" data-callback="correctCaptcha" data-expired-callback="expiredCaptcha"></div>';
+        }
 	}
 
 	/*
