@@ -6,7 +6,9 @@ namespace uncanny_learndash_toolkit;
 	<div class="uo-admin-header">
 
 		<a href="https://www.uncannyowl.com/" target="_blank">
-			<img src="<?php echo esc_url( Config::get_admin_media( 'Uncanny-Owl-logo.png' ) ); ?>"/>
+			<img src="<?php use uncanny_ceu\Utilities;
+
+			echo esc_url( Config::get_admin_media( 'Uncanny-Owl-logo.png' ) ); ?>"/>
 		</a>
 
 		<hr class="uo-underline">
@@ -30,11 +32,19 @@ namespace uncanny_learndash_toolkit;
 				} else {
 					include( 'admin-kb.php' );
 				}
-				?>
-				<p class="uo-get-help">
-					<a href="<?php echo admin_url( 'admin.php?page=uncanny-learnDash-toolkit-kb&submit-a-ticket=1' ); ?>"><?php _e( 'I can\'t find the answer to my question.', 'uncanny-learndash-toolkit' ) ?></a>
-				</p>
-				<?php
+				if ( Boot::is_pro_active() ) {
+					?>
+					<p class="uo-get-help">
+						<a href="<?php echo admin_url( 'admin.php?page=uncanny-learnDash-toolkit-kb&submit-a-ticket=1' ); ?>"><?php _e( 'I can\'t find the answer to my question.', 'uncanny-learndash-toolkit' ) ?></a>
+					</p>
+					<?php
+				} else {
+					?>
+					<p class="uo-get-help">
+						<a href="https://wordpress.org/support/plugin/uncanny-learndash-toolkit" target="_blank"><?php _e( 'I can\'t find the answer to my question.', 'uncanny-learndash-toolkit' ) ?></a>
+					</p>
+					<?php
+				}
 			} /*elseif ( 'submit-a-ticket' === $active_tab && Boot::is_pro_active() ) {
 				include( 'admin-help.php' );
 			} */ else {
