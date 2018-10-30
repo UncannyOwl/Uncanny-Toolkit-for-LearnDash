@@ -946,6 +946,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		}
 		$custom_message = \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_resetpassword_email_body', 'FrontendLoginPlus' );
 		if( !empty( $custom_message ) ){
+			add_filter('wp_mail_content_type', array(__CLASS__, 'htmlEmailContent'));
 			$custom_message = str_ireplace('%User Login%',$user_login,$custom_message);
 			$custom_message = str_ireplace('%Reset Link%',$reset_link,$custom_message);
 			return $custom_message;
@@ -976,4 +977,8 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			}
 		}
 	}
+	
+	public static function htmlEmailContent($contentType){
+		return 'text/html';
+    }
 }
