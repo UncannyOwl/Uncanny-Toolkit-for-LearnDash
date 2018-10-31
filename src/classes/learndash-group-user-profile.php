@@ -86,35 +86,25 @@ class LearndashGroupUserProfile extends Config implements RequiredFunctions {
 		$section_title = esc_html__( 'LearnDash Groups', 'uncanny-learndash-toolkit' );
 		// User ID of user being viewed/edited
 		$user_ID = $user->ID;
-		// Meta key stored by learndash of user's groups
-		$meta_key = '%learndash_group_users_%';
 
-		// Query to get all the users' groups
-		$group_query = $wpdb->prepare(
-			" SELECT `meta_value` FROM $wpdb->usermeta WHERE `user_id` = %d AND meta_key LIKE %s",
-			$user_ID,
-			$meta_key
-		);
-
-		// Collect data from the database
-		$user_groups = $wpdb->get_results( $group_query, ARRAY_N );
+		$groups = learndash_get_users_group_ids( $user_ID );
 
 		// If the user is part of at least one group... lets create the LearnDash Group Section
-		if ( ! empty( $user_groups ) ) {
+		if ( ! empty( $groups ) ) {
 			// Happy Filtering!
 			$section_title = apply_filters( 'learndash_users_groups_profile_title', $section_title );
 
 			// Loop through all the user's group ids and collect the title and link
 			$list_groups = '';
-			foreach ( $user_groups as $group_ID ) {
-				if ( ! empty( $group_ID[0] ) && is_numeric( $group_ID[0] ) ) {
+			foreach ( $groups as $group_ID ) {
+				if ( ! empty( $group_ID ) && is_numeric( $group_ID ) ) {
 					$group_permalink = add_query_arg(
 						array(
-							'post'   => (int) $group_ID[0],
+							'post'   => (int) $group_ID,
 							'action' => 'edit',
 						), admin_url( 'post.php' )
 					);
-					$group_title     = get_the_title( (int) $group_ID[0] ); // Get the group title
+					$group_title     = get_the_title( (int) $group_ID ); // Get the group title
 					$list_groups .= sprintf( '<li><a href="%s">%s</a></li>', esc_url( $group_permalink ), esc_html( $group_title ) );// list of all the groups
 				}
 			}
