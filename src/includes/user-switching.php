@@ -549,8 +549,8 @@ public function filter_login_message( $message ) {
 				'redirect_to' => urlencode( wp_unslash( $_REQUEST['redirect_to'] ) ), // WPCS: sanitization ok
 			), $url );
 		}
-
-		$message .= '<p class="message" id="user_switching_switch_on">';
+		
+		$message .= '<p class="message" id="user_switching_switch_on" style="position:relative;">';
 		$message .= '<span class="dashicons dashicons-admin-users" style="color:#56c234"></span> ';
 		$message .= '<a href="' . esc_url( $url ) . '" onclick="window.location.href=\'' . esc_url( $url ) . '\';return false;">' . esc_html( $link ) . '</a>';
 		$message .= '</p>';
