@@ -2,7 +2,10 @@
 /* Template Name: Uncanny Owl Login Page */
 $login_page      = \uncanny_learndash_toolkit\FrontendLoginPlus::get_login_redirect_page_id();
 $login_page_url = get_permalink( $login_page );
-
+$recaptcha_key = \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_login_recaptcha_key', 'FrontendLoginPlus' );
+if( '' !== trim($recaptcha_key)){
+	wp_enqueue_script( 'FrontendLoginPlus', 'https://www.google.com/recaptcha/api.js' );
+}
 if( strpos($login_page_url, '?')){
 	$login_page_url = $login_page_url . '&';
 }else{
@@ -117,25 +120,28 @@ switch ( $login ) {
 
 	case 'failed':
 		$message_error   = esc_html__( 'Oops!', 'uncanny-learndash-toolkit' );
-		$message_warning = esc_html__( 'Invalid username and/or password.', 'uncanny-learndash-toolkit' );
+		$message_warning = \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_login_failed_error', 'FrontendLoginPlus', esc_html__( 'Invalid username and/or password.', 'uncanny-learndash-toolkit' ) );
 		break;
 	case 'empty':
 		$message_error   = esc_html__( 'Oops!', 'uncanny-learndash-toolkit' );
-		$message_warning = esc_html__( 'Username and/or Password is empty.', 'uncanny-learndash-toolkit' );
+		$message_warning = \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_login_empty_error', 'FrontendLoginPlus', esc_html__( 'Username and/or Password is empty.', 'uncanny-learndash-toolkit' ) );
 		break;
 	case 'false':
 		// Empty msgid. It is reserved by GNU gettext: gettext("") returns the header entry with meta information, not the empty string.
 		// $message_error   = esc_html__( '', 'uncanny-learndash-toolkit' ); 
 		$message_error 	 = '';
-		$message_warning = esc_html__( 'You are logged out.', 'uncanny-learndash-toolkit' );
+		$message_warning = \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_login_false_error', 'FrontendLoginPlus', esc_html__( 'You are logged out.', 'uncanny-learndash-toolkit' ) );
 		break;
 	case 'notverified':
 		$message_error   = esc_html__( 'Oops!', 'uncanny-learndash-toolkit' );
-		$message_warning = esc_html__( 'This account is not verified.', 'uncanny-learndash-toolkit' );
+		$message_warning = \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_login_notverified_error', 'FrontendLoginPlus', esc_html__( 'This account is not verified.', 'uncanny-learndash-toolkit' ) );
 		break;
 }
 
-$login_error = '<p class="login-msg"><strong>' . $message_error . '</strong> ' . $message_warning . '</p>';
+$login_error = '';
+if ( $message_error || $message_warning ) {
+	$login_error = '<p class="login-msg"><strong>' . $message_error . '</strong> ' . $message_warning . '</p>';
+}
 
 $login_error = apply_filters( 'uo_frontend_login_error', $login_error, $login, $message_error, $message_warning );
 
@@ -144,9 +150,9 @@ $login_form_args = array(
 	'redirect'       => home_url( '/wp-admin/' ),
 	'form_id'        => 'loginform',
 	'label_username' => ( ! empty( $user_name_label ) ) ? $user_name_label : esc_html__( 'Username', 'uncanny-learndash-toolkit' ),
-	'label_password' => esc_html__( 'Password', 'uncanny-learndash-toolkit' ),
-	'label_remember' => esc_html__( 'Remember Me', 'uncanny-learndash-toolkit' ),
-	'label_log_in'   => esc_html__( 'Log In', 'uncanny-learndash-toolkit' ),
+	'label_password' => \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_login_password_label', 'FrontendLoginPlus', esc_html__( 'Password', 'uncanny-learndash-toolkit' ) ),
+	'label_remember' => \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_login_rememberme_label', 'FrontendLoginPlus', esc_html__( 'Remember Me', 'uncanny-learndash-toolkit' ) ),
+	'label_log_in'   => \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_login_button_label', 'FrontendLoginPlus', esc_html__( 'Log In', 'uncanny-learndash-toolkit' ) ),
 	'id_username'    => 'user_login',
 	'id_password'    => 'user_pass',
 	'id_remember'    => 'rememberme',
@@ -167,18 +173,18 @@ $innerText = Array(
 	'Success'                    => esc_html__( 'Success!', 'uncanny-learndash-toolkit' ),
 	'Success-Email-Sent'         => esc_html__( 'Check your email for a reset password link.', 'uncanny-learndash-toolkit' ),
 	'Oops'                       => esc_html__( 'Oops!', 'uncanny-learndash-toolkit' ),
-	'Failed-Send-Email'          => esc_html__( 'Password reset email failed to send.', 'uncanny-learndash-toolkit' ),
+	'Failed-Send-Email'          => \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_login_failedsendemail_error', 'FrontendLoginPlus', esc_html__( 'Password reset email failed to send.', 'uncanny-learndash-toolkit' ) ),
 	'Reset-Password-Title'       => esc_html__( 'Reset Password', 'uncanny-learndash-toolkit' ),
 	'New-Password'               => esc_html__( 'New Password', 'uncanny-learndash-toolkit' ),
 	'Confirm-Password'           => esc_html__( 'Confirm New Password', 'uncanny-learndash-toolkit' ),
 	'Password-Indicator-Hint'    => esc_html__( 'Hint: The password should be at least eight characters long. To make it stronger, use upper and lower case letters, numbers, and symbols like ! " ? $ % ^ &amp; )', 'uncanny-learndash-toolkit' ),
-	'Password-Reset-Link-Failed' => esc_html__( 'Password reset link failed.', 'uncanny-learndash-toolkit' ),
-	'Invalid-Reset-Key'          => esc_html__( 'Your password reset link is invalid.', 'uncanny-learndash-toolkit' ),
-	'Expired-Reset-Key'          => esc_html__( 'Your password reset link is expired.', 'uncanny-learndash-toolkit' ),
-	'Password-Not-Match'         => esc_html__( 'The password values do not match.', 'uncanny-learndash-toolkit' ),
+	'Password-Reset-Link-Failed' => \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_login_passwordresetfailed_error', 'FrontendLoginPlus', esc_html__( 'Password reset link failed.', 'uncanny-learndash-toolkit' ) ),
+	'Invalid-Reset-Key'          => \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_login_invalidresetkey_error', 'FrontendLoginPlus', esc_html__( 'Your password reset link is invalid.', 'uncanny-learndash-toolkit' ) ),
+	'Expired-Reset-Key'          => \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_login_expiredresetkey_error', 'FrontendLoginPlus', esc_html__( 'Your password reset link is expired.', 'uncanny-learndash-toolkit' ) ),
+	'Password-Not-Match'         => \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_login_passwordnotmatch_error', 'FrontendLoginPlus', esc_html__( 'The password values do not match.', 'uncanny-learndash-toolkit' ) ),
 	'Reset-Success'              => esc_html__( 'Your password was successfully reset. Please log in.', 'uncanny-learndash-toolkit' ),
-	'Login-Title'                => esc_html__( 'Login', 'uncanny-learndash-toolkit' ),
-	'Register-Link'              => esc_html__( 'Register', 'uncanny-learndash-toolkit' ),
+	'Login-Title'                => \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_login_title_label', 'FrontendLoginPlus', esc_html__( 'Login', 'uncanny-learndash-toolkit' ) ),
+	'Register-Link'              => \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_register_link_label', 'FrontendLoginPlus', esc_html__( 'Register', 'uncanny-learndash-toolkit' ) ),
 	'Try-again'                  => esc_html__( 'Try again?', 'uncanny-learndash-toolkit' ),
 	'Get-New-Password'           => esc_html__( 'Get New Password', 'uncanny-learndash-toolkit' )
 );
@@ -197,7 +203,26 @@ $innerText = apply_filters( 'uo-login-inner-text', $innerText, $login );
 }
 
 </style>
+<?php if( '' !== trim($recaptcha_key)){?>
+    <script>
+        jQuery(document).ready(function () {
+            jQuery("form").each(function () {
+                jQuery(this).find(':input[type="submit"]').prop('disabled', true);
+            });
+        });
+        function correctCaptcha() {
+            jQuery("form").each(function () {
+                jQuery(this).find(':input[type="submit"]').prop('disabled', false);
+            });
+        }
 
+        function expiredCaptcha() {
+            jQuery("form").each(function () {
+                jQuery(this).find(':input[type="submit"]').prop('disabled', true);
+            });
+        }
+    </script>
+<?php }?>
 <section class="uo_loginForm">
     <div class="uo_error">
 		<?php echo $login_error; ?>
@@ -233,7 +258,9 @@ $innerText = apply_filters( 'uo-login-inner-text', $innerText, $login );
 
             <input type="hidden" name="redirect_to"
                    value="<?php echo $login_page_url ?>action=forgot&success=1">
-
+	        <?php if( '' !== trim($recaptcha_key)){?>
+                <div class="g-recaptcha" data-sitekey="<?php echo $recaptcha_key;?>" data-callback="correctCaptcha" data-expired-callback="expiredCaptcha"></div>
+            <?php }?>
             <p class="submit"><input type="submit" name="wp-submit" id="wp-submit"
                                      value="<?php echo $innerText['Get-New-Password']; ?>"/></p>
         </form>
@@ -274,7 +301,9 @@ $innerText = apply_filters( 'uo-login-inner-text', $innerText, $login );
                 <p id="reg_passmail">Registration confirmation will be emailed to you.</p>
                 <br class="clear">
                 <input type="hidden" name="redirect_to" value="">
-
+	            <?php if( '' !== trim($recaptcha_key)){?>
+                    <div class="g-recaptcha" data-sitekey="<?php echo $recaptcha_key;?>" data-callback="correctCaptcha" data-expired-callback="expiredCaptcha"></div>
+	            <?php }?>
                 <p class="submit"><input type="submit" name="wp-submit" id="wp-submit"
                                          class="button button-primary button-large" value="Register"></p>
             </form>
@@ -319,7 +348,9 @@ $innerText = apply_filters( 'uo-login-inner-text', $innerText, $login );
                 <p class="description indicator-hint"><?php echo $innerText['Password-Indicator-Hint']; ?></p>
                 <br class="clear"/>
                 <input type="hidden" name="rp_key" value="<?php echo esc_attr( $rp_key ); ?>"/>
-
+	            <?php if( '' !== trim($recaptcha_key)){?>
+                    <div class="g-recaptcha" data-sitekey="<?php echo $recaptcha_key;?>" data-callback="correctCaptcha" data-expired-callback="expiredCaptcha"></div>
+	            <?php }?>
                 <p class="submit"><input type="submit" name="wp-submit" id="wp-submit"
                                          class="button button-primary button-large"
                                          value="<?php esc_attr_e( 'Reset Password' ); ?>"/></p>
@@ -382,15 +413,21 @@ $innerText = apply_filters( 'uo-login-inner-text', $innerText, $login );
 			}
 		}
 	} else {
-		?>
-        <h2>Login</h2>
-		<?php
-		wp_login_form( $login_form_args );
+			$show_label = \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontendloginplus_hide_title_label', 'FrontendLoginPlus' );
+			if( 'on' !== $show_label){ ?>
+                <h2><?php echo $innerText['Login-Title']; ?></h2>
+            <?php
+            }
+		    wp_login_form( $login_form_args );
 
-		// Add registration link allowed
-		if ( get_option( 'users_can_register' ) ) {
-			echo '<a class="register-link" href="' . wp_registration_url() . '" >' . $innerText['Register-Link'] . '</a>';
-		}
+            // Add registration link allowed
+            if ( get_option( 'users_can_register' ) ) {
+	            $show_register = \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_show_register_link', 'FrontendLoginPlus' );
+                if( 'on' === $show_register ){
+	                echo '<a class="register-link" href="' . \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_register_link', 'FrontendLoginPlus', wp_registration_url() ) . '" >' . $innerText['Register-Link'] . '</a>';
+                }
+	            
+            }
 
 	}
 	/*

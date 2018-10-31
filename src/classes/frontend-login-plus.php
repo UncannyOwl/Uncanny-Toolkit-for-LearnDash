@@ -80,7 +80,9 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 					add_action( 'edit_user_profile_update', array( __CLASS__, 'my_save_extra_profile_fields' ) );
 
 				}
-
+				// URLs
+				add_filter( 'site_url', array( __CLASS__,'filter_site_url'), 5, 3 );
+				add_filter( 'network_site_url', array( __CLASS__,'filter_site_url'), 5, 3 );
 				// Set Cookies for login-page-ui.php early
 				add_action( 'wp', array( __CLASS__, 'set_cookies' ) );
 
@@ -121,6 +123,8 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				add_action( 'login_form_bottom', array( __CLASS__, 'add_lost_password_link' ) );
 				// Add shortcode to page with warning if it wasn't added
 				add_action( 'loop_end', array( __CLASS__, 'maybe_add_ui_shortcode' ) );
+				// Add lost password link to login form
+				add_action( 'login_form_middle', array( __CLASS__, 'add_recaptcha_box' ) );
 			}
 
 			/* Redirect Login Page */
@@ -196,7 +200,17 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		foreach ( $pages as $page ) {
 			array_push( $drop_down, array( 'value' => $page->ID, 'text' => $page->post_title ) );
 		}
-
+		
+		$password_reset_message = __( 'Someone has requested a password reset for the following account:' ) . "\r\n\r\n";
+		$password_reset_message .= network_home_url( '/' ) . "\r\n\r\n";
+		$password_reset_message .= __( 'Username: %User Login%' ) . "\r\n\r\n";
+		$password_reset_message .= __( 'If this was a mistake or you didn\'t request a change, you can safely ignore this email.' ) . "\r\n\r\n";
+		$password_reset_message .= __( 'To reset your password, visit the following address:' ) . "\r\n\r\n";
+		if ( 'text/html' == apply_filters( 'wp_mail_content_type', 'text/html' ) ) {
+			$password_reset_message .= __( 'Reset password link: %Reset Link%' ) . "\r\n";
+		} else {
+			$password_reset_message .= '<a href="%Reset Link%" >' . __( 'Reset Password' ) . "</a>\r\n";
+		}
 		// Create options
 		$options = array(
 
@@ -211,14 +225,29 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				'label'       => 'Frontend Registration',
 				'option_name' => 'uo_frontend_registration',
 			),*/
-
+			
+			array(
+				'type'       => 'html',
+				'inner_html' => '<h2>Login Form Settings</h2>',
+			),
 			array(
 				'type'        => 'select',
 				'label'       => esc_html__( 'Login Page', 'uncanny-learndash-toolkit' ),
 				'select_name' => 'login_page',
 				'options'     => $drop_down,
 			),
-
+			array(
+				'type'        => 'checkbox',
+				'label'       => esc_html__( 'Hide the Title', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_frontendloginplus_hide_title_label',
+			),
+			array(
+				'type'        => 'text',
+				'label'       => esc_html__( 'Title Label', 'uncanny-learndash-toolkit' ),
+				'placeholder' => esc_html__( 'Login', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_frontend_login_title_label',
+			),
+			
 			array(
 				'type'        => 'select',
 				'label'       => esc_html__( 'Login Label', 'uncanny-learndash-toolkit' ),
@@ -231,15 +260,141 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 					array( 'value' => 'Login', 'text' => 'Login' )
 				)
 			),
-
+			array(
+				'type'        => 'text',
+				'label'       => esc_html__( 'Password Label', 'uncanny-learndash-toolkit' ),
+				'placeholder' => esc_html__( 'Password', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_frontend_login_password_label',
+			),
+			array(
+				'type'        => 'text',
+				'label'       => esc_html__( 'Remember Me Label', 'uncanny-learndash-toolkit' ),
+				'placeholder' => esc_html__( 'Remember Me', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_frontend_login_rememberme_label',
+			),
+            array(
+				'type'        => 'text',
+				'label'       => esc_html__( 'Forgot Your Password Label', 'uncanny-learndash-toolkit' ),
+				'placeholder' => esc_html__( 'Forgot Your Password', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_frontend_login_forgetpass_label',
+			),
+            array(
+				'type'        => 'text',
+				'label'       => esc_html__( 'Button Label', 'uncanny-learndash-toolkit' ),
+				'placeholder' => esc_html__( 'Log In', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_frontend_login_button_label',
+			),
+			array(
+				'type'       => 'html',
+				'inner_html' => '<h2>Security Settings</h2>',
+			),
+            array(
+				'type'        => 'text',
+				'label'       => esc_html__( 'Google reCaptcha Key', 'uncanny-learndash-toolkit' ),
+				'placeholder' => esc_html__( '', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_frontend_login_recaptcha_key',
+			),
 			/*array(
 				'type'        => 'checkbox',
 				'label'       => esc_html__( 'Hide "Login UI" when user is logged in.', 'uncanny-learndash-toolkit' ),
 				'option_name' => 'hide_logged_in_ui'
 			)*/
-
-		);
-
+			
+			array(
+				'type'       => 'html',
+				'inner_html' => '<h2>Registration Link Settings</h2>',
+			),
+			array(
+				'type'        => 'checkbox',
+				'label'       => esc_html__( 'Show Register Link', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_frontend_show_register_link',
+			),
+			
+			array(
+				'type'        => 'text',
+				'label'       => esc_html__( 'Register Link', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_frontend_register_link',
+			),
+			
+			array(
+				'type'        => 'text',
+				'label'       => esc_html__( 'Register Link Label', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_frontend_register_link_label',
+			),
+			array(
+				'type'       => 'html',
+				'inner_html' => '<h2>Customize Email messages</h2>',
+			),
+            array(
+				'type'        => 'textarea',
+				'placeholder' => $password_reset_message,
+				'label'       => esc_html__( 'Customize Reset Password Body', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_frontend_resetpassword_email_body',
+			),
+            array(
+				'type'       => 'html',
+				'inner_html' => '<strong>Available variables for email body</strong><br /><ul><li><strong>%User Login%</strong> &mdash; Prints User\'s Login</li><li><strong>%Reset Link%</strong> &mdash; Prints Password Reset Link</li></ul>',
+			),
+			array(
+				'type'       => 'html',
+				'inner_html' => '<h2>Customize Error messages</h2>',
+			),
+			
+			array(
+				'type'        => 'text',
+				'label'       => esc_html__( 'Custom invalid credentials error.', 'uncanny-learndash-toolkit' ),
+				'placeholder' => esc_html__( 'Invalid username and/or password.', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_frontend_login_failed_error',
+			),
+			array(
+				'type'        => 'text',
+				'label'       => esc_html__( 'Custom empty credentials error.', 'uncanny-learndash-toolkit' ),
+				'placeholder' => esc_html__( 'Username and/or Password is empty.', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_frontend_login_empty_error',
+			),
+			array(
+				'type'        => 'text',
+				'label'       => esc_html__( 'Custom logged out error.', 'uncanny-learndash-toolkit' ),
+				'placeholder' => esc_html__( 'You are logged out.', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_frontend_login_false_error',
+			),
+			array(
+				'type'        => 'text',
+				'label'       => esc_html__( 'Custom not verified error.', 'uncanny-learndash-toolkit' ),
+				'placeholder' => esc_html__( 'This account is not verified.', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_frontend_login_notverified_error',
+			),
+            array(
+				'type'        => 'text',
+				'label'       => esc_html__( 'Custom invalid reset key error.', 'uncanny-learndash-toolkit' ),
+				'placeholder' => esc_html__( 'Your password reset link is invalid.', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_frontend_login_invalidresetkey_error',
+			),
+            array(
+				'type'        => 'text',
+				'label'       => esc_html__( 'Custom expired reset key error.', 'uncanny-learndash-toolkit' ),
+				'placeholder' => esc_html__( 'Your password reset link is expired.', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_frontend_login_expiredresetkey_error',
+			),
+            array(
+				'type'        => 'text',
+				'label'       => esc_html__( 'Custom password not match error.', 'uncanny-learndash-toolkit' ),
+				'placeholder' => esc_html__( 'The password values do not match.', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_frontend_login_passwordnotmatch_error',
+			),
+            array(
+				'type'        => 'text',
+				'label'       => esc_html__( 'Custom password reset failed error.', 'uncanny-learndash-toolkit' ),
+				'placeholder' => esc_html__( 'Password reset link failed.', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_frontend_login_passwordresetfailed_error',
+			),
+            array(
+				'type'        => 'text',
+				'label'       => esc_html__( 'Custom failed send email error.', 'uncanny-learndash-toolkit' ),
+				'placeholder' => esc_html__( 'Password reset email failed to send.', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_frontend_login_failedsendemail_error',
+			),
+        );
 
 		// Build html
 		$html = self::settings_output( array(
@@ -750,7 +905,18 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		$login_page = get_permalink( self::get_login_redirect_page_id() );
 		$link       = add_query_arg( array( 'action' => 'lostpassword' ), $login_page );
 
-		return '<a class="forgot-link" href="' . $link . '">' . esc_html__( 'Forgot Your Password?', 'uncanny-learndash-toolkit' ) . '</a>';
+		return '<a class="forgot-link" href="' . $link . '">' . \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_login_forgetpass_label', 'FrontendLoginPlus', esc_html__( 'Forgot Your Password?', 'uncanny-learndash-toolkit' ) ) . '</a>';
+	}
+	
+	/*
+	 * Add reCaptcha to the login form
+	 */
+	public static function add_recaptcha_box() {
+
+		$recaptcha_key = \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_login_recaptcha_key', 'FrontendLoginPlus' );
+        if( '' !== trim($recaptcha_key)){
+	        return '<div class="g-recaptcha" data-sitekey="'.$recaptcha_key.'" data-callback="correctCaptcha" data-expired-callback="expiredCaptcha"></div>';
+        }
 	}
 
 	/*
@@ -780,7 +946,13 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		} else {
 			$new_message .= '<a href="' . $reset_link . '" >' . __( 'Reset Password' ) . "</a>\r\n";
 		}
-
+		$custom_message = \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_resetpassword_email_body', 'FrontendLoginPlus' );
+		if( !empty( $custom_message ) ){
+			add_filter('wp_mail_content_type', array(__CLASS__, 'htmlEmailContent'));
+			$custom_message = str_ireplace('%User Login%',$user_login,$custom_message);
+			$custom_message = str_ireplace('%Reset Link%',$reset_link,$custom_message);
+			return $custom_message;
+        }
 		return $new_message;
 	}
 
@@ -806,5 +978,70 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				}
 			}
 		}
+	}
+	
+	public static function htmlEmailContent($contentType){
+		return 'text/html';
+    }
+	
+	/**
+	 * Filter the result of get_site_url().
+	 *
+	 * @since 3.0
+	 *
+	 * @param string $url    The URL.
+	 * @param string $path   The path.
+	 * @param string $scheme The URL scheme.
+	 * @return string The filtered URL.
+	 */
+	public static function filter_site_url( $url, $path, $scheme ) {
+		global $pagenow;
+		
+		// Bail if currently visiting wp-login.php
+		if ( 'wp-login.php' == $pagenow ) {
+			return $url;
+		}
+		
+		// Bail if currently customizing
+		if ( is_customize_preview() ) {
+			return $url;
+		}
+		
+		// Parse the URL
+		$parsed_url = parse_url( $url );
+		
+		// Determine the path
+		$path = '';
+		if ( ! empty( $parsed_url['path'] ) ) {
+			$path = basename( trim( $parsed_url['path'], '/' ) );
+		}
+		
+		// Parse the query
+		$query = array();
+		if ( ! empty( $parsed_url['query'] ) ) {
+			parse_str( htmlspecialchars_decode( $parsed_url['query'] ), $query );
+		}
+		
+		/**
+		 * Bail if the URL is an interim-login URL
+		 *
+		 * @see https://core.trac.wordpress.org/ticket/31821
+		 */
+		if ( isset( $query['interim-login'] ) ) {
+			return $url;
+		}
+		
+		// Determine the action
+		switch ( $path ) {
+			case 'wp-login.php' :
+				$login_page = get_permalink( self::get_login_redirect_page_id() );
+				// Add the query
+				$url = add_query_arg( $query, $login_page );
+				break;
+			default :
+				return $url;
+		}
+		
+		return $url;
 	}
 }
