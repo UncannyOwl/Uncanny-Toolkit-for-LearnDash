@@ -80,7 +80,9 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 					add_action( 'edit_user_profile_update', array( __CLASS__, 'my_save_extra_profile_fields' ) );
 
 				}
-
+				// URLs
+				add_filter( 'site_url', array( __CLASS__,'filter_site_url'), 5, 3 );
+				add_filter( 'network_site_url', array( __CLASS__,'filter_site_url'), 5, 3 );
 				// Set Cookies for login-page-ui.php early
 				add_action( 'wp', array( __CLASS__, 'set_cookies' ) );
 
@@ -981,4 +983,65 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	public static function htmlEmailContent($contentType){
 		return 'text/html';
     }
+	
+	/**
+	 * Filter the result of get_site_url().
+	 *
+	 * @since 3.0
+	 *
+	 * @param string $url    The URL.
+	 * @param string $path   The path.
+	 * @param string $scheme The URL scheme.
+	 * @return string The filtered URL.
+	 */
+	public static function filter_site_url( $url, $path, $scheme ) {
+		global $pagenow;
+		
+		// Bail if currently visiting wp-login.php
+		if ( 'wp-login.php' == $pagenow ) {
+			return $url;
+		}
+		
+		// Bail if currently customizing
+		if ( is_customize_preview() ) {
+			return $url;
+		}
+		
+		// Parse the URL
+		$parsed_url = parse_url( $url );
+		
+		// Determine the path
+		$path = '';
+		if ( ! empty( $parsed_url['path'] ) ) {
+			$path = basename( trim( $parsed_url['path'], '/' ) );
+		}
+		
+		// Parse the query
+		$query = array();
+		if ( ! empty( $parsed_url['query'] ) ) {
+			parse_str( htmlspecialchars_decode( $parsed_url['query'] ), $query );
+		}
+		
+		/**
+		 * Bail if the URL is an interim-login URL
+		 *
+		 * @see https://core.trac.wordpress.org/ticket/31821
+		 */
+		if ( isset( $query['interim-login'] ) ) {
+			return $url;
+		}
+		
+		// Determine the action
+		switch ( $path ) {
+			case 'wp-login.php' :
+				$login_page = get_permalink( self::get_login_redirect_page_id() );
+				// Add the query
+				$url = add_query_arg( $query, $login_page );
+				break;
+			default :
+				return $url;
+		}
+		
+		return $url;
+	}
 }
