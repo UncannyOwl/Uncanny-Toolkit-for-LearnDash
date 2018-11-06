@@ -85,16 +85,16 @@ jQuery(document).ready(function ($) {
 
         $(this).click(function (e) {
 
-          var modal_id = $(this).attr('href')
+          var modal_id = $(this).data( 'settings' )
 
           var modal_overlay = $('#lean_overlay')
 
           modal_overlay.click(function () {
-            close_modal(modal_id)
+            close_modal('#'+modal_id)
           })
 
           $(o.closeButton).click(function () {
-            close_modal(modal_id)
+            close_modal('#'+modal_id)
           })
 
           modal_overlay.css({'display': 'block', opacity: 0})
@@ -109,11 +109,11 @@ jQuery(document).ready(function ($) {
           /*if (window_height > 900) {
             display = 'table'
           }*/
-          $(modal_id).css({
+          console.log($('#'+modal_id));
+          $('#'+modal_id).css({
 
             'display': display,
             'position': 'fixed',
-            'opacity': 0,
             'z-index': 999,
             'left': 50 + '%',
             'margin-left': -(modal_width / 2) + 'px',
@@ -133,14 +133,14 @@ jQuery(document).ready(function ($) {
 
         $('#lean_overlay').fadeOut(200)
 
-        $(modal_id).css({'display': 'none'})
+        $(modal_id).hide()
 
       }
 
     }
   })
 
-  $('a[rel*=leanModal]').leanModal()
+  //$('a[rel*=leanModal]').leanModal()
 
   //Reset save options button if Options changed
   $('.uo_settings_options').on('change keyup', '.uo_settings_form_field', function () {
@@ -198,7 +198,7 @@ jQuery(document).ready(function ($) {
 
   // LOAD SETTINGS
   //$('.uo_settings_link').live('click', function(e) {
-  $('#features').delegate('a', 'click', function (e) {
+  $('#features, ult-directory-moduleult-directory-module-settings').delegate('a', 'click', function (e) {
     //console.log($(this).attr('href'));
     var settings_class = $(this).attr('href')
     settings_class = settings_class.replace('#', '')

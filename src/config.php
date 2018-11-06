@@ -184,7 +184,7 @@ class Config {
 
 	/**
 	 * @param string $file_name File name must be prefixed with a \ (foreword slash)
-	 * @param mixed $file (false || __FILE__ )
+	 * @param mixed  $file      (false || __FILE__ )
 	 *
 	 * @return string
 	 */
@@ -201,7 +201,7 @@ class Config {
 
 	/**
 	 * @param string $file_name File name must be prefixed with a \ (foreword slash)
-	 * @param mixed $file (false || __FILE__ )
+	 * @param mixed  $file      (false || __FILE__ )
 	 *
 	 * @return string
 	 */
@@ -325,21 +325,21 @@ class Config {
 		//Wrapper Start - open div.uo_setting, open div.uo_settings_options
 		?>
 
-		<div id="<?php echo $modal_id; ?>" class="uo_settings">
+        <div id="<?php echo $modal_id; ?>" class="uo_settings">
 
-			<div class="uo_settings_header">
-				<!--<h2>Settings: <?php /*echo $title; */ ?></h2>-->
-				<h2><?php echo $title; ?></h2>
-			</div>
+            <div class="uo_settings_header">
+                <!--<h2>Settings: <?php /*echo $title; */ ?></h2>-->
+                <h2><?php echo $title; ?></h2>
+            </div>
 
-			<div class="sk-folding-cube">
-				<div class="sk-cube1 sk-cube"></div>
-				<div class="sk-cube2 sk-cube"></div>
-				<div class="sk-cube4 sk-cube"></div>
-				<div class="sk-cube3 sk-cube"></div>
-			</div>
+            <div class="sk-folding-cube">
+                <div class="sk-cube1 sk-cube"></div>
+                <div class="sk-cube2 sk-cube"></div>
+                <div class="sk-cube4 sk-cube"></div>
+                <div class="sk-cube3 sk-cube"></div>
+            </div>
 
-			<div class="uo_settings_options">
+            <div class="uo_settings_options">
 
 				<?php
 
@@ -407,11 +407,11 @@ class Config {
 
 				//Wrapper End - create button, close div.uo_setting, close div.uo_settings_options
 				?>
-				<button class="uo_save_settings">Save Settings</button>
+                <button class="uo_save_settings">Save Settings</button>
 
-			</div>
+            </div>
 
-		</div>
+        </div>
 
 		<?php
 
@@ -438,16 +438,16 @@ class Config {
 
 		if ( current_user_can( $capability ) ) {
 			if ( isset( $_POST['value'] ) ) {
-				$value          = stripslashes( $_POST['value'] );
+				$value          = stripslashes( self::removeslashes( $_POST['value'] ) );
 				$active_classes = get_option( 'uncanny_toolkit_active_classes', 0 );
 
 				if ( 0 !== $active_classes ) {
 					if ( ! is_array( $active_classes ) ) {
 						$active_classes = array();
 					}
-					if ( 1 === intval( $_POST['active'] ) ) {
+					if ( 'active' === $_POST['active'] ) {
 						$new_classes = array_merge( array( $value => $value ), $active_classes );
-					} elseif ( 0 === intval( $_POST['active'] ) ) {
+					} elseif ( 'inactive' === $_POST['active'] ) {
 						unset( $active_classes[ $value ] );
 						$new_classes = $active_classes;
 					}
@@ -458,6 +458,7 @@ class Config {
 					$response      = ( $save_settings ) ? 'success' : 'notsaved';
 				}
 
+				//echo json_encode([$new_classes, $value, $_POST ]);
 				echo $response;
 				wp_die();
 			}
@@ -494,9 +495,9 @@ class Config {
 				// sometimes update value is equal to the existing value and a false
 				// positive is returned
 
-				delete_option( $class );
+				delete_option( self::removeslashes($class) );
 				//self::trace_logs( $options, 'options', 'save' );
-				$save_settings = add_option( $class, $options, 'no' );
+				$save_settings = add_option( self::removeslashes($class), $options, 'no' );
 
 				$response = ( $save_settings ) ? 'success' : 'notsaved';
 
@@ -539,7 +540,7 @@ class Config {
 
 				$class = $_POST['class'];
 
-				$settings = get_option( $class, array() );
+				$settings = get_option( self::removeslashes($class), array() );
 
 				$response = wp_json_encode( $settings );
 
@@ -552,7 +553,6 @@ class Config {
 
 		}
 
-		//echo stripslashes( $response );
 		echo $response;
 
 		wp_die();
@@ -563,7 +563,7 @@ class Config {
 	 * @param $key
 	 * @param $class
 	 * @param $default
-     *
+	 *
 	 * @return string
 	 */
 	public static function get_settings_value( $key, $class, $default = '' ) {
@@ -574,15 +574,22 @@ class Config {
 		if ( ! empty( $options ) && '' !== $options ) {
 			foreach ( $options as $option ) {
 				if ( in_array( $key, $option, true ) ) {
-				    if( '' !== $default && '' === trim($option['value']) ){
-				        return $default;
-                    }
+					if ( '' !== $default && '' === trim( $option['value'] ) ) {
+						return $default;
+					}
+
 					return $option['value'];
 				}
 			}
 		}
 
 		return $default;
+	}
+
+	public static function removeslashes($string)
+	{
+		$string=implode("",explode("\\",$string));
+		return stripslashes(trim($string));
 	}
 
 
