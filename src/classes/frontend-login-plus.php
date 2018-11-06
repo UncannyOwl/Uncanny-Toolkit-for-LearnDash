@@ -1034,9 +1034,15 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		// Determine the action
 		switch ( $path ) {
 			case 'wp-login.php' :
-				$login_page = get_permalink( self::get_login_redirect_page_id() );
-				// Add the query
-				$url = add_query_arg( $query, $login_page );
+				// Determine the action
+				$action = isset( $query['action'] ) ? $query['action'] : 'login';
+				
+				if ( 'rp' == $action ) {
+					$login_page = get_permalink( self::get_login_redirect_page_id() );
+					// Add the query
+					$url = add_query_arg( $query, $login_page );
+				}
+				
 				break;
 			default :
 				return $url;
