@@ -122,6 +122,8 @@ jQuery(function ($) {
                     // Get results
                     let results = this.search(query);
 
+                    console.log( results );
+
                     // Save values
                     this.searchQuery = query;
                     this.searchResults = results;

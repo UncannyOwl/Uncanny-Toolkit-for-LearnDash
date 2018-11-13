@@ -119,36 +119,37 @@ class AdminMenu extends Boot {
 
 		?>
 
-        <div class="uo-admin-header uo-wrap">
-            <a href="http://www.uncannyowl.com" target="_blank">
-                <img src="<?php echo esc_url( Config::get_admin_media( 'Uncanny-Owl-logo.png' ) ); ?>"/>
-            </a>
-            <hr class="uo-underline">
-            <h2><?php esc_html_e( 'Thanks for using the Uncanny LearnDash Toolkit!', 'uncanny-learndash-toolkit' ); ?></h2>
-			<?php include( Config::get_template( 'admin-tabs.php' ) ) ?>
-            <p><?php
-				printf(
-					__( 'This plugin adds a number of simple but essential functions to LearnDash sites. To learn more about how to use these modules properly, please visit our introduction at <a href="%s" target="_blank" >https://www.uncannyowl.com/uncanny-learndash-toolkit/</a> and Knowledge Base at <a href="%s" target="_blank" >https://www.uncannyowl.com/article-categories/uncanny-learndash-toolkit/</a>.', 'uncanny-learndash-toolkit' ), esc_url( 'https://www.uncannyowl.com/uncanny-learndash-toolkit/' ), esc_url( 'https://www.uncannyowl.com/article-categories/uncanny-learndash-toolkit/' ) );
-				?></p>
-            <p <?php echo $show_pro_toolkit_heading; ?>>
-				<?php
-				printf(
-					__( 'Instructions for the Pro suite of modules are in the Knowledge Base at <a href="%s" target="_blank" >https://www.uncannyowl.com/article-categories/uncanny-toolkit-pro/</a>.', 'uncanny-learndash-toolkit' ),
-					esc_url( 'https://www.uncannyowl.com/article-categories/uncanny-toolkit-pro/' ) );
-				?>
-            </p>
-            <p>
-				<?php
-				printf(
-					__( 'Developers are invited to review and suggest changes to the Toolkit on  <a href="%s" target="_blank"><i class="fa fa-bitbucket" aria-hidden="true"> Bitbucket</i></a>.', 'uncanny-learndash-toolkit' ),
-					esc_url( 'https://bitbucket.org/uncannyowl/uncanny-learndash-toolkit/' ) );
-				?>
-            </p>
-        </div>
+		<div class="wrap">
+			<div class="uo-admin-header">
+	            <a href="http://www.uncannyowl.com" target="_blank">
+	                <img src="<?php echo esc_url( Config::get_admin_media( 'Uncanny-Owl-logo.png' ) ); ?>"/>
+	            </a>
+	            <hr class="uo-underline">
+	            <h2><?php esc_html_e( 'Thanks for using the Uncanny LearnDash Toolkit!', 'uncanny-learndash-toolkit' ); ?></h2>
+				<?php include( Config::get_template( 'admin-tabs.php' ) ) ?>
+	            <p><?php
+					printf(
+						__( 'This plugin adds a number of simple but essential functions to LearnDash sites. To learn more about how to use these modules properly, please visit our introduction at <a href="%s" target="_blank" >https://www.uncannyowl.com/uncanny-learndash-toolkit/</a> and Knowledge Base at <a href="%s" target="_blank" >https://www.uncannyowl.com/article-categories/uncanny-learndash-toolkit/</a>.', 'uncanny-learndash-toolkit' ), esc_url( 'https://www.uncannyowl.com/uncanny-learndash-toolkit/' ), esc_url( 'https://www.uncannyowl.com/article-categories/uncanny-learndash-toolkit/' ) );
+					?></p>
+	            <p <?php echo $show_pro_toolkit_heading; ?>>
+					<?php
+					printf(
+						__( 'Instructions for the Pro suite of modules are in the Knowledge Base at <a href="%s" target="_blank" >https://www.uncannyowl.com/article-categories/uncanny-toolkit-pro/</a>.', 'uncanny-learndash-toolkit' ),
+						esc_url( 'https://www.uncannyowl.com/article-categories/uncanny-toolkit-pro/' ) );
+					?>
+	            </p>
+	            <p>
+					<?php
+					printf(
+						__( 'Developers are invited to review and suggest changes to the Toolkit on  <a href="%s" target="_blank"><i class="fa fa-bitbucket" aria-hidden="true"> Bitbucket</i></a>.', 'uncanny-learndash-toolkit' ),
+						esc_url( 'https://bitbucket.org/uncannyowl/uncanny-learndash-toolkit/' ) );
+					?>
+	            </p>
+	        </div>
 
-        <h2>START</h2>
-		<?php include( Config::get_template( 'admin-modules.php' ) ) ?>
-        <h2>END</h2>
+			<?php include( Config::get_template( 'admin-modules.php' ) ) ?>
+		</div>
+	        
         <!---->
         <!--        <div class="page content contents rest-data">-->
         <!---->
