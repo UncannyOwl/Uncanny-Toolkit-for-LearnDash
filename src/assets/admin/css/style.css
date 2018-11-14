@@ -929,6 +929,15 @@
 		min-height: 0;
 	}
 
+	.ult .ult-directory--table .ult-directory-module {
+		height: auto;
+	}
+
+	.ult .ult-directory--table .ult-directory-module-content {
+		position: relative;
+		margin-bottom: 0;
+	}
+
 /*
 * Animations
 */
