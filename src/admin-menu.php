@@ -120,14 +120,21 @@ class AdminMenu extends Boot {
 		?>
 
 		<div class="wrap">
-			<div class="uo-admin-header">
-	            <a href="http://www.uncannyowl.com" target="_blank">
-	                <img src="<?php echo esc_url( Config::get_admin_media( 'Uncanny-Owl-logo.png' ) ); ?>"/>
-	            </a>
-	            <hr class="uo-underline">
-	            <h2><?php esc_html_e( 'Thanks for using the Uncanny LearnDash Toolkit!', 'uncanny-learndash-toolkit' ); ?></h2>
+	        <div class="uo-plugins-header">
+				<div class="uo-plugins-header__title">
+					Uncanny LearnDash Toolkit
+				</div>
+				<div class="uo-plugins-header__author">
+					<span><?php _e( 'by', 'uncanny-learndash-toolkit' ); ?></span>
+					<a href="https://uncannyowl.com" target="_blank" class="uo-plugins-header__logo">
+						<img src="<?php echo esc_url( Config::get_admin_media( 'uncanny-owl-logo.svg' ) ); ?>" alt="Uncanny Owl">
+					</a>
+				</div>
+			</div>
+
+			<div class="uo-plugins-tabs">
 				<?php include( Config::get_template( 'admin-tabs.php' ) ) ?>
-	        </div>
+			</div>
 
 			<?php include( Config::get_template( 'admin-modules.php' ) ) ?>
 		</div>

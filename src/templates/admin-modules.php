@@ -185,13 +185,13 @@ foreach ( $modules as $key => $module ) {
                             <div class="ult-form-element__field">
                                 <select name="version" data-name="version" class="ult-form-element__select">
                                     <option value="">
-	                                    <?php _e( 'All Versions', 'uncanny-toolkit' ) ?>
+	                                    <?php _e( 'All Versions', 'uncanny-learndash-toolkit' ) ?>
 	                                </option>
                                     <option value="free">
-                                    	<?php _e( 'Free only', 'uncanny-toolkit' ) ?>
+                                    	<?php _e( 'Free only', 'uncanny-learndash-toolkit' ) ?>
                                     </option>
                                     <option value="pro">
-                                    	<?php _e( 'Pro only', 'uncanny-toolkit' ) ?>
+                                    	<?php _e( 'Pro only', 'uncanny-learndash-toolkit' ) ?>
                                     </option>
                                 </select>
                             </div>
@@ -202,13 +202,13 @@ foreach ( $modules as $key => $module ) {
                             <div class="ult-form-element__field">
                                 <select name="category" data-name="category" class="ult-form-element__select">
                                     <option value="">
-                                    	<?php _e( 'All Categories', 'uncanny-toolkit' ) ?>
+                                    	<?php _e( 'All Categories', 'uncanny-learndash-toolkit' ) ?>
                                     </option>
                                     <option value="learndash">
-                                    	<?php _e( 'LearnDash', 'uncanny-toolkit' ) ?>
+                                    	<?php _e( 'LearnDash', 'uncanny-learndash-toolkit' ) ?>
                                     </option>
                                     <option value="wordpress">
-                                    	<?php _e( 'General WordPress', 'uncanny-toolkit' ) ?>
+                                    	<?php _e( 'General WordPress', 'uncanny-learndash-toolkit' ) ?>
                                     </option>
                                 </select>
                             </div>
@@ -219,13 +219,13 @@ foreach ( $modules as $key => $module ) {
                             <div class="ult-form-element__field">
                                 <select name="status" data-name="status" class="ult-form-element__select">
                                     <option value="">
-                                    	<?php _e( 'All Statuses', 'uncanny-toolkit' ) ?>
+                                    	<?php _e( 'All Statuses', 'uncanny-learndash-toolkit' ) ?>
                                 	</option>
                                     <option value="active">
-                                    	<?php _e( 'Active', 'uncanny-toolkit' ) ?>
+                                    	<?php _e( 'Active', 'uncanny-learndash-toolkit' ) ?>
                                 	</option>
                                     <option value="inactive">
-                                    	<?php _e( 'Inactive', 'uncanny-toolkit' ) ?>
+                                    	<?php _e( 'Inactive', 'uncanny-learndash-toolkit' ) ?>
                                     </option>
                                 </select>
                             </div>
@@ -238,7 +238,7 @@ foreach ( $modules as $key => $module ) {
                         <div class="ult-form-element__field">
                             <input type="text" id="ult-directory-search-input"
                                    class="ult-directory-search-input ult-form-element__text"
-                                   placeholder="<?php _e( 'Search modules by title, description or keywords', 'uncanny-toolkit' ) ?>">
+                                   placeholder="<?php _e( 'Search modules by title, description or keywords', 'uncanny-learndash-toolkit' ) ?>">
                         </div>
                     </div>
                 </div>
@@ -284,7 +284,7 @@ foreach ( $modules as $key => $module ) {
 							<?php if ( ! empty( $module['cant_use_notice'] ) ) { ?>
 
                                 <div class="ult-directory-module-notice">
-                                    <span class="ult-icon ult-icon--lock-alt"></span> <?php printf( __( 'Requires %s', 'uncanny-toolkit' ), $module['cant_use_notice'] ); ?>
+                                    <span class="ult-icon ult-icon--lock-alt"></span> <?php printf( __( 'Requires %s', 'uncanny-learndash-toolkit' ), $module['cant_use_notice'] ); ?>
                                 </div>
 
 							<?php } ?>
@@ -339,7 +339,7 @@ foreach ( $modules as $key => $module ) {
                                         <div class="ult-directory-module-settings ult-directory-module__btn ult-btn ult-btn--primary"
                                              rel="leanModal"
                                              data-settings="<?php echo $module['settings_id']; ?>">
-                                            <?php _e( 'Settings', 'uncanny-toolkit' ); ?>
+                                            <?php _e( 'Settings', 'uncanny-learndash-toolkit' ); ?>
                                         </div>
 
 									<?php } ?>
@@ -351,7 +351,7 @@ foreach ( $modules as $key => $module ) {
                                         <a href="<?php echo $dependency['get_url']; ?>"
                                            class="ult-btn ult-btn--secondary ult-directory-module__btn <?php printf( 'ult-directory-module__btn--%s', $dependency['type'] ); ?>"
                                            target="_blank">
-											<?php printf( __( 'Get %s', 'uncanny-toolkit' ), $dependency['title'] ); ?>
+											<?php printf( __( 'Get %s', 'uncanny-learndash-toolkit' ), $dependency['title'] ); ?>
                                         </a>
 
 									<?php } ?>
@@ -367,7 +367,7 @@ foreach ( $modules as $key => $module ) {
 									?>
 
 									<a href="#" target="_blank" class="ult-directory-module-settings ult-directory-module__btn ult-btn ult-btn--secondary">
-                                        <?php _e( 'Learn More', 'uncanny-toolkit' ); ?>
+                                        <?php _e( 'Learn More', 'uncanny-learndash-toolkit' ); ?>
                                     </a>
 
 								<?php } ?>

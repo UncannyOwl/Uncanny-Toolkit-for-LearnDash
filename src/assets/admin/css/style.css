@@ -959,3 +959,43 @@
 		transform: translate(-50%,-50%) rotate(360deg);
 	}
 }
+
+/**
+ * Header
+ */
+
+.uo-plugins-header {
+	width: 100%;
+	margin-top: 20px;
+}
+
+	.uo-plugins-header__title {
+		font-size: 25px;
+		color: #4c4c4c;
+		font-weight: 600;
+		line-height: 1.2;
+	}
+
+	.uo-plugins-header__author {
+		width: 100%;
+	}
+
+		.uo-plugins-header__author span {
+			display: inline-block;
+			vertical-align: bottom;
+			margin-right: 5px;
+		}
+
+		.uo-plugins-header__logo {
+			display: inline-block;
+			vertical-align: bottom;
+		}
+
+			.uo-plugins-header__logo img {
+				display: inline-block;
+				width: 100px;
+			}
+
+.uo-plugins-tabs {
+	margin: 5px 0 20px 0;
+}
