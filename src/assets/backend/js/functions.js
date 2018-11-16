@@ -292,55 +292,26 @@ jQuery(function ($) {
 
                 var data = {
                     'action': 'activate_deactivate_module',
-                    'value': $toggle.val(),
+                    'value':  $toggle.val(),
                     'active': status,
                 };
 
-                $.post(ajaxurl, data, function (response) {
-
-                    if ('success' === response.trim()) {
+                $.post( ajaxurl, data, function (response){
+                    if ( 'success' === response.trim() ){
                         // If it's correct then change data attribute value
-                        $module.data('status', status);
+                        $module.data( 'status', status );
+                    }
+                    else {
+                        // Revert change
+                        $toggle.prop( 'checked', ! shouldActive );
                     }
 
                     //Stop loading animation
-                    _this.ULT_Modules.Modules.changeLoadingStatus($module, false);
+                    _this.ULT_Modules.Modules.changeLoadingStatus( $module, false );
 
                     // Filter values
                     _this.ULT_Modules.Modules.filter();
                 });
-
-
-                // Do AJAX Request
-                // $.ajax({
-                // 	method:   	'POST',
-                // 	dataType: 	'json',
-                // 	url:	  	'/',
-                // 	data:	 	{
-                // 		activate: shouldActive
-                // 	},
-                //
-                // 	success: function( response  ){
-                // 		// If it's correct then change data attribute value
-                // 		$module.data( 'status', status );
-                // 	},
-                //
-                // 	fail: function ( response ){
-                // 		// Revert change
-                // 		$toggle.prop( 'checked', ! shouldActive );
-                // 	},
-                //
-                // 	complete: function(){
-                // 		// REMOVE THIS LINE
-                // 		$module.data( 'status', status );
-                //
-                // 		// Stop loading animation
-                // 		_this.ULT_Modules.Modules.changeLoadingStatus( $module, false );
-                //
-                // 		// Filter values
-                // 		_this.ULT_Modules.Modules.filter();
-                // 	}
-                // });
             }
         },
 
