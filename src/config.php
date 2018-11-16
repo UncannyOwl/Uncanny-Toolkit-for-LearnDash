@@ -122,7 +122,7 @@ class Config {
 	 * @return string
 	 */
 	public static function get_admin_media( $file_name ) {
-		$asset_url = plugins_url( 'assets/admin/media/' . $file_name, __FILE__ );
+		$asset_url = plugins_url( 'assets/backend/img/' . $file_name, __FILE__ );
 
 		return $asset_url;
 	}
@@ -133,7 +133,7 @@ class Config {
 	 * @return string
 	 */
 	public static function get_admin_css( $file_name ) {
-		$asset_url = plugins_url( 'assets/admin/css/' . $file_name, __FILE__ );
+		$asset_url = plugins_url( 'assets/backend/css/' . $file_name, __FILE__ );
 
 		return $asset_url;
 	}
@@ -144,7 +144,7 @@ class Config {
 	 * @return string
 	 */
 	public static function get_admin_js( $file_name ) {
-		$asset_url = plugins_url( 'assets/admin/js/' . $file_name, __FILE__ );
+		$asset_url = plugins_url( 'assets/backend/js/' . $file_name, __FILE__ );
 
 		return $asset_url;
 	}
@@ -178,6 +178,17 @@ class Config {
 	 */
 	public static function get_site_js( $file_name ) {
 		$asset_url = plugins_url( 'assets/site/js/' . $file_name, __FILE__ );
+
+		return $asset_url;
+	}
+
+	/**
+	 * @param string $file_name
+	 *
+	 * @return string
+	 */
+	public static function get_vendor( $file_name ) {
+		$asset_url = plugins_url( 'assets/vendor/' . $file_name, __FILE__ );
 
 		return $asset_url;
 	}
