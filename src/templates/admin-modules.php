@@ -361,12 +361,12 @@ foreach ( $modules as $key => $module ) {
 								<?php
 
 								// Check if it has a KB article
-								if ( ! empty( $module ) ){
+								if ( ! empty( $module['kb_link'] ) ){
 
 									// Add the link
 									?>
 
-									<a href="#" target="_blank" class="ult-directory-module-settings ult-directory-module__btn ult-btn ult-btn--secondary">
+									<a href="<?php echo $module['kb_link']; ?>" target="_blank" class="ult-directory-module-settings ult-directory-module__btn ult-btn ult-btn--secondary">
                                         <?php _e( 'Learn More', 'uncanny-learndash-toolkit' ); ?>
                                     </a>
 

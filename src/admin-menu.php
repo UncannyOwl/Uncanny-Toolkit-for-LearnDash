@@ -478,6 +478,7 @@ class AdminMenu extends Boot {
 			self::$modules[ $key ]['title'] = $class['title'];
 			// Link to KB for Feature
 			if ( null !== $class['kb_link'] ) {
+				self::$modules[ $key ]['kb_link'] = $class['kb_link'];
 				$toolkit_html .= '<a class="uo_feature_more_info" href="' . $class['kb_link'] . '" target="_blank"><i class="fa fa-info-circle"></i></a>';
 			}
 			$toolkit_html                         .= '</div>';
@@ -590,6 +591,7 @@ class AdminMenu extends Boot {
 			// Link to KB for Feature
 			if ( null !== $class['kb_link'] ) {
 				// KB LINK $class['kb_link']
+				self::$modules[ $key ]['kb_link'] = $class['kb_link'];
 			}
 
 			self::$modules[ $key ]['description'] = $class['description'];
