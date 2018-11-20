@@ -1,48 +1,47 @@
-jQuery(function ($) {
-    $(document).ready(function () {
+jQuery( function($){
+    $( document ).ready( function(){
         ULT_Modules.init();
-        $('div[rel*=leanModal]').leanModal()
     });
 
     var ULT_Modules = {
-        init: function () {
-            this.Modules.init(this);
-            this.Search.init(this);
-            this.Filters.init(this);
-            this.StatusToggle.init(this);
-            this.Views.init(this);
-            this.SettingsModal.init(this);
+        init: function(){
+            this.Modules.init( this );
+            this.Search.init( this );
+            this.Filters.init( this );
+            this.StatusToggle.init( this );
+            this.Views.init( this );
+            this.SettingsModal.init( this );
         },
 
         Modules: {
             $elements: {},
 
-            init: function (ULT_Modules) {
+            init: function( ULT_Modules ){
                 // Create reference of main object
                 this.ULT_Modules = ULT_Modules;
 
                 // Get elements
-                this.$elements.modulesContainer = $('.ult .ult-directory-modules');
-                this.$elements.modules = $('.ult .ult-directory-module');
+                this.$elements.modulesContainer = $( '.ult .ult-directory-modules' );
+                this.$elements.modules = $( '.ult .ult-directory-module' );
 
                 // Create Shuffle Instance
                 this.createShuffleInstance();
             },
 
             // Search a module using a data attribute
-            searchModule: function (name, value) {
+            searchModule: function( name, value ){
                 return this.$elements.modules.filter(() => {
-                    return $(this).data(name) == value;
+                    return $( this ).data(name) == value;
                 });
             },
 
             // Shuffle
-            createShuffleInstance: function () {
+            createShuffleInstance: function(){
                 // Get Shuffle
                 let Shuffle = window.Shuffle;
 
                 // Create Shuffle instance
-                this.ULT_Modules.shuffle = new Shuffle(this.$elements.modulesContainer, {
+                this.ULT_Modules.shuffle = new Shuffle( this.$elements.modulesContainer, {
                     itemSelector: '.ult-directory-module',
                     sizer: '.ult-directory-module',
                     buffer: 1,
@@ -50,19 +49,19 @@ jQuery(function ($) {
             },
 
             // Apply all filters
-            filter: function () {
-                this.ULT_Modules.shuffle.filter((element) => {
-                    return this.ULT_Modules.Search.matchSearch(element) && this.ULT_Modules.Filters.matchFilters(element);
+            filter: function(){
+                this.ULT_Modules.shuffle.filter(( element ) => {
+                    return this.ULT_Modules.Search.matchSearch( element ) && this.ULT_Modules.Filters.matchFilters( element );
                 });
             },
 
             // Show or hide loading animation
-            changeLoadingStatus($module, enable) {
-                if (enable) {
-                    $module.addClass('ult-directory-module--loading');
+            changeLoadingStatus: function( $module, enable ){
+                if ( enable ){
+                    $module.addClass( 'ult-directory-module--loading' );
                 }
                 else {
-                    $module.removeClass('ult-directory-module--loading');
+                    $module.removeClass( 'ult-directory-module--loading' );
                 }
             }
         },
@@ -76,12 +75,12 @@ jQuery(function ($) {
             $elements: {},
 
             // Init
-            init: function (ULT_Modules) {
+            init: function ( ULT_Modules ){
                 // Create reference of main object
                 this.ULT_Modules = ULT_Modules;
 
                 // Get elements
-                this.$elements.searchField = $('#ult-directory-search-input');
+                this.$elements.searchField = $( '#ult-directory-search-input' );
 
                 // Init Fuse
                 this.createFuseInstance();
@@ -89,7 +88,7 @@ jQuery(function ($) {
 
             // Create Fuse Instance
             // Read http://fusejs.io/ for more instructions
-            createFuseInstance: function () {
+            createFuseInstance: function(){
                 // Fuse options
                 var options = {
                     shouldSort: true,
@@ -106,21 +105,21 @@ jQuery(function ($) {
                 };
 
                 // Instance
-                this.fuseInstance = new Fuse(ultModules, options);
+                this.fuseInstance = new Fuse( ultModules, options );
 
                 // Bind changes
                 this.bindSearch();
             },
 
             // Bind search
-            bindSearch: function () {
+            bindSearch: function (){
                 // Bind input event
-                this.$elements.searchField.on('input', () => {
+                this.$elements.searchField.on( 'input', () => {
                     // Query
                     let query = this.$elements.searchField.val();
 
                     // Get results
-                    let results = this.search(query);
+                    let results = this.search( query );
 
                     console.log( results );
 
@@ -134,20 +133,20 @@ jQuery(function ($) {
             },
 
             // Search
-            search: function (string) {
+            search: function ( string ){
                 // Return array with results
                 // This returns modules
-                return this.fuseInstance.search(string);
+                return this.fuseInstance.search( string );
             },
 
             // Get array with the ID of the results
-            getIdsOfResults: function (results) {
+            getIdsOfResults: function ( results ){
                 // Ids
                 let ids = [];
 
                 // Iterate each result
-                $.each(results, (index, element) => {
-                    ids.push(element.id);
+                $.each( results, ( index, element ) => {
+                    ids.push( element.id );
                 });
 
                 return ids;
@@ -155,13 +154,13 @@ jQuery(function ($) {
 
             // Determinates if a element match the search or not
             // Returns true or false
-            matchSearch: function (element) {
+            matchSearch: function ( element ){
                 // Get array with the ID of the results
-                let results = this.getIdsOfResults(this.searchResults);
+                let results = this.getIdsOfResults( this.searchResults );
 
                 // If the user was trying to search an empty string then return true,
                 // Otherwise return true only if this element was one of the results
-                return this.searchQuery.length < 3 || results.includes(parseInt(element.dataset.id));
+                return this.searchQuery.length < 3 || results.includes( parseInt( element.dataset.id ) );
             }
         },
 
@@ -170,12 +169,12 @@ jQuery(function ($) {
 
             currentFilters: {},
 
-            init: function (ULT_Modules) {
+            init: function ( ULT_Modules ){
                 // Create reference of main object
                 this.ULT_Modules = ULT_Modules;
 
                 // Status
-                this.$elements.selects = $('.ult .ult-form-element__select');
+                this.$elements.selects = $( '.ult .ult-form-element__select' );
 
                 // Create select2 instances
                 this.createSelect2Instances();
@@ -184,31 +183,31 @@ jQuery(function ($) {
                 this.bindFilters();
             },
 
-            createSelect2Instances() {
+            createSelect2Instances: function(){
                 this.$elements.selects.select2();
             },
 
-            bindFilters: function () {
+            bindFilters: function(){
                 // Reference object
                 let _this = this;
 
                 // Bind change of the selects
-                this.$elements.selects.on('change', function () {
+                this.$elements.selects.on( 'change', function(){
                     // Get changed filter
-                    let $thisFilter = $(this);
+                    let $thisFilter = $( this );
 
                     // Get filter data
                     let filterData = {
-                        name: $thisFilter.data('name'),
+                        name: $thisFilter.data( 'name' ),
                         value: $thisFilter.val()
                     };
 
                     // Add filter to filter list
-                    _this.currentFilters[filterData.name] = filterData.value;
+                    _this.currentFilters[ filterData.name ] = filterData.value;
 
                     // If it's empty then delete the filter
-                    if (filterData.value == '') {
-                        delete _this.currentFilters[filterData.name];
+                    if ( filterData.value == '' ){
+                        delete _this.currentFilters[ filterData.name ];
                     }
 
                     // Filter
@@ -216,7 +215,7 @@ jQuery(function ($) {
                 });
             },
 
-            matchFilters: function (element) {
+            matchFilters: function ( element ){
                 // Create variable where we're going to save the true/false
                 // boolean that's going to decide if we have to show or hide
                 // the module.
@@ -224,20 +223,19 @@ jQuery(function ($) {
                 let matches = true;
 
                 // Iterate each filter and check if the element matches it
-                $.each(this.currentFilters, (filterName, filterValue) => {
+                $.each( this.currentFilters, ( filterName, filterValue ) => {
                     // Get the element value
-                    let elementValue = $(element).data(filterName);
+                    let elementValue = $( element ).data( filterName );
 
                     // Try to parse the value
                     // This will be useful if the element's value is an array
                     try {
-                        elementValue = JSON.parse(elementValue)
-                    } catch (event) {
-                    }
+                        elementValue = JSON.parse( elementValue )
+                    } catch ( event ){}
 
                     // Check if we have to check more than one option
-                    if (Array.isArray(elementValue)) {
-                        matches = matches && elementValue.includes(filterValue);
+                    if ( Array.isArray( elementValue ) ){
+                        matches = matches && elementValue.includes( filterValue );
                     }
                     else {
                         // Otherweise compare the value directly
@@ -247,18 +245,18 @@ jQuery(function ($) {
 
                 // Return result
                 return matches;
-            }
-        },
+            } 
+         },
 
         StatusToggle: {
             $elements: {},
 
-            init: function (ULT_Modules) {
+            init: function ( ULT_Modules ){
                 // Create reference of main object
                 this.ULT_Modules = ULT_Modules;
 
                 // Get elements
-                this.$elements.toggles = $('.ult .ult-directory-module__status-toggle');
+                this.$elements.toggles = $( '.ult .ult-directory-module__status-toggle' );
 
                 // Bind Toggle
                 this.bindToggles();
@@ -269,26 +267,26 @@ jQuery(function ($) {
                 let _this = this;
 
                 // Bind changes
-                this.$elements.toggles.on('change', function () {
+                this.$elements.toggles.on( 'change', function (){
                     // Get parent module
-                    let $toggle = $(this),
-                        $module = $toggle.closest('.ult-directory-module');
+                    let $toggle = $( this ),
+                        $module = $toggle.closest( '.ult-directory-module' );
 
                     // Change status
-                    _this.changeStatus($toggle, $module);
+                    _this.changeStatus( $toggle, $module );
                 });
             },
 
-            changeStatus: function ($toggle, $module) {
+            changeStatus: function( $toggle, $module ){
                 // Get data
-                let shouldActive = $toggle.is(':checked'),
+                let shouldActive = $toggle.is( ':checked' ),
                     status = shouldActive ? 'active' : 'inactive';
 
                 // Reference
                 let _this = this;
 
                 // Show loading animation
-                this.ULT_Modules.Modules.changeLoadingStatus($module, true);
+                this.ULT_Modules.Modules.changeLoadingStatus( $module, true );
 
                 var data = {
                     'action': 'activate_deactivate_module',
@@ -296,7 +294,7 @@ jQuery(function ($) {
                     'active': status,
                 };
 
-                $.post( ajaxurl, data, function (response){
+                $.post( ajaxurl, data, function ( response ){
                     if ( 'success' === response.trim() ){
                         // If it's correct then change data attribute value
                         $module.data( 'status', status );
@@ -312,23 +310,23 @@ jQuery(function ($) {
                     // Filter values
                     _this.ULT_Modules.Modules.filter();
                 });
-            }
-        },
+            } 
+         },
 
         Views: {
             $elements: {},
 
-            init: function (ULT_Modules) {
+            init: function ( ULT_Modules ){
                 // Create reference of main object
                 this.ULT_Modules = ULT_Modules;
 
                 // Get elements
-                this.$elements.directory = $('.ult-directory');
-                this.$elements.container = $('#ult-directory-layout-toggle');
-                this.$elements.toggles = $('.ult-directory-layout-item');
+                this.$elements.directory = $( '.ult-directory' );
+                this.$elements.container = $( '#ult-directory-layout-toggle' );
+                this.$elements.toggles   = $( '.ult-directory-layout-item' );
 
                 // Get or create localstorage variable to save the view
-                if (!localStorage.ultView) {
+                if ( ! localStorage.ultView ){
                     localStorage.ultView = 'grid';
                 }
 
@@ -339,148 +337,232 @@ jQuery(function ($) {
                 this.bindToggles();
             },
 
-            setView: function () {
+            setView: function(){
                 // Remove classes
-                this.$elements.directory.removeClass((index, className) => {
-                    return (className.match(/ult-directory-\S+/g) || []).join(' ');
+                this.$elements.directory.removeClass(( index, className ) => {
+                    return ( className.match(/ult-directory-\S+/g ) || [] ).join( ' ' );
                 });
 
                 // Remove selected class from all toggles
-                this.$elements.toggles.removeClass('ult-directory-layout-item--active');
+                this.$elements.toggles.removeClass( 'ult-directory-layout-item--active' );
 
                 // Add correct class
-                this.$elements.directory.addClass(`ult-directory--${localStorage.ultView}`);
+                this.$elements.directory.addClass( `ult-directory--${localStorage.ultView}` );
 
                 // Add class to the clicked one
-                this.findToggle(localStorage.ultView).addClass('ult-directory-layout-item--active');
+                this.findToggle( localStorage.ultView ).addClass( 'ult-directory-layout-item--active' );
 
                 // Filter and refresh UI
                 this.ULT_Modules.Modules.filter();
             },
 
-            bindToggles: function () {
+            bindToggles: function(){
                 // Reference
                 let _this = this;
 
                 // Bind click
-                this.$elements.toggles.on('click', function () {
+                this.$elements.toggles.on( 'click', function(){
                     // This toggle
-                    let $thisToggle = $(this);
+                    let $thisToggle = $( this );
 
                     // Save view
-                    localStorage.ultView = $thisToggle.data('view');
+                    localStorage.ultView = $thisToggle.data( 'view' );
 
                     // Set view
                     _this.setView();
                 });
             },
 
-            findToggle: function (viewId) {
-                return $(`.ult-directory-layout-item[data-view="${viewId}"]`);
-            }
-        },
+            findToggle: function ( viewId ){
+                return $( `.ult-directory-layout-item[data-view="${viewId}"]` );
+            } 
+         },
 
         SettingsModal: {
             $elements: {},
 
-            init: function (ULT_Modules) {
+            init: function( ULT_Modules ){
                 // Create reference of main object
                 this.ULT_Modules = ULT_Modules;
 
                 // Get elements
-                this.$elements.settingsButtons = $('.ult .ult-directory-module-settings');
+                this.$elements.modals           = $( '.ult-modal' );
+                this.$elements.settingsButtons  = $( '.ult .ult-directory-module-settings' );
+                this.$elements.bodyElement      = $( 'body' );
+                this.$elements.containerElement = $( '#wpwrap' );
+
+                // Move modals to another position to create blur effect on the page content
+                this.moveModals();
 
                 // Bind buttons
                 this.bindButtons();
             },
 
-            bindButtons: function () {
+            bindButtons: function(){
                 // Reference
                 let _this = this;
 
                 // Bind click
-                this.$elements.settingsButtons.on('click', function () {
-
+                this.$elements.settingsButtons.on( 'click', function(){
                     // Save button
-                    let $button = $(this);
+                    let $button = $( this );
 
                     // Get settings ID
-                    let settingsId = $button.data('settings');
+                    let settingsId = ULT_Utility.removeBackslash( $button.data( 'settings' ) );
 
-                    let settings_class = $button.data('settings');
+                    // Get modal
+                    let $modal = _this.getModal( settingsId );
 
-                    let settings_container = $('#' + settings_class).find('.uo_settings_options');
-
-                    console.log(`Open Settings ID: ${settingsId}`);
-
-                    // Show Spinner
-                    $('.sk-folding-cube').show();
-
-                    //Hide Setting UI
-                    settings_container.hide();
-
-                    let data = {
-                        'action': 'settings_load',
-                        'class': settings_class,
-                    }
-
-                    $.post(ajaxurl, data, function (response) {
-                        console.log(response);
-                        let saved_options = JSON.parse(response)
-
-                        $.each(saved_options, function (options_index, option) {
-                            var element = $('#' + settings_class).find('[name="' + option['name'] + '"]')
-                            var option_value = removeSlashesFromString(option['value'])
-                            //console.log(option_value);
-                            if (element.is('input[type="text"]')) {
-                                element.val(option_value)
-                            }
-
-                            if (element.is('textarea')) {
-                                element.val(option_value)
-                            }
-
-                            if (element.is('input[type="color"]')) {
-                                element.val(option_value)
-                            }
-
-                            if (element.is('input[type="checkbox"]')) {
-                                if ('on' === option_value) {
-                                    element.prop('checked', true)
-                                } else {
-                                    element.prop('checked', false)
-                                }
-                            }
-
-                            if (element.is('input[type="radio"]')) {
-
-                                $.each(element, function (radio_index, radio) {
-                                    if (option_value === $(radio).val()) {
-                                        $(radio).prop('checked', true)
-                                    }
-                                })
-
-                            }
-
-                            if (element.is('select')) {
-                                element.val(option_value)
-                            }
-
-                        })
-                        // Hide Spinner
-                        $('.sk-folding-cube').hide('fast')
-                        // Show Settings Hide
-                        settings_container.show('fast')
-                        settings_container.find('.uo-color-picker').wpColorPicker()
-                    })
-
-
+                    // Show Modal
+                    _this.showModal( $modal, settingsId );
                 });
+            },
+
+            moveModals: function(){
+                this.$elements.modals.appendTo( this.$elements.bodyElement );
+            },
+
+            getModal: function( settingsId ){
+                return $( `.ult-modal[data-settings="${settingsId}"]` );
+            },
+
+            showModal: function( $modal, settingsId ){
+                // Add background to main element
+                this.$elements.containerElement.addClass( 'ult-modal-open' );
+
+                // Show modal
+                $modal.fadeIn( 150, () => {
+                    // Add class to know 
+                    $modal.addClass( 'ult-modal--visible' );
+                });
+
+                // Show loading animation
+                $modal.addClass( 'ult-modal--loading' );
+
+                // Get field values
+                this.getFieldsValue( settingsId, ( response, data ) => {
+                    // Remove loading animation
+                    $modal.removeClass( 'ult-modal--loading' );
+
+                    // Everyhing ok
+                    console.log( response );
+
+                    // Bind form
+                    this.bindModalActions( $modal );
+                }, ( response, data ) => {
+                    // Remove loading animation
+                    $modal.removeClass( 'ult-modal--loading' );
+
+                    // Something went wrong. Abort and show error
+                    this.hideModal( $modal );
+                });
+            },
+
+            hideModal: function( $modal ){
+                // Remove background to main element
+                this.$elements.containerElement.removeClass( 'ult-modal-open' );
+
+                // Hide the modal
+                $modal.fadeOut( 150, () => {
+                    // Remove visibility class to the modal
+                    $modal.removeClass( 'ult-modal--visible' );
+                });
+            },
+
+            bindModalActions: function( $modal ){
+                // Get modal elements
+                let $elements = {
+                    form:         $modal.find( '.ult-modal-form-js' ),
+                    cancelButton: $modal.find( '.ult-modal-action__btn-cancel-js' ),
+                    submitButton: $modal.find( '.ult-modal-action__btn-submit-js' )
+                }
+
+                // Bind form submission
+                $elements.form.on( 'submit.ultModal', ( event ) => {
+                    // Prevent default. We're going to save this using ajax
+                    event.preventDefault();
+                });
+
+                // Bind cancel button
+                $elements.cancelButton.on( 'click.ultModal', () => {
+                    // Close modal
+                    this.hideModal( $modal );
+
+                    // Unbind modal
+                    this.unbindModalActions( $modal );
+                });
+
+                // Bind click outside
+                $( document ).on( 'mouseup.ultModal', ( event ) => {
+                    // If the target of the click isn't the container nor a descendant of the container
+                    if ( ! $modal.is( event.target ) && $modal.has( event.target ).length === 0 ){
+                        // Close modal
+                        this.hideModal( $modal );
+
+                        // Unbind modal
+                        this.unbindModalActions( $modal );
+                    }
+                });
+            },
+
+            unbindModalActions: function( $modal ){
+                // Get modal elements
+                let $elements = {
+                    form:         $modal.find( '.ult-modal-form-js' ),
+                    cancelButton: $modal.find( '.ult-modal-action__btn-cancel-js' ),
+                }
+
+                $elements.form.off( 'submit.ultModal' );
+                $elements.cancelButton.off( 'click.ultModal' );
+                $( document ).off( 'mouseup.ultModal' );
+            },
+
+            getFieldsValue: function( settingsId, onSuccess, onFail ){
+                ULT_Utility.ajaxRequest({
+                    action: 'settings_load',
+                    class:  settingsId
+                }, onSuccess, onFail );
             }
         }
     }
 
-    function removeSlashesFromString(string) {
-        return string.replace(new RegExp('\\\\', 'g'), '')
+    var ULT_Utility = {
+        ajaxRequest: function( data, onSuccess, onFail ){
+            // Do AJAX
+            $.ajax({
+                method:   'POST',
+                dataType: 'json',
+                url:      ajaxurl,
+                data:     data,
+
+                success: function( response  ){
+                    // Check if onSuccess is defined
+                    if ( ULT_Utility.isDefined( onSuccess ) ){
+                        // Invoke callback
+                        onSuccess( response, data );
+                    }
+                },
+
+                statusCode: {
+                    403: function(){
+                        location.reload();
+                    }
+                },
+
+                fail: function ( response ){
+                    if ( ULT_Utility.isDefined( onFail ) ){
+                        onFail( response, data );
+                    }
+                }
+            });
+        },
+
+        isDefined: function( variable ){
+            return typeof variable !== 'undefined' && variable !== null;
+        },
+
+        removeBackslash: function( string ){
+            return string.replace( /\\/g, '' );
+        }
     }
 });

@@ -337,7 +337,6 @@ foreach ( $modules as $key => $module ) {
 									<?php if ( false !== $module['has_settings'] ) { ?>
 
                                         <div class="ult-directory-module-settings ult-directory-module__btn ult-btn ult-btn--primary"
-                                             rel="leanModal"
                                              data-settings="<?php echo $module['settings_id']; ?>">
                                             <?php _e( 'Settings', 'uncanny-learndash-toolkit' ); ?>
                                         </div>
