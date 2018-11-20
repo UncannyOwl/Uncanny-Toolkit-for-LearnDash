@@ -2,12 +2,6 @@
 jQuery(document).ready(function ($) {
 
 
-  //Reset save options button if Options changed
-  $('.uo_settings_options').on('change keyup', '.uo_settings_form_field', function () {
-    var save_settings_button = $(this).closest('.uo_settings_options').find('.uo_save_settings')
-    save_settings_button.html('Save Settings')
-    save_settings_button.css('background', '#A9A9A9')
-  })
 
   // SAVE SETTINGS
   $('.uo_save_settings').on('click', function (e) {
@@ -127,42 +121,6 @@ jQuery(document).ready(function ($) {
       settings_container.find('.uo-color-picker').wpColorPicker()
     })
   })
-
-  toolkit_view()
-
-  function toolkit_view () {
-
-    console.log('runnning')
-    let actual_view = 'grid'
-    if (localStorage.getItem('uoToolkitGrid')) {
-      actual_view = localStorage.getItem('uoToolkitGrid')
-    }
-
-    let features = $('#features')
-
-    if ('list' === actual_view) {
-      $('.switch-btn').removeClass('selected')
-      $('.switch-btn.list-view').addClass('selected')
-
-      features.removeClass('grid-view list-view')
-      features.addClass(actual_view + '-view')
-    }
-
-    $('.switch-btn').click(function () {
-      var new_view = $(this).hasClass('grid-view') ? 'grid' : 'list'
-      if (actual_view !== new_view) {
-        actual_view = new_view
-
-        localStorage.setItem('uoToolkitGrid', new_view)
-
-        $('.switch-btn').removeClass('selected')
-        $(this).addClass('selected')
-
-        features.removeClass('grid-view list-view')
-        features.addClass(new_view + '-view')
-      }
-    })
-  }
 
   function remove_slashes_from_strong (string) {
     return string.replace(new RegExp('\\\\', 'g'), '')

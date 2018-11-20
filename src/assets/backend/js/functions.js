@@ -121,8 +121,6 @@ jQuery( function($){
                     // Get results
                     let results = this.search( query );
 
-                    console.log( results );
-
                     // Save values
                     this.searchQuery = query;
                     this.searchResults = results;
@@ -391,6 +389,10 @@ jQuery( function($){
                 this.$elements.bodyElement      = $( 'body' );
                 this.$elements.containerElement = $( '#wpwrap' );
 
+                // Add the type of field to TinyMCE. We can't add this with PHP,
+                // so we will do it with JS
+                this.addDataTypeToTinyMceFields();
+
                 // Move modals to another position to create blur effect on the page content
                 this.moveModals();
 
@@ -412,6 +414,9 @@ jQuery( function($){
 
                     // Get modal
                     let $modal = _this.getModal( settingsId );
+
+                    console.log( settingsId );
+                    console.log( $modal );
 
                     // Show Modal
                     _this.showModal( $modal, settingsId );
@@ -444,8 +449,8 @@ jQuery( function($){
                     // Remove loading animation
                     $modal.removeClass( 'ult-modal--loading' );
 
-                    // Everyhing ok
-                    console.log( response );
+                    // Fill fields
+                    this.fillFields( $modal, response );
 
                     // Bind form
                     this.bindModalActions( $modal );
@@ -467,6 +472,68 @@ jQuery( function($){
                     // Remove visibility class to the modal
                     $modal.removeClass( 'ult-modal--visible' );
                 });
+            },
+
+            fillFields: function( $modal, data ){
+                // Iterate each option
+                $.each( data, ( index, field ) => {
+                    // Get field info
+                    field = $.extend( true, {
+                        value: field.value,
+                        name:  field.name,
+                    }, this.getFieldByName( $modal, field.name ));
+
+                    // Check if we have the field type
+                    if ( ULT_Utility.isDefined( field.type ) ){
+                        // If not then try to get it
+                        field.type = ULT_Utility.legacyGetFieldType( field.$element );
+                    }
+
+                    console.log( field );
+
+                    // Fill the fields
+                    switch ( field.type ){
+                        case 'text':
+                        case 'textarea':
+                        case 'color':
+                        case 'select':
+                            field.$element.val( field.value );
+                            break;
+
+                        case 'tinymce':
+                            let editor = tinymce.get( this.attributes.optionCode );
+                            editor.execCommand( 'mceInsertContent', false, field.value );
+                            break;
+
+                        case 'checkbox':
+                            // Check if the checkbox is selected
+                            if ( field.value == 'on' ){
+                                field.$element.prop( 'checked', true );
+                            }
+                            break;
+
+                        case 'radio':
+                            // Check the selected value
+                            $.each( field.$element, function(){
+                                let $radio = $(this);
+
+                                if ( $radio.val() == field.value ){
+                                    $radio.prop( 'checked', true );
+                                }
+                            });
+                            break;
+                    };
+                })
+            },
+
+            getFieldByName: function( $modal, fieldName ){
+                // Find field
+                let $field = $modal.find( `*[name="${fieldName}"]` );
+
+                return {
+                    $element: $field,
+                    type:   $field.data( 'type' )
+                };
             },
 
             bindModalActions: function( $modal ){
@@ -522,6 +589,10 @@ jQuery( function($){
                     action: 'settings_load',
                     class:  settingsId
                 }, onSuccess, onFail );
+            },
+
+            addDataTypeToTinyMceFields: function(){
+                $( '.ult-tinymce' ).data( 'type', 'tinymce' );
             }
         }
     }
@@ -563,6 +634,36 @@ jQuery( function($){
 
         removeBackslash: function( string ){
             return string.replace( /\\/g, '' );
+        },
+
+        legacyGetFieldType: function( $fieldElement ){
+            let fieldType = 'text';
+
+            if ( $fieldElement.is( 'input[type="text"]' ) ){
+                fieldType = 'text';
+            }
+            else if ( $fieldElement.is( 'input[type="color"]' ) ){
+                fieldType = 'color';
+            }
+            else if ( $fieldElement.is( 'input[type="checkbox"]' ) ){
+                fieldType = 'checkbox';
+            }
+            else if ( $fieldElement.is( 'input[type="radio"]' ) ){
+                fieldType = 'radio';
+            }
+            else if ( $fieldElement.is( 'select' ) ){
+                fieldType = 'select';
+            }
+            else if ( $fieldElement.is( 'textarea' ) ){
+                if ( $fieldElement.hasClass( 'wp-editor-area' ) ){
+                    fieldType = 'tinymce';
+                }
+                else {
+                    fieldType = 'textarea';
+                }
+            }
+
+            return fieldType;
         }
     }
 });

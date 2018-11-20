@@ -367,7 +367,7 @@ class Config {
 										<?php echo $content[ 'label' ]; ?>
 									</div>
 									<div class="ult-modal-form-row__field">
-										<input type="text" placeholder="<?php echo $content[ 'placeholder' ]; ?>" class="ult-modal-form-row__input <?php echo $content[ 'class' ] ?>" name="<?php echo $content[ 'option_name' ]; ?>">
+										<input type="text" placeholder="<?php echo $content[ 'placeholder' ]; ?>" class="ult-modal-form-row__input <?php echo $content[ 'class' ] ?>" name="<?php echo $content[ 'option_name' ]; ?>" data-type="text">
 									</div>
 								</div>
 
@@ -384,7 +384,7 @@ class Config {
 										<?php echo $content[ 'label' ]; ?>
 									</div>
 									<div class="ult-modal-form-row__field">
-										<input type="color" placeholder="<?php echo $content[ 'placeholder' ]; ?>" class="ult-modal-form-row__color" name="<?php echo $content[ 'option_name' ]; ?>">
+										<input type="color" placeholder="<?php echo $content[ 'placeholder' ]; ?>" class="ult-modal-form-row__color" name="<?php echo $content[ 'option_name' ]; ?>" data-type="color">
 									</div>
 								</div>
 
@@ -418,6 +418,7 @@ class Config {
 												$tinymce_content,
 												$content[ 'option_name' ],
 												[
+													'editor_class'  => 'ult-tinymce',
 													'media_buttons' => false,
 													'editor_height' => 275,
 												]);
@@ -436,7 +437,7 @@ class Config {
 											<?php echo $content[ 'label' ]; ?>
 										</div>
 										<div class="ult-modal-form-row__field">
-											<textarea class="ult-modal-form-row__textarea <?php echo $content[ 'class' ]; ?>" name="<?php echo $content[ 'option_name' ]; ?>" placeholder="<?php echo $content[ 'placeholder' ]; ?>"></textarea>
+											<textarea class="ult-modal-form-row__textarea <?php echo $content[ 'class' ]; ?>" name="<?php echo $content[ 'option_name' ]; ?>" placeholder="<?php echo $content[ 'placeholder' ]; ?>" type="textarea"></textarea>
 										</div>
 									</div>
 
@@ -454,7 +455,7 @@ class Config {
 										<?php echo $content[ 'label' ]; ?>
 									</div>
 									<div class="ult-modal-form-row__field">
-										<input type="checkbox" name="<?php echo $content[ 'option_name' ]; ?>" class="ult-modal-form-row__checkbox">
+										<input type="checkbox" name="<?php echo $content[ 'option_name' ]; ?>" class="ult-modal-form-row__checkbox" data-type="checkbox">
 									</div>
 								</div>
 
@@ -480,7 +481,7 @@ class Config {
 										foreach ( $content['radios'] as $radio ){
 											?>
 
-											<input type="radio" name="<?php echo $content[ 'radio_name' ]; ?>" value="<?php echo $radio[ 'value' ]; ?>"> <?php echo $radio[ 'text' ]; ?>
+											<input type="radio" name="<?php echo $content[ 'radio_name' ]; ?>" value="<?php echo $radio[ 'value' ]; ?>" data-type="radio"> <?php echo $radio[ 'text' ]; ?>
 
 											<?php
 										}
@@ -502,7 +503,7 @@ class Config {
 										<?php echo $content[ 'label' ]; ?>
 									</div>
 									<div class="ult-modal-form-row__field">
-										<select name="<?php echo $content['select_name']; ?>" id="">
+										<select name="<?php echo $content['select_name']; ?>" data-type="select">
 											<?php
 
 											foreach ( $content['options'] as $option ){
