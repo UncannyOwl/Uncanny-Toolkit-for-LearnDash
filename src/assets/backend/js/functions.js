@@ -393,6 +393,9 @@ jQuery( function($){
                 // so we will do it with JS
                 this.addDataTypeToTinyMceFields();
 
+                // Init Color Picker
+                this.initColorPicker();
+
                 // Move modals to another position to create blur effect on the page content
                 this.moveModals();
 
@@ -415,11 +418,81 @@ jQuery( function($){
                     // Get modal
                     let $modal = _this.getModal( settingsId );
 
-                    console.log( settingsId );
-                    console.log( $modal );
-
                     // Show Modal
                     _this.showModal( $modal, settingsId );
+                });
+            },
+
+            bindModalActions: function( $modal ){
+                // Get modal elements
+                let $elements = {
+                    form:         $modal.find( '.ult-modal-form-js' ),
+                    cancelButton: $modal.find( '.ult-modal-action__btn-cancel-js' ),
+                    submitButton: $modal.find( '.ult-modal-action__btn-submit-js' )
+                }
+
+                // Get settings ID
+                let settingsId = $modal.data( 'settings' );
+
+                // Bind form submission
+                $elements.form.on( 'submit.ultModal', ( event ) => {
+                    // Prevent default. We're going to save this using ajax
+                    event.preventDefault();
+
+                    // Get form data
+                    let formData = this.getFormData( $elements.form );
+
+                    // Add loading class to submit button
+                    $elements.submitButton.addClass( 'ult-modal-action__btn--loading' );
+
+                    // Save data
+                    ULT_Utility.ajaxRequest({
+                        action:  'settings_save',
+                        class:   settingsId,
+                        options: formData
+                    }, ( response, data ) => {
+                        console.log( response );
+
+                        // Remove loading animation from submit button
+                        $elements.submitButton.removeClass( 'ult-modal-action__btn--loading' );
+
+                        // Success
+                        if ( response == 'success' ){
+                            
+                        }
+                        else {
+                            // Validation error
+
+                        }
+                    },
+                    ( response, data ) => {
+                        // Failed. Error
+                        console.log( response );
+
+                        // Remove loading animation from submit button
+                        $elements.submitButton.removeClass( 'ult-modal-action__btn--loading' );
+                    });
+                });
+
+                // Bind cancel button
+                $elements.cancelButton.on( 'click.ultModal', () => {
+                    // Close modal
+                    this.hideModal( $modal );
+
+                    // Unbind modal
+                    this.unbindModalActions( $modal );
+                });
+
+                // Bind click outside
+                $( document ).on( 'mouseup.ultModal', ( event ) => {
+                    // If the target of the click isn't the container nor a descendant of the container
+                    if ( ! $modal.is( event.target ) && $modal.has( event.target ).length === 0 ){
+                        // Close modal
+                        this.hideModal( $modal );
+
+                        // Unbind modal
+                        this.unbindModalActions( $modal );
+                    }
                 });
             },
 
@@ -536,42 +609,6 @@ jQuery( function($){
                 };
             },
 
-            bindModalActions: function( $modal ){
-                // Get modal elements
-                let $elements = {
-                    form:         $modal.find( '.ult-modal-form-js' ),
-                    cancelButton: $modal.find( '.ult-modal-action__btn-cancel-js' ),
-                    submitButton: $modal.find( '.ult-modal-action__btn-submit-js' )
-                }
-
-                // Bind form submission
-                $elements.form.on( 'submit.ultModal', ( event ) => {
-                    // Prevent default. We're going to save this using ajax
-                    event.preventDefault();
-                });
-
-                // Bind cancel button
-                $elements.cancelButton.on( 'click.ultModal', () => {
-                    // Close modal
-                    this.hideModal( $modal );
-
-                    // Unbind modal
-                    this.unbindModalActions( $modal );
-                });
-
-                // Bind click outside
-                $( document ).on( 'mouseup.ultModal', ( event ) => {
-                    // If the target of the click isn't the container nor a descendant of the container
-                    if ( ! $modal.is( event.target ) && $modal.has( event.target ).length === 0 ){
-                        // Close modal
-                        this.hideModal( $modal );
-
-                        // Unbind modal
-                        this.unbindModalActions( $modal );
-                    }
-                });
-            },
-
             unbindModalActions: function( $modal ){
                 // Get modal elements
                 let $elements = {
@@ -593,6 +630,31 @@ jQuery( function($){
 
             addDataTypeToTinyMceFields: function(){
                 $( '.ult-tinymce' ).data( 'type', 'tinymce' );
+            },
+
+            initColorPicker: function(){
+                $( '.ult-modal-form-row__color' ).wpColorPicker();
+            },
+
+            getFormData: function( $form ){
+                // Get form data
+                let formData = $form.serializeArray();
+
+                // Check if we have TinyMCE fields, we need to get the value using
+                // TinyMCE methods
+                $.each( $form.find( 'ult-tinymce' ), ( $field ) => {
+                    // Get field name
+                    let fieldName = $field.prop( 'name' );
+
+                    // Get TinyMCE instance
+                    let tinyMceInstance = tinymce.get( fieldName );
+
+                    // Add data to the formData
+                    formData[ fieldName ] = tinyMceInstance.getContent()
+                });
+
+                // Return data
+                return formData;
             }
         }
     }
@@ -606,7 +668,9 @@ jQuery( function($){
                 url:      ajaxurl,
                 data:     data,
 
-                success: function( response  ){
+                success: function( response ){
+                    console.log( response );
+
                     // Check if onSuccess is defined
                     if ( ULT_Utility.isDefined( onSuccess ) ){
                         // Invoke callback

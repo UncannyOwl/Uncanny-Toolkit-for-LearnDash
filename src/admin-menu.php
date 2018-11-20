@@ -55,30 +55,19 @@ class AdminMenu extends Boot {
 	 * @param $hook
 	 */
 	public static function scripts( $hook ){
+		// Main CSS file
 		wp_enqueue_style( 'ult-admin', Config::get_admin_css( 'style.css' ), array(), UNCANNY_TOOLKIT_VERSION );
 
+		// Main JS
 		wp_enqueue_script( 'ult-admin-functions', Config::get_admin_js( 'functions.js' ), array( 'jquery', 'ult-shuffle', 'ult-fuse', 'ult-select2' ), UNCANNY_TOOLKIT_VERSION, true );
 
-		if ( 'toplevel_page_uncanny-learnDash-toolkit' === $hook || 'uncanny-toolkit_page_uncanny-pro-license-activation' === $hook ) {
-
-			// Admin CSS
-			wp_enqueue_style( 'ult-select2', Config::get_vendor( 'select2/css/select2.min.css' ), array(), UNCANNY_TOOLKIT_VERSION );
-
-			// Admin JS
-			wp_enqueue_script( 'ult-menu-slug', Config::get_admin_js( 'script.js' ), array( 'jquery' ), UNCANNY_TOOLKIT_VERSION, true );
-
-
-			wp_enqueue_script( 'ult-shuffle', Config::get_vendor( 'shuffle/js/shuffle.min.js' ), array( 'jquery' ), UNCANNY_TOOLKIT_VERSION, true );
-
-			wp_enqueue_script( 'ult-fuse', Config::get_vendor( 'fuse/js/fuse.min.js' ), array( 'jquery' ), UNCANNY_TOOLKIT_VERSION, true );
-
-			wp_enqueue_script( 'ult-select2', Config::get_vendor( 'select2/js/select2.min.js' ), array( 'jquery' ), UNCANNY_TOOLKIT_VERSION, true );
-
-			// Load Native WP Color Picker
-			wp_enqueue_style( 'wp-color-picker' );
-			wp_enqueue_script( 'wp-color-picker' );
-		}
-		
+		// Libraries
+		wp_enqueue_style( 'ult-select2', Config::get_vendor( 'select2/css/select2.min.css' ), array(), UNCANNY_TOOLKIT_VERSION );
+		wp_enqueue_script( 'ult-shuffle', Config::get_vendor( 'shuffle/js/shuffle.min.js' ), array( 'jquery' ), UNCANNY_TOOLKIT_VERSION, true );
+		wp_enqueue_script( 'ult-fuse', Config::get_vendor( 'fuse/js/fuse.min.js' ), array( 'jquery' ), UNCANNY_TOOLKIT_VERSION, true );
+		wp_enqueue_script( 'ult-select2', Config::get_vendor( 'select2/js/select2.min.js' ), array( 'jquery' ), UNCANNY_TOOLKIT_VERSION, true );
+		wp_enqueue_style( 'wp-color-picker' );
+		wp_enqueue_script( 'wp-color-picker' );
 	}
 
 	/**
