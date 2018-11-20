@@ -451,24 +451,20 @@ jQuery( function($){
                         class:   settingsId,
                         options: formData
                     }, ( response, data ) => {
-                        console.log( response );
-
                         // Remove loading animation from submit button
                         $elements.submitButton.removeClass( 'ult-modal-action__btn--loading' );
 
                         // Success
-                        if ( response == 'success' ){
-                            
+                        if ( ! response.error ){
+                            // Show ok message
+                            this.showNotice( $modal, 'success', response.message );
                         }
                         else {
                             // Validation error
-
+                            this.showNotice( $modal, 'error', response.message );
                         }
                     },
                     ( response, data ) => {
-                        // Failed. Error
-                        console.log( response );
-
                         // Remove loading animation from submit button
                         $elements.submitButton.removeClass( 'ult-modal-action__btn--loading' );
                     });
@@ -496,6 +492,31 @@ jQuery( function($){
                 });
             },
 
+            showNotice: function( $modal, type, message ){
+                // Get notice element
+                let $notice = $modal.find( '.ult-modal-notice' );
+
+                // Remove all classes from the notice
+                $notice.removeClass();
+
+                // Set text
+                $notice.text( message );
+
+                // Add classes based on the message type
+                $notice.addClass( `ult-modal-notice ult-modal-notice--${type}` );
+
+                // Show notice
+                $notice.slideDown( 150 );
+            },
+
+            hideNotice: function( $modal ){
+                // Get notice element
+                let $notice = $modal.find( '.ult-modal-notice' );
+
+                // Hide notice
+                $notice.hide();
+            },
+
             moveModals: function(){
                 this.$elements.modals.appendTo( this.$elements.bodyElement );
             },
@@ -516,6 +537,9 @@ jQuery( function($){
 
                 // Show loading animation
                 $modal.addClass( 'ult-modal--loading' );
+
+                // Hide notice
+                this.hideNotice( $modal );
 
                 // Get field values
                 this.getFieldsValue( settingsId, ( response, data ) => {
@@ -561,8 +585,6 @@ jQuery( function($){
                         // If not then try to get it
                         field.type = ULT_Utility.legacyGetFieldType( field.$element );
                     }
-
-                    console.log( field );
 
                     // Fill the fields
                     switch ( field.type ){
@@ -669,8 +691,6 @@ jQuery( function($){
                 data:     data,
 
                 success: function( response ){
-                    console.log( response );
-
                     // Check if onSuccess is defined
                     if ( ULT_Utility.isDefined( onSuccess ) ){
                         // Invoke callback
@@ -684,11 +704,15 @@ jQuery( function($){
                     }
                 },
 
-                fail: function ( response ){
+                fail: function( response ){
+                    console.error( 'fail' );
+
+                    console.log( response );
+
                     if ( ULT_Utility.isDefined( onFail ) ){
                         onFail( response, data );
                     }
-                }
+                },
             });
         },
 

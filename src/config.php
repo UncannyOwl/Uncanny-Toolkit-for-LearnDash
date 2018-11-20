@@ -530,6 +530,7 @@ class Config {
 
 					?>
 				</div>
+				<div class="ult-modal-notice"></div>
 				<div class="ult-modal-actions">
 					<div class="ult-modal-action">
 						<div class="ult-modal-action__btn ult-modal-action__btn-cancel-js" data-action="cancel">
@@ -614,6 +615,11 @@ class Config {
 			}
 		}
 
+		$response = [
+			'error'   => true,
+			'message' => ''
+		];
+
 		$capability = apply_filters( 'toolkit_settings_save_cap', 'manage_options' );
 
 		if ( current_user_can( $capability ) ) {
@@ -631,18 +637,23 @@ class Config {
 				//self::trace_logs( $options, 'options', 'save' );
 				$save_settings = add_option( self::removeslashes($class), $options, 'no' );
 
-				$response = ( $save_settings ) ? 'success' : 'notsaved';
+				$response[ 'error' ] = $save_settings;
+
+				if ( $save_settings ){
+					$response[ 'message' ] = __( 'Settings saved successfully', 'uncanny-learndash-toolkit' );
+				}
+				else {
+					$response[ 'message' ] = __( 'Something went wrong. Please, try again', 'uncanny-learndash-toolkit' );
+				}
 
 			} else {
-				$response = 'Class for addon is not set.';
+				$response[ 'message' ] = __( 'Class for addon is not set', 'uncanny-learndash-toolkit' );
 			}
 		} else {
-
-			$response = 'You must be an admin to save settings.';
-
+			$response[ 'message' ] = __( 'You must be an admin to save settings', 'uncanny-learndash-toolkit' );
 		}
 
-		echo stripslashes( $response );
+		echo json_encode( $response );
 
 		wp_die();
 
