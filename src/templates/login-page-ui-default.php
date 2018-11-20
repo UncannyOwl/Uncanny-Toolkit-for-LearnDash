@@ -29,7 +29,7 @@ echo $default_js;
 			uo_generate_default_message_block( $innerText['Hello'], "$user_login, " . $innerText['Logged-In-Message'], wp_logout_url(), $innerText['Logout'] );
 		} elseif ( $lost_password ) {
 			//If User is requesting a lost password, show form!
-			include( apply_filters( 'uo-front-login-lost-pwd-template', 'front-login-ui/form-lostpwd-' . $template_to_load . '.php', $template_to_load ) );
+			include( apply_filters( 'uo-front-login-lost-pwd-template', 'frontend-login/' . $template_to_load . '-lost-pwd.php', $template_to_load ) );
 		} elseif ( $reset_password_sent ) {
 			//When Lost Password Form is submitted, show status!
 			if ( $reset_password_sent_success ) {
@@ -40,7 +40,7 @@ echo $default_js;
 		} elseif ( $register ) {
 			//If registration is open and user is on register page!
 			if ( $register_show ) {
-				include( apply_filters( 'uo-front-login-register-template', 'front-login-ui/form-register-' . $template_to_load . '.php', $template_to_load ) );
+				include( apply_filters( 'uo-front-login-register-template', 'frontend-login/' . $template_to_load . '-register.php', $template_to_load ) );
 			}
 		} elseif ( $reset_password ) {
 			//When user clicks reset password link in email!
@@ -50,7 +50,7 @@ echo $default_js;
 				$rp_cookie = 'wp-resetpass-' . COOKIEHASH;
 				$value     = sprintf( '%s:%s', wp_unslash( $_GET['login'] ), wp_unslash( $_GET['key'] ) );
 				//setcookie( $rp_cookie, $value, 0, '/' . get_post_field( 'post_name', $login_page ), COOKIE_DOMAIN, is_ssl(), true );
-				include( apply_filters( 'uo-front-login-reset-template', 'front-login-ui/form-reset-' . $template_to_load . '.php', $template_to_load ) );
+				include( apply_filters( 'uo-front-login-reset-template', 'frontend-login/' . $template_to_load . '-reset-pwd.php', $template_to_load ) );
 			} else {
 				uo_generate_default_message_block( $innerText['Oops'], $innerText['Password-Reset-Link-Failed'] );
 			}
@@ -98,19 +98,19 @@ echo $default_js;
 					$rp_cookie = 'wp-resetpass-' . COOKIEHASH;
 					$value     = sprintf( '%s:%s', wp_unslash( $rp_key ), wp_unslash( $rp_login ) );
 					//setcookie( $rp_cookie, $value, 0, '/' . get_post_field( 'post_name', $login_page ), COOKIE_DOMAIN, is_ssl(), true );
-					include( apply_filters( 'uo-front-login-reset-template', 'front-login-ui/form-reset-' . $template_to_load . '.php', $template_to_load ) );
+					include( apply_filters( 'uo-front-login-reset-template', 'frontend-login/' . $template_to_load . '-reset-pwd.php', $template_to_load ) );
 				} elseif ( isset( $_POST['pass1'] ) && ! empty( $_POST['pass1'] ) ) {
 
 					reset_password( $user, $_POST['pass1'] );
 					//setcookie( $rp_cookie, ' ', time() - YEAR_IN_SECONDS, '/login', COOKIE_DOMAIN, is_ssl(), true );
 
 					echo sprintf( '<h2>%s</h2>', $innerText['Reset-Success'] );
-					include( apply_filters( 'uo-front-login-login-template', 'front-login-ui/form-login-' . $template_to_load . '.php', $template_to_load ) );
+					include( apply_filters( 'uo-front-login-login-template', 'frontend-login/' . $template_to_load . '-login.php', $template_to_load ) );
 				}
 			}
 		} else {
 			//Nothing, default, show login form!
-			include( apply_filters( 'uo-front-login-login-template', 'front-login-ui/form-login-' . $template_to_load . '.php', $template_to_load ) );
+			include( apply_filters( 'uo-front-login-login-template', 'frontend-login/' . $template_to_load . '-login.php', $template_to_load ) );
 		}
 
 		/*
