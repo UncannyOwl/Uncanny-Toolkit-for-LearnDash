@@ -215,6 +215,11 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		$options = array(
 
 			array(
+				'type'       => 'html',
+				'inner_html' => '<h2>' . __( 'Verification', 'uncanny-learndash-toolkit' ) . '</h2>',
+			),
+
+			array(
 				'type'        => 'checkbox',
 				'label'       => esc_html__( 'Manual User Verification', 'uncanny-learndash-toolkit' ),
 				'option_name' => 'uo_frontendloginplus_needs_verifcation',
@@ -228,7 +233,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 			array(
 				'type'       => 'html',
-				'inner_html' => '<h2>Login Form Settings</h2>',
+				'inner_html' => '<h2>' . __( 'Login Form', 'uncanny-learndash-toolkit' ) . '</h2>',
 			),
 			array(
 				'type'        => 'select',

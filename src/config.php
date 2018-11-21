@@ -354,7 +354,7 @@ class Config {
 
 									?>
 
-									<div class="ult-modal__field <?php echo $content[ 'class' ]; ?>">
+									<div class="ult-modal__field ult-modal__field--html <?php echo $content[ 'class' ]; ?>">
 										<?php echo $content[ 'inner_html' ]; ?>
 									</div>
 
@@ -366,7 +366,7 @@ class Config {
 
 									?>
 
-									<div class="ult-modal-form-row">
+									<div class="ult-modal-form-row ult-modal__field--text">
 										<div class="ult-modal-form-row__label">
 											<?php echo $content[ 'label' ]; ?>
 										</div>
@@ -383,7 +383,7 @@ class Config {
 
 									?>
 
-									<div class="ult-modal-form-row">
+									<div class="ult-modal-form-row ult-modal__field--color">
 										<div class="ult-modal-form-row__label">
 											<?php echo $content[ 'label' ]; ?>
 										</div>
@@ -411,7 +411,7 @@ class Config {
 
 										?>
 
-										<div class="ult-modal-form-row">
+										<div class="ult-modal-form-row ult-modal__field--tinymce">
 											<div class="ult-modal-form-row__label">
 												<?php echo $content[ 'label' ]; ?>
 											</div>
@@ -436,7 +436,7 @@ class Config {
 									else {
 										?>
 
-										<div class="ult-modal-form-row">
+										<div class="ult-modal-form-row ult-modal__field--textarea">
 											<div class="ult-modal-form-row__label">
 												<?php echo $content[ 'label' ]; ?>
 											</div>
@@ -454,7 +454,7 @@ class Config {
 
 									?>
 
-									<div class="ult-modal-form-row">
+									<div class="ult-modal-form-row ult-modal__field--checkbox">
 										<div class="ult-modal-form-row__label">
 											<?php echo $content[ 'label' ]; ?>
 										</div>
@@ -471,7 +471,7 @@ class Config {
 
 									?>
 
-									<div class="ult-modal-form-row">
+									<div class="ult-modal-form-row ult-modal__field--radio">
 										<div class="ult-modal-form-row__label">
 											<?php echo $content[ 'label' ]; ?>
 										</div>
@@ -502,12 +502,12 @@ class Config {
 
 									?>
 
-									<div class="ult-modal-form-row">
+									<div class="ult-modal-form-row ult-modal__field--select">
 										<div class="ult-modal-form-row__label">
 											<?php echo $content[ 'label' ]; ?>
 										</div>
 										<div class="ult-modal-form-row__field">
-											<select name="<?php echo $content['select_name']; ?>" data-type="select">
+											<select class="ult-modal-form-row__select" name="<?php echo $content['select_name']; ?>" data-type="select">
 												<?php
 
 												foreach ( $content['options'] as $option ){
@@ -539,7 +539,7 @@ class Config {
 						<div class="ult-modal-actions">
 							<div class="ult-modal-action">
 								<div class="ult-modal-action__btn ult-modal-action__btn--secondary ult-modal-action__btn-cancel-js" data-action="cancel">
-									<?php _e( 'Cancel', 'uncanny-learndash-toolkit' ); ?>	
+									<?php _e( 'Close', 'uncanny-learndash-toolkit' ); ?>	
 								</div>
 							</div>
 							<div class="ult-modal-action">

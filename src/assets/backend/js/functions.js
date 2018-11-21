@@ -396,6 +396,9 @@ jQuery( function($){
                 // Init Color Picker
                 this.initColorPicker();
 
+                // Init Select2
+                this.initSelect2();
+
                 // Move modals to another position to create blur effect on the page content
                 this.moveModals();
 
@@ -486,7 +489,10 @@ jQuery( function($){
                 // Bind click outside
                 $( document ).on( 'mouseup.ultModal', ( event ) => {
                     // If the target of the click isn't the container nor a descendant of the container
-                    if ( ! $elements.modalBox.is( event.target ) && $elements.modalBox.has( event.target ).length === 0 ){
+                    let isClickingOutsideTheBox = $modal.is( event.target ) && $elements.modalBox.has( event.target ).length === 0;
+
+                    // If is clicking outside the box
+                    if ( isClickingOutsideTheBox ){
                         // Close modal
                         this.hideModal( $modal );
 
@@ -545,6 +551,9 @@ jQuery( function($){
                 // Hide notice
                 this.hideNotice( $modal );
 
+                // Bind form
+                this.bindModalActions( $modal );
+
                 // Get field values
                 this.getFieldsValue( settingsId, ( response, data ) => {
                     // Remove loading animation
@@ -552,9 +561,6 @@ jQuery( function($){
 
                     // Fill fields
                     this.fillFields( $modal, response );
-
-                    // Bind form
-                    this.bindModalActions( $modal );
                 }, ( response, data ) => {
                     // Remove loading animation
                     $modal.removeClass( 'ult-modal--loading' );
@@ -595,8 +601,11 @@ jQuery( function($){
                         case 'text':
                         case 'textarea':
                         case 'color':
-                        case 'select':
                             field.$element.val( field.value );
+                            break;
+
+                        case 'select':
+                            field.$element.val( field.value ).trigger( 'change' );
                             break;
 
                         case 'tinymce':
@@ -654,14 +663,6 @@ jQuery( function($){
                 }, onSuccess, onFail );
             },
 
-            addDataTypeToTinyMceFields: function(){
-                $( '.ult-tinymce' ).data( 'type', 'tinymce' );
-            },
-
-            initColorPicker: function(){
-                $( '.ult-modal-form-row__color' ).wpColorPicker();
-            },
-
             getFormData: function( $form ){
                 // Get form data
                 let formData = $form.serializeArray();
@@ -681,7 +682,19 @@ jQuery( function($){
 
                 // Return data
                 return formData;
-            }
+            },
+
+            addDataTypeToTinyMceFields: function(){
+                $( '.ult-tinymce' ).data( 'type', 'tinymce' );
+            },
+
+            initColorPicker: function(){
+                $( '.ult-modal-form-row__color' ).wpColorPicker();
+            },
+
+            initSelect2: function(){
+                $( '.ult-modal-form-row__select' ).select2();
+            },
         }
     }
 
