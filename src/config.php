@@ -332,78 +332,37 @@ class Config {
 		?>
 
 		<div class="ult-modal" data-settings="<?php echo $modal_id; ?>">
-			<div class="ult-modal__header">
-				<div class="ult-modal__title">
-					<?php echo $title; ?>
+			<div class="ult-modal-box">
+				<div class="ult-modal__header">
+					<div class="ult-modal-title">
+						<div class="ult-modal-title__icon"></div>
+						<div class="ult-modal-title__text">
+							<?php echo $title; ?>
+						</div>
+					</div>
 				</div>
-			</div>
-			<form method="POST" class="ult-modal-form ult-modal-form-js">
-				<div class="ult-modal-options">
-					<?php
+				<form method="POST" class="ult-modal-form ult-modal-form-js">
+					<div class="ult-modal-options">
+						<?php
 
-					// Create options
-					foreach ( $options as $content ){
+						// Create options
+						foreach ( $options as $content ){
 
-						switch ( $content[ 'type' ] ){
+							switch ( $content[ 'type' ] ){
 
-							case 'html':
+								case 'html':
 
-								?>
+									?>
 
-								<div class="ult-modal__field <?php echo $content[ 'class' ]; ?>">
-									<?php echo $content[ 'inner_html' ]; ?>
-								</div>
-
-								<?php
-
-								break;
-
-							case 'text':
-
-								?>
-
-								<div class="ult-modal-form-row">
-									<div class="ult-modal-form-row__label">
-										<?php echo $content[ 'label' ]; ?>
+									<div class="ult-modal__field <?php echo $content[ 'class' ]; ?>">
+										<?php echo $content[ 'inner_html' ]; ?>
 									</div>
-									<div class="ult-modal-form-row__field">
-										<input type="text" placeholder="<?php echo $content[ 'placeholder' ]; ?>" class="ult-modal-form-row__input <?php echo $content[ 'class' ] ?>" name="<?php echo $content[ 'option_name' ]; ?>" data-type="text">
-									</div>
-								</div>
 
-								<?php
+									<?php
 
-								break;
+									break;
 
-							case 'color':
-
-								?>
-
-								<div class="ult-modal-form-row">
-									<div class="ult-modal-form-row__label">
-										<?php echo $content[ 'label' ]; ?>
-									</div>
-									<div class="ult-modal-form-row__field">
-										<input type="color" placeholder="<?php echo $content[ 'placeholder' ]; ?>" class="ult-modal-form-row__color" name="<?php echo $content[ 'option_name' ]; ?>" data-type="color">
-									</div>
-								</div>
-
-								<?php
-
-								break;
-
-							case 'textarea':
-								//Fallback method for old toolkit
-								if ( version_compare( UNCANNY_TOOLKIT_VERSION, '2.4' ) >= 0 ){
-									// TinyMCE.
-
-									$tinymce_content = self::get_settings_value( $tinymce_content[ 'option_name' ], $class );
-
-									if ( empty( $content ) ) {
-										$tinymce_content = $tinymce_content[ 'placeholder' ];
-									}
-
-									$tinymce_content = stripslashes( $tinymce_content );
+								case 'text':
 
 									?>
 
@@ -412,24 +371,16 @@ class Config {
 											<?php echo $content[ 'label' ]; ?>
 										</div>
 										<div class="ult-modal-form-row__field">
-											<?php
-
-											echo wp_editor(
-												$tinymce_content,
-												$content[ 'option_name' ],
-												[
-													'editor_class'  => 'ult-tinymce',
-													'media_buttons' => false,
-													'editor_height' => 275,
-												]);
-
-											?>
+											<input type="text" placeholder="<?php echo $content[ 'placeholder' ]; ?>" class="ult-modal-form-row__input <?php echo $content[ 'class' ] ?>" name="<?php echo $content[ 'option_name' ]; ?>" data-type="text">
 										</div>
 									</div>
 
 									<?php
-								}
-								else {
+
+									break;
+
+								case 'color':
+
 									?>
 
 									<div class="ult-modal-form-row">
@@ -437,114 +388,169 @@ class Config {
 											<?php echo $content[ 'label' ]; ?>
 										</div>
 										<div class="ult-modal-form-row__field">
-											<textarea class="ult-modal-form-row__textarea <?php echo $content[ 'class' ]; ?>" name="<?php echo $content[ 'option_name' ]; ?>" placeholder="<?php echo $content[ 'placeholder' ]; ?>" type="textarea"></textarea>
+											<input type="color" placeholder="<?php echo $content[ 'placeholder' ]; ?>" class="ult-modal-form-row__color" name="<?php echo $content[ 'option_name' ]; ?>" data-type="color">
 										</div>
 									</div>
 
 									<?php
-								}
 
-								break;
+									break;
 
-							case 'checkbox':
+								case 'textarea':
+									//Fallback method for old toolkit
+									if ( version_compare( UNCANNY_TOOLKIT_VERSION, '2.4' ) >= 0 ){
+										// TinyMCE.
 
-								?>
+										$tinymce_content = self::get_settings_value( $tinymce_content[ 'option_name' ], $class );
 
-								<div class="ult-modal-form-row">
-									<div class="ult-modal-form-row__label">
-										<?php echo $content[ 'label' ]; ?>
-									</div>
-									<div class="ult-modal-form-row__field">
-										<input type="checkbox" name="<?php echo $content[ 'option_name' ]; ?>" class="ult-modal-form-row__checkbox" data-type="checkbox">
-									</div>
-								</div>
-
-								<?php
-
-								break;
-
-							case 'radio';
-
-								?>
-
-								<div class="ult-modal-form-row">
-									<div class="ult-modal-form-row__label">
-										<?php echo $content[ 'label' ]; ?>
-									</div>
-									<div class="ult-modal-form-row__field">
-										<?php
-
-										/**
-										 * This type of field has an exception. We're expecting more than one input radio
-										 */
-										
-										foreach ( $content['radios'] as $radio ){
-											?>
-
-											<input type="radio" name="<?php echo $content[ 'radio_name' ]; ?>" value="<?php echo $radio[ 'value' ]; ?>" data-type="radio"> <?php echo $radio[ 'text' ]; ?>
-
-											<?php
+										if ( empty( $content ) ) {
+											$tinymce_content = $tinymce_content[ 'placeholder' ];
 										}
 
+										$tinymce_content = stripslashes( $tinymce_content );
+
 										?>
+
+										<div class="ult-modal-form-row">
+											<div class="ult-modal-form-row__label">
+												<?php echo $content[ 'label' ]; ?>
+											</div>
+											<div class="ult-modal-form-row__field">
+												<?php
+
+												echo wp_editor(
+													$tinymce_content,
+													$content[ 'option_name' ],
+													[
+														'editor_class'  => 'ult-tinymce',
+														'media_buttons' => false,
+														'editor_height' => 275,
+													]);
+
+												?>
+											</div>
+										</div>
+
+										<?php
+									}
+									else {
+										?>
+
+										<div class="ult-modal-form-row">
+											<div class="ult-modal-form-row__label">
+												<?php echo $content[ 'label' ]; ?>
+											</div>
+											<div class="ult-modal-form-row__field">
+												<textarea class="ult-modal-form-row__textarea <?php echo $content[ 'class' ]; ?>" name="<?php echo $content[ 'option_name' ]; ?>" placeholder="<?php echo $content[ 'placeholder' ]; ?>" type="textarea"></textarea>
+											</div>
+										</div>
+
+										<?php
+									}
+
+									break;
+
+								case 'checkbox':
+
+									?>
+
+									<div class="ult-modal-form-row">
+										<div class="ult-modal-form-row__label">
+											<?php echo $content[ 'label' ]; ?>
+										</div>
+										<div class="ult-modal-form-row__field">
+											<input type="checkbox" name="<?php echo $content[ 'option_name' ]; ?>" class="ult-modal-form-row__checkbox" data-type="checkbox">
+										</div>
 									</div>
-								</div>
 
-								<?php
+									<?php
 
-								break;
+									break;
 
-							case 'select':
+								case 'radio';
 
-								?>
+									?>
 
-								<div class="ult-modal-form-row">
-									<div class="ult-modal-form-row__label">
-										<?php echo $content[ 'label' ]; ?>
-									</div>
-									<div class="ult-modal-form-row__field">
-										<select name="<?php echo $content['select_name']; ?>" data-type="select">
+									<div class="ult-modal-form-row">
+										<div class="ult-modal-form-row__label">
+											<?php echo $content[ 'label' ]; ?>
+										</div>
+										<div class="ult-modal-form-row__field">
 											<?php
 
-											foreach ( $content['options'] as $option ){
+											/**
+											 * This type of field has an exception. We're expecting more than one input radio
+											 */
+											
+											foreach ( $content['radios'] as $radio ){
 												?>
 
-												<option value="<?php echo $option[ 'value' ]; ?>">
-													<?php echo $option[ 'text' ]; ?>
-												</option>
+												<input type="radio" name="<?php echo $content[ 'radio_name' ]; ?>" value="<?php echo $radio[ 'value' ]; ?>" data-type="radio"> <?php echo $radio[ 'text' ]; ?>
 
 												<?php
 											}
 
 											?>
-										</select>
-
+										</div>
 									</div>
-								</div>
 
-								<?php
+									<?php
 
-								break;
+									break;
+
+								case 'select':
+
+									?>
+
+									<div class="ult-modal-form-row">
+										<div class="ult-modal-form-row__label">
+											<?php echo $content[ 'label' ]; ?>
+										</div>
+										<div class="ult-modal-form-row__field">
+											<select name="<?php echo $content['select_name']; ?>" data-type="select">
+												<?php
+
+												foreach ( $content['options'] as $option ){
+													?>
+
+													<option value="<?php echo $option[ 'value' ]; ?>">
+														<?php echo $option[ 'text' ]; ?>
+													</option>
+
+													<?php
+												}
+
+												?>
+											</select>
+
+										</div>
+									</div>
+
+									<?php
+
+									break;
+							}
 						}
-					}
 
-					?>
-				</div>
-				<div class="ult-modal-notice"></div>
-				<div class="ult-modal-actions">
-					<div class="ult-modal-action">
-						<div class="ult-modal-action__btn ult-modal-action__btn-cancel-js" data-action="cancel">
-							<?php _e( 'Cancel', 'uncanny-learndash-toolkit' ); ?>	
+						?>
+					</div>
+					<div class="ult-modal-notice"></div>
+					<div class="ult-modal-actions">
+						<div class="ult-modal-action">
+							<div class="ult-modal-action__btn ult-modal-action__btn--secondary ult-modal-action__btn-cancel-js" data-action="cancel">
+								<?php _e( 'Cancel', 'uncanny-learndash-toolkit' ); ?>	
+							</div>
+						</div>
+						<div class="ult-modal-action">
+							<button class="ult-modal-action__btn ult-modal-action__btn--primary ult-modal-action__btn-submit-js" type="submit">
+								<?php _e( 'Save module', 'uncanny-learndash-toolkit' ); ?>	
+							</button>
 						</div>
 					</div>
-					<div class="ult-modal-action">
-						<button class="ult-modal-action__btn ult-modal-action__btn-submit-js" type="submit">
-							<?php _e( 'Save module', 'uncanny-learndash-toolkit' ); ?>	
-						</button>
-					</div>
-				</div>
-			</form>
+				</form>
+			</div>
 		</div>
+			
 
 		<?php
 
@@ -637,7 +643,7 @@ class Config {
 				//self::trace_logs( $options, 'options', 'save' );
 				$save_settings = add_option( self::removeslashes($class), $options, 'no' );
 
-				$response[ 'error' ] = $save_settings;
+				$response[ 'error' ] = ! $save_settings;
 
 				if ( $save_settings ){
 					$response[ 'message' ] = __( 'Settings saved successfully', 'uncanny-learndash-toolkit' );

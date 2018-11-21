@@ -426,6 +426,7 @@ jQuery( function($){
             bindModalActions: function( $modal ){
                 // Get modal elements
                 let $elements = {
+                    modalBox:     $modal.find( '.ult-modal-box' ),
                     form:         $modal.find( '.ult-modal-form-js' ),
                     cancelButton: $modal.find( '.ult-modal-action__btn-cancel-js' ),
                     submitButton: $modal.find( '.ult-modal-action__btn-submit-js' )
@@ -468,6 +469,9 @@ jQuery( function($){
                         // Remove loading animation from submit button
                         $elements.submitButton.removeClass( 'ult-modal-action__btn--loading' );
                     });
+
+                    // Just trying to prevent the form again
+                    return false;
                 });
 
                 // Bind cancel button
@@ -482,7 +486,7 @@ jQuery( function($){
                 // Bind click outside
                 $( document ).on( 'mouseup.ultModal', ( event ) => {
                     // If the target of the click isn't the container nor a descendant of the container
-                    if ( ! $modal.is( event.target ) && $modal.has( event.target ).length === 0 ){
+                    if ( ! $elements.modalBox.is( event.target ) && $elements.modalBox.has( event.target ).length === 0 ){
                         // Close modal
                         this.hideModal( $modal );
 
