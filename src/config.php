@@ -455,11 +455,9 @@ class Config {
 									?>
 
 									<div class="ult-modal-form-row ult-modal__field--checkbox">
-										<div class="ult-modal-form-row__label">
-											<?php echo $content[ 'label' ]; ?>
-										</div>
 										<div class="ult-modal-form-row__field">
 											<input type="checkbox" name="<?php echo $content[ 'option_name' ]; ?>" class="ult-modal-form-row__checkbox" data-type="checkbox">
+											<?php echo $content[ 'label' ]; ?>
 										</div>
 									</div>
 
