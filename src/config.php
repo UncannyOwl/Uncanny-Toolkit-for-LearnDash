@@ -354,7 +354,7 @@ class Config {
 
 									?>
 
-									<div class="ult-modal__field ult-modal__field--html <?php echo $content[ 'class' ]; ?>">
+									<div class="ult-modal-form-row ult-modal-form-row--html <?php echo $content[ 'class' ]; ?>">
 										<?php echo $content[ 'inner_html' ]; ?>
 									</div>
 
