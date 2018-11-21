@@ -609,7 +609,7 @@ jQuery( function($){
                             break;
 
                         case 'tinymce':
-                            let editor = tinymce.get( this.attributes.optionCode );
+                            let editor = tinymce.get( field.name );
                             editor.execCommand( 'mceInsertContent', false, field.value );
                             break;
 
