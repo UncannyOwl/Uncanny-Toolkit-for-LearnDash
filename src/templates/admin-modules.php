@@ -71,6 +71,15 @@ $config = [
 
 $modules = self::$modules;
 
+    $add_on_titles = array();
+		foreach ( $modules as $key => $row ) {
+
+			$add_on_titles[ $key ] = $row['title'];
+		}
+
+		array_multisort( $add_on_titles, SORT_ASC, $modules );
+
+
 /**
  * Add autoincrement ID
  */
@@ -85,69 +94,6 @@ foreach ( $modules as $key => $module ) {
  * Determinate if each module can be used
  * we're going to check if the user has pro enabled and if it has the required dependencies
  */
-
-/*
-foreach ( $modules as $key => $module ) {
-
-	// Define default value
-	$modules[ $key ]['can_use']              = true;
-	$modules[ $key ]['cant_use_notice']      = '';
-	$modules[ $key ]['missing_dependencies'] = [];
-
-	// Create variable to saved required stuff
-	// We're going to save links here.
-	$required_pieces = [];
-
-	// Check if it's a Pro module but the user doesn't have the Pro plugin
-	if ( 'pro' === $module['version'] && ! $config['has_toolkit_pro'] ) {
-		// Add element to the list of required pieces
-		$required_pieces[] = sprintf( '<a href="%s">%s</a>', $config['get_toolkit_pro'], $config['pro_name'] );
-
-		// Add mising dependency to the module
-		$modules[ $key ]['missing_dependencies'][] = [
-			'type'    => 'core',
-			'title'   => $config['pro_name'],
-			'get_url' => $config['get_toolkit_pro'],
-		];
-
-		// And make "can_use" false
-		$modules[ $key ]['can_use'] = false;
-	}
-
-	// Check if it has dependencies
-	if ( ! empty( $modules[ $key ]['dependencies'] ) ) {
-		// Create variable to check if we have all the required dependencies
-		$has_all_dependencies = true;
-
-		// Iterate the module dependencies
-		foreach ( $modules[ $key ]['dependencies'] as $dependency ) {
-			// Check in the global variable if this dependency is installed
-			if ( ! $dependencies[ $dependency ]['is_installed'] ) {
-				// If not then add it to the required_pieces variable
-				// to show a message later
-				$required_pieces[] = sprintf( '<a href="%s" target="_blank">%s</a>', $dependencies[ $dependency ]['get_url'], $dependencies[ $dependency ]['title'] );
-
-				// Add mising dependency to the module
-				$modules[ $key ]['missing_dependencies'][] = array_merge( $dependencies[ $dependency ], [ 'type' => 'external' ] );
-
-				// And make $has_all_dependencies false
-				$has_all_dependencies = false;
-			}
-		}
-
-		// If it doesn't have all the required dependencies then make "can_use" false
-		if ( ! $has_all_dependencies ) {
-			$modules[ $key ]['can_use'] = false;
-
-			// If it can't be used then it can't be active
-			$modules[ $key ]['is_active'] = false;
-		}
-	}
-
-	// Create message using $required_pieces
-	$modules[ $key ]['cant_use_notice'] = make_readable_list( $required_pieces, 'and' );
-}
-*/
 
 ?>
 
