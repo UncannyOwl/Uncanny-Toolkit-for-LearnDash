@@ -230,7 +230,7 @@ foreach ( $modules as $key => $module ) {
 							<?php if ( ! empty( $module['cant_use_notice'] ) ) { ?>
 
                                 <div class="ult-directory-module-notice">
-                                    <span class="ult-icon ult-icon--lock-alt"></span> <?php printf( __( 'Requires %s', 'uncanny-learndash-toolkit' ), $module['cant_use_notice'] ); ?>
+                                    <span class="ult-icon ult-icon--lock-alt"></span> <?php echo $module['cant_use_notice']; ?>
                                 </div>
 
 							<?php } ?>

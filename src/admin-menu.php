@@ -423,102 +423,102 @@ class AdminMenu extends Boot {
 			[
 				'title'         => esc_html__( 'Days Until Course Expiry', 'uncanny-pro-toolkit' ),
 				'description'   => esc_html__( 'Use this shortcode to display the number of days until the learner\'s access expires for the current course. This is a useful shortcode to include on course pages.', 'uncanny-pro-toolkit' ),
-				'documentation' => 'http://www.uncannyowl.com/knowledge-base/days-until-course-expiry/',
+				'kb_link' => 'http://www.uncannyowl.com/knowledge-base/days-until-course-expiry/',
 			],
 			[
 				'title'         => esc_html__( 'Send Course Certificates by Email', 'uncanny-pro-toolkit' ),
 				'description'   => esc_html__( 'Sends a copy of certificate earned from course completion and saves certificates on the server.', 'uncanny-pro-toolkit' ),
-				'documentation' => 'https://www.uncannyowl.com/knowledge-base/send-course-certificates-email/',
+				'kb_link' => 'https://www.uncannyowl.com/knowledge-base/send-course-certificates-email/',
 			],
 			[
 				'title'         => esc_html__( 'Simple Course Timer', 'uncanny-pro-toolkit' ),
 				'description'   => esc_html__( 'Tracks time spent in all LearnDash courses and detects when a user is idle. Course completion time and total course time are both added to LearnDash reports. Enables blocking access to quizzes until minimum time spent in course.', 'uncanny-pro-toolkit' ),
-				'documentation' => 'http://www.uncannyowl.com/knowledge-base/simple-course-timer/',
+				'kb_link' => 'http://www.uncannyowl.com/knowledge-base/simple-course-timer/',
 			],
 			[
 				'title'         => esc_html__( 'Send Quiz Certificates by Email', 'uncanny-pro-toolkit' ),
 				'description'   => esc_html__( 'Sends a copy of certificates earned from quiz completion and saves certificates on the server.', 'uncanny-pro-toolkit' ),
-				'documentation' => 'https://www.uncannyowl.com/knowledge-base/send-certificates-by-email/',
+				'kb_link' => 'https://www.uncannyowl.com/knowledge-base/send-certificates-by-email/',
 			],
 			[
 				'title'         => esc_html__( 'Autocomplete Lessons & Topics on Gravity Form Submission', 'uncanny-pro-toolkit' ),
 				'description'   => esc_html__( 'Automatically mark LearnDash lessons and topics as completed when the user submits Gravity Forms.', 'uncanny-pro-toolkit' ),
-				'documentation' => 'http://www.uncannyowl.com/knowledge-base/gravity-forms-auto-completes-lessons-topics/',
+				'kb_link' => 'http://www.uncannyowl.com/knowledge-base/gravity-forms-auto-completes-lessons-topics/',
 			],
 			[
 				'title'         => esc_html__( 'Improved Group Leader Interface', 'uncanny-pro-toolkit' ),
 				'description'   => esc_html__( 'Enhances the experience of LearnDash Group Leaders by providing direct access to reports and removing unnecessary distractions from the admin panel.', 'uncanny-pro-toolkit' ),
-				'documentation' => 'http://www.uncannyowl.com/knowledge-base/group-leader-access/',
+				'kb_link' => 'http://www.uncannyowl.com/knowledge-base/group-leader-access/',
 			],
 			[
 				'title'         => esc_html__( 'LearnDash Group Logo/List', 'uncanny-pro-toolkit' ),
 				'description'   => esc_html__( 'Add group-specific logos to any page, including registration pages. A shortcode to list a user’s LearnDash Groups is also available.', 'uncanny-pro-toolkit' ),
-				'documentation' => 'https://www.uncannyowl.com/knowledge-base/ld-group-logo-list/',
+				'kb_link' => 'https://www.uncannyowl.com/knowledge-base/ld-group-logo-list/',
 			],
 			[
 				'title'         => esc_html__( 'Import LearnDash Users', 'uncanny-pro-toolkit' ),
 				'description'   => esc_html__( 'Create or update users and assign them to courses and LearnDash Groups from a CSV file.', 'uncanny-pro-toolkit' ),
-				'documentation' => 'https://www.uncannyowl.com/knowledge-base/import-learndash-users/',
+				'kb_link' => 'https://www.uncannyowl.com/knowledge-base/import-learndash-users/',
 			],
 			[
 				'title'         => esc_html__( 'LearnDash Group Expiration', 'uncanny-pro-toolkit' ),
 				'description'   => esc_html__( 'Set expiration dates for LearnDash groups so that course enrolment for the group is removed on the specified day. Reminder emails can be sent to users advising them of group expiration.', 'uncanny-pro-toolkit' ),
-				'documentation' => 'http://www.uncannyowl.com/knowledge-base/learndash-group-expiration/',
+				'kb_link' => 'http://www.uncannyowl.com/knowledge-base/learndash-group-expiration/',
 			],
 			[
 				'title'         => esc_html__( 'LearnDash Group Registration', 'uncanny-pro-toolkit' ),
 				'description'   => esc_html__( 'Allow users to add themselves directly to LearnDash Groups on registration by assigning each group a unique registration URL. Users can also change or add groups themselves by visiting group URLs.', 'uncanny-pro-toolkit' ),
-				'documentation' => 'http://www.uncannyowl.com/knowledge-base/group-sign-up/',
+				'kb_link' => 'http://www.uncannyowl.com/knowledge-base/group-sign-up/',
 			],
 			[
 				'title'         => esc_html__( 'LearnDash Course Dashboard', 'uncanny-pro-toolkit' ),
 				'description'   => esc_html__( 'Use the [uo_dashboard] shortcode to display the list of enrolled courses for the current user. This is essentially a modified version of the [ld_profile] shortcode without profile data.', 'uncanny-pro-toolkit' ),
-				'documentation' => 'http://www.uncannyowl.com/knowledge-base/learndash-course-dashboard/',
+				'kb_link' => 'http://www.uncannyowl.com/knowledge-base/learndash-course-dashboard/',
 			],
 			[
 				'title'         => esc_html__( 'LearnDash Reset Button', 'uncanny-pro-toolkit' ),
 				'description'   => esc_html__( 'Inserts a button that allows learners to reset the course.', 'uncanny-pro-toolkit' ),
-				'documentation' => 'https://www.uncannyowl.com/knowledge-base/learndash-reset/',
+				'kb_link' => 'https://www.uncannyowl.com/knowledge-base/learndash-reset/',
 			],
 			[
 				'title'         => esc_html__( 'LearnDash Table Colors', 'uncanny-pro-toolkit' ),
 				'description'   => esc_html__( 'Change the background and header text color of LearnDash tables. This module modifies the course, lesson, topic, quiz, and Pro Dashboard tables.', 'uncanny-pro-toolkit' ),
-				'documentation' => 'http://www.uncannyowl.com/knowledge-base/learndash-table-colors/',
+				'kb_link' => 'http://www.uncannyowl.com/knowledge-base/learndash-table-colors/',
 			],
 			[
 				'title'         => esc_html__( 'Learner Transcript', 'uncanny-pro-toolkit' ),
 				'description'   => esc_html__( 'Add printable transcripts to the front end for your learners. This is a great way for learners to have a record of all course progress and overall standing.', 'uncanny-pro-toolkit' ),
-				'documentation' => 'http://www.uncannyowl.com/knowledge-base/learner-transcript/',
+				'kb_link' => 'http://www.uncannyowl.com/knowledge-base/learner-transcript/',
 			],
 			[
 				'title'         => esc_html__( 'Autocomplete Lessons & Topics', 'uncanny-pro-toolkit' ),
 				'description'   => esc_html__( 'Automatically mark all lessons and topics as completed on user visit and remove Mark Complete buttons. Global settings can be overridden for individual lessons and topics.', 'uncanny-pro-toolkit' ),
-				'documentation' => 'http://www.uncannyowl.com/knowledge-base/autocomplete-lessons-topics/',
+				'kb_link' => 'http://www.uncannyowl.com/knowledge-base/autocomplete-lessons-topics/',
 			],
 			[
 				'title'         => esc_html__( 'Autocomplete Lessons & Topics on Quiz Results Page', 'uncanny-pro-toolkit' ),
 				'description'   => esc_html__( 'Automatically mark LearnDash lessons and topics as completed when the user reaches the quiz results page with a passing mark.', 'uncanny-pro-toolkit' ),
-				'documentation' => 'http://www.uncannyowl.com/knowledge-base/autocomplete-lessons-topics-on-quiz-completion/',
+				'kb_link' => 'http://www.uncannyowl.com/knowledge-base/autocomplete-lessons-topics-on-quiz-completion/',
 			],
 			[
 				'title'         => esc_html__( 'Enhanced Lessons/Topics Grid', 'uncanny-pro-toolkit' ),
 				'description'   => esc_html__( 'Add a highly customizable grid of LearnDash lessons/topics to the front end, learner dashboard or anywhere you want. This is a great tool for sites with a large number of lessons/topics.', 'uncanny-pro-toolkit' ),
-				'documentation' => 'https://www.uncannyowl.com/knowledge-base/enhanced-lessons-topics-grid/',
+				'kb_link' => 'https://www.uncannyowl.com/knowledge-base/enhanced-lessons-topics-grid/',
 			],
 			[
 				'title'         => esc_html__( 'Sample Lesson Label', 'uncanny-pro-toolkit' ),
 				'description'   => esc_html__( 'Add visual label to sample lessons.', 'uncanny-pro-toolkit' ),
-				'documentation' => 'http://www.uncannyowl.com/knowledge-base/sample-lesson-label/',
+				'kb_link' => 'http://www.uncannyowl.com/knowledge-base/sample-lesson-label/',
 			],
 			[
 				'title'         => esc_html__( 'Enhanced Course Grid', 'uncanny-pro-toolkit' ),
 				'description'   => esc_html__( 'Add a highly customizable grid of LearnDash courses to the front end, learner dashboard or anywhere you want. This is a great tool for sites with a large number of courses.', 'uncanny-pro-toolkit' ),
-				'documentation' => 'http://www.uncannyowl.com/knowledge-base/enhanced-course-grid/',
+				'kb_link' => 'http://www.uncannyowl.com/knowledge-base/enhanced-course-grid/',
 			],
 			[
 				'title'         => esc_html__( 'Drip Lessons by LearnDash Group', 'uncanny-pro-toolkit' ),
 				'description'   => esc_html__( 'Unlock access to LearnDash lessons by setting dates for LearnDash Groups rather than for all enrolled users.', 'uncanny-pro-toolkit' ),
-				'documentation' => 'http://www.uncannyowl.com/knowledge-base/drip-lessons-by-ldgroup/',
+				'kb_link' => 'http://www.uncannyowl.com/knowledge-base/drip-lessons-by-ldgroup/',
 			],
 		];
 
@@ -526,7 +526,7 @@ class AdminMenu extends Boot {
 		foreach ( $pro_modules as &$module ) {
 
 			$i ++;
-			$module['cant_use_notice'] = 'Uncanny LearDash Pro to be active. <a href="https://www.uncannyowl.com/downloads/uncanny-learndash-toolkit-pro/">Buy it here</a>';
+			$module['cant_use_notice'] = 'This module requires Uncanny LearnDash Pro to be active. <a href="https://www.uncannyowl.com/downloads/uncanny-learndash-toolkit-pro/?utm_source=toolkit_free&utm_medium=modules_pro_notice">'.__('Buy it here','').'</a>';
 			$module['version']         = 'pro';
 			$module['is_pro']          = true;
 			$module['pseudo-pro']      = true;
