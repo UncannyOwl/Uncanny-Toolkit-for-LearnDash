@@ -298,9 +298,6 @@ class AdminMenu extends Boot {
 			$modal_html .= $class['settings']['modal'];
 		}
 
-		$toolkit_html = '';
-		$toolkit_html .= '<ul id="features">';
-
 		$add_on_titles = array();
 		foreach ( $classes_available as $key => $row ) {
 
@@ -319,14 +316,6 @@ class AdminMenu extends Boot {
 			self::$modules[ $key ]['settings_id'] = $class_name;
 
 			if ( false === $class ) {
-				$toolkit_html .= '<li class="uo_feature" data-id="' . str_replace( array(
-						'uncanny_learndash_toolkit',
-						'\\',
-						'uncanny_pro_toolkit',
-					), '', $class_name ) . '" data-tags="' . $class['tags'] . '" data-active="0" data-type="' . $class['type'] . '">';
-				$toolkit_html .= '<div class="uo_feature_title"> ' . esc_html( $key ) . '</div>';
-				$toolkit_html .= '<div class="uo_feature_description">' . esc_html_e( 'This class is not configured properly. Contact Support for assistance.', 'uncanny-learndash-toolkit' ) . '</div>';
-				$toolkit_html .= '</li>';
 				continue;
 			}
 
@@ -536,12 +525,12 @@ class AdminMenu extends Boot {
 		$i = 0;
 		foreach ( $pro_modules as &$module ) {
 
-			$i++;
+			$i ++;
 			$module['cant_use_notice'] = 'Uncanny LearDash Pro to be active. <a href="https://www.uncannyowl.com/downloads/uncanny-learndash-toolkit-pro/">Buy it here</a>';
 			$module['version']         = 'pro';
 			$module['is_pro']          = true;
 			$module['pseudo-pro']      = true;
-			self::$modules['z'.$i]           = $module;
+			self::$modules[]           = $module;
 		}
 	}
 }

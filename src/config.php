@@ -331,7 +331,7 @@ class Config {
 
 		?>
 
-		<div class="ult-modal" data-settings="<?php echo $modal_id; ?>">
+		<div class="ult-modal" data-settings="<?php echo strtolower( $modal_id ); ?>">
 			<div class="ult-modal-box">
 				<div class="ult-modal__header">
 					<div class="ult-modal-title">
