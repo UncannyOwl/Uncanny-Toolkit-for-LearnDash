@@ -1,39 +1,6 @@
 <?php
 namespace uncanny_learndash_toolkit;
 
-function make_readable_list( $items, $last_word ) {
-	$count  = count( $items );
-	$output = '';
-
-	if ( ! $count === 0 ) {
-		if ( $count === 1 ) {
-			$output = $items[0];
-		} else {
-			$output = implode( ', ', array_slice( $items, 0, - 1 ) ) . ', ' . $last_word . ' ' . end( $items );
-		}
-	}
-
-	return $output;
-}
-
-$dependencies = [
-	'gravity-forms' => [
-		'title'        => 'Gravity Forms',
-		'get_url'      => '#',
-		'is_installed' => false,
-	],
-	'learndash'     => [
-		'title'        => 'LearnDash',
-		'get_url'      => '#',
-		'is_installed' => true,
-	],
-	'divi'          => [
-		'title'        => 'Divi',
-		'get_url'      => '#',
-		'is_installed' => true,
-	],
-];
-
 /**
  * A variable with some data, for now it has:
  * - has_toolkit_pro:    Boolean to determinate if the user has the Pro version installed.
@@ -70,15 +37,13 @@ $config = [
  */
 
 $modules = self::$modules;
+$add_on_titles = array();
 
-    $add_on_titles = array();
-		foreach ( $modules as $key => $row ) {
+foreach ( $modules as $key => $row ){
+    $add_on_titles[ $key ] = $row['title'];
+}
 
-			$add_on_titles[ $key ] = $row['title'];
-		}
-
-		array_multisort( $add_on_titles, SORT_ASC, $modules );
-
+array_multisort( $add_on_titles, SORT_ASC, $modules );
 
 /**
  * Add autoincrement ID
