@@ -524,7 +524,8 @@ class AdminMenu extends Boot {
 
 		foreach ( $pro_modules as &$module ) {
 
-			$module['cant_use_notice'] = __( 'This module requires Uncanny LearnDash Pro to be active.', 'uncanny-learndash-toolkit' ) . '<a href="https://www.uncannyowl.com/downloads/uncanny-learndash-toolkit-pro/?utm_source=toolkit_free&utm_medium=modules_pro_notice">' . __( 'Buy it here', 'uncanny-learndash-toolkit' ) . '</a>';
+			$module['cant_use_notice'] = str_replace( '{{', '<a href="https://www.uncannyowl.com/downloads/uncanny-learndash-toolkit-pro/?utm_source=toolkit_free&utm_medium=modules_pro_notice" target="_blank">', str_replace( '}}', '</a>', __( 'This module requires Uncanny LearnDash Pro to be active. {{Buy it here}}', 'uncanny-learndash-toolkit' )));
+			
 			$module['version']         = 'pro';
 			$module['is_pro']          = true;
 			$module['pseudo-pro']      = true;
