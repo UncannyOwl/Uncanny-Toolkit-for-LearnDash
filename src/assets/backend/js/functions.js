@@ -417,7 +417,7 @@ jQuery( function($){
 
                     // Get settings ID
                     let settingsId = ULT_Utility.removeBackslash( $button.data( 'settings' ) );
-                    settingsId = settingsId.toLowerCase();
+                    //settingsId = settingsId.toLowerCase();
 
                     // Get modal
                     let $modal = _this.getModal( settingsId );

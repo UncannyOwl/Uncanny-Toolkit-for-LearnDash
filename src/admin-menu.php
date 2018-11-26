@@ -108,26 +108,26 @@ class AdminMenu extends Boot {
 
 		?>
 
-        <div class="wrap">
-            <div class="uo-plugins-header">
-                <div class="uo-plugins-header__title">
-                    Uncanny LearnDash Toolkit
-                </div>
-                <div class="uo-plugins-header__author">
-                    <span><?php _e( 'by', 'uncanny-learndash-toolkit' ); ?></span>
-                    <a href="https://uncannyowl.com" target="_blank" class="uo-plugins-header__logo">
-                        <img src="<?php echo esc_url( Config::get_admin_media( 'uncanny-owl-logo.svg' ) ); ?>"
-                             alt="Uncanny Owl">
-                    </a>
-                </div>
-            </div>
+		<div class="wrap">
+			<div class="uo-plugins-header">
+				<div class="uo-plugins-header__title">
+					Uncanny LearnDash Toolkit
+				</div>
+				<div class="uo-plugins-header__author">
+					<span><?php _e( 'by', 'uncanny-learndash-toolkit' ); ?></span>
+					<a href="https://uncannyowl.com" target="_blank" class="uo-plugins-header__logo">
+						<img src="<?php echo esc_url( Config::get_admin_media( 'uncanny-owl-logo.svg' ) ); ?>"
+						     alt="Uncanny Owl">
+					</a>
+				</div>
+			</div>
 
-            <div class="uo-plugins-tabs">
+			<div class="uo-plugins-tabs">
 				<?php include( Config::get_template( 'admin-tabs.php' ) ) ?>
-            </div>
+			</div>
 
 			<?php include( Config::get_template( 'admin-modules.php' ) ) ?>
-        </div>
+		</div>
 
 		<?php self::create_features( $classes_available, $active_classes );
 
@@ -261,8 +261,11 @@ class AdminMenu extends Boot {
 				//var_dump($class_name);
 				continue;
 			}
+
+			$class_name = get_class( new $class_name() );
 			// test for required functions
 			$class = new ReflectionClass( $class_name );
+
 			if ( $class->implementsInterface( 'uncanny_learndash_toolkit\RequiredFunctions' ) ) {
 				$details[ $class_name ] = $class_name::get_details();
 			} else {
@@ -310,10 +313,9 @@ class AdminMenu extends Boot {
 			if ( 'uncanny_learndash_toolkit\Sample' === $key || 'uncanny_custom_toolkit\Sample' === $key || 'uncanny_pro_toolkit\Sample' === $key ) {
 				continue;
 			}
+			//$class_name = config::removeslashes( $key );
 
-			$class_name = config::removeslashes( $key );
-
-			self::$modules[ $key ]['settings_id'] = $class_name;
+			self::$modules[ $key ]['settings_id'] = str_replace( __NAMESPACE__, '', stripslashes( $key ) );
 
 			if ( false === $class ) {
 				continue;
@@ -380,7 +382,7 @@ class AdminMenu extends Boot {
 
 			$class_name = $key;
 
-			self::$modules[ $key ]['settings_id']  = $class_name;
+			self::$modules[ $key ]['settings_id']  = str_replace( __NAMESPACE__, '', stripslashes( $key ) );
 			self::$modules[ $key ]['has_settings'] = true;
 			if ( ! isset( $class['settings'] ) || false === $class['settings'] ) {
 				self::$modules[ $key ]['has_settings'] = false;
@@ -524,12 +526,12 @@ class AdminMenu extends Boot {
 
 		foreach ( $pro_modules as &$module ) {
 
-			$module['cant_use_notice'] = str_replace( '{{', '<a href="https://www.uncannyowl.com/downloads/uncanny-learndash-toolkit-pro/?utm_source=toolkit_free&utm_medium=modules_pro_notice" target="_blank">', str_replace( '}}', '</a>', __( 'This module requires Uncanny LearnDash Pro to be active. {{Buy it here}}', 'uncanny-learndash-toolkit' )));
-			
-			$module['version']         = 'pro';
-			$module['is_pro']          = true;
-			$module['pseudo-pro']      = true;
-			self::$modules[]           = $module;
+			$module['cant_use_notice'] = str_replace( '{{', '<a href="https://www.uncannyowl.com/downloads/uncanny-learndash-toolkit-pro/?utm_source=toolkit_free&utm_medium=modules_pro_notice" target="_blank">', str_replace( '}}', '</a>', __( 'This module requires Uncanny LearnDash Pro to be active. {{Buy it here}}', 'uncanny-learndash-toolkit' ) ) );
+
+			$module['version']    = 'pro';
+			$module['is_pro']     = true;
+			$module['pseudo-pro'] = true;
+			self::$modules[]      = $module;
 		}
 	}
 }

@@ -195,7 +195,7 @@ class Config {
 
 	/**
 	 * @param string $file_name File name must be prefixed with a \ (foreword slash)
-	 * @param mixed  $file      (false || __FILE__ )
+	 * @param mixed $file (false || __FILE__ )
 	 *
 	 * @return string
 	 */
@@ -212,7 +212,7 @@ class Config {
 
 	/**
 	 * @param string $file_name File name must be prefixed with a \ (foreword slash)
-	 * @param mixed  $file      (false || __FILE__ )
+	 * @param mixed $file (false || __FILE__ )
 	 *
 	 * @return string
 	 */
@@ -321,17 +321,18 @@ class Config {
 	 */
 	public static function settings_output( $settings ) {
 
-		$class   = $settings[ 'class' ];// define by __CLASS__ from related php file
-		$title   = $settings[ 'title' ];
-		$options = $settings[ 'options' ];
+		$class   = $settings['class'];// define by __CLASS__ from related php file
+		$title   = $settings['title'];
+		$options = $settings['options'];
 
 		$modal_id = stripslashes( $class );
+		$modal_id = str_replace( __NAMESPACE__, '', $modal_id );
 
 		ob_start();
 
 		?>
 
-		<div class="ult-modal" data-settings="<?php echo strtolower( $modal_id ); ?>">
+		<div class="ult-modal" data-settings="<?php echo $modal_id; ?>">
 			<div class="ult-modal-box">
 				<div class="ult-modal__header">
 					<div class="ult-modal-title">
@@ -346,16 +347,16 @@ class Config {
 						<?php
 
 						// Create options
-						foreach ( $options as $content ){
+						foreach ( $options as $content ) {
 
-							switch ( $content[ 'type' ] ){
+							switch ( $content['type'] ) {
 
 								case 'html':
 
 									?>
 
-									<div class="ult-modal-form-row ult-modal-form-row--html <?php echo $content[ 'class' ]; ?>">
-										<?php echo $content[ 'inner_html' ]; ?>
+									<div class="ult-modal-form-row ult-modal-form-row--html <?php echo $content['class']; ?>">
+										<?php echo $content['inner_html']; ?>
 									</div>
 
 									<?php
@@ -368,10 +369,10 @@ class Config {
 
 									<div class="ult-modal-form-row ult-modal__field--text">
 										<div class="ult-modal-form-row__label">
-											<?php echo $content[ 'label' ]; ?>
+											<?php echo $content['label']; ?>
 										</div>
 										<div class="ult-modal-form-row__field">
-											<input type="text" placeholder="<?php echo $content[ 'placeholder' ]; ?>" class="ult-modal-form-row__input <?php echo $content[ 'class' ] ?>" name="<?php echo $content[ 'option_name' ]; ?>" data-type="text">
+											<input type="text" placeholder="<?php echo $content['placeholder']; ?>" class="ult-modal-form-row__input <?php echo $content['class'] ?>" name="<?php echo $content['option_name']; ?>" data-type="text">
 										</div>
 									</div>
 
@@ -385,10 +386,10 @@ class Config {
 
 									<div class="ult-modal-form-row ult-modal__field--color">
 										<div class="ult-modal-form-row__label">
-											<?php echo $content[ 'label' ]; ?>
+											<?php echo $content['label']; ?>
 										</div>
 										<div class="ult-modal-form-row__field">
-											<input type="color" placeholder="<?php echo $content[ 'placeholder' ]; ?>" class="ult-modal-form-row__color" name="<?php echo $content[ 'option_name' ]; ?>" data-type="color">
+											<input type="color" placeholder="<?php echo $content['placeholder']; ?>" class="ult-modal-form-row__color" name="<?php echo $content['option_name']; ?>" data-type="color">
 										</div>
 									</div>
 
@@ -398,13 +399,13 @@ class Config {
 
 								case 'textarea':
 									//Fallback method for old toolkit
-									if ( version_compare( UNCANNY_TOOLKIT_VERSION, '2.4' ) >= 0 ){
+									if ( version_compare( UNCANNY_TOOLKIT_VERSION, '2.4' ) >= 0 ) {
 										// TinyMCE.
 
-										$tinymce_content = self::get_settings_value( $tinymce_content[ 'option_name' ], $class );
+										$tinymce_content = self::get_settings_value( $tinymce_content['option_name'], $class );
 
 										if ( empty( $content ) ) {
-											$tinymce_content = $tinymce_content[ 'placeholder' ];
+											$tinymce_content = $tinymce_content['placeholder'];
 										}
 
 										$tinymce_content = stripslashes( $tinymce_content );
@@ -413,35 +414,34 @@ class Config {
 
 										<div class="ult-modal-form-row ult-modal__field--tinymce">
 											<div class="ult-modal-form-row__label">
-												<?php echo $content[ 'label' ]; ?>
+												<?php echo $content['label']; ?>
 											</div>
 											<div class="ult-modal-form-row__field">
 												<?php
 
 												echo wp_editor(
 													$tinymce_content,
-													$content[ 'option_name' ],
+													$content['option_name'],
 													[
 														'editor_class'  => 'ult-tinymce',
 														'media_buttons' => false,
 														'editor_height' => 275,
-													]);
+													] );
 
 												?>
 											</div>
 										</div>
 
 										<?php
-									}
-									else {
+									} else {
 										?>
 
 										<div class="ult-modal-form-row ult-modal__field--textarea">
 											<div class="ult-modal-form-row__label">
-												<?php echo $content[ 'label' ]; ?>
+												<?php echo $content['label']; ?>
 											</div>
 											<div class="ult-modal-form-row__field">
-												<textarea class="ult-modal-form-row__textarea <?php echo $content[ 'class' ]; ?>" name="<?php echo $content[ 'option_name' ]; ?>" placeholder="<?php echo $content[ 'placeholder' ]; ?>" type="textarea"></textarea>
+												<textarea class="ult-modal-form-row__textarea <?php echo $content['class']; ?>" name="<?php echo $content['option_name']; ?>" placeholder="<?php echo $content['placeholder']; ?>" type="textarea"></textarea>
 											</div>
 										</div>
 
@@ -457,8 +457,8 @@ class Config {
 									<div class="ult-modal-form-row ult-modal__field--checkbox">
 										<div class="ult-modal-form-row__field">
 											<label>
-												<input type="checkbox" name="<?php echo $content[ 'option_name' ]; ?>" class="ult-modal-form-row__checkbox" data-type="checkbox">
-												<?php echo $content[ 'label' ]; ?>
+												<input type="checkbox" name="<?php echo $content['option_name']; ?>" class="ult-modal-form-row__checkbox" data-type="checkbox">
+												<?php echo $content['label']; ?>
 											</label>
 										</div>
 									</div>
@@ -473,7 +473,7 @@ class Config {
 
 									<div class="ult-modal-form-row ult-modal__field--radio">
 										<div class="ult-modal-form-row__label">
-											<?php echo $content[ 'label' ]; ?>
+											<?php echo $content['label']; ?>
 										</div>
 										<div class="ult-modal-form-row__field">
 											<?php
@@ -481,11 +481,11 @@ class Config {
 											/**
 											 * This type of field has an exception. We're expecting more than one input radio
 											 */
-											
-											foreach ( $content['radios'] as $radio ){
+
+											foreach ( $content['radios'] as $radio ) {
 												?>
 
-												<input type="radio" name="<?php echo $content[ 'radio_name' ]; ?>" value="<?php echo $radio[ 'value' ]; ?>" data-type="radio"> <?php echo $radio[ 'text' ]; ?>
+												<input type="radio" name="<?php echo $content['radio_name']; ?>" value="<?php echo $radio['value']; ?>" data-type="radio"> <?php echo $radio['text']; ?>
 
 												<?php
 											}
@@ -504,17 +504,17 @@ class Config {
 
 									<div class="ult-modal-form-row ult-modal__field--select">
 										<div class="ult-modal-form-row__label">
-											<?php echo $content[ 'label' ]; ?>
+											<?php echo $content['label']; ?>
 										</div>
 										<div class="ult-modal-form-row__field">
 											<select class="ult-modal-form-row__select" name="<?php echo $content['select_name']; ?>" data-type="select">
 												<?php
 
-												foreach ( $content['options'] as $option ){
+												foreach ( $content['options'] as $option ) {
 													?>
 
-													<option value="<?php echo $option[ 'value' ]; ?>">
-														<?php echo $option[ 'text' ]; ?>
+													<option value="<?php echo $option['value']; ?>">
+														<?php echo $option['text']; ?>
 													</option>
 
 													<?php
@@ -539,12 +539,12 @@ class Config {
 						<div class="ult-modal-actions">
 							<div class="ult-modal-action">
 								<div class="ult-modal-action__btn ult-modal-action__btn--secondary ult-modal-action__btn-cancel-js" data-action="cancel">
-									<?php _e( 'Close', 'uncanny-learndash-toolkit' ); ?>	
+									<?php _e( 'Close', 'uncanny-learndash-toolkit' ); ?>
 								</div>
 							</div>
 							<div class="ult-modal-action">
 								<button class="ult-modal-action__btn ult-modal-action__btn--primary ult-modal-action__btn-submit-js" type="submit">
-									<?php _e( 'Save module', 'uncanny-learndash-toolkit' ); ?>	
+									<?php _e( 'Save module', 'uncanny-learndash-toolkit' ); ?>
 								</button>
 							</div>
 						</div>
@@ -552,7 +552,7 @@ class Config {
 				</form>
 			</div>
 		</div>
-			
+
 
 		<?php
 
@@ -641,24 +641,23 @@ class Config {
 				// sometimes update value is equal to the existing value and a false
 				// positive is returned
 
-				delete_option( self::removeslashes($class) );
+				delete_option( self::removeslashes( $class ) );
 				//self::trace_logs( $options, 'options', 'save' );
-				$save_settings = add_option( self::removeslashes($class), $options, 'no' );
+				$save_settings = add_option( self::removeslashes( $class ), $options, 'no' );
 
-				$response[ 'error' ] = ! $save_settings;
+				$response['error'] = ! $save_settings;
 
-				if ( $save_settings ){
-					$response[ 'message' ] = __( 'Settings saved successfully', 'uncanny-learndash-toolkit' );
-				}
-				else {
-					$response[ 'message' ] = __( 'Something went wrong. Please, try again', 'uncanny-learndash-toolkit' );
+				if ( $save_settings ) {
+					$response['message'] = __( 'Settings saved successfully', 'uncanny-learndash-toolkit' );
+				} else {
+					$response['message'] = __( 'Something went wrong. Please, try again', 'uncanny-learndash-toolkit' );
 				}
 
 			} else {
-				$response[ 'message' ] = __( 'Class for addon is not set', 'uncanny-learndash-toolkit' );
+				$response['message'] = __( 'Class for addon is not set', 'uncanny-learndash-toolkit' );
 			}
 		} else {
-			$response[ 'message' ] = __( 'You must be an admin to save settings', 'uncanny-learndash-toolkit' );
+			$response['message'] = __( 'You must be an admin to save settings', 'uncanny-learndash-toolkit' );
 		}
 
 		echo json_encode( $response );
@@ -691,7 +690,7 @@ class Config {
 
 				$class = $_POST['class'];
 
-				$settings = get_option( self::removeslashes($class), array() );
+				$settings = get_option( self::removeslashes( $class ), array() );
 
 				$response = wp_json_encode( $settings );
 
@@ -720,8 +719,8 @@ class Config {
 	public static function get_settings_value( $key, $class, $default = '' ) {
 
 		$class   = str_replace( __NAMESPACE__, '', stripslashes( $class ) );
-		$options = get_option( $class, '' );
 
+		$options = get_option( $class, '' );
 		if ( ! empty( $options ) && '' !== $options ) {
 			foreach ( $options as $option ) {
 				if ( in_array( $key, $option, true ) ) {
@@ -737,10 +736,10 @@ class Config {
 		return $default;
 	}
 
-	public static function removeslashes($string)
-	{
-		$string=implode("",explode("\\",$string));
-		return stripslashes(trim($string));
+	public static function removeslashes( $string ) {
+		$string = implode( "", explode( "\\", $string ) );
+
+		return stripslashes( trim( $string ) );
 	}
 
 
