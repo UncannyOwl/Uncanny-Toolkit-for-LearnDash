@@ -41,7 +41,7 @@ class ShowCertificatesShortcode extends Config implements RequiredFunctions {
 	 */
 	public static function get_details() {
 
-		$class_title       = esc_html__( 'Show LearnDash Certificates', 'uncanny-learndash-toolkit' );
+		$class_title       = esc_html__( 'Show Certificates', 'uncanny-learndash-toolkit' );
 		$kb_link           = 'http://www.uncannyowl.com/knowledge-base/show-learndash-certificates/';
 		$class_description = esc_html__( 'Displays a list of LearnDash certificates (both course and quiz) earned by the user, with the most recent at the top.', 'uncanny-learndash-toolkit' );
 		$class_icon        = '<i class="uo_icon_fa fa fa-certificate"></i>';

@@ -40,7 +40,7 @@ class LearndashGroupUserProfile extends Config implements RequiredFunctions {
 	 * @return array
 	 */
 	public static function get_details() {
-		$class_title       = esc_html__( 'LearnDash Groups in User Profiles', 'uncanny-learndash-toolkit' );
+		$class_title       = esc_html__( 'Groups in User Profiles', 'uncanny-learndash-toolkit' );
 		$kb_link           = 'https://www.uncannyowl.com/knowledge-base/learndash-groups-user-profiles/';
 		$class_description = esc_html__( 'Displays a user\'s LearnDash Group memberships in the user profile.', 'uncanny-learndash-toolkit' );
 		$class_icon        = '<i class="uo_icon_fa fa fa-users"></i>';
