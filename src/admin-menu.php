@@ -315,6 +315,7 @@ class AdminMenu extends Boot {
 			}
 			//$class_name = config::removeslashes( $key );
 
+			self::$modules[ $key ]['class_name']  = $key;
 			self::$modules[ $key ]['settings_id'] = str_replace( __NAMESPACE__, '', stripslashes( $key ) );
 
 			if ( false === $class ) {
@@ -382,6 +383,7 @@ class AdminMenu extends Boot {
 
 			$class_name = $key;
 
+			self::$modules[ $key ]['class_name']   = $class_name;
 			self::$modules[ $key ]['settings_id']  = str_replace( __NAMESPACE__, '', stripslashes( $key ) );
 			self::$modules[ $key ]['has_settings'] = true;
 			if ( ! isset( $class['settings'] ) || false === $class['settings'] ) {

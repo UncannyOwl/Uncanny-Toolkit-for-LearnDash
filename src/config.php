@@ -579,7 +579,7 @@ class Config {
 
 		if ( current_user_can( $capability ) ) {
 			if ( isset( $_POST['value'] ) ) {
-				$value          = stripslashes( self::removeslashes( $_POST['value'] ) );
+				$value          = stripslashes( $_POST['value'] );
 				$active_classes = get_option( 'uncanny_toolkit_active_classes', 0 );
 
 				if ( 0 !== $active_classes ) {
@@ -641,9 +641,9 @@ class Config {
 				// sometimes update value is equal to the existing value and a false
 				// positive is returned
 
-				delete_option( self::removeslashes( $class ) );
+				delete_option( $class );
 				//self::trace_logs( $options, 'options', 'save' );
-				$save_settings = add_option( self::removeslashes( $class ), $options, 'no' );
+				$save_settings = add_option( $class, $options, 'no' );
 
 				$response['error'] = ! $save_settings;
 
@@ -690,7 +690,7 @@ class Config {
 
 				$class = $_POST['class'];
 
-				$settings = get_option( self::removeslashes( $class ), array() );
+				$settings = get_option( $class, array() );
 
 				$response = wp_json_encode( $settings );
 
@@ -718,7 +718,7 @@ class Config {
 	 */
 	public static function get_settings_value( $key, $class, $default = '' ) {
 
-		$class   = str_replace( __NAMESPACE__, '', stripslashes( $class ) );
+		$class = str_replace( __NAMESPACE__, '', stripslashes( $class ) );
 
 		$options = get_option( $class, '' );
 		if ( ! empty( $options ) && '' !== $options ) {
@@ -735,12 +735,12 @@ class Config {
 
 		return $default;
 	}
-
+/*
 	public static function removeslashes( $string ) {
 		$string = implode( "", explode( "\\", $string ) );
 
 		return stripslashes( trim( $string ) );
-	}
+	}*/
 
 
 	/**
