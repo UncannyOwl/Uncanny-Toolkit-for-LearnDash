@@ -41,7 +41,8 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			$uo_manual_verification   = 'no';
 			$is_login_page_set        = 'no';
 			$uo_frontend_registration = 'no';
-			$settings                 = get_option( 'FrontendLoginPlus', array() );
+			$class_name               = str_replace( [ __NAMESPACE__, '\\' ], '', __CLASS__ );
+			$settings                 = get_option( $class_name, array() );
 
 			foreach ( $settings as $setting ) {
 
@@ -179,7 +180,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	 *
 	 * @param String
 	 *
-	 * @return boolean || string Return either false or settings html modal
+	 * @return array Return either false or settings html modal
 	 *
 	 */
 	public static function get_class_settings( $class_title ) {
