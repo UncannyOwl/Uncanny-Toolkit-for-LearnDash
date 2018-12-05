@@ -258,7 +258,7 @@ if ( isset( $_GET['sent'] ) ) {
 
 	<form id="contact" name="uncanny-help" method="post" action="<?php echo admin_url( 'admin.php' ) ?>">
 		<?php wp_nonce_field( 'uncanny0w1', 'is_uncanny_help' ); ?>
-		<input type="hidden" value="uncanny-learnDash-toolkit-kb&submit-a-ticket=1" name="page"/>
+		<input type="hidden" value="uncanny-learndash-toolkit-kb&submit-a-ticket=1" name="page"/>
 		<input type="hidden" value="submit-a-ticket" name="tab"/>
 		<h3>Submit a Ticket</h3>
 		<fieldset>

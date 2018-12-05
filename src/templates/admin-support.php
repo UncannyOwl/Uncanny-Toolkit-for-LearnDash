@@ -23,7 +23,7 @@ use uncanny_ceu\Utilities;
 
 		<?php
 
-		$active_tab = 'uncanny-learnDash-plugins';
+		$active_tab = 'uncanny-learndash-plugins';
 		
 		if ( isset( $_GET[ 'page' ] ) ) {
 			$active_tab = $_GET[ 'page' ];
@@ -34,10 +34,10 @@ use uncanny_ceu\Utilities;
 
 	<?php
 	
-		if ( 'uncanny-learnDash-plugins' === $active_tab ){
+		if ( 'uncanny-learndash-plugins' === $active_tab ){
 			include( 'admin-showcase.php' );
 		}
-		elseif ( 'uncanny-learnDash-toolkit-kb' === $active_tab ){
+		elseif ( 'uncanny-learndash-toolkit-kb' === $active_tab ){
 			if ( isset( $_GET['submit-a-ticket'] ) ){
 				include( 'admin-help.php' );
 			}
@@ -50,7 +50,7 @@ use uncanny_ceu\Utilities;
 			?>
 
 				<p class="uo-get-help">
-					<a href="<?php echo admin_url( 'admin.php?page=uncanny-learnDash-toolkit-kb&submit-a-ticket=1' ); ?>"><?php _e( 'I can\'t find the answer to my question.', 'uncanny-learndash-toolkit' ) ?></a>
+					<a href="<?php echo admin_url( 'admin.php?page=uncanny-learndash-toolkit-kb&submit-a-ticket=1' ); ?>"><?php _e( 'I can\'t find the answer to my question.', 'uncanny-learndash-toolkit' ) ?></a>
 				</p>
 
 			<?php } else { ?>
