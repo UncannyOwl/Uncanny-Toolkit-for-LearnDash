@@ -601,10 +601,10 @@ jQuery( function($){
                     switch ( field.type ){
                         case 'text':
                         case 'textarea':
-                        case 'color':
                             field.$element.val( field.value );
                             break;
 
+                        case 'color':
                         case 'select':
                             field.$element.val( field.value ).trigger( 'change' );
                             break;
