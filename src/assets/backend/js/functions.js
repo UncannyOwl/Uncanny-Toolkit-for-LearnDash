@@ -690,7 +690,7 @@ jQuery( function($){
             },
 
             initColorPicker: function(){
-                $( '.ult-modal-form-row__color' ).wpColorPicker();
+                $( '.uo-color-picker' ).wpColorPicker();
             },
 
             initSelect2: function(){
