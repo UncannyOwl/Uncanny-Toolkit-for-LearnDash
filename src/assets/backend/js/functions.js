@@ -607,6 +607,8 @@ jQuery( function($){
                         case 'color':
                         case 'select':
                             field.$element.val( field.value ).trigger( 'change' );
+
+                            console.log( field.value );
                             break;
 
                         case 'tinymce':
@@ -745,11 +747,11 @@ jQuery( function($){
         legacyGetFieldType: function( $fieldElement ){
             let fieldType = 'text';
 
-            if ( $fieldElement.is( 'input[type="text"]' ) ){
-                fieldType = 'text';
-            }
-            else if ( $fieldElement.is( 'input[type="color"]' ) ){
+            if ( $fieldElement.is( 'input[type="color"]' ) || $fieldElement.hasClass( 'uo-color-picker' ) ){
                 fieldType = 'color';
+            }
+            else if ( $fieldElement.is( 'input[type="text"]' ) ){
+                fieldType = 'text';
             }
             else if ( $fieldElement.is( 'input[type="checkbox"]' ) ){
                 fieldType = 'checkbox';
