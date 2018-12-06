@@ -131,7 +131,9 @@ class Boot extends Config {
 	public static function uo_admin_support_css() {
 		$pages_to_include = [ 'uncanny-learndash-plugins', 'uncanny-learndash-toolkit-kb' ];
 		if ( isset( $_GET['page'] ) && in_array( $_GET['page'], $pages_to_include ) ) {
-			wp_enqueue_style( 'admin-support-css', '//www.uncannyowl.com/wp-content/plugins/uncanny-extend-rest-api/admin-support.css', array(), UNCANNY_TOOLKIT_VERSION );
+			wp_enqueue_style( 'uncannyowl-core', '//www.uncannyowl.com/wp-content/plugins/uncanny-extend-rest-api/dist/bundle.min.css', array(), UNCANNY_TOOLKIT_VERSION );
+
+			wp_enqueue_script( 'uncannyowl-core', '//www.uncannyowl.com/wp-content/plugins/uncanny-extend-rest-api/dist/bundle.min.js', array( 'jquery' ), UNCANNY_TOOLKIT_VERSION );
 		}
 	}
 
