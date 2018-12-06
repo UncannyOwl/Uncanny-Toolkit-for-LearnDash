@@ -607,8 +607,6 @@ jQuery( function($){
                         case 'color':
                         case 'select':
                             field.$element.val( field.value ).trigger( 'change' );
-
-                            console.log( field.value );
                             break;
 
                         case 'tinymce':
