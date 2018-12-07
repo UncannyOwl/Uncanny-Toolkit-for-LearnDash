@@ -363,7 +363,7 @@ class Breadcrumbs extends Config implements RequiredFunctions {
 		}
 
 		// Open breadcrumbs
-		$breadcrumb = '<nav class="' . esc_attr( $classes ) . '"><div class="breadcrumb-trail">';
+		$breadcrumb = '<nav aria-label="' . esc_html__( 'Breadcrumb', 'uncanny-learndash-toolkit' ) . '" class="' . esc_attr( $classes ) . '"><div class="breadcrumb-trail">';
 
 		// Separator HTML
 		$separator = '<span class="sep"> ' . stripslashes( $dashboard_separator ) . ' </span>';
