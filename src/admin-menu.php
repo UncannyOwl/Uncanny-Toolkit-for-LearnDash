@@ -31,7 +31,7 @@ class AdminMenu extends Boot {
 		$page_title = esc_html__( 'Uncanny LearnDash Toolkit', 'uncanny-learndash-toolkit' );
 		$menu_title = esc_html__( 'Uncanny Toolkit', 'uncanny-learndash-toolkit' );
 		$capability = 'manage_options';
-		$menu_slug  = 'uncanny-learnDash-toolkit';
+		$menu_slug  = 'uncanny-learndash-toolkit';
 		$function   = array( __CLASS__, 'options_menu_page_output' );
 
 		// Menu Icon blends into sidebar when the default admin color scheme is used

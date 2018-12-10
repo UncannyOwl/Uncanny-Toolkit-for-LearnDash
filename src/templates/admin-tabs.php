@@ -7,7 +7,7 @@ if ( isset( $_GET['page'] ) ) {
 }
 ?>
 <h2 class="nav-tab-wrapper">
-	<a href="<?php echo admin_url( 'admin.php?page=uncanny-learnDash-toolkit' ) ?>" class="nav-tab <?php echo 'uncanny-learnDash-toolkit' === $active_tab ? 'nav-tab-active' : ''; ?>">
+	<a href="<?php echo admin_url( 'admin.php?page=uncanny-learndash-toolkit' ) ?>" class="nav-tab <?php echo 'uncanny-learndash-toolkit' === $active_tab ? 'nav-tab-active' : ''; ?>">
 		<?php _e( 'Modules', 'uncanny-learndash-toolkit' ) ?>
 	</a>
 	<a href="<?php echo admin_url( 'admin.php?page=uncanny-learndash-toolkit-kb' ) ?>" class="nav-tab <?php echo 'uncanny-learndash-toolkit-kb' === $active_tab ? 'nav-tab-active' : ''; ?>">

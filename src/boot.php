@@ -73,7 +73,7 @@ class Boot extends Config {
 	 */
 	public static function uo_support_menu() {
 		add_submenu_page(
-			'uncanny-learnDash-toolkit',
+			'uncanny-learndash-toolkit',
 			__( 'Uncanny LearnDash Toolkit Support', 'uncanny-learndash-toolkit' ),
 			__( 'Help', 'uncanny-learndash-toolkit' ),
 			'manage_options',
@@ -83,7 +83,7 @@ class Boot extends Config {
 		) );
 
 		add_submenu_page(
-			'uncanny-learnDash-toolkit',
+			'uncanny-learndash-toolkit',
 			__( 'Uncanny LearnDash Toolkit Support', 'uncanny-learndash-toolkit' ),
 			__( 'LearnDash Plugins', 'uncanny-learndash-toolkit' ),
 			'manage_options',

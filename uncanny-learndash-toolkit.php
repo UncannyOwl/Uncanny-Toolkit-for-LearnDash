@@ -59,7 +59,7 @@ function learndash_version_notice() {
 		</div>
 		<?php
 
-	} elseif ( version_compare( $wp_version, $wp, '<' ) && ( isset( $_REQUEST['page'] ) && 'uncanny-learnDash-toolkit' === $_REQUEST['page'] ) ) {
+	} elseif ( version_compare( $wp_version, $wp, '<' ) && ( isset( $_REQUEST['page'] ) && 'uncanny-learndash-toolkit' === $_REQUEST['page'] ) ) {
 
 		// Show notice if WP version is less than 4.0 and the current page is the Toolkit settings page
 		$flag    = 'WordPress';
@@ -96,7 +96,7 @@ function learndash_version_notice() {
 		</div>
 		<?php
 
-	} elseif ( ! version_compare( $learn_dash_version, $learn_dash, '>=' ) && ( isset( $_REQUEST['page'] ) && 'uncanny-learnDash-toolkit' === $_REQUEST['page'] ) ) {
+	} elseif ( ! version_compare( $learn_dash_version, $learn_dash, '>=' ) && ( isset( $_REQUEST['page'] ) && 'uncanny-learndash-toolkit' === $_REQUEST['page'] ) ) {
 
 		// Show notice if LearnDash is less than 2.1 and the current page is the Toolkit settings page
 		if ( 0 !== $learn_dash_version ) {
@@ -157,7 +157,7 @@ if ( version_compare( PHP_VERSION, '5.3', '>=' ) ) {
 			update_option( 'uncanny_learndash_toolkit_plugin_do_activation_redirect', 'no' );
 
 			if ( ! isset( $_GET['activate-multi'] ) ) {
-				wp_redirect( admin_url( 'admin.php?page=uncanny-learnDash-toolkit' ) );
+				wp_redirect( admin_url( 'admin.php?page=uncanny-learndash-toolkit' ) );
 			}
 		}
 	}
@@ -168,7 +168,7 @@ if ( version_compare( PHP_VERSION, '5.3', '>=' ) ) {
 	add_filter( 'plugin_action_links_' . $uncanny_learndash_toolkit_plugin_basename, 'uncanny_learndash_toolkit_plugin_settings_link' );
 
 	function uncanny_learndash_toolkit_plugin_settings_link( $links ) {
-		$settings_link = '<a href="' . admin_url( 'admin.php?page=uncanny-learnDash-toolkit' ) . '">Settings</a>';
+		$settings_link = '<a href="' . admin_url( 'admin.php?page=uncanny-learndash-toolkit' ) . '">Settings</a>';
 		array_unshift( $links, $settings_link );
 
 		return $links;
