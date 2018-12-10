@@ -5,12 +5,15 @@ jQuery( function($){
 
     var ULT_Modules = {
         init: function(){
-            this.Modules.init( this );
-            this.Search.init( this );
-            this.Filters.init( this );
-            this.StatusToggle.init( this );
-            this.Views.init( this );
-            this.SettingsModal.init( this );
+            // Check if we have to init all the modules functions
+            if ( this.isTheModulesPage() ){
+                this.Modules.init( this );
+                this.Search.init( this );
+                this.Filters.init( this );
+                this.StatusToggle.init( this );
+                this.Views.init( this );
+                this.SettingsModal.init( this );
+            }
         },
 
         Modules: {
@@ -696,6 +699,10 @@ jQuery( function($){
             initSelect2: function(){
                 $( '.ult-modal-form-row__select' ).select2();
             },
+        },
+
+        isTheModulesPage: function(){
+            return $( '.ult .ult-directory-modules' ).length > 0;
         }
     }
 
