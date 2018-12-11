@@ -18,6 +18,9 @@ if ( ! defined( 'UNCANNY_TOOLKIT_VERSION' ) ) {
 	define( 'UNCANNY_TOOLKIT_VERSION', '2.5' );
 }
 
+// Import Gutenberg Blocks
+require_once( dirname( __FILE__ ) . '/src/blocks/blocks.php' );
+
 // Show admin notices for minimum versions of PHP, WordPress, and LearnDash
 add_action( 'admin_notices', 'learndash_version_notice' );
 
