@@ -6,6 +6,7 @@
  */
 
 // global $gt_block_prefix = 'ultp';
+// global $gt_block_version = 'the version';
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -26,7 +27,7 @@ if ( function_exists( 'register_block_type' ) ){
 			'ultp-gutenberg-blocks',
 			plugins_url( 'blocks/dist/blocks.style.build.css', dirname( __FILE__ ) ),
 			[ 'wp-blocks' ],
-			UNCANNY_REPORTING_VERSION
+			UNCANNY_TOOLKIT_VERSION
 		);
 	});
 
@@ -37,7 +38,7 @@ if ( function_exists( 'register_block_type' ) ){
 			'ultp-gutenberg-editor',
 			plugins_url( 'blocks/dist/blocks.build.js', dirname( __FILE__ ) ),
 			[ 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor' ],
-			UNCANNY_REPORTING_VERSION,
+			UNCANNY_TOOLKIT_VERSION,
 			true
 		);
 
@@ -45,7 +46,7 @@ if ( function_exists( 'register_block_type' ) ){
 			'ultp-gutenberg-editor',
 			plugins_url( 'blocks/dist/blocks.editor.build.css', dirname( __FILE__ ) ),
 			[ 'wp-edit-blocks' ],
-			UNCANNY_REPORTING_VERSION
+			UNCANNY_TOOLKIT_VERSION
 		);
 	});
 

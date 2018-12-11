@@ -9,10 +9,10 @@ register_block_type( 'uncanny-toolkit/breadcrumbs', [
 	'render_callback' => 'render_toolkit_breadcrumbs'
 ]);
 
-function render_toolkit_breadcrumbst( $attributes ){
+function render_toolkit_breadcrumbs( $attributes ){
 	ob_start();
 
-	echo 'Hello';
+	echo do_shortcode( '[uo_breadcrumbs]' );
 
 	$output = ob_get_clean();
 

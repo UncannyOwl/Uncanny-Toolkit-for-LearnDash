@@ -5,6 +5,7 @@ import {
 
 const { __ } = wp.i18n;
 const { registerBlockType } = wp.blocks;
+const { ServerSideRender } = wp.components;
 
 registerBlockType( 'uncanny-toolkit/breadcrumbs', {
 	title: __( 'Breadcrumbs' ),
@@ -28,7 +29,9 @@ registerBlockType( 'uncanny-toolkit/breadcrumbs', {
 	edit({ className, attributes, setAttributes }){
 		return (
 			<div className={ className }>
-				{ __( 'Breadcrumbs' ) }
+				<ServerSideRender
+					block="uncanny-toolkit/breadcrumbs"
+				/>
 			</div>
 		);
 	},
