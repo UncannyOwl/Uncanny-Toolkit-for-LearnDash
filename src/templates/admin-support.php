@@ -23,7 +23,7 @@ use uncanny_ceu\Utilities;
 
 		<?php
 
-		$active_tab = 'uncanny-learndash-plugins';
+		$active_tab = 'uncanny-toolkit-plugins';
 		
 		if ( isset( $_GET[ 'page' ] ) ) {
 			$active_tab = $_GET[ 'page' ];
@@ -34,7 +34,7 @@ use uncanny_ceu\Utilities;
 
 	<?php
 	
-		if ( 'uncanny-learndash-plugins' === $active_tab ){
+		if ( 'uncanny-toolkit-plugins' === $active_tab ){
 			include( 'admin-showcase.php' );
 		}
 		elseif ( 'uncanny-learndash-toolkit-kb' === $active_tab ){
