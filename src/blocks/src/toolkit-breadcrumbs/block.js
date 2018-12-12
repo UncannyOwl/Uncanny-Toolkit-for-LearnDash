@@ -3,6 +3,10 @@ import {
 	UncannyOwlIconColor
 } from '../components/icons';
 
+import {
+	ToolkitPlaceholder
+} from '../components/editor';
+
 const { __ } = wp.i18n;
 const { registerBlockType } = wp.blocks;
 const { ServerSideRender } = wp.components;
@@ -29,9 +33,9 @@ registerBlockType( 'uncanny-toolkit/breadcrumbs', {
 	edit({ className, attributes, setAttributes }){
 		return (
 			<div className={ className }>
-				<ServerSideRender
-					block="uncanny-toolkit/breadcrumbs"
-				/>
+				<ToolkitPlaceholder>
+					{ __( 'Breadcrumbs' ) }
+				</ToolkitPlaceholder>
 			</div>
 		);
 	},
