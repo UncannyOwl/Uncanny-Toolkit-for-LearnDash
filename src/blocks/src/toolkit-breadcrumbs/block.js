@@ -1,4 +1,7 @@
-// Import Uncanny Owl icon
+// Import css
+import './css/editor.scss';
+import './css/style.scss';
+
 import {
 	UncannyOwlIconColor
 } from '../components/icons';
@@ -9,12 +12,11 @@ import {
 
 const { __ } = wp.i18n;
 const { registerBlockType } = wp.blocks;
-const { ServerSideRender } = wp.components;
 
 registerBlockType( 'uncanny-toolkit/breadcrumbs', {
 	title: __( 'Breadcrumbs' ),
 
-	description: __( 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem, dolores.' ),
+	description: __( 'Displays breadcrumb links that understand the course > lesson > topic hierarchy of LearnDash.' ),
 
 	icon: UncannyOwlIconColor,
 
