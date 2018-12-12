@@ -12,7 +12,9 @@ register_block_type( 'uncanny-toolkit/breadcrumbs', [
 function render_toolkit_breadcrumbs( $attributes ){
 	ob_start();
 
-	echo \uncanny_learndash_toolkit\Breadcrumbs::uo_breadcrumbs();
+	if ( class_exists( '\uncanny_learndash_toolkit\Breadcrumbs' ) ){
+		echo \uncanny_learndash_toolkit\Breadcrumbs::uo_breadcrumbs();
+	}
 
 	$output = ob_get_clean();
 
