@@ -18,6 +18,7 @@ if ( function_exists( 'register_block_type' ) ){
 	// Register Blocks
 	add_action( 'init', function(){
 		require_once( dirname( __FILE__ ) . '/src/toolkit-breadcrumbs/block.php' );
+		require_once( dirname( __FILE__ ) . '/src/toolkit-resume-button/block.php' );
 	});
 
 	// Enqueue Gutenberg block assets for both frontend + backend.

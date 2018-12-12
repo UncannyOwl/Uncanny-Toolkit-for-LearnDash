@@ -175,7 +175,8 @@ class LearnDashResume extends Config implements RequiredFunctions {
 				$user           = wp_get_current_user();
 				$step_course_id = $atts['course_id'];
 				$course         = get_post( $step_course_id );
-				if ( 'sfwd-courses' === $course->post_type ) {
+
+				if ( isset( $course ) && 'sfwd-courses' === $course->post_type ) {
 					$last_know_step = get_user_meta( $user->ID, 'learndash_last_known_course_' . $step_course_id, true );
 
 					// User has not hit a LD module yet
