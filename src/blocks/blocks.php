@@ -1,12 +1,32 @@
 <?php
 
-/**
- * Change this into a class
- * put a global variable called prefix or gutenberg prefix
- */
+namespace uncanny_learndash_toolkit;
 
-// global $gt_block_prefix = 'ultp';
-// global $gt_block_version = 'the version';
+/**
+ * Class learndashBreadcrumbs
+ * @package uncanny_custom_toolkit
+ */
+class Blocks {
+
+	/*
+	 * Plugin prefix
+	 * @var string
+	 */
+	public $prefix = '';
+
+	/*
+	 * Plugin version
+	 * @var string
+	 */
+	public $version = '';
+
+	/**
+	 * Class constructor
+	 */
+	public function __construct( $prefix = '', $version = '' ) {
+
+	}
+}
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -14,26 +34,26 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Check if Gutenberg exists
-if ( function_exists( 'register_block_type' ) ){
+if ( function_exists( 'register_block_type' ) ) {
 	// Register Blocks
-	add_action( 'init', function(){
+	add_action( 'init', function () {
 		require_once( dirname( __FILE__ ) . '/src/toolkit-breadcrumbs/block.php' );
-	});
+	} );
 
 	// Enqueue Gutenberg block assets for both frontend + backend.
 
-	add_action( 'enqueue_block_assets', function(){
+	add_action( 'enqueue_block_assets', function () {
 		wp_enqueue_style(
 			'ultp-gutenberg-blocks',
 			plugins_url( 'blocks/dist/blocks.style.build.css', dirname( __FILE__ ) ),
 			[ 'wp-blocks' ],
 			UNCANNY_TOOLKIT_VERSION
 		);
-	});
+	} );
 
 	// Enqueue Gutenberg block assets for backend editor.
 
-	add_action( 'enqueue_block_editor_assets', function(){
+	add_action( 'enqueue_block_editor_assets', function () {
 		wp_enqueue_script(
 			'ultp-gutenberg-editor',
 			plugins_url( 'blocks/dist/blocks.build.js', dirname( __FILE__ ) ),
@@ -48,15 +68,15 @@ if ( function_exists( 'register_block_type' ) ){
 			[ 'wp-edit-blocks' ],
 			UNCANNY_TOOLKIT_VERSION
 		);
-	});
+	} );
 
 	// Create custom block category
-	add_filter( 'block_categories', function( $categories, $post ) {
+	add_filter( 'block_categories', function ( $categories, $post ) {
 		return array_merge(
 			$categories,
 			array(
 				array(
-					'slug' => 'uncanny-learndash-toolkit',
+					'slug'  => 'uncanny-learndash-toolkit',
 					'title' => __( 'Uncanny LearnDash Toolkit', 'uncanny-learndash-toolkit' ),
 				),
 			)
