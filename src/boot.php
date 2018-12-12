@@ -77,7 +77,7 @@ class Boot extends Config {
 			__( 'Uncanny LearnDash Toolkit Support', 'uncanny-learndash-toolkit' ),
 			__( 'Help', 'uncanny-learndash-toolkit' ),
 			'manage_options',
-			'uncanny-learndash-toolkit-kb', array(
+			'uncanny-toolkit-kb', array(
 			__CLASS__,
 			'uo_support_page',
 		) );
@@ -129,7 +129,7 @@ class Boot extends Config {
 	 *
 	 */
 	public static function uo_admin_support_css() {
-		$pages_to_include = [ 'uncanny-toolkit-plugins', 'uncanny-learndash-toolkit-kb' ];
+		$pages_to_include = [ 'uncanny-toolkit-plugins', 'uncanny-toolkit-kb' ];
 		if ( isset( $_GET['page'] ) && in_array( $_GET['page'], $pages_to_include ) ) {
 			wp_enqueue_style( 'uncannyowl-core', 'https://uncannyowl.com/wp-content/mu-plugins/uncanny-plugins-core/dist/bundle.min.css', array(), UNCANNY_TOOLKIT_VERSION );
 
