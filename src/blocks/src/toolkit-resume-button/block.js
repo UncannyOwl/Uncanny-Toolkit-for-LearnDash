@@ -1,6 +1,4 @@
-// Import css
-import './css/editor.scss';
-import './css/style.scss';
+import './sidebar.js';
 
 import {
 	UncannyOwlIconColor
@@ -13,10 +11,10 @@ import {
 const { __ } = wp.i18n;
 const { registerBlockType } = wp.blocks;
 
-registerBlockType( 'uncanny-toolkit/breadcrumbs', {
-	title: __( 'Breadcrumbs' ),
+registerBlockType( 'uncanny-toolkit/resume-button', {
+	title: __( 'Resume Button' ),
 
-	description: __( 'Displays breadcrumb links that understand the course > lesson > topic hierarchy of LearnDash.' ),
+	description: __( 'Displays a button that enables users to resume their learning in LearnDash courses.' ),
 
 	icon: UncannyOwlIconColor,
 
@@ -30,13 +28,20 @@ registerBlockType( 'uncanny-toolkit/breadcrumbs', {
 		html: false
 	},
 
-	attributes: {},
+	attributes: {
+		courseId: {
+			type: 'string',
+			default: ''
+		}
+	},
 
 	edit({ className, attributes, setAttributes }){
+		console.log( attributes );
+
 		return (
 			<div className={ className }>
 				<ToolkitPlaceholder>
-					{ __( 'Breadcrumbs' ) }
+					{ __( 'Resume Button' ) }
 				</ToolkitPlaceholder>
 			</div>
 		);
