@@ -3,48 +3,50 @@ import './css/editor.scss';
 import './css/style.scss';
 
 import {
-	UncannyOwlIconColor
+    UncannyOwlIconColor
 } from '../components/icons';
 
 import {
-	ToolkitPlaceholder
+    ToolkitPlaceholder
 } from '../components/editor';
+
 
 const { __ } = wp.i18n;
 const { registerBlockType } = wp.blocks;
 
-registerBlockType( 'uncanny-toolkit/breadcrumbs', {
-	title: __( 'Breadcrumbs' ),
-
+if (typeof ultpModules.active != null && ultpModules.active.hasOwnProperty("uncanny_learndash_toolkit\\Breadcrumbs")) {
+    registerBlockType('uncanny-toolkit/breadcrumbs', {
+        title: __('Breadcrumbs'),
 	description: __( 'Displays breadcrumb links that understand the course > lesson > topic hierarchy of LearnDash.' ),
 
-	icon: UncannyOwlIconColor,
+        icon: UncannyOwlIconColor,
 
-	category: 'uncanny-learndash-toolkit',
+        category: 'uncanny-learndash-toolkit',
 
-	keywords: [
-		__( 'Uncanny Owl' ),
-	],
+        keywords: [
+            __('Uncanny Owl'),
+        ],
 
-	supports: {
-		html: false
-	},
+        supports: {
+            html: false
+        },
 
-	attributes: {},
+        attributes: {},
 
-	edit({ className, attributes, setAttributes }){
-		return (
-			<div className={ className }>
-				<ToolkitPlaceholder>
-					{ __( 'Breadcrumbs' ) }
-				</ToolkitPlaceholder>
-			</div>
-		);
-	},
+        edit({className, attributes, setAttributes}) {
+            return (
+                <div className={className}>
+                    <ToolkitPlaceholder>
+                        {__('Breadcrumbs')}
+                    </ToolkitPlaceholder>
+                </div>
+            );
+        },
 
-	save({ className, attributes }){
-		// We're going to render this block using PHP
-		// Return null
-		return null;
-	},
-});
+        save({className, attributes}) {
+            // We're going to render this block using PHP
+            // Return null
+            return null;
+        },
+    });
+}

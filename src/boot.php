@@ -50,6 +50,10 @@ class Boot extends Config {
 		// Class Details:  Add Class to Admin Menu page
 		$classes = self::get_active_classes();
 
+		// Import Gutenberg Blocks
+		require_once( dirname( __FILE__ ) . '/blocks/blocks.php' );
+		new Blocks( UNCANNY_TOOLKIT_PREFIX, UNCANNY_TOOLKIT_VERSION, $classes );
+
 		if ( $classes ) {
 
 			foreach ( self::get_active_classes() as $class ) {

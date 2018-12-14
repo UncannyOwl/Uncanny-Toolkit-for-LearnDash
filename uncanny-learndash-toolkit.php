@@ -18,8 +18,10 @@ if ( ! defined( 'UNCANNY_TOOLKIT_VERSION' ) ) {
 	define( 'UNCANNY_TOOLKIT_VERSION', '2.5' );
 }
 
-// Import Gutenberg Blocks
-require_once( dirname( __FILE__ ) . '/src/blocks/blocks.php' );
+// Define version test
+if ( ! defined( 'UNCANNY_TOOLKIT_PREFIX' ) ) {
+	define( 'UNCANNY_TOOLKIT_PREFIX', 'ultp' );
+}
 
 // Show admin notices for minimum versions of PHP, WordPress, and LearnDash
 add_action( 'admin_notices', 'learndash_version_notice' );
@@ -49,8 +51,8 @@ function learndash_version_notice() {
 		$current = PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION . '.' . PHP_RELEASE_VERSION;
 
 		?>
-		<div class="notice notice-error">
-			<h3><?php echo sprintf(
+        <div class="notice notice-error">
+            <h3><?php echo sprintf(
 
 					esc_html__( 'The %s requires PHP version %s or higher (5.6 or higher is recommended). Because you are using an unsupported version of PHP (%s), the Toolkit plugin will not initialize. Please contact your hosting company to upgrade to PHP 5.6 or higher.', 'uncanny-learndash-toolkit'
 					),
@@ -58,8 +60,8 @@ function learndash_version_notice() {
 					'Uncanny LearnDash Toolkit',
 					$version,
 					$current ); ?>
-			</h3>
-		</div>
+            </h3>
+        </div>
 		<?php
 
 	} elseif ( version_compare( $wp_version, $wp, '<' ) && ( isset( $_REQUEST['page'] ) && 'uncanny-toolkit' === $_REQUEST['page'] ) ) {
@@ -70,23 +72,23 @@ function learndash_version_notice() {
 		$current = $wp_version;
 
 		?>
-		<!-- No Notice Style below WordPress -->
-		<style>
-			.notice-error {
-				border-left-color: #dc3232 !important;
-			}
+        <!-- No Notice Style below WordPress -->
+        <style>
+            .notice-error {
+                border-left-color: #dc3232 !important;
+            }
 
-			.notice {
-				background: #fff;
-				border-left: 4px solid #fff;
-				-webkit-box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .1);
-				box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .1);
-				margin: 5px 15px 2px;
-				padding: 1px 12px;
-			}
-		</style>
-		<div class="notice notice-error">
-			<h3><?php echo sprintf(
+            .notice {
+                background: #fff;
+                border-left: 4px solid #fff;
+                -webkit-box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .1);
+                box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .1);
+                margin: 5px 15px 2px;
+                padding: 1px 12px;
+            }
+        </style>
+        <div class="notice notice-error">
+            <h3><?php echo sprintf(
 
 					esc_html__( 'The %s plugin requires %s version %s or greater. Your current version is %s.', 'uncanny-learndash-toolkit'
 					),
@@ -95,8 +97,8 @@ function learndash_version_notice() {
 					$flag,
 					$version,
 					$current ); ?>
-			</h3>
-		</div>
+            </h3>
+        </div>
 		<?php
 
 	} elseif ( ! version_compare( $learn_dash_version, $learn_dash, '>=' ) && ( isset( $_REQUEST['page'] ) && 'uncanny-toolkit' === $_REQUEST['page'] ) ) {
@@ -105,29 +107,29 @@ function learndash_version_notice() {
 		if ( 0 !== $learn_dash_version ) {
 
 			?>
-			<div class="notice notice-error">
-				<h3><?php echo sprintf(
+            <div class="notice notice-error">
+                <h3><?php echo sprintf(
 
 						esc_html__( 'The Uncanny LearnDash Toolkit requires LearnDash version 2.1 or higher to work properly. Please make sure you have version 2.1 or higher installed before using any LearnDash modules in the Toolkit. Your current version is: %s', 'uncanny-learndash-toolkit' ),
 
 						$learn_dash_version
 					); ?>
-				</h3>
-			</div>
+                </h3>
+            </div>
 			<?php
 
 		} elseif ( class_exists( 'SFWD_LMS' ) ) {
 
 			?>
-			<div class="notice notice-error">
-				<h3><?php echo sprintf(
+            <div class="notice notice-error">
+                <h3><?php echo sprintf(
 
 						esc_html__( 'The Uncanny LearnDash Toolkit requires LearnDash version 2.1 or higher to work properly. Please make sure you have version 2.1 or higher installed before using any LearnDash modules in the Toolkit.', 'uncanny-learndash-toolkit' ),
 
 						$learn_dash_version
 					); ?>
-				</h3>
-			</div>
+                </h3>
+            </div>
 			<?php
 
 		}
