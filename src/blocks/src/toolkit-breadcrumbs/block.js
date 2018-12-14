@@ -1,4 +1,7 @@
-// Import Uncanny Owl icon
+// Import css
+import './css/editor.scss';
+import './css/style.scss';
+
 import {
     UncannyOwlIconColor
 } from '../components/icons';
@@ -7,15 +10,14 @@ import {
     ToolkitPlaceholder
 } from '../components/editor';
 
-const {__} = wp.i18n;
-const {registerBlockType} = wp.blocks;
-const {ServerSideRender} = wp.components;
+
+const { __ } = wp.i18n;
+const { registerBlockType } = wp.blocks;
 
 if (typeof ultpModules.active != null && ultpModules.active.hasOwnProperty("uncanny_learndash_toolkit\\Breadcrumbs")) {
     registerBlockType('uncanny-toolkit/breadcrumbs', {
         title: __('Breadcrumbs'),
-
-        description: __('Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem, dolores.'),
+	description: __( 'Displays breadcrumb links that understand the course > lesson > topic hierarchy of LearnDash.' ),
 
         icon: UncannyOwlIconColor,
 
