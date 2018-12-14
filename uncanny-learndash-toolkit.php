@@ -20,12 +20,8 @@ if ( ! defined( 'UNCANNY_TOOLKIT_VERSION' ) ) {
 
 // Define version test
 if ( ! defined( 'UNCANNY_TOOLKIT_PREFIX' ) ) {
-	define( 'UNCANNY_TOOLKIT_PREFIX', '2.5' );
+	define( 'UNCANNY_TOOLKIT_PREFIX', 'ultp' );
 }
-
-// Import Gutenberg Blocks
-require_once( dirname( __FILE__ ) . '/src/blocks/blocks.php' );
-new Blocks( UNCANNY_TOOLKIT_PREFIX, UNCANNY_TOOLKIT_VERSION );
 
 // Show admin notices for minimum versions of PHP, WordPress, and LearnDash
 add_action( 'admin_notices', 'learndash_version_notice' );

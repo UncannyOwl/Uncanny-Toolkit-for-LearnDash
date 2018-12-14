@@ -10,3 +10,4 @@
  */
 
 import './toolkit-breadcrumbs/block.js';
+import './toolkit-resume-button/block.js';
