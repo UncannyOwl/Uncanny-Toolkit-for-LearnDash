@@ -1,55 +1,57 @@
 import './sidebar.js';
 
 import {
-	UncannyOwlIconColor
+    UncannyOwlIconColor
 } from '../components/icons';
 
 import {
-	ToolkitPlaceholder
+    ToolkitPlaceholder
 } from '../components/editor';
 
-const { __ } = wp.i18n;
-const { registerBlockType } = wp.blocks;
+const {__} = wp.i18n;
+const {registerBlockType} = wp.blocks;
 
-registerBlockType( 'uncanny-toolkit/resume-button', {
-	title: __( 'Resume Button' ),
+if (typeof ultpModules.active != null && ultpModules.active.hasOwnProperty("uncanny_learndash_toolkit\\LearnDashResume")) {
+    registerBlockType('uncanny-toolkit/resume-button', {
+        title: __('Resume Button'),
 
-	description: __( 'Displays a button that enables users to resume their learning in LearnDash courses.' ),
+        description: __('Displays a button that enables users to resume their learning in LearnDash courses.'),
 
-	icon: UncannyOwlIconColor,
+        icon: UncannyOwlIconColor,
 
-	category: 'uncanny-learndash-toolkit',
+        category: 'uncanny-learndash-toolkit',
 
-	keywords: [
-		__( 'Uncanny Owl' ),
-	],
+        keywords: [
+            __('Uncanny Owl'),
+        ],
 
-	supports: {
-		html: false
-	},
+        supports: {
+            html: false
+        },
 
-	attributes: {
-		courseId: {
-			type: 'string',
-			default: ''
-		}
-	},
+        attributes: {
+            courseId: {
+                type: 'string',
+                default: ''
+            }
+        },
 
-	edit({ className, attributes, setAttributes }){
-		console.log( attributes );
+        edit({className, attributes, setAttributes}) {
+            console.log(attributes);
 
-		return (
-			<div className={ className }>
-				<ToolkitPlaceholder>
-					{ __( 'Resume Button' ) }
-				</ToolkitPlaceholder>
-			</div>
-		);
-	},
+            return (
+                <div className={className}>
+                    <ToolkitPlaceholder>
+                        {__('Resume Button')}
+                    </ToolkitPlaceholder>
+                </div>
+            );
+        },
 
-	save({ className, attributes }){
-		// We're going to render this block using PHP
-		// Return null
-		return null;
-	},
-});
+        save({className, attributes}) {
+            // We're going to render this block using PHP
+            // Return null
+            return null;
+        },
+    });
+}
