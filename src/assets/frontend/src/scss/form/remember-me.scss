@@ -1,0 +1,19 @@
+.ult-form__row--remember-me {
+	display: flex;
+	align-items: center;
+}
+
+	.ult-form__row--remember-me .ult-form__field {
+		flex: 0 0 auto;
+		margin: 0 8px 0 0;
+	}
+
+	.ult-form__row--remember-me .ult-form-field__header {
+		flex: 1 1 auto;
+	}
+
+		.ult-form__row--remember-me .ult-form-field__label {
+			color: #636363;
+			user-select: none;
+			cursor: pointer;
+		}
