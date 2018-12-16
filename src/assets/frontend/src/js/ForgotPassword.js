@@ -2,7 +2,7 @@ import {
 	isDefined
 } from './Utilities';
 
-class Reset {
+class ForgotPassword {
 	constructor(){
 		// Get elements
 		this.getElements();
@@ -19,8 +19,8 @@ class Reset {
 		this.$elements = {}
 
 		// Get elements
-		this.$elements.loginForm    = document.getElementById( 'ult-reset-password' );
-		this.$elements.submitButton = document.getElementById( 'ult-reset-password-submit-btn' );
+		this.$elements.loginForm    = document.getElementById( 'ult-forgot-password' );
+		this.$elements.submitButton = document.getElementById( 'ult-forgot-password-submit-btn' );
 	}
 
 	getConfiguration(){
@@ -74,4 +74,4 @@ class Reset {
 	}
 }
 
-export default Reset;
+export default ForgotPassword;
