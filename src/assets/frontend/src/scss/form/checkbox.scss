@@ -49,13 +49,13 @@
 		top: 1px;
 		width: 3px;
 		height: 7px;
-		border: solid #0790e8;
+		border: solid $primary_color;
 		border-width: 0 3px 3px 0;
 		transform: rotate(45deg);
 	}
 
 	.ult-checkbox .checkbox--primary:checked ~ .ult-checkbox__fake-input {
-		border-color: #0790e8;
+		border-color: $primary_color;
 	}
 
 	.ult-checkbox .checkbox--primary:disabled ~ .ult-checkbox__fake-input {

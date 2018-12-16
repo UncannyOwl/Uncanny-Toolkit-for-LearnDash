@@ -19,6 +19,6 @@
 	}
 
 	.ult-form__input:focus {
-		border-color: #0790e8;
-		box-shadow: 0 0 0 0.2rem rgba(7,144,232,.2);
+		border-color: $primary_color;
+		box-shadow: 0 0 0 0.2rem rgba( $primary_color, .2 );
 	}

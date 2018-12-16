@@ -51,9 +51,6 @@ class Login {
 	bindFormSubmission(){
 		// Bind submission
 		this.$elements.loginForm.onsubmit = ( event ) => {
-			event.preventDefault();
-
-			alert( 'Hello there' );
 			/**
 			 * To disable the loading animation create a ULT_LoginConfig object
 			 * with a loadingAnimationOnSubmit property and set it to false.
@@ -61,7 +58,7 @@ class Login {
 			 */
 			
 			if ( this.configuration.showAnimationOnSubmit ){
-				this.$elements.submitButton.classList.add( 'ult-login-form-row__btn--loading' );
+				this.$elements.submitButton.classList.add( 'ult-form__submit-btn--loading' );
 			}
 
 			/**
@@ -71,7 +68,7 @@ class Login {
 			 */
 			
 			if ( this.configuration.buttonDisabledOnSubmit ){
-				this.$elements.submitButton.classList.add( 'ult-login-form-row__btn--disabled' );
+				this.$elements.submitButton.classList.add( 'ult-form__submit-btn--disabled' );
 			}
 		};
 	}
