@@ -2,22 +2,29 @@
 
 namespace uncanny_learndash_toolkit;
 
-?>
-	<?php
 if ( isset( $_GET['sent'] ) ) {
 	?>
-	<h3>Your ticket has been created. Someone at Uncanny Owl will contact you regarding your issue.</h3>
+
+	<h3>
+		<?php _e( 'Your ticket has been created. Someone at Uncanny Owl will contact you regarding your issue.', 'uncanny-learndash-toolkit' ); ?>
+	</h3>
+
 	<?php
-} else {
+
+}
+else {
 	$existing_license = trim( get_option( 'uo_license_key' ) );
-	//$existing_license = 'becf794485526516987e2ac71aadbbae';
+
 	$name  = '';
 	$email = '';
-	if ( $existing_license ) {
+
+	if ( $existing_license ){
 		$json = wp_remote_get( 'https://www.uncannyowl.com/wp-json/uncanny-rest-api/v1/license/' . $existing_license . '?wpnonce=' . wp_create_nonce( time() ) );
-		if ( 200 === $json['response']['code'] ) {
+
+		if ( 200 === $json['response']['code'] ){
 			$data = json_decode( $json['body'], true );
-			if ( $data ) {
+
+			if ( $data ){
 				$name  = $data['name'];
 				$email = $data['email'];
 			}
@@ -28,41 +35,69 @@ if ( isset( $_GET['sent'] ) ) {
 
 	include_once( 'admin-siteinfo.php' );
 
-	$pinfo = ob_get_clean();
+	$installation_information = ob_get_clean();
 
 	?>
-	<textarea style="display: none;" id="siteinfo-holder"><?php echo $pinfo; ?></textarea>
 
-	<form id="contact" name="uncanny-help" method="post" action="<?php echo admin_url( 'admin.php' ) ?>">
-		<?php wp_nonce_field( 'uncanny0w1', 'is_uncanny_help' ); ?>
-		<input type="hidden" value="uncanny-toolkit-kb&submit-a-ticket=1" name="page"/>
-		<input type="hidden" value="submit-a-ticket" name="tab"/>
-		<h3>Submit a Ticket</h3>
-		<fieldset>
-			<input name="fullname" placeholder="Your name" type="text" tabindex="1" required value="<?php echo $name; ?>" autofocus>
-		</fieldset>
-		<fieldset>
-			<input name="email" placeholder="Your Email Address" type="email" value="<?php echo $email; ?>" tabindex="2" required>
-		</fieldset>
-		<fieldset>
-			<input name="website" placeholder="Your Web Site starts with http://" type="url" value="<?php echo get_bloginfo( 'url' ) ?> " tabindex="4" required>
-		</fieldset>
-		<fieldset>
-			<textarea name="message" placeholder="Type your Message Here...." tabindex="5" required></textarea>
-			<textarea id="siteinfo" style="display: none;" name="siteinfo"><?php echo $pinfo; ?></textarea>
-		</fieldset>
-		<fieldset>
-			<input type="checkbox" value="yes" name="site-data" checked="checked"> Send Site Data
-		</fieldset>
-		<fieldset>
-			<button name="submit" type="submit" id="contact-submit" data-submit="...Sending">Submit</button>
-		</fieldset>
-	</form>
+	<div class="uo-core">
+		<div class="uo-send-ticket">
+			<div class="uo-send-ticket__form">
+				<div class="uo-send-ticket__title">
+					<?php _e( 'Submit a Ticket', 'uncanny-learndash-toolkit' ); ?>
+				</div>
 
-	<div id="sample-data">
-		<h3>Sample Data</h3>
-		<?php
-		echo $pinfo;
-		?>
+				<form name="uncanny-help" method="POST" action="<?php echo admin_url( 'admin.php' ) ?>">
+					<?php wp_nonce_field( 'uncanny0w1', 'is_uncanny_help' ); ?>
+
+					<textarea class="uo-send-ticket__hidden-field" name="siteinfo"><?php echo $installation_information; ?></textarea>
+
+					<input type="hidden" value="uncanny-toolkit-kb&submit-a-ticket=1" name="page"/>
+
+					<input type="hidden" value="submit-a-ticket" name="tab"/>
+
+					<div class="uo-send-ticket-form__row">
+						<label for="uo-fullname" class="uo-send-ticket-form__label">
+							<?php _e( 'Full Name', 'uncanny-learndash-toolkit' ); ?>
+						</label>
+						<input name="fullname" id="uo-fullname" type="text" class="uo-send-ticket-form__text" value="<?php echo $name; ?>">
+					</div>
+
+					<div class="uo-send-ticket-form__row">
+						<label for="uo-email" class="uo-send-ticket-form__label">
+							<?php _e( 'Email', 'uncanny-learndash-toolkit' ); ?>
+						</label>
+						<input name="email" id="uo-email" type="email" class="uo-send-ticket-form__text" value="<?php echo $email; ?>">
+					</div>
+
+					<div class="uo-send-ticket-form__row">
+						<label for="uo-website" class="uo-send-ticket-form__label">
+							<?php _e( 'Email', 'uncanny-learndash-toolkit' ); ?>
+						</label>
+						<input name="website" id="uo-website" type="url" class="uo-send-ticket-form__text" value="<?php echo get_bloginfo( 'url' ) ?>">
+					</div>
+
+					<div class="uo-send-ticket-form__row">
+						<label for="uo-message" class="uo-send-ticket-form__label">
+							<?php _e( 'Message', 'uncanny-learndash-toolkit' ); ?>
+						</label>
+						<textarea name="message" id="uo-message" class="uo-send-ticket-form__textarea"></textarea>
+					</div>
+
+					<div class="uo-send-ticket-form__row">
+						<input type="checkbox" value="yes" name="site-data" checked="checked"> <?php _e( 'Send site data', 'uncanny-learndash-toolkit' ); ?>
+					</div>
+
+					<div class="uo-send-ticket-form__row">
+						<button type="submit" class="uo-send-ticket-form__submit">
+							<?php _e( 'Create ticket', 'uncanny-learndash-toolkit' ); ?>
+						</button>
+					</div>
+				</form>
+			</div>
+			<div class="uo-send-ticket__data">
+				<?php echo $installation_information; ?>
+			</div>
+		</div>
 	</div>
+
 <?php } ?>
