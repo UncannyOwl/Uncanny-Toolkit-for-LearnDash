@@ -71,7 +71,7 @@ else {
 
 					<div class="uo-send-ticket-form__row">
 						<label for="uo-website" class="uo-send-ticket-form__label">
-							<?php _e( 'Email', 'uncanny-learndash-toolkit' ); ?>
+							<?php _e( 'Site URL', 'uncanny-learndash-toolkit' ); ?>
 						</label>
 						<input name="website" id="uo-website" type="url" class="uo-send-ticket-form__text" value="<?php echo get_bloginfo( 'url' ) ?>">
 					</div>
