@@ -852,12 +852,12 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		$template_to_load = apply_filters( 'uo-login-template', Config::get_settings_value( 'uo_frontend_login_template', 'FrontendLoginPlus', 'default' ) );
 
 		switch ( $template_to_load ) {
-			case 'default':
+			/*case 'default':
 				$page_template = self::get_template( '/login-page-ui-default.php' );
 				$page_template = apply_filters( 'uo_login_ui_template', $page_template );
-				break;
+				break;*/
 			default:
-				$page_template = self::get_template( '/login-page-ui.php' );
+				$page_template = self::get_template( '/login-page-ui-default.php' );
 				$page_template = apply_filters( 'uo_login_ui_template', $page_template );
 				break;
 		}
