@@ -73,7 +73,7 @@ else {
 						<label for="uo-website" class="uo-send-ticket-form__label">
 							<?php _e( 'Site URL', 'uncanny-learndash-toolkit' ); ?>
 						</label>
-						<input name="website" id="uo-website" type="url" class="uo-send-ticket-form__text" value="<?php echo get_bloginfo( 'url' ) ?>">
+						<input name="website" id="uo-website" type="url" class="uo-send-ticket-form__text" readonly value="<?php echo get_bloginfo( 'url' ) ?>">
 					</div>
 
 					<div class="uo-send-ticket-form__row">
@@ -95,6 +95,10 @@ else {
 				</form>
 			</div>
 			<div class="uo-send-ticket__data">
+				<div class="uo-send-ticket__title">
+					<?php _e( 'Site Data', 'uncanny-learndash-toolkit' ); ?>
+				</div>
+
 				<?php echo $installation_information; ?>
 			</div>
 		</div>
