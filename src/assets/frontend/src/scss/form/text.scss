@@ -1,0 +1,24 @@
+/**
+ * Text input
+ */
+
+.ult-form__input {
+	width: 100%;
+	outline: none;
+	padding: 8px 10px;
+	color: #404040;
+	background: #fff;
+	box-shadow: 0 2px 5px 0 rgba(0,0,0,.1);
+	border: 1px solid #c1c5c8;
+	border-radius: 3px;
+	transition: border 150ms ease-in-out, box-shadow 150ms ease-in-out;
+}
+
+	.ult-form__input:hover {
+		border-color: #b1b5b7;
+	}
+
+	.ult-form__input:focus {
+		border-color: $primary_color;
+		box-shadow: 0 0 0 0.2rem rgba( $primary_color, .2 );
+	}

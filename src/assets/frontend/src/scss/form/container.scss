@@ -1,0 +1,11 @@
+.ult-form__container {}
+
+	.ult-form__title ~ .ult-form__container,
+	.ult-form__description ~ .ult-form__container {
+		border-top: 1px solid #d8d8d8;
+		margin-top: 15px;
+	}
+
+	.ult-form__container form {
+		outline: 0;
+	}

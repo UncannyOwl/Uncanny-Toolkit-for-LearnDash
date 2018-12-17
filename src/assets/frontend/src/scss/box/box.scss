@@ -1,0 +1,15 @@
+.ult-box {
+	width: 100%;
+	position: relative;
+	font-size: 15px;
+	background: #fff;
+	border: 1px solid #dfdfdf;
+	border-radius: 3px;
+	box-shadow: 0 7px 15px 0 rgba(0,0,0,.1);
+	padding: 30px 24px;
+}
+
+.ult-box,
+.ult-box * {
+	box-sizing: border-box;
+}
