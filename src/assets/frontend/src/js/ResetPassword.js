@@ -2,7 +2,7 @@ import {
 	isDefined
 } from './Utilities';
 
-class Login {
+class ResetPassword {
 	constructor(){
 		// Get elements
 		this.getElements();
@@ -19,8 +19,8 @@ class Login {
 		this.$elements = {}
 
 		// Get elements
-		this.$elements.loginForm    = document.getElementById( 'ult-login-form' );
-		this.$elements.submitButton = document.getElementById( 'ult-login-submit-btn' );
+		this.$elements.resetForm    = document.getElementById( 'ult-reset-password' );
+		this.$elements.submitButton = document.getElementById( 'ult-reset-password-submit-btn' );
 	}
 
 	getConfiguration(){
@@ -31,18 +31,18 @@ class Login {
 		}
 
 		// Check if the user wants to overwrite some settings
-		if ( isDefined( window.ULT_LoginConfig ) ){
+		if ( isDefined( window.ULT_ResetConfig ) ){
 
 			// Check if the user wants to disable the loading animation
-			if ( isDefined( window.ULT_LoginConfig.loadingAnimationOnSubmit ) ){
+			if ( isDefined( window.ULT_ResetConfig.loadingAnimationOnSubmit ) ){
 				// Set new value
-				this.configuration.showAnimationOnSubmit = window.ULT_LoginConfig.loadingAnimationOnSubmit;
+				this.configuration.showAnimationOnSubmit = window.ULT_ResetConfig.loadingAnimationOnSubmit;
 			}
 
 			// Check if the user wants to disable the button on submit
-			if ( isDefined( window.ULT_LoginConfig.buttonDisabledOnSubmit ) ){
+			if ( isDefined( window.ULT_ResetConfig.buttonDisabledOnSubmit ) ){
 				// Set new value
-				this.configuration.buttonDisabledOnSubmit = window.ULT_LoginConfig.buttonDisabledOnSubmit;
+				this.configuration.buttonDisabledOnSubmit = window.ULT_ResetConfig.buttonDisabledOnSubmit;
 			}
 
 		}
@@ -50,13 +50,13 @@ class Login {
 
 	bindFormSubmission(){
 		// Check if the form exists
-		if ( isDefined( this.$elements.loginForm ) ){
+		if ( isDefined( this.$elements.resetForm ) ){
 			// Bind submission
-			this.$elements.loginForm.onsubmit = ( event ) => {
+			this.$elements.resetForm.onsubmit = ( event ) => {
 				/**
-				 * To disable the loading animation create a ULT_LoginConfig object
+				 * To disable the loading animation create a ULT_ResetConfig object
 				 * with a loadingAnimationOnSubmit property and set it to false.
-				 * ULT_LoginConfig.loadingAnimationOnSubmit = false;
+				 * ULT_ResetConfig.loadingAnimationOnSubmit = false;
 				 */
 				
 				if ( this.configuration.showAnimationOnSubmit ){
@@ -64,9 +64,9 @@ class Login {
 				}
 
 				/**
-				 * To prevent the button to become disabled on submitcreate a ULT_LoginConfig object
+				 * To prevent the button to become disabled on submitcreate a ULT_ResetConfig object
 				 * with a buttonDisabledOnSubmit property and set it to false.
-				 * ULT_LoginConfig.buttonDisabledOnSubmit = false;
+				 * ULT_ResetConfig.buttonDisabledOnSubmit = false;
 				 */
 				
 				if ( this.configuration.buttonDisabledOnSubmit ){
@@ -77,4 +77,4 @@ class Login {
 	}
 }
 
-export default Login;
+export default ResetPassword;

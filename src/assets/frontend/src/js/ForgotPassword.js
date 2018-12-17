@@ -19,7 +19,7 @@ class ForgotPassword {
 		this.$elements = {}
 
 		// Get elements
-		this.$elements.loginForm    = document.getElementById( 'ult-forgot-password' );
+		this.$elements.forgotForm   = document.getElementById( 'ult-forgot-password' );
 		this.$elements.submitButton = document.getElementById( 'ult-forgot-password-submit-btn' );
 	}
 
@@ -49,28 +49,31 @@ class ForgotPassword {
 	}
 
 	bindFormSubmission(){
-		// Bind submission
-		this.$elements.loginForm.onsubmit = ( event ) => {
-			/**
-			 * To disable the loading animation create a ULT_ResetConfig object
-			 * with a loadingAnimationOnSubmit property and set it to false.
-			 * ULT_ResetConfig.loadingAnimationOnSubmit = false;
-			 */
-			
-			if ( this.configuration.showAnimationOnSubmit ){
-				this.$elements.submitButton.classList.add( 'ult-form__submit-btn--loading' );
-			}
+		// Check if the form exists
+		if ( isDefined( this.$elements.forgotForm ) ){
+			// Bind submission
+			this.$elements.forgotForm.onsubmit = ( event ) => {
+				/**
+				 * To disable the loading animation create a ULT_ResetConfig object
+				 * with a loadingAnimationOnSubmit property and set it to false.
+				 * ULT_ResetConfig.loadingAnimationOnSubmit = false;
+				 */
+				
+				if ( this.configuration.showAnimationOnSubmit ){
+					this.$elements.submitButton.classList.add( 'ult-form__submit-btn--loading' );
+				}
 
-			/**
-			 * To prevent the button to become disabled on submitcreate a ULT_ResetConfig object
-			 * with a buttonDisabledOnSubmit property and set it to false.
-			 * ULT_ResetConfig.buttonDisabledOnSubmit = false;
-			 */
-			
-			if ( this.configuration.buttonDisabledOnSubmit ){
-				this.$elements.submitButton.classList.add( 'ult-form__submit-btn--disabled' );
-			}
-		};
+				/**
+				 * To prevent the button to become disabled on submitcreate a ULT_ResetConfig object
+				 * with a buttonDisabledOnSubmit property and set it to false.
+				 * ULT_ResetConfig.buttonDisabledOnSubmit = false;
+				 */
+				
+				if ( this.configuration.buttonDisabledOnSubmit ){
+					this.$elements.submitButton.classList.add( 'ult-form__submit-btn--disabled' );
+				}
+			};
+		}
 	}
 }
 

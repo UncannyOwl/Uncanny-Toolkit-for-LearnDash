@@ -1,5 +1,6 @@
 import Login from './js/Login';
 import ForgotPassword from './js/ForgotPassword';
+import ResetPassword from './js/ResetPassword';
 
 import './scss/main.scss';
 
@@ -7,4 +8,5 @@ import './scss/main.scss';
 document.addEventListener( 'DOMContentLoaded', () => {
 	new Login();
 	new ForgotPassword();
+	new ResetPassword();
 });
