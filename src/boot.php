@@ -31,6 +31,7 @@ class Boot extends Config {
 		$uncanny_learndash_toolkit->admin_menu = new AdminMenu;
 		add_action( 'admin_menu', array( __CLASS__, 'uo_support_menu' ) );
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'uo_admin_support_css' ) );
+		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'uo_frontend_assets' ) );
 		// Add admin menu ajax class to load and save settings
 		add_action( 'wp_ajax_settings_save', array(
 			get_parent_class(),
@@ -127,6 +128,12 @@ class Boot extends Config {
 				exit;
 			}
 		}
+	}
+
+	public static function uo_frontend_assets(){
+		wp_enqueue_style( 'uncannyowl-learndash-toolkit-free', plugins_url( 'src/assets/frontend/dist/bundle.min.css', dirname( __FILE__ ) ), [], UNCANNY_TOOLKIT_VERSION );
+
+		wp_enqueue_script( 'uncannyowl-learndash-toolkit-free', plugins_url( 'src/assets/frontend/dist/bundle.min.js', dirname( __FILE__ ) ), [], UNCANNY_TOOLKIT_VERSION );
 	}
 
 	/**

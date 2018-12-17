@@ -939,8 +939,8 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			'Hello'                      => esc_html__( 'Hello', 'uncanny-learndash-toolkit' ),
 			'Logged-In-Message'          => esc_html__( 'You are already logged in', 'uncanny-learndash-toolkit' ),
 			'Logout'                     => esc_html__( 'Logout', 'uncanny-learndash-toolkit' ),
-			'Password-Recovery-Title'    => esc_html__( 'Password Recovery', 'uncanny-learndash-toolkit' ),
-			'Password-Recovery-Label'    => ( ! empty( $user_name_label ) ) ? $user_name_label : esc_html__( 'Username', 'uncanny-learndash-toolkit' ),
+			'Password-Recovery-Title'    => esc_html__( 'Forgot password', 'uncanny-learndash-toolkit' ),
+			'Password-Recovery-Label'    => ( ! empty( $user_name_label ) ) ? $user_name_label : esc_html__( 'Email', 'uncanny-learndash-toolkit' ),
 			'Success'                    => esc_html__( 'Success!', 'uncanny-learndash-toolkit' ),
 			'Success-Email-Sent'         => esc_html__( 'Check your email for a reset password link.', 'uncanny-learndash-toolkit' ),
 			'Oops'                       => esc_html__( 'Oops!', 'uncanny-learndash-toolkit' ),
@@ -957,7 +957,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			'Login-Title'                => Config::get_settings_value( 'uo_frontend_login_title_label', 'FrontendLoginPlus', esc_html__( 'Login', 'uncanny-learndash-toolkit' ) ),
 			'Register-Link'              => Config::get_settings_value( 'uo_frontend_register_link_label', 'FrontendLoginPlus', esc_html__( 'Register', 'uncanny-learndash-toolkit' ) ),
 			'Try-again'                  => esc_html__( 'Try again?', 'uncanny-learndash-toolkit' ),
-			'Get-New-Password'           => esc_html__( 'Get New Password', 'uncanny-learndash-toolkit' )
+			'Get-New-Password'           => esc_html__( 'Recover Account', 'uncanny-learndash-toolkit' )
 		);
 
 		return $innerText;
