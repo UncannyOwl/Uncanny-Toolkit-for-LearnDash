@@ -10,7 +10,6 @@ if ( '' !== Config::get_settings_value( 'uo_frontend_registration', 'FrontendLog
 	include_once( Config::get_include( 'custom-user-notification.php' ) );
 }
 
-
 /**
  * Class FrontendLoginPlus
  * @package uncanny_custom_toolkit
@@ -22,6 +21,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	// Meta key that will populate in our new column
 	private static $user_meta_key_col = 'uo_is_verified';
 
+	public static $login_error = '';
 
 	/**
 	 * Class constructor
@@ -136,7 +136,6 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 	}
 
-
 	/**
 	 * Description of class in Admin View
 	 *
@@ -162,6 +161,16 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			'icon'             => $class_icon,
 		);
 
+	}
+
+	/**
+	 * Get error
+	 *
+	 * @return Login error
+	 */
+	
+	public static function get_error(){
+		return self::$login_error;
 	}
 
 	/**
@@ -830,12 +839,14 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			$message_warning = $message_details['warning'];
 		}
 
-		$login_error = '';
 		if ( $message_error || $message_warning ) {
-			$login_error = '<p class="login-msg"><strong>' . $message_error . '</strong> ' . $message_warning . '</p>';
+			self::$login_error = '<p class="login-msg"><strong>' . $message_error . '</strong> ' . $message_warning . '</p>';
 		}
 
-		$login_error = apply_filters( 'uo_frontend_login_error', $login_error, $login, $message_error, $message_warning );
+		self::$login_error = apply_filters( 'uo_frontend_login_error', self::$login_error, $login, $message_error, $message_warning );
+
+		// Prevent errors, some templates are using the following template
+		$login_error = self::$login_error;
 
 		$innerText = apply_filters( 'uo-login-inner-text', FrontendLoginPlus::fetch_inner_text( $user_name_label ), $login );
 

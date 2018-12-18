@@ -1,0 +1,12 @@
+.ult-form__validation {
+	margin-top: 15px;
+}
+
+	.ult-form__validation:first-child {
+		margin-top: 0;
+		margin-bottom: 15px;
+	}
+
+	.ult-form__validation .ult-notice p {
+		margin: 0;
+	}
