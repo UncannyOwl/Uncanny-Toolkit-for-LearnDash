@@ -4,18 +4,7 @@ namespace uncanny_learndash_toolkit;
 
 ?>
 	<section class="uo_loginForm">
-		<?php
-
-		echo $default_css;
-
-		echo $default_js;
-
-		?>
-
-		<div class="uo_error">
-			<?php
-			echo $login_error; ?>
-		</div>
+		
 		<?php
 		/*
 		 * before_uo_login_ui hook
