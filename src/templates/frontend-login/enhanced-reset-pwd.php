@@ -5,7 +5,7 @@ $has_recaptcha = ! empty( trim( $recaptcha_key ) );
 
 <?php do_action( 'uo_reset_before_container' ); ?>
 		
-<div id="ult-reset-password" name="resetpassform" action="?action=validatepasswordreset" method="POST">
+<div id="ult-reset-password">
 	<div class="ult-box">
 
 		<?php do_action( 'uo_reset_before_title' ); ?>
@@ -24,7 +24,7 @@ $has_recaptcha = ! empty( trim( $recaptcha_key ) );
 
 		<div class="ult-form__container">
 
-			<form method="POST" id="ult-reset-password-form">
+			<form id="ult-reset-password-form" name="resetpassform" action="?action=validatepasswordreset" method="POST">
 
 				<input type="hidden" id="user_login" name="rp_login" value="<?php echo esc_attr( $rp_login ); ?>"/>
 

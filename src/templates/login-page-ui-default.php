@@ -25,12 +25,20 @@ namespace uncanny_learndash_toolkit;
 			//If User is requesting a lost password, show form!
 			include( apply_filters( 'uo-front-login-lost-pwd-template', 'frontend-login/' . $template_to_load . '-lost-pwd.php', $template_to_load ) );
 		} elseif ( $reset_password_sent ) {
+			$forgot_password_response = (object) [
+				'error'   => true,
+				'message' => ''
+			];
+
 			//When Lost Password Form is submitted, show status!
-			if ( $reset_password_sent_success ) {
-				uo_generate_default_message_block( $innerText['Success'], $innerText['Success-Email-Sent'] );
+			if ( $reset_password_sent_success ){
+				$forgot_password_response->error = false;
+				$forgot_password_response->message = $innerText['Success-Email-Sent'];
 			} else {
-				uo_generate_default_message_block( $innerText['Oops'], $innerText['Failed-Send-Email'], $login_page_url . "action=lostpassword", $innerText['Try-again'] );
+				$forgot_password_response->message = $innerText['Failed-Send-Email'];
 			}
+
+			include( apply_filters( 'uo-front-login-lost-pwd-template', 'frontend-login/' . $template_to_load . '-lost-pwd.php', $template_to_load ) );
 		} elseif ( $register ) {
 			//If registration is open and user is on register page!
 			if ( $register_show ) {

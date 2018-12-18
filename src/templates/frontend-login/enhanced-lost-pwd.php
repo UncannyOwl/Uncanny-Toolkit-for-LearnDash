@@ -8,81 +8,116 @@ $has_recaptcha = ! empty( trim( $recaptcha_key ) );
 <div id="ult-forgot-password">
 	<div class="ult-box">
 
-		<?php do_action( 'uo_forgot_before_title' ); ?>
+		<?php
 
-		<div class="ult-form__title">
-			<?php echo $innerText[ 'Password-Recovery-Title' ]; ?>
-		</div>
+		/**
+		 * If the user submitted the form and the response was
+		 * successful then we shouldn't show the fields again, only
+		 * the success message
+		 */
+		
+		if ( isset( $forgot_password_response ) && ! $forgot_password_response->error ){ ?>
 
-		<?php do_action( 'uo_forgot_before_description' ); ?>
+			<?php do_action( 'uo_forgot_before_title' ); ?>
 
-		<div class="ult-form__description">
-			<?php _e( "Enter the email address you used when you joined and we'll send you instructions to reset your password.", 'uncanny-learndash-toolkit' ); ?>
-		</div>
+			<div class="ult-form__title">
+				<?php echo $innerText[ 'Password-Recovery-Title' ]; ?>
+			</div>
 
-		<?php do_action( 'uo_forgot_before_form' ); ?>
+			<?php do_action( 'uo_forgot_before_success' ); ?>
 
-		<div class="ult-form__container">
+			<div class="ult-form__row ult-form__row--validation">
+				<div class="ult-notice ult-notice--success">
+					<?php do_action( 'uo_forgot_before_success_message' ); ?>
+					<?php echo $forgot_password_response->message; ?>
+					<?php do_action( 'uo_forgot_after_success_message' ); ?>
+				</div>
+			</div>
 
-			<form id="ult-forgot-password-form" name="lostpasswordform" action="<?php echo site_url( 'wp-login.php?action=lostpassword', 'login_post' ); ?>" method="POST">
+			<?php do_action( 'uo_forgot_after_success' ); ?>
 
-				<input type="hidden" name="redirect_to" value="<?php echo $login_page_url ?>action=forgot&success=1">
+		<?php } else { ?>
 
-				<?php do_action( 'uo_forgot_before_email' ); ?>
+			<?php do_action( 'uo_forgot_before_title' ); ?>
 
-				<div class="ult-form__row ult-form__row--email">
-					<div class="ult-form-field__header">
-						<div class="ult-form-field__label-container">
-							<label for="ult-forgot-email" class="ult-form-field__label">
-								<?php echo $innerText[ 'Password-Recovery-Label' ]; ?>
-							</label>
+			<div class="ult-form__title">
+				<?php echo $innerText[ 'Password-Recovery-Title' ]; ?>
+			</div>
+
+			<?php do_action( 'uo_forgot_before_description' ); ?>
+
+			<div class="ult-form__description">
+				<?php _e( "Enter the email address you used when you joined and we'll send you instructions to reset your password.", 'uncanny-learndash-toolkit' ); ?>
+			</div>
+
+			<?php do_action( 'uo_forgot_before_form' ); ?>
+
+			<div class="ult-form__container">
+
+				<form id="ult-forgot-password-form" name="lostpasswordform" action="<?php echo site_url( 'wp-login.php?action=lostpassword', 'login_post' ); ?>" method="POST">
+
+					<input type="hidden" name="redirect_to" value="<?php echo $login_page_url ?>action=forgot&success=1">
+
+					<?php do_action( 'uo_forgot_before_email' ); ?>
+
+					<div class="ult-form__row ult-form__row--email">
+						<div class="ult-form-field__header">
+							<div class="ult-form-field__label-container">
+								<label for="ult-forgot-email" class="ult-form-field__label">
+									<?php echo $innerText[ 'Password-Recovery-Label' ]; ?>
+								</label>
+							</div>
+							<div class="ult-form-field__actions">
+								<?php do_action( 'uo_forgot_email_actions' ); ?>
+							</div>
 						</div>
-						<div class="ult-form-field__actions">
-							<?php do_action( 'uo_forgot_email_actions' ); ?>
+
+						<div class="ult-form__field">
+							<input type="text" name="user_login" id="ult-forgot-email" class="ult-form__input" placeholder="">
 						</div>
 					</div>
 
-					<div class="ult-form__field">
-						<input type="text" name="user_login" id="ult-forgot-email" class="ult-form__input" placeholder="">
+					<?php do_action( 'uo_forgot_before_captcha' ); ?>
+
+					<?php if ( $has_recaptcha ){ ?>
+
+					<div class="ult-form__row ult-form__row--recaptcha">
+						<div class="g-recaptcha" data-sitekey="<?php echo $recaptcha_key; ?>" data-callback="correctCaptcha" data-expired-callback="expiredCaptcha"></div>
 					</div>
-				</div>
 
-				<?php do_action( 'uo_forgot_before_captcha' ); ?>
+					<?php } ?>
 
-				<?php if ( $has_recaptcha ){ ?>
+					<?php if ( isset( $forgot_password_response ) ){ ?>
 
-				<div class="ult-form__row ult-form__row--recaptcha">
-					<div class="g-recaptcha" data-sitekey="<?php echo $recaptcha_key; ?>" data-callback="correctCaptcha" data-expired-callback="expiredCaptcha"></div>
-				</div>
+						<?php do_action( 'uo_forgot_before_error' ); ?>
 
-				<?php } ?>
+						<div class="ult-form__row ult-form__row--validation">
+							<div class="ult-notice ult-notice--error">
+								<?php do_action( 'uo_forgot_before_error_message' ); ?>
+								<?php echo $forgot_password_response->message; ?>
+								<?php do_action( 'uo_forgot_after_error_message' ); ?>
+							</div>
+						</div>
 
-				<?php do_action( 'uo_forgot_before_validation' ); ?>
+					<?php } ?>
 
-				<div class="ult-form__row ult-form__row--validation">
-					<div class="ult-notice ult-notice--success">
-						<?php do_action( 'uo_forgot_before_validation_message' ); ?>
+					<?php do_action( 'uo_forgot_before_submit' ); ?>
 
-						Show messages here. Error and success
-
-						<?php do_action( 'uo_forgot_after_validation_message' ); ?>
+					<div class="ult-form__row ult-form__row--submit">
+						<button type="submit" id="ult-forgot-password-submit-btn" class="ult-form__submit-btn">
+							<?php echo $innerText[ 'Get-New-Password' ]; ?>
+						</button>
 					</div>
-				</div>
 
-				<?php do_action( 'uo_forgot_before_submit' ); ?>
+					<?php do_action( 'uo_forgot_after_submit' ); ?>
+				</form>
 
-				<div class="ult-form__row ult-form__row--submit">
-					<button type="submit" id="ult-forgot-password-submit-btn" class="ult-form__submit-btn">
-						<?php echo $innerText[ 'Get-New-Password' ]; ?>
-					</button>
-				</div>
+			</div>
 
-				<?php do_action( 'uo_forgot_after_submit' ); ?>
-			</form>
+			<?php do_action( 'uo_forgot_after_form' ); ?>
 
-		</div>
+		<?php } ?>
 
-		<?php do_action( 'uo_forgot_after_form' ); ?>
 	</div>
 </div>
 

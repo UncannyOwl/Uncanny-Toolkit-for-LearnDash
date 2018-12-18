@@ -3,6 +3,12 @@ namespace uncanny_learndash_toolkit;
 ?>
 <h2><?php echo $innerText['Password-Recovery-Title']; ?></h2>
 <form id="lostpasswordform" name="lostpasswordform" action="<?php echo site_url( 'wp-login.php?action=lostpassword', 'login_post' ) ?>" method="post">
+	<?php if ( isset( $forgot_password_response ) ){ ?>
+		<p>
+			<?php echo $forgot_password_response->message; ?>
+		</p>
+	<?php } ?>
+		
 	<p>
 		<label for="user_login"><?php echo $innerText['Password-Recovery-Label']; ?></label>
 		<input size="20" type="text" name="user_login" id="user_login" value="">
