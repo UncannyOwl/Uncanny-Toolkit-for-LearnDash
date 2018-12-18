@@ -3,7 +3,7 @@
 	 */
 
 	.ult-form__submit-btn,
-	#ult-login-submit {
+	#ult-login-form #ult-login-submit {
 		width: 100%;
 		background: $primary_color;
 		color: #fff;
@@ -25,7 +25,12 @@
 		position: relative;
 	}
 
-		.ult-form__submit-btn:not(.ult-form__submit-btn--loading):focus {
+		#ult-login-form .login-submit {
+			position: relative;
+		}
+
+		.ult-form__submit-btn:not(.ult-form__submit-btn--loading):focus,
+		#ult-login-form .login-submit:not(.ult-form__submit-btn--loading) #ult-login-submit:focus {
 			box-shadow: 0 0 0 0.2rem rgba( $primary_color, .5 );
 		}
 
@@ -34,7 +39,8 @@
 			transition: opacity 150ms ease-in-out;
 		}
 
-		.ult-form__submit-btn--loading {
+		.ult-form__submit-btn--loading,
+		.ult-form__submit-btn--loading #ult-login-submit {
 			color: transparent;
 		}
 
