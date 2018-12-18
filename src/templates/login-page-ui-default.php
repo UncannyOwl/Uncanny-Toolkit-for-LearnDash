@@ -2,11 +2,16 @@
 
 namespace uncanny_learndash_toolkit;
 
-echo $default_css;
-
-echo $default_js;
 ?>
 	<section class="uo_loginForm">
+		<?php
+
+		echo $default_css;
+
+		echo $default_js;
+
+		?>
+
 		<div class="uo_error">
 			<?php
 			echo $login_error; ?>
