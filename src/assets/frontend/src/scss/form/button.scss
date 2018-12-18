@@ -41,7 +41,7 @@
 
 		.ult-form__submit-btn--loading,
 		.ult-form__submit-btn--loading #ult-login-submit {
-			color: transparent;
+			color: transparent !important;
 		}
 
 		.ult-form__submit-btn--loading:before {
