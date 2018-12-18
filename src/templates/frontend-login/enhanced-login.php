@@ -14,7 +14,9 @@ $login = (object) [
 		'can_register'     => get_option( 'users_can_register' ) && Config::get_settings_value( 'uo_frontend_show_register_link', 'FrontendLoginPlus' ) == 'on',
 	],
 	'urls'    => (object) [
+		'login'            => $login_page_url,
 		'register'         => Config::get_settings_value( 'uo_frontend_register_link', 'FrontendLoginPlus', wp_registration_url() ),
+		'forgot_password'  => $login_page_url . 'action=lostpassword'
 	],
 	'strings' => (object) [
 		'error'            => $login_error,
@@ -138,7 +140,7 @@ add_filter( 'login_form_middle', function( $content ){
 
 			<div class="ult-form__footer">
 				<div class="ult-form-footer__forgot-password">
-					<a href="<?php echo wp_lostpassword_url(); ?>">
+					<a href="<?php echo $login->urls->forgot_password; ?>">
 						<?php echo $login->strings->forgot_password; ?>
 					</a>
 				</div>

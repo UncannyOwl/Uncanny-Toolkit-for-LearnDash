@@ -20,7 +20,7 @@ class Login {
 
 		// Get elements
 		this.$elements.loginForm    = document.getElementById( 'ult-login-form' );
-		this.$elements.submitButton = document.getElementById( 'ult-login-submit-btn' );
+		this.$elements.submitButton = document.getElementById( 'ult-login-submit' );
 	}
 
 	getConfiguration(){
