@@ -20,6 +20,10 @@
 	transition: border 150ms ease-in-out, box-shadow 150ms ease-in-out;
 }
 
+.ult-form__field > .ult-form__input {
+	margin-top: 0;
+}
+
 	.ult-form__input:hover,
 	.ult-form__container input[type="text"]:hover,
 	.ult-form__container input[type="password"]:hover {

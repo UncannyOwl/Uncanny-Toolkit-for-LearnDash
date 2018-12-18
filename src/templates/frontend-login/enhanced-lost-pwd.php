@@ -5,7 +5,7 @@ $has_recaptcha = ! empty( trim( $recaptcha_key ) );
 
 <?php do_action( 'uo_forgot_before_container' ); ?>
 		
-<div id="ult-forgot-password" name="lostpasswordform" action="<?php echo site_url( 'wp-login.php?action=lostpassword', 'login_post' ); ?>" method="POST">
+<div id="ult-forgot-password">
 	<div class="ult-box">
 
 		<?php do_action( 'uo_forgot_before_title' ); ?>
@@ -24,7 +24,7 @@ $has_recaptcha = ! empty( trim( $recaptcha_key ) );
 
 		<div class="ult-form__container">
 
-			<form method="POST" id="ult-forgot-password-form">
+			<form id="ult-forgot-password-form" name="lostpasswordform" action="<?php echo site_url( 'wp-login.php?action=lostpassword', 'login_post' ); ?>" method="POST">
 
 				<input type="hidden" name="redirect_to" value="<?php echo $login_page_url ?>action=forgot&success=1">
 
@@ -63,7 +63,7 @@ $has_recaptcha = ! empty( trim( $recaptcha_key ) );
 					<div class="ult-notice ult-notice--success">
 						<?php do_action( 'uo_forgot_before_validation_message' ); ?>
 
-						We've sent an email with instructions for resetting your password. Please check your email for next steps.
+						Show messages here. Error and success
 
 						<?php do_action( 'uo_forgot_after_validation_message' ); ?>
 					</div>
