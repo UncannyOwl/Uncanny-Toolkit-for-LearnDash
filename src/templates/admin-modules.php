@@ -188,7 +188,7 @@ foreach ( $modules as $key => $module ) {
 					     data-id="<?php echo $module['id']; ?>"
 					     data-version="<?php echo $module['version']; ?>"
 					     data-status="<?php echo $module['is_active'] ? 'active' : 'inactive'; ?>"
-					     data-category='<?php echo json_encode( $module['categories'] ); ?>'
+					     data-category='<?php echo json_encode( $module['category'] ); ?>'
 					>
 
 						<div class="ult-directory-module-content">

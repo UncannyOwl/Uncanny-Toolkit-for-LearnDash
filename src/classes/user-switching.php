@@ -89,7 +89,7 @@ class UserSwitching extends Config implements RequiredFunctions {
 	 * This information is only loaded in the admin settings page to create a module which includes an on/off switch
 	 * and settings modal pop up that populates module options in the WP DB. The details are retrieve by creating a
 	 * reflection class(http://php.net/manual/en/class.reflectionclass.php). The class does not need to be initialized to get the details
-	 * @see uncanny_learndash_toolkit/AdminMenu::get_class_details()
+	 * @see   uncanny_learndash_toolkit/AdminMenu::get_class_details()
 	 *
 	 * @since 1.0.0
 	 *
@@ -134,12 +134,12 @@ class UserSwitching extends Config implements RequiredFunctions {
 
 		$class_icon = '<i class="uo_icon_fa fa fa-exchange"></i>';
 		$type       = 'free';
-		$tags       = 'user-handling'; //learndash | general | user-handling
+		$category   = 'wordpress';
 
 		return array(
 			'title'            => $class_title,
 			'type'             => $type,
-			'tags'             => $tags,
+			'category'         => $category,
 			'kb_link'          => $kb_link,
 			'description'      => $class_description,
 			'dependants_exist' => $class_dependents_available,

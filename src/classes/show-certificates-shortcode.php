@@ -45,13 +45,13 @@ class ShowCertificatesShortcode extends Config implements RequiredFunctions {
 		$kb_link           = 'http://www.uncannyowl.com/knowledge-base/show-learndash-certificates/';
 		$class_description = esc_html__( 'Displays a list of LearnDash certificates (both course and quiz) earned by the user, with the most recent at the top.', 'uncanny-learndash-toolkit' );
 		$class_icon        = '<i class="uo_icon_fa fa fa-certificate"></i>';
-		$tags              = 'learndash';
+		$category          = 'learndash';
 		$type              = 'free';
 
 		return array(
 			'title'            => $class_title,
 			'type'             => $type,
-			'tags'             => $tags,
+			'category'         => $category,
 			'kb_link'          => $kb_link,
 			'description'      => $class_description,
 			'dependants_exist' => self::dependants_exist(),

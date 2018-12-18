@@ -62,13 +62,13 @@ class Breadcrumbs extends Config implements RequiredFunctions {
 
 		/* Icon as font awesome icon */
 		$class_icon = '<i class="uo_icon_fa fa fa-link"></i>';
-		$tags       = 'general';
+		$category          = 'wordpress';
 		$type       = 'free';
 
 		return array(
 			'title'            => $class_title,
 			'type'             => $type,
-			'tags'             => $tags,
+			'category'         => $category,
 			'kb_link'          => $kb_link, // OR set as null not to display
 			'description'      => $class_description,
 			'dependants_exist' => self::dependants_exist(),

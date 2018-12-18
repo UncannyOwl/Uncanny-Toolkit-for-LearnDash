@@ -147,18 +147,18 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		$kb_link           = 'https://www.uncannyowl.com/knowledge-base/front-end-login/';
 		$class_description = esc_html__( 'Adds a custom login form and can optionally force users to be verified by an admin before they can sign in.', 'uncanny-learndash-toolkit' );
 		$class_icon        = '<i class="uo_icon_fa fa fa-sign-in"></i>';
-		$tags              = 'user-handling';
+		$category          = 'wordpress';
 		$type              = 'free';
 
 		return array(
 			'title'            => $class_title,
 			'type'             => $type,
-			'tags'             => $tags,
 			'kb_link'          => $kb_link, // OR set as null not to display
 			'description'      => $class_description,
 			'dependants_exist' => self::dependants_exist(),
 			'settings'         => self::get_class_settings( $class_title ),
 			'icon'             => $class_icon,
+			'category'         => $category,
 		);
 
 	}
@@ -168,8 +168,8 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	 *
 	 * @return Login error
 	 */
-	
-	public static function get_error(){
+
+	public static function get_error() {
 		return self::$login_error;
 	}
 
@@ -485,7 +485,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				<td>
 					<label for="rich_editing">
 						<input type="checkbox" name="uo_is_verified"
-						       value="1" <?php checked( $checked, $current, $echo ); ?>/>
+							   value="1" <?php checked( $checked, $current, $echo ); ?>/>
 						Verify this user and allow them to log in
 					</label>
 				</td>
@@ -637,7 +637,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	}
 
 	/**
-	 * @param $atts
+	 * @param      $atts
 	 * @param null $content
 	 *
 	 * @return string
@@ -674,10 +674,10 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			if ( 'no' !== $placeholder ) {
 				?>
 				<script type='text/javascript'>
-                  jQuery(document).ready(function () {
-                    jQuery('#user_login').attr('placeholder', '<?php echo $username_label; ?>')
-                    jQuery('#user_pass').attr('placeholder', '<?php echo $password_label; ?>')
-                  })
+                    jQuery(document).ready(function () {
+                        jQuery('#user_login').attr('placeholder', '<?php echo $username_label; ?>')
+                        jQuery('#user_pass').attr('placeholder', '<?php echo $password_label; ?>')
+                    })
 				</script>
 				<?php
 			}
@@ -1261,8 +1261,8 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	 *
 	 * @since 3.0
 	 *
-	 * @param string $url The URL.
-	 * @param string $path The path.
+	 * @param string $url    The URL.
+	 * @param string $path   The path.
 	 * @param string $scheme The URL scheme.
 	 *
 	 * @return string The filtered URL.

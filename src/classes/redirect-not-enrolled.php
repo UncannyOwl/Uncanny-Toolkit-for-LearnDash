@@ -45,13 +45,13 @@ class RedirectNotEnrolled extends Config implements RequiredFunctions {
 		$kb_link           = 'https://www.uncannyowl.com/knowledge-base/redirect-user-if-not-enrolled/';
 		$class_description = esc_html__( 'Redirects all non-admin roles to a specific URL if they are not enrolled in the course.', 'uncanny-learndash-toolkit' );
 		$class_icon        = '<i class="uo_icon_fa fa fa-share"></i>';
-		$tags              = 'learndash';
+		$category          = 'learndash';
 		$type              = 'free';
 
 		return array(
 			'title'            => $class_title,
 			'type'             => $type,
-			'tags'             => $tags,
+			'category'         => $category,
 			'kb_link'          => $kb_link,
 			'description'      => $class_description,
 			'dependants_exist' => self::dependants_exist(),

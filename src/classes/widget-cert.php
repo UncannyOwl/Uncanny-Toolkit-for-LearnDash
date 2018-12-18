@@ -23,13 +23,13 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 		$kb_link           = 'http://www.uncannyowl.com/knowledge-base/learndash-certificate-widget/';
 		$class_description = esc_html__( 'Custom Widget that displays all certificates the user has earned.', 'uncanny-learndash-toolkit' );
 		$class_icon        = '<i class="uo_icon_fa fa fa-bookmark "></i>';
-		$tags              = 'learndash';
+		$category          = 'learndash';
 		$type              = 'free';
 
 		return array(
 			'title'            => $class_title,
 			'type'             => $type,
-			'tags'             => $tags,
+			'category'         => $category,
 			'kb_link'          => $kb_link, // OR set as null not to display
 			'description'      => $class_description,
 			'dependants_exist' => self::dependants_exist(),

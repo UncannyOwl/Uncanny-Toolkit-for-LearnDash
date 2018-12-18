@@ -44,13 +44,13 @@ class LearndashGroupUserProfile extends Config implements RequiredFunctions {
 		$kb_link           = 'https://www.uncannyowl.com/knowledge-base/learndash-groups-user-profiles/';
 		$class_description = esc_html__( 'Displays a user\'s LearnDash Group memberships in the user profile.', 'uncanny-learndash-toolkit' );
 		$class_icon        = '<i class="uo_icon_fa fa fa-users"></i>';
-		$tags              = 'learndash';
+		$category          = 'learndash';
 		$type              = 'free';
 
 		return array(
 			'title'            => $class_title,
 			'type'             => $type,
-			'tags'             => $tags,
+			'category'         => $category,
 			'kb_link'          => $kb_link,
 			'description'      => $class_description,
 			'dependants_exist' => self::dependants_exist(),

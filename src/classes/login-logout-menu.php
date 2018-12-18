@@ -10,7 +10,7 @@ if ( ! defined( 'WPINC' ) ) {
  * Class LoginLogoutMenu
  * @package uncanny_learndash_toolkit
  *
- * @since 1.3.2 uo_login changed to uo_login_link to resolve conflict from Front End Logn
+ * @since   1.3.2 uo_login changed to uo_login_link to resolve conflict from Front End Logn
  *
  *
  *
@@ -73,13 +73,13 @@ class LoginLogoutMenu extends Config implements RequiredFunctions {
 
 		/* Icon as fontawesome icon */
 		$class_icon = '<i class="uo_icon_fa fa fa-bars"></i>';
-		$tags       = 'general';
+		$category   = 'wordpress';
 		$type       = 'free';
 
 		return array(
 			'title'            => $class_title,
 			'type'             => $type,
-			'tags'             => $tags,
+			'category'         => $category,
 			'kb_link'          => $kb_link, // OR set as null not to display
 			'description'      => $class_description,
 			'dependants_exist' => self::dependants_exist(),
@@ -177,7 +177,7 @@ class LoginLogoutMenu extends Config implements RequiredFunctions {
 
 			<div id="tabs-panel-uo-login-logout-menu-all" class="tabs-panel tabs-panel-view-all tabs-panel-active">
 				<ul id="uo-login-logout-menuchecklist"
-				    class="list:uo-login-logout-menu categorychecklist form-no-clear">
+					class="list:uo-login-logout-menu categorychecklist form-no-clear">
 					<?php echo walk_nav_menu_tree( array_map( '\wp_setup_nav_menu_item', $nav_menu_items ), 0, (object) array( 'walker' => $walker ) ); ?>
 				</ul>
 			</div>
@@ -185,9 +185,9 @@ class LoginLogoutMenu extends Config implements RequiredFunctions {
 			<p class="button-controls">
 				<span class="add-to-menu">
 					<input type="submit"<?php disabled( $nav_menu_selected_id, 0 ); ?>
-					       class="button-secondary submit-add-to-menu right"
-					       value="<?php esc_attr_e( 'Add to Menu' ); ?>"
-					       name="add-uo-login-logout-menu-menu-item" id="submit-uo-login-logout-menu"/>
+						   class="button-secondary submit-add-to-menu right"
+						   value="<?php esc_attr_e( 'Add to Menu' ); ?>"
+						   name="add-uo-login-logout-menu-menu-item" id="submit-uo-login-logout-menu"/>
 					<span class="spinner"></span>
 				</span>
 			</p>

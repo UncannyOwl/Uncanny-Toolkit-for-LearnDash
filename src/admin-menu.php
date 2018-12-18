@@ -418,6 +418,12 @@ class AdminMenu extends Boot {
 			}
 
 			self::$modules[ $key ]['description'] = $class['description'];
+
+			if( isset( $class['category'] ) && ! empty( $class['category'] ) ){
+				self::$modules[ $key ]['category'] = $class['category'];
+			}else{
+				self::$modules[ $key ]['category'] = '';
+			}
 		}
 	}
 
