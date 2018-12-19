@@ -985,7 +985,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			'New-Password'               => esc_html__( 'New Password', 'uncanny-learndash-toolkit' ),
 			'Confirm-Password'           => esc_html__( 'Confirm New Password', 'uncanny-learndash-toolkit' ),
 			'Password-Indicator-Hint'    => esc_html__( 'Hint: The password should be at least eight characters long. To make it stronger, use upper and lower case letters, numbers, and symbols like ! " ? $ % ^ &amp; )', 'uncanny-learndash-toolkit' ),
-			'Password-Reset-Link-Failed' => Config::get_settings_value( 'uo_frontend_login_passwordresetfailed_error', 'FrontendLoginPlus', esc_html__( 'Password reset link failed.', 'uncanny-learndash-toolkit' ) ),
+			'Password-Reset-Link-Failed' => Config::get_settings_value( 'uo_frontend_login_passwordresetfailed_error', 'FrontendLoginPlus', esc_html__( 'Invalid password reset link.', 'uncanny-learndash-toolkit' ) ),
 			'Invalid-Reset-Key'          => Config::get_settings_value( 'uo_frontend_login_invalidresetkey_error', 'FrontendLoginPlus', esc_html__( 'Your password reset link is invalid.', 'uncanny-learndash-toolkit' ) ),
 			'Expired-Reset-Key'          => Config::get_settings_value( 'uo_frontend_login_expiredresetkey_error', 'FrontendLoginPlus', esc_html__( 'Your password reset link is expired.', 'uncanny-learndash-toolkit' ) ),
 			'Password-Not-Match'         => Config::get_settings_value( 'uo_frontend_login_passwordnotmatch_error', 'FrontendLoginPlus', esc_html__( 'The password values do not match.', 'uncanny-learndash-toolkit' ) ),
@@ -1244,6 +1244,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		$custom_message = \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_resetpassword_email_body', 'FrontendLoginPlus' );
 		if ( ! empty( $custom_message ) ) {
 			add_filter( 'wp_mail_content_type', array( __CLASS__, 'htmlEmailContent' ) );
+			$custom_message = nl2br($custom_message);
 			$custom_message = str_ireplace( '%User Login%', $user_login, $custom_message );
 			$custom_message = str_ireplace( '%Reset Link%', $reset_link, $custom_message );
 
