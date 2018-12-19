@@ -262,7 +262,12 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				'placeholder' => esc_html__( 'Login', 'uncanny-learndash-toolkit' ),
 				'option_name' => 'uo_frontend_login_title_label',
 			),
-
+			array(
+				'type'        => 'text',
+				'label'       => esc_html__( 'Descrption', 'uncanny-learndash-toolkit' ),
+				'placeholder' => esc_html__( 'Add login description', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_frontend_login_description',
+			),
 			array(
 				'type'        => 'select',
 				'label'       => esc_html__( 'Login Label', 'uncanny-learndash-toolkit' ),
