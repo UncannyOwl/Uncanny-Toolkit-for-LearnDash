@@ -60,6 +60,11 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 			}
 
+			add_filter( 'uo-front-login-lost-pwd-template', array( __CLASS__, 'set_ult_login_theme' ), 9, 1 );
+			add_filter( 'uo-front-login-register-template', array( __CLASS__, 'set_ult_login_theme' ), 9, 1 );
+			add_filter( 'uo-front-login-reset-template', array( __CLASS__, 'set_ult_login_theme' ), 9, 1 );
+			add_filter( 'uo-front-login-login-template', array( __CLASS__, 'set_ult_login_theme' ), 9, 1 );
+
 
 			if ( 'yes' === $is_login_page_set ) {
 
@@ -225,6 +230,16 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		$options = array(
 
 			array(
+				'type'        => 'select',
+				'label'       => esc_html__( 'Select Template', 'uncanny-learndash-toolkit' ),
+				'select_name' => 'uo_frontend_login_template',
+				'options'     => array(
+					array( 'value' => 'default', 'text' => 'Default' ),
+					array( 'value' => 'layout_1', 'text' => 'Layout 1' )
+				)
+			),
+
+			array(
 				'type'       => 'html',
 				'inner_html' => '<h2>' . __( 'Verification', 'uncanny-learndash-toolkit' ) . '</h2>',
 			),
@@ -348,7 +363,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			),
 			array(
 				'type'       => 'html',
-				'inner_html' => '<h2>'.esc_html__( 'Password reset email', 'uncanny-learndash-toolkit' ).'</h2>',
+				'inner_html' => '<h2>' . esc_html__( 'Password reset email', 'uncanny-learndash-toolkit' ) . '</h2>',
 			),
 			array(
 				'type'        => 'textarea',
@@ -1332,5 +1347,14 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		}
 
 		return $url;
+	}
+
+	public static function set_ult_login_theme( $current_theme ){
+		
+		if( 'layout_1' ===Config::get_settings_value( 'uo_frontend_login_template', 'FrontendLoginPlus', 'default' ) ){
+			$current_theme = str_replace( 'default', 'layout_1', $current_theme );
+		}
+
+		return $current_theme;
 	}
 }
