@@ -12,7 +12,6 @@ if( strpos($login_page_url, '?')){
 	$login_page_url = $login_page_url . '?';
 }
 $user_name_label = \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_login_username_label', 'FrontendLoginPlus' );
-$message_error   = '';
 $message_warning = '';
 
 global $user_login;
@@ -39,36 +38,28 @@ if ( '' !== \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_
 				switch ( $error ) {
 
 					case 'empty_username':
-						$message_error   = esc_html__( 'Oops!', 'uncanny-learndash-toolkit' );
 						$message_warning = esc_html__( 'Please enter a username.', 'uncanny-learndash-toolkit' );
 						break;
 					case 'invalid_username':
-						$message_error   = esc_html__( 'Oops!', 'uncanny-learndash-toolkit' );
 						$message_warning = esc_html__( 'This username is invalid because it uses illegal characters. Please enter a valid username.', 'uncanny-learndash-toolkit' );
 						break;
 					case 'username_exists':
-						$message_error   = esc_html__( 'Oops!', 'uncanny-learndash-toolkit' );
 						$message_warning = esc_html__( 'This username is already registered. Please choose another one.', 'uncanny-learndash-toolkit' );
 						break;
 					case 'empty_email':
-						$message_error   = esc_html__( 'Oops!', 'uncanny-learndash-toolkit' );
 						$message_warning = esc_html__( 'Please type your email address.', 'uncanny-learndash-toolkit' );
 						break;
 					case 'invalid_email':
-						$message_error   = esc_html__( 'Oops!', 'uncanny-learndash-toolkit' );
 						$message_warning = esc_html__( 'The email address is not correct.', 'uncanny-learndash-toolkit' );
 						break;
 					case 'email_exists':
-						$message_error   = esc_html__( 'Oops!', 'uncanny-learndash-toolkit' );
 						$message_warning = esc_html__( 'This email is already registered, please choose another one.', 'uncanny-learndash-toolkit' );
 						break;
 					case 'registration-disabled':
-						$message_error   = esc_html__( 'Oops!', 'uncanny-learndash-toolkit' );
 						$message_warning = esc_html__( 'We do not allow registrations.', 'uncanny-learndash-toolkit' );
 						$register_show   = false;
 						break;
 					case 'registration-success':
-						$message_error   = esc_html__( 'Success!', 'uncanny-learndash-toolkit' );
 						$message_warning = esc_html__( 'Registration complete. Registration confirmation has been emailed to you.', 'uncanny-learndash-toolkit' );
 						$register_show   = false;
 						break;
@@ -119,31 +110,26 @@ if ( isset( $_GET['action'] ) ) {
 switch ( $login ) {
 
 	case 'failed':
-		$message_error   = esc_html__( 'Oops!', 'uncanny-learndash-toolkit' );
 		$message_warning = \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_login_failed_error', 'FrontendLoginPlus', esc_html__( 'Invalid username and/or password.', 'uncanny-learndash-toolkit' ) );
 		break;
 	case 'empty':
-		$message_error   = esc_html__( 'Oops!', 'uncanny-learndash-toolkit' );
 		$message_warning = \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_login_empty_error', 'FrontendLoginPlus', esc_html__( 'Username and/or Password is empty.', 'uncanny-learndash-toolkit' ) );
 		break;
 	case 'false':
 		// Empty msgid. It is reserved by GNU gettext: gettext("") returns the header entry with meta information, not the empty string.
-		// $message_error   = esc_html__( '', 'uncanny-learndash-toolkit' ); 
-		$message_error 	 = '';
 		$message_warning = \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_login_false_error', 'FrontendLoginPlus', esc_html__( 'You are logged out.', 'uncanny-learndash-toolkit' ) );
 		break;
 	case 'notverified':
-		$message_error   = esc_html__( 'Oops!', 'uncanny-learndash-toolkit' );
 		$message_warning = \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_login_notverified_error', 'FrontendLoginPlus', esc_html__( 'This account is not verified.', 'uncanny-learndash-toolkit' ) );
 		break;
 }
 
 $login_error = '';
-if ( $message_error || $message_warning ) {
-	$login_error = '<p class="login-msg"><strong>' . $message_error . '</strong> ' . $message_warning . '</p>';
+if ( $message_warning ) {
+	$login_error = '<p class="login-msg"><strong>' . '</strong> ' . $message_warning . '</p>';
 }
 
-$login_error = apply_filters( 'uo_frontend_login_error', $login_error, $login, $message_error, $message_warning );
+$login_error = apply_filters( 'uo_frontend_login_error', $login_error, $login, '', $message_warning );
 
 $login_form_args = array(
 	'echo'           => true,
@@ -172,7 +158,6 @@ $innerText = Array(
 	'Password-Recovery-Label'    => ( ! empty( $user_name_label ) ) ? $user_name_label : esc_html__( 'Username', 'uncanny-learndash-toolkit' ),
 	'Success'                    => esc_html__( 'Success!', 'uncanny-learndash-toolkit' ),
 	'Success-Email-Sent'         => esc_html__( 'Check your email for a reset password link.', 'uncanny-learndash-toolkit' ),
-	'Oops'                       => esc_html__( 'Oops!', 'uncanny-learndash-toolkit' ),
 	'Failed-Send-Email'          => \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_login_failedsendemail_error', 'FrontendLoginPlus', esc_html__( 'Password reset email failed to send.', 'uncanny-learndash-toolkit' ) ),
 	'Reset-Password-Title'       => esc_html__( 'Reset Password', 'uncanny-learndash-toolkit' ),
 	'New-Password'               => esc_html__( 'New Password', 'uncanny-learndash-toolkit' ),
@@ -275,7 +260,7 @@ $innerText = apply_filters( 'uo-login-inner-text', $innerText, $login );
 		} else {
 			?>
             <p class="login-msg">
-                <strong><?php echo $innerText['Oops']; ?></strong> <?php echo $innerText['Failed-Send-Email']; ?></p>
+                <?php echo $innerText['Failed-Send-Email']; ?></p>
             <p>
                 <a href="<?php echo $login_page_url ?>action=lostpassword"><?php echo $innerText['Try-again']; ?></a>
             </p>
@@ -361,7 +346,7 @@ $innerText = apply_filters( 'uo-login-inner-text', $innerText, $login );
 
 			?>
             <p class="login-msg">
-                <strong><?php echo $innerText['Oops']; ?></strong> <?php echo $innerText['Password-Reset-Link-Failed']; ?>
+                <?php echo $innerText['Password-Reset-Link-Failed']; ?>
             </p>
 			<?php
 		}
