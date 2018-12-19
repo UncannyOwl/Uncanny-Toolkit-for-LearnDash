@@ -25,9 +25,22 @@ class LoginRedirect extends Config implements RequiredFunctions {
 	public static function run_frontend_hooks() {
 
 		if ( true === self::dependants_exist() ) {
-			/* Hide admin bar on frontend for the user role */
-			add_filter( 'login_redirect', array( __CLASS__, 'login_redirect' ), 10, 1 );
-			add_action( 'wp_logout', array( __CLASS__, 'logout_redirect' ), 10, 1 );
+			$redirect_priority = 999;
+			
+			$settings = get_option( 'LoginRedirect', Array() );
+			
+			foreach ( $settings as $setting ) {
+				
+				if ( 'redirect_priority' === $setting['name'] ) {
+					$redirect_priority = $setting['value'];
+				}
+			}
+			if ( empty( $redirect_priority ) ) {
+				$redirect_priority = 999;
+			}
+			
+			add_filter( 'login_redirect', array( __CLASS__, 'login_redirect' ), $redirect_priority, 1 );
+			add_action( 'wp_logout', array( __CLASS__, 'logout_redirect' ), $redirect_priority, 1 );
 		}
 
 	}
@@ -92,6 +105,13 @@ class LoginRedirect extends Config implements RequiredFunctions {
 				'type'        => 'text',
 				'label'       => esc_html__( 'Logout Redirect', 'uncanny-learndash-toolkit' ),
 				'option_name' => 'logout_redirect',
+			),
+			
+			array(
+				'type'        => 'text',
+				'label'       => esc_html__( 'Redirect Priority', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'redirect_priority',
+				'placeholder' => '999'
 			),
 		);
 
