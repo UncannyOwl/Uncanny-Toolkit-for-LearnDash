@@ -444,6 +444,12 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				'placeholder' => esc_html__( 'Password reset email failed to send.', 'uncanny-learndash-toolkit' ),
 				'option_name' => 'uo_frontend_login_failedsendemail_error',
 			),
+			array(
+				'type'        => 'textarea',
+				'label'       => esc_html__( 'Message for logged in users', 'uncanny-learndash-toolkit' ),
+				'placeholder' => esc_html__( 'You are already logged in.', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_frontend_login_logged_in_message',
+			),
 		);
 
 		// Build html
@@ -904,6 +910,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				break;*/
 			default:
 				$page_template = self::get_template( '/login-page-ui-default.php' );
+				// TODO var dump this to test
 				$page_template = apply_filters( 'uo_login_ui_template', $page_template );
 				break;
 		}
@@ -983,7 +990,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	public static function fetch_inner_text( $user_name_label ) {
 		$innerText = Array(
 			'Hello'                      => esc_html__( 'Hello', 'uncanny-learndash-toolkit' ),
-			'Logged-In-Message'          => esc_html__( 'You are already logged in', 'uncanny-learndash-toolkit' ),
+			'Logged-In-Message'          => \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_login_logged_in_message', 'FrontendLoginPlus', __( 'You are already logged in.', 'uncanny-learndash-toolkit' ) ),
 			'Logout'                     => esc_html__( 'Logout', 'uncanny-learndash-toolkit' ),
 			'Password-Recovery-Title'    => esc_html__( 'Forgot password', 'uncanny-learndash-toolkit' ),
 			'Password-Recovery-Label'    => ( ! empty( $user_name_label ) ) ? $user_name_label : esc_html__( 'Email', 'uncanny-learndash-toolkit' ),
@@ -1376,7 +1383,9 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	}
 
 	public static function set_ult_login_theme( $current_theme ){
-		
+
+		// TODO var dump this to test $current_theme
+
 		if( 'layout_1' ===Config::get_settings_value( 'uo_frontend_login_template', 'FrontendLoginPlus', 'default' ) ){
 			$current_theme = str_replace( 'default', 'layout_1', $current_theme );
 		}
