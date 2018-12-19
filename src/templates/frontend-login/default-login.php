@@ -13,6 +13,12 @@ echo $default_js;
 	echo $login_error; ?>
 </div>
 
+<?php if ( isset( $reset_password_sucess ) ){ ?>
+
+<h2><?php echo $reset_password_sucess; ?></h2>
+
+<?php } ?>
+
 <?php
 
 $user_name_label = Config::get_settings_value( 'uo_login_username_label', 'FrontendLoginPlus' );

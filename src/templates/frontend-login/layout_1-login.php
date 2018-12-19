@@ -6,11 +6,53 @@ namespace uncanny_learndash_toolkit;
  * Get required data to render the login form
  */
 
+$login = ( isset( $_GET['login'] ) ) ? $_GET['login'] : 'not-set';
+
+switch ( $login ) {
+
+	case 'failed':
+		$message_error   = esc_html__( 'Oops!', 'uncanny-learndash-toolkit' );
+		$message_warning = \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_login_failed_error', 'FrontendLoginPlus', esc_html__( 'Invalid username and/or password.', 'uncanny-learndash-toolkit' ) );
+		break;
+	case 'empty':
+		$message_error   = esc_html__( 'Oops!', 'uncanny-learndash-toolkit' );
+		$message_warning = \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_login_empty_error', 'FrontendLoginPlus', esc_html__( 'Username and/or Password is empty.', 'uncanny-learndash-toolkit' ) );
+		break;
+	case 'false':
+		// Empty msgid. It is reserved by GNU gettext: gettext("") returns the header entry with meta information, not the empty string.
+		// $message_error   = esc_html__( '', 'uncanny-learndash-toolkit' );
+		$message_error 	 = '';
+		$message_warning = \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_login_false_error', 'FrontendLoginPlus', esc_html__( 'You are logged out.', 'uncanny-learndash-toolkit' ) );
+		break;
+	case 'notverified':
+		$message_error   = esc_html__( 'Oops!', 'uncanny-learndash-toolkit' );
+		$message_warning = \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_login_notverified_error', 'FrontendLoginPlus', esc_html__( 'This account is not verified.', 'uncanny-learndash-toolkit' ) );
+		break;
+}
+
+$login_page      = \uncanny_learndash_toolkit\FrontendLoginPlus::get_login_redirect_page_id();
+$login_page_url = get_permalink( $login_page );
+$recaptcha_key = \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_login_recaptcha_key', 'FrontendLoginPlus' );
+if( '' !== trim($recaptcha_key)){
+	wp_enqueue_script( 'FrontendLoginPlus', 'https://www.google.com/recaptcha/api.js' );
+}
+if( strpos($login_page_url, '?')){
+	$login_page_url = $login_page_url . '&';
+}else{
+	$login_page_url = $login_page_url . '?';
+}
+
+$login_error = '';
+if ( $message_error || $message_warning ) {
+	$login_error = '<p class="login-msg"><strong>' . $message_error . '</strong> ' . $message_warning . '</p>';
+}
+
+$login_error = apply_filters( 'uo_frontend_login_error', $login_error, $login, $message_error, $message_warning );
 $login = (object) [
 	'config'  => (object) [
 		'show_title'       => Config::get_settings_value( 'uo_frontendloginplus_hide_title_label', 'FrontendLoginPlus' ) !== 'on',
 		// To-do: Create this checkbox in the settings
-		'show_description' => true,
+		'show_description' => Config::get_settings_value( 'uo_frontendloginplus_hide_description', 'FrontendLoginPlus' ) !== 'on',
 		'can_register'     => get_option( 'users_can_register' ) && Config::get_settings_value( 'uo_frontend_show_register_link', 'FrontendLoginPlus' ) == 'on',
 	],
 	'urls'    => (object) [
@@ -20,11 +62,11 @@ $login = (object) [
 	],
 	'strings' => (object) [
 		'error'            => $login_error,
-		'title'            => $innerText[ 'Login-Title' ],
+		'title'            => Config::get_settings_value( 'uo_frontend_login_title_label', 'FrontendLoginPlus', esc_html__( 'Login', 'uncanny-learndash-toolkit' ) ),
 		// To-do: Create field for description
-		'description'      => 'Log in to your QuickBooks Training account to access to your courses.',
+		'description'      => Config::get_settings_value( 'uo_frontend_login_description', 'FrontendLoginPlus', 'Login to your account to access your courses.' ),
 		'email_label'      => Config::get_settings_value( 'uo_login_username_label', 'FrontendLoginPlus' ),
-		'register'         => $innerText['Register-Link'],
+		'register'         => Config::get_settings_value( 'uo_frontend_register_link_label', 'FrontendLoginPlus', esc_html__( 'Register', 'uncanny-learndash-toolkit' ) ),
 		'forgot_password'  => __( 'I forgot my Password', 'uncanny-learndash-toolkit' )
 	]
 ];
@@ -105,6 +147,20 @@ add_filter( 'login_form_middle', function( $content ){
 <div id="ult-login">
 
 	<div class="ult-box">
+
+		<?php if ( isset( $reset_password_sucess ) && ! empty( $reset_password_sucess ) ){ ?>
+	
+			<?php do_action( 'uo_login_before_reset_success' ); ?>
+
+			<div class="ult-notice ult-notice--success">
+				<?php do_action( 'uo_login_before_reset_success_message' ); ?>
+
+				<?php echo $reset_password_sucess; ?>
+
+				<?php do_action( 'uo_login_before_reset_success_message' ); ?>
+			</div>
+
+		<?php } ?>
 
 		<?php do_action( 'uo_login_before_title' ); ?>
 
