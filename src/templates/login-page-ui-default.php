@@ -59,11 +59,12 @@ namespace uncanny_learndash_toolkit;
 		} elseif ( $validate_password_reset ) {
 			//When user reset new password!
 			if ( isset( $_GET['issue'] ) ) {
+				$error = '';
 
 				if ( 'invalidkey' === $_GET['issue'] ) {
-					echo sprintf( '<h2>%s</h2>', $innerText['Invalid-Reset-Key'] );
+					$error = sprintf( '<h2>%s</h2>', $innerText['Invalid-Reset-Key'] );
 				} elseif ( 'expiredkey' === $_GET['issue'] ) {
-					echo sprintf( '<h2>%s</h2>', $innerText['Expired-Reset-Key'] );
+					$error = sprintf( '<h2>%s</h2>', $innerText['Expired-Reset-Key'] );
 				}
 			} else {
 				$rp_cookie = 'wp-resetpass-' . COOKIEHASH;
@@ -94,19 +95,20 @@ namespace uncanny_learndash_toolkit;
 
 				if ( isset( $_POST['pass1'] ) && $_POST['pass1'] != $_POST['pass2'] ) {
 
-					echo '<h2>' . $innerText['Password-Not-Match'] . '</h2>';
+					$error     = $innerText['Password-Not-Match'];
 					$rp_key    = $_POST['rp_key'];
 					$rp_login  = $_POST['rp_login'];
 					$rp_cookie = 'wp-resetpass-' . COOKIEHASH;
 					$value     = sprintf( '%s:%s', wp_unslash( $rp_key ), wp_unslash( $rp_login ) );
 					//setcookie( $rp_cookie, $value, 0, '/' . get_post_field( 'post_name', $login_page ), COOKIE_DOMAIN, is_ssl(), true );
+
 					include( apply_filters( 'uo-front-login-reset-template', 'frontend-login/' . $template_to_load . '-reset-pwd.php', $template_to_load ) );
 				} elseif ( isset( $_POST['pass1'] ) && ! empty( $_POST['pass1'] ) ) {
 
 					reset_password( $user, $_POST['pass1'] );
 					//setcookie( $rp_cookie, ' ', time() - YEAR_IN_SECONDS, '/login', COOKIE_DOMAIN, is_ssl(), true );
 
-					echo sprintf( '<h2>%s</h2>', $innerText['Reset-Success'] );
+					$reset_password_sucess = $innerText['Reset-Success'];
 					include( apply_filters( 'uo-front-login-login-template', 'frontend-login/' . $template_to_load . '-login.php', $template_to_load ) );
 				}
 			}
