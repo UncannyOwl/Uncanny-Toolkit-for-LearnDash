@@ -125,6 +125,10 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 					__CLASS__,
 					'custom_retrieve_password_message',
 				), 10, 4 );
+				add_filter( 'retrieve_password_title', array(
+					__CLASS__,
+					'custom_retrieve_password_title',
+				), 10, 3 );
 				// Add lost password link to login form
 				add_action( 'login_form_bottom', array( __CLASS__, 'add_lost_password_link' ) );
 				// Add shortcode to page with warning if it wasn't added
@@ -366,6 +370,12 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				'inner_html' => '<h2>' . esc_html__( 'Password reset email', 'uncanny-learndash-toolkit' ) . '</h2>',
 			),
 			array(
+				'type'        => 'text',
+				'placeholder' => esc_html__( 'Password reset email subject', 'uncanny-learndash-toolkit' ),
+				'label'       => esc_html__( 'Password reset email subject', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_frontend_resetpassword_email_subject',
+			),
+            array(
 				'type'        => 'textarea',
 				'placeholder' => $password_reset_message,
 				'label'       => esc_html__( 'Password reset email body', 'uncanny-learndash-toolkit' ),
@@ -1251,6 +1261,22 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		}
 
 		return $new_message;
+	}
+	
+	/*
+	 * Custom email message to retrieve password
+	 */
+	public static function custom_retrieve_password_title( $message, $user_login, $user_data ) {
+
+		//todo add filters and escape translations
+  
+		$custom_message = \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_resetpassword_email_subject', 'FrontendLoginPlus' );
+		if ( ! empty( $custom_message ) ) {
+			$custom_message = str_ireplace( '%User Login%', $user_login, $custom_message );
+			return $custom_message;
+		}
+
+		return $message;
 	}
 
 	/*
