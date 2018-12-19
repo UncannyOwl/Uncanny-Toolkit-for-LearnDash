@@ -400,7 +400,7 @@ class AdminMenu extends Boot {
 			self::$modules[ $key ]['cant_use_notice'] = '';
 			if ( true !== $dependants_exist ) {
 				self::$modules[ $key ]['can_use']         = false;
-				self::$modules[ $key ]['cant_use_notice'] = $dependants_exist;
+				self::$modules[ $key ]['cant_use_notice'] = $dependants_exist . ' is needed for this addon.';
 			}
 
 			// Setting Modal Popup
