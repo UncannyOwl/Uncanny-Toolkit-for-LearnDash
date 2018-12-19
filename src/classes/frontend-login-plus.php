@@ -425,7 +425,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			array(
 				'type'        => 'text',
 				'label'       => esc_html__( 'Password reset failed error message', 'uncanny-learndash-toolkit' ),
-				'placeholder' => esc_html__( 'Password reset link failed.', 'uncanny-learndash-toolkit' ),
+				'placeholder' => esc_html__( 'Invalid password reset link.', 'uncanny-learndash-toolkit' ),
 				'option_name' => 'uo_frontend_login_passwordresetfailed_error',
 			),
 			array(
