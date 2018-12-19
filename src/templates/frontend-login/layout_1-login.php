@@ -67,7 +67,7 @@ $login = (object) [
 		'description'      => Config::get_settings_value( 'uo_frontend_login_description', 'FrontendLoginPlus', 'Login to your account to access your courses.' ),
 		'email_label'      => Config::get_settings_value( 'uo_login_username_label', 'FrontendLoginPlus' ),
 		'register'         => Config::get_settings_value( 'uo_frontend_register_link_label', 'FrontendLoginPlus', esc_html__( 'Register', 'uncanny-learndash-toolkit' ) ),
-		'forgot_password'  => __( 'I forgot my Password', 'uncanny-learndash-toolkit' )
+		'forgot_password'  => Config::get_settings_value( 'uo_frontend_login_forgetpass_label', 'FrontendLoginPlus', esc_html__( 'I Forgot my Password', 'uncanny-learndash-toolkit' ) ),
 	]
 ];
 
