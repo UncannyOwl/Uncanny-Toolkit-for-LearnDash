@@ -166,7 +166,7 @@ $login_form_args = apply_filters( 'uo_frontend_login_args', $login_form_args );
 
 $innerText = Array(
 	'Hello'                      => esc_html__( 'Hello', 'uncanny-learndash-toolkit' ),
-	'Logged-In-Message'          => esc_html__( 'You are already logged in', 'uncanny-learndash-toolkit' ),
+	'Logged-In-Message'          => \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_login_logged_in_message', 'FrontendLoginPlus', __( 'You are already logged in.', 'uncanny-learndash-toolkit' ) ),
 	'Logout'                     => esc_html__( 'Logout', 'uncanny-learndash-toolkit' ),
 	'Password-Recovery-Title'    => esc_html__( 'Password Recovery', 'uncanny-learndash-toolkit' ),
 	'Password-Recovery-Label'    => ( ! empty( $user_name_label ) ) ? $user_name_label : esc_html__( 'Username', 'uncanny-learndash-toolkit' ),
