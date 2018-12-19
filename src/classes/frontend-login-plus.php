@@ -976,7 +976,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			'Hello'                      => esc_html__( 'Hello', 'uncanny-learndash-toolkit' ),
 			'Logged-In-Message'          => \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_login_logged_in_message', 'FrontendLoginPlus', __( 'You are already logged in.', 'uncanny-learndash-toolkit' ) ),
 			'Logout'                     => esc_html__( 'Logout', 'uncanny-learndash-toolkit' ),
-			'Password-Recovery-Title'    => esc_html__( 'Forgot password', 'uncanny-learndash-toolkit' ),
+			'Password-Recovery-Title'    => Config::get_settings_value( 'uo_frontend_login_forgetpass_label', 'FrontendLoginPlus', esc_html__( 'Forgot password', 'uncanny-learndash-toolkit' ) ),
 			'Password-Recovery-Label'    => ( ! empty( $user_name_label ) ) ? $user_name_label : esc_html__( 'Email', 'uncanny-learndash-toolkit' ),
 			'Success'                    => esc_html__( 'Success!', 'uncanny-learndash-toolkit' ),
 			'Success-Email-Sent'         => esc_html__( 'Check your email for a reset password link.', 'uncanny-learndash-toolkit' ),
