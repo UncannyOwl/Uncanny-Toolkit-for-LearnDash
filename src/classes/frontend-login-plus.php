@@ -435,7 +435,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				'option_name' => 'uo_frontend_login_failedsendemail_error',
 			),
 			array(
-				'type'        => 'text',
+				'type'        => 'textarea',
 				'label'       => esc_html__( 'Message for logged in users', 'uncanny-learndash-toolkit' ),
 				'placeholder' => esc_html__( 'You are already logged in.', 'uncanny-learndash-toolkit' ),
 				'option_name' => 'uo_frontend_login_logged_in_message',
