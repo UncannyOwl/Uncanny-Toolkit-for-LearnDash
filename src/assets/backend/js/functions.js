@@ -491,7 +491,7 @@ jQuery( function($){
                 });
 
                 // Bind click outside
-                $( document ).on( 'mouseup.ultModal', ( event ) => {
+                $( document ).on( 'mousedown.ultModal', ( event ) => {
                     // If the target of the click isn't the container nor a descendant of the container
                     let isClickingOutsideTheBox = $modal.is( event.target ) && $elements.modalBox.has( event.target ).length === 0;
 
