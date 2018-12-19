@@ -221,6 +221,9 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		} else {
 			$password_reset_message .= '<a href="%Reset Link%" >' . __( 'Reset Password' ) . "</a>\r\n";
 		}
+
+		$strings = FrontendLoginPlus::fetch_inner_text( $user_name_label );
+
 		// Create options
 		$options = array(
 
@@ -233,6 +236,18 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				'type'        => 'checkbox',
 				'label'       => esc_html__( 'Manual User Verification', 'uncanny-learndash-toolkit' ),
 				'option_name' => 'uo_frontendloginplus_needs_verifcation',
+			),
+
+			array(
+				'type'       => 'html',
+				'inner_html' => '<h2>' . __( 'Logged-in Users', 'uncanny-learndash-toolkit' ) . '</h2>',
+			),
+
+			array(
+				'type'        => 'textarea',
+				'placeholder' => $strings[ 'Logged-In-Message' ],
+				'label'       => esc_html__( 'Logged-in Users Message', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_frontend_logged_in_users_message',
 			),
 
 			/*array(
