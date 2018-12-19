@@ -710,8 +710,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 			$placeholder  = ( isset( $atts['placeholder'] ) ? $atts['placeholder'] : 'yes' );
 			$redirect     = ( isset( $atts['redirect'] ) ? $atts['redirect'] : home_url() );
-			$submit_label = \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_login_button_label', 'FrontendLoginPlus', esc_html__( 'Log Inss', 'uncanny-learndash-toolkit' ) );
-
+			$submit_label = \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_login_button_label', 'FrontendLoginPlus', esc_html__( 'Log In', 'uncanny-learndash-toolkit' ) );
 
 			if ( 'no' !== $placeholder ) {
 				?>
@@ -723,7 +722,6 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				</script>
 				<?php
 			}
-
 
 			$login_form_args = array(
 				'echo'           => false,
