@@ -4,6 +4,12 @@ namespace uncanny_learndash_toolkit;
 
 <h2><?php echo $innerText['Reset-Password-Title']; ?></h2>
 <form name="resetpassform" id="resetpassform" action="?action=validatepasswordreset" method="post" autocomplete="off">
+	<?php if ( ! empty( $error ) ){ ?> 
+		<p>
+			<?php echo $error; ?>
+		</p>
+	<?php } ?>
+	
 	<input type="hidden" id="user_login" name="rp_login" value="<?php echo esc_attr( $rp_login ); ?>"
 	       autocomplete="off"/>
 

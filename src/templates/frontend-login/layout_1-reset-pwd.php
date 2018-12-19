@@ -78,23 +78,27 @@ $has_recaptcha = ! empty( trim( $recaptcha_key ) );
 
 				<?php } ?>
 				
-				<?php do_action( 'uo_reset_before_validation' ); ?>
+				<?php if ( ! empty( $error ) ){ ?>
 
-				<div class="ult-form__row ult-form__row--validation">
-					<div class="ult-notice ult-notice--success">
-						<?php do_action( 'uo_reset_before_validation_message' ); ?>
+					<?php do_action( 'uo_reset_before_error' ); ?>
 
-						<?php _e( "You've successfully changed your password.", 'uncanny-learndash-toolkit' ); ?>
+					<div class="ult-form__row ult-form__row--validation">
+						<div class="ult-notice ult-notice--error">
+							<?php do_action( 'uo_reset_before_error_message' ); ?>
 
-						<?php do_action( 'uo_reset_after_validation_message' ); ?>
+							<?php echo $error; ?>
+
+							<?php do_action( 'uo_reset_after_error_message' ); ?>
+						</div>
 					</div>
-				</div>
+
+				<?php } ?>
 
 				<?php do_action( 'uo_reset_before_submit' ); ?>
 
 				<div class="ult-form__row ult-form__row--submit">
 					<button type="submit" id="ult-reset-password-submit-btn" class="ult-form__submit-btn">
-						<?php esc_attr_e( 'Reset Password' ); ?>
+						<?php esc_attr_e( 'Reset Password', 'uncanny-learndash-toolkit' ); ?>
 					</button>
 				</div>
 

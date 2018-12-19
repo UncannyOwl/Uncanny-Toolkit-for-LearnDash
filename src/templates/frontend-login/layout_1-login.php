@@ -106,6 +106,20 @@ add_filter( 'login_form_middle', function( $content ){
 
 	<div class="ult-box">
 
+		<?php if ( isset( $reset_password_sucess ) && ! empty( $reset_password_sucess ) ){ ?>
+	
+			<?php do_action( 'uo_login_before_reset_success' ); ?>
+
+			<div class="ult-notice ult-notice--success">
+				<?php do_action( 'uo_login_before_reset_success_message' ); ?>
+
+				<?php echo $reset_password_sucess; ?>
+
+				<?php do_action( 'uo_login_before_reset_success_message' ); ?>
+			</div>
+
+		<?php } ?>
+
 		<?php do_action( 'uo_login_before_title' ); ?>
 
 		<?php if ( $login->config->show_title ){ ?>
