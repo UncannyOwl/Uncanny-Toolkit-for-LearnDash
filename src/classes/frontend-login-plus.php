@@ -761,7 +761,6 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		}
 
 		$user_name_label = Config::get_settings_value( 'uo_login_username_label', 'FrontendLoginPlus' );
-		$message_error   = '';
 		$message_warning = '';
 
 		global $user_login;
@@ -777,7 +776,6 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				if ( 'register' === $_GET['action'] ) {
 
 					$register = true;
-					$error    = false;
 
 					if ( isset( $_GET['wp-error'] ) ) {
 
@@ -786,36 +784,28 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 						switch ( $error ) {
 
 							case 'empty_username':
-								$message_error   = esc_html__( 'Oops!', 'uncanny-learndash-toolkit' );
 								$message_warning = esc_html__( 'Please enter a username.', 'uncanny-learndash-toolkit' );
 								break;
 							case 'invalid_username':
-								$message_error   = esc_html__( 'Oops!', 'uncanny-learndash-toolkit' );
 								$message_warning = esc_html__( 'This username is invalid because it uses illegal characters. Please enter a valid username.', 'uncanny-learndash-toolkit' );
 								break;
 							case 'username_exists':
-								$message_error   = esc_html__( 'Oops!', 'uncanny-learndash-toolkit' );
 								$message_warning = esc_html__( 'This username is already registered. Please choose another one.', 'uncanny-learndash-toolkit' );
 								break;
 							case 'empty_email':
-								$message_error   = esc_html__( 'Oops!', 'uncanny-learndash-toolkit' );
 								$message_warning = esc_html__( 'Please type your email address.', 'uncanny-learndash-toolkit' );
 								break;
 							case 'invalid_email':
-								$message_error   = esc_html__( 'Oops!', 'uncanny-learndash-toolkit' );
 								$message_warning = esc_html__( 'The email address is not correct.', 'uncanny-learndash-toolkit' );
 								break;
 							case 'email_exists':
-								$message_error   = esc_html__( 'Oops!', 'uncanny-learndash-toolkit' );
 								$message_warning = esc_html__( 'This email is already registered, please choose another one.', 'uncanny-learndash-toolkit' );
 								break;
 							case 'registration-disabled':
-								$message_error   = esc_html__( 'Oops!', 'uncanny-learndash-toolkit' );
 								$message_warning = esc_html__( 'We do not allow registrations.', 'uncanny-learndash-toolkit' );
 								$register_show   = false;
 								break;
 							case 'registration-success':
-								$message_error   = esc_html__( 'Success!', 'uncanny-learndash-toolkit' );
 								$message_warning = esc_html__( 'Registration complete. Registration confirmation has been emailed to you.', 'uncanny-learndash-toolkit' );
 								$register_show   = false;
 								break;
@@ -865,16 +855,15 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		}
 
 		$message_details = FrontendLoginPlus::fetch_warning_error_msgs( $login );
-		if ( ! empty( $message_details['error'] ) && ! empty( $message_details['warning'] ) ) {
-			$message_error   = $message_details['error'];
+		if ( ! empty( $message_details['warning'] ) ) {
 			$message_warning = $message_details['warning'];
 		}
 
-		if ( $message_error || $message_warning ) {
-			self::$login_error = '<p class="login-msg"><strong>' . $message_error . '</strong> ' . $message_warning . '</p>';
+		if ( $message_warning ) {
+			self::$login_error = '<p class="login-msg"><strong>' . $message_warning . '</p>';
 		}
 
-		self::$login_error = apply_filters( 'uo_frontend_login_error', self::$login_error, $login, $message_error, $message_warning );
+		self::$login_error = apply_filters( 'uo_frontend_login_error', self::$login_error, $login, '', $message_warning );
 
 		// Prevent errors, some templates are using the following template
 		$login_error = self::$login_error;
@@ -920,32 +909,27 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	 * @return array
 	 */
 	public static function fetch_warning_error_msgs( $login ) {
-		$message_error   = '';
+
 		$message_warning = '';
 
 		switch ( $login ) {
 
 			case 'failed':
-				$message_error   = esc_html__( 'Oops!', 'uncanny-learndash-toolkit' );
 				$message_warning = Config::get_settings_value( 'uo_frontend_login_failed_error', 'FrontendLoginPlus', esc_html__( 'Invalid username and/or password.', 'uncanny-learndash-toolkit' ) );
 				break;
 			case 'empty':
-				$message_error   = esc_html__( 'Oops!', 'uncanny-learndash-toolkit' );
 				$message_warning = Config::get_settings_value( 'uo_frontend_login_empty_error', 'FrontendLoginPlus', esc_html__( 'Username and/or Password is empty.', 'uncanny-learndash-toolkit' ) );
 				break;
 			case 'false':
 				// Empty msgid. It is reserved by GNU gettext: gettext("") returns the header entry with meta information, not the empty string.
-				// $message_error   = esc_html__( '', 'uncanny-learndash-toolkit' );
-				$message_error   = '';
 				$message_warning = Config::get_settings_value( 'uo_frontend_login_false_error', 'FrontendLoginPlus', esc_html__( 'You are logged out.', 'uncanny-learndash-toolkit' ) );
 				break;
 			case 'notverified':
-				$message_error   = esc_html__( 'Oops!', 'uncanny-learndash-toolkit' );
 				$message_warning = Config::get_settings_value( 'uo_frontend_login_notverified_error', 'FrontendLoginPlus', esc_html__( 'This account is not verified.', 'uncanny-learndash-toolkit' ) );
 				break;
 		}
 
-		return [ 'error' => $message_error, 'warning' => $message_warning ];
+		return [ 'error' => '', 'warning' => $message_warning ];
 	}
 
 	/**
@@ -986,7 +970,6 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			'Password-Recovery-Label'    => ( ! empty( $user_name_label ) ) ? $user_name_label : esc_html__( 'Email', 'uncanny-learndash-toolkit' ),
 			'Success'                    => esc_html__( 'Success!', 'uncanny-learndash-toolkit' ),
 			'Success-Email-Sent'         => esc_html__( 'Check your email for a reset password link.', 'uncanny-learndash-toolkit' ),
-			'Oops'                       => esc_html__( 'Oops!', 'uncanny-learndash-toolkit' ),
 			'Failed-Send-Email'          => Config::get_settings_value( 'uo_frontend_login_failedsendemail_error', 'FrontendLoginPlus', esc_html__( 'Password reset email failed to send.', 'uncanny-learndash-toolkit' ) ),
 			'Reset-Password-Title'       => esc_html__( 'Reset Password', 'uncanny-learndash-toolkit' ),
 			'New-Password'               => esc_html__( 'New Password', 'uncanny-learndash-toolkit' ),

@@ -54,7 +54,7 @@ namespace uncanny_learndash_toolkit;
 				//setcookie( $rp_cookie, $value, 0, '/' . get_post_field( 'post_name', $login_page ), COOKIE_DOMAIN, is_ssl(), true );
 				include( apply_filters( 'uo-front-login-reset-template', 'frontend-login/' . $template_to_load . '-reset-pwd.php', $template_to_load ) );
 			} else {
-				uo_generate_default_message_block( $innerText['Oops'], $innerText['Password-Reset-Link-Failed'] );
+				uo_generate_default_message_block( '', $innerText['Password-Reset-Link-Failed'] );
 			}
 		} elseif ( $validate_password_reset ) {
 			//When user reset new password!

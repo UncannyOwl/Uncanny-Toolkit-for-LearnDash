@@ -11,21 +11,16 @@ $login = ( isset( $_GET['login'] ) ) ? $_GET['login'] : 'not-set';
 switch ( $login ) {
 
 	case 'failed':
-		$message_error   = esc_html__( 'Oops!', 'uncanny-learndash-toolkit' );
 		$message_warning = \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_login_failed_error', 'FrontendLoginPlus', esc_html__( 'Invalid username and/or password.', 'uncanny-learndash-toolkit' ) );
 		break;
 	case 'empty':
-		$message_error   = esc_html__( 'Oops!', 'uncanny-learndash-toolkit' );
 		$message_warning = \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_login_empty_error', 'FrontendLoginPlus', esc_html__( 'Username and/or Password is empty.', 'uncanny-learndash-toolkit' ) );
 		break;
 	case 'false':
 		// Empty msgid. It is reserved by GNU gettext: gettext("") returns the header entry with meta information, not the empty string.
-		// $message_error   = esc_html__( '', 'uncanny-learndash-toolkit' );
-		$message_error 	 = '';
 		$message_warning = \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_login_false_error', 'FrontendLoginPlus', esc_html__( 'You are logged out.', 'uncanny-learndash-toolkit' ) );
 		break;
 	case 'notverified':
-		$message_error   = esc_html__( 'Oops!', 'uncanny-learndash-toolkit' );
 		$message_warning = \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_login_notverified_error', 'FrontendLoginPlus', esc_html__( 'This account is not verified.', 'uncanny-learndash-toolkit' ) );
 		break;
 }
@@ -43,11 +38,11 @@ if( strpos($login_page_url, '?')){
 }
 
 $login_error = '';
-if ( $message_error || $message_warning ) {
-	$login_error = '<p class="login-msg"><strong>' . $message_error . '</strong> ' . $message_warning . '</p>';
+if ( $message_warning ) {
+	$login_error = '<p class="login-msg"><strong>' . '</strong> ' . $message_warning . '</p>';
 }
 
-$login_error = apply_filters( 'uo_frontend_login_error', $login_error, $login, $message_error, $message_warning );
+$login_error = apply_filters( 'uo_frontend_login_error', $login_error, $login, '', $message_warning );
 $login = (object) [
 	'config'  => (object) [
 		'show_title'       => Config::get_settings_value( 'uo_frontendloginplus_hide_title_label', 'FrontendLoginPlus' ) !== 'on',
