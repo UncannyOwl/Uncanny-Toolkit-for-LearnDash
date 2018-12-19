@@ -86,7 +86,7 @@ class MenuItemVisibility extends Config implements RequiredFunctions {
 	public static function dependants_exist() {
 
 		if ( function_exists( 'Nav_Menu_Roles' ) ) {
-			return 'This module cannot be active while Nav Menu Roles is in use. Please use Nav Menu Roles instead.@uo_custom_message';
+			return 'This module cannot be active while Nav Menu Roles is in use. Please use Nav Menu Roles instead.';
 		}
 
 		// Return true if no dependency or dependency is available
