@@ -604,19 +604,23 @@ jQuery( function($){
                     switch ( field.type ){
                         case 'text':
                         case 'textarea':
+                        case 'tinymce':
                             field.$element.val( field.value );
+
+                            if ( field.type == 'tinymce' ){
+                                let editor = tinymce.get( field.name );
+
+                                if ( ULT_Utility.isDefined( editor ) ){
+                                    editor.execCommand( 'mceInsertContent', false, field.value );
+                                }
+                            }
                             break;
 
                         case 'color':
                         case 'select':
                             field.$element.val( field.value ).trigger( 'change' );
                             break;
-
-                        case 'tinymce':
-                            let editor = tinymce.get( field.name );
-                            editor.execCommand( 'mceInsertContent', false, field.value );
-                            break;
-
+                            
                         case 'checkbox':
                             // Check if the checkbox is selected
                             if ( field.value == 'on' ){
