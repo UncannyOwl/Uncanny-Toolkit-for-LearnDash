@@ -221,9 +221,6 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		} else {
 			$password_reset_message .= '<a href="%Reset Link%" >' . __( 'Reset Password' ) . "</a>\r\n";
 		}
-
-		$strings = FrontendLoginPlus::fetch_inner_text( $user_name_label );
-
 		// Create options
 		$options = array(
 
@@ -236,18 +233,6 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				'type'        => 'checkbox',
 				'label'       => esc_html__( 'Manual User Verification', 'uncanny-learndash-toolkit' ),
 				'option_name' => 'uo_frontendloginplus_needs_verifcation',
-			),
-
-			array(
-				'type'       => 'html',
-				'inner_html' => '<h2>' . __( 'Logged-in Users', 'uncanny-learndash-toolkit' ) . '</h2>',
-			),
-
-			array(
-				'type'        => 'textarea',
-				'placeholder' => $strings[ 'Logged-In-Message' ],
-				'label'       => esc_html__( 'Logged-in Users Message', 'uncanny-learndash-toolkit' ),
-				'option_name' => 'uo_frontend_logged_in_users_message',
 			),
 
 			/*array(
@@ -278,8 +263,13 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				'option_name' => 'uo_frontend_login_title_label',
 			),
 			array(
+				'type'        => 'checkbox',
+				'label'       => esc_html__( 'Hide the Description', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_frontendloginplus_hide_description',
+			),
+			array(
 				'type'        => 'text',
-				'label'       => esc_html__( 'Descrption', 'uncanny-learndash-toolkit' ),
+				'label'       => esc_html__( 'Description', 'uncanny-learndash-toolkit' ),
 				'placeholder' => esc_html__( 'Add login description', 'uncanny-learndash-toolkit' ),
 				'option_name' => 'uo_frontend_login_description',
 			),
@@ -420,7 +410,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			array(
 				'type'        => 'text',
 				'label'       => esc_html__( 'Password reset failed error message', 'uncanny-learndash-toolkit' ),
-				'placeholder' => esc_html__( 'Password reset link failed.', 'uncanny-learndash-toolkit' ),
+				'placeholder' => esc_html__( 'Invalid password reset link.', 'uncanny-learndash-toolkit' ),
 				'option_name' => 'uo_frontend_login_passwordresetfailed_error',
 			),
 			array(
