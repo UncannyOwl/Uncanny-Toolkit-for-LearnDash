@@ -23,7 +23,7 @@ if ( ! defined( 'UNCANNY_TOOLKIT_PREFIX' ) ) {
 	define( 'UNCANNY_TOOLKIT_PREFIX', 'ultp' );
 }
 
-function my_plugin_notice() {
+function ultp_notice() {
 	$user_id = get_current_user_id();
 
 	if ( empty( get_user_meta( $user_id, 'uofel_notice_dismissed' ) ) ) {
@@ -42,12 +42,9 @@ function my_plugin_notice() {
 			
 			</div>
 			<script>
-jQuery("#uofel").on("click", function(){
-    
+jQuery("#uofel").on("click", function(){    
     key = encodeURI("uofel-dismissed"); value = encodeURI("yes");
-
     var kvp = document.location.search.substr(1).split("&");
-
     var i=kvp.length; var x; while(i--) 
     {
         x = kvp[i].split("=");
@@ -63,23 +60,22 @@ jQuery("#uofel").on("click", function(){
     if(i<0) {kvp[kvp.length] = [key,value].join("=");}
 
     //this will reload the page, it\'s likely better to store this until finished
-    console.log(kvp.join("&"));
     document.location.search = kvp.join("&"); 
     });
 </script>';
 	}
 }
 
-add_action( 'admin_notices', 'my_plugin_notice' );
+add_action( 'admin_notices', 'ultp_notice' );
 
-function my_plugin_notice_dismissed() {
+function ultp_notice_dismissed() {
 	$user_id = get_current_user_id();
 	if ( isset( $_GET['uofel-dismissed'] ) ) {
 		add_user_meta( $user_id, 'uofel_notice_dismissed', 'true', true );
 	}
 }
 
-add_action( 'admin_init', 'my_plugin_notice_dismissed' );
+add_action( 'admin_init', 'ultp_notice_dismissed' );
 
 
 // Show admin notices for minimum versions of PHP, WordPress, and LearnDash
