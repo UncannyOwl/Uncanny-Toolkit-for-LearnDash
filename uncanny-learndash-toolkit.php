@@ -37,8 +37,8 @@ function my_plugin_notice() {
     background: 0 0;
     color: #0073aa;
     cursor: pointer;
-    float: right;" >dismiss<span class="screen-reader-text">Dismiss this notice.</span></button>
-				<p><strong>IMPORTANT!</strong> The Front End Login module of the Uncanny LearnDash Toolkit changed significantly in version 3.0.<br>Please re-check your settings and review your login page as a logged out user. </p>
+    float: right;" >Dismiss<span class="screen-reader-text">Dismiss this notice.</span></button>
+				<p><strong>IMPORTANT!</strong> The Front End Login module of the Uncanny LearnDash Toolkit changed significantly in version 3.0. Please re-check your settings and review your login page as a logged out user. </p>
 			
 			</div>
 			<script>
