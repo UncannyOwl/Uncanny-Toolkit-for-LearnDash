@@ -20,7 +20,25 @@ namespace uncanny_learndash_toolkit;
 
 		if ( is_user_logged_in() ) {
 			//If User is Logged In, we don't need to show any form!
-			uo_generate_default_message_block( '', $innerText['Logged-In-Message'], wp_logout_url(), $innerText['Logout'] );
+
+			?>
+
+			<div class="uo-default-message-block">
+
+				<div class="uo-default-message-text">
+					<?php echo $innerText['Logged-In-Message']; ?>
+
+					<div class="uo-default-link">
+						<a href="<?php echo wp_logout_url(); ?>" title="<?php echo $innerText['Logout']; ?>">
+							<?php echo $innerText['Logout']; ?>
+						</a>
+					</div>
+				</div>
+
+			</div>
+
+			<?php
+
 		} elseif ( $lost_password ) {
 			//If User is requesting a lost password, show form!
 			include( apply_filters( 'uo-front-login-lost-pwd-template', 'frontend-login/' . $template_to_load . '-lost-pwd.php', $template_to_load ) );
@@ -54,7 +72,15 @@ namespace uncanny_learndash_toolkit;
 				//setcookie( $rp_cookie, $value, 0, '/' . get_post_field( 'post_name', $login_page ), COOKIE_DOMAIN, is_ssl(), true );
 				include( apply_filters( 'uo-front-login-reset-template', 'frontend-login/' . $template_to_load . '-reset-pwd.php', $template_to_load ) );
 			} else {
-				uo_generate_default_message_block( '', $innerText['Password-Reset-Link-Failed'] );
+				?>
+
+				<div class="uo-default-message-block">
+					<div class="uo-default-message-text">
+						<?php echo $innerText['Password-Reset-Link-Failed']; ?>
+					</div>
+				</div>
+
+				<?php 
 			}
 		} elseif ( $validate_password_reset ) {
 			//When user reset new password!
@@ -132,33 +158,3 @@ namespace uncanny_learndash_toolkit;
 	</section>
 
 	<?php
-/**
- * Generate default message block!
- *
- * @param string $heading
- * @param string $message
- * @param string $link
- * @param string $link_text
- */
-function uo_generate_default_message_block( $heading = '', $message = '', $link = '', $link_text = '' ) {
-	?>
-	<div class="uo-default-message-block">
-
-		<?php if ( ! empty( $heading ) ){ ?>
-			<div class="uo-default-heading-text"><h3><?php echo $heading ?></h3></div>
-		<?php } ?>
-
-		<div class="uo-default-message-text">
-			<?php echo $message; ?>
-			<?php if ( ! empty( $link ) && ! empty( $link_text ) ) {
-				?>
-				<div class="uo-default-link">
-					<a href="<?php echo $link ?>" title="<?php echo $link_text ?>"><?php echo $link_text ?></a>
-				</div>
-				<?php
-			} ?>
-		</div>
-
-	</div>
-	<?php
-}
