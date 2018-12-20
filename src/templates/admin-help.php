@@ -5,14 +5,13 @@ namespace uncanny_learndash_toolkit;
 if ( isset( $_GET['sent'] ) ) {
 	?>
 
-	<h3>
+	<h3 style="color:#46b450">
 		<?php _e( 'Your ticket has been created. Someone at Uncanny Owl will contact you regarding your issue.', 'uncanny-learndash-toolkit' ); ?>
 	</h3>
 
 	<?php
 
-}
-else {
+} else {
 	$existing_license = trim( get_option( 'uo_license_key' ) );
 
 	$name  = '';
@@ -54,6 +53,13 @@ else {
 					<input type="hidden" value="uncanny-toolkit-kb&submit-a-ticket=1" name="page"/>
 
 					<input type="hidden" value="submit-a-ticket" name="tab"/>
+
+					<div class="uo-send-ticket-form__row">
+						<label for="uo-subject" class="uo-send-ticket-form__label">
+							<?php _e( 'Subject', 'uncanny-learndash-toolkit' ); ?>
+						</label>
+						<input name="subject" id="uo-subject" type="text" class="uo-send-ticket-form__text" value="">
+					</div>
 
 					<div class="uo-send-ticket-form__row">
 						<label for="uo-fullname" class="uo-send-ticket-form__label">

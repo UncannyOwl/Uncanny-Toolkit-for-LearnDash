@@ -117,7 +117,6 @@ class Boot extends Config {
 			}
 
 			$to = 'support.41077.bb1dda3d33afb598@helpscout.net';
-			//$to        = 'saad@uncannyowl.com';
 			$subject   = 'Support Ticket - ' . $website;
 			$headers   = array( 'Content-Type: text/html; charset=UTF-8' );
 			$headers[] = 'From: ' . $name . ' <' . $email . '>';

@@ -33,12 +33,12 @@ use uncanny_ceu\Utilities;
 	</div>
 
 	<?php
-	
+
 		if ( 'uncanny-toolkit-plugins' === $active_tab ){
 			include( 'admin-showcase.php' );
 		}
 		elseif ( 'uncanny-toolkit-kb' === $active_tab ){
-			if ( isset( $_GET['submit-a-ticket'] ) ){
+			if ( isset( $_GET['submit-a-ticket'] ) || isset( $_GET['amp;submit-a-ticket'] ) ){
 				include( 'admin-help.php' );
 			}
 			else {
