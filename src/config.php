@@ -692,6 +692,10 @@ class Config {
 
 				$settings = get_option( $class, array() );
 
+				foreach($settings as &$setting ){
+					$setting['value'] = stripslashes($setting['value']);
+				}
+
 				$response = wp_json_encode( $settings );
 
 			} else {
@@ -728,7 +732,7 @@ class Config {
 						return $default;
 					}
 
-					return $option['value'];
+					return stripslashes( $option['value'] );
 				}
 			}
 		}
