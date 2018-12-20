@@ -153,6 +153,7 @@ namespace uncanny_learndash_toolkit;
 		 * @arg bool $reset_password
 		 * @arg bool $validate_password_reset
 		 */
+		echo $default_js;
 		do_action( 'after_uo_login_ui', $lost_password, $reset_password_sent, $reset_password_sent_success, $register, $reset_password, $validate_password_reset );
 		?>
 	</section>
