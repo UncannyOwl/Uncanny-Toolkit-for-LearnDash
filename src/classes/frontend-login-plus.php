@@ -1109,6 +1109,11 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 		$login_page = get_permalink( self::get_login_redirect_page_id() );
 
+		if(isset($_GET['redirect_to']) && false !== strpos($_GET['redirect_to'],'wp-admin') ){
+			wp_safe_redirect( $login_page );
+			exit;
+		}
+
 		if ( 'yes' === $uo_manual_verification ) {
 			if ( is_email( $username ) ) {
 				$user = get_user_by( 'email', $username );
