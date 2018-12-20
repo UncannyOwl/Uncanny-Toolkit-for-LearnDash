@@ -26,25 +26,25 @@ if ( ! defined( 'UNCANNY_TOOLKIT_PREFIX' ) ) {
 function my_plugin_notice() {
 	$user_id = get_current_user_id();
 
-	if ( empty( get_user_meta( $user_id, 'my_plugin_notice_dismissed' ) ) ) {
-		echo '<div class="notice notice-error below-h2">
-				<p><strong>IMPORTANT!</strong> The Front End Login module of the Uncanny LearnDash Toolkit changed significantly in version 3.0.<br>Please re-check your settings and review your login page as a logged out user. </p>
-			<button id="uofel" type="button" style="position: relative;
+	if ( empty( get_user_meta( $user_id, 'uofel_notice_dismissed' ) ) ) {
+		echo '<div class="notice notice-success below-h2">
+<button id="uofel" type="button" style="    position: relative;
     top: 0;
     right: 1px;
     border: none;
     margin: 0;
     padding: 9px;
     background: 0 0;
-    color: #6bc45a;
+    color: #0073aa;
     cursor: pointer;
-    font-weight: bold;" >I already checked<span class="screen-reader-text">Dismiss this notice.</span></button>
+    float: right;" >dismiss<span class="screen-reader-text">Dismiss this notice.</span></button>
+				<p><strong>IMPORTANT!</strong> The Front End Login module of the Uncanny LearnDash Toolkit changed significantly in version 3.0.<br>Please re-check your settings and review your login page as a logged out user. </p>
+			
 			</div>
 			<script>
-console.log("hello");
 jQuery("#uofel").on("click", function(){
     
-    key = encodeURI("my-plugin-dismissed"); value = encodeURI("yes");
+    key = encodeURI("uofel-dismissed"); value = encodeURI("yes");
 
     var kvp = document.location.search.substr(1).split("&");
 
@@ -74,8 +74,8 @@ add_action( 'admin_notices', 'my_plugin_notice' );
 
 function my_plugin_notice_dismissed() {
 	$user_id = get_current_user_id();
-	if ( isset( $_GET['my-plugin-dismissed'] ) ) {
-		add_user_meta( $user_id, 'my_plugin_notice_dismissed', 'true', true );
+	if ( isset( $_GET['uofel-dismissed'] ) ) {
+		add_user_meta( $user_id, 'uofel_notice_dismissed', 'true', true );
 	}
 }
 

@@ -8,8 +8,7 @@ namespace uncanny_learndash_toolkit;
 
 $login = ( isset( $_GET['login'] ) ) ? $_GET['login'] : 'not-set';
 
-switch ( $login ) {
-
+switch ( $login ){
 	case 'failed':
 		$message_warning = \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_login_failed_error', 'FrontendLoginPlus', esc_html__( 'Invalid username and/or password.', 'uncanny-learndash-toolkit' ) );
 		break;
@@ -26,23 +25,28 @@ switch ( $login ) {
 }
 
 $login_page      = \uncanny_learndash_toolkit\FrontendLoginPlus::get_login_redirect_page_id();
-$login_page_url = get_permalink( $login_page );
-$recaptcha_key = \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_login_recaptcha_key', 'FrontendLoginPlus' );
-if( '' !== trim($recaptcha_key)){
+$login_page_url  = get_permalink( $login_page );
+$recaptcha_key   = \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_login_recaptcha_key', 'FrontendLoginPlus' );
+
+if ( '' !== trim( $recaptcha_key ) ){
 	wp_enqueue_script( 'FrontendLoginPlus', 'https://www.google.com/recaptcha/api.js' );
 }
-if( strpos($login_page_url, '?')){
+
+if ( strpos( $login_page_url, '?' ) ) {
 	$login_page_url = $login_page_url . '&';
-}else{
+}
+else {
 	$login_page_url = $login_page_url . '?';
 }
 
 $login_error = '';
-if ( $message_warning ) {
-	$login_error = '<p class="login-msg"><strong>' . '</strong> ' . $message_warning . '</p>';
+
+if ( $message_warning ){
+	$login_error = $message_warning;
 }
 
 $login_error = apply_filters( 'uo_frontend_login_error', $login_error, $login, '', $message_warning );
+
 $login = (object) [
 	'config'  => (object) [
 		'show_title'       => Config::get_settings_value( 'uo_frontendloginplus_hide_title_label', 'FrontendLoginPlus' ) !== 'on',
@@ -59,7 +63,7 @@ $login = (object) [
 		'error'            => $login_error,
 		'title'            => Config::get_settings_value( 'uo_frontend_login_title_label', 'FrontendLoginPlus', esc_html__( 'Login', 'uncanny-learndash-toolkit' ) ),
 		// To-do: Create field for description
-		'description'      => Config::get_settings_value( 'uo_frontend_login_description', 'FrontendLoginPlus', 'Login to your account to access your courses.' ),
+		'description'      => Config::get_settings_value( 'uo_frontend_login_description', 'FrontendLoginPlus', esc_html__( 'Login to your account to access your courses.', 'uncanny-learndash-toolkit' ) ),
 		'email_label'      => Config::get_settings_value( 'uo_login_username_label', 'FrontendLoginPlus' ),
 		'register'         => Config::get_settings_value( 'uo_frontend_register_link_label', 'FrontendLoginPlus', esc_html__( 'Register', 'uncanny-learndash-toolkit' ) ),
 		'forgot_password'  => Config::get_settings_value( 'uo_frontend_login_forgetpass_label', 'FrontendLoginPlus', esc_html__( 'I Forgot my Password', 'uncanny-learndash-toolkit' ) ),

@@ -175,6 +175,7 @@ $innerText = Array(
 
 $innerText = apply_filters( 'uo-login-inner-text', $innerText, $login );
 
+$login_description = Config::get_settings_value( 'uo_frontend_login_description', 'FrontendLoginPlus', esc_html__( 'Login to your account to access your courses.', 'uncanny-learndash-toolkit' ) );
 
 ?>
 <!-- section -->
@@ -446,6 +447,15 @@ $innerText = apply_filters( 'uo-login-inner-text', $innerText, $login );
                 <h2><?php echo $innerText['Login-Title']; ?></h2>
             <?php
             }
+
+            if ( ! empty( $login_description ) ){ ?>
+
+            	<p class="uo-login-description">
+            		<?php echo $login_description; ?>
+            	</p>
+
+            <?php }
+
 		    wp_login_form( $login_form_args );
 
             // Add registration link allowed
