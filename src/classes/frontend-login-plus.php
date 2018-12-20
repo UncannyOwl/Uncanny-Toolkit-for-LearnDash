@@ -1289,8 +1289,17 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				$login_page_id = $setting['value'];
 				if ( $post->ID == (int) $login_page_id ) {
 					if ( ! has_shortcode( $post->post_content, 'uo_login_ui' ) ) {
-						echo '<div id="ult-login-no-setup-notice"><strong>Note: This page has been set as the login page for this site.  The form below has been added for your convenience.  To hide this message, add the shortcode [uo_login_ui] to this page.</strong></div>';
-						echo do_shortcode( '[uo_login_ui]' );
+						$blocks = parse_blocks( $post->post_content );
+						$block_is_on_page = false;
+						foreach( $blocks as $block ){
+							if( 'uncanny-toolkit/login-uncanny' === $block['blockName']){
+								$block_is_on_page = true;
+							}
+						}
+						if(!$block_is_on_page){
+							echo '<div id="ult-login-no-setup-notice"><strong>Note: This page has been set as the login page for this site.  The form below has been added for your convenience.  To hide this message, add the shortcode [uo_login_ui] to this page.</strong></div>';
+							echo do_shortcode( '[uo_login_ui]' );
+						}
 					}
 				}
 			}
