@@ -55,38 +55,38 @@ if ( isset( $_GET['sent'] ) ) {
 					<input type="hidden" value="submit-a-ticket" name="tab"/>
 
 					<div class="uo-send-ticket-form__row">
-						<label for="uo-subject" class="uo-send-ticket-form__label">
-							<?php _e( 'Subject', 'uncanny-learndash-toolkit' ); ?>
-						</label>
-						<input name="subject" id="uo-subject" type="text" class="uo-send-ticket-form__text" value="">
-					</div>
-
-					<div class="uo-send-ticket-form__row">
 						<label for="uo-fullname" class="uo-send-ticket-form__label">
 							<?php _e( 'Full Name', 'uncanny-learndash-toolkit' ); ?>
 						</label>
-						<input name="fullname" id="uo-fullname" type="text" class="uo-send-ticket-form__text" value="<?php echo $name; ?>">
+						<input required name="fullname" id="uo-fullname" type="text" class="uo-send-ticket-form__text" value="<?php echo $name; ?>">
 					</div>
 
 					<div class="uo-send-ticket-form__row">
 						<label for="uo-email" class="uo-send-ticket-form__label">
 							<?php _e( 'Email', 'uncanny-learndash-toolkit' ); ?>
 						</label>
-						<input name="email" id="uo-email" type="email" class="uo-send-ticket-form__text" value="<?php echo $email; ?>">
+						<input required name="email" id="uo-email" type="email" class="uo-send-ticket-form__text" value="<?php echo $email; ?>">
 					</div>
 
 					<div class="uo-send-ticket-form__row">
 						<label for="uo-website" class="uo-send-ticket-form__label">
 							<?php _e( 'Site URL', 'uncanny-learndash-toolkit' ); ?>
 						</label>
-						<input name="website" id="uo-website" type="url" class="uo-send-ticket-form__text" readonly value="<?php echo get_bloginfo( 'url' ) ?>">
+						<input required name="website" id="uo-website" type="url" class="uo-send-ticket-form__text" readonly value="<?php echo get_bloginfo( 'url' ) ?>">
+					</div>
+
+					<div class="uo-send-ticket-form__row">
+						<label for="uo-subject" class="uo-send-ticket-form__label">
+							<?php _e( 'Subject', 'uncanny-learndash-toolkit' ); ?>
+						</label>
+						<input required name="subject" id="uo-subject" type="text" class="uo-send-ticket-form__text" value="">
 					</div>
 
 					<div class="uo-send-ticket-form__row">
 						<label for="uo-message" class="uo-send-ticket-form__label">
 							<?php _e( 'Message', 'uncanny-learndash-toolkit' ); ?>
 						</label>
-						<textarea name="message" id="uo-message" class="uo-send-ticket-form__textarea"></textarea>
+						<textarea required name="message" id="uo-message" class="uo-send-ticket-form__textarea"></textarea>
 					</div>
 
 					<div class="uo-send-ticket-form__row">

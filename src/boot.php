@@ -117,7 +117,7 @@ class Boot extends Config {
 			}
 
 			$to = 'support.41077.bb1dda3d33afb598@helpscout.net';
-			$subject   = 'Support Ticket - ' . $website;
+			$subject   = esc_html( $_POST['subject'] );
 			$headers   = array( 'Content-Type: text/html; charset=UTF-8' );
 			$headers[] = 'From: ' . $name . ' <' . $email . '>';
 			wp_mail( $to, $subject, $message, $headers );
