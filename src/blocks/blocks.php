@@ -45,26 +45,36 @@ class Blocks {
 		$this->active_classes = $active_classes;
 
 		$add_block_scripts = false;
+
 		// Check if Gutenberg exists
 		if ( function_exists( 'register_block_type' ) ) {
 
 			if (
-				isset( $active_classes['uncanny_learndash_toolkit\Breadcrumbs'] ) ||
-				isset( $active_classes['uncanny_learndash_toolkit\LearnDashResume'] )
+				isset( $active_classes[ 'uncanny_learndash_toolkit\Breadcrumbs' ] ) ||
+				isset( $active_classes[ 'uncanny_learndash_toolkit\LearnDashResume' ] ) || 
+				isset( $active_classes[ 'uncanny_learndash_toolkit\FrontendLoginPlus' ] )
 			) {
 				$add_block_scripts = true;
 			}
 			// Register Blocks
 			add_action( 'init', function () {
-
-				if ( isset( $this->active_classes['uncanny_learndash_toolkit\Breadcrumbs'] ) ) {
+				if ( isset( $this->active_classes[ 'uncanny_learndash_toolkit\Breadcrumbs' ] ) ) {
 					require_once( dirname( __FILE__ ) . '/src/toolkit-breadcrumbs/block.php' );
 				}
 
-				if ( isset( $this->active_classes['uncanny_learndash_toolkit\LearnDashResume'] ) ) {
+				if ( isset( $this->active_classes[ 'uncanny_learndash_toolkit\LearnDashResume' ] ) ) {
 					require_once( dirname( __FILE__ ) . '/src/toolkit-resume-button/block.php' );
 				}
-			} );
+
+				if ( isset( $this->active_classes[ 'uncanny_learndash_toolkit\FrontendLoginPlus' ] ) ) {
+					require_once( dirname( __FILE__ ) . '/src/toolkit-login-uncanny/block.php' );
+				}
+
+				if ( isset( $this->active_classes[ 'uncanny_learndash_toolkit\FrontendLoginPlus' ] ) ) {
+					require_once( dirname( __FILE__ ) . '/src/toolkit-login-uncanny/block.php' );
+					require_once( dirname( __FILE__ ) . '/src/toolkit-login-wordpress/block.php' );
+				}
+			});
 
 			if ( $add_block_scripts ) {
 
