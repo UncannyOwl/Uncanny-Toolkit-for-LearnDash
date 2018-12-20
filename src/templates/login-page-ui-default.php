@@ -20,7 +20,7 @@ namespace uncanny_learndash_toolkit;
 
 		if ( is_user_logged_in() ) {
 			//If User is Logged In, we don't need to show any form!
-			uo_generate_default_message_block( $innerText['Hello'], "$user_login, " . $innerText['Logged-In-Message'], wp_logout_url(), $innerText['Logout'] );
+			uo_generate_default_message_block( '', $innerText['Logged-In-Message'], wp_logout_url(), $innerText['Logout'] );
 		} elseif ( $lost_password ) {
 			//If User is requesting a lost password, show form!
 			include( apply_filters( 'uo-front-login-lost-pwd-template', 'frontend-login/' . $template_to_load . '-lost-pwd.php', $template_to_load ) );
@@ -143,7 +143,11 @@ namespace uncanny_learndash_toolkit;
 function uo_generate_default_message_block( $heading = '', $message = '', $link = '', $link_text = '' ) {
 	?>
 	<div class="uo-default-message-block">
-		<div class="uo-default-heading-text"><h3><?php echo $heading ?></h3></div>
+
+		<?php if ( ! empty( $heading ) ){ ?>
+			<div class="uo-default-heading-text"><h3><?php echo $heading ?></h3></div>
+		<?php } ?>
+
 		<div class="uo-default-message-text">
 			<?php echo $message; ?>
 			<?php if ( ! empty( $link ) && ! empty( $link_text ) ) {
@@ -154,6 +158,7 @@ function uo_generate_default_message_block( $heading = '', $message = '', $link 
 				<?php
 			} ?>
 		</div>
+
 	</div>
 	<?php
 }

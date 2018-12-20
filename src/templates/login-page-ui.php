@@ -151,7 +151,6 @@ $login_form_args = array(
 $login_form_args = apply_filters( 'uo_frontend_login_args', $login_form_args );
 
 $innerText = Array(
-	'Hello'                      => esc_html__( 'Hello', 'uncanny-learndash-toolkit' ),
 	'Logged-In-Message'          => \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_login_logged_in_message', 'FrontendLoginPlus', __( 'You are already logged in.', 'uncanny-learndash-toolkit' ) ),
 	'Logout'                     => esc_html__( 'Logout', 'uncanny-learndash-toolkit' ),
 	'Password-Recovery-Title'    => Config::get_settings_value( 'uo_frontend_login_forgetpass_label', 'FrontendLoginPlus', esc_html__( 'Forgot password', 'uncanny-learndash-toolkit' ) ),
@@ -227,10 +226,10 @@ $innerText = apply_filters( 'uo-login-inner-text', $innerText, $login );
 	do_action( 'before_uo_login_ui', $lost_password, $reset_password_sent, $reset_password_sent_success, $register, $reset_password, $validate_password_reset );
 
 	if ( is_user_logged_in() ) {
-		echo '<div class="uo_logout"> ' . $innerText['Hello'] . ',
-                            <div class="uo_logout_user">', $user_login, ' ' . $innerText['Logged-In-Message'] . '</div>
-                            <a id="wp-submit" href="', wp_logout_url(), '" title="Logout">' . $innerText['Logout'] . '</a>
-                        </div>';
+		echo '<div class="uo_logout">
+                    <div class="uo_logout_user">' . $innerText['Logged-In-Message'] . '</div>
+                    <a id="wp-submit" href="', wp_logout_url(), '" title="Logout">' . $innerText['Logout'] . '</a>
+                </div>';
 	} else if ( $lost_password ) {
 		?>
         <h2><?php echo $innerText['Password-Recovery-Title']; ?></h2>
