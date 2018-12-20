@@ -15,7 +15,7 @@ function render_login_wordpress( $attributes ){
 
 	// Check if the class exists
 	if ( class_exists( '\uncanny_learndash_toolkit\FrontendLoginPlus' ) ){
-		echo \uncanny_learndash_toolkit\FrontendLoginPlus::uo_login_form();
+		echo \uncanny_learndash_toolkit\FrontendLoginPlus::uo_login_form( [], null );
 	}	
 
 	// Get output
