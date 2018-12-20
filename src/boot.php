@@ -116,10 +116,11 @@ class Boot extends Config {
 				$message = "<h3>Message:</h3><p>{$message}</p><br /><hr /><h3>User Site Information:</h3>{$siteinfo}";
 			}
 
-			$to = 'support.41077.bb1dda3d33afb598@helpscout.net';
+			$to        = 'support.41077.bb1dda3d33afb598@helpscout.net';
 			$subject   = esc_html( $_POST['subject'] );
 			$headers   = array( 'Content-Type: text/html; charset=UTF-8' );
 			$headers[] = 'From: ' . $name . ' <' . $email . '>';
+			$headers[] = 'Reply-To:' . $name . ' <' . $email . '>';
 			wp_mail( $to, $subject, $message, $headers );
 			if ( isset( $_POST['page'] ) && isset( $_POST['tab'] ) ) {
 				$url = admin_url( 'admin.php' ) . '?page=' . esc_html( $_POST['page'] ) . '&tab=' . esc_html( $_POST['tab'] ) . '&sent=1&wpnonce=' . wp_create_nonce();
@@ -129,7 +130,7 @@ class Boot extends Config {
 		}
 	}
 
-	public static function uo_frontend_assets(){
+	public static function uo_frontend_assets() {
 		wp_enqueue_style( 'uncannyowl-learndash-toolkit-free', plugins_url( 'src/assets/frontend/dist/bundle.min.css', dirname( __FILE__ ) ), [], UNCANNY_TOOLKIT_VERSION );
 
 		wp_enqueue_script( 'uncannyowl-learndash-toolkit-free', plugins_url( 'src/assets/frontend/dist/bundle.min.js', dirname( __FILE__ ) ), [], UNCANNY_TOOLKIT_VERSION );
