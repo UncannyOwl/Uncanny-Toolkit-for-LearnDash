@@ -15,7 +15,7 @@ echo $default_js;
 
 <?php if ( isset( $reset_password_sucess ) ){ ?>
 
-<h2><?php echo $reset_password_sucess; ?></h2>
+<p><?php echo $reset_password_sucess; ?></p>
 
 <?php } ?>
 

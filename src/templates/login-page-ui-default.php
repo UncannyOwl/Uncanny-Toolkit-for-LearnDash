@@ -88,9 +88,9 @@ namespace uncanny_learndash_toolkit;
 				$error = '';
 
 				if ( 'invalidkey' === $_GET['issue'] ) {
-					$error = sprintf( '<h2>%s</h2>', $innerText['Invalid-Reset-Key'] );
+					$error = sprintf( '<p>%s</p>', $innerText['Invalid-Reset-Key'] );
 				} elseif ( 'expiredkey' === $_GET['issue'] ) {
-					$error = sprintf( '<h2>%s</h2>', $innerText['Expired-Reset-Key'] );
+					$error = sprintf( '<p>%s</p>', $innerText['Expired-Reset-Key'] );
 				}
 			} else {
 				$rp_cookie = 'wp-resetpass-' . COOKIEHASH;
