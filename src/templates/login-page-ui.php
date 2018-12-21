@@ -126,7 +126,11 @@ switch ( $login ) {
 
 $login_error = '';
 if ( $message_warning ) {
-	$login_error = '<p class="login-msg"><strong>' . '</strong> ' . $message_warning . '</p>';
+	if( 'false' === $login){
+		$login_error = '<p class="login-msg loggedout"><strong>' . '</strong> ' . $message_warning . '</p>';
+	}else{
+		$login_error = '<p class="login-msg"><strong>' . '</strong> ' . $message_warning . '</p>';
+	}
 }
 
 $login_error = apply_filters( 'uo_frontend_login_error', $login_error, $login, '', $message_warning );
@@ -185,6 +189,7 @@ $innerText = apply_filters( 'uo-login-inner-text', $innerText, $login );
 	#loginform label[for="user_pass"] {
 		display: block;
 	}
+	.login-msg{color:red;} .login-msg.loggedout{color:red;}
 
 </style>
 <?php if ( '' !== trim( $recaptcha_key ) ) { ?>

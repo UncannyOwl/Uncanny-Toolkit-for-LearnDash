@@ -869,7 +869,11 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		}
 
 		if ( $message_warning ) {
-			self::$login_error = '<p class="login-msg"><strong>' . $message_warning . '</p>';
+			if( 'false' === $login ){
+				self::$login_error = '<p class="login-msg loggedout"><strong>' . $message_warning . '</p>';
+			}else{
+				self::$login_error = '<p class="login-msg"><strong>' . $message_warning . '</p>';
+			}
 		}
 
 		self::$login_error = apply_filters( 'uo_frontend_login_error', self::$login_error, $login, '', $message_warning );
@@ -879,7 +883,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 		$innerText = apply_filters( 'uo-login-inner-text', FrontendLoginPlus::fetch_inner_text( $user_name_label ), $login );
 
-		$default_css = apply_filters( 'uo-login-default-css', '<style>#loginform label[for="user_login"],#loginform label[for="user_pass"] {display: block;}</style>' );
+		$default_css = apply_filters( 'uo-login-default-css', '<style>.login-msg{color:red;} .login-msg.loggedout{color:green;}#loginform label[for="user_login"],#loginform label[for="user_pass"] {display: block;}</style>' );
 
 		if ( '' !== trim( $recaptcha_key ) ) {
 			$js = '<script>jQuery(document).ready(function () {jQuery("form").each(function () {jQuery(this).find(\':input[type="submit"]\').prop(\'disabled\', true);});});function correctCaptcha() {jQuery("form").each(function () {jQuery(this).find(\':input[type="submit"]\').prop(\'disabled\', false);});}function expiredCaptcha() {jQuery("form").each(function () {jQuery(this).find(\':input[type="submit"]\').prop(\'disabled\', true);});}</script>';

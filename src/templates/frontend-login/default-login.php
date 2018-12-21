@@ -37,6 +37,7 @@ if ( 'on' !== $show_description ) { ?>
 	</p>
 
 <?php }
+
 wp_login_form( $login_form_args );
 
 // Add registration link allowed
