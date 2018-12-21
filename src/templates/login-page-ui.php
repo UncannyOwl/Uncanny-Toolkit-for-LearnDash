@@ -1,14 +1,14 @@
 <?php
 /* Template Name: Uncanny Owl Login Page */
-$login_page      = \uncanny_learndash_toolkit\FrontendLoginPlus::get_login_redirect_page_id();
+$login_page     = \uncanny_learndash_toolkit\FrontendLoginPlus::get_login_redirect_page_id();
 $login_page_url = get_permalink( $login_page );
-$recaptcha_key = \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_login_recaptcha_key', 'FrontendLoginPlus' );
-if( '' !== trim($recaptcha_key)){
+$recaptcha_key  = \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_login_recaptcha_key', 'FrontendLoginPlus' );
+if ( '' !== trim( $recaptcha_key ) ) {
 	wp_enqueue_script( 'FrontendLoginPlus', 'https://www.google.com/recaptcha/api.js' );
 }
-if( strpos($login_page_url, '?')){
+if ( strpos( $login_page_url, '?' ) ) {
 	$login_page_url = $login_page_url . '&';
-}else{
+} else {
 	$login_page_url = $login_page_url . '?';
 }
 $user_name_label = \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_login_username_label', 'FrontendLoginPlus' );
@@ -168,6 +168,7 @@ $innerText = Array(
 	'Password-Not-Match'         => \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_login_passwordnotmatch_error', 'FrontendLoginPlus', esc_html__( 'The password values do not match.', 'uncanny-learndash-toolkit' ) ),
 	'Reset-Success'              => esc_html__( 'Your password was successfully reset. Please log in.', 'uncanny-learndash-toolkit' ),
 	'Login-Title'                => \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_login_title_label', 'FrontendLoginPlus', esc_html__( 'Login', 'uncanny-learndash-toolkit' ) ),
+	'Login-Description'          => Config::get_settings_value( 'uo_frontend_login_description', 'FrontendLoginPlus', esc_html__( 'Login to your account to access your courses.', 'uncanny-learndash-toolkit' ) ),
 	'Register-Link'              => \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_register_link_label', 'FrontendLoginPlus', esc_html__( 'Register', 'uncanny-learndash-toolkit' ) ),
 	'Try-again'                  => esc_html__( 'Try again?', 'uncanny-learndash-toolkit' ),
 	'Get-New-Password'           => esc_html__( 'Get New Password', 'uncanny-learndash-toolkit' )
@@ -175,26 +176,25 @@ $innerText = Array(
 
 $innerText = apply_filters( 'uo-login-inner-text', $innerText, $login );
 
-$login_description = Config::get_settings_value( 'uo_frontend_login_description', 'FrontendLoginPlus', esc_html__( 'Login to your account to access your courses.', 'uncanny-learndash-toolkit' ) );
-
 ?>
 <!-- section -->
 
 <style>
 
-#loginform label[for="user_login"],
-#loginform label[for="user_pass"] {
-	display: block;
-}
+	#loginform label[for="user_login"],
+	#loginform label[for="user_pass"] {
+		display: block;
+	}
 
 </style>
-<?php if( '' !== trim($recaptcha_key)){?>
-    <script>
+<?php if ( '' !== trim( $recaptcha_key ) ) { ?>
+	<script>
         jQuery(document).ready(function () {
             jQuery("form").each(function () {
                 jQuery(this).find(':input[type="submit"]').prop('disabled', true);
             });
         });
+
         function correctCaptcha() {
             jQuery("form").each(function () {
                 jQuery(this).find(':input[type="submit"]').prop('disabled', false);
@@ -206,12 +206,12 @@ $login_description = Config::get_settings_value( 'uo_frontend_login_description'
                 jQuery(this).find(':input[type="submit"]').prop('disabled', true);
             });
         }
-    </script>
-<?php }?>
+	</script>
+<?php } ?>
 <section class="uo_loginForm">
-    <div class="uo_error">
+	<div class="uo_error">
 		<?php echo $login_error; ?>
-    </div>
+	</div>
 
 	<?php
 	/*
@@ -233,65 +233,67 @@ $login_description = Config::get_settings_value( 'uo_frontend_login_description'
                 </div>';
 	} else if ( $lost_password ) {
 		?>
-        <h2><?php echo $innerText['Password-Recovery-Title']; ?></h2>
-        <form id="lostpasswordform" name="lostpasswordform"
-              action="<?php echo site_url( 'wp-login.php?action=lostpassword', 'login_post' ) ?>" method="post">
-            <p>
-                <label for="user_login"><?php echo $innerText['Password-Recovery-Label']; ?></label>
-                <input size="20" type="text" name="user_login" id="user_login" value="">
-            </p>
+		<h2><?php echo $innerText['Password-Recovery-Title']; ?></h2>
+		<form id="lostpasswordform" name="lostpasswordform"
+			  action="<?php echo site_url( 'wp-login.php?action=lostpassword', 'login_post' ) ?>" method="post">
+			<p>
+				<label for="user_login"><?php echo $innerText['Password-Recovery-Label']; ?></label>
+				<input size="20" type="text" name="user_login" id="user_login" value="">
+			</p>
 
-            <input type="hidden" name="redirect_to"
-                   value="<?php echo $login_page_url ?>action=forgot&success=1">
-	        <?php if( '' !== trim($recaptcha_key)){?>
-                <div class="g-recaptcha" data-sitekey="<?php echo $recaptcha_key;?>" data-callback="correctCaptcha" data-expired-callback="expiredCaptcha"></div>
-            <?php }?>
-            <p class="submit"><input type="submit" name="wp-submit" id="wp-submit"
-                                     value="<?php echo $innerText['Get-New-Password']; ?>"/></p>
-        </form>
+			<input type="hidden" name="redirect_to"
+				   value="<?php echo $login_page_url ?>action=forgot&success=1">
+			<?php if ( '' !== trim( $recaptcha_key ) ) { ?>
+				<div class="g-recaptcha" data-sitekey="<?php echo $recaptcha_key; ?>" data-callback="correctCaptcha"
+					 data-expired-callback="expiredCaptcha"></div>
+			<?php } ?>
+			<p class="submit"><input type="submit" name="wp-submit" id="wp-submit"
+									 value="<?php echo $innerText['Get-New-Password']; ?>"/></p>
+		</form>
 		<?php
 	} elseif ( $reset_password_sent ) {
 		if ( $reset_password_sent_success ) {
 			?>
-            <p class="login-msg">
-                <strong><?php echo $innerText['Success']; ?></strong> <?php echo $innerText['Success-Email-Sent']; ?>
-            </p>
+			<p class="login-msg">
+				<strong><?php echo $innerText['Success']; ?></strong> <?php echo $innerText['Success-Email-Sent']; ?>
+			</p>
 			<?php
 		} else {
 			?>
-            <p class="login-msg">
-                <?php echo $innerText['Failed-Send-Email']; ?></p>
-            <p>
-                <a href="<?php echo $login_page_url ?>action=lostpassword"><?php echo $innerText['Try-again']; ?></a>
-            </p>
+			<p class="login-msg">
+				<?php echo $innerText['Failed-Send-Email']; ?></p>
+			<p>
+				<a href="<?php echo $login_page_url ?>action=lostpassword"><?php echo $innerText['Try-again']; ?></a>
+			</p>
 			<?php
 		}
 	} elseif ( $register ) {
 		if ( $register_show ) {
 			?>
-            <form name="registerform" id="registerform" action="<?php echo wp_login_url(); ?>?action=register"
-                  method="post" novalidate="novalidate">
-                <p>
-                    <label for="user_login">Username<br>
-                        <input type="text" name="user_login" id="user_login" class="input" value="" size="20"></label>
-                </p>
+			<form name="registerform" id="registerform" action="<?php echo wp_login_url(); ?>?action=register"
+				  method="post" novalidate="novalidate">
+				<p>
+					<label for="user_login">Username<br>
+						<input type="text" name="user_login" id="user_login" class="input" value="" size="20"></label>
+				</p>
 
-                <p>
-                    <label for="user_email">Email<br>
-                        <input type="email" name="user_email" id="user_email" class="input" value="" size="25"></label>
-                </p>
+				<p>
+					<label for="user_email">Email<br>
+						<input type="email" name="user_email" id="user_email" class="input" value="" size="25"></label>
+				</p>
 
 				<?php do_action( 'register_form' ); ?>
 
-                <p id="reg_passmail">Registration confirmation will be emailed to you.</p>
-                <br class="clear">
-                <input type="hidden" name="redirect_to" value="">
-	            <?php if( '' !== trim($recaptcha_key)){?>
-                    <div class="g-recaptcha" data-sitekey="<?php echo $recaptcha_key;?>" data-callback="correctCaptcha" data-expired-callback="expiredCaptcha"></div>
-	            <?php }?>
-                <p class="submit"><input type="submit" name="wp-submit" id="wp-submit"
-                                         class="button button-primary button-large" value="Register"></p>
-            </form>
+				<p id="reg_passmail">Registration confirmation will be emailed to you.</p>
+				<br class="clear">
+				<input type="hidden" name="redirect_to" value="">
+				<?php if ( '' !== trim( $recaptcha_key ) ) { ?>
+					<div class="g-recaptcha" data-sitekey="<?php echo $recaptcha_key; ?>" data-callback="correctCaptcha"
+						 data-expired-callback="expiredCaptcha"></div>
+				<?php } ?>
+				<p class="submit"><input type="submit" name="wp-submit" id="wp-submit"
+										 class="button button-primary button-large" value="Register"></p>
+			</form>
 			<?php
 		}
 	} elseif ( $reset_password ) {
@@ -304,50 +306,52 @@ $login_description = Config::get_settings_value( 'uo_frontend_login_description'
 			//setcookie( $rp_cookie, $value, 0, '/' . get_post_field( 'post_name', $login_page ), COOKIE_DOMAIN, is_ssl(), true );
 
 			?>
-            <h2><?php echo $innerText['Reset-Password-Title']; ?></h2>
-            <form name="resetpassform" id="resetpassform"
-                  action="?action=validatepasswordreset" method="post"
-                  autocomplete="off">
-                <input type="hidden" id="user_login" name="rp_login" value="<?php echo esc_attr( $rp_login ); ?>"
-                       autocomplete="off"/>
+			<h2><?php echo $innerText['Reset-Password-Title']; ?></h2>
+			<form name="resetpassform" id="resetpassform"
+				  action="?action=validatepasswordreset" method="post"
+				  autocomplete="off">
+				<input type="hidden" id="user_login" name="rp_login" value="<?php echo esc_attr( $rp_login ); ?>"
+					   autocomplete="off"/>
 
-                <div class="user-pass1-wrap">
-                    <p>
-                        <label for="pass1"><?php echo $innerText['New-Password']; ?></label>
-                    </p>
+				<div class="user-pass1-wrap">
+					<p>
+						<label for="pass1"><?php echo $innerText['New-Password']; ?></label>
+					</p>
 
-                    <div class="wp-pwd">
+					<div class="wp-pwd">
                             <span class="password-input-wrapper">
                                 <input type="password" data-reveal="1"
-                                       data-pw="<?php echo esc_attr( wp_generate_password( 16 ) ); ?>" name="pass1"
-                                       id="pass1" class="input" size="20" value="" autocomplete="off"
-                                       aria-describedby="pass-strength-result" required/>
+									   data-pw="<?php echo esc_attr( wp_generate_password( 16 ) ); ?>" name="pass1"
+									   id="pass1" class="input" size="20" value="" autocomplete="off"
+									   aria-describedby="pass-strength-result" required/>
                             </span>
-                    </div>
-                </div>
-                <p class="user-pass2-wrap">
-                    <label for="pass2"><?php echo $innerText['Confirm-Password']; ?></label><br/>
-                    <input type="password" name="pass2" id="pass2" class="input" size="20" value="" autocomplete="off" required/>
-                </p>
+					</div>
+				</div>
+				<p class="user-pass2-wrap">
+					<label for="pass2"><?php echo $innerText['Confirm-Password']; ?></label><br/>
+					<input type="password" name="pass2" id="pass2" class="input" size="20" value="" autocomplete="off"
+						   required/>
+				</p>
 
-                <p class="description indicator-hint"><?php echo $innerText['Password-Indicator-Hint']; ?></p>
-                <br class="clear"/>
-                <input type="hidden" name="rp_key" value="<?php echo esc_attr( $rp_key ); ?>"/>
-	            <?php if( '' !== trim($recaptcha_key)){?>
-                    <div class="g-recaptcha" data-sitekey="<?php echo $recaptcha_key;?>" data-callback="correctCaptcha" data-expired-callback="expiredCaptcha"></div>
-	            <?php }?>
-                <p class="submit"><input type="submit" name="wp-submit" id="wp-submit"
-                                         class="button button-primary button-large"
-                                         value="<?php esc_attr_e( 'Reset Password' ); ?>"/></p>
-            </form>
+				<p class="description indicator-hint"><?php echo $innerText['Password-Indicator-Hint']; ?></p>
+				<br class="clear"/>
+				<input type="hidden" name="rp_key" value="<?php echo esc_attr( $rp_key ); ?>"/>
+				<?php if ( '' !== trim( $recaptcha_key ) ) { ?>
+					<div class="g-recaptcha" data-sitekey="<?php echo $recaptcha_key; ?>" data-callback="correctCaptcha"
+						 data-expired-callback="expiredCaptcha"></div>
+				<?php } ?>
+				<p class="submit"><input type="submit" name="wp-submit" id="wp-submit"
+										 class="button button-primary button-large"
+										 value="<?php esc_attr_e( 'Reset Password' ); ?>"/></p>
+			</form>
 			<?php
 
 		} else {
 
 			?>
-            <p class="login-msg">
-                <?php echo $innerText['Password-Reset-Link-Failed']; ?>
-            </p>
+			<p class="login-msg">
+				<?php echo $innerText['Password-Reset-Link-Failed']; ?>
+			</p>
 			<?php
 		}
 	} elseif ( $validate_password_reset ) {
@@ -391,45 +395,47 @@ $login_description = Config::get_settings_value( 'uo_frontend_login_description'
 				$rp_cookie = 'wp-resetpass-' . COOKIEHASH;
 				$value     = sprintf( '%s:%s', wp_unslash( $rp_key ), wp_unslash( $rp_login ) );
 				//setcookie( $rp_cookie, $value, 0, '/' . get_post_field( 'post_name', $login_page ), COOKIE_DOMAIN, is_ssl(), true );
-				
+
 				?>
-                <h2><?php echo $innerText['Reset-Password-Title']; ?></h2>
-                <form name="resetpassform" id="resetpassform"
-                      action="?action=validatepasswordreset" method="post"
-                      autocomplete="off">
-                    <input type="hidden" id="user_login" name="rp_login" value="<?php echo esc_attr( $rp_login ); ?>"
-                           autocomplete="off"/>
+				<h2><?php echo $innerText['Reset-Password-Title']; ?></h2>
+				<form name="resetpassform" id="resetpassform"
+					  action="?action=validatepasswordreset" method="post"
+					  autocomplete="off">
+					<input type="hidden" id="user_login" name="rp_login" value="<?php echo esc_attr( $rp_login ); ?>"
+						   autocomplete="off"/>
 
-                    <div class="user-pass1-wrap">
-                        <p>
-                            <label for="pass1"><?php echo $innerText['New-Password']; ?></label>
-                        </p>
+					<div class="user-pass1-wrap">
+						<p>
+							<label for="pass1"><?php echo $innerText['New-Password']; ?></label>
+						</p>
 
-                        <div class="wp-pwd">
+						<div class="wp-pwd">
                             <span class="password-input-wrapper">
                                 <input type="password" data-reveal="1"
-                                       data-pw="<?php echo esc_attr( wp_generate_password( 16 ) ); ?>" name="pass1"
-                                       id="pass1" class="input" size="20" value="" autocomplete="off"
-                                       aria-describedby="pass-strength-result" required/>
+									   data-pw="<?php echo esc_attr( wp_generate_password( 16 ) ); ?>" name="pass1"
+									   id="pass1" class="input" size="20" value="" autocomplete="off"
+									   aria-describedby="pass-strength-result" required/>
                             </span>
-                        </div>
-                    </div>
-                    <p class="user-pass2-wrap">
-                        <label for="pass2"><?php echo $innerText['Confirm-Password']; ?></label><br/>
-                        <input type="password" name="pass2" id="pass2" class="input" size="20" value="" autocomplete="off" required/>
-                    </p>
+						</div>
+					</div>
+					<p class="user-pass2-wrap">
+						<label for="pass2"><?php echo $innerText['Confirm-Password']; ?></label><br/>
+						<input type="password" name="pass2" id="pass2" class="input" size="20" value=""
+							   autocomplete="off" required/>
+					</p>
 
-                    <p class="description indicator-hint"><?php echo $innerText['Password-Indicator-Hint']; ?></p>
-                    <br class="clear"/>
-                    <input type="hidden" name="rp_key" value="<?php echo esc_attr( $rp_key ); ?>"/>
-					<?php if( '' !== trim($recaptcha_key)){?>
-                        <div class="g-recaptcha" data-sitekey="<?php echo $recaptcha_key;?>" data-callback="correctCaptcha" data-expired-callback="expiredCaptcha"></div>
-					<?php }?>
-                    <p class="submit"><input type="submit" name="wp-submit" id="wp-submit"
-                                             class="button button-primary button-large"
-                                             value="<?php esc_attr_e( 'Reset Password' ); ?>"/></p>
-                </form>
-                <?php
+					<p class="description indicator-hint"><?php echo $innerText['Password-Indicator-Hint']; ?></p>
+					<br class="clear"/>
+					<input type="hidden" name="rp_key" value="<?php echo esc_attr( $rp_key ); ?>"/>
+					<?php if ( '' !== trim( $recaptcha_key ) ) { ?>
+						<div class="g-recaptcha" data-sitekey="<?php echo $recaptcha_key; ?>"
+							 data-callback="correctCaptcha" data-expired-callback="expiredCaptcha"></div>
+					<?php } ?>
+					<p class="submit"><input type="submit" name="wp-submit" id="wp-submit"
+											 class="button button-primary button-large"
+											 value="<?php esc_attr_e( 'Reset Password' ); ?>"/></p>
+				</form>
+				<?php
 
 			} elseif ( isset( $_POST['pass1'] ) && ! empty( $_POST['pass1'] ) ) {
 
@@ -442,30 +448,31 @@ $login_description = Config::get_settings_value( 'uo_frontend_login_description'
 			}
 		}
 	} else {
-			$show_label = \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontendloginplus_hide_title_label', 'FrontendLoginPlus' );
-			if( 'on' !== $show_label){ ?>
-                <h2><?php echo $innerText['Login-Title']; ?></h2>
-            <?php
-            }
+		$show_title = \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontendloginplus_hide_title_label', 'FrontendLoginPlus' );
+		if ( 'on' !== $show_title ) { ?>
+			<h2><?php echo $innerText['Login-Title']; ?></h2>
+			<?php
+		}
+		$show_description = \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontendloginplus_hide_description', 'FrontendLoginPlus' );
 
-            if ( ! empty( $login_description ) ){ ?>
+		if ( 'on' !== empty( $show_description ) ) { ?>
 
-            	<p class="uo-login-description">
-            		<?php echo $login_description; ?>
-            	</p>
+			<p class="uo-login-description">
+				<?php echo $innerText['Login-Description']; ?>
+			</p>
 
-            <?php }
+		<?php }
 
-		    wp_login_form( $login_form_args );
+		wp_login_form( $login_form_args );
 
-            // Add registration link allowed
-            if ( get_option( 'users_can_register' ) ) {
-	            $show_register = \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_show_register_link', 'FrontendLoginPlus' );
-                if( 'on' === $show_register ){
-	                echo '<a class="register-link" href="' . \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_register_link', 'FrontendLoginPlus', wp_registration_url() ) . '" >' . $innerText['Register-Link'] . '</a>';
-                }
-	            
-            }
+		// Add registration link allowed
+		if ( get_option( 'users_can_register' ) ) {
+			$show_register = \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_show_register_link', 'FrontendLoginPlus' );
+			if ( 'on' === $show_register ) {
+				echo '<a class="register-link" href="' . \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_register_link', 'FrontendLoginPlus', wp_registration_url() ) . '" >' . $innerText['Register-Link'] . '</a>';
+			}
+
+		}
 
 	}
 	/*

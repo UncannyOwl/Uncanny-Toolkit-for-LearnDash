@@ -375,7 +375,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				'label'       => esc_html__( 'Password reset email subject', 'uncanny-learndash-toolkit' ),
 				'option_name' => 'uo_frontend_resetpassword_email_subject',
 			),
-            array(
+			array(
 				'type'        => 'textarea',
 				'placeholder' => $password_reset_message,
 				'label'       => esc_html__( 'Password reset email body', 'uncanny-learndash-toolkit' ),
@@ -989,6 +989,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			'Password-Not-Match'         => Config::get_settings_value( 'uo_frontend_login_passwordnotmatch_error', 'FrontendLoginPlus', esc_html__( 'The password values do not match.', 'uncanny-learndash-toolkit' ) ),
 			'Reset-Success'              => esc_html__( 'Your password was successfully reset. Please log in.', 'uncanny-learndash-toolkit' ),
 			'Login-Title'                => Config::get_settings_value( 'uo_frontend_login_title_label', 'FrontendLoginPlus', esc_html__( 'Login', 'uncanny-learndash-toolkit' ) ),
+			'Login-Description'          => Config::get_settings_value( 'uo_frontendloginplus_hide_description', 'FrontendLoginPlus' ),
 			'Register-Link'              => Config::get_settings_value( 'uo_frontend_register_link_label', 'FrontendLoginPlus', esc_html__( 'Register', 'uncanny-learndash-toolkit' ) ),
 			'Try-again'                  => esc_html__( 'Try again?', 'uncanny-learndash-toolkit' ),
 			'Get-New-Password'           => esc_html__( 'Recover Account', 'uncanny-learndash-toolkit' )
@@ -1109,7 +1110,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 		$login_page = get_permalink( self::get_login_redirect_page_id() );
 
-		if(isset($_GET['redirect_to']) && false !== strpos($_GET['redirect_to'],'wp-admin') ){
+		if ( isset( $_GET['redirect_to'] ) && false !== strpos( $_GET['redirect_to'], 'wp-admin' ) ) {
 			wp_safe_redirect( $login_page );
 			exit;
 		}
@@ -1247,7 +1248,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		$custom_message = \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_resetpassword_email_body', 'FrontendLoginPlus' );
 		if ( ! empty( $custom_message ) ) {
 			add_filter( 'wp_mail_content_type', array( __CLASS__, 'htmlEmailContent' ) );
-			$custom_message = nl2br($custom_message);
+			$custom_message = nl2br( $custom_message );
 			$custom_message = str_ireplace( '%User Login%', $user_login, $custom_message );
 			$custom_message = str_ireplace( '%Reset Link%', $reset_link, $custom_message );
 
@@ -1256,17 +1257,18 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 		return $new_message;
 	}
-	
+
 	/*
 	 * Custom email message to retrieve password
 	 */
 	public static function custom_retrieve_password_title( $message, $user_login, $user_data ) {
 
 		//todo add filters and escape translations
-  
+
 		$custom_message = \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_resetpassword_email_subject', 'FrontendLoginPlus' );
 		if ( ! empty( $custom_message ) ) {
 			$custom_message = str_ireplace( '%User Login%', $user_login, $custom_message );
+
 			return $custom_message;
 		}
 
@@ -1289,14 +1291,14 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				$login_page_id = $setting['value'];
 				if ( $post->ID == (int) $login_page_id ) {
 					if ( ! has_shortcode( $post->post_content, 'uo_login_ui' ) ) {
-						$blocks = parse_blocks( $post->post_content );
+						$blocks           = parse_blocks( $post->post_content );
 						$block_is_on_page = false;
-						foreach( $blocks as $block ){
-							if( 'uncanny-toolkit/login-uncanny' === $block['blockName']){
+						foreach ( $blocks as $block ) {
+							if ( 'uncanny-toolkit/login-uncanny' === $block['blockName'] ) {
 								$block_is_on_page = true;
 							}
 						}
-						if(!$block_is_on_page){
+						if ( ! $block_is_on_page ) {
 							echo '<div id="ult-login-no-setup-notice"><strong>Note: This page has been set as the login page for this site.  The form below has been added for your convenience.  To hide this message, add the shortcode [uo_login_ui] to this page.</strong></div>';
 							echo do_shortcode( '[uo_login_ui]' );
 						}
@@ -1378,11 +1380,11 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		return $url;
 	}
 
-	public static function set_ult_login_theme( $current_theme ){
+	public static function set_ult_login_theme( $current_theme ) {
 
 		// TODO var dump this to test $current_theme
 
-		if( 'layout_1' ===Config::get_settings_value( 'uo_frontend_login_template', 'FrontendLoginPlus', 'default' ) ){
+		if ( 'layout_1' === Config::get_settings_value( 'uo_frontend_login_template', 'FrontendLoginPlus', 'default' ) ) {
 			$current_theme = str_replace( 'default', 'layout_1', $current_theme );
 		}
 

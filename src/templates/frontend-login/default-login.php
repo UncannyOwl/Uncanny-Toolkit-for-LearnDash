@@ -8,37 +8,35 @@ echo $default_css;
 
 ?>
 
-<div class="uo_error">
-	<?php
-	echo $login_error; ?>
-</div>
+	<div class="uo_error">
+		<?php
+		echo $login_error; ?>
+	</div>
 
-<?php if ( isset( $reset_password_sucess ) ){ ?>
+	<?php if ( isset( $reset_password_sucess ) ) { ?>
 
-<p><?php echo $reset_password_sucess; ?></p>
+	<p><?php echo $reset_password_sucess; ?></p>
 
 <?php } ?>
 
-<?php
+	<?php
 
 $user_name_label   = Config::get_settings_value( 'uo_login_username_label', 'FrontendLoginPlus' );
-$show_label        = Config::get_settings_value( 'uo_frontendloginplus_hide_title_label', 'FrontendLoginPlus' );
+$show_title        = Config::get_settings_value( 'uo_frontendloginplus_hide_title_label', 'FrontendLoginPlus' );
+$show_description  = Config::get_settings_value( 'uo_frontendloginplus_hide_description', 'FrontendLoginPlus' );
 $login_form_args   = apply_filters( 'uo_frontend_login_args', FrontendLoginPlus::fetch_login_form_args( $user_name_label ) );
-$login_description = Config::get_settings_value( 'uo_frontend_login_description', 'FrontendLoginPlus', esc_html__( 'Login to your account to access your courses.', 'uncanny-learndash-toolkit' ) );
 
-if ( 'on' !== $show_label ) { ?>
-	<h2><?php echo $innerText['Login-Title']; ?></h2>
-
-	<?php if ( ! empty( $login_description ) ){ ?>
-		
-		<p class="uo-login-description">
-			<?php echo $login_description; ?>
-		</p>
-
-	<?php } ?>
-
+if ( 'on' !== $show_title ) { ?>
+	<h2><?php echo $innerText['Login-Title']; ?></h2
 	<?php
 }
+if ( 'on' !== empty( $show_description ) ) { ?>
+
+	<p class="uo-login-description">
+		<?php echo $innerText['Login-Description']; ?>
+	</p>
+
+<?php }
 wp_login_form( $login_form_args );
 
 // Add registration link allowed
