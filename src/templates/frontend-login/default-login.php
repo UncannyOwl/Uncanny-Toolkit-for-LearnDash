@@ -4,7 +4,7 @@ namespace uncanny_learndash_toolkit;
 
 echo $default_css;
 
-echo $default_js;
+//echo $default_js;
 
 ?>
 
