@@ -989,7 +989,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			'Password-Not-Match'         => Config::get_settings_value( 'uo_frontend_login_passwordnotmatch_error', 'FrontendLoginPlus', esc_html__( 'The password values do not match.', 'uncanny-learndash-toolkit' ) ),
 			'Reset-Success'              => esc_html__( 'Your password was successfully reset. Please log in.', 'uncanny-learndash-toolkit' ),
 			'Login-Title'                => Config::get_settings_value( 'uo_frontend_login_title_label', 'FrontendLoginPlus', esc_html__( 'Login', 'uncanny-learndash-toolkit' ) ),
-			'Login-Description'          => Config::get_settings_value( 'uo_frontendloginplus_hide_description', 'FrontendLoginPlus' ),
+			'Login-Description'          => Config::get_settings_value( 'uo_frontend_login_description', 'FrontendLoginPlus' ),
 			'Register-Link'              => Config::get_settings_value( 'uo_frontend_register_link_label', 'FrontendLoginPlus', esc_html__( 'Register', 'uncanny-learndash-toolkit' ) ),
 			'Try-again'                  => esc_html__( 'Try again?', 'uncanny-learndash-toolkit' ),
 			'Get-New-Password'           => esc_html__( 'Recover Account', 'uncanny-learndash-toolkit' )
