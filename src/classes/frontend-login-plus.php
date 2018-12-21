@@ -238,8 +238,8 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				'label'       => esc_html__( 'Select Template', 'uncanny-learndash-toolkit' ),
 				'select_name' => 'uo_frontend_login_template',
 				'options'     => array(
-					array( 'value' => 'default', 'text' => 'Default' ),
-					array( 'value' => 'layout_1', 'text' => 'Layout 1' )
+					array( 'value' => 'default', 'text' => __( 'Default', 'uncanny-learndash-toolkit' ) ),
+					array( 'value' => 'layout_1', 'text' => __( 'Boxed with shadow', 'uncanny-learndash-toolkit' ) )
 				)
 			),
 
