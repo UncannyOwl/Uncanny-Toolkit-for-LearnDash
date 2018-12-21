@@ -455,7 +455,7 @@ $innerText = apply_filters( 'uo-login-inner-text', $innerText, $login );
 		}
 		$show_description = \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontendloginplus_hide_description', 'FrontendLoginPlus' );
 
-		if ( 'on' !== empty( $show_description ) ) { ?>
+		if ( 'on' !== $show_description ) { ?>
 
 			<p class="uo-login-description">
 				<?php echo $innerText['Login-Description']; ?>

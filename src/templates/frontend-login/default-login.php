@@ -30,7 +30,7 @@ if ( 'on' !== $show_title ) { ?>
 	<h2><?php echo $innerText['Login-Title']; ?></h2
 	<?php
 }
-if ( 'on' !== empty( $show_description ) ) { ?>
+if ( 'on' !== $show_description ) { ?>
 
 	<p class="uo-login-description">
 		<?php echo $innerText['Login-Description']; ?>
