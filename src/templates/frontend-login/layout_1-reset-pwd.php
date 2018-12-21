@@ -45,7 +45,7 @@ $has_recaptcha = ! empty( trim( $recaptcha_key ) );
 					</div>
 
 					<div class="ult-form__field">
-						<input type="password" data-reveal="1" data-pw="<?php echo esc_attr( wp_generate_password( 16 ) ); ?>" name="pass1" id="ult-reset-new-password" class="ult-form__input" placeholder="" value="" autocomplete="off" aria-describedby="pass-strength-result">
+						<input type="password" data-reveal="1" data-pw="<?php echo esc_attr( wp_generate_password( 16 ) ); ?>" name="pass1" id="ult-reset-new-password" class="ult-form__input" placeholder="" value="" autocomplete="off" aria-describedby="pass-strength-result" required>
 					</div>
 				</div>
 
@@ -64,7 +64,7 @@ $has_recaptcha = ! empty( trim( $recaptcha_key ) );
 					</div>
 
 					<div class="ult-form__field">
-						<input type="password" name="pass2" id="ult-reset-confirm-password" class="ult-form__input" placeholder="">
+						<input type="password" name="pass2" id="ult-reset-confirm-password" class="ult-form__input" placeholder="" required>
 					</div>
 				</div>
 

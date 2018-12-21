@@ -23,13 +23,13 @@ namespace uncanny_learndash_toolkit;
                                 <input type="password" data-reveal="1"
                                        data-pw="<?php echo esc_attr( wp_generate_password( 16 ) ); ?>" name="pass1"
                                        id="pass1" class="input" size="20" value="" autocomplete="off"
-                                       aria-describedby="pass-strength-result"/>
+                                       aria-describedby="pass-strength-result" required/>
                             </span>
 		</div>
 	</div>
 	<p class="user-pass2-wrap">
 		<label for="pass2"><?php echo $innerText['Confirm-Password']; ?></label><br/>
-		<input type="password" name="pass2" id="pass2" class="input" size="20" value="" autocomplete="off"/>
+		<input type="password" name="pass2" id="pass2" class="input" size="20" value="" autocomplete="off" required/>
 	</p>
 
 	<p class="description indicator-hint"><?php echo $innerText['Password-Indicator-Hint']; ?></p>
