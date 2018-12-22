@@ -72,7 +72,6 @@ class Blocks {
 
 				if ( isset( $this->active_classes[ 'uncanny_learndash_toolkit\FrontendLoginPlus' ] ) ) {
 					require_once( dirname( __FILE__ ) . '/src/toolkit-login-uncanny/block.php' );
-					require_once( dirname( __FILE__ ) . '/src/toolkit-login-wordpress/block.php' );
 				}
 			});
 
