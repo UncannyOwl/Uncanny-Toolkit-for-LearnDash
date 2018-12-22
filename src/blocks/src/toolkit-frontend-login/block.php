@@ -1,15 +1,15 @@
 <?php 
 
 /**
- * Register Uncanny Login Form
+ * Register Front End Login
  * render it with a callback function
  */
 
-register_block_type( 'uncanny-toolkit/login-uncanny', [
-	'render_callback' => 'render_login_uncanny'
+register_block_type( 'uncanny-toolkit/frontend-login', [
+	'render_callback' => 'render_frontend_login'
 ]);
 
-function render_login_uncanny( $attributes ){
+function render_frontend_login( $attributes ){
 	// Start output
 	ob_start();
 

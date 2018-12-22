@@ -11,4 +11,4 @@
 
 import './toolkit-breadcrumbs/block.js';
 import './toolkit-resume-button/block.js';
-import './toolkit-login-uncanny/block.js';
+import './toolkit-frontend-login/block.js';

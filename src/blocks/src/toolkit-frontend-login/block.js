@@ -15,8 +15,8 @@ const { registerBlockType } = wp.blocks;
 
 if ( moduleIsActive( 'uncanny_learndash_toolkit\\FrontendLoginPlus' ) ){
 
-    registerBlockType( 'uncanny-toolkit/login-uncanny', {
-        title: __( 'Uncanny Login Form' ),
+    registerBlockType( 'uncanny-toolkit/frontend-login', {
+        title: __( 'Front End Login' ),
 
         description: __( 'Displays the Uncanny Toolkit front end login form.' ),
 
@@ -38,7 +38,7 @@ if ( moduleIsActive( 'uncanny_learndash_toolkit\\FrontendLoginPlus' ) ){
             return (
                 <div className={className}>
                     <ToolkitPlaceholder>
-                        { __( 'Uncanny Login Form' ) }
+                        { __( 'Front End Login' ) }
                     </ToolkitPlaceholder>
                 </div>
             );
