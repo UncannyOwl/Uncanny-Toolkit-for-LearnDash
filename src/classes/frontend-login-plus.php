@@ -1287,13 +1287,15 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 						if( function_exists('parse_blocks')){
 							$blocks           = parse_blocks( $post->post_content );
 							foreach ( $blocks as $block ) {
-								if ( 'uncanny-toolkit/login-uncanny' === $block['blockName'] ) {
+								if ( 'uncanny-toolkit/frontend-login' === $block['blockName'] ) {
 									$block_is_on_page = true;
 								}
 							}
 							if ( ! $block_is_on_page ) {
-								echo '<div id="ult-login-no-setup-notice"><strong>Note: This page has been set as the login page for this site.  The form below has been added for your convenience.  To hide this message, add the shortcode [uo_login_ui] to this page.</strong></div>';
+								echo '<div id="ult-login-no-setup-notice"><strong> Note: This page has been set as the login page for this site. The form below has been added for your convenience. To hide this message, add the shortcode [uo_login_ui] or the Front End Login Gutenberg block to this page.</strong></div>';
 								echo do_shortcode( '[uo_login_ui]' );
+
+
 							}
 						}
 					}
