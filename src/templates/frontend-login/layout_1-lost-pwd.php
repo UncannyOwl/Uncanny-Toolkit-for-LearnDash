@@ -73,7 +73,7 @@ $has_recaptcha = ! empty( trim( $recaptcha_key ) );
 						</div>
 
 						<div class="ult-form__field">
-							<input type="text" name="user_login" id="ult-forgot-email" class="ult-form__input" placeholder="">
+							<input required type="text" name="user_login" id="ult-forgot-email" class="ult-form__input" placeholder="">
 						</div>
 					</div>
 
