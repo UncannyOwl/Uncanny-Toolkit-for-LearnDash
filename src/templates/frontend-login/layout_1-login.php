@@ -52,7 +52,7 @@ $login = (object) [
 		'show_title'       => Config::get_settings_value( 'uo_frontendloginplus_hide_title_label', 'FrontendLoginPlus' ) !== 'on',
 		// To-do: Create this checkbox in the settings
 		'show_description' => Config::get_settings_value( 'uo_frontendloginplus_hide_description', 'FrontendLoginPlus' ) !== 'on',
-		'can_register'     => get_option( 'users_can_register' ) && Config::get_settings_value( 'uo_frontend_show_register_link', 'FrontendLoginPlus' ) == 'on',
+		'can_register'     => Config::get_settings_value( 'uo_frontend_show_register_link', 'FrontendLoginPlus' ) == 'on',
 	],
 	'urls'    => (object) [
 		'login'            => $login_page_url,
