@@ -3,7 +3,6 @@
 namespace uncanny_learndash_toolkit;
 
 ?>
-<hi>default</hi>
 	<section class="uo_loginForm">
 		
 		<?php

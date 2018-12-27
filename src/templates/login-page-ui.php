@@ -1,5 +1,5 @@
 <?php
-echo '<h1>standard</h1>';
+
 /* Template Name: Uncanny Owl Login Page */
 $login_page     = \uncanny_learndash_toolkit\FrontendLoginPlus::get_login_redirect_page_id();
 $login_page_url = get_permalink( $login_page );
