@@ -24,48 +24,62 @@ use uncanny_ceu\Utilities;
 		<?php
 
 		$active_tab = 'uncanny-toolkit-plugins';
-		
-		if ( isset( $_GET[ 'page' ] ) ) {
-			$active_tab = $_GET[ 'page' ];
+
+		if ( isset( $_GET['page'] ) ) {
+			$active_tab = $_GET['page'];
 		}
 
 		?>
 	</div>
 
 	<?php
+	// Get data
+	$status = get_option( 'uo_license_status' ); // $license_data->license will be either "valid", "invalid", "expired", "disabled"
 
-		if ( 'uncanny-toolkit-plugins' === $active_tab ){
-			include( 'admin-showcase.php' );
+	/**
+	 * Possible values for $status
+	 *
+	 * {bool}    false     Empty, never saved
+	 * {string}  valid       The License is valid
+	 * {string}  expired   The License has expired
+	 * {string}  invalid   The license is invalid
+	 * {string}  inactive  The license has been disabled
+	 */
+
+	// Check license status
+	$license_is_active = $status == 'valid' ? true : false;
+
+	if ( 'uncanny-toolkit-plugins' === $active_tab ) {
+		include( 'admin-showcase.php' );
+	} elseif ( 'uncanny-toolkit-kb' === $active_tab ) {
+		if ( isset( $_GET['submit-a-ticket'] ) || isset( $_GET['amp;submit-a-ticket'] ) ) {
+			include( 'admin-help.php' );
+		} else {
+			include( 'admin-kb.php' );
 		}
-		elseif ( 'uncanny-toolkit-kb' === $active_tab ){
-			if ( isset( $_GET['submit-a-ticket'] ) || isset( $_GET['amp;submit-a-ticket'] ) ){
-				include( 'admin-help.php' );
-			}
-			else {
-				include( 'admin-kb.php' );
-			}
-			
-			if ( Boot::is_pro_active() ){
-			
-			?>
 
+		if ( Boot::is_pro_active() ) {
+			if ( $license_is_active ) {
+				?>
 				<p class="uo-get-help">
 					<a href="<?php echo admin_url( 'admin.php?page=uncanny-toolkit-kb&submit-a-ticket=1' ); ?>"><?php _e( 'I can\'t find the answer to my question.', 'uncanny-learndash-toolkit' ) ?></a>
 				</p>
 
-			<?php } else { ?>
+			<?php }
+		} else {
+			if ( $license_is_active ) { ?>
 
-			<p class="uo-get-help">
-				<a href="https://wordpress.org/support/plugin/uncanny-learndash-toolkit" target="_blank"><?php _e( 'I can\'t find the answer to my question.', 'uncanny-learndash-toolkit' ) ?></a>
-			</p>
-			
+				<p class="uo-get-help">
+					<a href="https://wordpress.org/support/plugin/uncanny-learndash-toolkit" target="_blank"><?php _e( 'I can\'t find the answer to my question.', 'uncanny-learndash-toolkit' ) ?></a>
+				</p>
+
 			<?php }
 		}
-		/*elseif ( 'submit-a-ticket' === $active_tab && Boot::is_pro_active() ) {
+	} /*elseif ( 'submit-a-ticket' === $active_tab && Boot::is_pro_active() ) {
 			include( 'admin-help.php' );
 		} */ else {
-			esc_html_e( 'Cheating, Eh?', 'uncanny-learndash-toolkit' );
-		}
+		esc_html_e( 'Cheating, Eh?', 'uncanny-learndash-toolkit' );
+	}
 
 	?>
 </div>
