@@ -870,9 +870,9 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 		if ( $message_warning ) {
 			if( 'false' === $login ){
-				self::$login_error = '<p class="login-msg loggedout"><strong>' . $message_warning . '</p>';
+				self::$login_error = '<p class="login-msg loggedout"><strong>' . $message_warning . '</strong></p>';
 			}else{
-				self::$login_error = '<p class="login-msg"><strong>' . $message_warning . '</p>';
+				self::$login_error = '<p class="login-msg"><strong>' . $message_warning . '</strong></p>';
 			}
 		}
 

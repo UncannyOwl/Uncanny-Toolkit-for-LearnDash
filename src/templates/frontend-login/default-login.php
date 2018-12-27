@@ -27,7 +27,7 @@ $show_description  = Config::get_settings_value( 'uo_frontendloginplus_hide_desc
 $login_form_args   = apply_filters( 'uo_frontend_login_args', FrontendLoginPlus::fetch_login_form_args( $user_name_label ) );
 
 if ( 'on' !== $show_title ) { ?>
-	<h2><?php echo $innerText['Login-Title']; ?></h2
+	<h2><?php echo $innerText['Login-Title']; ?></h2>
 	<?php
 }
 if ( 'on' !== $show_description ) { ?>
