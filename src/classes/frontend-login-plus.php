@@ -895,21 +895,9 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		//Introducing different templates!
 		$template_to_load = apply_filters( 'uo-login-template', Config::get_settings_value( 'uo_frontend_login_template', 'FrontendLoginPlus', 'default' ) );
 
-		switch ( $template_to_load ) {
-			/*case 'default':
-				$page_template = self::get_template( '/login-page-ui-default.php' );
-				$page_template = apply_filters( 'uo_login_ui_template', $page_template );
-				break;*/
-			default:
-				$page_template = self::get_template( '/login-page-ui.php' );
-				// TODO var dump this to test
-				//$page_template = apply_filters( 'uo_login_ui_template', $page_template );
-				break;
-		}
-
 		//Render Template
 		ob_start();
-		include $page_template;
+		include self::get_template( '/login-page-ui-default.php' );
 		$login_ui = ob_get_clean();
 
 		return $login_ui;
@@ -1387,8 +1375,6 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	}
 
 	public static function set_ult_login_theme( $current_theme ) {
-
-		// TODO var dump this to test $current_theme
 
 		if ( 'layout_1' === Config::get_settings_value( 'uo_frontend_login_template', 'FrontendLoginPlus', 'default' ) ) {
 			$current_theme = str_replace( 'default', 'layout_1', $current_theme );
