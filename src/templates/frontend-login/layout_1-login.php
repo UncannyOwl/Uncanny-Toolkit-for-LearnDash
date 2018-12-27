@@ -189,24 +189,33 @@ add_filter( 'login_form_middle', function( $content ){
 
 		</div>
 
-		<?php do_action( 'uo_login_before_register' ); ?>
+		<?php do_action( 'uo_login_before_footer' ); ?>
 
-		<?php if ( $login->config->can_register ){ ?>
+		<div class="ult-form__footer">
 
-			<div class="ult-form__footer">
-				<div class="ult-form-footer__forgot-password">
-					<a href="<?php echo $login->urls->forgot_password; ?>">
-						<?php echo $login->strings->forgot_password; ?>
-					</a>
-				</div>
-				<div class="ult-form-footer__signup">
-					<?php printf( 'New User? %s', sprintf( '<a href="%s">%s</a>', $login->urls->register, $login->strings->register ) ); ?>
-				</div>
+			<?php do_action( 'uo_login_before_forgot_password' ); ?>
+
+			<div class="ult-form-footer__forgot-password">
+				<a href="<?php echo $login->urls->forgot_password; ?>">
+					<?php echo $login->strings->forgot_password; ?>
+				</a>
 			</div>
 
-		<?php } ?>
+			<?php if ( $login->config->can_register ){ ?>
 
-		<?php do_action( 'uo_login_after_register' ); ?>
+				<?php do_action( 'uo_login_before_register' ); ?>
+
+				<div class="ult-form-footer__signup">
+					<?php printf( __( 'New User? %s', 'uncanny-learndash-toolkit' ), sprintf( '<a href="%s">%s</a>', $login->urls->register, $login->strings->register ) ); ?>
+				</div>
+
+				<?php do_action( 'uo_login_after_register' ); ?>
+
+			<?php } ?>
+
+		</div>
+
+		<?php do_action( 'uo_login_after_footer' ); ?>
 
 	</div>
 
