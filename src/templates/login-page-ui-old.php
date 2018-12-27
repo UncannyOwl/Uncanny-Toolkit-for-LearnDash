@@ -12,7 +12,7 @@ if ( strpos( $login_page_url, '?' ) ) {
 } else {
 	$login_page_url = $login_page_url . '?';
 }
-$user_name_label = \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_login_username_label', 'FrontendLoginPlus' );
+$user_name_label = \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_login_username_label_text', 'FrontendLoginPlus' );
 $message_warning = '';
 
 global $user_login;

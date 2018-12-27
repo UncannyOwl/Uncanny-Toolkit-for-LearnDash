@@ -21,13 +21,13 @@ echo $default_css;
 
 	<?php
 
-$user_name_label   = Config::get_settings_value( 'uo_login_username_label', 'FrontendLoginPlus' );
+
 $show_title        = Config::get_settings_value( 'uo_frontendloginplus_hide_title_label', 'FrontendLoginPlus' );
 $show_description  = Config::get_settings_value( 'uo_frontendloginplus_hide_description', 'FrontendLoginPlus' );
-$login_form_args   = apply_filters( 'uo_frontend_login_args', FrontendLoginPlus::fetch_login_form_args( $user_name_label ) );
+$login_form_args   = apply_filters( 'uo_frontend_login_args', FrontendLoginPlus::fetch_login_form_args() );
 
 if ( 'on' !== $show_title ) { ?>
-	<h2><?php echo $innerText['Login-Title']; ?></h2
+	<h2><?php echo $innerText['Login-Title']; ?></h2>
 	<?php
 }
 if ( 'on' !== $show_description ) { ?>

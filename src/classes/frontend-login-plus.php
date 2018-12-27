@@ -293,16 +293,16 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				'option_name' => 'uo_frontend_login_description',
 			),
 			array(
-				'type'        => 'select',
-				'label'       => esc_html__( 'Login Label', 'uncanny-learndash-toolkit' ),
-				'select_name' => 'uo_login_username_label',
-				'options'     => array(
-					array( 'value' => '', 'text' => '- Select Label -' ),
-					array( 'value' => 'Username', 'text' => 'Username' ),
-					array( 'value' => 'Email', 'text' => 'Email' ),
-					array( 'value' => 'Username Or Email', 'text' => 'Username Or Email' ),
-					array( 'value' => 'Login', 'text' => 'Login' )
-				)
+				'type'        => 'text',
+				'label'       => esc_html__( 'Custom Login Label', 'uncanny-learndash-toolkit' ),
+				'placeholder' => esc_html__( 'Add login input label', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_login_username_label_login',
+			),
+			array(
+				'type'        => 'text',
+				'label'       => esc_html__( 'Custom Reset Label', 'uncanny-learndash-toolkit' ),
+				'placeholder' => esc_html__( 'Add reset input label', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_login_username_label_reset',
 			),
 			array(
 				'type'        => 'text',
@@ -769,8 +769,9 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			$login_page_url = $login_page_url . '?';
 		}
 
-		$user_name_label = Config::get_settings_value( 'uo_login_username_label', 'FrontendLoginPlus' );
-		$message_warning = '';
+		$user_name_label_login = Config::get_settings_value( 'uo_login_username_label_login', 'FrontendLoginPlus' );
+		$user_name_label_reset = Config::get_settings_value( 'uo_login_username_label_login', 'FrontendLoginPlus' );
+		$message_warning       = '';
 
 		global $user_login;
 		$login = ( isset( $_GET['login'] ) ) ? $_GET['login'] : 'not-set';
@@ -869,10 +870,10 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		}
 
 		if ( $message_warning ) {
-			if( 'false' === $login ){
-				self::$login_error = '<p class="login-msg loggedout"><strong>' . $message_warning . '</p>';
-			}else{
-				self::$login_error = '<p class="login-msg"><strong>' . $message_warning . '</p>';
+			if ( 'false' === $login ) {
+				self::$login_error = '<p class="login-msg loggedout"><strong>' . $message_warning . '</strong></p>';
+			} else {
+				self::$login_error = '<p class="login-msg"><strong>' . $message_warning . '</strong></p>';
 			}
 		}
 
@@ -881,7 +882,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		// Prevent errors, some templates are using the following template
 		$login_error = self::$login_error;
 
-		$innerText = apply_filters( 'uo-login-inner-text', FrontendLoginPlus::fetch_inner_text( $user_name_label ), $login );
+		$innerText = apply_filters( 'uo-login-inner-text', FrontendLoginPlus::fetch_inner_text(), $login );
 
 		$default_css = apply_filters( 'uo-login-default-css', '<style>.login-msg{color:red;} .login-msg.loggedout{color:green;}#loginform label[for="user_login"],#loginform label[for="user_pass"] {display: block;}</style>' );
 
@@ -934,16 +935,17 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	}
 
 	/**
-	 * @param $user_name_label
-	 *
 	 * @return array
 	 */
-	public static function fetch_login_form_args( $user_name_label ) {
+	public static function fetch_login_form_args() {
+
+		$user_name_label_login = Config::get_settings_value( 'uo_login_username_label_login', 'FrontendLoginPlus' );
+
 		return array(
 			'echo'           => true,
 			'redirect'       => home_url( '/wp-admin/' ),
 			'form_id'        => 'loginform',
-			'label_username' => ( ! empty( $user_name_label ) ) ? $user_name_label : esc_html__( 'Username', 'uncanny-learndash-toolkit' ),
+			'label_username' => ( ! empty( $user_name_label_login ) ) ? $user_name_label_login : esc_html__( 'Username', 'uncanny-learndash-toolkit' ),
 			'label_password' => Config::get_settings_value( 'uo_frontend_login_password_label', 'FrontendLoginPlus', esc_html__( 'Password', 'uncanny-learndash-toolkit' ) ),
 			'label_remember' => Config::get_settings_value( 'uo_frontend_login_rememberme_label', 'FrontendLoginPlus', esc_html__( 'Remember Me', 'uncanny-learndash-toolkit' ) ),
 			'label_log_in'   => Config::get_settings_value( 'uo_frontend_login_button_label', 'FrontendLoginPlus', esc_html__( 'Log In', 'uncanny-learndash-toolkit' ) ),
@@ -962,12 +964,15 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	 *
 	 * @return array
 	 */
-	public static function fetch_inner_text( $user_name_label ) {
+	public static function fetch_inner_text() {
+
+		$user_name_label_reset = Config::get_settings_value( 'uo_login_username_label_reset', 'FrontendLoginPlus' );
+
 		$innerText = Array(
 			'Logged-In-Message'          => \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_login_logged_in_message', 'FrontendLoginPlus', __( 'You are already logged in.', 'uncanny-learndash-toolkit' ) ),
 			'Logout'                     => esc_html__( 'Logout', 'uncanny-learndash-toolkit' ),
 			'Password-Recovery-Title'    => Config::get_settings_value( 'uo_frontend_login_forgetpass_label', 'FrontendLoginPlus', esc_html__( 'Forgot password', 'uncanny-learndash-toolkit' ) ),
-			'Password-Recovery-Label'    => ( ! empty( $user_name_label ) ) ? $user_name_label : esc_html__( 'Email', 'uncanny-learndash-toolkit' ),
+			'Password-Recovery-Label'    => ( ! empty( $user_name_label_reset ) ) ? $user_name_label_reset : esc_html__( 'Email', 'uncanny-learndash-toolkit' ),
 			'Success'                    => esc_html__( 'Success!', 'uncanny-learndash-toolkit' ),
 			'Success-Email-Sent'         => esc_html__( 'Check your email for a reset password link.', 'uncanny-learndash-toolkit' ),
 			'Failed-Send-Email'          => Config::get_settings_value( 'uo_frontend_login_failedsendemail_error', 'FrontendLoginPlus', esc_html__( 'Password reset email failed to send.', 'uncanny-learndash-toolkit' ) ),
@@ -1165,7 +1170,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	 */
 	public static function redirect_lost_password( $lostpassword_redirect ) {
 		$login_page = get_permalink( self::get_login_redirect_page_id() );
-		wp_safe_redirect( add_query_arg( array( 'action' => 'forgot', 'success' => 'something' ), $login_page ) );
+		wp_safe_redirect( add_query_arg( array( 'action' => 'forgot', 'success' => 'true' ), $login_page ) );
 	}
 
 
@@ -1284,16 +1289,18 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				if ( $post->ID == (int) $login_page_id ) {
 					if ( ! has_shortcode( $post->post_content, 'uo_login_ui' ) ) {
 						$block_is_on_page = false;
-						if( function_exists('parse_blocks')){
-							$blocks           = parse_blocks( $post->post_content );
+						if ( function_exists( 'parse_blocks' ) ) {
+							$blocks = parse_blocks( $post->post_content );
 							foreach ( $blocks as $block ) {
-								if ( 'uncanny-toolkit/login-uncanny' === $block['blockName'] ) {
+								if ( 'uncanny-toolkit/frontend-login' === $block['blockName'] ) {
 									$block_is_on_page = true;
 								}
 							}
 							if ( ! $block_is_on_page ) {
-								echo '<div id="ult-login-no-setup-notice"><strong>Note: This page has been set as the login page for this site.  The form below has been added for your convenience.  To hide this message, add the shortcode [uo_login_ui] to this page.</strong></div>';
+								echo '<div id="ult-login-no-setup-notice"><strong> Note: This page has been set as the login page for this site. The form below has been added for your convenience. To hide this message, add the shortcode [uo_login_ui] or the Front End Login Gutenberg block to this page.</strong></div>';
 								echo do_shortcode( '[uo_login_ui]' );
+
+
 							}
 						}
 					}

@@ -11,7 +11,7 @@ namespace uncanny_learndash_toolkit;
 		
 	<p>
 		<label for="user_login"><?php echo $innerText['Password-Recovery-Label']; ?></label>
-		<input size="20" type="text" name="user_login" id="user_login" value="">
+		<input required size="20" type="text" name="user_login" id="user_login" value="">
 	</p>
 
 	<input type="hidden" name="redirect_to" value="<?php echo $login_page_url ?>action=forgot&success=1">
