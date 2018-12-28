@@ -1170,7 +1170,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	 */
 	public static function redirect_lost_password( $lostpassword_redirect ) {
 		$login_page = get_permalink( self::get_login_redirect_page_id() );
-		wp_safe_redirect( add_query_arg( array( 'action' => 'forgot', 'success' => 'true' ), $login_page ) );
+		wp_safe_redirect( add_query_arg( array( 'action' => 'forgot', 'success' => 'false' ), $login_page ) );
 	}
 
 
