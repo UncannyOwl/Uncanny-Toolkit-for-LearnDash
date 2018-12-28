@@ -12,6 +12,9 @@ class Login {
 
 		// Bind form submission
 		this.bindFormSubmission();
+
+		// Bind submit container
+        this.bindSubmitContainer();
 	}
 
 	getElements(){
@@ -19,8 +22,9 @@ class Login {
 		this.$elements = {}
 
 		// Get elements
-		this.$elements.loginForm    = document.getElementById( 'ult-login-form' );
-		this.$elements.submitButton = document.getElementsByClassName( 'login-submit' )[0];
+		this.$elements.loginForm        = document.getElementById( 'ult-login-form' );
+        this.$elements.recaptchaElement = document.getElementsByClassName( 'ult-form__row--recaptcha' )[0];
+		this.$elements.submitButton     = document.getElementsByClassName( 'login-submit' )[0];
 	}
 
 	getConfiguration(){
@@ -53,12 +57,18 @@ class Login {
 		if ( isDefined( this.$elements.loginForm ) ){
 			// Bind submission
 			this.$elements.loginForm.onsubmit = ( event ) => {
+
+			    console.log('clicked');
+			    if( isCaptchaChecked ){
+
+                }
+
 				/**
 				 * To disable the loading animation create a ULT_LoginConfig object
 				 * with a loadingAnimationOnSubmit property and set it to false.
 				 * ULT_LoginConfig.loadingAnimationOnSubmit = false;
 				 */
-				
+
 				if ( this.configuration.showAnimationOnSubmit ){
 					this.$elements.submitButton.classList.add( 'ult-form__submit-btn--loading' );
 				}
@@ -68,13 +78,33 @@ class Login {
 				 * with a buttonDisabledOnSubmit property and set it to false.
 				 * ULT_LoginConfig.buttonDisabledOnSubmit = false;
 				 */
-				
+
 				if ( this.configuration.buttonDisabledOnSubmit ){
 					this.$elements.submitButton.classList.add( 'ult-form__submit-btn--disabled' );
 				}
 			};
 		}
 	}
+
+    bindSubmitContainer(){
+	    console.log('here');
+        // Check if the form exists
+        if ( isDefined( this.$elements.submitButton ) ) {
+            console.log('found element');
+            // Bind submission
+            this.$elements.submitButton.onmousedown = (event) => {
+                console.log('clicked');
+                if ( 0 === this.isCaptchaChecked() ) {
+                    this.$elements.recaptchaElement.classList.add( 'ult-form__row--recaptcha-error' );
+                }
+            }
+        }
+    }
+
+    isCaptchaChecked(){
+        return grecaptcha && grecaptcha.getResponse().length !== 0;
+    }
+
 }
 
 export default Login;

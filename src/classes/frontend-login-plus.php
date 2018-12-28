@@ -1211,7 +1211,14 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 		$recaptcha_key = \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_login_recaptcha_key', 'FrontendLoginPlus' );
 		if ( '' !== trim( $recaptcha_key ) ) {
-			return '<div class="ult-form__row ult-form__row--recaptcha"><div class="g-recaptcha" data-sitekey="' . $recaptcha_key . '" data-callback="correctCaptcha" data-expired-callback="expiredCaptcha"></div></div>';
+			ob_start();
+			?>
+			<div class="ult-form__row ult-form__row--recaptcha">
+				<div class="g-recaptcha" data-sitekey="' . $recaptcha_key . '" data-callback="correctCaptcha" data-expired-callback="expiredCaptcha"></div>
+			</div>
+			<?php
+			return ob_get_clean();
+
 		}
 	}
 
