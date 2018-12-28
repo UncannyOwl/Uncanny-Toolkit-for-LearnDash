@@ -10,7 +10,7 @@ namespace uncanny_learndash_toolkit;
 	<?php } ?>
 		
 	<p>
-		<label for="user_login"><?php echo $innerText['Password-Recovery-Label']; ?></label>
+		<label for="user_login"><?php echo $innerText['Password-Recovery-Label']; ?></label><br>
 		<input required size="20" type="text" name="user_login" id="user_login" value="">
 	</p>
 
