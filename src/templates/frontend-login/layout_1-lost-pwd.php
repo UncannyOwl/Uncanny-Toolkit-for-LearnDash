@@ -1,6 +1,10 @@
 <?php
 namespace uncanny_learndash_toolkit;
-$has_recaptcha = ! empty( trim( $recaptcha_key ) );
+if ( '' !== trim( $recaptcha_key ) && '' !== trim( $recaptcha_secrete_key ) ) {
+	$has_recaptcha =true;
+}else{
+	$has_recaptcha = false;
+}
 ?>
 
 <?php do_action( 'uo_forgot_before_container' ); ?>

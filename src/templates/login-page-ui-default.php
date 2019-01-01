@@ -4,7 +4,7 @@ namespace uncanny_learndash_toolkit;
 
 ?>
 	<section class="uo_loginForm">
-		
+
 		<?php
 		/*
 		 * before_uo_login_ui hook
@@ -45,15 +45,21 @@ namespace uncanny_learndash_toolkit;
 		} elseif ( $reset_password_sent ) {
 			$forgot_password_response = (object) [
 				'error'   => true,
-				'message' => ''
+				'message' => '',
 			];
 
 			//When Lost Password Form is submitted, show status!
-			if ( $reset_password_sent_success ){
-				$forgot_password_response->error = false;
+			if ( true === $reset_password_sent_success ) {
+				$forgot_password_response->error   = false;
 				$forgot_password_response->message = $innerText['Success-Email-Sent'];
 			} else {
-				$forgot_password_response->message = $innerText['Failed-Send-Email'];
+				if ( 'recaptchaempty' === $reset_password_sent_success ) {
+					$forgot_password_response->message = $innerText['recaptchaempty'];
+				} elseif ( 'recaptchafailed' === $reset_password_sent_success ) {
+					$forgot_password_response->message = $innerText['recaptchafailed'];
+				} else {
+					$forgot_password_response->message = $innerText['Failed-Send-Email'];
+				}
 			}
 
 			include( apply_filters( 'uo-front-login-lost-pwd-template', 'frontend-login/' . $template_to_load . '-lost-pwd.php', $template_to_load ) );
@@ -80,7 +86,7 @@ namespace uncanny_learndash_toolkit;
 					</div>
 				</div>
 
-				<?php 
+				<?php
 			}
 		} elseif ( $validate_password_reset ) {
 			//When user reset new password!
@@ -143,19 +149,8 @@ namespace uncanny_learndash_toolkit;
 			include( apply_filters( 'uo-front-login-login-template', 'frontend-login/' . $template_to_load . '-login.php', $template_to_load ) );
 		}
 
-		/*
-		 * after_uo_login_ui hook
-		 *
-		 * @arg bool $lost_password
-		 * @arg bool $reset_password_sent
-		 * @arg bool $reset_password_sent_success
-		 * @arg bool $register
-		 * @arg bool $reset_password
-		 * @arg bool $validate_password_reset
-		 */
-		echo $default_js;
 		do_action( 'after_uo_login_ui', $lost_password, $reset_password_sent, $reset_password_sent_success, $register, $reset_password, $validate_password_reset );
 		?>
 	</section>
 
-	<?php
+<?php

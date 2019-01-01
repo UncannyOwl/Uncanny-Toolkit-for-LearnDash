@@ -35,7 +35,7 @@ namespace uncanny_learndash_toolkit;
 	<p class="description indicator-hint"><?php echo $innerText['Password-Indicator-Hint']; ?></p>
 	<br class="clear"/>
 	<input type="hidden" name="rp_key" value="<?php echo esc_attr( $rp_key ); ?>"/>
-	<?php if ( '' !== trim( $recaptcha_key ) ) { ?>
+	<?php if ( '' !== trim( $recaptcha_key ) && '' !== trim( $recaptcha_secrete_key ) ) { ?>
 		<div class="g-recaptcha" data-sitekey="<?php echo $recaptcha_key; ?>" data-callback="correctCaptcha" data-expired-callback="expiredCaptcha"></div>
 	<?php } ?>
 	<p class="submit"><input type="submit" name="wp-submit" id="wp-submit"

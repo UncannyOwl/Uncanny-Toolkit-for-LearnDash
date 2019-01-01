@@ -26,9 +26,10 @@ switch ( $login ){
 
 $login_page      = \uncanny_learndash_toolkit\FrontendLoginPlus::get_login_redirect_page_id();
 $login_page_url  = get_permalink( $login_page );
-$recaptcha_key   = \uncanny_learndash_toolkit\Config::get_settings_value( 'uo_frontend_login_recaptcha_key', 'FrontendLoginPlus' );
+$recaptcha_key  = Config::get_settings_value( 'uo_frontend_login_recaptcha_key', 'FrontendLoginPlus' );
+$recaptcha_secrete_key  = Config::get_settings_value( 'uo_frontend_login_recaptcha_secret_key', 'FrontendLoginPlus' );
 
-if ( '' !== trim( $recaptcha_key ) ){
+if ( '' !== trim( $recaptcha_key ) && '' !== trim( $recaptcha_secrete_key )) {
 	wp_enqueue_script( 'FrontendLoginPlus', 'https://www.google.com/recaptcha/api.js' );
 }
 
