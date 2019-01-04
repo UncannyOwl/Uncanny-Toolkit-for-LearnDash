@@ -126,7 +126,7 @@ add_filter( 'login_form_middle', function( $content ){
 				<?php do_action( 'uo_login_after_validation_message' ); ?>
 			</div>
 		</div>
-		
+
 		<?php
 
 		// End output
@@ -148,7 +148,7 @@ add_filter( 'login_form_middle', function( $content ){
 	<div class="ult-box">
 
 		<?php if ( isset( $reset_password_sucess ) && ! empty( $reset_password_sucess ) ){ ?>
-	
+
 			<?php do_action( 'uo_login_before_reset_success' ); ?>
 
 			<div class="ult-notice ult-notice--success">
@@ -220,5 +220,12 @@ add_filter( 'login_form_middle', function( $content ){
 	</div>
 
 </div>
+
+<script type='text/javascript'>
+	jQuery(document).ready(function () {
+		jQuery('#ult-login-email').attr('required', 'required')
+		jQuery('#ult-login-password').attr('required', 'required')
+	})
+</script>
 
 <?php do_action( 'uo_login_after_container' ); ?>

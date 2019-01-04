@@ -40,6 +40,7 @@ if ( 'on' !== $show_description ) { ?>
 
 wp_login_form( $login_form_args );
 
+
 // Add registration link allowed
 if ( get_option( 'users_can_register' ) ) {
 	$show_register = Config::get_settings_value( 'uo_frontend_show_register_link', 'FrontendLoginPlus' );
@@ -48,3 +49,12 @@ if ( get_option( 'users_can_register' ) ) {
 	}
 
 }
+
+?>
+
+<script type='text/javascript'>
+    jQuery(document).ready(function () {
+        jQuery('#user_login').attr('required', 'required')
+        jQuery('#user_pass').attr('required', 'required')
+    })
+</script>
