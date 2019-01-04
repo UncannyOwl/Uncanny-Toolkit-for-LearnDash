@@ -805,7 +805,10 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 			$logged_in_message = self::get_settings_value( 'uo_frontend_login_logged_in_message', __CLASS__, '%placholder%', self::get_class_settings( '', true ) );
 
-			return $logged_in_message;
+			$logout_link_text =  self::get_settings_value( 'uo_frontend_logout_text', __CLASS__, '%placholder%', self::get_class_settings( '', true ) );
+
+			$logout_link = '<a href="'.wp_logout_url().'" title="'.$logout_link_text.'">'.$logout_link_text.'</a>';
+			return $logged_in_message.' '.$logout_link;
 		}
 
 		$username_label = ( isset( $atts['username-label'] ) ) ?
@@ -875,12 +878,6 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 		if ( is_user_logged_in() && 'on' === $hide_logged_in_ui ) {
 			return '';
-		}
-
-		if ( is_user_logged_in() ) {
-			$logged_in_message = self::get_settings_value( 'uo_frontend_login_logged_in_message', __CLASS__, '%placholder%', self::get_class_settings( '', true ) );
-
-			return $logged_in_message;
 		}
 
 		$login_page            = FrontendLoginPlus::get_login_redirect_page_id();
