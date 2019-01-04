@@ -6,7 +6,7 @@
  */
 
 
-register_block_type( 'uncanny-toolkit/frontend-login', [
+register_block_type( 'uncanny-toolkit/login-wordpress', [
 	'render_callback' => 'render_frontend_login'
 ] );
 

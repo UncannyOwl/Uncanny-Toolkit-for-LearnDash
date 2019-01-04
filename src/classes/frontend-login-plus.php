@@ -1557,7 +1557,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 						if ( function_exists( 'parse_blocks' ) ) {
 							$blocks = parse_blocks( $post->post_content );
 							foreach ( $blocks as $block ) {
-								if ( 'uncanny-toolkit/frontend-login' === $block['blockName'] ) {
+								if ( 'uncanny-toolkit/wordpress-login' === $block['blockName'] ) {
 									$block_is_on_page = true;
 								}
 							}
