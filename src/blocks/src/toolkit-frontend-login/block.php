@@ -17,7 +17,9 @@ function render_frontend_login() {
 
 	// Check if the class exists
 	if ( class_exists( '\uncanny_learndash_toolkit\FrontendLoginPlus' ) ) {
-		echo \uncanny_learndash_toolkit\FrontendLoginPlus::uo_login_ui();
+		if( true === \uncanny_learndash_toolkit\FrontendLoginPlus::dependants_exist() ){
+			echo \uncanny_learndash_toolkit\FrontendLoginPlus::uo_login_ui();
+		}
 	}
 
 	// Get output
