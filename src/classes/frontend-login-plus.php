@@ -1244,6 +1244,9 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	 */
 	public static function verify_username_password( $user, $username, $password ) {
 
+		// remove theme my login login recaptcha validation during our recaptcha validation
+		remove_filter( 'wp_authenticate_user', 'tml_recaptcha_validate_login' );
+
 		$uo_manual_verification = 'no';
 
 		$settings = get_option( 'FrontendLoginPlus', array() );
