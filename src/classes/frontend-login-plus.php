@@ -192,6 +192,11 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	 */
 	public static function dependants_exist() {
 
+
+		if ( defined( 'THEME_MY_LOGIN_VERSION' ) ) {
+			return 'This module cannot be active while Theme My Login is in use. Please use Theme My Login instead.';
+		}
+
 		return true;
 	}
 
