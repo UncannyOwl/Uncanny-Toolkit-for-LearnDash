@@ -15,7 +15,7 @@ const { registerBlockType } = wp.blocks;
 
 if ( moduleIsActive( 'uncanny_learndash_toolkit\\FrontendLoginPlus' ) ){
 
-    registerBlockType( 'uncanny-toolkit/login-wordpress', {
+    registerBlockType( 'uncanny-toolkit/frontend-login', {
         title: __( 'Front End Login' ),
 
         description: __( 'Displays the Uncanny Toolkit front end login form.' ),
