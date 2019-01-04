@@ -720,11 +720,28 @@ class Config {
 	 *
 	 * @return string
 	 */
-	public static function get_settings_value( $key, $class, $default = '' ) {
+	public static function get_settings_value( $key, $class, $default = '', $class_settings = [] ) {
 
+		// get module settings key
 		$class = str_replace( __NAMESPACE__, '', stripslashes( $class ) );
 
+		// Get all module settings
 		$options = get_option( $class, '' );
+
+		// set default settings if placeholder is to be used as default
+		if( '%placholder%' === $default ){
+			// fallback
+			//$default = '';
+			foreach( $class_settings as $setting ){
+				if( isset($setting['option_name']) && $key === $setting['option_name']){
+					if( isset( $setting['placeholder'] )){
+						$default = $setting['placeholder'];
+					}
+				}
+			}
+		}
+
+		// Check if setting key has an associated class
 		if ( ! empty( $options ) && '' !== $options ) {
 			foreach ( $options as $option ) {
 				if ( in_array( $key, $option, true ) ) {

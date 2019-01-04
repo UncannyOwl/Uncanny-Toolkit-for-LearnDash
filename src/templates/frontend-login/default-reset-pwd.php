@@ -32,12 +32,9 @@ namespace uncanny_learndash_toolkit;
 		<input type="password" name="pass2" id="pass2" class="input" size="20" value="" autocomplete="off" required/>
 	</p>
 
-	<p class="description indicator-hint"><?php echo $innerText['Password-Indicator-Hint']; ?></p>
+<!--	<p class="description indicator-hint">--><?php /*echo $innerText['Password-Indicator-Hint'];*/ ?><!--</p>-->
 	<br class="clear"/>
 	<input type="hidden" name="rp_key" value="<?php echo esc_attr( $rp_key ); ?>"/>
-	<?php if ( '' !== trim( $recaptcha_key ) && '' !== trim( $recaptcha_secrete_key ) ) { ?>
-		<div class="g-recaptcha" data-sitekey="<?php echo $recaptcha_key; ?>" data-callback="correctCaptcha" data-expired-callback="expiredCaptcha"></div>
-	<?php } ?>
 	<p class="submit"><input type="submit" name="wp-submit" id="wp-submit"
 	                         class="button button-primary button-large"
 	                         value="<?php esc_attr_e( 'Reset Password' ); ?>"/></p>

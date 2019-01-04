@@ -152,5 +152,3 @@ namespace uncanny_learndash_toolkit;
 		do_action( 'after_uo_login_ui', $lost_password, $reset_password_sent, $reset_password_sent_success, $register, $reset_password, $validate_password_reset );
 		?>
 	</section>
-
-<?php
