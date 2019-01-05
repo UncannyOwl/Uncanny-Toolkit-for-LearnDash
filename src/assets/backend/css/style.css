@@ -1101,7 +1101,7 @@
 					border-top: 1px solid #dedede;
 					padding-top: 15px;
 					padding-bottom: 15px;
-					margin: 0;
+                    margin: 20px 0 0 0;
 				}
 
 					.ult-modal-options .ult-modal__field:first-child > h2 {
