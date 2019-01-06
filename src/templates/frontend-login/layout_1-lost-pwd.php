@@ -51,7 +51,7 @@ if ( '' !== trim( $recaptcha_key ) && '' !== trim( $recaptcha_secrete_key ) ) {
 			<?php do_action( 'uo_forgot_before_description' ); ?>
 
 			<div class="ult-form__description">
-				<?php _e( "Enter the email address you used when you joined and we'll send you instructions to reset your password.", 'uncanny-learndash-toolkit' ); ?>
+				<?php echo $innerText[ 'Password-Recovery-Desc' ]; ?>
 			</div>
 
 			<?php do_action( 'uo_forgot_before_form' ); ?>

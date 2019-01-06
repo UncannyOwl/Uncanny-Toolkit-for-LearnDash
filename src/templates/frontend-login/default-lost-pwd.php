@@ -2,6 +2,9 @@
 namespace uncanny_learndash_toolkit;
 ?>
 <h2><?php echo $innerText['Password-Recovery-Title']; ?></h2>
+<p><?php echo $innerText[ 'Password-Recovery-Desc' ]; ?></p>
+
+
 <form id="lostpasswordform" name="lostpasswordform" action="<?php echo site_url( 'wp-login.php?action=lostpassword', 'login_post' ) ?>" method="post">
 	<?php if ( isset( $forgot_password_response ) ){ ?>
 		<p>

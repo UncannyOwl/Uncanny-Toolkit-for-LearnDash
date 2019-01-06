@@ -21,7 +21,7 @@ if ( '' !== trim( $recaptcha_key ) && '' !== trim( $recaptcha_secrete_key ) ) {
 		<?php do_action( 'uo_reset_before_description' ); ?>
 
 		<div class="ult-form__description">
-			Please choose a new password to finish recovering your account.
+			<?php echo $innerText[ 'Reset-Password-Desc' ]; ?>
 		</div>
 
 		<?php do_action( 'uo_reset_before_form' ); ?>
@@ -102,7 +102,7 @@ if ( '' !== trim( $recaptcha_key ) && '' !== trim( $recaptcha_secrete_key ) ) {
 
 				<div class="ult-form__row ult-form__row--submit">
 					<button type="submit" id="ult-reset-password-submit-btn" class="ult-form__submit-btn">
-						<?php esc_attr_e( 'Reset Password', 'uncanny-learndash-toolkit' ); ?>
+						<?php echo $innerText['Reset-Password-Button']; ?>
 					</button>
 				</div>
 

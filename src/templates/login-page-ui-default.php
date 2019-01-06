@@ -57,6 +57,8 @@ namespace uncanny_learndash_toolkit;
 					$forgot_password_response->message = $innerText['recaptchaempty'];
 				} elseif ( 'recaptchafailed' === $reset_password_sent_success ) {
 					$forgot_password_response->message = $innerText['recaptchafailed'];
+				} elseif ( 'invalidcredentials' === $reset_password_sent_success )  {
+					$forgot_password_response->message = $innerText['Failed-Pass-Creds'];
 				} else {
 					$forgot_password_response->message = $innerText['Failed-Send-Email'];
 				}

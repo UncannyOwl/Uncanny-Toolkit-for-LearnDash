@@ -3,6 +3,8 @@ namespace uncanny_learndash_toolkit;
 ?>
 
 <h2><?php echo $innerText['Reset-Password-Title']; ?></h2>
+<p><?php echo $innerText['Reset-Password-Desc']; ?></p>
+
 <form name="resetpassform" id="resetpassform" action="?action=validatepasswordreset" method="post" autocomplete="off">
 	<?php if ( ! empty( $error ) ){ ?> 
 		<p>
@@ -37,5 +39,5 @@ namespace uncanny_learndash_toolkit;
 	<input type="hidden" name="rp_key" value="<?php echo esc_attr( $rp_key ); ?>"/>
 	<p class="submit"><input type="submit" name="wp-submit" id="wp-submit"
 	                         class="button button-primary button-large"
-	                         value="<?php esc_attr_e( 'Reset Password' ); ?>"/></p>
+	                         value="<?php echo $innerText['Reset-Password-Button']; ?>"/></p>
 </form>
