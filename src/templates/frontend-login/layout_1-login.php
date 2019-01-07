@@ -62,12 +62,12 @@ $login = (object) [
 	],
 	'strings' => (object) [
 		'error'            => $login_error,
-		'title'            => Config::get_settings_value( 'uo_frontend_login_title_label', 'FrontendLoginPlus', esc_html__( 'Login', 'uncanny-learndash-toolkit' ) ),
+		'title'            => Config::get_settings_value( 'uo_frontend_login_title_label', __CLASS__, '%placholder%', self::get_class_settings( '', true ) ),
 		// To-do: Create field for description
-		'description'      => Config::get_settings_value( 'uo_frontend_login_description', 'FrontendLoginPlus', esc_html__( 'Login to your account to access your courses.', 'uncanny-learndash-toolkit' ) ),
-		'register'         => Config::get_settings_value( 'uo_frontend_register_link_label', 'FrontendLoginPlus', esc_html__( 'Register', 'uncanny-learndash-toolkit' ) ),
-		'forgot_password'  => Config::get_settings_value( 'uo_frontend_login_forgetpass_label', 'FrontendLoginPlus', esc_html__( 'I Forgot my Password', 'uncanny-learndash-toolkit' ) ),
-	]
+		'description'      => Config::get_settings_value( 'uo_frontend_login_description', __CLASS__, '%placholder%', self::get_class_settings( '', true ) ),
+		'register'         => Config::get_settings_value( 'uo_frontend_register_link_text', __CLASS__, '%placholder%', self::get_class_settings( '', true ) ),
+		'forgot_password'  => Config::get_settings_value( 'uo_frontend_login_forgetpass_label', __CLASS__, '%placholder%', self::get_class_settings( '', true ) ),
+]
 ];
 
 /**
@@ -206,7 +206,7 @@ add_filter( 'login_form_middle', function( $content ){
 				<?php do_action( 'uo_login_before_register' ); ?>
 
 				<div class="ult-form-footer__signup">
-					<?php printf( __( 'New User? %s', 'uncanny-learndash-toolkit' ), sprintf( '<a href="%s">%s</a>', $login->urls->register, $login->strings->register ) ); ?>
+					<a href="<?php echo $login->urls->register; ?>"><?php echo $login->strings->register; ?></a>
 				</div>
 
 				<?php do_action( 'uo_login_after_register' ); ?>
