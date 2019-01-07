@@ -58,16 +58,16 @@ $login = (object) [
 	'urls'    => (object) [
 		'login'            => $login_page_url,
 		'register'         => Config::get_settings_value( 'uo_frontend_register_link', 'FrontendLoginPlus', wp_registration_url() ),
-		'forgot_password'  => $login_page_url . 'action=lostpassword'
+		'forgot_password'  => $login_page_url . 'action=lostpassword',
 	],
 	'strings' => (object) [
 		'error'            => $login_error,
-		'title'            => Config::get_settings_value( 'uo_frontend_login_title_label', __CLASS__, '%placholder%', self::get_class_settings( '', true ) ),
+		'title'            => Config::get_settings_value( 'uo_frontend_login_title_label', 'FrontendLoginPlus', '%placholder%', self::get_class_settings( '', true ) ),
 		// To-do: Create field for description
-		'description'      => Config::get_settings_value( 'uo_frontend_login_description', __CLASS__, '%placholder%', self::get_class_settings( '', true ) ),
-		'register'         => Config::get_settings_value( 'uo_frontend_register_link_text', __CLASS__, '%placholder%', self::get_class_settings( '', true ) ),
-		'forgot_password'  => Config::get_settings_value( 'uo_frontend_login_forgetpass_label', __CLASS__, '%placholder%', self::get_class_settings( '', true ) ),
-]
+		'description'      => Config::get_settings_value( 'uo_frontend_login_description', 'FrontendLoginPlus', '%placholder%', self::get_class_settings( '', true ) ),
+		'register'         => Config::get_settings_value( 'uo_frontend_register_link_text', 'FrontendLoginPlus', '%placholder%', self::get_class_settings( '', true ) ),
+		'forgot_password'  => Config::get_settings_value( 'uo_frontend_login_forgetpass_label', 'FrontendLoginPlus', '%placholder%', self::get_class_settings( '', true ) ),
+	],
 ];
 
 /**
