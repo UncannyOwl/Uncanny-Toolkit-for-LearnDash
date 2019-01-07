@@ -1,10 +1,6 @@
 <?php
 namespace uncanny_learndash_toolkit;
-if ( '' !== trim( $recaptcha_key ) && '' !== trim( $recaptcha_secrete_key ) ) {
-	$has_recaptcha =true;
-}else{
-	$has_recaptcha = false;
-}
+
 ?>
 
 <?php do_action( 'uo_reset_before_container' ); ?>
@@ -74,15 +70,7 @@ if ( '' !== trim( $recaptcha_key ) && '' !== trim( $recaptcha_secrete_key ) ) {
 
 				<?php do_action( 'uo_reset_before_captcha' ); ?>
 
-				<?php if ( $has_recaptcha ){ ?>
-
-				<div class="ult-form__row ult-form__row--recaptcha">
-					<div class="g-recaptcha" data-sitekey="<?php echo $recaptcha_key; ?>" data-callback="correctCaptcha" data-expired-callback="expiredCaptcha"></div>
-				</div>
-
-				<?php } ?>
-				
-				<?php if ( ! empty( $error ) ){ ?>
+				<?php if ( ! empty( $error ) ) { ?>
 
 					<?php do_action( 'uo_reset_before_error' ); ?>
 
