@@ -27,7 +27,7 @@ function ultp_notice() {
 	$user_id = get_current_user_id();
 
 	if ( empty( get_user_meta( $user_id, 'uofel_notice_dismissed' ) ) ) {
-		echo '<div class="notice notice-success below-h2">
+		echo '<div class="notice notice-warning below-h2">
 <button id="uofel" type="button" style="    position: relative;
     top: 0;
     right: 1px;

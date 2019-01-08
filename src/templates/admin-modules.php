@@ -36,21 +36,54 @@ $config = [
  * @var Array
  */
 
-$modules       = self::$modules;
+$modules = self::$modules;
+
+/**
+ * Sort alphabetically
+ */
+
 $add_on_titles = array();
 
-foreach ( $modules as $key => $row ) {
-	$add_on_titles[ $key ] = $row['title'];
+foreach ( $modules as $key => $row ){
+	$add_on_titles[ $key ] = $row[ 'title' ];
 }
 
 array_multisort( $add_on_titles, SORT_ASC, $modules );
 
 /**
+ * If Pro is disabled then push Pro modules to the bottom
+ */
+
+// Check if it doesn't have the pro version
+if ( ! defined( 'UNCANNY_TOOLKIT_PRO_VERSION' ) ){
+	// Create arrays to separate free and pro modules
+	$free_modules = [];
+	$pro_modules  = [];
+
+	// Iterate each module
+	foreach ( $modules as $module_key => $module ){
+		// Check if it's a pro module
+		if ( isset( $module[ 'is_pro' ] ) && $module[ 'is_pro' ] ){
+			// Add to the pro array
+			$pro_modules[ $module_key ] = $module;
+		}
+		else {
+			// Add to the free array
+			$free_modules[ $module_key ] = $module;
+		}
+	}
+
+	// Create array, inserting all the free modules first
+	$modules = array_merge( $free_modules, $pro_modules );
+}
+
+/**
  * Add autoincrement ID
+ * We're going to use this in the JS
  */
 
 $start_counter = 0;
-foreach ( $modules as $key => $module ) {
+foreach ( $modules as $key => $module ){
 	$start_counter ++;
 	$modules[ $key ]['id'] = $start_counter;
 }
