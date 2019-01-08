@@ -95,7 +95,7 @@ if ( isset( $_GET['sent'] ) ) {
 
 					<div class="uo-send-ticket-form__row">
 						<p>
-							<?php echo __('Emails must be enabled on your site to create a ticket using this form. If you don’t receive a confirmation email shortly after submitting this form, please log the ticket through your <a href="https://www.uncannyowl.com/my-account/submit-a-request/" target="_blank" rel="noreferrer">My Account</a>.', 'uncanny-learndash-toolkit'); ?>
+							<?php echo __('Emails must be enabled on your site to create a ticket using this form. If you don’t receive a confirmation email shortly after submitting this form, please log the ticket through your <a href="https://www.uncannyowl.com/my-account/submit-a-request/" target="_blank" rel="noreferrer">My Account</a> page.', 'uncanny-learndash-toolkit'); ?>
 						</p>
 						<button type="submit" class="uo-send-ticket-form__submit">
 							<?php _e( 'Create ticket', 'uncanny-learndash-toolkit' ); ?>
