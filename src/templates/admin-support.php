@@ -1,8 +1,6 @@
 <?php
 namespace uncanny_learndash_toolkit;
 
-use uncanny_ceu\Utilities;
-
 ?>
 
 <div class="wrap">
@@ -33,21 +31,6 @@ use uncanny_ceu\Utilities;
 	</div>
 
 	<?php
-	// Get data
-	$status = get_option( 'uo_license_status' ); // $license_data->license will be either "valid", "invalid", "expired", "disabled"
-
-	/**
-	 * Possible values for $status
-	 *
-	 * {bool}    false     Empty, never saved
-	 * {string}  valid       The License is valid
-	 * {string}  expired   The License has expired
-	 * {string}  invalid   The license is invalid
-	 * {string}  inactive  The license has been disabled
-	 */
-
-	// Check license status
-	$license_is_active = $status == 'valid' ? true : false;
 
 	if ( 'uncanny-toolkit-plugins' === $active_tab ) {
 		include( 'admin-showcase.php' );
@@ -56,25 +39,25 @@ use uncanny_ceu\Utilities;
 			include( 'admin-help.php' );
 		} else {
 			include( 'admin-kb.php' );
-		}
 
-		if ( Boot::is_pro_active() ) {
-			if ( $license_is_active ) {
+			if ( Boot::is_pro_active() ) {
 				?>
 				<p class="uo-get-help">
 					<a href="<?php echo admin_url( 'admin.php?page=uncanny-toolkit-kb&submit-a-ticket=1' ); ?>"><?php _e( 'I can\'t find the answer to my question.', 'uncanny-learndash-toolkit' ) ?></a>
 				</p>
 
-			<?php }
-		} else {
-			if ( $license_is_active ) { ?>
+				<?php
+			} else {
+				?>
 
 				<p class="uo-get-help">
 					<a href="https://wordpress.org/support/plugin/uncanny-learndash-toolkit" target="_blank"><?php _e( 'I can\'t find the answer to my question.', 'uncanny-learndash-toolkit' ) ?></a>
 				</p>
 
-			<?php }
+				<?php
+			}
 		}
+
 	} /*elseif ( 'submit-a-ticket' === $active_tab && Boot::is_pro_active() ) {
 			include( 'admin-help.php' );
 		} */ else {
