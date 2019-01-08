@@ -642,7 +642,7 @@ class Config {
 				// positive is returned
 
 				delete_option( $class );
-				//self::trace_logs( $options, 'options', 'save' );
+
 				$save_settings = add_option( $class, $options, 'no' );
 
 				$response['error'] = ! $save_settings;

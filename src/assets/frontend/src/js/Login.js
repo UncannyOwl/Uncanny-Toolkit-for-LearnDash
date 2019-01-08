@@ -58,7 +58,6 @@ class Login {
 			// Bind submission
 			this.$elements.loginForm.onsubmit = ( event ) => {
 
-			    console.log('clicked');
 			    if( isCaptchaChecked ){
 
                 }
@@ -87,13 +86,13 @@ class Login {
 	}
 
     bindSubmitContainer(){
-	    console.log('here');
+
         // Check if the form exists
         if ( isDefined( this.$elements.submitButton ) ) {
-            console.log('found element');
+
             // Bind submission
             this.$elements.submitButton.onmousedown = (event) => {
-                console.log('clicked');
+
                 if ( 0 === this.isCaptchaChecked() ) {
                     this.$elements.recaptchaElement.classList.add( 'ult-form__row--recaptcha-error' );
                 }

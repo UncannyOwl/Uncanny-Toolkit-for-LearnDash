@@ -37,7 +37,6 @@ if (typeof ultpModules.active != null && ultpModules.active.hasOwnProperty("unca
         },
 
         edit({className, attributes, setAttributes}) {
-            console.log(attributes);
 
             return (
                 <div className={className}>
