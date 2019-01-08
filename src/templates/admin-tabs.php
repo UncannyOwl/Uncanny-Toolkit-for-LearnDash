@@ -25,18 +25,18 @@ if ( isset( $_GET['page'] ) ) {
 		if ( defined( 'UNCANNY_TOOLKIT_PRO_VERSION' ) ) {
 			$compare_version = version_compare( UNCANNY_TOOLKIT_PRO_VERSION, '3.0' );
 
-			if ( 0 >= $compare_version ) {
+			if ( 0 > $compare_version ) {
 				?>
 				<a href="<?php echo admin_url( 'admin.php?page=uncanny-pro-license-activation' ) ?>"
 				   class="nav-tab <?php echo 'uncanny-toolkit-license' === $active_tab ? 'nav-tab-active' : ''; ?>">
-					<?php _e( 'License Activation', 'uncanny-learndash-toolkit' ) ?>
+					<?php _e( 'License Activation', 'uncanny-learndash-toolkit' ) ?>A
 				</a>
 				<?php
 			}else{
 				?>
 				<a href="<?php echo admin_url( 'admin.php?page=uncanny-toolkit-license' ) ?>"
 				   class="nav-tab <?php echo 'uncanny-toolkit-license' === $active_tab ? 'nav-tab-active' : ''; ?>">
-					<?php _e( 'License Activation', 'uncanny-learndash-toolkit' ) ?>
+					<?php _e( 'License Activation', 'uncanny-learndash-toolkit' ) ?>B
 				</a>
 				<?php
 			}
