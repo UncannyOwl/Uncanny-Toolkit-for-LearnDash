@@ -1,40 +1,38 @@
-
 === Uncanny LearnDash Toolkit ===
 Contributors: uncannyowl
 Tags: LearnDash, eLearning, LMS, education, learning, courseware
 Requires at least: 4.6
-Tested up to: 4.9.8
-Stable tag: 2.5
+Tested up to: 5.0.2
+Requires PHP: 5.6
+Stable tag: 3.0
 License: This plugin is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or any later version.   LearnDash Groups in User Profiles is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.   You should have received a copy of the GNU General Public License along with LearnDash Groups in User Profiles. If not, see {URI to Plugin License}.
 License URI: https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
 
 Extend LearnDash with a variety of useful functions that make it even easier to build great learner experiences with LearnDash.
 
 == Description ==
-**Important: This plugin requires PHP 5.6 or higher and LearnDash 2.3 or higher.**
+**Important: This plugin requires PHP 5.6 or higher and LearnDash 2.5 or higher.**
 
-The Uncanny LearnDash Toolkit adds over a dozen exciting new features to LearnDash sites that improve the learner experience and simplify development. Trusted to power over 10,000 LearnDash sites, it's the easiest way to improve the learning experience for your students.
+The Uncanny LearnDash Toolkit adds 14 modules that every elearning site needs, including a login form, login redirect, resume capabilities and more. Trusted to power over 10,000 LearnDash sites, it's the easiest way to improve the learning experience for your students.  Translation ready and multisite capable!
 
-https://www.youtube.com/watch?v=FKsN0oTx-rM
+https://www.youtube.com/watch?v=o0MWoyR5Sos
 
 The Uncanny LearnDash Toolkit adds the following features to your LearnDash site:
 
-* **Front End Login**: Replace wp-login with a simple login form that you can add to any branded page. User verification is also available to manage registrations.
-* **Hide Admin Bar**: Hide the WordPress admin bar for specific user roles.
-* **LearnDash Resume Button**: Allow users to pick up where they left off in a LearnDash course by clicking a button.
-* **LearnDash Groups in User Profiles**: Easily identify LearnDash Group membership from user profile pages.
-* **Login/Logout Redirects**: Redirect learners to a specific URL after signing in or out of the site.
-* **Menu Item Visibility**: Control the visibility of menu entries based on whether or not the user is signed in.
-* **Show LearnDash Certificates**: Use a simple shortcode to display a list of all certificates (course and quiz) earned by the current user.
-* **Show or Hide Content**: Use shortcodes to show or hide content based on whether or not a user is signed in. Great for Open course types.
-* **Log In/Log Out Links**: Add Log In and Log Out links to menus, or to any page or widget with a shortcode. If you have been frustrated by signed in users seeing Login links, this will help.
-* **LearnDash Breadcrumbs**: Add breadcrumb links that support courses, lessons, topics and quizzes. Also supports WooCommerce, custom post types and more.
-* **LearnDash Certificate Widget**: Display all the certificates a learner has earned using a widget.
-* **Topics Autocomplete Lessons**: Automatically mark lessons complete when all topics and quizzes for that lesson are marked complete.
-* **User Switching**: View courses and the rest of your site as a specific user without requiring their password.
-* **Not Enrolled Redirect**: Redirect users to a specific URL if they are not enrolled in a course.
-
-More information about how to use the Toolkit, including a 40-minute instructional screencast, is available in our [knowledge base](https://www.uncannyowl.com/article-categories/uncanny-learndash-toolkit/?utm_medium=ldtoolkitreadme).
+* **[Front End Login](https://www.uncannyowl.com/knowledge-base/front-end-login/?utm_medium=ldtoolkitreadme)**: Replace the default WordPress login form with a clean, modern login form that you can add to any branded page. Also supports front end password reset with a custom email. User verification can be enabled to require registrations be approved by an administrator.
+* **[Hide Admin Bar](https://www.uncannyowl.com/knowledge-base/hide-admin-bar/?utm_medium=ldtoolkitreadme)**: Hide the WordPress admin bar for specific user roles.
+* **[LearnDash Resume Button](https://www.uncannyowl.com/knowledge-base/learndash-resume/?utm_medium=ldtoolkitreadme)**: Allow users to pick up where they left off in a LearnDash course by clicking a button.
+* **[Login/Logout Redirects](https://www.uncannyowl.com/knowledge-base/learndash-login-redirect/?utm_medium=ldtoolkitreadme)**: Redirect learners to a specific URL after signing in or out of the site.
+* **[Menu Item Visibility](https://www.uncannyowl.com/knowledge-base/menu-item-visibility/?utm_medium=ldtoolkitreadme)**: Control the visibility of menu entries based on whether or not the user is signed in.
+* **[Show or Hide Content](https://www.uncannyowl.com/knowledge-base/show-hide-content/?utm_medium=ldtoolkitreadme)**: Use shortcodes to show or hide content based on whether or not a user is signed in. Great for Open course types.
+* **[Log In/Log Out Links](https://www.uncannyowl.com/knowledge-base/log-in-log-out-links/?utm_medium=ldtoolkitreadme)**: Add Log In and Log Out links to menus, or to any page or widget with a shortcode. If you have been frustrated by signed in users seeing Login links, this will help.
+* **[Topics Autocomplete Lessons](https://www.uncannyowl.com/knowledge-base/topics-autocomplete-lessons/?utm_medium=ldtoolkitreadme)**: Automatically mark lessons complete when all topics and quizzes for that lesson are marked complete.
+* **[User Switching](https://www.uncannyowl.com/knowledge-base/user-switching-module/?utm_medium=ldtoolkitreadme)**: View courses and the rest of your site as a specific user without requiring their password.
+* **[LearnDash Breadcrumbs](https://www.uncannyowl.com/knowledge-base/learndash-breadcrumb-links/?utm_medium=ldtoolkitreadme)**: Add breadcrumb links that support courses, lessons, topics and quizzes. Also supports WooCommerce, custom post types and more.
+* **[LearnDash Certificate Widget](https://www.uncannyowl.com/knowledge-base/learndash-certificate-widget/?utm_medium=ldtoolkitreadme)**: Display all the certificates a learner has earned using a widget.
+* **[Not Enrolled Redirect](https://www.uncannyowl.com/knowledge-base/redirect-user-if-not-enrolled/?utm_medium=ldtoolkitreadme)**: Redirect users to a specific URL if they are not enrolled in a course.
+* **[Show LearnDash Certificates](https://www.uncannyowl.com/knowledge-base/show-learndash-certificates/?utm_medium=ldtoolkitreadme)**: Use a simple shortcode to display a list of all certificates (course and quiz) earned by the current user.
+* **[LearnDash Groups in User Profiles](https://www.uncannyowl.com/knowledge-base/learndash-groups-user-profiles/?utm_medium=ldtoolkitreadme)**: Easily identify LearnDash Group membership from user profile pages.
 
 We welcome contributions to the Uncanny LearnDash Toolkit! The plugin is managed in a [Bitbucket Repository](https://bitbucket.org/uncannyowl/uncanny-learndash-toolkit).
 
@@ -49,21 +47,19 @@ Our [Pro add-ons plugin for the LearnDash Toolkit](https://www.uncannyowl.com/do
 * Send certificates by email
 * [And much more!](https://www.uncannyowl.com/downloads/uncanny-learndash-toolkit-pro/?utm_medium=ldtoolkitreadme)
 
-
-
 **More LearnDash Plugins!**
 
 Uncanny Owl offers a full suite of plugins that extend the LearnDash platform and make it easier to build and manage a great learning experience. Here are a few:
 
-* **[Uncanny Automator](https://automatorplugin.com/better-elearning-courses-with-wordpress/)**: Create personal learning paths and connect LearnDash to over a dozen other plugins and Zapier. Choose from millions of LearnDash recipes to deliver better learning experiences to your students.
-* **[Tin Canny LearnDash Reporting](https://www.uncannyowl.com/downloads/tin-canny-reporting/?utm_medium=ldtoolkitreadme)**: Add support for your SCORM and Tin Can modules inside WordPress as well as powerful drill-down LearnDash reporting options.
+* **[Uncanny Automator](https://automatorplugin.com/better-elearning-courses-with-wordpress/?utm_medium=ldtoolkitreadme)**: Create personal learning paths and connect LearnDash to over a dozen other plugins and Zapier. Choose from millions of LearnDash recipes to deliver better learning experiences to your students.
+* **[Tin Canny LearnDash Reporting](https://www.uncannyowl.com/downloads/tin-canny-reporting/?utm_medium=ldtoolkitreadme)**: Add support for your SCORM and Tin Can modules inside WordPress as well as powerful drill-down LearnDash reports.
 * **[Uncanny LearnDash Groups](https://www.uncannyowl.com/downloads/uncanny-learndash-groups/?utm_medium=ldtoolkitreadme)**: Make it easy for your customers and member organizations to manage their learners in the front end, track their progress with powerful reports, and buy courses and course licenses.
 * **[Uncanny LearnDash Codes](https://www.uncannyowl.com/downloads/uncanny-learndash-codes/?utm_medium=ldtoolkitreadme)**: An easier way to get your learners into LearnDash Groups or courses. Generate codes that can be used by learners to self-enrol into LearnDash groups and courses when they register, make a purchase, or are simply signed in.
 
 Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitter](https://twitter.com/uncannyowl), [Facebook](https://www.facebook.com/UncannyOwl/) and [YouTube](https://www.youtube.com/user/UncannyOwl).
 
 == Installation ==
-1. Ensure that your installation of WordPress is using PHP 5.6 or higher and LearnDash 2.3 or higher.
+1. Ensure that your installation of WordPress is using PHP 5.6 or higher and LearnDash 2.5 or higher.
 2. Upload the contents of the plugin zip file to the `/wp-content/plugins/` directory.
 3. Activate the plugin through the Plugins menu in WordPress.
 
@@ -71,6 +67,33 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 1. Uncanny LearnDash Toolkit Dashboard
 
 == Changelog ==
+
+= 3.0 =
+*    **Important**: If you had overridden the Front End Login template file, you will need to update the template override by making a copy of the new file.
+*    This release features a completely overhauled Front End Login module, including:
+       * A new modern, clean design (selectable from module settings)
+       * Many additional options for customizing text, including the password reset email
+       * Better templating system, making it easier to make design changes without modifying the core plugin
+       * Recaptcha support
+       * New optional, customizable Register link
+       * The link in the password reset email now goes to a front end page instead of the WordPress password reset page
+*    Added: Gutenberg blocks for breadcrumbs and resume button modules
+*    Added: WAI ARIA support in breadcrumbs module
+*    Added: Tab structure for toolkit pages
+*    Added: Help page for easier access to plugin documentation
+*    Added: Log In/Log Out Redirects - Default priority set to 999, added field to manually set priority
+*    Updated: Module names changed for consistency:
+       * LearnDash Certificate Widget > Certificate Widget
+       * LearnDash Groups in User Profiles > Groups in User Profiles
+       * LearnDash Resume Button > Resume Button
+       * Show LearnDash Certificates > Show Certificates
+*    Updated: Hide Admin Bar - Improved multisite support
+*    Updated: Hide Admin Bar - Added priority 11 to filter for improved compatibility with some themes and plugins
+*    Updated: Cleaner, modernized UI for modules page
+*    Updated: Changed admin URLs for toolkit pages
+*    Updated: User Switching - Added position:relative to link to switch back to the admin user in the user switching module to improve theme compatibility
+*    Updated: Reorganized plugin .js and .css files
+*    Updated: Learndash Groups in User Profiles - Now uses LearnDash API for querying groups
 
 = 2.5 =
 * Added: Course-specific Resume Button; can be placed on course pages
@@ -240,4 +263,4 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 
 == Upgrade Notice ==
 
-None
+**IMPORTANT!** The Front End Login module of the Uncanny LearnDash Toolkit changes significantly in version 3.0. Please re-check your settings and review your login page as a logged out user after updating.

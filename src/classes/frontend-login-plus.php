@@ -395,13 +395,13 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			array(
 				'type'        => 'text',
 				'label'       => esc_html__( 'Site Key', 'uncanny-learndash-toolkit' ),
-				'placeholder' => esc_html__( '', 'uncanny-learndash-toolkit' ),
+				'placeholder' => '',
 				'option_name' => 'uo_frontend_login_recaptcha_key',
 			),
 			array(
 				'type'        => 'text',
 				'label'       => esc_html__( 'Secret Key', 'uncanny-learndash-toolkit' ),
-				'placeholder' => esc_html__( '', 'uncanny-learndash-toolkit' ),
+				'placeholder' => '',
 				'option_name' => 'uo_frontend_login_recaptcha_secret_key',
 			),
 			array(
