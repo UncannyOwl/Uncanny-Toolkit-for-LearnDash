@@ -558,6 +558,9 @@ jQuery( function($){
                 // Bind form
                 this.bindModalActions( $modal );
 
+                // Disable scrolling
+                this.disableScroll();
+
                 // Get field values
                 this.getFieldsValue( settingsId, ( response, data ) => {
                     // Remove loading animation
@@ -577,6 +580,9 @@ jQuery( function($){
             hideModal: function( $modal ){
                 // Remove background to main element
                 this.$elements.containerElement.removeClass( 'ult-modal-open' );
+
+                // Enable scrolling
+                this.enableScroll();
 
                 // Hide the modal
                 $modal.fadeOut( 150, () => {
@@ -690,6 +696,28 @@ jQuery( function($){
 
                 // Return data
                 return formData;
+            },
+
+            disableScroll: function(){
+                // Check if the height of the document is bigger than the height of the window
+                if ( $(document).height() > $(window).height() ){
+                    // Get scroll top
+                    let scrollTop = ( $( 'html' ).scrollTop() ) ? $( 'html' ).scrollTop() : $( 'body' ).scrollTop();
+
+                    // Add "noscroll" class to the html element
+                    $( 'html' ).addClass( 'noscroll' ).css( 'top', -scrollTop );
+                }
+            },
+
+            enableScroll: function(){
+                // Get previous scroll from the CSS property "top"
+                var scrollTop = parseInt( $( 'html' ).css( 'top' ) );
+
+                // Remove class "noscroll"
+                $( 'html' ).removeClass( 'noscroll' );
+
+                // Scroll document to the previous position and remove the CSS property "top"
+                $( 'html, body' ).scrollTop( -scrollTop ).removeProp( 'css' );
             },
 
             addDataTypeToTinyMceFields: function(){

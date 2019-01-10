@@ -87,6 +87,20 @@
 }
 
 /**
+ * No scrolling
+ */
+
+html.noscroll {
+	position: fixed; 
+	overflow-y: scroll;
+	width: 100%;
+}
+
+html.noscroll .sticky-menu #adminmenuwrap {
+	top: 32px;
+}
+
+/**
  * Form Element
  */
 
