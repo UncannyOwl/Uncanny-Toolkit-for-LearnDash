@@ -91,13 +91,12 @@
  */
 
 html.noscroll {
-	position: fixed; 
-	overflow-y: scroll;
-	width: 100%;
+	overflow: hidden 
 }
 
-html.noscroll .sticky-menu #adminmenuwrap {
-	top: 32px;
+html.noscroll #wpwrap,
+html.noscroll .ult-modal {
+	overflow-y: scroll;
 }
 
 /**
@@ -1210,6 +1209,8 @@ html.noscroll .sticky-menu #adminmenuwrap {
 						width: 100%;
 						height: 38px;
 						padding: 6px 12px;
+
+						position: static;
 
 						border-radius: 3px;
 						border: 1px solid #cdcdcd;
