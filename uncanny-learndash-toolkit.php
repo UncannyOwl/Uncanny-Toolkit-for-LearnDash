@@ -99,9 +99,9 @@ function learndash_version_notice() {
 	// Get current screen
 	$screen = get_current_screen();
 
-	if ( ! version_compare( PHP_VERSION, '5.3', '>=' ) && ( isset( $screen ) && 'plugins.php' === $screen->parent_file ) ) {
+	if ( ! version_compare( PHP_VERSION, '5.6', '>=' ) ) {
 
-		// Show notice if php version is less than 5.3 and the current admin page is plugins.php
+		// Show notice if php version is less than 5.6
 		$version = $php;
 		$current = PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION . '.' . PHP_RELEASE_VERSION;
 
@@ -200,7 +200,7 @@ function uncanny_learndash_toolkit_text_domain() {
 }
 
 // PHP version 5.3 and up only
-if ( version_compare( PHP_VERSION, '5.3', '>=' ) ) {
+if ( version_compare( PHP_VERSION, '5.6', '>=' ) ) {
 
 	// On first activation, redirect to toolkit settings page if min php version is met
 	register_activation_hook( __FILE__, 'uncanny_learndash_toolkit_plugin_activate' );
