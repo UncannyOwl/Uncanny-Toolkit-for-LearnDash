@@ -1117,6 +1117,13 @@ html.noscroll .sticky-menu #adminmenuwrap {
 			flex: 1 1 auto;
 			display: flex;
 			flex-direction: column;
+
+			/**
+			 * An initial setting on a flex container is min-height: auto.
+			 * This means that, by default, a flex item cannot be shorter than its content.
+			 * We have to overwrite this
+			 */
+			min-height: 0px;
 		}
 
 			.ult-modal-options {
@@ -1126,6 +1133,13 @@ html.noscroll .sticky-menu #adminmenuwrap {
 				margin: 0 10px;
 				padding: 10px;
 				background: #fff;
+
+				/**
+				 * An initial setting on a flex container is min-height: auto.
+				 * This means that, by default, a flex item cannot be shorter than its content.
+				 * We have to overwrite this
+				 */
+				min-height: 0px;
 			}
 
 				.ult-modal-options::-webkit-scrollbar {
