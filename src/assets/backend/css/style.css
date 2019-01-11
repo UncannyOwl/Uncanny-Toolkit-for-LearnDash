@@ -1208,6 +1208,7 @@ html.noscroll .sticky-menu #adminmenuwrap {
 
 					select.ult-modal-form-row__select {
 						width: 100%;
+						height: 38px;
 						padding: 6px 12px;
 
 						border-radius: 3px;
