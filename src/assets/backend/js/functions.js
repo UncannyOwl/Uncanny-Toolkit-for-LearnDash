@@ -399,9 +399,6 @@ jQuery( function($){
                 // Init Color Picker
                 this.initColorPicker();
 
-                // Init Select2
-                this.initSelect2();
-
                 // Move modals to another position to create blur effect on the page content
                 this.moveModals();
 
@@ -558,6 +555,9 @@ jQuery( function($){
                 // Bind form
                 this.bindModalActions( $modal );
 
+                // Disable scrolling
+                this.disableScroll();
+
                 // Get field values
                 this.getFieldsValue( settingsId, ( response, data ) => {
                     // Remove loading animation
@@ -565,6 +565,9 @@ jQuery( function($){
 
                     // Fill fields
                     this.fillFields( $modal, response );
+
+                    // Init Select2
+                    this.initSelect2();
                 }, ( response, data ) => {
                     // Remove loading animation
                     $modal.removeClass( 'ult-modal--loading' );
@@ -577,6 +580,9 @@ jQuery( function($){
             hideModal: function( $modal ){
                 // Remove background to main element
                 this.$elements.containerElement.removeClass( 'ult-modal-open' );
+
+                // Enable scrolling
+                this.enableScroll();
 
                 // Hide the modal
                 $modal.fadeOut( 150, () => {
@@ -690,6 +696,16 @@ jQuery( function($){
 
                 // Return data
                 return formData;
+            },
+
+            disableScroll: function(){
+                // Add "noscroll" class to the html element
+                $( 'html' ).addClass( 'noscroll' );
+            },
+
+            enableScroll: function(){
+                // Remove class "noscroll"
+                $( 'html' ).removeClass( 'noscroll' );
             },
 
             addDataTypeToTinyMceFields: function(){

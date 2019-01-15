@@ -87,6 +87,19 @@
 }
 
 /**
+ * No scrolling
+ */
+
+html.noscroll {
+	overflow: hidden 
+}
+
+html.noscroll #wpwrap,
+html.noscroll .ult-modal {
+	overflow-y: scroll;
+}
+
+/**
  * Form Element
  */
 
@@ -620,6 +633,7 @@
 
 	.ult .ult-directory-actions {
 		display: flex;
+		flex-wrap: wrap;
 		vertical-align: bottom;
 		margin-bottom: 20px;
 	}
@@ -713,6 +727,39 @@
 						left: 50%;
 						transform: translate(-50%,-50%);
 					}
+
+	@media screen and (max-width: 768px){
+		.ult .ult-directory-actions {
+			flex-wrap: wrap;
+		}
+
+		.ult .ult-directory-filters {
+			width: 100%;
+			flex-wrap: wrap;
+			margin: 0;
+			margin-top: -10px;
+		}
+
+		.ult .ult-directory-filter,
+		.ult .ult-directory-filter--version,
+		.ult .ult-directory-filter--categories,
+		.ult .ult-directory-filter--statuses {
+			width: 100%;
+			padding: 0;
+			margin-top: 8px;
+		}
+
+		.ult .ult-directory-search {
+			width: 100%;
+			padding: 0;
+			margin-top: 10px;
+		}
+
+		/** The difference is too small, doesn't make sense */
+		.ult .ult-directory-layout {
+			display: none;
+		}
+	}
 
 	/**
 	 * Modules
@@ -1069,6 +1116,13 @@
 			flex: 1 1 auto;
 			display: flex;
 			flex-direction: column;
+
+			/**
+			 * An initial setting on a flex container is min-height: auto.
+			 * This means that, by default, a flex item cannot be shorter than its content.
+			 * We have to overwrite this
+			 */
+			min-height: 0px;
 		}
 
 			.ult-modal-options {
@@ -1078,6 +1132,13 @@
 				margin: 0 10px;
 				padding: 10px;
 				background: #fff;
+
+				/**
+				 * An initial setting on a flex container is min-height: auto.
+				 * This means that, by default, a flex item cannot be shorter than its content.
+				 * We have to overwrite this
+				 */
+				min-height: 0px;
 			}
 
 				.ult-modal-options::-webkit-scrollbar {
@@ -1146,7 +1207,10 @@
 
 					select.ult-modal-form-row__select {
 						width: 100%;
+						height: 38px;
 						padding: 6px 12px;
+
+						position: static;
 
 						border-radius: 3px;
 						border: 1px solid #cdcdcd;
