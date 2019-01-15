@@ -841,6 +841,14 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			$atts['login-button-label'] :
 			self::get_settings_value( 'uo_frontend_login_button_label', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
 
+		$recaptcha_key         = Config::get_settings_value( 'uo_frontend_login_recaptcha_key', 'FrontendLoginPlus' );
+		$recaptcha_secrete_key = Config::get_settings_value( 'uo_frontend_login_recaptcha_secret_key', 'FrontendLoginPlus' );
+
+		if ( '' !== trim( $recaptcha_key ) && '' !== trim( $recaptcha_secrete_key ) ) {
+			wp_enqueue_script( 'FrontendLoginPlus', 'https://www.google.com/recaptcha/api.js' );
+			self::add_recaptcha_box();
+		}
+
 		if ( 'no' !== $placeholder ) {
 			?>
 			<script type='text/javascript'>
