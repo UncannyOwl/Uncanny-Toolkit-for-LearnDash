@@ -1055,9 +1055,6 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			case 'failed':
 				$message_warning = self::get_settings_value( 'uo_frontend_login_failed_error', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
 				break;
-			case 'empty':
-				$message_warning = self::get_settings_value( 'uo_frontend_login_empty_error', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
-				break;
 			case 'false':
 				// Empty msgid. It is reserved by GNU gettext: gettext("") returns the header entry with meta information, not the empty string.
 				$message_warning = self::get_settings_value( 'uo_frontend_login_false_error', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
