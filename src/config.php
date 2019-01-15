@@ -729,7 +729,7 @@ class Config {
 		$options = get_option( $class, '' );
 
 		// set default settings if placeholder is to be used as default
-		if( '%placholder%' === $default ){
+		if( '%placeholder%' === $default ){
 			// fallback
 			//$default = '';
 			foreach( $class_settings as $setting ){

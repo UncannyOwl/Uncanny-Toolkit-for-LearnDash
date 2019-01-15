@@ -813,9 +813,9 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				return do_shortcode( $content );
 			}
 
-			$logged_in_message = self::get_settings_value( 'uo_frontend_login_logged_in_message', __CLASS__, '%placholder%', self::get_class_settings( '', true ) );
+			$logged_in_message = self::get_settings_value( 'uo_frontend_login_logged_in_message', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
 
-			$logout_link_text = self::get_settings_value( 'uo_frontend_logout_text', __CLASS__, '%placholder%', self::get_class_settings( '', true ) );
+			$logout_link_text = self::get_settings_value( 'uo_frontend_logout_text', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
 
 			$logout_link = '<a href="' . wp_logout_url() . '" title="' . $logout_link_text . '">' . $logout_link_text . '</a>';
 
@@ -824,22 +824,22 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 		$username_label = ( isset( $atts['username-label'] ) ) ?
 			$atts['username-label'] :
-			self::get_settings_value( 'uo_login_username_label_login', __CLASS__, '%placholder%', self::get_class_settings( '', true ) );
+			self::get_settings_value( 'uo_login_username_label_login', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
 
 		$password_label = ( isset( $atts['password-label'] ) ) ?
 			$atts['password-label'] :
-			self::get_settings_value( 'uo_frontend_login_password_label', __CLASS__, '%placholder%', self::get_class_settings( '', true ) );
+			self::get_settings_value( 'uo_frontend_login_password_label', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
 
 		$rememberme_label = ( isset( $atts['rememberme-label'] ) ) ?
 			$atts['rememberme-label'] :
-			self::get_settings_value( 'uo_frontend_login_rememberme_label', __CLASS__, '%placholder%', self::get_class_settings( '', true ) );
+			self::get_settings_value( 'uo_frontend_login_rememberme_label', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
 
 		$placeholder = ( isset( $atts['placeholder'] ) ? $atts['placeholder'] : 'yes' );
 		$redirect    = ( isset( $atts['redirect'] ) ? $atts['redirect'] : home_url() );
 
 		$submit_label = ( isset( $atts['login-button-label'] ) ) ?
 			$atts['login-button-label'] :
-			self::get_settings_value( 'uo_frontend_login_button_label', __CLASS__, '%placholder%', self::get_class_settings( '', true ) );
+			self::get_settings_value( 'uo_frontend_login_button_label', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
 
 		if ( 'no' !== $placeholder ) {
 			?>
@@ -905,8 +905,8 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			$login_page_url = $login_page_url . '?';
 		}
 
-		$user_name_label_login = self::get_settings_value( 'uo_login_username_label_login', __CLASS__, '%placholder%', self::get_class_settings( '', true ) );
-		$user_name_label_reset = self::get_settings_value( 'uo_login_username_label_reset', __CLASS__, '%placholder%', self::get_class_settings( '', true ) );
+		$user_name_label_login = self::get_settings_value( 'uo_login_username_label_login', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
+		$user_name_label_reset = self::get_settings_value( 'uo_login_username_label_reset', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
 
 		$message_warning = '';
 
@@ -1053,23 +1053,23 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		switch ( $login ) {
 
 			case 'failed':
-				$message_warning = self::get_settings_value( 'uo_frontend_login_failed_error', __CLASS__, '%placholder%', self::get_class_settings( '', true ) );
+				$message_warning = self::get_settings_value( 'uo_frontend_login_failed_error', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
 				break;
 			case 'empty':
-				$message_warning = self::get_settings_value( 'uo_frontend_login_empty_error', __CLASS__, '%placholder%', self::get_class_settings( '', true ) );
+				$message_warning = self::get_settings_value( 'uo_frontend_login_empty_error', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
 				break;
 			case 'false':
 				// Empty msgid. It is reserved by GNU gettext: gettext("") returns the header entry with meta information, not the empty string.
-				$message_warning = self::get_settings_value( 'uo_frontend_login_false_error', __CLASS__, '%placholder%', self::get_class_settings( '', true ) );
+				$message_warning = self::get_settings_value( 'uo_frontend_login_false_error', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
 				break;
 			case 'notverified':
-				$message_warning = self::get_settings_value( 'uo_frontend_login_notverified_error', __CLASS__, '%placholder%', self::get_class_settings( '', true ) );
+				$message_warning = self::get_settings_value( 'uo_frontend_login_notverified_error', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
 				break;
 			case 'recaptchaempty':
-				$message_warning = self::get_settings_value( 'uo_frontend_login_recaptchaempty_error', __CLASS__, '%placholder%', self::get_class_settings( '', true ) );
+				$message_warning = self::get_settings_value( 'uo_frontend_login_recaptchaempty_error', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
 				break;
 			case 'recaptchafailed':
-				$message_warning = self::get_settings_value( 'uo_frontend_login_recaptchafailed_error', __CLASS__, '%placholder%', self::get_class_settings( '', true ) );
+				$message_warning = self::get_settings_value( 'uo_frontend_login_recaptchafailed_error', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
 				break;
 		}
 
@@ -1081,10 +1081,10 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	 */
 	public static function fetch_login_form_args() {
 
-		$label_username = self::get_settings_value( 'uo_login_username_label_login', __CLASS__, '%placholder%', self::get_class_settings( '', true ) );
-		$label_password = self::get_settings_value( 'uo_frontend_login_password_label', __CLASS__, '%placholder%', self::get_class_settings( '', true ) );
-		$label_remember = self::get_settings_value( 'uo_frontend_login_rememberme_label', __CLASS__, '%placholder%', self::get_class_settings( '', true ) );
-		$label_log_in   = self::get_settings_value( 'uo_frontend_login_button_label', __CLASS__, '%placholder%', self::get_class_settings( '', true ) );
+		$label_username = self::get_settings_value( 'uo_login_username_label_login', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
+		$label_password = self::get_settings_value( 'uo_frontend_login_password_label', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
+		$label_remember = self::get_settings_value( 'uo_frontend_login_rememberme_label', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
+		$label_log_in   = self::get_settings_value( 'uo_frontend_login_button_label', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
 
 		return array(
 			'echo'           => true,
@@ -1111,29 +1111,29 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	 */
 	public static function fetch_inner_text() {
 
-		$uo_frontend_login_logged_in_message = self::get_settings_value( 'uo_frontend_login_logged_in_message', __CLASS__, '%placholder%', self::get_class_settings( '', true ) );
-		$uo_frontend_logout_text             = self::get_settings_value( 'uo_frontend_logout_text', __CLASS__, '%placholder%', self::get_class_settings( '', true ) );
-		$uo_login_forgot_pass_title = self::get_settings_value( 'uo_login_forgot_pass_title', __CLASS__, '%placholder%', self::get_class_settings( '', true ) );
-		$uo_login_forgot_pass_desc  = self::get_settings_value( 'uo_login_forgot_pass_desc', __CLASS__, '%placholder%', self::get_class_settings( '', true ) );
-		$uo_login_username_label_reset              = self::get_settings_value( 'uo_login_username_label_reset', __CLASS__, '%placholder%', self::get_class_settings( '', true ) );
-		$uo_frontend_login_successsendemail         = self::get_settings_value( 'uo_frontend_login_successsendemail', __CLASS__, '%placholder%', self::get_class_settings( '', true ) );
-		$uo_frontend_login_failedsendemail_error    = self::get_settings_value( 'uo_frontend_login_failedsendemail_error', __CLASS__, '%placholder%', self::get_class_settings( '', true ) );
-		$uo_login_forgot_pass_invalid_creds    = self::get_settings_value( 'uo_login_forgot_pass_invalid_creds', __CLASS__, '%placholder%', self::get_class_settings( '', true ) );
-		$uo_frontend_login_reset_title = self::get_settings_value( 'uo_frontend_login_reset_title', __CLASS__, '%placholder%', self::get_class_settings( '', true ) );
-		$uo_frontend_login_reset_desc = self::get_settings_value( 'uo_frontend_login_reset_desc', __CLASS__, '%placholder%', self::get_class_settings( '', true ) );
-		$uo_frontend_login_reset_pass_button        = self::get_settings_value( 'uo_frontend_login_reset_pass_button', __CLASS__, '%placholder%', self::get_class_settings( '', true ) );
-		$uo_frontend_login_reset_pass_field         = self::get_settings_value( 'uo_frontend_login_reset_pass_field', __CLASS__, '%placholder%', self::get_class_settings( '', true ) );
-		$uo_frontend_login_reset_confirm_pass_field = self::get_settings_value( 'uo_frontend_login_reset_confirm_pass_field', __CLASS__, '%placholder%', self::get_class_settings( '', true ) );
-		//$uo_frontend_login_reset_pass_hint = self::get_settings_value( 'uo_frontend_login_reset_pass_hint', __CLASS__, '%placholder%', self::get_class_settings( '', true ) );
-		$uo_frontend_login_invalidresetkey_error  = self::get_settings_value( 'uo_frontend_login_invalidresetkey_error', __CLASS__, '%placholder%', self::get_class_settings( '', true ) );
-		$uo_frontend_login_passwordnotmatch_error = self::get_settings_value( 'uo_frontend_login_passwordnotmatch_error', __CLASS__, '%placholder%', self::get_class_settings( '', true ) );
-		$uo_frontend_login_reset_successful       = self::get_settings_value( 'uo_frontend_login_reset_successful', __CLASS__, '%placholder%', self::get_class_settings( '', true ) );
-		$uo_frontend_login_title_label            = self::get_settings_value( 'uo_frontend_login_title_label', __CLASS__, '%placholder%', self::get_class_settings( '', true ) );
-		$uo_frontend_login_description            = self::get_settings_value( 'uo_frontend_login_description', __CLASS__, '%placholder%', self::get_class_settings( '', true ) );
-		$uo_frontend_register_link_text           = self::get_settings_value( 'uo_frontend_register_link_text', __CLASS__, '%placholder%', self::get_class_settings( '', true ) );
-		$uo_login_forgot_pass_button_label        = self::get_settings_value( 'uo_login_forgot_pass_button_label', __CLASS__, '%placholder%', self::get_class_settings( '', true ) );
-		$uo_frontend_login_recaptchaempty_error   = self::get_settings_value( 'uo_frontend_login_recaptchaempty_error', __CLASS__, '%placholder%', self::get_class_settings( '', true ) );
-		$uo_frontend_login_recaptchafailed_error  = self::get_settings_value( 'uo_frontend_login_recaptchafailed_error', __CLASS__, '%placholder%', self::get_class_settings( '', true ) );
+		$uo_frontend_login_logged_in_message = self::get_settings_value( 'uo_frontend_login_logged_in_message', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
+		$uo_frontend_logout_text             = self::get_settings_value( 'uo_frontend_logout_text', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
+		$uo_login_forgot_pass_title = self::get_settings_value( 'uo_login_forgot_pass_title', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
+		$uo_login_forgot_pass_desc  = self::get_settings_value( 'uo_login_forgot_pass_desc', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
+		$uo_login_username_label_reset              = self::get_settings_value( 'uo_login_username_label_reset', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
+		$uo_frontend_login_successsendemail         = self::get_settings_value( 'uo_frontend_login_successsendemail', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
+		$uo_frontend_login_failedsendemail_error    = self::get_settings_value( 'uo_frontend_login_failedsendemail_error', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
+		$uo_login_forgot_pass_invalid_creds    = self::get_settings_value( 'uo_login_forgot_pass_invalid_creds', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
+		$uo_frontend_login_reset_title = self::get_settings_value( 'uo_frontend_login_reset_title', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
+		$uo_frontend_login_reset_desc = self::get_settings_value( 'uo_frontend_login_reset_desc', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
+		$uo_frontend_login_reset_pass_button        = self::get_settings_value( 'uo_frontend_login_reset_pass_button', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
+		$uo_frontend_login_reset_pass_field         = self::get_settings_value( 'uo_frontend_login_reset_pass_field', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
+		$uo_frontend_login_reset_confirm_pass_field = self::get_settings_value( 'uo_frontend_login_reset_confirm_pass_field', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
+		//$uo_frontend_login_reset_pass_hint = self::get_settings_value( 'uo_frontend_login_reset_pass_hint', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
+		$uo_frontend_login_invalidresetkey_error  = self::get_settings_value( 'uo_frontend_login_invalidresetkey_error', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
+		$uo_frontend_login_passwordnotmatch_error = self::get_settings_value( 'uo_frontend_login_passwordnotmatch_error', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
+		$uo_frontend_login_reset_successful       = self::get_settings_value( 'uo_frontend_login_reset_successful', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
+		$uo_frontend_login_title_label            = self::get_settings_value( 'uo_frontend_login_title_label', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
+		$uo_frontend_login_description            = self::get_settings_value( 'uo_frontend_login_description', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
+		$uo_frontend_register_link_text           = self::get_settings_value( 'uo_frontend_register_link_text', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
+		$uo_login_forgot_pass_button_label        = self::get_settings_value( 'uo_login_forgot_pass_button_label', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
+		$uo_frontend_login_recaptchaempty_error   = self::get_settings_value( 'uo_frontend_login_recaptchaempty_error', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
+		$uo_frontend_login_recaptchafailed_error  = self::get_settings_value( 'uo_frontend_login_recaptchafailed_error', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
 
 		$innerText = Array(
 			'Logged-In-Message' => $uo_frontend_login_logged_in_message,
@@ -1503,7 +1503,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 		$login_page                         = get_permalink( self::get_login_redirect_page_id() );
 		$link                               = add_query_arg( array( 'action' => 'lostpassword' ), $login_page );
-		$uo_frontend_login_forgetpass_label = self::get_settings_value( 'uo_frontend_login_forgetpass_label', __CLASS__, '%placholder%', self::get_class_settings( '', true ) );
+		$uo_frontend_login_forgetpass_label = self::get_settings_value( 'uo_frontend_login_forgetpass_label', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
 
 		return '<a class="forgot-link" href="' . $link . '">' . $uo_frontend_login_forgetpass_label . '</a>';
 	}
@@ -1544,7 +1544,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 		$reset_link = add_query_arg( $reset_args, $login_page );
 
-		$custom_message = self::get_settings_value( 'uo_frontend_resetpassword_email_body', __CLASS__, '%placholder%', self::get_class_settings( '', true ) );
+		$custom_message = self::get_settings_value( 'uo_frontend_resetpassword_email_body', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
 
 		add_filter( 'wp_mail_content_type', array( __CLASS__, 'htmlEmailContent' ) );
 		$custom_message = nl2br( $custom_message );
@@ -1559,7 +1559,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	 */
 	public static function custom_retrieve_password_title( $message, $user_login, $user_data ) {
 
-		$custom_message = self::get_settings_value( 'uo_frontend_resetpassword_email_subject', __CLASS__, '%placholder%', self::get_class_settings( '', true ) );
+		$custom_message = self::get_settings_value( 'uo_frontend_resetpassword_email_subject', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
 
 		if ( ! empty( $custom_message ) ) {
 			$custom_message = str_ireplace( '%User Login%', $user_login, $custom_message );
