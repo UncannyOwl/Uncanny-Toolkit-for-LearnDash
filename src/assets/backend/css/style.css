@@ -920,7 +920,7 @@ html.noscroll .ult-modal {
 						}
 
 						.ult .ult-directory-module__pro-label {
-							display: inline;
+							display: inline-block;
 
 							color: #fff;
 							background: #6bc45a;
