@@ -79,7 +79,7 @@ class Blocks {
 					wp_enqueue_style(
 						$this->prefix . '-gutenberg-blocks',
 						plugins_url( 'blocks/dist/blocks.style.build.css', dirname( __FILE__ ) ),
-						[ 'wp-blocks' ],
+						[],
 						UNCANNY_TOOLKIT_VERSION
 					);
 				} );
