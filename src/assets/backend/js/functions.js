@@ -185,7 +185,9 @@ jQuery( function($){
             },
 
             createSelect2Instances: function(){
-                this.$elements.selects.select2();
+                this.$elements.selects.select2({
+                    theme: 'default ult-select2'
+                });
             },
 
             bindFilters: function(){
@@ -717,7 +719,9 @@ jQuery( function($){
             },
 
             initSelect2: function(){
-                $( '.ult-modal-form-row__select' ).select2();
+                $( '.ult-modal-form-row__select' ).select2({
+                    theme: 'default ult-select2 ult-select2--modal'
+                });
             },
         },
 
