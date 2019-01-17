@@ -62,11 +62,11 @@ $login = (object) [
 	],
 	'strings' => (object) [
 		'error'            => $login_error,
-		'title'            => Config::get_settings_value( 'uo_frontend_login_title_label', 'FrontendLoginPlus', '%placholder%', self::get_class_settings( '', true ) ),
+		'title'            => Config::get_settings_value( 'uo_frontend_login_title_label', 'FrontendLoginPlus', '%placeholder%', self::get_class_settings( '', true ) ),
 		// To-do: Create field for description
-		'description'      => Config::get_settings_value( 'uo_frontend_login_description', 'FrontendLoginPlus', '%placholder%', self::get_class_settings( '', true ) ),
-		'register'         => Config::get_settings_value( 'uo_frontend_register_link_text', 'FrontendLoginPlus', '%placholder%', self::get_class_settings( '', true ) ),
-		'forgot_password'  => Config::get_settings_value( 'uo_frontend_login_forgetpass_label', 'FrontendLoginPlus', '%placholder%', self::get_class_settings( '', true ) ),
+		'description'      => Config::get_settings_value( 'uo_frontend_login_description', 'FrontendLoginPlus', '%placeholder%', self::get_class_settings( '', true ) ),
+		'register'         => Config::get_settings_value( 'uo_frontend_register_link_text', 'FrontendLoginPlus', '%placeholder%', self::get_class_settings( '', true ) ),
+		'forgot_password'  => Config::get_settings_value( 'uo_frontend_login_forgetpass_label', 'FrontendLoginPlus', '%placeholder%', self::get_class_settings( '', true ) ),
 	],
 ];
 

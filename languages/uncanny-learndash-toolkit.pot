@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: Uncanny LearnDash Toolkit\n"
-"POT-Creation-Date: 2019-01-09 08:12-0800\n"
-"PO-Revision-Date: 2019-01-09 08:12-0800\n"
+"POT-Creation-Date: 2019-01-17 10:44-0800\n"
+"PO-Revision-Date: 2019-01-17 10:43-0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -30,36 +30,36 @@ msgstr ""
 msgid "Uncanny Toolkit"
 msgstr ""
 
-#: src/admin-menu.php:117 src/templates/admin-support.php:12
+#: src/admin-menu.php:120 src/templates/admin-support.php:12
 msgid "by"
 msgstr ""
 
-#: src/admin-menu.php:437
+#: src/admin-menu.php:440
 msgid "Days Until Course Expiry"
 msgstr ""
 
-#: src/admin-menu.php:438
+#: src/admin-menu.php:441
 msgid ""
 "Use this shortcode to display the number of days until the learner's access "
 "expires for the current course. This is a useful shortcode to include on "
 "course pages."
 msgstr ""
 
-#: src/admin-menu.php:442
+#: src/admin-menu.php:445
 msgid "Email Course Certificates"
 msgstr ""
 
-#: src/admin-menu.php:443
+#: src/admin-menu.php:446
 msgid ""
 "Sends a copy of certificate earned from course completion and saves "
 "certificates on the server."
 msgstr ""
 
-#: src/admin-menu.php:447
+#: src/admin-menu.php:450
 msgid "Simple Course Timer"
 msgstr ""
 
-#: src/admin-menu.php:448
+#: src/admin-menu.php:451
 msgid ""
 "Tracks time spent in all LearnDash courses and detects when a user is idle. "
 "Course completion time and total course time are both added to LearnDash "
@@ -67,180 +67,180 @@ msgid ""
 "course."
 msgstr ""
 
-#: src/admin-menu.php:452
+#: src/admin-menu.php:455
 msgid "Email Quiz Certificates"
 msgstr ""
 
-#: src/admin-menu.php:453
+#: src/admin-menu.php:456
 msgid ""
 "Sends a copy of certificates earned from quiz completion and saves "
 "certificates on the server."
 msgstr ""
 
-#: src/admin-menu.php:457
+#: src/admin-menu.php:460
 msgid "Autocomplete Lessons & Topics on Gravity Form Submission"
 msgstr ""
 
-#: src/admin-menu.php:458
+#: src/admin-menu.php:461
 msgid ""
 "Automatically mark LearnDash lessons and topics as completed when the user "
 "submits Gravity Forms."
 msgstr ""
 
-#: src/admin-menu.php:462
+#: src/admin-menu.php:465
 msgid "Improved Group Leader Interface"
 msgstr ""
 
-#: src/admin-menu.php:463
+#: src/admin-menu.php:466
 msgid ""
 "Enhances the experience of LearnDash Group Leaders by providing direct "
 "access to reports and removing unnecessary distractions from the admin panel."
 msgstr ""
 
-#: src/admin-menu.php:467
+#: src/admin-menu.php:470
 msgid "Group Logo/List"
 msgstr ""
 
-#: src/admin-menu.php:468
+#: src/admin-menu.php:471
 msgid ""
 "Add group-specific logos to any page, including registration pages. A "
 "shortcode to list a user’s LearnDash Groups is also available."
 msgstr ""
 
-#: src/admin-menu.php:472
+#: src/admin-menu.php:475
 msgid "Import Users"
 msgstr ""
 
-#: src/admin-menu.php:473
+#: src/admin-menu.php:476
 msgid ""
 "Create or update users and assign them to courses and LearnDash Groups from "
 "a CSV file."
 msgstr ""
 
-#: src/admin-menu.php:477
+#: src/admin-menu.php:480
 msgid "Group Expiration"
 msgstr ""
 
-#: src/admin-menu.php:478
+#: src/admin-menu.php:481
 msgid ""
 "Set expiration dates for LearnDash groups so that course enrolment for the "
 "group is removed on the specified day. Reminder emails can be sent to users "
 "advising them of group expiration."
 msgstr ""
 
-#: src/admin-menu.php:482
+#: src/admin-menu.php:485
 msgid "Group Registration"
 msgstr ""
 
-#: src/admin-menu.php:483
+#: src/admin-menu.php:486
 msgid ""
 "Allow users to add themselves directly to LearnDash Groups on registration "
 "by assigning each group a unique registration URL. Users can also change or "
 "add groups themselves by visiting group URLs."
 msgstr ""
 
-#: src/admin-menu.php:487
+#: src/admin-menu.php:490
 msgid "Course Dashboard"
 msgstr ""
 
-#: src/admin-menu.php:488
+#: src/admin-menu.php:491
 msgid ""
 "Use the [uo_dashboard] shortcode to display the list of enrolled courses for "
 "the current user. This is essentially a modified version of the [ld_profile] "
 "shortcode without profile data."
 msgstr ""
 
-#: src/admin-menu.php:492
+#: src/admin-menu.php:495
 msgid "Reset Progress Button"
 msgstr ""
 
-#: src/admin-menu.php:493
+#: src/admin-menu.php:496
 msgid "Inserts a button that allows learners to reset the course."
 msgstr ""
 
-#: src/admin-menu.php:497
+#: src/admin-menu.php:500
 msgid "Lesson/Topic/Quiz Table Colors"
 msgstr ""
 
-#: src/admin-menu.php:498
+#: src/admin-menu.php:501
 msgid ""
 "Change the background and header text color of LearnDash tables. This module "
 "modifies the course, lesson, topic, quiz, and Pro Dashboard tables."
 msgstr ""
 
-#: src/admin-menu.php:502
+#: src/admin-menu.php:505
 msgid "Learner Transcript"
 msgstr ""
 
-#: src/admin-menu.php:503
+#: src/admin-menu.php:506
 msgid ""
 "Add printable transcripts to the front end for your learners. This is a "
 "great way for learners to have a record of all course progress and overall "
 "standing."
 msgstr ""
 
-#: src/admin-menu.php:507
+#: src/admin-menu.php:510
 msgid "Autocomplete Lessons & Topics"
 msgstr ""
 
-#: src/admin-menu.php:508
+#: src/admin-menu.php:511
 msgid ""
 "Automatically mark all lessons and topics as completed on user visit and "
 "remove Mark Complete buttons. Global settings can be overridden for "
 "individual lessons and topics."
 msgstr ""
 
-#: src/admin-menu.php:512
+#: src/admin-menu.php:515
 msgid "Autocomplete Lessons & Topics on Quiz Results Page"
 msgstr ""
 
-#: src/admin-menu.php:513
+#: src/admin-menu.php:516
 msgid ""
 "Automatically mark LearnDash lessons and topics as completed when the user "
 "reaches the quiz results page with a passing mark."
 msgstr ""
 
-#: src/admin-menu.php:517
+#: src/admin-menu.php:520
 msgid "Enhanced Lessons/Topics Grid"
 msgstr ""
 
-#: src/admin-menu.php:518
+#: src/admin-menu.php:521
 msgid ""
 "Add a highly customizable grid of LearnDash lessons/topics to the front end, "
 "learner dashboard or anywhere you want. This is a great tool for sites with "
 "a large number of lessons/topics."
 msgstr ""
 
-#: src/admin-menu.php:522
+#: src/admin-menu.php:525
 msgid "Sample Lesson Label"
 msgstr ""
 
-#: src/admin-menu.php:523
+#: src/admin-menu.php:526
 msgid "Add visual label to sample lessons."
 msgstr ""
 
-#: src/admin-menu.php:527
+#: src/admin-menu.php:530
 msgid "Enhanced Course Grid"
 msgstr ""
 
-#: src/admin-menu.php:528
+#: src/admin-menu.php:531
 msgid ""
 "Add a highly customizable grid of LearnDash courses to the front end, "
 "learner dashboard or anywhere you want. This is a great tool for sites with "
 "a large number of courses."
 msgstr ""
 
-#: src/admin-menu.php:532
+#: src/admin-menu.php:535
 msgid "Drip Lessons by Group"
 msgstr ""
 
-#: src/admin-menu.php:533
+#: src/admin-menu.php:536
 msgid ""
 "Unlock access to LearnDash lessons by setting dates for LearnDash Groups "
 "rather than for all enrolled users."
 msgstr ""
 
-#: src/admin-menu.php:540
+#: src/admin-menu.php:543
 msgid ""
 "This module requires Uncanny LearnDash Pro to be active. {{Buy it here}}"
 msgstr ""

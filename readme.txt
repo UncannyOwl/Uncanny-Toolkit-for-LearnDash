@@ -4,7 +4,7 @@ Tags: LearnDash, eLearning, LMS, education, learning, courseware
 Requires at least: 4.6
 Tested up to: 5.0.2
 Requires PHP: 5.6
-Stable tag: 3.0
+Stable tag: 3.0.1
 License: This plugin is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or any later version.   LearnDash Groups in User Profiles is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.   You should have received a copy of the GNU General Public License along with LearnDash Groups in User Profiles. If not, see {URI to Plugin License}.
 License URI: https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
 
@@ -68,32 +68,42 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 
 == Changelog ==
 
+= 3.0.1 =
+* Added: Front End Login - Added recaptcha support to [uo_login] shortcode
+* Added: Plugin will automatically deactivate and show notice if PHP < 5.6 is detected
+* Updated: Improved scroll handling in module settings dialogs
+* Fixed: Front End Login - Unrecognized URL parameters no longer cause %placholder% to be rendered on the login form
+* Fixed: Typo in %placholder%
+* Fixed: Module settings dialogs with many options now render properly in Firefox
+* Fixed: Z-index issue on select2 elements in /wp-admin
+* Fixed: Missing dependency error: blocks.style.build.css
+
 = 3.0 =
-*    **Important**: If you had overridden the Front End Login template file, you will need to update the template override by making a copy of the new file.
-*    This release features a completely overhauled Front End Login module, including:
+* **Important**: If you had overridden the Front End Login template file, you will need to update the template override by making a copy of the new file.
+* This release features a completely overhauled Front End Login module, including:
        * A new modern, clean design (selectable from module settings)
        * Many additional options for customizing text, including the password reset email
        * Better templating system, making it easier to make design changes without modifying the core plugin
        * Recaptcha support
        * New optional, customizable Register link
        * The link in the password reset email now goes to a front end page instead of the WordPress password reset page
-*    Added: Gutenberg blocks for breadcrumbs and resume button modules
-*    Added: WAI ARIA support in breadcrumbs module
-*    Added: Tab structure for toolkit pages
-*    Added: Help page for easier access to plugin documentation
-*    Added: Log In/Log Out Redirects - Default priority set to 999, added field to manually set priority
-*    Updated: Module names changed for consistency:
+* Added: Gutenberg blocks for breadcrumbs and resume button modules
+* Added: WAI ARIA support in breadcrumbs module
+* Added: Tab structure for toolkit pages
+* Added: Help page for easier access to plugin documentation
+* Added: Log In/Log Out Redirects - Default priority set to 999, added field to manually set priority
+* Updated: Module names changed for consistency:
        * LearnDash Certificate Widget > Certificate Widget
        * LearnDash Groups in User Profiles > Groups in User Profiles
        * LearnDash Resume Button > Resume Button
        * Show LearnDash Certificates > Show Certificates
-*    Updated: Hide Admin Bar - Improved multisite support
-*    Updated: Hide Admin Bar - Added priority 11 to filter for improved compatibility with some themes and plugins
-*    Updated: Cleaner, modernized UI for modules page
-*    Updated: Changed admin URLs for toolkit pages
-*    Updated: User Switching - Added position:relative to link to switch back to the admin user in the user switching module to improve theme compatibility
-*    Updated: Reorganized plugin .js and .css files
-*    Updated: Learndash Groups in User Profiles - Now uses LearnDash API for querying groups
+* Updated: Hide Admin Bar - Improved multisite support
+* Updated: Hide Admin Bar - Added priority 11 to filter for improved compatibility with some themes and plugins
+* Updated: Cleaner, modernized UI for modules page
+* Updated: Changed admin URLs for toolkit pages
+* Updated: User Switching - Added position:relative to link to switch back to the admin user in the user switching module to improve theme compatibility
+* Updated: Reorganized plugin .js and .css files
+* Updated: Learndash Groups in User Profiles - Now uses LearnDash API for querying groups
 
 = 2.5 =
 * Added: Course-specific Resume Button; can be placed on course pages

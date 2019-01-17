@@ -87,6 +87,19 @@
 }
 
 /**
+ * No scrolling
+ */
+
+html.noscroll {
+	overflow: hidden 
+}
+
+html.noscroll #wpwrap,
+html.noscroll .ult-modal {
+	overflow-y: scroll;
+}
+
+/**
  * Form Element
  */
 
@@ -311,18 +324,18 @@
 
 		/* WARNING: This CSS is global, we can't put it inside .ult because Select2 renders the container outside it */
 
-		.select2-dropdown {
+		.ult-select2 .select2-dropdown {
 			border: 0 !important;
 			font-size: 14px;
 			font-family: -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 		}
 
-		.select2-search--dropdown {
+		.ult-select2 .select2-search--dropdown {
 			padding: 0 !important;
 			box-shadow: 0 2px 5px 0 rgba(0,0,0,.1);
 		}
 
-			.select2-container--default .select2-search--dropdown .select2-search__field {
+			.ult-select2.select2-container--default .select2-search--dropdown .select2-search__field {
 				border: 1px solid #cdcdcd !important;
 				padding: 10px 15px;
 				outline: none;
@@ -330,16 +343,16 @@
 				font-family: inherit;
 			}
 
-				.select2-container--default .select2-search--dropdown .select2-search__field:hover {
+				.ult-select2.select2-container--default .select2-search--dropdown .select2-search__field:hover {
 					border-color: #b9b9b9 !important;
 				}
 
-				.select2-container--default .select2-search--dropdown .select2-search__field:focus {
+				.ult-select2.select2-container--default .select2-search--dropdown .select2-search__field:focus {
 					border-color: #0790e8 !important;
 					box-shadow: none;
 				}
 
-				.select2-dropdown.select2-dropdown--below .select2-search--dropdown .select2-search__field {
+				.ult-select2 .select2-dropdown.select2-dropdown--below .select2-search--dropdown .select2-search__field {
 					margin-top: -1px;
 
 					/* WordPress tries to overwrite this */
@@ -348,39 +361,39 @@
 					margin-bottom: 0;
 				}
 
-				.select2-dropdown.select2-dropdown--above .select2-search--dropdown .select2-search__field {
+				.ult-select2 .select2-dropdown.select2-dropdown--above .select2-search--dropdown .select2-search__field {
 					border-top-left-radius: 3px;
 					border-top-right-radius: 3px;
 				}
 
-			.select2-results {
+			.ult-select2 .select2-results {
 				border: 1px solid #cdcdcd;
 				border-top: 0;
 			}
 
-			.select2-dropdown:not(.select2-dropdown--above) .select2-results {
+			.ult-select2 .select2-dropdown:not(.select2-dropdown--above) .select2-results {
 				border-bottom-right-radius: 3px;
 				border-bottom-left-radius: 3px;
 			}
 
-			.select2-results__option {
+			.ult-select2 .select2-results__option {
 				padding: 10px 15px !important;
 
 				/* WordPress tries to overwrite this */
 				margin: 0 !important;
 			}
 
-				.select2-results__option:not(:last-child){
+				.ult-select2 .select2-results__option:not(:last-child){
 					border-bottom: 1px solid #ececec;
 				}
 
-			.select2-container--default .select2-results>.select2-results__options::-webkit-scrollbar {
+			.ult-select2.select2-container--default .select2-results>.select2-results__options::-webkit-scrollbar {
 				width: 10px;
 				background-color: rgba(0,0,0,.09);
 				border-radius: 150px;
 			}
 
-			.select2-container--default .select2-results>.select2-results__options::-webkit-scrollbar-thumb:vertical {
+			.ult-select2.select2-container--default .select2-results>.select2-results__options::-webkit-scrollbar-thumb:vertical {
 				background: rgba(0,0,0,.3);
 				border-radius: 150px;
 				background-clip: padding-box;
@@ -388,21 +401,21 @@
 				min-height: 10px;
 			}
 
-		.select2-container--default.select2-container--open.select2-container--below .select2-selection--single,
-		.select2-container--default.select2-container--open.select2-container--below .select2-selection--multiple {
+		.ult-select2.select2-container--default.select2-container--open.select2-container--below .select2-selection--single,
+		.ult-select2.select2-container--default.select2-container--open.select2-container--below .select2-selection--multiple {
 			border-bottom: 0px !important;
 			margin-bottom: 1px;
 		}
 
-		.select2-container--default .select2-results__option {
+		.ult-select2.select2-container--default .select2-results__option {
 			color: #000 !important;
 		}
 		
-		.select2-container--default .select2-results__option:not(.select2-results__option--highlighted)[aria-selected=true] {
+		.ult-select2.select2-container--default .select2-results__option:not(.select2-results__option--highlighted)[aria-selected=true] {
 			background: #fff !important;
 		}
 
-		.select2-container--default .select2-results__option--highlighted[aria-selected] {
+		.ult-select2.select2-container--default .select2-results__option--highlighted[aria-selected] {
 			background: #f3f3f3 !important;
 		}
 
@@ -620,6 +633,7 @@
 
 	.ult .ult-directory-actions {
 		display: flex;
+		flex-wrap: wrap;
 		vertical-align: bottom;
 		margin-bottom: 20px;
 	}
@@ -713,6 +727,39 @@
 						left: 50%;
 						transform: translate(-50%,-50%);
 					}
+
+	@media screen and (max-width: 768px){
+		.ult .ult-directory-actions {
+			flex-wrap: wrap;
+		}
+
+		.ult .ult-directory-filters {
+			width: 100%;
+			flex-wrap: wrap;
+			margin: 0;
+			margin-top: -10px;
+		}
+
+		.ult .ult-directory-filter,
+		.ult .ult-directory-filter--version,
+		.ult .ult-directory-filter--categories,
+		.ult .ult-directory-filter--statuses {
+			width: 100%;
+			padding: 0;
+			margin-top: 8px;
+		}
+
+		.ult .ult-directory-search {
+			width: 100%;
+			padding: 0;
+			margin-top: 10px;
+		}
+
+		/** The difference is too small, doesn't make sense */
+		.ult .ult-directory-layout {
+			display: none;
+		}
+	}
 
 	/**
 	 * Modules
@@ -873,7 +920,7 @@
 						}
 
 						.ult .ult-directory-module__pro-label {
-							display: inline;
+							display: inline-block;
 
 							color: #fff;
 							background: #6bc45a;
@@ -1069,6 +1116,13 @@
 			flex: 1 1 auto;
 			display: flex;
 			flex-direction: column;
+
+			/**
+			 * An initial setting on a flex container is min-height: auto.
+			 * This means that, by default, a flex item cannot be shorter than its content.
+			 * We have to overwrite this
+			 */
+			min-height: 0px;
 		}
 
 			.ult-modal-options {
@@ -1078,6 +1132,13 @@
 				margin: 0 10px;
 				padding: 10px;
 				background: #fff;
+
+				/**
+				 * An initial setting on a flex container is min-height: auto.
+				 * This means that, by default, a flex item cannot be shorter than its content.
+				 * We have to overwrite this
+				 */
+				min-height: 0px;
 			}
 
 				.ult-modal-options::-webkit-scrollbar {
@@ -1146,7 +1207,10 @@
 
 					select.ult-modal-form-row__select {
 						width: 100%;
+						height: 38px;
 						padding: 6px 12px;
+
+						position: static;
 
 						border-radius: 3px;
 						border: 1px solid #cdcdcd;
@@ -1159,7 +1223,7 @@
 
 						/* Select2 */
 
-						.select2-container {
+						.ult-select2.ult-select2--modal.select2-container.select2-container--default {
 							z-index: 1000000;
 						}
 
