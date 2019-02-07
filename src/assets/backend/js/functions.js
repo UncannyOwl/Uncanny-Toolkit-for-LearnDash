@@ -619,7 +619,7 @@ jQuery( function($){
                                 let editor = tinymce.get( field.name );
 
                                 if ( ULT_Utility.isDefined( editor ) ){
-                                    editor.execCommand( 'mceInsertContent', false, field.value );
+                                    editor.setContent( field.value );
                                 }
                             }
                             break;

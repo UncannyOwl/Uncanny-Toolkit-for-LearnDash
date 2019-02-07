@@ -39,7 +39,7 @@ class LoginRedirect extends Config implements RequiredFunctions {
 				$redirect_priority = 999;
 			}
 			
-			add_filter( 'login_redirect', array( __CLASS__, 'login_redirect' ), $redirect_priority, 1 );
+			add_filter( 'login_redirect', array( __CLASS__, 'login_redirect' ), $redirect_priority, 3 );
 			add_action( 'wp_logout', array( __CLASS__, 'logout_redirect' ), $redirect_priority, 1 );
 		}
 
@@ -132,7 +132,7 @@ class LoginRedirect extends Config implements RequiredFunctions {
 	 *
 	 * @return string
 	 */
-	public static function login_redirect( $redirect_to ) {
+	public static function login_redirect( $redirect_to, $request, $user ) {
 
 		$login_redirect = false;
 
@@ -146,7 +146,7 @@ class LoginRedirect extends Config implements RequiredFunctions {
 		}
 
 		//is there a user to check?
-		global $user;
+		//global $user;
 
 		if ( isset( $user->roles ) && is_array( $user->roles ) ) {
 			//check for admins
@@ -164,6 +164,7 @@ class LoginRedirect extends Config implements RequiredFunctions {
 		} else {
 			return $redirect_to;
 		}
+		
 	}
 
 
