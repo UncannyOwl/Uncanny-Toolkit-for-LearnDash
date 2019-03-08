@@ -88,7 +88,11 @@ class HideAdminBar extends Config implements RequiredFunctions {
 		$options = array();
 
 		foreach ( $roles as $role_value => $role_name ) {
-			array_push( $options, array( 'type' => 'checkbox', 'label' => $role_name, 'option_name' => $role_value ) );
+			$role = get_role($role_value);
+			$capabilities = $role->capabilities;
+			if( ! isset( $capabilities['manage_options'] ) || $capabilities['manage_options'] !== true){
+				array_push( $options, array( 'type' => 'checkbox', 'label' => $role_name, 'option_name' => $role_value ) );
+			}
 		}
 
 		// Build html
@@ -130,6 +134,11 @@ class HideAdminBar extends Config implements RequiredFunctions {
 				$user_roles = wp_get_current_user()->roles;
 				$hide_roles = get_option( 'HideAdminBar', '' );
 			}
+			// if user has manage_option cap.
+			if ( current_user_can( 'manage_options' ) ) {
+				return true;
+			}
+			
 			if ( $hide_roles ) {
 				foreach ( $hide_roles as $role ) {
 

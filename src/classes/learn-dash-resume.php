@@ -24,6 +24,7 @@ class LearnDashResume extends Config implements RequiredFunctions {
 	public static function run_frontend_hooks() {
 
 		if ( true === self::dependants_exist() ) {
+			add_action( 'wp', [ __CLASS__, 'disable_rel_link' ] );
 			add_action( 'wp_head', array( __CLASS__, 'find_last_known_learndash_page' ) );
 			add_shortcode( 'uo-learndash-resume', array( __CLASS__, 'learndash_resume' ) );
 			add_shortcode( 'uo_learndash_resume', array( __CLASS__, 'learndash_resume' ) );
@@ -31,7 +32,7 @@ class LearnDashResume extends Config implements RequiredFunctions {
 		}
 
 	}
-
+	
 	/**
 	 * Does the plugin rely on another function or plugin
 	 *
@@ -359,5 +360,16 @@ class LearnDashResume extends Config implements RequiredFunctions {
 		}
 
 		return '';
+	}
+	
+	/**
+	 * prevent wordpress from adding <link rel="next" />
+	 */
+	public static function disable_rel_link() {
+		global $post;
+		$learndash_post_types = [ 'sfwd-courses', 'sfwd-lessons', 'sfwd-topic', 'sfwd-quiz' ];
+		if ( isset( $post->post_type ) && in_array( $post->post_type, $learndash_post_types ) ) {
+			remove_action( 'wp_head', 'adjacent_posts_rel_link_wp_head', 10, 0 );
+		}
 	}
 }
