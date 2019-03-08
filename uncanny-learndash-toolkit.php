@@ -87,7 +87,7 @@ function learndash_version_notice() {
 
 	//Minimum versions
 	$wp         = '4.0';
-	$php        = '5.3';
+	$php        = '5.6';
 	$learn_dash = '2.1';
 
 	// Set LearnDash version
@@ -99,9 +99,13 @@ function learndash_version_notice() {
 	// Get current screen
 	$screen = get_current_screen();
 
-	if ( ! version_compare( PHP_VERSION, '5.3', '>=' ) && ( isset( $screen ) && 'plugins.php' === $screen->parent_file ) ) {
+	// Show notice if php version is less than 5.6 and the current admin page is plugins.php
+	$version = $php;
+	$current = PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION . '.' . PHP_RELEASE_VERSION;
 
-		// Show notice if php version is less than 5.3 and the current admin page is plugins.php
+	if ( ! version_compare( PHP_VERSION, '5.6', '>=' ) && ( isset( $screen ) && 'plugins.php' === $screen->parent_file ) ) {
+
+		// Show notice if php version is less than 5.6 and the current admin page is plugins.php
 		$version = $php;
 		$current = PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION . '.' . PHP_RELEASE_VERSION;
 
@@ -109,7 +113,7 @@ function learndash_version_notice() {
 		<div class="notice notice-error">
 			<h3><?php echo sprintf(
 
-					esc_html__( 'The %s requires PHP version %s or higher (5.6 or higher is recommended). Because you are using an unsupported version of PHP (%s), the Toolkit plugin will not initialize. Please contact your hosting company to upgrade to PHP 5.6 or higher.', 'uncanny-learndash-toolkit'
+					esc_html__( 'The %s requires PHP version %s or higher (7.2 or higher is recommended). Because you are using an unsupported version of PHP (%s), the Toolkit plugin will not initialize. Please contact your hosting company to upgrade to PHP 5.6 or higher.', 'uncanny-learndash-toolkit'
 					),
 
 					'Uncanny LearnDash Toolkit',
@@ -199,8 +203,8 @@ function uncanny_learndash_toolkit_text_domain() {
 	load_plugin_textdomain( 'uncanny-learndash-toolkit', false, basename( dirname( __FILE__ ) ) . '/languages/' );
 }
 
-// PHP version 5.3 and up only
-if ( version_compare( PHP_VERSION, '5.3', '>=' ) ) {
+// PHP version 5.6 and up only
+if ( version_compare( PHP_VERSION, '5.6', '>=' ) ) {
 
 	// On first activation, redirect to toolkit settings page if min php version is met
 	register_activation_hook( __FILE__, 'uncanny_learndash_toolkit_plugin_activate' );
