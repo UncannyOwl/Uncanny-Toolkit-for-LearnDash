@@ -373,6 +373,12 @@ class Config {
 										</div>
 										<div class="ult-modal-form-row__field">
 											<input type="text" placeholder="<?php echo $content['placeholder']; ?>" class="ult-modal-form-row__input <?php echo $content['class'] ?>" name="<?php echo $content['option_name']; ?>" data-type="text">
+
+											<?php if ( ! empty( $content[ 'description' ] ) ){ ?>
+												<div class="ult-modal-form-row__description">
+													<?php echo $content[ 'description' ]; ?>
+												</div>
+											<?php } ?>
 										</div>
 									</div>
 
@@ -390,6 +396,12 @@ class Config {
 										</div>
 										<div class="ult-modal-form-row__field">
 											<input type="color" placeholder="<?php echo $content['placeholder']; ?>" class="ult-modal-form-row__color" name="<?php echo $content['option_name']; ?>" data-type="color">
+
+											<?php if ( ! empty( $content[ 'description' ] ) ){ ?>
+												<div class="ult-modal-form-row__description">
+													<?php echo $content[ 'description' ]; ?>
+												</div>
+											<?php } ?>
 										</div>
 									</div>
 
@@ -429,6 +441,12 @@ class Config {
 													] );
 
 												?>
+
+												<?php if ( ! empty( $content[ 'description' ] ) ){ ?>
+													<div class="ult-modal-form-row__description">
+														<?php echo $content[ 'description' ]; ?>
+													</div>
+												<?php } ?>
 											</div>
 										</div>
 
@@ -442,6 +460,12 @@ class Config {
 											</div>
 											<div class="ult-modal-form-row__field">
 												<textarea class="ult-modal-form-row__textarea <?php echo $content['class']; ?>" name="<?php echo $content['option_name']; ?>" placeholder="<?php echo $content['placeholder']; ?>" type="textarea"></textarea>
+
+												<?php if ( ! empty( $content[ 'description' ] ) ){ ?>
+													<div class="ult-modal-form-row__description">
+														<?php echo $content[ 'description' ]; ?>
+													</div>
+												<?php } ?>
 											</div>
 										</div>
 
@@ -460,6 +484,12 @@ class Config {
 												<input type="checkbox" name="<?php echo $content['option_name']; ?>" class="ult-modal-form-row__checkbox" data-type="checkbox">
 												<?php echo $content['label']; ?>
 											</label>
+
+											<?php if ( ! empty( $content[ 'description' ] ) ){ ?>
+												<div class="ult-modal-form-row__description">
+													<?php echo $content[ 'description' ]; ?>
+												</div>
+											<?php } ?>
 										</div>
 									</div>
 
@@ -491,6 +521,12 @@ class Config {
 											}
 
 											?>
+
+											<?php if ( ! empty( $content[ 'description' ] ) ){ ?>
+												<div class="ult-modal-form-row__description">
+													<?php echo $content[ 'description' ]; ?>
+												</div>
+											<?php } ?>
 										</div>
 									</div>
 
@@ -523,6 +559,11 @@ class Config {
 												?>
 											</select>
 
+											<?php if ( ! empty( $content[ 'description' ] ) ){ ?>
+												<div class="ult-modal-form-row__description">
+													<?php echo $content[ 'description' ]; ?>
+												</div>
+											<?php } ?>
 										</div>
 									</div>
 

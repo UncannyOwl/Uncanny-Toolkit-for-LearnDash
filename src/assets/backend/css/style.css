@@ -1296,6 +1296,13 @@ html.noscroll .ult-modal {
 							pointer-events: none; /* Prevent clicks */
 						}
 
+					.ult-modal-form-row__description {
+						color: rgba(0,0,0,.6);
+						margin-top: 7px;
+						font-size: 14px;
+						line-height: 1.4;
+					}
+
 			.ult-modal-footer {
 				flex: 0 0 auto;
 				padding-top: 10px;
