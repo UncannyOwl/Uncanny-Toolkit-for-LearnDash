@@ -24,6 +24,11 @@ if ( ! defined( 'UNCANNY_TOOLKIT_PREFIX' ) ) {
 }
 
 function ultp_notice() {
+
+	if ( ! current_user_can( 'upload_plugins' ) ) {
+		return;
+	}
+
 	$user_id = get_current_user_id();
 
 	if ( empty( get_user_meta( $user_id, 'uofel_notice_dismissed' ) ) ) {
@@ -82,6 +87,10 @@ add_action( 'admin_init', 'ultp_notice_dismissed' );
 add_action( 'admin_notices', 'learndash_version_notice' );
 
 function learndash_version_notice() {
+
+	if ( ! current_user_can( 'upload_plugins' ) ) {
+		return;
+	}
 
 	global $wp_version;
 
