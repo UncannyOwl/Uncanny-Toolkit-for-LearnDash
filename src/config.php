@@ -231,11 +231,11 @@ class Config {
 		foreach ( (array) $template_names as $template_name ) {
 			if ( !$template_name )
 				continue;
-			if ( defined( 'STYLESHEETPATH' ) && file_exists(STYLESHEETPATH . DIRECTORY_SEPARATOR . $template_name)) {
-				$located = STYLESHEETPATH . DIRECTORY_SEPARATOR . $template_name;
+			if ( file_exists( get_stylesheet_directory() . DIRECTORY_SEPARATOR . $template_name ) ) {
+				$located = get_stylesheet_directory() . DIRECTORY_SEPARATOR . $template_name;
 				break;
-			} elseif ( defined( 'TEMPLATEPATH' ) && file_exists(TEMPLATEPATH . DIRECTORY_SEPARATOR . $template_name) ) {
-				$located = TEMPLATEPATH . DIRECTORY_SEPARATOR . $template_name;
+			} elseif ( file_exists( get_template_directory() . DIRECTORY_SEPARATOR . $template_name ) ) {
+				$located = get_template_directory() . DIRECTORY_SEPARATOR . $template_name;
 				break;
 			} elseif ( file_exists( ABSPATH . WPINC . DIRECTORY_SEPARATOR . 'theme-compat' . DIRECTORY_SEPARATOR . $template_name ) ) {
 				$located = ABSPATH . WPINC . DIRECTORY_SEPARATOR . 'theme-compat' . DIRECTORY_SEPARATOR . $template_name;
