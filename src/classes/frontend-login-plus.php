@@ -313,6 +313,11 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				'option_name' => 'uo_frontend_login_password_label',
 			),
 			array(
+				'type'        => 'checkbox',
+				'label'       => esc_html__( 'Disable Remember Me Checkbox', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_frontendloginplus_disable_rememberme',
+			),
+			array(
 				'type'        => 'text',
 				'label'       => esc_html__( 'Remember Me Checkbox Label', 'uncanny-learndash-toolkit' ),
 				'placeholder' => esc_html__( 'Remember Me', 'uncanny-learndash-toolkit' ),
@@ -1085,12 +1090,13 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	 * @return array
 	 */
 	public static function fetch_login_form_args() {
-
-		$label_username = self::get_settings_value( 'uo_login_username_label_login', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
-		$label_password = self::get_settings_value( 'uo_frontend_login_password_label', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
-		$label_remember = self::get_settings_value( 'uo_frontend_login_rememberme_label', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
-		$label_log_in   = self::get_settings_value( 'uo_frontend_login_button_label', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
-
+		
+		$label_username   = self::get_settings_value( 'uo_login_username_label_login', __CLASS__, '%placeholder%', self::get_class_settings( '', TRUE ) );
+		$label_password   = self::get_settings_value( 'uo_frontend_login_password_label', __CLASS__, '%placeholder%', self::get_class_settings( '', TRUE ) );
+		$disable_remember = self::get_settings_value( 'uo_frontendloginplus_disable_rememberme', __CLASS__ );
+		$label_remember   = self::get_settings_value( 'uo_frontend_login_rememberme_label', __CLASS__, '%placeholder%', self::get_class_settings( '', TRUE ) );
+		$label_log_in     = self::get_settings_value( 'uo_frontend_login_button_label', __CLASS__, '%placeholder%', self::get_class_settings( '', TRUE ) );
+		
 		return array(
 			'echo'           => true,
 			'redirect'       => home_url( '/wp-admin/' ),
@@ -1103,7 +1109,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			'id_password'    => 'user_pass',
 			'id_remember'    => 'rememberme',
 			'id_submit'      => 'wp-submit',
-			'remember'       => true,
+			'remember'       => $disable_remember === 'on' ? false : true,
 			'value_username' => null,
 			'value_remember' => true,
 		);
