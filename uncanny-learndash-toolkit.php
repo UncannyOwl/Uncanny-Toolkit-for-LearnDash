@@ -23,66 +23,6 @@ if ( ! defined( 'UNCANNY_TOOLKIT_PREFIX' ) ) {
 	define( 'UNCANNY_TOOLKIT_PREFIX', 'ultp' );
 }
 
-function ultp_notice() {
-
-	if ( ! current_user_can( 'upload_plugins' ) ) {
-		return;
-	}
-
-	$user_id = get_current_user_id();
-
-	if ( empty( get_user_meta( $user_id, 'uofel_notice_dismissed' ) ) ) {
-		echo '<div class="notice notice-warning below-h2">
-<button id="uofel" type="button" style="    position: relative;
-    top: 0;
-    right: 1px;
-    border: none;
-    margin: 0;
-    padding: 9px;
-    background: 0 0;
-    color: #0073aa;
-    cursor: pointer;
-    float: right;" >Dismiss<span class="screen-reader-text">Dismiss this notice.</span></button>
-				<p><strong>IMPORTANT!</strong> The Front End Login module of the Uncanny LearnDash Toolkit changed significantly in version 3.0. Please re-check your settings and review your login page as a logged out user. </p>
-			
-			</div>
-			<script>
-jQuery("#uofel").on("click", function(){    
-    key = encodeURI("uofel-dismissed"); value = encodeURI("yes");
-    var kvp = document.location.search.substr(1).split("&");
-    var i=kvp.length; var x; while(i--) 
-    {
-        x = kvp[i].split("=");
-
-        if (x[0]==key)
-        {
-            x[1] = value;
-            kvp[i] = x.join("=");
-            break;
-        }
-    }
-
-    if(i<0) {kvp[kvp.length] = [key,value].join("=");}
-
-    //this will reload the page, it\'s likely better to store this until finished
-    document.location.search = kvp.join("&"); 
-    });
-</script>';
-	}
-}
-
-add_action( 'admin_notices', 'ultp_notice' );
-
-function ultp_notice_dismissed() {
-	$user_id = get_current_user_id();
-	if ( isset( $_GET['uofel-dismissed'] ) ) {
-		add_user_meta( $user_id, 'uofel_notice_dismissed', 'true', true );
-	}
-}
-
-add_action( 'admin_init', 'ultp_notice_dismissed' );
-
-
 // Show admin notices for minimum versions of PHP, WordPress, and LearnDash
 add_action( 'admin_notices', 'learndash_version_notice' );
 
