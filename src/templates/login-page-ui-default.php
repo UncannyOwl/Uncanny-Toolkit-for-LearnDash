@@ -144,12 +144,11 @@ namespace uncanny_learndash_toolkit;
 					wp_safe_redirect( $login_page_url . 'action=reset&success=true' );
 					die();
 				}
-				if ( isset( $_GET['action'] ) && 'reset' === $_GET['action'] ) {
-					$reset_password_sucess = $innerText['Reset-Success'];
-					include( apply_filters( 'uo-front-login-login-template', 'frontend-login/' . $template_to_load . '-login.php', $template_to_load ) );
-				}
 			}
 		} else {
+            if ( isset( $_GET['action'] ) && 'reset' === $_GET['action'] ) {
+                $reset_password_sucess = $innerText['Reset-Success'];
+            }
 			//Nothing, default, show login form!
 			include( apply_filters( 'uo-front-login-login-template', 'frontend-login/' . $template_to_load . '-login.php', $template_to_load ) );
 		}
