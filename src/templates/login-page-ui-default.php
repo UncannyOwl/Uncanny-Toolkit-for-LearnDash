@@ -141,7 +141,10 @@ namespace uncanny_learndash_toolkit;
 
 					reset_password( $user, $_POST['pass1'] );
 					//setcookie( $rp_cookie, ' ', time() - YEAR_IN_SECONDS, '/login', COOKIE_DOMAIN, is_ssl(), true );
-
+					wp_safe_redirect( $login_page_url . 'action=reset&success=true' );
+					die();
+				}
+				if ( isset( $_GET['action'] ) && 'reset' === $_GET['action'] ) {
 					$reset_password_sucess = $innerText['Reset-Success'];
 					include( apply_filters( 'uo-front-login-login-template', 'frontend-login/' . $template_to_load . '-login.php', $template_to_load ) );
 				}
