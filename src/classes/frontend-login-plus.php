@@ -1343,9 +1343,18 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 		$recaptcha_key         = Config::get_settings_value( 'uo_frontend_login_recaptcha_key', 'FrontendLoginPlus' );
 		$recaptcha_secrete_key = Config::get_settings_value( 'uo_frontend_login_recaptcha_secret_key', 'FrontendLoginPlus' );
-
+		
+		// get referer page id and content for shortcode
+		$referer_id         = url_to_postid( wp_get_referer() );
+		$is_short_code_page = FALSE;
+		if ( ! empty( $referer_id ) ) {
+			$referer_page = get_post( $referer_id );
+			if ( has_shortcode( $referer_page->post_content, 'uo_login_ui' ) || has_shortcode( $referer_page->post_content, 'uo_login' ) ) {
+				$is_short_code_page = TRUE;
+			}
+		}
 		// check if recaptcha is setup
-		if ( '' !== trim( $recaptcha_key ) && '' !== trim( $recaptcha_secrete_key ) && self::get_login_redirect_page_id() === url_to_postid( wp_get_referer() ) ) {
+		if ( '' !== trim( $recaptcha_key ) && '' !== trim( $recaptcha_secrete_key ) && ( self::get_login_redirect_page_id() === $referer_id || $is_short_code_page ) ) {
 
 			if ( ! isset( $_POST['g-recaptcha-response'] ) ) {
 				wp_safe_redirect( add_query_arg( array( 'login' => 'recaptchafailed' ), $login_page ) );
