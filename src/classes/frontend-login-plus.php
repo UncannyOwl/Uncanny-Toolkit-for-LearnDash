@@ -1349,9 +1349,20 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		$is_short_code_page = FALSE;
 		if ( ! empty( $referer_id ) ) {
 			$referer_page = get_post( $referer_id );
-			if ( has_shortcode( $referer_page->post_content, 'uo_login_ui' ) || has_shortcode( $referer_page->post_content, 'uo_login' ) ) {
+			$block_is_on_page = false;
+			if ( function_exists( 'parse_blocks' ) ) {
+				$blocks = parse_blocks( $referer_page->post_content );
+				foreach ( $blocks as $block ) {
+					if ( 'uncanny-toolkit/frontend-login' === $block['blockName'] ) {
+						$block_is_on_page = TRUE;
+					}
+				}
+			}
+			
+			if ( has_shortcode( $referer_page->post_content, 'uo_login_ui' ) || has_shortcode( $referer_page->post_content, 'uo_login' ) || $block_is_on_page) {
 				$is_short_code_page = TRUE;
 			}
+			
 		}
 		// check if recaptcha is setup
 		if ( '' !== trim( $recaptcha_key ) && '' !== trim( $recaptcha_secrete_key ) && ( self::get_login_redirect_page_id() === $referer_id || $is_short_code_page ) ) {
