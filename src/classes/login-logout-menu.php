@@ -119,7 +119,7 @@ class LoginLogoutMenu extends Config implements RequiredFunctions {
 	 * Add new meta box to admin menus setup page
 	 */
 	public static function add_admin_nav_menus_metabox() {
-		add_meta_box( 'uncanny_menu_links', __( 'Uncanny Menu Links' ), array(
+		add_meta_box( 'uncanny_menu_links', __( 'Uncanny Menu Links', 'uncanny-learndash-toolkit' ), array(
 			__CLASS__,
 			'create_admin_nav_menu_metabox'
 		), 'nav-menus', 'side', 'default' );
@@ -140,16 +140,16 @@ class LoginLogoutMenu extends Config implements RequiredFunctions {
 			// Add proper labels
 			switch ( $url ) {
 				case '#uo_log_in_link':
-					$label = 'Log In';
+					$label = __( 'Log In', 'uncanny-learndash-toolkit');
 					break;
 				case '#uo_log_out_link':
-					$label = 'Log Out';
+					$label = __( 'Log Out', 'uncanny-learndash-toolkit');
 					break;
 				case '#uo_log_in_out_link':
-					$label = 'Log In / Log Out';
+					$label = __( 'Log In / Log Out', 'uncanny-learndash-toolkit');
 					break;
 				case '#uo_register_link':
-					$label = 'Register';
+					$label = __( 'Register', 'uncanny-learndash-toolkit');
 					break;
 				default:
 					$label = '';
@@ -186,7 +186,7 @@ class LoginLogoutMenu extends Config implements RequiredFunctions {
 				<span class="add-to-menu">
 					<input type="submit"<?php disabled( $nav_menu_selected_id, 0 ); ?>
 						   class="button-secondary submit-add-to-menu right"
-						   value="<?php esc_attr_e( 'Add to Menu' ); ?>"
+						   value="<?php esc_attr_e( 'Add to Menu', 'uncanny-learndash-toolkit' ); ?>"
 						   name="add-uo-login-logout-menu-menu-item" id="submit-uo-login-logout-menu"/>
 					<span class="spinner"></span>
 				</span>
@@ -209,22 +209,22 @@ class LoginLogoutMenu extends Config implements RequiredFunctions {
 
 			switch ( $menu_item->url ) {
 				case '#uo_log_in_link':
-					$label = ' - Log In';
+					$label = __( ' - Log In', 'uncanny-learndash-toolkit');
 					break;
 				case '#uo_log_out_link':
-					$label = ' - Log Out';
+					$label = __( ' - Log Out', 'uncanny-learndash-toolkit');
 					break;
 				case '#uo_log_in_out_link':
-					$label = ' - Log In/Out';
+					$label = __( ' - Log In/Out', 'uncanny-learndash-toolkit');
 					break;
 				case '#uo_register_link':
-					$label = ' - Register';
+					$label = __( ' - Register', 'uncanny-learndash-toolkit');
 					break;
 				default:
 					$label = '';
 			}
 
-			$menu_item->type_label = 'Uncanny Toolkit' . $label;
+			$menu_item->type_label = __( 'Uncanny Toolkit', 'uncanny-learndash-toolkit') . $label;
 		}
 
 		return $menu_item;
@@ -302,7 +302,7 @@ class LoginLogoutMenu extends Config implements RequiredFunctions {
 
 		$edit_tag = esc_html( strip_tags( $atts['edit_tag'] ) );
 		$href     = wp_login_url( /*$atts['redirect']*/ );
-		$content  = $content != '' ? $content : __( 'Log In' );
+		$content  = $content != '' ? $content : __( 'Log In', 'uncanny-learndash-toolkit' );
 
 		return '<a href="' . esc_url( $href ) . '"' . $atts['edit_tag'] . '>' . $content . '</a>';
 	}
@@ -319,7 +319,7 @@ class LoginLogoutMenu extends Config implements RequiredFunctions {
 			$content = explode( '|', $content );
 			$content = is_user_logged_in() ? $content[1] : $content[0];
 		} else {
-			$content = is_user_logged_in() ? __( 'Logout' ) : __( 'Log In' );
+			$content = is_user_logged_in() ? __( 'Logout', 'uncanny-learndash-toolkit' ) : __( 'Log In', 'uncanny-learndash-toolkit' );
 		}
 
 		return '<a href="' . esc_url( $href ) . '"' . $atts['edit_tag'] . '>' . $content . '</a>';
@@ -333,7 +333,7 @@ class LoginLogoutMenu extends Config implements RequiredFunctions {
 
 		$href     = wp_logout_url( /*$atts['redirect']*/ );
 		$edit_tag = esc_html( strip_tags( $atts['edit_tag'] ) );
-		$content  = $content != '' ? $content : __( 'Logout' );
+		$content  = $content != '' ? $content : __( 'Logout', 'uncanny-learndash-toolkit' );
 
 		return '<a href="' . esc_url( $href ) . '"' . $atts['edit_tag'] . '>' . $content . '</a>';
 	}
@@ -343,7 +343,7 @@ class LoginLogoutMenu extends Config implements RequiredFunctions {
 			return '';
 		}
 		$href    = site_url( 'wp-login.php?action=register', 'login' );
-		$content = $content != '' ? $content : __( 'Register' );
+		$content = $content != '' ? $content : __( 'Register', 'uncanny-learndash-toolkit' );
 		$link    = '<a href="' . $href . '">' . $content . '</a>';
 
 		return $link;

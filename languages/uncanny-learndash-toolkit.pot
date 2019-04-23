@@ -3,14 +3,14 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: Uncanny LearnDash Toolkit\n"
-"POT-Creation-Date: 2019-01-17 10:44-0800\n"
-"PO-Revision-Date: 2019-01-17 10:43-0800\n"
+"POT-Creation-Date: 2019-04-22 16:55-0700\n"
+"PO-Revision-Date: 2019-04-22 16:55-0700\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.1.1\n"
+"X-Generator: Poedit 2.2.1\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-Flags-xgettext: --add-comments=translators:\n"
 "X-Poedit-WPHeader: uncanny-learndash-toolkit.php\n"
@@ -26,7 +26,7 @@ msgstr ""
 msgid "Uncanny LearnDash Toolkit"
 msgstr ""
 
-#: src/admin-menu.php:32
+#: src/admin-menu.php:32 src/classes/login-logout-menu.php:227
 msgid "Uncanny Toolkit"
 msgstr ""
 
@@ -375,8 +375,8 @@ msgid "Login Form"
 msgstr ""
 
 #: src/classes/frontend-login-plus.php:280
-#: src/classes/frontend-login-plus.php:425
-#: src/classes/frontend-login-plus.php:505
+#: src/classes/frontend-login-plus.php:430
+#: src/classes/frontend-login-plus.php:510
 msgid "Title"
 msgstr ""
 
@@ -389,8 +389,8 @@ msgid "Hide the Title"
 msgstr ""
 
 #: src/classes/frontend-login-plus.php:292
-#: src/classes/frontend-login-plus.php:431
-#: src/classes/frontend-login-plus.php:511
+#: src/classes/frontend-login-plus.php:436
+#: src/classes/frontend-login-plus.php:516
 #: src/includes/custom-walker-nav-menu.php:190
 msgid "Description"
 msgstr ""
@@ -408,12 +408,12 @@ msgid "Login Field Label"
 msgstr ""
 
 #: src/classes/frontend-login-plus.php:306
-#: src/classes/frontend-login-plus.php:438
+#: src/classes/frontend-login-plus.php:443
 msgid "Username or Email Address"
 msgstr ""
 
 #: src/classes/frontend-login-plus.php:311
-#: src/classes/frontend-login-plus.php:517
+#: src/classes/frontend-login-plus.php:522
 msgid "Password Field Label"
 msgstr ""
 
@@ -422,246 +422,252 @@ msgid "Password"
 msgstr ""
 
 #: src/classes/frontend-login-plus.php:317
+msgid "Disable Remember Me Checkbox"
+msgstr ""
+
+#: src/classes/frontend-login-plus.php:322
 msgid "Remember Me Checkbox Label"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:318
+#: src/classes/frontend-login-plus.php:323
 msgid "Remember Me"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:323
+#: src/classes/frontend-login-plus.php:328
 msgid "Forgot Password Link Text"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:324
+#: src/classes/frontend-login-plus.php:329
 msgid "Forgot Password?"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:329
-#: src/classes/frontend-login-plus.php:443
-#: src/classes/frontend-login-plus.php:536
+#: src/classes/frontend-login-plus.php:334
+#: src/classes/frontend-login-plus.php:448
+#: src/classes/frontend-login-plus.php:541
 msgid "Button Label"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:330
-#: src/classes/login-logout-menu.php:305 src/classes/login-logout-menu.php:322
+#: src/classes/frontend-login-plus.php:335
+#: src/classes/login-logout-menu.php:143 src/classes/login-logout-menu.php:305
+#: src/classes/login-logout-menu.php:322
 msgid "Log In"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:335
+#: src/classes/frontend-login-plus.php:340
 msgid "Register Link Text"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:336
-#: src/classes/login-logout-menu.php:346
+#: src/classes/frontend-login-plus.php:341
+#: src/classes/login-logout-menu.php:152 src/classes/login-logout-menu.php:346
 msgid "Register"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:341
+#: src/classes/frontend-login-plus.php:346
 msgid "Register Link"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:346
+#: src/classes/frontend-login-plus.php:351
 msgid "Show Register Link"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:351
-#: src/classes/frontend-login-plus.php:456
+#: src/classes/frontend-login-plus.php:356
+#: src/classes/frontend-login-plus.php:461
 msgid "Invalid Credentials Message"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:352
+#: src/classes/frontend-login-plus.php:357
 #: src/templates/frontend-login/layout_1-login.php:13
 msgid "Invalid username and/or password."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:364
+#: src/classes/frontend-login-plus.php:369
 msgid "Account Not Verified Message"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:365
+#: src/classes/frontend-login-plus.php:370
 msgid "Your account is not yet verified."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:370
+#: src/classes/frontend-login-plus.php:375
 msgid "Logged out message"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:371
+#: src/classes/frontend-login-plus.php:376
 #: src/templates/frontend-login/layout_1-login.php:20
 msgid "You are logged out."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:376
+#: src/classes/frontend-login-plus.php:381
 msgid "Log Out Link Text"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:377
+#: src/classes/frontend-login-plus.php:382
+#: src/classes/login-logout-menu.php:146
 msgid "Log Out"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:382
+#: src/classes/frontend-login-plus.php:387
 msgid "Hide All For Logged In Users"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:387
+#: src/classes/frontend-login-plus.php:392
 msgid "Message For Logged In Users"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:388
+#: src/classes/frontend-login-plus.php:393
 msgid "You are logged in."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:393
+#: src/classes/frontend-login-plus.php:398
 msgid "Google reCAPTCHA Settings"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:397
+#: src/classes/frontend-login-plus.php:402
 msgid "Site Key"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:403
+#: src/classes/frontend-login-plus.php:408
 msgid "Secret Key"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:409
+#: src/classes/frontend-login-plus.php:414
 msgid "reCAPTCHA Not Checked Message"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:410
+#: src/classes/frontend-login-plus.php:415
 msgid "Please verify that you are not a robot."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:415
+#: src/classes/frontend-login-plus.php:420
 msgid "reCAPTCHA Error Message"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:416
+#: src/classes/frontend-login-plus.php:421
 msgid ""
 "There was an error validating the form. Please contact the site "
 "administrator."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:421
+#: src/classes/frontend-login-plus.php:426
 msgid "Forgot Password Form"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:426
+#: src/classes/frontend-login-plus.php:431
 msgid "Forgot Password"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:432
+#: src/classes/frontend-login-plus.php:437
 msgid ""
 "Enter your email address or username and we’ll send you instructions to "
 "reset your password."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:437
+#: src/classes/frontend-login-plus.php:442
 msgid "Field Label"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:444
+#: src/classes/frontend-login-plus.php:449
 msgid "Recover Account"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:457
+#: src/classes/frontend-login-plus.php:462
 msgid "That is not a registered username or email address."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:462
+#: src/classes/frontend-login-plus.php:467
 msgid "Email Failed Message"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:463
+#: src/classes/frontend-login-plus.php:468
 msgid "Password reset email failed to send."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:468
+#: src/classes/frontend-login-plus.php:473
 msgid "Email Success Message"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:469
+#: src/classes/frontend-login-plus.php:474
 msgid "Check your email for a password reset link."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:475
+#: src/classes/frontend-login-plus.php:480
 msgid "Forgot Password Email"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:479
+#: src/classes/frontend-login-plus.php:484
 msgid "Password Reset"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:480 src/templates/admin-help.php:112
+#: src/classes/frontend-login-plus.php:485 src/templates/admin-help.php:112
 msgid "Subject"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:486
+#: src/classes/frontend-login-plus.php:491
 msgid "Body"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:492
+#: src/classes/frontend-login-plus.php:497
 msgid "Available variables for email body"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:494
+#: src/classes/frontend-login-plus.php:499
 msgid "Prints User's Login"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:496
+#: src/classes/frontend-login-plus.php:501
 msgid "Prints Password Reset Link"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:501
+#: src/classes/frontend-login-plus.php:506
 msgid "Reset Password Form"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:506
-#: src/classes/frontend-login-plus.php:537
+#: src/classes/frontend-login-plus.php:511
+#: src/classes/frontend-login-plus.php:542
 msgid "Reset Password"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:512
+#: src/classes/frontend-login-plus.php:517
 msgid "Enter a new password below."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:518
+#: src/classes/frontend-login-plus.php:523
 msgid "New Password"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:523
+#: src/classes/frontend-login-plus.php:528
 msgid "Confirm Password Field Label"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:524
+#: src/classes/frontend-login-plus.php:529
 msgid "Confirm New Password"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:542
+#: src/classes/frontend-login-plus.php:547
 msgid "Passwords Do Not Match Message"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:543
+#: src/classes/frontend-login-plus.php:548
 msgid "The passwords you entered do not match."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:555
+#: src/classes/frontend-login-plus.php:560
 msgid "Invalid Reset Link Message"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:556
+#: src/classes/frontend-login-plus.php:561
 msgid "Invalid password reset link."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:561
+#: src/classes/frontend-login-plus.php:566
 msgid "Password Reset Successful Message"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:562
+#: src/classes/frontend-login-plus.php:567
 msgid "Your password was successfully reset. Please log in."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:731
+#: src/classes/frontend-login-plus.php:736
 msgid "We haven't verified this account."
 msgstr ""
 
@@ -674,29 +680,29 @@ msgid ""
 "Hides the Admin Bar at the top of WordPress pages based on the user role."
 msgstr ""
 
-#: src/classes/learn-dash-resume.php:56
+#: src/classes/learn-dash-resume.php:57
 msgid "Resume Button"
 msgstr ""
 
-#: src/classes/learn-dash-resume.php:58
+#: src/classes/learn-dash-resume.php:59
 msgid ""
 "Inserts a button that allows learners to return to the course, lesson or "
 "topic they last visited."
 msgstr ""
 
-#: src/classes/learn-dash-resume.php:92
+#: src/classes/learn-dash-resume.php:93
 msgid "Resume Button Text"
 msgstr ""
 
-#: src/classes/learn-dash-resume.php:97
+#: src/classes/learn-dash-resume.php:98
 msgid "Show Name of Last Course / Lesson / Topic"
 msgstr ""
 
-#: src/classes/learn-dash-resume.php:208
+#: src/classes/learn-dash-resume.php:209
 msgid "RESUME"
 msgstr ""
 
-#: src/classes/learn-dash-resume.php:235 src/classes/learn-dash-resume.php:338
+#: src/classes/learn-dash-resume.php:236 src/classes/learn-dash-resume.php:339
 #, php-format
 msgctxt "LMS shortcode Resume link title \"Resume post_type_name: Post_title "
 msgid "Resume %s: %s"
@@ -728,8 +734,28 @@ msgstr ""
 msgid "Uncanny Menu Links"
 msgstr ""
 
+#: src/classes/login-logout-menu.php:149
+msgid "Log In / Log Out"
+msgstr ""
+
 #: src/classes/login-logout-menu.php:189
 msgid "Add to Menu"
+msgstr ""
+
+#: src/classes/login-logout-menu.php:212
+msgid " - Log In"
+msgstr ""
+
+#: src/classes/login-logout-menu.php:215
+msgid " - Log Out"
+msgstr ""
+
+#: src/classes/login-logout-menu.php:218
+msgid " - Log In/Out"
+msgstr ""
+
+#: src/classes/login-logout-menu.php:221
+msgid " - Register"
 msgstr ""
 
 #: src/classes/login-logout-menu.php:322 src/classes/login-logout-menu.php:336
@@ -913,27 +939,27 @@ msgstr ""
 msgid "No certificates message:"
 msgstr ""
 
-#: src/config.php:542
+#: src/config.php:619
 msgid "Close"
 msgstr ""
 
-#: src/config.php:547
+#: src/config.php:624
 msgid "Save module"
 msgstr ""
 
-#: src/config.php:651
+#: src/config.php:728
 msgid "Settings saved successfully"
 msgstr ""
 
-#: src/config.php:653
+#: src/config.php:730
 msgid "Something went wrong. Please, try again"
 msgstr ""
 
-#: src/config.php:657
+#: src/config.php:734
 msgid "Class for addon is not set"
 msgstr ""
 
-#: src/config.php:660
+#: src/config.php:737
 msgid "You must be an admin to save settings"
 msgstr ""
 
@@ -1336,22 +1362,22 @@ msgstr ""
 msgid "This account is not verified."
 msgstr ""
 
-#: uncanny-learndash-toolkit.php:112
+#: uncanny-learndash-toolkit.php:65
 #, php-format
 msgid ""
-"The %s requires PHP version %s or higher (5.6 or higher is recommended). "
+"The %s requires PHP version %s or higher (7.2 or higher is recommended). "
 "Because you are using an unsupported version of PHP (%s), the Toolkit plugin "
 "will not initialize. Please contact your hosting company to upgrade to PHP "
 "5.6 or higher."
 msgstr ""
 
-#: uncanny-learndash-toolkit.php:148
+#: uncanny-learndash-toolkit.php:101
 #, php-format
 msgid ""
 "The %s plugin requires %s version %s or greater. Your current version is %s."
 msgstr ""
 
-#: uncanny-learndash-toolkit.php:168
+#: uncanny-learndash-toolkit.php:121
 #, php-format
 msgid ""
 "The Uncanny LearnDash Toolkit requires LearnDash version 2.1 or higher to "
@@ -1360,7 +1386,7 @@ msgid ""
 "%s"
 msgstr ""
 
-#: uncanny-learndash-toolkit.php:182
+#: uncanny-learndash-toolkit.php:135
 msgid ""
 "The Uncanny LearnDash Toolkit requires LearnDash version 2.1 or higher to "
 "work properly. Please make sure you have version 2.1 or higher installed "

@@ -58,7 +58,7 @@ class Login {
 			// Bind submission
 			this.$elements.loginForm.onsubmit = ( event ) => {
 
-			    if( isCaptchaChecked ){
+			    if( typeof ( grecaptcha ) !== 'undefined' && isCaptchaChecked ){
 
                 }
 
@@ -93,7 +93,7 @@ class Login {
             // Bind submission
             this.$elements.submitButton.onmousedown = (event) => {
 
-                if ( 0 === this.isCaptchaChecked() ) {
+                if ( typeof ( grecaptcha ) !== 'undefined' && 0 === this.isCaptchaChecked() ) {
                     this.$elements.recaptchaElement.classList.add( 'ult-form__row--recaptcha-error' );
                 }
             }

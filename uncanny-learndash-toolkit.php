@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Uncanny LearnDash Toolkit
-Version: 3.0.2
+Version: 3.1
 Description: Extend the LearnDash plugin with a variety of complementary features to make building engaging learner experiences even easier.
 Author: Uncanny Owl
 Author URI: www.uncannyowl.com
@@ -15,7 +15,7 @@ global $uncanny_learndash_toolkit;
 
 // Define version
 if ( ! defined( 'UNCANNY_TOOLKIT_VERSION' ) ) {
-	define( 'UNCANNY_TOOLKIT_VERSION', '3.0.2' );
+	define( 'UNCANNY_TOOLKIT_VERSION', '3.1' );
 }
 
 // Define prefix
@@ -23,71 +23,20 @@ if ( ! defined( 'UNCANNY_TOOLKIT_PREFIX' ) ) {
 	define( 'UNCANNY_TOOLKIT_PREFIX', 'ultp' );
 }
 
-function ultp_notice() {
-	$user_id = get_current_user_id();
-
-	if ( empty( get_user_meta( $user_id, 'uofel_notice_dismissed' ) ) ) {
-		echo '<div class="notice notice-warning below-h2">
-<button id="uofel" type="button" style="    position: relative;
-    top: 0;
-    right: 1px;
-    border: none;
-    margin: 0;
-    padding: 9px;
-    background: 0 0;
-    color: #0073aa;
-    cursor: pointer;
-    float: right;" >Dismiss<span class="screen-reader-text">Dismiss this notice.</span></button>
-				<p><strong>IMPORTANT!</strong> The Front End Login module of the Uncanny LearnDash Toolkit changed significantly in version 3.0. Please re-check your settings and review your login page as a logged out user. </p>
-			
-			</div>
-			<script>
-jQuery("#uofel").on("click", function(){    
-    key = encodeURI("uofel-dismissed"); value = encodeURI("yes");
-    var kvp = document.location.search.substr(1).split("&");
-    var i=kvp.length; var x; while(i--) 
-    {
-        x = kvp[i].split("=");
-
-        if (x[0]==key)
-        {
-            x[1] = value;
-            kvp[i] = x.join("=");
-            break;
-        }
-    }
-
-    if(i<0) {kvp[kvp.length] = [key,value].join("=");}
-
-    //this will reload the page, it\'s likely better to store this until finished
-    document.location.search = kvp.join("&"); 
-    });
-</script>';
-	}
-}
-
-add_action( 'admin_notices', 'ultp_notice' );
-
-function ultp_notice_dismissed() {
-	$user_id = get_current_user_id();
-	if ( isset( $_GET['uofel-dismissed'] ) ) {
-		add_user_meta( $user_id, 'uofel_notice_dismissed', 'true', true );
-	}
-}
-
-add_action( 'admin_init', 'ultp_notice_dismissed' );
-
-
 // Show admin notices for minimum versions of PHP, WordPress, and LearnDash
 add_action( 'admin_notices', 'learndash_version_notice' );
 
 function learndash_version_notice() {
 
+	if ( ! current_user_can( 'upload_plugins' ) ) {
+		return;
+	}
+
 	global $wp_version;
 
 	//Minimum versions
 	$wp         = '4.0';
-	$php        = '5.3';
+	$php        = '5.6';
 	$learn_dash = '2.1';
 
 	// Set LearnDash version
@@ -99,9 +48,13 @@ function learndash_version_notice() {
 	// Get current screen
 	$screen = get_current_screen();
 
-	if ( ! version_compare( PHP_VERSION, '5.6', '>=' ) ) {
+	// Show notice if php version is less than 5.6 and the current admin page is plugins.php
+	$version = $php;
+	$current = PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION . '.' . PHP_RELEASE_VERSION;
 
-		// Show notice if php version is less than 5.6
+	if ( ! version_compare( PHP_VERSION, '5.6', '>=' ) && ( isset( $screen ) && 'plugins.php' === $screen->parent_file ) ) {
+
+		// Show notice if php version is less than 5.6 and the current admin page is plugins.php
 		$version = $php;
 		$current = PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION . '.' . PHP_RELEASE_VERSION;
 
@@ -109,7 +62,7 @@ function learndash_version_notice() {
 		<div class="notice notice-error">
 			<h3><?php echo sprintf(
 
-					esc_html__( 'The %s requires PHP version %s or higher (5.6 or higher is recommended). Because you are using an unsupported version of PHP (%s), the Toolkit plugin will not initialize. Please contact your hosting company to upgrade to PHP 5.6 or higher.', 'uncanny-learndash-toolkit'
+					esc_html__( 'The %s requires PHP version %s or higher (7.2 or higher is recommended). Because you are using an unsupported version of PHP (%s), the Toolkit plugin will not initialize. Please contact your hosting company to upgrade to PHP 5.6 or higher.', 'uncanny-learndash-toolkit'
 					),
 
 					'Uncanny LearnDash Toolkit',
@@ -199,7 +152,7 @@ function uncanny_learndash_toolkit_text_domain() {
 	load_plugin_textdomain( 'uncanny-learndash-toolkit', false, basename( dirname( __FILE__ ) ) . '/languages/' );
 }
 
-// PHP version 5.3 and up only
+// PHP version 5.6 and up only
 if ( version_compare( PHP_VERSION, '5.6', '>=' ) ) {
 
 	// On first activation, redirect to toolkit settings page if min php version is met

@@ -204,10 +204,46 @@ class Config {
 		if ( false === $file ) {
 			$file = __FILE__;
 		}
-
-		$asset_uri = dirname( $file ) . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . $file_name;
+		$template_path = apply_filters( 'uncanny_toolkit_template_path', 'uncanny-toolkit' . DIRECTORY_SEPARATOR );
+		$asset_uri     = self::locate_template( $template_path . $file_name );
+		
+		if ( empty( $asset_uri ) ) {
+			$asset_uri = dirname( $file ) . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . $file_name;
+		}
 
 		return $asset_uri;
+	}
+	
+	/**
+	 * Retrieve the name of the highest priority template file that exists.
+	 *
+	 * Searches in the STYLESHEETPATH before TEMPLATEPATH and wp-includes/theme-compat
+	 * so that themes which inherit from a parent theme can just overload one file.
+	 *
+	 * @since 3.1
+	 *
+	 * @param string|array $template_names Template file(s) to search for, in order.
+	 *
+	 * @return string The template filename if one is located.
+	 */
+	public static function locate_template( $template_names ) {
+		$located = '';
+		foreach ( (array) $template_names as $template_name ) {
+			if ( !$template_name )
+				continue;
+			if ( file_exists( get_stylesheet_directory() . DIRECTORY_SEPARATOR . $template_name ) ) {
+				$located = get_stylesheet_directory() . DIRECTORY_SEPARATOR . $template_name;
+				break;
+			} elseif ( file_exists( get_template_directory() . DIRECTORY_SEPARATOR . $template_name ) ) {
+				$located = get_template_directory() . DIRECTORY_SEPARATOR . $template_name;
+				break;
+			} elseif ( file_exists( ABSPATH . WPINC . DIRECTORY_SEPARATOR . 'theme-compat' . DIRECTORY_SEPARATOR . $template_name ) ) {
+				$located = ABSPATH . WPINC . DIRECTORY_SEPARATOR . 'theme-compat' . DIRECTORY_SEPARATOR . $template_name;
+				break;
+			}
+		}
+		
+		return $located;
 	}
 
 	/**
@@ -373,6 +409,12 @@ class Config {
 										</div>
 										<div class="ult-modal-form-row__field">
 											<input type="text" placeholder="<?php echo $content['placeholder']; ?>" class="ult-modal-form-row__input <?php echo $content['class'] ?>" name="<?php echo $content['option_name']; ?>" data-type="text">
+
+											<?php if ( ! empty( $content[ 'description' ] ) ){ ?>
+												<div class="ult-modal-form-row__description">
+													<?php echo $content[ 'description' ]; ?>
+												</div>
+											<?php } ?>
 										</div>
 									</div>
 
@@ -390,6 +432,12 @@ class Config {
 										</div>
 										<div class="ult-modal-form-row__field">
 											<input type="color" placeholder="<?php echo $content['placeholder']; ?>" class="ult-modal-form-row__color" name="<?php echo $content['option_name']; ?>" data-type="color">
+
+											<?php if ( ! empty( $content[ 'description' ] ) ){ ?>
+												<div class="ult-modal-form-row__description">
+													<?php echo $content[ 'description' ]; ?>
+												</div>
+											<?php } ?>
 										</div>
 									</div>
 
@@ -429,6 +477,12 @@ class Config {
 													] );
 
 												?>
+
+												<?php if ( ! empty( $content[ 'description' ] ) ){ ?>
+													<div class="ult-modal-form-row__description">
+														<?php echo $content[ 'description' ]; ?>
+													</div>
+												<?php } ?>
 											</div>
 										</div>
 
@@ -442,6 +496,12 @@ class Config {
 											</div>
 											<div class="ult-modal-form-row__field">
 												<textarea class="ult-modal-form-row__textarea <?php echo $content['class']; ?>" name="<?php echo $content['option_name']; ?>" placeholder="<?php echo $content['placeholder']; ?>" type="textarea"></textarea>
+
+												<?php if ( ! empty( $content[ 'description' ] ) ){ ?>
+													<div class="ult-modal-form-row__description">
+														<?php echo $content[ 'description' ]; ?>
+													</div>
+												<?php } ?>
 											</div>
 										</div>
 
@@ -460,6 +520,12 @@ class Config {
 												<input type="checkbox" name="<?php echo $content['option_name']; ?>" class="ult-modal-form-row__checkbox" data-type="checkbox">
 												<?php echo $content['label']; ?>
 											</label>
+
+											<?php if ( ! empty( $content[ 'description' ] ) ){ ?>
+												<div class="ult-modal-form-row__description">
+													<?php echo $content[ 'description' ]; ?>
+												</div>
+											<?php } ?>
 										</div>
 									</div>
 
@@ -491,6 +557,12 @@ class Config {
 											}
 
 											?>
+
+											<?php if ( ! empty( $content[ 'description' ] ) ){ ?>
+												<div class="ult-modal-form-row__description">
+													<?php echo $content[ 'description' ]; ?>
+												</div>
+											<?php } ?>
 										</div>
 									</div>
 
@@ -523,6 +595,11 @@ class Config {
 												?>
 											</select>
 
+											<?php if ( ! empty( $content[ 'description' ] ) ){ ?>
+												<div class="ult-modal-form-row__description">
+													<?php echo $content[ 'description' ]; ?>
+												</div>
+											<?php } ?>
 										</div>
 									</div>
 

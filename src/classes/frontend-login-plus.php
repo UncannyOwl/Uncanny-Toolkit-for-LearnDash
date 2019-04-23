@@ -313,6 +313,11 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				'option_name' => 'uo_frontend_login_password_label',
 			),
 			array(
+				'type'        => 'checkbox',
+				'label'       => esc_html__( 'Disable Remember Me Checkbox', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_frontendloginplus_disable_rememberme',
+			),
+			array(
 				'type'        => 'text',
 				'label'       => esc_html__( 'Remember Me Checkbox Label', 'uncanny-learndash-toolkit' ),
 				'placeholder' => esc_html__( 'Remember Me', 'uncanny-learndash-toolkit' ),
@@ -783,7 +788,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 							$rp_cookie = 'wp-resetpass-' . COOKIEHASH;
 							$value     = sprintf( '%s:%s', wp_unslash( $_GET['login'] ), wp_unslash( $_GET['key'] ) );
-							setcookie( $rp_cookie, $value, 0, '/', COOKIE_DOMAIN, is_ssl(), true );
+							@setcookie( $rp_cookie, $value, 0, '/', COOKIE_DOMAIN, is_ssl(), true );
 						}
 					}
 				}
@@ -1085,12 +1090,13 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	 * @return array
 	 */
 	public static function fetch_login_form_args() {
-
-		$label_username = self::get_settings_value( 'uo_login_username_label_login', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
-		$label_password = self::get_settings_value( 'uo_frontend_login_password_label', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
-		$label_remember = self::get_settings_value( 'uo_frontend_login_rememberme_label', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
-		$label_log_in   = self::get_settings_value( 'uo_frontend_login_button_label', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
-
+		
+		$label_username   = self::get_settings_value( 'uo_login_username_label_login', __CLASS__, '%placeholder%', self::get_class_settings( '', TRUE ) );
+		$label_password   = self::get_settings_value( 'uo_frontend_login_password_label', __CLASS__, '%placeholder%', self::get_class_settings( '', TRUE ) );
+		$disable_remember = self::get_settings_value( 'uo_frontendloginplus_disable_rememberme', __CLASS__ );
+		$label_remember   = self::get_settings_value( 'uo_frontend_login_rememberme_label', __CLASS__, '%placeholder%', self::get_class_settings( '', TRUE ) );
+		$label_log_in     = self::get_settings_value( 'uo_frontend_login_button_label', __CLASS__, '%placeholder%', self::get_class_settings( '', TRUE ) );
+		
 		return array(
 			'echo'           => true,
 			'redirect'       => home_url( '/wp-admin/' ),
@@ -1103,7 +1109,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			'id_password'    => 'user_pass',
 			'id_remember'    => 'rememberme',
 			'id_submit'      => 'wp-submit',
-			'remember'       => true,
+			'remember'       => $disable_remember === 'on' ? false : true,
 			'value_username' => null,
 			'value_remember' => true,
 		);
@@ -1285,6 +1291,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		}
 
 		$login_page = get_permalink( self::get_login_redirect_page_id() );
+		
 
 		if ( isset( $_GET['redirect_to'] ) && false !== strpos( $_GET['redirect_to'], 'wp-admin' ) ) {
 			wp_safe_redirect( $login_page );
@@ -1336,9 +1343,29 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 		$recaptcha_key         = Config::get_settings_value( 'uo_frontend_login_recaptcha_key', 'FrontendLoginPlus' );
 		$recaptcha_secrete_key = Config::get_settings_value( 'uo_frontend_login_recaptcha_secret_key', 'FrontendLoginPlus' );
-
+		
+		// get referer page id and content for shortcode
+		$referer_id         = url_to_postid( wp_get_referer() );
+		$is_short_code_page = FALSE;
+		if ( ! empty( $referer_id ) ) {
+			$referer_page = get_post( $referer_id );
+			$block_is_on_page = false;
+			if ( function_exists( 'parse_blocks' ) ) {
+				$blocks = parse_blocks( $referer_page->post_content );
+				foreach ( $blocks as $block ) {
+					if ( 'uncanny-toolkit/frontend-login' === $block['blockName'] ) {
+						$block_is_on_page = TRUE;
+					}
+				}
+			}
+			
+			if ( has_shortcode( $referer_page->post_content, 'uo_login_ui' ) || has_shortcode( $referer_page->post_content, 'uo_login' ) || $block_is_on_page) {
+				$is_short_code_page = TRUE;
+			}
+			
+		}
 		// check if recaptcha is setup
-		if ( '' !== trim( $recaptcha_key ) && '' !== trim( $recaptcha_secrete_key ) ) {
+		if ( '' !== trim( $recaptcha_key ) && '' !== trim( $recaptcha_secrete_key ) && ( self::get_login_redirect_page_id() === $referer_id || $is_short_code_page ) ) {
 
 			if ( ! isset( $_POST['g-recaptcha-response'] ) ) {
 				wp_safe_redirect( add_query_arg( array( 'login' => 'recaptchafailed' ), $login_page ) );
