@@ -2,9 +2,9 @@
 Contributors: uncannyowl
 Tags: LearnDash, eLearning, LMS, education, learning, courseware
 Requires at least: 4.6
-Tested up to: 5.0.2
+Tested up to: 5.1.1
 Requires PHP: 5.6
-Stable tag: 3.0.2
+Stable tag: 3.1
 License: This plugin is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or any later version.   LearnDash Groups in User Profiles is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.   You should have received a copy of the GNU General Public License along with LearnDash Groups in User Profiles. If not, see {URI to Plugin License}.
 License URI: https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
 
@@ -67,6 +67,16 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 1. Uncanny LearnDash Toolkit Dashboard
 
 == Changelog ==
+
+= 3.1 =
+* Added: Automatic template overrides!  Override any file in the /src/templates folder by copying it into /uncanny-toolkit/ in your child theme
+* Added: Front End Login - Option to disable "Remember Me" checkbox
+* Updated: Front End Login - Improved compatibility with other login plugins when reCaptcha is enabled
+* Updated: Front End Login: Default template no longer displays email field after the reset password form is submitted
+* Updated: Log In/Log Out Links - Improved translation support
+* Updated: Hide Admin Bar - The admin bar is now always visible to all users with the "manage_options" capability
+* Updated: Resume Button - Removed next post prefetch meta tag on courses, lessons, topics and quizzes to prevent Firefox users from being sent to the wrong lesson/topic when resuming
+* Fixed: Required PHP version message now correctly states PHP 5.6 or higher is required
 
 = 3.0.2 =
 * Updated: Improved compatibility with Internet Explorer 11
