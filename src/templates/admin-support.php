@@ -11,7 +11,8 @@ namespace uncanny_learndash_toolkit;
 		<div class="uo-plugins-header__author">
 			<span><?php _e( 'by', 'uncanny-learndash-toolkit' ); ?></span>
 			<a href="https://uncannyowl.com" target="_blank" class="uo-plugins-header__logo">
-				<img src="<?php echo esc_url( Config::get_admin_media( 'uncanny-owl-logo.svg' ) ); ?>" alt="Uncanny Owl">
+				<img src="<?php echo esc_url( Config::get_admin_media( 'uncanny-owl-logo.svg' ) ); ?>"
+					 alt="Uncanny Owl">
 			</a>
 		</div>
 	</div>
@@ -41,20 +42,31 @@ namespace uncanny_learndash_toolkit;
 			include( 'admin-kb.php' );
 
 			if ( Boot::is_pro_active() ) {
-				?>
-				<p class="uo-get-help">
-					<a href="<?php echo admin_url( 'admin.php?page=uncanny-toolkit-kb&submit-a-ticket=1' ); ?>"><?php _e( 'I can\'t find the answer to my question.', 'uncanny-learndash-toolkit' ) ?></a>
-				</p>
 
-				<?php
+				$show_support_link = apply_filters( 'uo_show_support_link_toolkit_pro', true );
+
+				if ( $show_support_link ) {
+					?>
+					<p class="uo-get-help">
+						<a href="<?php echo admin_url( 'admin.php?page=uncanny-toolkit-kb&submit-a-ticket=1' ); ?>"><?php _e( 'I can\'t find the answer to my question.', 'uncanny-learndash-toolkit' ) ?></a>
+					</p>
+
+					<?php
+				}
 			} else {
-				?>
 
-				<p class="uo-get-help">
-					<a href="https://wordpress.org/support/plugin/uncanny-learndash-toolkit" target="_blank"><?php _e( 'I can\'t find the answer to my question.', 'uncanny-learndash-toolkit' ) ?></a>
-				</p>
+					$show_support_link = apply_filters( 'uo_show_support_link_toolkit_free', true );
 
-				<?php
+					if ( $show_support_link ) {
+						?>
+
+						<p class="uo-get-help">
+							<a href="https://wordpress.org/support/plugin/uncanny-learndash-toolkit"
+							   target="_blank"><?php _e( 'I can\'t find the answer to my question.', 'uncanny-learndash-toolkit' ) ?></a>
+						</p>
+
+						<?php
+					}
 			}
 		}
 
