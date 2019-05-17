@@ -551,7 +551,12 @@ class Config {
 											foreach ( $content['radios'] as $radio ) {
 												?>
 
-												<input type="radio" name="<?php echo $content['radio_name']; ?>" value="<?php echo $radio['value']; ?>" data-type="radio"> <?php echo $radio['text']; ?>
+												<label class="ult-modal-form-row__radio-label">
+													<input type="radio" name="<?php echo $content['radio_name']; ?>" value="<?php echo $radio['value']; ?>" data-type="radio">
+													<span>
+														<?php echo $radio['text']; ?>
+													</span>
+												</label>
 
 												<?php
 											}
