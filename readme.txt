@@ -68,6 +68,12 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 
 == Changelog ==
 
+= 3.1.1 =
+* Added: Course Dashboard (Pro): Logic to select dashboard 3.0 theme when module is activated or LearnDash 3.0 theme is active
+* Updated: Improved radio button behavior in module settings dialogs
+* Fixed: Front End Login - Issue that caused "Headers already sent" warning on some sites
+* Fixed: Hide Admin Bar - Admin bar no longer appears in Elementor editing view
+
 = 3.1 =
 * Added: Automatic template overrides!  Override any file in the /src/templates folder by copying it into /uncanny-toolkit/ in your child theme
 * Added: Front End Login - Option to disable "Remember Me" checkbox

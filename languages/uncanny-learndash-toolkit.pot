@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: Uncanny LearnDash Toolkit\n"
-"POT-Creation-Date: 2019-04-22 16:55-0700\n"
-"PO-Revision-Date: 2019-04-22 16:55-0700\n"
+"POT-Creation-Date: 2019-05-24 08:58-0700\n"
+"PO-Revision-Date: 2019-05-24 08:58-0700\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -820,21 +820,23 @@ msgstr ""
 msgid "Everyone"
 msgstr ""
 
-#: src/classes/redirect-not-enrolled.php:44
+#: src/classes/redirect-not-enrolled.php:60
 msgid "Not Enrolled Redirect"
 msgstr ""
 
-#: src/classes/redirect-not-enrolled.php:46
+#: src/classes/redirect-not-enrolled.php:62
 msgid ""
 "Redirects all non-admin roles to a specific URL if they are not enrolled in "
 "the course."
 msgstr ""
 
-#: src/classes/redirect-not-enrolled.php:100
+#: src/classes/redirect-not-enrolled.php:142
+#: src/classes/redirect-not-enrolled.php:180
 msgid "Not enrolled Redirect URL"
 msgstr ""
 
-#: src/classes/redirect-not-enrolled.php:102
+#: src/classes/redirect-not-enrolled.php:144
+#: src/classes/redirect-not-enrolled.php:182
 msgid "Redirect the user to the URL if they are not enrolled in the course"
 msgstr ""
 
@@ -939,27 +941,27 @@ msgstr ""
 msgid "No certificates message:"
 msgstr ""
 
-#: src/config.php:619
+#: src/config.php:624
 msgid "Close"
 msgstr ""
 
-#: src/config.php:624
+#: src/config.php:629
 msgid "Save module"
 msgstr ""
 
-#: src/config.php:728
+#: src/config.php:744
 msgid "Settings saved successfully"
 msgstr ""
 
-#: src/config.php:730
+#: src/config.php:746
 msgid "Something went wrong. Please, try again"
 msgstr ""
 
-#: src/config.php:734
+#: src/config.php:750
 msgid "Class for addon is not set"
 msgstr ""
 
-#: src/config.php:737
+#: src/config.php:753
 msgid "You must be an admin to save settings"
 msgstr ""
 
@@ -1338,11 +1340,11 @@ msgstr ""
 msgid "PHP Settings"
 msgstr ""
 
-#: src/templates/admin-support.php:46 src/templates/admin-support.php:54
+#: src/templates/admin-support.php:51 src/templates/admin-support.php:65
 msgid "I can't find the answer to my question."
 msgstr ""
 
-#: src/templates/admin-support.php:64
+#: src/templates/admin-support.php:76
 msgid "Cheating, Eh?"
 msgstr ""
 
