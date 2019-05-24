@@ -195,7 +195,7 @@ class Config {
 
 	/**
 	 * @param string $file_name File name must be prefixed with a \ (foreword slash)
-	 * @param mixed $file (false || __FILE__ )
+	 * @param mixed  $file      (false || __FILE__ )
 	 *
 	 * @return string
 	 */
@@ -206,14 +206,14 @@ class Config {
 		}
 		$template_path = apply_filters( 'uncanny_toolkit_template_path', 'uncanny-toolkit' . DIRECTORY_SEPARATOR );
 		$asset_uri     = self::locate_template( $template_path . $file_name );
-		
+
 		if ( empty( $asset_uri ) ) {
 			$asset_uri = dirname( $file ) . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . $file_name;
 		}
 
 		return $asset_uri;
 	}
-	
+
 	/**
 	 * Retrieve the name of the highest priority template file that exists.
 	 *
@@ -242,13 +242,13 @@ class Config {
 				break;
 			}
 		}
-		
+
 		return $located;
 	}
 
 	/**
 	 * @param string $file_name File name must be prefixed with a \ (foreword slash)
-	 * @param mixed $file (false || __FILE__ )
+	 * @param mixed  $file      (false || __FILE__ )
 	 *
 	 * @return string
 	 */
@@ -410,9 +410,9 @@ class Config {
 										<div class="ult-modal-form-row__field">
 											<input type="text" placeholder="<?php echo $content['placeholder']; ?>" class="ult-modal-form-row__input <?php echo $content['class'] ?>" name="<?php echo $content['option_name']; ?>" data-type="text">
 
-											<?php if ( ! empty( $content[ 'description' ] ) ){ ?>
+											<?php if ( ! empty( $content['description'] ) ) { ?>
 												<div class="ult-modal-form-row__description">
-													<?php echo $content[ 'description' ]; ?>
+													<?php echo $content['description']; ?>
 												</div>
 											<?php } ?>
 										</div>
@@ -433,9 +433,9 @@ class Config {
 										<div class="ult-modal-form-row__field">
 											<input type="color" placeholder="<?php echo $content['placeholder']; ?>" class="ult-modal-form-row__color" name="<?php echo $content['option_name']; ?>" data-type="color">
 
-											<?php if ( ! empty( $content[ 'description' ] ) ){ ?>
+											<?php if ( ! empty( $content['description'] ) ) { ?>
 												<div class="ult-modal-form-row__description">
-													<?php echo $content[ 'description' ]; ?>
+													<?php echo $content['description']; ?>
 												</div>
 											<?php } ?>
 										</div>
@@ -478,9 +478,9 @@ class Config {
 
 												?>
 
-												<?php if ( ! empty( $content[ 'description' ] ) ){ ?>
+												<?php if ( ! empty( $content['description'] ) ) { ?>
 													<div class="ult-modal-form-row__description">
-														<?php echo $content[ 'description' ]; ?>
+														<?php echo $content['description']; ?>
 													</div>
 												<?php } ?>
 											</div>
@@ -497,9 +497,9 @@ class Config {
 											<div class="ult-modal-form-row__field">
 												<textarea class="ult-modal-form-row__textarea <?php echo $content['class']; ?>" name="<?php echo $content['option_name']; ?>" placeholder="<?php echo $content['placeholder']; ?>" type="textarea"></textarea>
 
-												<?php if ( ! empty( $content[ 'description' ] ) ){ ?>
+												<?php if ( ! empty( $content['description'] ) ) { ?>
 													<div class="ult-modal-form-row__description">
-														<?php echo $content[ 'description' ]; ?>
+														<?php echo $content['description']; ?>
 													</div>
 												<?php } ?>
 											</div>
@@ -521,9 +521,9 @@ class Config {
 												<?php echo $content['label']; ?>
 											</label>
 
-											<?php if ( ! empty( $content[ 'description' ] ) ){ ?>
+											<?php if ( ! empty( $content['description'] ) ) { ?>
 												<div class="ult-modal-form-row__description">
-													<?php echo $content[ 'description' ]; ?>
+													<?php echo $content['description']; ?>
 												</div>
 											<?php } ?>
 										</div>
@@ -558,9 +558,9 @@ class Config {
 
 											?>
 
-											<?php if ( ! empty( $content[ 'description' ] ) ){ ?>
+											<?php if ( ! empty( $content['description'] ) ) { ?>
 												<div class="ult-modal-form-row__description">
-													<?php echo $content[ 'description' ]; ?>
+													<?php echo $content['description']; ?>
 												</div>
 											<?php } ?>
 										</div>
@@ -595,9 +595,9 @@ class Config {
 												?>
 											</select>
 
-											<?php if ( ! empty( $content[ 'description' ] ) ){ ?>
+											<?php if ( ! empty( $content['description'] ) ) { ?>
 												<div class="ult-modal-form-row__description">
-													<?php echo $content[ 'description' ]; ?>
+													<?php echo $content['description']; ?>
 												</div>
 											<?php } ?>
 										</div>
@@ -676,7 +676,18 @@ class Config {
 					$response      = ( $save_settings ) ? 'success' : 'notsaved';
 				}
 
-				//echo json_encode([$new_classes, $value, $_POST ]);
+				// If the uo dashboard module is being turned on then set the default template as 3_0
+				if ( 'uncanny_pro_toolkit\\learnDashMyCourses' === $value ) {
+					if ( 'active' === $_POST['active'] ) {
+						update_option( 'uncanny_pro_toolkitlearnDashMyCourses', [
+							[
+								'name'  => 'uo_dashboard_template',
+								'value' => '3_0'
+							]
+						], 'no' );
+					}
+				}
+
 				echo $response;
 				wp_die();
 			}
@@ -769,8 +780,8 @@ class Config {
 
 				$settings = get_option( $class, array() );
 
-				foreach($settings as &$setting ){
-					$setting['value'] = stripslashes($setting['value']);
+				foreach ( $settings as &$setting ) {
+					$setting['value'] = stripslashes( $setting['value'] );
 				}
 
 				$response = wp_json_encode( $settings );
@@ -806,12 +817,12 @@ class Config {
 		$options = get_option( $class, '' );
 
 		// set default settings if placeholder is to be used as default
-		if( '%placeholder%' === $default ){
+		if ( '%placeholder%' === $default ) {
 			// fallback
 			//$default = '';
-			foreach( $class_settings as $setting ){
-				if( isset($setting['option_name']) && $key === $setting['option_name']){
-					if( isset( $setting['placeholder'] )){
+			foreach ( $class_settings as $setting ) {
+				if ( isset( $setting['option_name'] ) && $key === $setting['option_name'] ) {
+					if ( isset( $setting['placeholder'] ) ) {
 						$default = $setting['placeholder'];
 					}
 				}
@@ -833,12 +844,12 @@ class Config {
 
 		return $default;
 	}
-/*
-	public static function removeslashes( $string ) {
-		$string = implode( "", explode( "\\", $string ) );
+	/*
+		public static function removeslashes( $string ) {
+			$string = implode( "", explode( "\\", $string ) );
 
-		return stripslashes( trim( $string ) );
-	}*/
+			return stripslashes( trim( $string ) );
+		}*/
 
 
 	/**
