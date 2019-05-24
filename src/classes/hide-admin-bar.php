@@ -111,7 +111,7 @@ class HideAdminBar extends Config implements RequiredFunctions {
 	 * @return boolean
 	 *
 	 */
-	public static function show_admin_bar() {
+	public static function show_admin_bar( $hide_admin ) {
 
 		if ( is_user_logged_in() ) {
 			if ( is_multisite() ) {
@@ -136,7 +136,7 @@ class HideAdminBar extends Config implements RequiredFunctions {
 			}
 			// if user has manage_option cap.
 			if ( current_user_can( 'manage_options' ) ) {
-				return true;
+				return $hide_admin;
 			}
 			
 			if ( $hide_roles ) {
@@ -148,7 +148,7 @@ class HideAdminBar extends Config implements RequiredFunctions {
 				}
 			}
 
-			return true;
+			return $hide_admin;
 		}
 
 		return false;

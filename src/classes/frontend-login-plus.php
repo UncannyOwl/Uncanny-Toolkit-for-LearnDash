@@ -93,7 +93,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				add_action( 'wp', array( __CLASS__, 'set_cookies' ) );
 
 				add_action( 'wp', array( __CLASS__, 'maybe_set_cookies' ), 99 ); // Set cookies
-				add_action( 'shutdown', array(
+				add_action( 'init', array(
 					__CLASS__,
 					'maybe_set_cookies'
 				), 0 ); // Set cookies before shutdown and ob flushing
@@ -788,7 +788,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 							$rp_cookie = 'wp-resetpass-' . COOKIEHASH;
 							$value     = sprintf( '%s:%s', wp_unslash( $_GET['login'] ), wp_unslash( $_GET['key'] ) );
-							@setcookie( $rp_cookie, $value, 0, '/', COOKIE_DOMAIN, is_ssl(), true );
+							setcookie( $rp_cookie, $value, 0, '/', COOKIE_DOMAIN, is_ssl(), true );
 						}
 					}
 				}

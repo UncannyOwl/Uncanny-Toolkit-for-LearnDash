@@ -11,6 +11,10 @@ if ( ! defined( 'WPINC' ) ) {
  * @package uncanny_custom_toolkit
  */
 class RedirectNotEnrolled extends Config implements RequiredFunctions {
+	/**
+	 * @var string
+	 */
+	public static $settings_metabox_key = 'learndash-course-display-content-settings';
 
 	/**
 	 * Class constructor
@@ -28,8 +32,20 @@ class RedirectNotEnrolled extends Config implements RequiredFunctions {
 
 			add_action( 'wp', array( __CLASS__, 'not_enrolled_redirect' ) );
 
-			// Add redirect setting to LearnDash Course edit page
-			add_filter( 'learndash_post_args', array( __CLASS__, 'add_redirect_to_post_args' ) );
+			//Legacy- Add redirect setting to LearnDash Course edit page
+			add_filter( 'learndash_post_args', array( __CLASS__, 'add_redirect_to_post_args_legacy' ) );
+
+			// 3.0+  - Add auto complete setting to LearnDash Lessons (auto creates field and loads value)
+			add_filter( 'learndash_settings_fields', array(
+				__CLASS__,
+				'add_redirect_to_post_args',
+			), 10, 2 ); // 3.0+
+
+			// 3.0+ - Save custom lesson settings field
+			add_filter( 'learndash_metabox_save_fields', array(
+				__CLASS__,
+				'save_uo_redirect_url_meta',
+			), 60, 3 );
 		}
 
 	}
@@ -79,10 +95,74 @@ class RedirectNotEnrolled extends Config implements RequiredFunctions {
 		return true;
 	}
 
+	/**
+	 * Save post metadata when a post is saved.
+	 *
+	 * @param $settings_field_updates
+	 * @param $settings_metabox_key
+	 * @param $settings_screen_id
+	 */
+	public static function save_uo_redirect_url_meta( $settings_field_updates, $settings_metabox_key, $settings_screen_id ) {
+
+		global $post;
+
+		if ( self::$settings_metabox_key === $settings_metabox_key ) {
+			// - Update the post's metadata. Nonce already verified by LearnDash
+			if (
+				isset( $_POST['learndash-course-display-content-settings'] ) &&
+				isset( $_POST['learndash-course-display-content-settings']['uo_redirect'] )
+			) {
+				$redirect_url = sanitize_text_field( $_POST['learndash-course-display-content-settings']['uo_redirect'] );
+				learndash_update_setting( $post, 'uo_redirect', $redirect_url );
+			}
+		}
+
+
+	}
+
+	/**
+	 * @param $setting_option_fields
+	 * @param $settings_metabox_key
+	 *
+	 * @return mixed
+	 */
+	public static function add_redirect_to_post_args( $setting_option_fields, $settings_metabox_key ) {
+		if ( $settings_metabox_key === self::$settings_metabox_key ) {
+			global $post;
+			$learndash_post_settings = (array) learndash_get_setting( $post, null );
+			$value                   = '';
+			if ( isset( $learndash_post_settings['uo_redirect'] ) ) {
+				if ( ! empty( $learndash_post_settings['uo_redirect'] ) ) {
+					$value = $learndash_post_settings['uo_redirect'];
+				}
+			}
+
+			$setting_option_fields['uo_redirect'] = array(
+				'name'      => 'uo_redirect',
+				'label'     => __( 'Not enrolled Redirect URL', 'uncanny-pro-toolkit' ),
+				'type'      => 'text',
+				'help_text' => __( 'Redirect the user to the URL if they are not enrolled in the course', 'uncanny-pro-toolkit' ),
+				'default'   => '',
+				'value'     => $value,
+			);
+		}
+
+		return $setting_option_fields;
+	}
+
 	/* Add Idle time to LeearnDash Options Meta Box
 	 *@param array $post_args array of options from the LearnDash custom post type option meta box
 	 */
-	public static function add_redirect_to_post_args( $post_args ) {
+	/**
+	 * @param $post_args
+	 *
+	 * @return array
+	 */
+	public static function add_redirect_to_post_args_legacy( $post_args ) {
+
+		if ( class_exists( 'LearnDash_Theme_Register' ) ) {
+			return $post_args;
+		}
 
 		// Push existing and new fields
 		$new_post_args = array();
@@ -123,14 +203,14 @@ class RedirectNotEnrolled extends Config implements RequiredFunctions {
 
 		global $post;
 
-		if ( ! is_admin() && $post != NULL && 'sfwd-courses' === $post->post_type ) {
+		if ( ! is_admin() && $post != null && 'sfwd-courses' === $post->post_type ) {
 
 
-			$post_options_timeout = learndash_get_setting( $post );
+			$post_options_timeout = (array) learndash_get_setting( $post );
 
-			if( isset( $post_options_timeout['uo_redirect']) ){
+			if ( isset( $post_options_timeout['uo_redirect'] ) ) {
 				$redirect_to = $post_options_timeout['uo_redirect'];
-			}else{
+			} else {
 				$redirect_to = '';
 			}
 
@@ -150,7 +230,7 @@ class RedirectNotEnrolled extends Config implements RequiredFunctions {
 
 
 				if ( isset( $user->roles ) && is_array( $user->roles ) ) {
-					
+
 					//check for admins
 					if ( ! in_array( 'administrator', $user->roles ) ) {
 
