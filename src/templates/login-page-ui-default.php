@@ -113,18 +113,6 @@ namespace uncanny_learndash_toolkit;
 					$user = false;
 				}
 
-				if ( ! $user || is_wp_error( $user ) && ! isset( $_POST['pass1'] ) ) {
-
-					//setcookie( $rp_cookie, ' ', time() - YEAR_IN_SECONDS, '/login', COOKIE_DOMAIN, is_ssl(), true );
-					if ( $user && $user->get_error_code() === 'expired_key' ) {
-						wp_safe_redirect( $login_page_url . 'action=validatepasswordreset&issue=expiredkey' );
-						die();
-					} else {
-						wp_safe_redirect( $login_page_url . 'action=validatepasswordreset&issue=invalidkey' );
-						die();
-					}
-				}
-
 				$errors = new \WP_Error();
 
 				if ( isset( $_POST['pass1'] ) && $_POST['pass1'] != $_POST['pass2'] ) {
@@ -137,12 +125,6 @@ namespace uncanny_learndash_toolkit;
 					//setcookie( $rp_cookie, $value, 0, '/' . get_post_field( 'post_name', $login_page ), COOKIE_DOMAIN, is_ssl(), true );
 
 					include( Config::get_template( apply_filters( 'uo-front-login-reset-template', 'frontend-login/' . $template_to_load . '-reset-pwd.php', $template_to_load ) ) );
-				} elseif ( isset( $_POST['pass1'] ) && ! empty( $_POST['pass1'] ) ) {
-
-					reset_password( $user, $_POST['pass1'] );
-					//setcookie( $rp_cookie, ' ', time() - YEAR_IN_SECONDS, '/login', COOKIE_DOMAIN, is_ssl(), true );
-					wp_safe_redirect( $login_page_url . 'action=reset&success=true' );
-					die();
 				}
 			}
 		} else {
