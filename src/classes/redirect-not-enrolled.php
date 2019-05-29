@@ -117,7 +117,7 @@ class RedirectNotEnrolled extends Config implements RequiredFunctions {
 			}
 		}
 
-
+		return $settings_field_updates;
 	}
 
 	/**
