@@ -4,7 +4,7 @@ Tags: LearnDash, eLearning, LMS, education, learning, courseware
 Requires at least: 4.6
 Tested up to: 5.1.1
 Requires PHP: 5.6
-Stable tag: 3.1.1
+Stable tag: 3.1.2
 License: This plugin is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or any later version.   LearnDash Groups in User Profiles is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.   You should have received a copy of the GNU General Public License along with LearnDash Groups in User Profiles. If not, see {URI to Plugin License}.
 License URI: https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
 
@@ -67,6 +67,11 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 1. Uncanny LearnDash Toolkit Dashboard
 
 == Changelog ==
+
+= 3.1.2 =
+* Updated: Removed PHP_OS_FAMILY constant to avoid false-positives in PHP compatibility checks
+* Fixed: Not Enrolled Redirect - Course settings being reset on save
+* Fixed: Front End Login - Headers already sent error on reset password
 
 = 3.1.1 =
 * Added: Course Dashboard (Pro): Logic to select dashboard 3.0 theme when module is activated or LearnDash 3.0 theme is active

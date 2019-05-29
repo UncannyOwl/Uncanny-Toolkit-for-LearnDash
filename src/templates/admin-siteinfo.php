@@ -45,9 +45,9 @@ if ( defined( 'PHP_OS' ) ) {
 	$php_version .= __( ' PHP_OS: ', 'uncanny-learndash-toolkit' ) . PHP_OS;
 }
 
-if ( defined( 'PHP_OS_FAMILY' ) ) {
+/*if ( defined( 'PHP_OS_FAMILY' ) ) {
 	$php_version .= __( ' PHP_OS_FAMILY: ', 'uncanny-learndash-toolkit' ) . PHP_OS_FAMILY;
-}
+}*/
 
 if ( ! $meets_min_requirements ){
 	$php_version .= $min_requirements;

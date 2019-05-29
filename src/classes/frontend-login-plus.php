@@ -103,6 +103,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				add_shortcode( 'uo_login_ui', array( __CLASS__, 'uo_login_ui' ) );
 				// Redirect from wp-login.php to custom login page
 				add_action( 'init', array( __CLASS__, 'redirect_login_page' ) );
+				add_action( 'init', array( __CLASS__, 'validate_reset_password' ) );
 				// Redirect after lost password
 				add_filter( 'lostpassword_redirect', array( __CLASS__, 'redirect_lost_password' ) );
 				// Redirect to custom login page if login has failed
@@ -146,7 +147,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		}
 
 	}
-
+	
 	/**
 	 * Description of class in Admin View
 	 *
@@ -1019,7 +1020,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				$validate_password_reset = true;
 			}
 		}
-
+		
 		$message_details = FrontendLoginPlus::fetch_warning_error_msgs( $login );
 		if ( ! empty( $message_details['warning'] ) ) {
 			$message_warning = $message_details['warning'];
@@ -1718,5 +1719,67 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		}
 
 		return $current_theme;
+	}
+	
+	/**
+	 * Validate and reset user password.
+	 *
+	 * @since 3.1.2
+	 */
+	
+	public static function validate_reset_password() {
+		
+		$login_page     = FrontendLoginPlus::get_login_redirect_page_id();
+		$login_page_url = get_permalink( $login_page );
+		
+		if ( strpos( $login_page_url, '?' ) ) {
+			$login_page_url = $login_page_url . '&';
+		} else {
+			$login_page_url = $login_page_url . '?';
+		}
+		/* Validate Reset Password Information */
+		$validate_password_reset = FALSE;
+		if ( isset( $_GET['action'] ) ) {
+			if ( 'validatepasswordreset' === $_GET['action'] ) {
+				$validate_password_reset = TRUE;
+			}
+		}
+		
+		if ( $validate_password_reset ) {
+			if ( ! isset( $_GET['issue'] ) ) {
+				$rp_cookie = 'wp-resetpass-' . COOKIEHASH;
+				if ( isset( $_COOKIE[ $rp_cookie ] ) && 0 < strpos( $_COOKIE[ $rp_cookie ], ':' ) ) {
+					list( $rp_login, $rp_key ) = explode( ':', wp_unslash( $_COOKIE[ $rp_cookie ] ), 2 );
+					$user = check_password_reset_key( $rp_key, $rp_login );
+					//var_dump($user);
+					if ( isset( $_POST['pass1'] ) && ! hash_equals( $rp_key, $_POST['rp_key'] ) ) {
+						$user = FALSE;
+					}
+				} else {
+					$user = FALSE;
+				}
+				
+				if ( ! $user || is_wp_error( $user ) && ! isset( $_POST['pass1'] ) ) {
+					
+					//setcookie( $rp_cookie, ' ', time() - YEAR_IN_SECONDS, '/login', COOKIE_DOMAIN, is_ssl(), true );
+					if ( $user && $user->get_error_code() === 'expired_key' ) {
+						wp_safe_redirect( $login_page_url . 'action=validatepasswordreset&issue=expiredkey' );
+						die();
+					} else {
+						wp_safe_redirect( $login_page_url . 'action=validatepasswordreset&issue=invalidkey' );
+						die();
+					}
+				}
+				
+				$errors = new \WP_Error();
+				
+				if ( isset( $_POST['pass1'] ) && ! empty( $_POST['pass1'] ) && $_POST['pass1'] == $_POST['pass2'] ) {
+					reset_password( $user, $_POST['pass1'] );
+					wp_redirect( $login_page_url . 'action=reset&success=true' );
+					die();
+				}
+			}
+		}
+		
 	}
 }
