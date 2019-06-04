@@ -7,7 +7,7 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 /**
- * Thanks to "johnbillion"!
+ * Thanks to @johnbillion
  *
  * @link      https://github.com/johnbillion/user-switching
  * @author    John Blackbourn <john@johnblackbourn.com>
