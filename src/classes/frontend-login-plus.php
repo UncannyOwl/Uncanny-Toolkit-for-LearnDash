@@ -1565,7 +1565,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	/*
 	 * Custom email message to retrieve password
 	 */
-	public static function custom_retrieve_password_message( $message, $key, $user_login, $user_data ) {
+	public static function custom_retrieve_password_message( $message, $key = '', $user_login = '', $user_data = null ) {
 
 		$login_page = get_permalink( self::get_login_redirect_page_id() );
 
@@ -1590,7 +1590,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	/*
 	 * Custom email message to retrieve password
 	 */
-	public static function custom_retrieve_password_title( $message, $user_login, $user_data ) {
+	public static function custom_retrieve_password_title( $message, $user_login = '', $user_data = null ) {
 
 		$custom_message = self::get_settings_value( 'uo_frontend_resetpassword_email_subject', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
 
