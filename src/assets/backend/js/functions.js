@@ -619,7 +619,11 @@ jQuery( function($){
                                 let editor = tinymce.get( field.name );
 
                                 if ( ULT_Utility.isDefined( editor ) ){
-                                    editor.setContent( field.value );
+                                    if( typeof wp.editor !== 'undefined' && typeof wp.editor.autop !== 'undefined'  ){
+                                        editor.setContent( wp.editor.autop( field.value ) );
+                                    }else{
+                                        editor.setContent( field.value );
+                                    }
                                 }
                             }
                             break;
