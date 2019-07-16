@@ -126,7 +126,7 @@ class ShowCertificatesShortcode extends Config implements RequiredFunctions {
 			$certificate_object = get_post( $certificate_id );
 
 			if ( ! empty( $certificate_object ) ) {
-				$certificate_title = $certificate_object->post_title;
+				$certificate_title = $course->post_title;
 				$certificate_link  = learndash_get_course_certificate_link( $course->ID );
 
 				if ( $certificate_link && '' !== $certificate_link ) {
@@ -156,7 +156,7 @@ class ShowCertificatesShortcode extends Config implements RequiredFunctions {
 						$meta               = get_post_meta( $quiz_attempt['post']->ID, '_sfwd-quiz', true );
 						$certificate_id     = $meta['sfwd-quiz_certificate'];
 						$certificate_object = get_post( $certificate_id );
-						$certificate_title  = $certificate_object->post_title;
+						$certificate_title  = $quiz_title;
 
 						$certificate_list .= '<a target="_blank" href="' . esc_url( $certificateLink ) . '">' . $certificate_title . '</a><br>';
 
