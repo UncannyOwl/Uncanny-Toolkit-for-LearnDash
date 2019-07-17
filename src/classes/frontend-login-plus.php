@@ -688,11 +688,11 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 			$to = $user->user_email;
 
-			$subject = $blog_name . ' - Account Verified';
+			$subject = sprintf( __( '%s - Account Verified', 'uncanny-learndash-toolkit' ), $blog_name );
 			$subject = apply_filters( 'uo_verified_email_subject', $subject, $user );
 
-			$message = "Your account has been approved! \r\n\n";
-			$message .= "Please visit " . home_url() . " to login \r\n";
+			$message = __( 'Your account has been approved! ', 'uncanny-learndash-toolkit' )."\r\n\n";
+			$message .= sprintf( __( 'Please visit %s to login. ', 'uncanny-learndash-toolkit' ), home_url() ) . " \r\n";
 			$message = apply_filters( 'uo_verified_email_message', $message, $user );
 
 			$mailed = wp_mail( $to, $subject, $message, $headers );
@@ -704,12 +704,12 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			$headers   = apply_filters( 'uo_verified_email_headers', $headers, $user );
 
 			$to = $admin_email;
-
-			$subject = $blog_name . ' - Account Verified';
+			
+			$subject = sprintf( __( '%s - Account Verified', 'uncanny-learndash-toolkit' ), $blog_name );
 			$subject = apply_filters( 'uo_verified_email_subject', $subject, $user );
 
-			$message      = $user->user_email . " account has been approved! \r\n\n";
-			$message      .= "Visit  " . admin_url( 'user-edit.php?user_id=' . $user->id ) . " to view / edit user. \r\n";
+			$message      = sprintf( __( '%s account has been approved! ', 'uncanny-learndash-toolkit' ), $user->user_email ) . " \r\n\n";
+			$message      .= sprintf( __( ' Visit %s to view / edit user. ', 'uncanny-learndash-toolkit' ), admin_url( 'user-edit.php?user_id=' . $user->id ) ) . " \r\n";
 			$message      = apply_filters( 'uo_verified_email_message', $message, $user );
 			$admin_mailed = wp_mail( $to, $subject, $message, $headers );
 
