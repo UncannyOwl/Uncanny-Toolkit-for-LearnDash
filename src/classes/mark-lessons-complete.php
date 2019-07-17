@@ -105,7 +105,7 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 
 					// only redirect if lesson does not have auto-complete on
 					if ( self::maybe_redirect( $data['lesson'] ) ) {
-						if( !is_admin()){
+						if ( ! is_admin() && ! isset( $_REQUEST['doing_rest'] ) ) {
 							learndash_get_next_lesson_redirect( $data['lesson'] );
 						}
 					}
@@ -127,7 +127,7 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 
 						// only redirect if lesson does not have auto-complete on
 						if ( self::maybe_redirect( $data['lesson'] ) ) {
-							if( ! is_admin() ){
+							if ( ! is_admin() && ! isset( $_REQUEST['doing_rest'] ) ) {
 								wp_safe_redirect( get_permalink( $quiz_id ) );
 								exit;
 							}
