@@ -641,13 +641,13 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		?>
 
 		<table class="form-table">
-			<tr class="user-rich-editing-wrap">
+			<tr class="uo_is_verified-container">
 				<th scope="row">
 					<h2>Verify User</h2>
 				</th>
 				<td>
-					<label for="rich_editing">
-						<input type="checkbox" name="uo_is_verified"
+					<label for="uo_is_verified">
+						<input type="checkbox" id="uo_is_verified" name="uo_is_verified"
 							   value="1" <?php checked( $checked, $current, $echo ); ?>/>
 						Verify this user and allow them to log in
 					</label>
