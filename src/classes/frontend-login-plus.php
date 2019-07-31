@@ -877,6 +877,11 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			$password_label = '';
 		}
 
+		//Add an additional query variable for login redirect module. It'll override [uo_login redirect]
+		if ( ! empty( $redirect ) ) {
+			$redirect = strpos( $redirect, '?' ) ? $redirect . '&uo_redirect=1' : $redirect . '?uo_redirect';
+		}
+
 		$login_form_args = array(
 			'echo'           => false,
 			'redirect'       => $redirect,
