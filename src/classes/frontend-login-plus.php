@@ -1264,6 +1264,19 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	 * Redirect to custom login page if login has failed
 	 */
 	public static function login_failed() {
+		// Check for REST requests.
+		if ( defined( 'REST_REQUEST' ) && REST_REQUEST ) {
+			return;
+		}
+		// Redundant check for REST because in some cases REST_REQUEST constant does not work.
+		if ( strpos( $_SERVER[ 'REQUEST_URI' ], '/wp-json/' ) !== false ) {
+			return;
+		}
+		// Check for AJAX requests
+		if ( wp_doing_ajax() ) {
+			return;
+		}
+		
 		$login_page = get_permalink( self::get_login_redirect_page_id() );
 		wp_safe_redirect( add_query_arg( array( 'login' => 'failed' ), $login_page ) );
 		exit;
