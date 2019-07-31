@@ -143,9 +143,13 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			/* Redirect Login Page */
 			// Create Login Only Shortcode that can be added anywhere
 			add_shortcode( 'uo_login', array( __CLASS__, 'uo_login_form' ) );
-
+			// Override LD login modal.
+			$override_modal = self::get_settings_value( 'uo_frontendloginplus_override_ld_login_form', __CLASS__ );
+			if ( 'on' === $override_modal ) {
+				add_filter( 'learndash_30_get_template_part', [ __CLASS__, 'uo_modal_login_form' ], 10, 4 );
+			}
 		}
-
+		
 	}
 	
 	/**
@@ -245,6 +249,11 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			array(
 				'type'       => 'html',
 				'inner_html' => '<h2>' . __( 'General', 'uncanny-learndash-toolkit' ) . '</h2>',
+			),
+            array(
+				'type'        => 'checkbox',
+				'label'       => esc_html__( 'Override LearnDash Login Form (Requires Learndash 3.0 Login & Registration enabled)', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_frontendloginplus_override_ld_login_form',
 			),
 			array(
 				'type'        => 'select',
@@ -641,13 +650,13 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		?>
 
 		<table class="form-table">
-			<tr class="user-rich-editing-wrap">
+			<tr class="uo_is_verified-container">
 				<th scope="row">
 					<h2>Verify User</h2>
 				</th>
 				<td>
-					<label for="rich_editing">
-						<input type="checkbox" name="uo_is_verified"
+					<label for="uo_is_verified">
+						<input type="checkbox" id="uo_is_verified" name="uo_is_verified"
 							   value="1" <?php checked( $checked, $current, $echo ); ?>/>
 						Verify this user and allow them to log in
 					</label>
@@ -1792,6 +1801,32 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 					die();
 				}
 			}
+		}
+		
+	}
+	
+	/**
+     *
+     */
+	public static function uo_modal_login_form( $filepath, $slug, $args, $echo ) {
+		
+		if ( strpos( $filepath, 'modules/login-modal.php' ) !== FALSE ) {
+			$can_register = get_option( 'users_can_register' ); ?>
+
+        <div class="ld-modal ld-login-modal <?php if ( $can_register ) {
+			echo 'ld-can-register';
+		} ?>">
+
+            <span class="ld-modal-closer ld-icon ld-icon-delete"></span>
+            <div class="ld-login-modal-login">
+                <div class="ld-login-modal-wrapper">
+					<?php
+					echo do_shortcode( '[uo_login]' );
+					?> </div>
+            </div>
+            </div><?php
+		} else {
+			return $filepath;
 		}
 		
 	}
