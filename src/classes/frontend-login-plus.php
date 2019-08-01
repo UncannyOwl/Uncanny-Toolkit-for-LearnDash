@@ -146,7 +146,8 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			// Override LD login modal.
 			$override_modal = self::get_settings_value( 'uo_frontendloginplus_override_ld_login_form', __CLASS__ );
 			if ( 'on' === $override_modal ) {
-				add_filter( 'learndash_30_get_template_part', [ __CLASS__, 'uo_modal_login_form' ], 10, 4 );
+				add_filter( 'learndash_template_filename', [ __CLASS__, 'uo_modal_login_form' ], 100, 5 );
+				add_filter( 'learndash_30_get_template_part', [ __CLASS__, 'uo_modal_login_form' ], 100, 4 );
 			}
 		}
 		
@@ -1813,7 +1814,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	/**
      *
      */
-	public static function uo_modal_login_form( $filepath, $slug, $args, $echo ) {
+	public static function uo_modal_login_form( $filepath, $slug, $args, $echo, $return_file_path ) {
 		
 		if ( strpos( $filepath, 'modules/login-modal.php' ) !== FALSE ) {
 			$can_register = get_option( 'users_can_register' ); ?>
