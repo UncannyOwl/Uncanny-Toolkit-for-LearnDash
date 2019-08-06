@@ -363,7 +363,15 @@ class Config {
 
 		$modal_id = stripslashes( $class );
 		$modal_id = str_replace( __NAMESPACE__, '', $modal_id );
-
+		
+		add_filter( 'tiny_mce_before_init', function ( $init ) {
+			$init['extended_valid_elements'] = '*[*]';
+			$init['remove_linebreaks']       = FALSE;
+			$init['convert_newlines_to_brs'] = TRUE;
+			$init['remove_redundant_brs']    = FALSE;
+			
+			return $init;
+		} );
 		ob_start();
 
 		?>
@@ -475,7 +483,6 @@ class Config {
 														'media_buttons' => false,
 														'editor_height' => 275,
 													] );
-
 												?>
 
 												<?php if ( ! empty( $content['description'] ) ) { ?>

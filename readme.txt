@@ -4,7 +4,7 @@ Tags: LearnDash, eLearning, LMS, education, learning, courseware
 Requires at least: 4.6
 Tested up to: 5.1.1
 Requires PHP: 5.6
-Stable tag: 3.1.3
+Stable tag: 3.1.4
 License: This plugin is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or any later version.   LearnDash Groups in User Profiles is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.   You should have received a copy of the GNU General Public License along with LearnDash Groups in User Profiles. If not, see {URI to Plugin License}.
 License URI: https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
 
@@ -67,6 +67,16 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 1. Uncanny LearnDash Toolkit Dashboard
 
 == Changelog ==
+
+= 3.1.4 =
+* Added: Front End Login - Added redirect parameter to uo_login shortcode to allow form-specific redirects
+* Added: Front End Login - Setting to override LearnDash login form
+* Updated: Front End Login - Failed login redirect now ignored for REST and AJAX requests
+* Updated: Front End Login - Eliminated 500 error on password reset when other plugins alter email filters
+* Updated: Front End Login - Improved translation support for strings related to account verification
+* Updated: Certificate Widget/Show Certificates - Now displays the course/quiz name instead of the certificate name
+* Fixed: Send Course/Quiz Certificate by Email - Email content loses line breaks on reload
+* Fixed: Clicking the label of "Verify this user and allow them to log in" checkbox no longer toggles the "Rich Editing" checkbox
 
 = 3.1.3 =
 * Updated: Restored copyright and GPL license info to User Switching module (thanks @johnbillion!)

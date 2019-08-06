@@ -133,6 +133,10 @@ class LoginRedirect extends Config implements RequiredFunctions {
 	 * @return string
 	 */
 	public static function login_redirect( $redirect_to, $request, $user ) {
+		//If uo_login shortcode with redirect is set, just return that
+		if ( strpos( $redirect_to, 'uo_redirect' ) ) {
+			return $redirect_to;
+		}
 
 		$login_redirect = false;
 

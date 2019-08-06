@@ -248,8 +248,8 @@ jQuery( function($){
 
                 // Return result
                 return matches;
-            } 
-         },
+            }
+        },
 
         StatusToggle: {
             $elements: {},
@@ -313,8 +313,8 @@ jQuery( function($){
                     // Filter values
                     _this.ULT_Modules.Modules.filter();
                 });
-            } 
-         },
+            }
+        },
 
         Views: {
             $elements: {},
@@ -378,8 +378,8 @@ jQuery( function($){
 
             findToggle: function ( viewId ){
                 return $( `.ult-directory-layout-item[data-view="${viewId}"]` );
-            } 
-         },
+            }
+        },
 
         SettingsModal: {
             $elements: {},
@@ -454,27 +454,27 @@ jQuery( function($){
 
                     // Save data
                     ULT_Utility.ajaxRequest({
-                        action:  'settings_save',
-                        class:   settingsId,
-                        options: formData
-                    }, ( response, data ) => {
-                        // Remove loading animation from submit button
-                        $elements.submitButton.removeClass( 'ult-modal-action__btn--loading' );
+                            action:  'settings_save',
+                            class:   settingsId,
+                            options: formData
+                        }, ( response, data ) => {
+                            // Remove loading animation from submit button
+                            $elements.submitButton.removeClass( 'ult-modal-action__btn--loading' );
 
-                        // Success
-                        if ( ! response.error ){
-                            // Show ok message
-                            this.showNotice( $modal, 'success', response.message );
-                        }
-                        else {
-                            // Validation error
-                            this.showNotice( $modal, 'error', response.message );
-                        }
-                    },
-                    ( response, data ) => {
-                        // Remove loading animation from submit button
-                        $elements.submitButton.removeClass( 'ult-modal-action__btn--loading' );
-                    });
+                            // Success
+                            if ( ! response.error ){
+                                // Show ok message
+                                this.showNotice( $modal, 'success', response.message );
+                            }
+                            else {
+                                // Validation error
+                                this.showNotice( $modal, 'error', response.message );
+                            }
+                        },
+                        ( response, data ) => {
+                            // Remove loading animation from submit button
+                            $elements.submitButton.removeClass( 'ult-modal-action__btn--loading' );
+                        });
 
                     // Just trying to prevent the form again
                     return false;
@@ -619,7 +619,11 @@ jQuery( function($){
                                 let editor = tinymce.get( field.name );
 
                                 if ( ULT_Utility.isDefined( editor ) ){
-                                    editor.setContent( field.value );
+                                    if( typeof wp.editor !== 'undefined' && typeof wp.editor.autop !== 'undefined'  ){
+                                        editor.setContent( wp.editor.autop( field.value ) );
+                                    }else{
+                                        editor.setContent( field.value );
+                                    }
                                 }
                             }
                             break;
@@ -628,7 +632,7 @@ jQuery( function($){
                         case 'select':
                             field.$element.val( field.value ).trigger( 'change' );
                             break;
-                            
+
                         case 'checkbox':
                             // Check if the checkbox is selected
                             if ( field.value == 'on' ){
