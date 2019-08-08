@@ -70,7 +70,6 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 
 = 3.1.4 =
 * Added: Front End Login - Added redirect parameter to uo_login shortcode to allow form-specific redirects
-* Added: Front End Login - Setting to override LearnDash login form
 * Updated: Front End Login - Failed login redirect now ignored for REST and AJAX requests
 * Updated: Front End Login - Eliminated 500 error on password reset when other plugins alter email filters
 * Updated: Front End Login - Improved translation support for strings related to account verification
