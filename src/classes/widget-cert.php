@@ -33,11 +33,40 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 			'kb_link'          => $kb_link, // OR set as null not to display
 			'description'      => $class_description,
 			'dependants_exist' => self::dependants_exist(),
-			'settings'         => false,
+			'settings'         => self::get_class_settings( $class_title ),
 			'icon'             => $class_icon,
 		);
 	}
-
+	
+	/**
+	 * HTML for modal to create settings
+	 *
+	 * @param String
+	 *
+	 * @return string Return either false or settings html modal
+	 *
+	 */
+	public static function get_class_settings( $class_title ) {
+		// Create options
+		$options = array(
+			array(
+				'type'        => 'checkbox',
+				'label'       => esc_html__( 'Display Certificate title instead of Course/Quiz title', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uncanny-widgetcertificate-show-cert-title',
+			),
+		);
+		
+		// Build html
+		$html = Config::settings_output(
+			array(
+				'class'   => __CLASS__,
+				'title'   => $class_title,
+				'options' => $options,
+			) );
+		
+		return $html;
+	}
+	
 	/**
 	 * Does the plugin rely on another function or plugin
 	 *
@@ -107,8 +136,9 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 		echo '<div class="uncanny-cert-widget-list">';
 
 		echo '<ul>';
-
-		$courses = get_posts( $post_args );
+		
+		$courses         = get_posts( $post_args );
+		$show_cert_title = Config::get_settings_value( 'uncanny-widgetcertificate-show-cert-title', __CLASS__ );
 
 		$certificate_list = '';
 
@@ -118,7 +148,11 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 			$certificate_object = get_post( $certificate_id );
 
 			if ( ! empty( $certificate_object ) ) {
-				$certificate_title = $course->post_title;
+				if ( 'on' === $show_cert_title ) {
+					$certificate_title = $certificate_object->post_title;
+				} else {
+					$certificate_title = $course->post_title;
+				}
 				$certificate_link  = learndash_get_course_certificate_link( $course->ID );
 
 				if ( $certificate_link && '' !== $certificate_link ) {
@@ -144,7 +178,11 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 						$meta               = get_post_meta( $quiz_attempt['post']->ID, '_sfwd-quiz', true );
 						$certificate_id     = $meta['sfwd-quiz_certificate'];
 						$certificate_object = get_post( $certificate_id );
-						$certificate_title  = $quiz_title;
+						if ( 'on' === $show_cert_title ) {
+							$certificate_title = $certificate_object->post_title;
+						} else {
+							$certificate_title = $quiz_title;
+						}
 
 						$certificate_list .= sprintf( '<li><a target="_blank" href="%s" title="%s %s" >%s</a></li>',
 							esc_url( $certificateLink ),

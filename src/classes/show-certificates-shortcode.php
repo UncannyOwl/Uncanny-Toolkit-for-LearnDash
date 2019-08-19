@@ -55,11 +55,41 @@ class ShowCertificatesShortcode extends Config implements RequiredFunctions {
 			'kb_link'          => $kb_link,
 			'description'      => $class_description,
 			'dependants_exist' => self::dependants_exist(),
+			'settings'         => self::get_class_settings( $class_title ),
 			'icon'             => $class_icon,
 		);
 
 	}
-
+	
+	/**
+	 * HTML for modal to create settings
+	 *
+	 * @param String
+	 *
+	 * @return string Return either false or settings html modal
+	 *
+	 */
+	public static function get_class_settings( $class_title ) {
+		// Create options
+		$options = array(
+			array(
+				'type'        => 'checkbox',
+				'label'       => esc_html__( 'Display Certificate title instead of Course/Quiz title', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uncanny-showcertificate-show-cert-title',
+			),
+		);
+		
+		// Build html
+		$html = self::settings_output(
+			array(
+				'class'   => __CLASS__,
+				'title'   => $class_title,
+				'options' => $options,
+			) );
+		
+		return $html;
+	}
+	
 	/**
 	 * Does the plugin rely on another function or plugin
 	 *
@@ -106,7 +136,8 @@ class ShowCertificatesShortcode extends Config implements RequiredFunctions {
 		} else {
 			$no_cert_message = esc_html__( 'Complete courses to earn certificates', 'uncanny-learndash-toolkit' );
 		}
-
+		
+		$show_cert_title  = self::get_settings_value( 'uncanny-showcertificate-show-cert-title', __CLASS__ );
 		$certificate_list = '';
 
 		/* GET Certificates For Courses*/
@@ -126,7 +157,12 @@ class ShowCertificatesShortcode extends Config implements RequiredFunctions {
 			$certificate_object = get_post( $certificate_id );
 
 			if ( ! empty( $certificate_object ) ) {
-				$certificate_title = $course->post_title;
+				if ( 'on' === $show_cert_title ) {
+					$certificate_title = $certificate_object->post_title;
+				} else {
+					$certificate_title = $course->post_title;
+				}
+				
 				$certificate_link  = learndash_get_course_certificate_link( $course->ID );
 
 				if ( $certificate_link && '' !== $certificate_link ) {
@@ -156,7 +192,11 @@ class ShowCertificatesShortcode extends Config implements RequiredFunctions {
 						$meta               = get_post_meta( $quiz_attempt['post']->ID, '_sfwd-quiz', true );
 						$certificate_id     = $meta['sfwd-quiz_certificate'];
 						$certificate_object = get_post( $certificate_id );
-						$certificate_title  = $quiz_title;
+						if ( 'on' === $show_cert_title ) {
+							$certificate_title = $certificate_object->post_title;
+						} else {
+							$certificate_title = $quiz_title;
+						}
 
 						$certificate_list .= '<a target="_blank" href="' . esc_url( $certificateLink ) . '">' . $certificate_title . '</a><br>';
 
