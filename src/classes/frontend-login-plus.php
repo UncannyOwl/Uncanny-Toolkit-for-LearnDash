@@ -1794,7 +1794,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		$login_page     = FrontendLoginPlus::get_login_redirect_page_id();
 		$login_page_url = get_permalink( $login_page );
 		
-		$current_url = add_query_arg( '' );
+		//$current_url = add_query_arg( '' );
 		
 		
 		if ( strpos( $login_page_url, '?' ) ) {
