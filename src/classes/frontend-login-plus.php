@@ -518,6 +518,20 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				'inner_html' => '<h2>' . esc_html__( 'Reset Password Form', 'uncanny-learndash-toolkit' ) . '</h2>',
 			),
 			array(
+				'type'        => 'checkbox',
+				'label'       => esc_html__( 'Enable password strength', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_frontendloginplus_reset_password_strength',
+			),
+			array(
+				'type'       => 'radio',
+				'label'      => esc_html__( 'Password strength apply to', 'uncanny-learndash-toolkit' ),
+				'radio_name' => 'uo_frontendloginplus_reset_password_strength_roles',
+				'radios'     => array(
+					array( 'value' => 'all', 'text' => 'All Roles' ),
+					array( 'value' => 'admin', 'text' => 'An Author, Editor or Administrator' ),
+				),
+			),
+			array(
 				'type'        => 'text',
 				'label'       => esc_html__( 'Title', 'uncanny-learndash-toolkit' ),
 				'placeholder' => esc_html__( 'Reset Password', 'uncanny-learndash-toolkit' ),
@@ -559,6 +573,12 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				'label'       => esc_html__( 'Passwords Do Not Match Message', 'uncanny-learndash-toolkit' ),
 				'placeholder' => esc_html__( 'The passwords you entered do not match.', 'uncanny-learndash-toolkit' ),
 				'option_name' => 'uo_frontend_login_passwordnotmatch_error',
+			),
+			array(
+				'type'        => 'text',
+				'label'       => esc_html__( 'Passwords strength is not strong', 'uncanny-learndash-toolkit' ),
+				'placeholder' => esc_html__( 'The passwords you entered is not strong.', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_frontend_login_passwordstrength_error',
 			),
 			// Field is now required
 			//			array(
@@ -1139,29 +1159,30 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	 */
 	public static function fetch_inner_text() {
 		
-		$uo_frontend_login_logged_in_message = self::get_settings_value( 'uo_frontend_login_logged_in_message', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
-		$uo_frontend_logout_text             = self::get_settings_value( 'uo_frontend_logout_text', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
-		$uo_login_forgot_pass_title = self::get_settings_value( 'uo_login_forgot_pass_title', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
-		$uo_login_forgot_pass_desc  = self::get_settings_value( 'uo_login_forgot_pass_desc', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
-		$uo_login_username_label_reset              = self::get_settings_value( 'uo_login_username_label_reset', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
-		$uo_frontend_login_successsendemail         = self::get_settings_value( 'uo_frontend_login_successsendemail', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
-		$uo_frontend_login_failedsendemail_error    = self::get_settings_value( 'uo_frontend_login_failedsendemail_error', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
-		$uo_login_forgot_pass_invalid_creds    = self::get_settings_value( 'uo_login_forgot_pass_invalid_creds', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
-		$uo_frontend_login_reset_title = self::get_settings_value( 'uo_frontend_login_reset_title', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
-		$uo_frontend_login_reset_desc = self::get_settings_value( 'uo_frontend_login_reset_desc', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
-		$uo_frontend_login_reset_pass_button        = self::get_settings_value( 'uo_frontend_login_reset_pass_button', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
-		$uo_frontend_login_reset_pass_field         = self::get_settings_value( 'uo_frontend_login_reset_pass_field', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
-		$uo_frontend_login_reset_confirm_pass_field = self::get_settings_value( 'uo_frontend_login_reset_confirm_pass_field', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
+		$uo_frontend_login_logged_in_message        = self::get_settings_value( 'uo_frontend_login_logged_in_message', __CLASS__, '%placeholder%', self::get_class_settings( '', TRUE ) );
+		$uo_frontend_logout_text                    = self::get_settings_value( 'uo_frontend_logout_text', __CLASS__, '%placeholder%', self::get_class_settings( '', TRUE ) );
+		$uo_login_forgot_pass_title                 = self::get_settings_value( 'uo_login_forgot_pass_title', __CLASS__, '%placeholder%', self::get_class_settings( '', TRUE ) );
+		$uo_login_forgot_pass_desc                  = self::get_settings_value( 'uo_login_forgot_pass_desc', __CLASS__, '%placeholder%', self::get_class_settings( '', TRUE ) );
+		$uo_login_username_label_reset              = self::get_settings_value( 'uo_login_username_label_reset', __CLASS__, '%placeholder%', self::get_class_settings( '', TRUE ) );
+		$uo_frontend_login_successsendemail         = self::get_settings_value( 'uo_frontend_login_successsendemail', __CLASS__, '%placeholder%', self::get_class_settings( '', TRUE ) );
+		$uo_frontend_login_failedsendemail_error    = self::get_settings_value( 'uo_frontend_login_failedsendemail_error', __CLASS__, '%placeholder%', self::get_class_settings( '', TRUE ) );
+		$uo_login_forgot_pass_invalid_creds         = self::get_settings_value( 'uo_login_forgot_pass_invalid_creds', __CLASS__, '%placeholder%', self::get_class_settings( '', TRUE ) );
+		$uo_frontend_login_reset_title              = self::get_settings_value( 'uo_frontend_login_reset_title', __CLASS__, '%placeholder%', self::get_class_settings( '', TRUE ) );
+		$uo_frontend_login_reset_desc               = self::get_settings_value( 'uo_frontend_login_reset_desc', __CLASS__, '%placeholder%', self::get_class_settings( '', TRUE ) );
+		$uo_frontend_login_reset_pass_button        = self::get_settings_value( 'uo_frontend_login_reset_pass_button', __CLASS__, '%placeholder%', self::get_class_settings( '', TRUE ) );
+		$uo_frontend_login_reset_pass_field         = self::get_settings_value( 'uo_frontend_login_reset_pass_field', __CLASS__, '%placeholder%', self::get_class_settings( '', TRUE ) );
+		$uo_frontend_login_reset_confirm_pass_field = self::get_settings_value( 'uo_frontend_login_reset_confirm_pass_field', __CLASS__, '%placeholder%', self::get_class_settings( '', TRUE ) );
 		//$uo_frontend_login_reset_pass_hint = self::get_settings_value( 'uo_frontend_login_reset_pass_hint', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
-		$uo_frontend_login_invalidresetkey_error  = self::get_settings_value( 'uo_frontend_login_invalidresetkey_error', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
-		$uo_frontend_login_passwordnotmatch_error = self::get_settings_value( 'uo_frontend_login_passwordnotmatch_error', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
-		$uo_frontend_login_reset_successful       = self::get_settings_value( 'uo_frontend_login_reset_successful', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
-		$uo_frontend_login_title_label            = self::get_settings_value( 'uo_frontend_login_title_label', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
-		$uo_frontend_login_description            = self::get_settings_value( 'uo_frontend_login_description', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
-		$uo_frontend_register_link_text           = self::get_settings_value( 'uo_frontend_register_link_text', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
-		$uo_login_forgot_pass_button_label        = self::get_settings_value( 'uo_login_forgot_pass_button_label', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
-		$uo_frontend_login_recaptchaempty_error   = self::get_settings_value( 'uo_frontend_login_recaptchaempty_error', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
-		$uo_frontend_login_recaptchafailed_error  = self::get_settings_value( 'uo_frontend_login_recaptchafailed_error', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
+		$uo_frontend_login_invalidresetkey_error  = self::get_settings_value( 'uo_frontend_login_invalidresetkey_error', __CLASS__, '%placeholder%', self::get_class_settings( '', TRUE ) );
+		$uo_frontend_login_passwordnotmatch_error = self::get_settings_value( 'uo_frontend_login_passwordnotmatch_error', __CLASS__, '%placeholder%', self::get_class_settings( '', TRUE ) );
+		$uo_frontend_login_passwordstrength_error = self::get_settings_value( 'uo_frontend_login_passwordstrength_error', __CLASS__, '%placeholder%', self::get_class_settings( '', TRUE ) );
+		$uo_frontend_login_reset_successful       = self::get_settings_value( 'uo_frontend_login_reset_successful', __CLASS__, '%placeholder%', self::get_class_settings( '', TRUE ) );
+		$uo_frontend_login_title_label            = self::get_settings_value( 'uo_frontend_login_title_label', __CLASS__, '%placeholder%', self::get_class_settings( '', TRUE ) );
+		$uo_frontend_login_description            = self::get_settings_value( 'uo_frontend_login_description', __CLASS__, '%placeholder%', self::get_class_settings( '', TRUE ) );
+		$uo_frontend_register_link_text           = self::get_settings_value( 'uo_frontend_register_link_text', __CLASS__, '%placeholder%', self::get_class_settings( '', TRUE ) );
+		$uo_login_forgot_pass_button_label        = self::get_settings_value( 'uo_login_forgot_pass_button_label', __CLASS__, '%placeholder%', self::get_class_settings( '', TRUE ) );
+		$uo_frontend_login_recaptchaempty_error   = self::get_settings_value( 'uo_frontend_login_recaptchaempty_error', __CLASS__, '%placeholder%', self::get_class_settings( '', TRUE ) );
+		$uo_frontend_login_recaptchafailed_error  = self::get_settings_value( 'uo_frontend_login_recaptchafailed_error', __CLASS__, '%placeholder%', self::get_class_settings( '', TRUE ) );
 		
 		$innerText = Array(
 			'Logged-In-Message' => $uo_frontend_login_logged_in_message,
@@ -1182,6 +1203,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			'Invalid-Reset-Key'          => $uo_frontend_login_invalidresetkey_error,
 			'Expired-Reset-Key'          => $uo_frontend_login_invalidresetkey_error,
 			'Password-Not-Match'         => $uo_frontend_login_passwordnotmatch_error,
+			'Password-Not-Strong'        => $uo_frontend_login_passwordstrength_error,
 			'Reset-Success'              => $uo_frontend_login_reset_successful,
 			'Login-Title'                => $uo_frontend_login_title_label,
 			'Login-Description'          => $uo_frontend_login_description,
@@ -1772,6 +1794,9 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		$login_page     = FrontendLoginPlus::get_login_redirect_page_id();
 		$login_page_url = get_permalink( $login_page );
 		
+		$current_url = add_query_arg( '' );
+		
+		
 		if ( strpos( $login_page_url, '?' ) ) {
 			$login_page_url = $login_page_url . '&';
 		} else {
@@ -1813,7 +1838,16 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				
 				$errors = new \WP_Error();
 				
-				if ( isset( $_POST['pass1'] ) && ! empty( $_POST['pass1'] ) && $_POST['pass1'] == $_POST['pass2'] ) {
+				$_password_strength = self::get_settings_value( 'uo_frontendloginplus_reset_password_strength', __CLASS__ );
+				
+				if ( $_password_strength === 'on' ) {
+					$password_ok = self::slt_fsp_password_strength($_POST['pass1'],$user->user_login);
+					if( $password_ok !== 4 ){
+						$errors->add( 'pass', __( '<strong>ERROR</strong>: Please make the password a strong one.', 'slt-force-strong-passwords' ) );
+                    }
+				}
+				
+				if ( !$errors->has_errors() && isset( $_POST['pass1'] ) && ! empty( $_POST['pass1'] ) && $_POST['pass1'] == $_POST['pass2'] ) {
 					reset_password( $user, $_POST['pass1'] );
 					wp_redirect( $login_page_url . 'action=reset&success=true' );
 					die();
@@ -1849,4 +1883,49 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		}
 		
 	}*/
+	
+	/**
+	 * Check for password strength - based on JS function in pre-3.7 WP core: /wp-admin/js/password-strength-meter.js
+	 *
+	 * @since   1.0
+	 * @param   string $i   The password.
+	 * @param   string $f   The user's username.
+	 * @return  integer 1 = very weak; 2 = weak; 3 = medium; 4 = strong
+	 */
+	public static function slt_fsp_password_strength( $i, $f ) {
+		$h = 1;
+		$e = 2;
+		$b = 3;
+		$a = 4;
+		$d = 0;
+		$g = null;
+		$c = null;
+		if ( strlen( $i ) < 4 ) {
+			return $h;
+		}
+		if ( strtolower( $i ) === strtolower( $f ) ) {
+			return $e;
+		}
+		if ( preg_match( '/[0-9]/', $i ) ) {
+			$d += 10;
+		}
+		if ( preg_match( '/[a-z]/', $i ) ) {
+			$d += 26;
+		}
+		if ( preg_match( '/[A-Z]/', $i ) ) {
+			$d += 26;
+		}
+		if ( preg_match( '/[^a-zA-Z0-9]/', $i ) ) {
+			$d += 31;
+		}
+		$g = log( pow( $d, strlen( $i ) ) );
+		$c = $g / log( 2 );
+		if ( $c < 40 ) {
+			return $e;
+		}
+		if ( $c < 56 ) {
+			return $b;
+		}
+		return $a;
+	}
 }

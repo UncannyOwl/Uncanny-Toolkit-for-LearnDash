@@ -112,9 +112,25 @@ namespace uncanny_learndash_toolkit;
 				} else {
 					$user = false;
 				}
-
+				
 				$errors = new \WP_Error();
-
+				
+				$_password_strength = Config::get_settings_value( 'uo_frontendloginplus_reset_password_strength', 'FrontendLoginPlus' );
+				
+				if ( isset( $_POST['pass1'] ) && $_password_strength === 'on' ) {
+					$password_ok = self::slt_fsp_password_strength($_POST['pass1'],$user->user_login);
+					if( $password_ok !== 4 ){
+						$error     = $innerText['Password-Not-Strong'];
+						$rp_key    = $_POST['rp_key'];
+						$rp_login  = $_POST['rp_login'];
+						$rp_cookie = 'wp-resetpass-' . COOKIEHASH;
+						$value     = sprintf( '%s:%s', wp_unslash( $rp_key ), wp_unslash( $rp_login ) );
+						//setcookie( $rp_cookie, $value, 0, '/' . get_post_field( 'post_name', $login_page ), COOKIE_DOMAIN, is_ssl(), true );
+						
+						include( Config::get_template( apply_filters( 'uo-front-login-reset-template', 'frontend-login/' . $template_to_load . '-reset-pwd.php', $template_to_load ) ) );
+					}
+				}
+				
 				if ( isset( $_POST['pass1'] ) && $_POST['pass1'] != $_POST['pass2'] ) {
 
 					$error     = $innerText['Password-Not-Match'];
