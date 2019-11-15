@@ -517,7 +517,15 @@ public function action_wp_footer() {
 		$url = add_query_arg( array(
 			'redirect_to' => urlencode( self::current_url() ),
 		), self::switch_back_url( $old_user ) );
-		echo '<p id="user_switching_switch_on"><a href="' . esc_url( $url ) . '">' . esc_html( $link ) . '</a></p>';
+
+		$focus_mode = LearnDash_Settings_Section::get_section_setting( 'LearnDash_Settings_Theme_LD30', 'focus_mode_enabled' );
+
+		$focus_mode_styles = '';
+		if ( $focus_mode === 'yes' ) {
+			$focus_mode_styles = 'style="float: right;padding-right: 10px;"';
+		}
+
+		echo '<p id="user_switching_switch_on" '.$focus_mode_styles.'><a href="' . esc_url( $url ) . '">' . esc_html( $link ) . '</a></p>';
 	}
 
 }
