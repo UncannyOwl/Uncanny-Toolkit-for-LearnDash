@@ -74,7 +74,7 @@ class DisableEmails extends Config implements RequiredFunctions {
 	 * @return  void
 	 * @since   1.6
 	 */
-	public function admin_bar_emails_disabled( $wp_admin_bar ) {
+	public static function admin_bar_emails_disabled( $wp_admin_bar ) {
 
 		if ( ! current_user_can( 'manage_options' ) ) {
 			return;
