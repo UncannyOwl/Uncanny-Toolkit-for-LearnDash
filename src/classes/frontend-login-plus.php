@@ -1630,7 +1630,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		
 		$custom_message = self::get_settings_value( 'uo_frontend_resetpassword_email_body', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
 		
-		add_filter( 'wp_mail_content_type', array( __CLASS__, 'htmlEmailContent' ), 100 );
+		add_filter( 'wp_mail_content_type', array( __CLASS__, 'htmlEmailContent' ) );
 		$custom_message = nl2br( $custom_message );
 		$custom_message = str_ireplace( '%User Login%', $user_login, $custom_message );
 		$custom_message = str_ireplace( '%Reset Link%', $reset_link, $custom_message );
@@ -1794,6 +1794,8 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		$login_page     = FrontendLoginPlus::get_login_redirect_page_id();
 		$login_page_url = get_permalink( $login_page );
 		
+		//$current_url = add_query_arg( '' );
+		
 		
 		if ( strpos( $login_page_url, '?' ) ) {
 			$login_page_url = $login_page_url . '&';
@@ -1837,20 +1839,15 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				$errors = new \WP_Error();
 				
 				$_password_strength = self::get_settings_value( 'uo_frontendloginplus_reset_password_strength', __CLASS__ );
-				$_password_str_role = self::get_settings_value( 'uo_frontendloginplus_reset_password_strength_roles', __CLASS__ );
 				
 				if ( $_password_strength === 'on' ) {
-					if ( $_password_str_role === 'all' ) {
-						$password_ok = self::slt_fsp_password_strength( $_POST['pass1'], $user->user_login );
-						if ( $password_ok !== 4 ) {
-							$errors->add( 'pass', __( '<strong>ERROR</strong>: Please make the password a strong one.', 'slt-force-strong-passwords' ) );
-						}
-					} else {
-					    
+					$password_ok = self::slt_fsp_password_strength($_POST['pass1'],$user->user_login);
+					if( $password_ok !== 4 ){
+						$errors->add( 'pass', __( '<strong>ERROR</strong>: Please make the password a strong one.', 'slt-force-strong-passwords' ) );
                     }
 				}
 				
-				if ( ! $errors->has_errors() && isset( $_POST['pass1'] ) && ! empty( $_POST['pass1'] ) && $_POST['pass1'] == $_POST['pass2'] ) {
+				if ( !$errors->has_errors() && isset( $_POST['pass1'] ) && ! empty( $_POST['pass1'] ) && $_POST['pass1'] == $_POST['pass2'] ) {
 					reset_password( $user, $_POST['pass1'] );
 					wp_redirect( $login_page_url . 'action=reset&success=true' );
 					die();
@@ -1887,28 +1884,6 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		
 	}*/
 	
-	function uncanny_enforce_for_user( $user_id ) {
-		$enforce = true;
-		
-		// Force strong passwords from network admin screens.
-		if ( is_network_admin() ) {
-			return $enforce;
-		}
-		
-		$check_caps = explode( ',', SLT_FSP_CAPS_CHECK );
-		$check_caps = apply_filters( 'slt_fsp_caps_check', $check_caps );
-		$check_caps = (array) $check_caps;
-		if ( ! empty( $check_caps ) ) {
-			$enforce = false; // Now we won't enforce unless the user has one of the caps specified.
-			foreach ( $check_caps as $cap ) {
-				if ( user_can( $user_id, $cap ) ) {
-					$enforce = true;
-					break;
-				}
-			}
-		}
-		return $enforce;
-	}
 	/**
 	 * Check for password strength - based on JS function in pre-3.7 WP core: /wp-admin/js/password-strength-meter.js
 	 *
