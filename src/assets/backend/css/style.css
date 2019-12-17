@@ -231,6 +231,8 @@ html.noscroll .ult-modal {
 	.ult .ult-form-element__field input {
 		width: 100%;
 
+		line-height: 1;
+
 		padding-left: 12px;
 		padding-right: 12px;
 		padding-top: 6px;
