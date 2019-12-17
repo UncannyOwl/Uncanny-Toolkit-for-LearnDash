@@ -492,6 +492,11 @@ class AdminMenu extends Boot {
 				'kb_link'     => 'http://www.uncannyowl.com/knowledge-base/learndash-course-dashboard/',
 			],
 			[
+				'title'       => esc_html__( 'Duplicate Pages & Posts', 'uncanny-pro-toolkit' ),
+				'description' => esc_html__( 'Easily clone pages, posts, LearnDash courses, lessons, topics, quizzes and more. This plugin handles quiz duplication properly.', 'uncanny-pro-toolkit' ),
+				'kb_link'     => 'http://www.uncannyowl.com/knowledge-base/duplicate-pages-posts/',
+			],
+			[
 				'title'       => esc_html__( 'Reset Progress Button', 'uncanny-pro-toolkit' ),
 				'description' => esc_html__( 'Inserts a button that allows learners to reset the course.', 'uncanny-pro-toolkit' ),
 				'kb_link'     => 'https://www.uncannyowl.com/knowledge-base/learndash-reset/',
