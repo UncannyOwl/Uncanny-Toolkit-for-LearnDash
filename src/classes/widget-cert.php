@@ -11,7 +11,10 @@ if ( ! defined( 'WPINC' ) ) {
  * @package uncanny_custom_toolkit
  */
 class WidgetCert extends \WP_Widget implements RequiredFunctions {
+
 	static $instance;
+	static $order;
+	static $order_by;
 
 	/**
 	 * Description of class in Admin View
@@ -37,7 +40,7 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 			'icon'             => $class_icon,
 		);
 	}
-	
+
 	/**
 	 * HTML for modal to create settings
 	 *
@@ -55,7 +58,7 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 				'option_name' => 'uncanny-widgetcertificate-show-cert-title',
 			),
 		);
-		
+
 		// Build html
 		$html = Config::settings_output(
 			array(
@@ -63,10 +66,10 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 				'title'   => $class_title,
 				'options' => $options,
 			) );
-		
+
 		return $html;
 	}
-	
+
 	/**
 	 * Does the plugin rely on another function or plugin
 	 *
@@ -105,12 +108,12 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 	/**
 	 * Front-end display of widget.
 	 *
-	 * @see WP_Widget::widget()
-	 *
-	 * @param array $args Widget arguments.
+	 * @param array $args     Widget arguments.
 	 * @param array $instance Saved values from database.
 	 *
 	 * @return null
+	 * @see WP_Widget::widget()
+	 *
 	 */
 	public function widget( $args, $instance ) {
 
@@ -124,23 +127,25 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 			echo $args['before_title'] . apply_filters( 'widget_title', $instance['title'] ) . $args['after_title'];
 		}
 
+		self::$order    = ! empty( $instance['order'] ) ? $instance['order'] : 'ASC';
+		self::$order_by = ! empty( $instance['order_by'] ) ? $instance['order_by'] : 'title';
+
 		/* GET Certificates For Courses*/
 		$post_args = array(
 			'post_type'      => 'sfwd-courses',
 			'posts_per_page' => - 1,
-			'post_status'    => 'publish',
-			'orderby'        => 'title',
-			'order'          => 'ASC',
+			'post_status'    => 'publish'
 		);
 
 		echo '<div class="uncanny-cert-widget-list">';
 
 		echo '<ul>';
-		
+
 		$courses         = get_posts( $post_args );
 		$show_cert_title = Config::get_settings_value( 'uncanny-widgetcertificate-show-cert-title', __CLASS__ );
 
-		$certificate_list = '';
+		$certificate_list = [];
+
 
 		foreach ( $courses as $course ) {
 
@@ -148,15 +153,28 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 			$certificate_object = get_post( $certificate_id );
 
 			if ( ! empty( $certificate_object ) ) {
+
 				if ( 'on' === $show_cert_title ) {
 					$certificate_title = $certificate_object->post_title;
 				} else {
 					$certificate_title = $course->post_title;
 				}
-				$certificate_link  = learndash_get_course_certificate_link( $course->ID );
+				$certificate_link = learndash_get_course_certificate_link( $course->ID, get_current_user_id() );
 
 				if ( $certificate_link && '' !== $certificate_link ) {
-					$certificate_list .= '<li><a target="_blank" href="' . $certificate_link . '" title="' . esc_html__( 'Your certificate for: ', 'uncanny-learndash-toolkit' ) . $course->post_title . '">' . $certificate_title . '</a></li>';
+
+					$date_earned                     = learndash_user_get_course_completed_date( get_current_user_id(), $course->ID );
+					$certificate_list[ $course->ID ] = [
+						'title'       => $certificate_title,
+						'date_earned' => $date_earned,
+						'link'        => sprintf( '<li><a %s target="_blank" href="%s" title="%s %s" >%s</a></li>',
+							'data-date-earned="' . $date_earned . '"',
+							esc_url( $certificate_link ),
+							esc_html__( 'Your certificate for :', 'uncanny-learndash-toolkit' ),
+							$course->post_title,
+							esc_html( $certificate_title )
+						),
+					];
 				}
 			}
 		}
@@ -178,18 +196,25 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 						$meta               = get_post_meta( $quiz_attempt['post']->ID, '_sfwd-quiz', true );
 						$certificate_id     = $meta['sfwd-quiz_certificate'];
 						$certificate_object = get_post( $certificate_id );
+						$date_earned        = $quiz_attempt['completed'];
+
 						if ( 'on' === $show_cert_title ) {
 							$certificate_title = $certificate_object->post_title;
 						} else {
 							$certificate_title = $quiz_title;
 						}
 
-						$certificate_list .= sprintf( '<li><a target="_blank" href="%s" title="%s %s" >%s</a></li>',
-							esc_url( $certificateLink ),
-							esc_html__( 'Your certificate for :', 'uncanny-learndash-toolkit' ),
-							$quiz_title,
-							esc_html( $certificate_title )
-						);
+						$certificate_list[ $quiz_attempt['post']->ID ] = [
+							'title'       => $certificate_title,
+							'date_earned' => $date_earned,
+							'link'        => sprintf( '<li><a %s target="_blank" href="%s" title="%s %s" >%s</a></li>',
+								'data-date-earned="' . $date_earned . '"',
+								esc_url( $certificateLink ),
+								esc_html__( 'Your certificate for :', 'uncanny-learndash-toolkit' ),
+								$quiz_title,
+								esc_html( $certificate_title )
+							),
+						];
 					}
 				}
 			}
@@ -197,10 +222,15 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 
 		$certificate_list = apply_filters( 'certificate_list_widget', $certificate_list );
 
-		if ( '' === $certificate_list ) {
+		if ( empty( $certificate_list ) ) {
 			printf( '<p>%s</p>', esc_html( $instance['no_certs'] ) );
 		} else {
-			echo $certificate_list;
+			// sort by name
+			usort( $certificate_list, array( __CLASS__, 'cmp' ) );
+
+			foreach ( $certificate_list as $certificate ) {
+				echo $certificate['link'];
+			}
 		}
 
 
@@ -214,12 +244,37 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 		return null;
 	}
 
+	public static function cmp( $a, $b ) {
+
+		switch ( self::$order_by ) {
+			case 'title':
+				if ( 'ASC' === self::$order ) {
+					return strcmp( strtolower( $b["title"] ), strtolower( $a["title"] ) );
+				}
+				if ( 'DESC' === self::$order ) {
+					// Default to sort by start date asc
+					return strcmp( strtolower( $a["title"] ), strtolower( $b["title"] ) );
+				}
+				break;
+			case 'date_earned':
+				if ( 'DESC' === self::$order ) {
+					return ( $a["date_earned"] > $b["date_earned"] ) ? - 1 : 1;
+				}
+				if ( 'ASC' === self::$order ) {
+					// Default to sort by start date asc
+					return ( $a["date_earned"] < $b["date_earned"] ) ? - 1 : 1;
+				}
+				break;
+		}
+	}
+
 	/**
 	 * get array of Quizzes taken
 	 * modified from code in wp-content/plugins/sfwd-lms/course_info_widget.php
 	 * @return array
 	 */
-	private static function quiz_attempts() {
+	private
+	static function quiz_attempts() {
 
 		$quiz_attempts = array();
 		$current_user  = wp_get_current_user();
@@ -256,30 +311,72 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 	/**
 	 * Back-end widget form.
 	 *
-	 * @see WP_Widget::form()
-	 *
 	 * @param array $instance Previously saved values from database.
 	 *
 	 * @return string|void
+	 * @see WP_Widget::form()
+	 *
 	 */
-	public function form( $instance ) {
+	public
+	function form(
+		$instance
+	) {
 		$title    = ! empty( $instance['title'] ) ? $instance['title'] : esc_html__( 'Your certificates', 'uncanny-learndash-toolkit' );
 		$no_certs = ! empty( $instance['no_certs'] ) ? $instance['no_certs'] : esc_html__( 'Complete courses to earn certificates', 'uncanny-learndash-toolkit' );
 
+		$order    = ! empty( $instance['order'] ) ? $instance['order'] : 'ASC';
+		$order_by = ! empty( $instance['order_by'] ) ? $instance['order_by'] : 'title';
+
+
 		?>
-        <p>
-            <label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:' ); ?></label>
-            <input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>"
-                   name="<?php echo $this->get_field_name( 'title' ); ?>" type="text"
-                   value="<?php echo esc_attr( $title ); ?>">
-        </p>
-        <p>
-            <label
-                    for="<?php echo $this->get_field_id( 'no_certs' ); ?>"><?php esc_html_e( 'No certificates message:', 'uncanny-learndash-toolkit' ); ?></label>
-            <input class="widefat" id="<?php echo $this->get_field_id( 'no_certs' ); ?>"
-                   name="<?php echo $this->get_field_name( 'no_certs' ); ?>" type="text"
-                   value="<?php echo esc_attr( $no_certs ); ?>">
-        </p>
+		<p>
+			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:' ); ?></label>
+			<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>"
+				   name="<?php echo $this->get_field_name( 'title' ); ?>" type="text"
+				   value="<?php echo esc_attr( $title ); ?>">
+		</p>
+		<p>
+			<label
+					for="<?php echo $this->get_field_id( 'no_certs' ); ?>"><?php esc_html_e( 'No certificates message:', 'uncanny-learndash-toolkit' ); ?></label>
+			<input class="widefat" id="<?php echo $this->get_field_id( 'no_certs' ); ?>"
+				   name="<?php echo $this->get_field_name( 'no_certs' ); ?>" type="text"
+				   value="<?php echo esc_attr( $no_certs ); ?>">
+		</p>
+		<p>
+			<label
+					for="<?php echo $this->get_field_id( 'order' ); ?>"><?php esc_html_e( 'Certificate Order:', 'uncanny-learndash-toolkit' ); ?></label><br>
+			<input id="<?php echo $this->get_field_id( 'order' ); ?>"
+				   name="<?php echo $this->get_field_name( 'order' ); ?>"
+				   class="widefat"
+				   type="radio"
+				<?php echo ( 'ASC' === $order ) ? 'checked' : ''; ?>
+				   value="ASC"> <?php esc_html_e( 'Ascending', 'uncanny-learndash-toolkit' ); ?><br>
+			<input id="<?php echo $this->get_field_id( 'order' ); ?>"
+				   name="<?php echo $this->get_field_name( 'order' ); ?>"
+				   class="widefat"
+				   type="radio"
+				<?php echo ( 'DESC' === $order ) ? 'checked' : ''; ?>
+				   value="DESC"> <?php esc_html_e( 'Descending', 'uncanny-learndash-toolkit' ); ?>
+		</p>
+		<p>
+			<label
+					for="<?php echo $this->get_field_id( 'order_by' ); ?>"><?php esc_html_e( 'Certificate Order By:', 'uncanny-learndash-toolkit' ); ?></label><br>
+
+			<input id="<?php echo $this->get_field_id( 'order_by' ); ?>"
+				   name="<?php echo $this->get_field_name( 'order_by' ); ?>"
+				   class="widefat"
+				   type="radio"
+				<?php echo ( 'title' === $order_by ) ? 'checked' : ''; ?>
+				   value="title"> <?php esc_html_e( 'Title', 'uncanny-learndash-toolkit' ); ?><br>
+
+			<input id="<?php echo $this->get_field_id( 'order_by' ); ?>"
+				   name="<?php echo $this->get_field_name( 'order_by' ); ?>"
+				   class="widefat"
+				   type="radio"
+				<?php echo ( 'date_earned' === $order_by ) ? 'checked' : ''; ?>
+				   value="date_earned"> <?php esc_html_e( 'Date Earned', 'uncanny-learndash-toolkit' ); ?><br>
+
+		</p>
 
 		<?php
 	}
@@ -287,17 +384,22 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 	/**
 	 * Sanitize widget form values as they are saved.
 	 *
-	 * @see WP_Widget::update()
-	 *
 	 * @param array $new_instance Values just sent to be saved.
 	 * @param array $old_instance Previously saved values from database.
 	 *
 	 * @return array Updated safe values to be saved.
+	 * @see WP_Widget::update()
+	 *
 	 */
-	public function update( $new_instance, $old_instance ) {
+	public
+	function update(
+		$new_instance, $old_instance
+	) {
 		$instance             = array();
 		$instance['title']    = ( ! empty( $new_instance['title'] ) ) ? strip_tags( $new_instance['title'] ) : '';
 		$instance['no_certs'] = ( ! empty( $new_instance['no_certs'] ) ) ? strip_tags( $new_instance['no_certs'] ) : '';
+		$instance['order']    = ( ! empty( $new_instance['order'] ) ) ? strip_tags( $new_instance['order'] ) : '';
+		$instance['order_by'] = ( ! empty( $new_instance['order_by'] ) ) ? strip_tags( $new_instance['order_by'] ) : '';
 
 		return $instance;
 	}
