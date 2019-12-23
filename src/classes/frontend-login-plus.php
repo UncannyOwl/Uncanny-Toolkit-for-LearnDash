@@ -1874,17 +1874,17 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 				if ( ! isset( $_POST['pass1'] ) || ! isset( $_POST['pass2'] ) ) {
 
-					$errors->add( 'pass', __( '<strong>ERROR</strong>: Password was not received.', 'slt-force-strong-passwords' ) );
+					$errors->add( 'pass', __( '<strong>ERROR</strong>: Password fields cannot be empty.', 'uncanny-learndash-toolkit' ) );
 
 				} elseif ( $_POST['pass1'] !== $_POST['pass2'] ) {
-					$errors->add( 'pass', __( '<strong>ERROR</strong>: Passwords do not match.', 'slt-force-strong-passwords' ) );
+					$errors->add( 'pass', __( '<strong>ERROR</strong>: Passwords do not match.', 'uncanny-learndash-toolkit' ) );
 				} else {
 					$_password_strength = self::get_settings_value( 'uo_frontendloginplus_reset_password_strength', __CLASS__ );
 
 					if ( $_password_strength === 'on' ) {
 						$password_ok = self::slt_fsp_password_strength( $_POST['pass1'], $user->user_login );
 						if ( $password_ok !== 4 ) {
-							$errors->add( 'pass', __( '<strong>ERROR</strong>: Please make the password a strong one.', 'slt-force-strong-passwords' ) );
+							$errors->add( 'pass', __( '<strong>ERROR</strong>: Please make the password a strong one.', 'uncanny-learndash-toolkit' ) );
 						}
 					}
 				}
