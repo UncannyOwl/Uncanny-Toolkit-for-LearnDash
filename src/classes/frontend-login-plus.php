@@ -902,6 +902,10 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			$password_label = '';
 		}
 
+		// Override if redirect_to already set in login request.
+		if ( isset( $_REQUEST['redirect_to'] ) && ! empty( $_REQUEST['redirect_to'] ) ) {
+			$redirect = $_REQUEST['redirect_to'];
+		}
 		//Add an additional query variable for login redirect module. It'll override [uo_login redirect]
 		if ( ! empty( $redirect ) ) {
 			$redirect = strpos( $redirect, '?' ) ? $redirect . '&uo_redirect=1' : $redirect . '?uo_redirect';
@@ -1137,10 +1141,11 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		$disable_remember = self::get_settings_value( 'uo_frontendloginplus_disable_rememberme', __CLASS__ );
 		$label_remember   = self::get_settings_value( 'uo_frontend_login_rememberme_label', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
 		$label_log_in     = self::get_settings_value( 'uo_frontend_login_button_label', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
-
+		$redirect_to      = isset( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : home_url( '/wp-admin/' );
+		
 		return array(
 			'echo'           => true,
-			'redirect'       => home_url( '/wp-admin/' ),
+			'redirect'       => $redirect_to,
 			'form_id'        => 'loginform',
 			'label_username' => $label_username,
 			'label_password' => $label_password,
@@ -1254,6 +1259,9 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				}
 		*/
 		if ( 'wp-login.php' === $page_viewed && 'GET' === $_SERVER['REQUEST_METHOD'] && ! $registering ) {
+			if ( isset( $_REQUEST['redirect_to'] ) ) {
+				$login_page = add_query_arg( [ 'redirect_to' => $_REQUEST['redirect_to'] ], $login_page );
+			}
 			wp_safe_redirect( $login_page );
 			exit;
 		}
@@ -1372,7 +1380,9 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		}
 
 		$login_page = get_permalink( self::get_login_redirect_page_id() );
-
+		if ( isset( $_GET['redirect_to'] ) ) {
+			$login_page = add_query_arg( [ 'redirect_to' => $_GET['redirect_to'] ], $login_page );
+        }
 		if ( isset( $_GET['redirect_to'] ) && false !== strpos( $_GET['redirect_to'], 'wp-admin' ) ) {
 			wp_safe_redirect( add_query_arg( array( 'ojs' => 'wp-admin' ), $login_page ) );
 			exit;
