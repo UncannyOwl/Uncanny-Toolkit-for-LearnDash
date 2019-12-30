@@ -1667,7 +1667,8 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 		$custom_message = self::get_settings_value( 'uo_frontend_resetpassword_email_body', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
 
-		add_filter( 'wp_mail_content_type', array( __CLASS__, 'htmlEmailContent' ) );
+		// Adding priority for avoiding conflict with other plugins like WP Better Emails
+		add_filter( 'wp_mail_content_type', array( __CLASS__, 'htmlEmailContent' ), 100 );
 		$custom_message = nl2br( $custom_message );
 		$custom_message = str_ireplace( '%User Login%', $user_login, $custom_message );
 		$custom_message = str_ireplace( '%Reset Link%', $reset_link, $custom_message );
