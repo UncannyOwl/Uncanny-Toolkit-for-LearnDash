@@ -100,6 +100,9 @@ namespace uncanny_learndash_toolkit;
 				} elseif ( 'expiredkey' === $_GET['issue'] ) {
 					$error = sprintf( '<p>%s</p>', $innerText['Expired-Reset-Key'] );
 				}
+				
+				echo $error;
+				
 			} else {
 				$rp_cookie = 'wp-resetpass-' . COOKIEHASH;
 				if ( isset( $_COOKIE[ $rp_cookie ] ) && 0 < strpos( $_COOKIE[ $rp_cookie ], ':' ) ) {

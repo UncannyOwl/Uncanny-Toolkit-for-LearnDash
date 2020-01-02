@@ -954,6 +954,10 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			$password_label = '';
 		}
 
+		// Override if redirect_to already set in login request.
+		if ( isset( $_REQUEST['redirect_to'] ) && ! empty( $_REQUEST['redirect_to'] ) ) {
+			$redirect = $_REQUEST['redirect_to'];
+		}
 		//Add an additional query variable for login redirect module. It'll override [uo_login redirect]
 		if ( ! empty( $redirect ) ) {
 			$redirect = strpos( $redirect, '?' ) ? $redirect . '&uo_redirect=1' : $redirect . '?uo_redirect';
@@ -1189,10 +1193,11 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		$disable_remember = self::get_settings_value( 'uo_frontendloginplus_disable_rememberme', __CLASS__ );
 		$label_remember   = self::get_settings_value( 'uo_frontend_login_rememberme_label', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
 		$label_log_in     = self::get_settings_value( 'uo_frontend_login_button_label', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
-
+		$redirect_to      = isset( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : home_url( '/wp-admin/' );
+		
 		return array(
 			'echo'           => true,
-			'redirect'       => home_url( '/wp-admin/' ),
+			'redirect'       => $redirect_to,
 			'form_id'        => 'loginform',
 			'label_username' => $label_username,
 			'label_password' => $label_password,
@@ -1306,6 +1311,9 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				}
 		*/
 		if ( 'wp-login.php' === $page_viewed && 'GET' === $_SERVER['REQUEST_METHOD'] && ! $registering ) {
+			if ( isset( $_REQUEST['redirect_to'] ) ) {
+				$login_page = add_query_arg( [ 'redirect_to' => $_REQUEST['redirect_to'] ], $login_page );
+			}
 			wp_safe_redirect( $login_page );
 			exit;
 		}
@@ -1424,7 +1432,9 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		}
 
 		$login_page = get_permalink( self::get_login_redirect_page_id() );
-
+		if ( isset( $_GET['redirect_to'] ) ) {
+			$login_page = add_query_arg( [ 'redirect_to' => $_GET['redirect_to'] ], $login_page );
+        }
 		if ( isset( $_GET['redirect_to'] ) && false !== strpos( $_GET['redirect_to'], 'wp-admin' ) ) {
 			wp_safe_redirect( add_query_arg( array( 'ojs' => 'wp-admin' ), $login_page ) );
 			exit;
@@ -1709,7 +1719,8 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 		$custom_message = self::get_settings_value( 'uo_frontend_resetpassword_email_body', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
 
-		add_filter( 'wp_mail_content_type', array( __CLASS__, 'htmlEmailContent' ) );
+		// Adding priority for avoiding conflict with other plugins like WP Better Emails
+		add_filter( 'wp_mail_content_type', array( __CLASS__, 'htmlEmailContent' ), 100 );
 		$custom_message = nl2br( $custom_message );
 		$custom_message = str_ireplace( '%User Login%', $user_login, $custom_message );
 		$custom_message = str_ireplace( '%Reset Link%', $reset_link, $custom_message );
@@ -1916,17 +1927,17 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 				if ( ! isset( $_POST['pass1'] ) || ! isset( $_POST['pass2'] ) ) {
 
-					$errors->add( 'pass', __( '<strong>ERROR</strong>: Password was not received.', 'slt-force-strong-passwords' ) );
+					$errors->add( 'pass', __( '<strong>ERROR</strong>: Password fields cannot be empty.', 'uncanny-learndash-toolkit' ) );
 
 				} elseif ( $_POST['pass1'] !== $_POST['pass2'] ) {
-					$errors->add( 'pass', __( '<strong>ERROR</strong>: Passwords do not match.', 'slt-force-strong-passwords' ) );
+					$errors->add( 'pass', __( '<strong>ERROR</strong>: Passwords do not match.', 'uncanny-learndash-toolkit' ) );
 				} else {
 					$_password_strength = self::get_settings_value( 'uo_frontendloginplus_reset_password_strength', __CLASS__ );
 
 					if ( $_password_strength === 'on' ) {
 						$password_ok = self::slt_fsp_password_strength( $_POST['pass1'], $user->user_login );
 						if ( $password_ok !== 4 ) {
-							$errors->add( 'pass', __( '<strong>ERROR</strong>: Please make the password a strong one.', 'slt-force-strong-passwords' ) );
+							$errors->add( 'pass', __( '<strong>ERROR</strong>: Please make the password a strong one.', 'uncanny-learndash-toolkit' ) );
 						}
 					}
 				}
