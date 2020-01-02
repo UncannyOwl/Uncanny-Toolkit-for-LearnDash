@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Uncanny LearnDash Toolkit
-Version: 3.1.4
+Version: 3.2
 Description: Extend the LearnDash plugin with a variety of complementary features to make building engaging learner experiences even easier.
 Author: Uncanny Owl
 Author URI: www.uncannyowl.com
@@ -15,12 +15,22 @@ global $uncanny_learndash_toolkit;
 
 // Define version
 if ( ! defined( 'UNCANNY_TOOLKIT_VERSION' ) ) {
-	define( 'UNCANNY_TOOLKIT_VERSION', '3.1.4' );
+	define( 'UNCANNY_TOOLKIT_VERSION', '3.2' );
 }
 
 // Define prefix
 if ( ! defined( 'UNCANNY_TOOLKIT_PREFIX' ) ) {
 	define( 'UNCANNY_TOOLKIT_PREFIX', 'ultp' );
+}
+
+// Define the main plugin file
+if ( ! defined( 'UNCANNY_TOOLKIT_FILE' ) ) {
+	define( 'UNCANNY_TOOLKIT_FILE', __FILE__ );
+}
+
+// Define the main plugin directory
+if ( ! defined( 'UNCANNY_TOOLKIT_DIR' ) ) {
+	define( 'UNCANNY_TOOLKIT_DIR', dirname( __FILE__ ) );
 }
 
 // Show admin notices for minimum versions of PHP, WordPress, and LearnDash
@@ -149,14 +159,14 @@ function learndash_version_notice() {
 add_action( 'plugins_loaded', 'uncanny_learndash_toolkit_text_domain' );
 
 function uncanny_learndash_toolkit_text_domain() {
-	load_plugin_textdomain( 'uncanny-learndash-toolkit', false, basename( dirname( __FILE__ ) ) . '/languages/' );
+	load_plugin_textdomain( 'uncanny-learndash-toolkit', false, basename( UNCANNY_TOOLKIT_FILE ) . '/languages/' );
 }
 
 // PHP version 5.6 and up only
 if ( version_compare( PHP_VERSION, '5.6', '>=' ) ) {
 
 	// On first activation, redirect to toolkit settings page if min php version is met
-	register_activation_hook( __FILE__, 'uncanny_learndash_toolkit_plugin_activate' );
+	register_activation_hook( UNCANNY_TOOLKIT_FILE, 'uncanny_learndash_toolkit_plugin_activate' );
 	add_action( 'admin_init', 'uncanny_learndash_toolkit_plugin_redirect' );
 
 	function uncanny_learndash_toolkit_plugin_activate() {
@@ -176,7 +186,7 @@ if ( version_compare( PHP_VERSION, '5.6', '>=' ) ) {
 	}
 
 	// Add settings link on plugin page
-	$uncanny_learndash_toolkit_plugin_basename = plugin_basename( __FILE__ );
+	$uncanny_learndash_toolkit_plugin_basename = plugin_basename( UNCANNY_TOOLKIT_FILE );
 
 	add_filter( 'plugin_action_links_' . $uncanny_learndash_toolkit_plugin_basename, 'uncanny_learndash_toolkit_plugin_settings_link' );
 
@@ -188,13 +198,13 @@ if ( version_compare( PHP_VERSION, '5.6', '>=' ) ) {
 	}
 
 	// Load breadcrumb front-end plugin function
-	include_once( dirname( __FILE__ ) . '/src/includes/uncanny-breadcrumbs-function.php' );
+	include_once( UNCANNY_TOOLKIT_DIR . '/src/includes/uncanny-breadcrumbs-function.php' );
 
 	// Plugins Configurations File
-	include_once( dirname( __FILE__ ) . '/src/config.php' );
+	include_once( UNCANNY_TOOLKIT_DIR . '/src/config.php' );
 
 	// Load all plugin classes(functionality)
-	include_once( dirname( __FILE__ ) . '/src/boot.php' );
+	include_once( UNCANNY_TOOLKIT_DIR . '/src/boot.php' );
 
 	$boot                            = '\uncanny_learndash_toolkit\Boot';
 	$uncanny_learndash_toolkit_class = new $boot;

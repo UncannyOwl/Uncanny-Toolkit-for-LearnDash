@@ -28,11 +28,12 @@ class LoginRedirect extends Config implements RequiredFunctions {
 			$redirect_priority = 999;
 			
 			$settings = get_option( 'LoginRedirect', Array() );
-			
-			foreach ( $settings as $setting ) {
-				
-				if ( 'redirect_priority' === $setting['name'] ) {
-					$redirect_priority = $setting['value'];
+			if ( ! empty( $settings ) ) {
+				foreach ( $settings as $setting ) {
+					
+					if ( 'redirect_priority' === $setting['name'] ) {
+						$redirect_priority = $setting['value'];
+					}
 				}
 			}
 			if ( empty( $redirect_priority ) ) {

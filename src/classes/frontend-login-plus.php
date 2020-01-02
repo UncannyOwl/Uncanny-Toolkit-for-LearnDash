@@ -86,6 +86,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 					add_action( 'edit_user_profile_update', array( __CLASS__, 'my_save_extra_profile_fields' ) );
 
 				}
+
 				// URLs
 				add_filter( 'site_url', array( __CLASS__, 'filter_site_url' ), 5, 3 );
 				add_filter( 'network_site_url', array( __CLASS__, 'filter_site_url' ), 5, 3 );
@@ -101,6 +102,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 				// Create Login UI Shortcode that can be added anywhere
 				add_shortcode( 'uo_login_ui', array( __CLASS__, 'uo_login_ui' ) );
+
 				// Redirect from wp-login.php to custom login page
 				add_action( 'init', array( __CLASS__, 'redirect_login_page' ) );
 				add_action( 'init', array( __CLASS__, 'validate_reset_password' ) );
@@ -119,7 +121,8 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				}
 
 				// Redirect to custom login page if username or password is empty
-				add_filter( 'authenticate', array( __CLASS__, 'verify_username_password' ), 10, 3 );
+				add_filter( 'authenticate', array( __CLASS__, 'verify_username_password_40' ), 40, 3 );
+				add_filter( 'authenticate', array( __CLASS__, 'maybe_remove_login_hooks' ), 10, 3 );
 				// Redirect from wp-login.php to custom login page if user logged out
 				add_action( 'wp_logout', array( __CLASS__, 'logout_page' ), 20, 1 );
 
@@ -150,9 +153,9 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				add_filter( 'learndash_30_get_template_part', [ __CLASS__, 'uo_modal_login_form' ], 100, 4 );
 			} */
 		}
-		
+
 	}
-	
+
 	/**
 	 * Description of class in Admin View
 	 *
@@ -251,13 +254,13 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				'type'       => 'html',
 				'inner_html' => '<h2>' . __( 'General', 'uncanny-learndash-toolkit' ) . '</h2>',
 			),
-            /* Override LD login modal. commenting it for next release.
-            , array(
+			/* Override LD login modal. commenting it for next release.
+			, array(
 				'type'        => 'checkbox',
 				'label'       => esc_html__( 'Override LearnDash Login Form (Requires Learndash 3.0 Login & Registration enabled)', 'uncanny-learndash-toolkit' ),
 				'option_name' => 'uo_frontendloginplus_override_ld_login_form',
 			),*/
-            array(
+			array(
 				'type'        => 'select',
 				'label'       => esc_html__( 'Select Template', 'uncanny-learndash-toolkit' ),
 				'select_name' => 'uo_frontend_login_template',
@@ -369,13 +372,13 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				'placeholder' => esc_html__( 'Invalid username and/or password.', 'uncanny-learndash-toolkit' ),
 				'option_name' => 'uo_frontend_login_failed_error',
 			),
-// Field is now required
-//			array(
-//				'type'        => 'text',
-//				'label'       => esc_html__( 'Empty Field Message', 'uncanny-learndash-toolkit' ),
-//				'placeholder' => esc_html__( 'Username and/or Password is empty.', 'uncanny-learndash-toolkit' ),
-//				'option_name' => 'uo_frontend_login_empty_error',
-//			),
+			// Field is now required
+			//			array(
+			//				'type'        => 'text',
+			//				'label'       => esc_html__( 'Empty Field Message', 'uncanny-learndash-toolkit' ),
+			//				'placeholder' => esc_html__( 'Username and/or Password is empty.', 'uncanny-learndash-toolkit' ),
+			//				'option_name' => 'uo_frontend_login_empty_error',
+			//			),
 			array(
 				'type'        => 'text',
 				'label'       => esc_html__( 'Account Not Verified Message', 'uncanny-learndash-toolkit' ),
@@ -461,13 +464,13 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				'placeholder' => esc_html__( 'Recover Account', 'uncanny-learndash-toolkit' ),
 				'option_name' => 'uo_login_forgot_pass_button_label',
 			),
-// Field is now required
-//			array(
-//				'type'        => 'text',
-//				'label'       => esc_html__( 'Empty Field Message', 'uncanny-learndash-toolkit' ),
-//				'placeholder' => esc_html__( 'Enter your username or email address.', 'uncanny-learndash-toolkit' ),
-//				'option_name' => 'uo_login_forgot_pass_empty_field',
-//			),
+			// Field is now required
+			//			array(
+			//				'type'        => 'text',
+			//				'label'       => esc_html__( 'Empty Field Message', 'uncanny-learndash-toolkit' ),
+			//				'placeholder' => esc_html__( 'Enter your username or email address.', 'uncanny-learndash-toolkit' ),
+			//				'option_name' => 'uo_login_forgot_pass_empty_field',
+			//			),
 			array(
 				'type'        => 'text',
 				'label'       => esc_html__( 'Invalid Credentials Message', 'uncanny-learndash-toolkit' ),
@@ -518,6 +521,20 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				'inner_html' => '<h2>' . esc_html__( 'Reset Password Form', 'uncanny-learndash-toolkit' ) . '</h2>',
 			),
 			array(
+				'type'        => 'checkbox',
+				'label'       => esc_html__( 'Enable password strength', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_frontendloginplus_reset_password_strength',
+			),
+			array(
+				'type'       => 'radio',
+				'label'      => esc_html__( 'Password strength apply to', 'uncanny-learndash-toolkit' ),
+				'radio_name' => 'uo_frontendloginplus_reset_password_strength_roles',
+				'radios'     => array(
+					array( 'value' => 'all', 'text' => 'All Roles' ),
+					array( 'value' => 'admin', 'text' => 'An Author, Editor or Administrator' ),
+				),
+			),
+			array(
 				'type'        => 'text',
 				'label'       => esc_html__( 'Title', 'uncanny-learndash-toolkit' ),
 				'placeholder' => esc_html__( 'Reset Password', 'uncanny-learndash-toolkit' ),
@@ -541,13 +558,13 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				'placeholder' => esc_html__( 'Confirm New Password', 'uncanny-learndash-toolkit' ),
 				'option_name' => 'uo_frontend_login_reset_confirm_pass_field',
 			),
-// Will implement in later version
-//			array(
-//				'type'        => 'text',
-//				'label'       => esc_html__( 'Password Hint Indicator Text', 'uncanny-learndash-toolkit' ),
-//				'placeholder' => esc_html__( 'Hint: The password should be at least eight characters long. To make it stronger, use upper and lower case letters, numbers, and symbols like ! " ? $ % ^ &amp; )', 'uncanny-learndash-toolkit' ),
-//				'option_name' => 'uo_frontend_login_reset_pass_hint',
-//			),
+			// Will implement in later version
+			//			array(
+			//				'type'        => 'text',
+			//				'label'       => esc_html__( 'Password Hint Indicator Text', 'uncanny-learndash-toolkit' ),
+			//				'placeholder' => esc_html__( 'Hint: The password should be at least eight characters long. To make it stronger, use upper and lower case letters, numbers, and symbols like ! " ? $ % ^ &amp; )', 'uncanny-learndash-toolkit' ),
+			//				'option_name' => 'uo_frontend_login_reset_pass_hint',
+			//			),
 			array(
 				'type'        => 'text',
 				'label'       => esc_html__( 'Button Label', 'uncanny-learndash-toolkit' ),
@@ -560,13 +577,19 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				'placeholder' => esc_html__( 'The passwords you entered do not match.', 'uncanny-learndash-toolkit' ),
 				'option_name' => 'uo_frontend_login_passwordnotmatch_error',
 			),
-// Field is now required
-//			array(
-//				'type'        => 'text',
-//				'label'       => esc_html__( 'Empty Field Message', 'uncanny-learndash-toolkit' ),
-//				'placeholder' => esc_html__( 'Enter your new password in both fields.', 'uncanny-learndash-toolkit' ),
-//				'option_name' => 'uo_frontend_login_passwordempy_error',
-//			),
+			array(
+				'type'        => 'text',
+				'label'       => esc_html__( 'Passwords strength is not strong', 'uncanny-learndash-toolkit' ),
+				'placeholder' => esc_html__( 'The passwords you entered is not strong.', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_frontend_login_passwordstrength_error',
+			),
+			// Field is now required
+			//			array(
+			//				'type'        => 'text',
+			//				'label'       => esc_html__( 'Empty Field Message', 'uncanny-learndash-toolkit' ),
+			//				'placeholder' => esc_html__( 'Enter your new password in both fields.', 'uncanny-learndash-toolkit' ),
+			//				'option_name' => 'uo_frontend_login_passwordempy_error',
+			//			),
 			array(
 				'type'        => 'text',
 				'label'       => esc_html__( 'Invalid Reset Link Message', 'uncanny-learndash-toolkit' ),
@@ -702,7 +725,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			$subject = sprintf( __( '%s - Account Verified', 'uncanny-learndash-toolkit' ), $blog_name );
 			$subject = apply_filters( 'uo_verified_email_subject', $subject, $user );
 
-			$message = __( 'Your account has been approved! ', 'uncanny-learndash-toolkit' )."\r\n\n";
+			$message = __( 'Your account has been approved! ', 'uncanny-learndash-toolkit' ) . "\r\n\n";
 			$message .= sprintf( __( 'Please visit %s to login. ', 'uncanny-learndash-toolkit' ), home_url() ) . " \r\n";
 			$message = apply_filters( 'uo_verified_email_message', $message, $user );
 
@@ -715,7 +738,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			$headers   = apply_filters( 'uo_verified_email_headers', $headers, $user );
 
 			$to = $admin_email;
-			
+
 			$subject = sprintf( __( '%s - Account Verified', 'uncanny-learndash-toolkit' ), $blog_name );
 			$subject = apply_filters( 'uo_verified_email_subject', $subject, $user );
 
@@ -772,6 +795,34 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 							$rp_cookie = 'wp-resetpass-' . COOKIEHASH;
 							$value     = sprintf( '%s:%s', wp_unslash( $_GET['login'] ), wp_unslash( $_GET['key'] ) );
 
+							$user = check_password_reset_key(wp_unslash( $_GET['key'] ), wp_unslash( $_GET['login'] ));
+							if( is_wp_error($user)){
+								// Key is not valid
+								$login_page = get_permalink( self::get_login_redirect_page_id() );
+								// Password reset cookie was not set OR password rest key check failed
+
+								$login_page     = FrontendLoginPlus::get_login_redirect_page_id();
+								$login_page_url = get_permalink( $login_page );
+
+
+								if ( strpos( $login_page_url, '?' ) ) {
+									$login_page_url = $login_page_url . '&';
+								} else {
+									$login_page_url = $login_page_url . '?';
+								}
+
+								if ( is_wp_error( $user ) ) {
+									if ( $user->get_error_code() === 'expired_key' ) {
+										wp_safe_redirect( $login_page_url . 'action=validatepasswordreset&issue=expiredkey' );
+										die();
+									} else {
+										wp_safe_redirect( $login_page_url . 'action=validatepasswordreset&issue=invalidkey' );
+										die();
+									}
+								}
+
+							}
+
 							setcookie( $rp_cookie, $value, time() + 3600, '/' . get_post_field( 'post_name', $login_page_id ), COOKIE_DOMAIN, is_ssl(), true );
 						}
 					}
@@ -800,6 +851,30 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 							$rp_cookie = 'wp-resetpass-' . COOKIEHASH;
 							$value     = sprintf( '%s:%s', wp_unslash( $_GET['login'] ), wp_unslash( $_GET['key'] ) );
+							$user = check_password_reset_key(wp_unslash( $_GET['key'] ), wp_unslash( $_GET['login'] ));
+							if( is_wp_error($user)){
+								// Key is not valid
+								$login_page     = FrontendLoginPlus::get_login_redirect_page_id();
+								$login_page_url = get_permalink( $login_page );
+
+
+								if ( strpos( $login_page_url, '?' ) ) {
+									$login_page_url = $login_page_url . '&';
+								} else {
+									$login_page_url = $login_page_url . '?';
+								}
+								// Password reset cookie was not set OR password rest key check failed
+								if ( is_wp_error( $user ) ) {
+									if ( $user->get_error_code() === 'expired_key' ) {
+										wp_safe_redirect( $login_page_url . 'action=validatepasswordreset&issue=expiredkey' );
+										die();
+									} else {
+										wp_safe_redirect( $login_page_url . 'action=validatepasswordreset&issue=invalidkey' );
+										die();
+									}
+								}
+
+							}
 							setcookie( $rp_cookie, $value, 0, '/', COOKIE_DOMAIN, is_ssl(), true );
 						}
 					}
@@ -869,16 +944,20 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		if ( 'no' !== $placeholder ) {
 			?>
 			<script type='text/javascript'>
-                jQuery(document).ready(function () {
-                    jQuery('#user_login').attr('placeholder', '<?php echo $username_label; ?>')
-                    jQuery('#user_pass').attr('placeholder', '<?php echo $password_label; ?>')
-                })
+				jQuery( document ).ready( function (){
+					jQuery( '#user_login' ).attr( 'placeholder', '<?php echo $username_label; ?>' )
+					jQuery( '#user_pass' ).attr( 'placeholder', '<?php echo $password_label; ?>' )
+				} )
 			</script>
 			<?php
 			$username_label = '';
 			$password_label = '';
 		}
 
+		// Override if redirect_to already set in login request.
+		if ( isset( $_REQUEST['redirect_to'] ) && ! empty( $_REQUEST['redirect_to'] ) ) {
+			$redirect = $_REQUEST['redirect_to'];
+		}
 		//Add an additional query variable for login redirect module. It'll override [uo_login redirect]
 		if ( ! empty( $redirect ) ) {
 			$redirect = strpos( $redirect, '?' ) ? $redirect . '&uo_redirect=1' : $redirect . '?uo_redirect';
@@ -945,54 +1024,54 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 		/* Registration */
 		$register = false;
-//		if ( '' !== Config::get_settings_value( 'uo_frontend_registration', 'FrontendLoginPlus' ) ) {
-//
-//			$register_show = true;
-//			if ( isset( $_GET['action'] ) ) {
-//
-//				if ( 'register' === $_GET['action'] ) {
-//
-//					$register = true;
-//
-//					if ( isset( $_GET['wp-error'] ) ) {
-//
-//						$error = $_GET['wp-error'];
-//
-//						switch ( $error ) {
-//
-//							case 'empty_username':
-//								$message_warning = esc_html__( 'Please enter a username.', 'uncanny-learndash-toolkit' );
-//								break;
-//							case 'invalid_username':
-//								$message_warning = esc_html__( 'This username is invalid because it uses illegal characters. Please enter a valid username.', 'uncanny-learndash-toolkit' );
-//								break;
-//							case 'username_exists':
-//								$message_warning = esc_html__( 'This username is already registered. Please choose another one.', 'uncanny-learndash-toolkit' );
-//								break;
-//							case 'empty_email':
-//								$message_warning = esc_html__( 'Please type your email address.', 'uncanny-learndash-toolkit' );
-//								break;
-//							case 'invalid_email':
-//								$message_warning = esc_html__( 'The email address is not correct.', 'uncanny-learndash-toolkit' );
-//								break;
-//							case 'email_exists':
-//								$message_warning = esc_html__( 'This email is already registered, please choose another one.', 'uncanny-learndash-toolkit' );
-//								break;
-//							case 'registration-disabled':
-//								$message_warning = esc_html__( 'We do not allow registrations.', 'uncanny-learndash-toolkit' );
-//								$register_show   = false;
-//								break;
-//							case 'registration-success':
-//								$message_warning = esc_html__( 'Registration complete. Registration confirmation has been emailed to you.', 'uncanny-learndash-toolkit' );
-//								$register_show   = false;
-//								break;
-//						}
-//
-//					}
-//
-//				}
-//			}
-//		}
+		//		if ( '' !== Config::get_settings_value( 'uo_frontend_registration', 'FrontendLoginPlus' ) ) {
+		//
+		//			$register_show = true;
+		//			if ( isset( $_GET['action'] ) ) {
+		//
+		//				if ( 'register' === $_GET['action'] ) {
+		//
+		//					$register = true;
+		//
+		//					if ( isset( $_GET['wp-error'] ) ) {
+		//
+		//						$error = $_GET['wp-error'];
+		//
+		//						switch ( $error ) {
+		//
+		//							case 'empty_username':
+		//								$message_warning = esc_html__( 'Please enter a username.', 'uncanny-learndash-toolkit' );
+		//								break;
+		//							case 'invalid_username':
+		//								$message_warning = esc_html__( 'This username is invalid because it uses illegal characters. Please enter a valid username.', 'uncanny-learndash-toolkit' );
+		//								break;
+		//							case 'username_exists':
+		//								$message_warning = esc_html__( 'This username is already registered. Please choose another one.', 'uncanny-learndash-toolkit' );
+		//								break;
+		//							case 'empty_email':
+		//								$message_warning = esc_html__( 'Please type your email address.', 'uncanny-learndash-toolkit' );
+		//								break;
+		//							case 'invalid_email':
+		//								$message_warning = esc_html__( 'The email address is not correct.', 'uncanny-learndash-toolkit' );
+		//								break;
+		//							case 'email_exists':
+		//								$message_warning = esc_html__( 'This email is already registered, please choose another one.', 'uncanny-learndash-toolkit' );
+		//								break;
+		//							case 'registration-disabled':
+		//								$message_warning = esc_html__( 'We do not allow registrations.', 'uncanny-learndash-toolkit' );
+		//								$register_show   = false;
+		//								break;
+		//							case 'registration-success':
+		//								$message_warning = esc_html__( 'Registration complete. Registration confirmation has been emailed to you.', 'uncanny-learndash-toolkit' );
+		//								$register_show   = false;
+		//								break;
+		//						}
+		//
+		//					}
+		//
+		//				}
+		//			}
+		//		}
 
 
 		/* Lost Password */
@@ -1015,7 +1094,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 					$reset_password_sent_success = 'recaptchaempty';
 				} elseif ( 'recaptchafailed' === $_GET['success'] ) {
 					$reset_password_sent_success = 'recaptchafailed';
-				}elseif ( 'invalidcredentials' === $_GET['success'] ) {
+				} elseif ( 'invalidcredentials' === $_GET['success'] ) {
 					$reset_password_sent_success = 'invalidcredentials';
 				}
 			}
@@ -1036,8 +1115,9 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				$validate_password_reset = true;
 			}
 		}
-		
+
 		$message_details = FrontendLoginPlus::fetch_warning_error_msgs( $login );
+
 		if ( ! empty( $message_details['warning'] ) ) {
 			$message_warning = $message_details['warning'];
 		}
@@ -1107,16 +1187,17 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	 * @return array
 	 */
 	public static function fetch_login_form_args() {
-		
-		$label_username   = self::get_settings_value( 'uo_login_username_label_login', __CLASS__, '%placeholder%', self::get_class_settings( '', TRUE ) );
-		$label_password   = self::get_settings_value( 'uo_frontend_login_password_label', __CLASS__, '%placeholder%', self::get_class_settings( '', TRUE ) );
+
+		$label_username   = self::get_settings_value( 'uo_login_username_label_login', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
+		$label_password   = self::get_settings_value( 'uo_frontend_login_password_label', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
 		$disable_remember = self::get_settings_value( 'uo_frontendloginplus_disable_rememberme', __CLASS__ );
-		$label_remember   = self::get_settings_value( 'uo_frontend_login_rememberme_label', __CLASS__, '%placeholder%', self::get_class_settings( '', TRUE ) );
-		$label_log_in     = self::get_settings_value( 'uo_frontend_login_button_label', __CLASS__, '%placeholder%', self::get_class_settings( '', TRUE ) );
+		$label_remember   = self::get_settings_value( 'uo_frontend_login_rememberme_label', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
+		$label_log_in     = self::get_settings_value( 'uo_frontend_login_button_label', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
+		$redirect_to      = isset( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : home_url( '/wp-admin/' );
 		
 		return array(
 			'echo'           => true,
-			'redirect'       => home_url( '/wp-admin/' ),
+			'redirect'       => $redirect_to,
 			'form_id'        => 'loginform',
 			'label_username' => $label_username,
 			'label_password' => $label_password,
@@ -1139,22 +1220,23 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	 */
 	public static function fetch_inner_text() {
 
-		$uo_frontend_login_logged_in_message = self::get_settings_value( 'uo_frontend_login_logged_in_message', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
-		$uo_frontend_logout_text             = self::get_settings_value( 'uo_frontend_logout_text', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
-		$uo_login_forgot_pass_title = self::get_settings_value( 'uo_login_forgot_pass_title', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
-		$uo_login_forgot_pass_desc  = self::get_settings_value( 'uo_login_forgot_pass_desc', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
+		$uo_frontend_login_logged_in_message        = self::get_settings_value( 'uo_frontend_login_logged_in_message', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
+		$uo_frontend_logout_text                    = self::get_settings_value( 'uo_frontend_logout_text', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
+		$uo_login_forgot_pass_title                 = self::get_settings_value( 'uo_login_forgot_pass_title', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
+		$uo_login_forgot_pass_desc                  = self::get_settings_value( 'uo_login_forgot_pass_desc', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
 		$uo_login_username_label_reset              = self::get_settings_value( 'uo_login_username_label_reset', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
 		$uo_frontend_login_successsendemail         = self::get_settings_value( 'uo_frontend_login_successsendemail', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
 		$uo_frontend_login_failedsendemail_error    = self::get_settings_value( 'uo_frontend_login_failedsendemail_error', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
-		$uo_login_forgot_pass_invalid_creds    = self::get_settings_value( 'uo_login_forgot_pass_invalid_creds', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
-		$uo_frontend_login_reset_title = self::get_settings_value( 'uo_frontend_login_reset_title', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
-		$uo_frontend_login_reset_desc = self::get_settings_value( 'uo_frontend_login_reset_desc', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
+		$uo_login_forgot_pass_invalid_creds         = self::get_settings_value( 'uo_login_forgot_pass_invalid_creds', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
+		$uo_frontend_login_reset_title              = self::get_settings_value( 'uo_frontend_login_reset_title', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
+		$uo_frontend_login_reset_desc               = self::get_settings_value( 'uo_frontend_login_reset_desc', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
 		$uo_frontend_login_reset_pass_button        = self::get_settings_value( 'uo_frontend_login_reset_pass_button', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
 		$uo_frontend_login_reset_pass_field         = self::get_settings_value( 'uo_frontend_login_reset_pass_field', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
 		$uo_frontend_login_reset_confirm_pass_field = self::get_settings_value( 'uo_frontend_login_reset_confirm_pass_field', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
 		//$uo_frontend_login_reset_pass_hint = self::get_settings_value( 'uo_frontend_login_reset_pass_hint', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
 		$uo_frontend_login_invalidresetkey_error  = self::get_settings_value( 'uo_frontend_login_invalidresetkey_error', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
 		$uo_frontend_login_passwordnotmatch_error = self::get_settings_value( 'uo_frontend_login_passwordnotmatch_error', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
+		$uo_frontend_login_passwordstrength_error = self::get_settings_value( 'uo_frontend_login_passwordstrength_error', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
 		$uo_frontend_login_reset_successful       = self::get_settings_value( 'uo_frontend_login_reset_successful', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
 		$uo_frontend_login_title_label            = self::get_settings_value( 'uo_frontend_login_title_label', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
 		$uo_frontend_login_description            = self::get_settings_value( 'uo_frontend_login_description', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
@@ -1164,17 +1246,17 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		$uo_frontend_login_recaptchafailed_error  = self::get_settings_value( 'uo_frontend_login_recaptchafailed_error', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
 
 		$innerText = Array(
-			'Logged-In-Message' => $uo_frontend_login_logged_in_message,
-			'Logout'            => $uo_frontend_logout_text,
-			'Password-Recovery-Title' => $uo_login_forgot_pass_title,
-			'Password-Recovery-Desc' => $uo_login_forgot_pass_desc,
+			'Logged-In-Message'          => $uo_frontend_login_logged_in_message,
+			'Logout'                     => $uo_frontend_logout_text,
+			'Password-Recovery-Title'    => $uo_login_forgot_pass_title,
+			'Password-Recovery-Desc'     => $uo_login_forgot_pass_desc,
 			'Password-Recovery-Label'    => $uo_login_username_label_reset,
 			'Success-Email-Sent'         => $uo_frontend_login_successsendemail,
 			'Failed-Send-Email'          => $uo_frontend_login_failedsendemail_error,
 			'Failed-Pass-Creds'          => $uo_login_forgot_pass_invalid_creds,
 			'Reset-Password-Title'       => $uo_frontend_login_reset_title,
-			'Reset-Password-Desc'       => $uo_frontend_login_reset_desc,
-			'Reset-Password-Button'       => $uo_frontend_login_reset_pass_button,
+			'Reset-Password-Desc'        => $uo_frontend_login_reset_desc,
+			'Reset-Password-Button'      => $uo_frontend_login_reset_pass_button,
 			'New-Password'               => $uo_frontend_login_reset_pass_field,
 			'Confirm-Password'           => $uo_frontend_login_reset_confirm_pass_field,
 			//'Password-Indicator-Hint'    => $uo_frontend_login_reset_pass_hint,
@@ -1182,6 +1264,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			'Invalid-Reset-Key'          => $uo_frontend_login_invalidresetkey_error,
 			'Expired-Reset-Key'          => $uo_frontend_login_invalidresetkey_error,
 			'Password-Not-Match'         => $uo_frontend_login_passwordnotmatch_error,
+			'Password-Not-Strong'        => $uo_frontend_login_passwordstrength_error,
 			'Reset-Success'              => $uo_frontend_login_reset_successful,
 			'Login-Title'                => $uo_frontend_login_title_label,
 			'Login-Description'          => $uo_frontend_login_description,
@@ -1228,6 +1311,9 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				}
 		*/
 		if ( 'wp-login.php' === $page_viewed && 'GET' === $_SERVER['REQUEST_METHOD'] && ! $registering ) {
+			if ( isset( $_REQUEST['redirect_to'] ) ) {
+				$login_page = add_query_arg( [ 'redirect_to' => $_REQUEST['redirect_to'] ], $login_page );
+			}
 			wp_safe_redirect( $login_page );
 			exit;
 		}
@@ -1280,31 +1366,56 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	 * Redirect to custom login page if login has failed
 	 */
 	public static function login_failed() {
+
+//		echo '<pre>';
+//		var_dump( 'login_failed' );
+//		var_dump( $_SERVER );
+//		var_dump( $_POST );
+//		var_dump( $_GET );
+//		echo '</pre>';
+//		wp_die('UO redirect');
 		// Check for REST requests.
 		if ( defined( 'REST_REQUEST' ) && REST_REQUEST ) {
 			return;
 		}
 		// Redundant check for REST because in some cases REST_REQUEST constant does not work.
-		if ( strpos( $_SERVER[ 'REQUEST_URI' ], '/wp-json/' ) !== false ) {
+		if ( strpos( $_SERVER['REQUEST_URI'], '/wp-json/' ) !== false ) {
 			return;
 		}
 		// Check for AJAX requests
 		if ( wp_doing_ajax() ) {
 			return;
 		}
-		
+
 		$login_page = get_permalink( self::get_login_redirect_page_id() );
 		wp_safe_redirect( add_query_arg( array( 'login' => 'failed' ), $login_page ) );
 		exit;
 	}
 
+
 	/**
 	 * Redirect to custom login page if username or password is empty
 	 */
-	public static function verify_username_password( $user, $username, $password ) {
+	public static function maybe_remove_login_hooks( $user, $username, $password ) {
+
+		$login_page = get_permalink( self::get_login_redirect_page_id() );
+		$login_mode_enabled = \LearnDash_Settings_Section::get_section_setting( 'LearnDash_Settings_Theme_LD30', 'login_mode_enabled' );
+		if(isset($_SERVER['HTTP_REFERER']) && $_SERVER['HTTP_REFERER'] === $login_page ){
+			remove_action( 'wp_login_failed', 'learndash_login_failed', 1 );
+		}elseif( 'yes' !== $login_mode_enabled){
+			remove_action( 'wp_login_failed', 'learndash_login_failed', 1 );
+		}
 
 		// remove theme my login login recaptcha validation during our recaptcha validation
 		remove_filter( 'wp_authenticate_user', 'tml_recaptcha_validate_login' );
+
+		return $user;
+	}
+
+	/**
+	 * Redirect to custom login page if username or password is empty
+	 */
+	public static function verify_username_password_40( $user, $username, $password ) {
 
 		$uo_manual_verification = 'no';
 
@@ -1321,21 +1432,17 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		}
 
 		$login_page = get_permalink( self::get_login_redirect_page_id() );
-		
-
+		if ( isset( $_GET['redirect_to'] ) ) {
+			$login_page = add_query_arg( [ 'redirect_to' => $_GET['redirect_to'] ], $login_page );
+        }
 		if ( isset( $_GET['redirect_to'] ) && false !== strpos( $_GET['redirect_to'], 'wp-admin' ) ) {
-			wp_safe_redirect( $login_page );
+			wp_safe_redirect( add_query_arg( array( 'ojs' => 'wp-admin' ), $login_page ) );
 			exit;
 		}
 
 		if ( 'yes' === $uo_manual_verification ) {
-			if ( is_email( $username ) ) {
-				$user = get_user_by( 'email', $username );
-			} else {
-				$user = get_user_by( 'login', $username );
-			}
 
-			if ( $user ) {
+			if ( ( $user ) && ( is_a( $user, 'WP_User' ) ) ) {
 
 				$user_verified_value = get_user_meta( $user->ID, self::$user_meta_key_col, true );
 
@@ -1365,7 +1472,6 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 		if ( '' === $username || '' === $password ) {
 			if ( false === $registering ) {
-
 				wp_safe_redirect( add_query_arg( array( 'login' => 'empty' ), $login_page ) );
 				exit;
 			}
@@ -1373,26 +1479,26 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 		$recaptcha_key         = Config::get_settings_value( 'uo_frontend_login_recaptcha_key', 'FrontendLoginPlus' );
 		$recaptcha_secrete_key = Config::get_settings_value( 'uo_frontend_login_recaptcha_secret_key', 'FrontendLoginPlus' );
-		
+
 		// get referer page id and content for shortcode
 		$referer_id         = url_to_postid( wp_get_referer() );
-		$is_short_code_page = FALSE;
+		$is_short_code_page = false;
 		if ( ! empty( $referer_id ) ) {
-			$referer_page = get_post( $referer_id );
+			$referer_page     = get_post( $referer_id );
 			$block_is_on_page = false;
 			if ( function_exists( 'parse_blocks' ) ) {
 				$blocks = parse_blocks( $referer_page->post_content );
 				foreach ( $blocks as $block ) {
 					if ( 'uncanny-toolkit/frontend-login' === $block['blockName'] ) {
-						$block_is_on_page = TRUE;
+						$block_is_on_page = true;
 					}
 				}
 			}
-			
-			if ( has_shortcode( $referer_page->post_content, 'uo_login_ui' ) || has_shortcode( $referer_page->post_content, 'uo_login' ) || $block_is_on_page) {
-				$is_short_code_page = TRUE;
+
+			if ( has_shortcode( $referer_page->post_content, 'uo_login_ui' ) || has_shortcode( $referer_page->post_content, 'uo_login' ) || $block_is_on_page ) {
+				$is_short_code_page = true;
 			}
-			
+
 		}
 		// check if recaptcha is setup
 		if ( '' !== trim( $recaptcha_key ) && '' !== trim( $recaptcha_secrete_key ) && ( self::get_login_redirect_page_id() === $referer_id || $is_short_code_page ) ) {
@@ -1438,6 +1544,8 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				exit;
 			}
 		}
+
+		return $user;
 	}
 
 	/**
@@ -1529,7 +1637,10 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 		if ( ! $valid_credentials ) {
 			$login_page = get_permalink( self::get_login_redirect_page_id() );
-			wp_safe_redirect( add_query_arg( array( 'action' => 'forgot', 'success' => 'invalidcredentials' ), $login_page ) );
+			wp_safe_redirect( add_query_arg( array(
+				'action'  => 'forgot',
+				'success' => 'invalidcredentials'
+			), $login_page ) );
 			exit;
 		}
 
@@ -1608,7 +1719,8 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 		$custom_message = self::get_settings_value( 'uo_frontend_resetpassword_email_body', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
 
-		add_filter( 'wp_mail_content_type', array( __CLASS__, 'htmlEmailContent' ) );
+		// Adding priority for avoiding conflict with other plugins like WP Better Emails
+		add_filter( 'wp_mail_content_type', array( __CLASS__, 'htmlEmailContent' ), 100 );
 		$custom_message = nl2br( $custom_message );
 		$custom_message = str_ireplace( '%User Login%', $user_login, $custom_message );
 		$custom_message = str_ireplace( '%Reset Link%', $reset_link, $custom_message );
@@ -1651,11 +1763,9 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 						$block_is_on_page = false;
 						if ( function_exists( 'parse_blocks' ) ) {
 							$blocks = parse_blocks( $post->post_content );
-							foreach ( $blocks as $block ) {
-								if ( 'uncanny-toolkit/frontend-login' === $block['blockName'] ) {
-									$block_is_on_page = true;
-								}
-							}
+
+							$block_is_on_page = self::detect_inner_block( $blocks, 'uncanny-toolkit/frontend-login' );
+
 							if ( ! $block_is_on_page ) {
 								echo '<div id="ult-login-no-setup-notice"><strong> Note: This page has been set as the login page for this site. The form below has been added for your convenience. To hide this message, add the shortcode [uo_login_ui] or the Front End Login Gutenberg block to this page.</strong></div>';
 								echo do_shortcode( '[uo_login_ui]' );
@@ -1669,6 +1779,20 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		}
 	}
 
+	public static function detect_inner_block( $blocks, $block_code ) {
+		$block_is_on_page = false;
+		foreach ( $blocks as $block ) {
+			if ( $block_code === $block['blockName'] ) {
+				return true;
+			}
+			if ( ! empty( $block['innerBlocks'] ) ) {
+				return self::detect_inner_block( $block['innerBlocks'], $block_code );
+			}
+		}
+
+		return $block_is_on_page;
+	}
+
 	public static function htmlEmailContent( $contentType ) {
 		return 'text/html';
 	}
@@ -1676,13 +1800,13 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	/**
 	 * Filter the result of get_site_url().
 	 *
-	 * @since 3.0
-	 *
 	 * @param string $url    The URL.
 	 * @param string $path   The path.
 	 * @param string $scheme The URL scheme.
 	 *
 	 * @return string The filtered URL.
+	 * @since 3.0
+	 *
 	 */
 	public static function filter_site_url( $url, $path, $scheme ) {
 		global $pagenow;
@@ -1749,49 +1873,48 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 		return $current_theme;
 	}
-	
+
 	/**
 	 * Validate and reset user password.
 	 *
 	 * @since 3.1.2
 	 */
-	
+
 	public static function validate_reset_password() {
-		
+
 		$login_page     = FrontendLoginPlus::get_login_redirect_page_id();
 		$login_page_url = get_permalink( $login_page );
-		
+
+
 		if ( strpos( $login_page_url, '?' ) ) {
 			$login_page_url = $login_page_url . '&';
 		} else {
 			$login_page_url = $login_page_url . '?';
 		}
 		/* Validate Reset Password Information */
-		$validate_password_reset = FALSE;
+		$validate_password_reset = false;
 		if ( isset( $_GET['action'] ) ) {
 			if ( 'validatepasswordreset' === $_GET['action'] ) {
-				$validate_password_reset = TRUE;
+				$validate_password_reset = true;
 			}
 		}
-		
+
 		if ( $validate_password_reset ) {
 			if ( ! isset( $_GET['issue'] ) ) {
 				$rp_cookie = 'wp-resetpass-' . COOKIEHASH;
 				if ( isset( $_COOKIE[ $rp_cookie ] ) && 0 < strpos( $_COOKIE[ $rp_cookie ], ':' ) ) {
+
 					list( $rp_login, $rp_key ) = explode( ':', wp_unslash( $_COOKIE[ $rp_cookie ] ), 2 );
+
 					$user = check_password_reset_key( $rp_key, $rp_login );
-					//var_dump($user);
-					if ( isset( $_POST['pass1'] ) && ! hash_equals( $rp_key, $_POST['rp_key'] ) ) {
-						$user = FALSE;
-					}
+
 				} else {
-					$user = FALSE;
+					$user = new \WP_Error( 'invalid_key', __( 'Invalid key.' ) );
 				}
-				
-				if ( ! $user || is_wp_error( $user ) && ! isset( $_POST['pass1'] ) ) {
-					
-					//setcookie( $rp_cookie, ' ', time() - YEAR_IN_SECONDS, '/login', COOKIE_DOMAIN, is_ssl(), true );
-					if ( $user && $user->get_error_code() === 'expired_key' ) {
+
+				// Password reset cookie was not set OR password rest key check failed
+				if ( is_wp_error( $user ) ) {
+					if ( $user->get_error_code() === 'expired_key' ) {
 						wp_safe_redirect( $login_page_url . 'action=validatepasswordreset&issue=expiredkey' );
 						die();
 					} else {
@@ -1799,43 +1922,107 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 						die();
 					}
 				}
-				
+
 				$errors = new \WP_Error();
-				
-				if ( isset( $_POST['pass1'] ) && ! empty( $_POST['pass1'] ) && $_POST['pass1'] == $_POST['pass2'] ) {
+
+				if ( ! isset( $_POST['pass1'] ) || ! isset( $_POST['pass2'] ) ) {
+
+					$errors->add( 'pass', __( '<strong>ERROR</strong>: Password fields cannot be empty.', 'uncanny-learndash-toolkit' ) );
+
+				} elseif ( $_POST['pass1'] !== $_POST['pass2'] ) {
+					$errors->add( 'pass', __( '<strong>ERROR</strong>: Passwords do not match.', 'uncanny-learndash-toolkit' ) );
+				} else {
+					$_password_strength = self::get_settings_value( 'uo_frontendloginplus_reset_password_strength', __CLASS__ );
+
+					if ( $_password_strength === 'on' ) {
+						$password_ok = self::slt_fsp_password_strength( $_POST['pass1'], $user->user_login );
+						if ( $password_ok !== 4 ) {
+							$errors->add( 'pass', __( '<strong>ERROR</strong>: Please make the password a strong one.', 'uncanny-learndash-toolkit' ) );
+						}
+					}
+				}
+
+				if ( ! $errors->has_errors() ) {
 					reset_password( $user, $_POST['pass1'] );
 					wp_redirect( $login_page_url . 'action=reset&success=true' );
 					die();
 				}
 			}
 		}
-		
+
 	}
-	
+
 	/**
-     *
-     */
-    /* Override LD login modal. commenting it for next release.
-    public static function uo_modal_login_form( $filepath, $slug, $args, $echo, $return_file_path ) {
-        
-        if ( strpos( $filepath, 'modules/login-modal.php' ) !== FALSE ) {
-            $can_register = get_option( 'users_can_register' ); ?>
-    
-        <div class="ld-modal ld-login-modal <?php if ( $can_register ) {
-            echo 'ld-can-register';
-        } ?>">
-    
-            <span class="ld-modal-closer ld-icon ld-icon-delete"></span>
-            <div class="ld-login-modal-login">
-                <div class="ld-login-modal-wrapper">
-                    <?php
-                    echo do_shortcode( '[uo_login]' );
-                    ?> </div>
-            </div>
-            </div><?php
-        } else {
-            return $filepath;
-        }
-        
-    }*/
+	 *
+	 */
+	/* Override LD login modal. commenting it for next release.
+	public static function uo_modal_login_form( $filepath, $slug, $args, $echo, $return_file_path ) {
+		
+		if ( strpos( $filepath, 'modules/login-modal.php' ) !== FALSE ) {
+			$can_register = get_option( 'users_can_register' ); ?>
+	
+		<div class="ld-modal ld-login-modal <?php if ( $can_register ) {
+			echo 'ld-can-register';
+		} ?>">
+	
+			<span class="ld-modal-closer ld-icon ld-icon-delete"></span>
+			<div class="ld-login-modal-login">
+				<div class="ld-login-modal-wrapper">
+					<?php
+					echo do_shortcode( '[uo_login]' );
+					?> </div>
+			</div>
+			</div><?php
+		} else {
+			return $filepath;
+		}
+		
+	}*/
+
+	/**
+	 * Check for password strength - based on JS function in pre-3.7 WP core: /wp-admin/js/password-strength-meter.js
+	 *
+	 * @param string $i The password.
+	 * @param string $f The user's username.
+	 *
+	 * @return  integer 1 = very weak; 2 = weak; 3 = medium; 4 = strong
+	 * @since   1.0
+	 */
+	public static function slt_fsp_password_strength( $i, $f ) {
+		$h = 1;
+		$e = 2;
+		$b = 3;
+		$a = 4;
+		$d = 0;
+		$g = null;
+		$c = null;
+		if ( strlen( $i ) < 4 ) {
+			return $h;
+		}
+		if ( strtolower( $i ) === strtolower( $f ) ) {
+			return $e;
+		}
+		if ( preg_match( '/[0-9]/', $i ) ) {
+			$d += 10;
+		}
+		if ( preg_match( '/[a-z]/', $i ) ) {
+			$d += 26;
+		}
+		if ( preg_match( '/[A-Z]/', $i ) ) {
+			$d += 26;
+		}
+		if ( preg_match( '/[^a-zA-Z0-9]/', $i ) ) {
+			$d += 31;
+		}
+		$g = log( pow( $d, strlen( $i ) ) );
+		$c = $g / log( 2 );
+		if ( $c < 40 ) {
+			return $e;
+		}
+		if ( $c < 56 ) {
+			return $b;
+		}
+
+		return $a;
+	}
 }

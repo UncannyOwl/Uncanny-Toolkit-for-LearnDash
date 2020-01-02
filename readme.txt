@@ -2,9 +2,9 @@
 Contributors: uncannyowl
 Tags: LearnDash, eLearning, LMS, education, learning, courseware
 Requires at least: 4.6
-Tested up to: 5.1.1
+Tested up to: 5.3.2
 Requires PHP: 5.6
-Stable tag: 3.1.4
+Stable tag: 3.2
 License: This plugin is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or any later version.   LearnDash Groups in User Profiles is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.   You should have received a copy of the GNU General Public License along with LearnDash Groups in User Profiles. If not, see {URI to Plugin License}.
 License URI: https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
 
@@ -33,6 +33,7 @@ The Uncanny LearnDash Toolkit adds the following features to your LearnDash site
 * **[Not Enrolled Redirect](https://www.uncannyowl.com/knowledge-base/redirect-user-if-not-enrolled/?utm_medium=ldtoolkitreadme)**: Redirect users to a specific URL if they are not enrolled in a course.
 * **[Show LearnDash Certificates](https://www.uncannyowl.com/knowledge-base/show-learndash-certificates/?utm_medium=ldtoolkitreadme)**: Use a simple shortcode to display a list of all certificates (course and quiz) earned by the current user.
 * **[LearnDash Groups in User Profiles](https://www.uncannyowl.com/knowledge-base/learndash-groups-user-profiles/?utm_medium=ldtoolkitreadme)**: Easily identify LearnDash Group membership from user profile pages.
+* **[Disable Emails] (https://www.uncannyowl.com/knowledge-base/disable-emails/?utm_medium=ldtoolkitreadme)**: Easily disable all outgoing emails when troubleshooting issues.
 
 We welcome contributions to the Uncanny LearnDash Toolkit! The plugin is managed in a [Bitbucket Repository](https://bitbucket.org/uncannyowl/uncanny-learndash-toolkit).
 
@@ -67,6 +68,22 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 1. Uncanny LearnDash Toolkit Dashboard
 
 == Changelog ==
+
+= 3.2 =
+* Added: New Module: Disable Emails - When active, disables all emails sent via wp_mail function.  Fork of the excellent Disable Emails plugin by webaware
+* Added: Certificate Widget/Show Certificates shortcode - Setting to output Certificate Name instead of Course/Quiz name
+* Added: Certificate Widget  - Sort order options
+* Added: Front End Login - redirect_to parameter now supported
+* Updated: Breadcrumbs - Dashboard link now inserted into native LearnDash breadcrumbs on 3.0 template
+* Updated: Front End Login - Added priority of 100 to wp_mail_content_type filter to avoid conflicts with some email plugins such as WP Better Emails
+* Updated: User Switching - Link now floats right when Focus Mode is enabled for improved accessibility
+* Fixed: Front End Login - Fatal errors when resetting password after registration on some sites
+* Fixed: Front End Login - Invalid password reset link message now displayed before password reset form is displayed
+* Fixed: Front End Login - Invalid login/password messages not displayed when entering incorrect credentials on some sites
+* Fixed: Front End Login - Shortcode not detected when placed inside a Gutenberg layout block
+* Fixed: Duplicate Pages and Posts module missing in list Pro modules
+* Fixed: Redirect if not enrolled - PHP notice: Undefined property
+* Fixed: Updated: Some strings incorrectly using uncanny-toolkit-pro textdomain
 
 = 3.1.4 =
 * Added: Front End Login - Added redirect parameter to uo_login shortcode to allow form-specific redirects

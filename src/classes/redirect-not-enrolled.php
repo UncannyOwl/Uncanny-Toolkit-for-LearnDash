@@ -139,9 +139,9 @@ class RedirectNotEnrolled extends Config implements RequiredFunctions {
 
 			$setting_option_fields['uo_redirect'] = array(
 				'name'      => 'uo_redirect',
-				'label'     => __( 'Not enrolled Redirect URL', 'uncanny-pro-toolkit' ),
+				'label'     => __( 'Not enrolled Redirect URL', 'uncanny-learndash-toolkit' ),
 				'type'      => 'text',
-				'help_text' => __( 'Redirect the user to the URL if they are not enrolled in the course', 'uncanny-pro-toolkit' ),
+				'help_text' => __( 'Redirect the user to the URL if they are not enrolled in the course', 'uncanny-learndash-toolkit' ),
 				'default'   => '',
 				'value'     => $value,
 			);
@@ -177,9 +177,9 @@ class RedirectNotEnrolled extends Config implements RequiredFunctions {
 
 				//Add new field to top
 				$new_post_args[ $key ]['fields']['uo_redirect'] = array(
-					'name'      => __( 'Not enrolled Redirect URL', 'uncanny-pro-toolkit' ),
+					'name'      => __( 'Not enrolled Redirect URL', 'uncanny-learndash-toolkit' ),
 					'type'      => 'text',
-					'help_text' => __( 'Redirect the user to the URL if they are not enrolled in the course', 'uncanny-pro-toolkit' ),
+					'help_text' => __( 'Redirect the user to the URL if they are not enrolled in the course', 'uncanny-learndash-toolkit' ),
 					'default'   => ''
 				);
 
@@ -203,7 +203,7 @@ class RedirectNotEnrolled extends Config implements RequiredFunctions {
 
 		global $post;
 
-		if ( ! is_admin() && $post != null && 'sfwd-courses' === $post->post_type ) {
+		if ( ! is_admin() && $post != null && isset( $post->post_type ) && 'sfwd-courses' === $post->post_type ) {
 
 
 			$post_options_timeout = (array) learndash_get_setting( $post );
