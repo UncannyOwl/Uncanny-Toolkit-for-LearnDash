@@ -795,6 +795,34 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 							$rp_cookie = 'wp-resetpass-' . COOKIEHASH;
 							$value     = sprintf( '%s:%s', wp_unslash( $_GET['login'] ), wp_unslash( $_GET['key'] ) );
 
+							$user = check_password_reset_key(wp_unslash( $_GET['key'] ), wp_unslash( $_GET['login'] ));
+							if( is_wp_error($user)){
+								// Key is not valid
+								$login_page = get_permalink( self::get_login_redirect_page_id() );
+								// Password reset cookie was not set OR password rest key check failed
+
+								$login_page     = FrontendLoginPlus::get_login_redirect_page_id();
+								$login_page_url = get_permalink( $login_page );
+
+
+								if ( strpos( $login_page_url, '?' ) ) {
+									$login_page_url = $login_page_url . '&';
+								} else {
+									$login_page_url = $login_page_url . '?';
+								}
+
+								if ( is_wp_error( $user ) ) {
+									if ( $user->get_error_code() === 'expired_key' ) {
+										wp_safe_redirect( $login_page_url . 'action=validatepasswordreset&issue=expiredkey' );
+										die();
+									} else {
+										wp_safe_redirect( $login_page_url . 'action=validatepasswordreset&issue=invalidkey' );
+										die();
+									}
+								}
+
+							}
+
 							setcookie( $rp_cookie, $value, time() + 3600, '/' . get_post_field( 'post_name', $login_page_id ), COOKIE_DOMAIN, is_ssl(), true );
 						}
 					}
@@ -823,6 +851,30 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 							$rp_cookie = 'wp-resetpass-' . COOKIEHASH;
 							$value     = sprintf( '%s:%s', wp_unslash( $_GET['login'] ), wp_unslash( $_GET['key'] ) );
+							$user = check_password_reset_key(wp_unslash( $_GET['key'] ), wp_unslash( $_GET['login'] ));
+							if( is_wp_error($user)){
+								// Key is not valid
+								$login_page     = FrontendLoginPlus::get_login_redirect_page_id();
+								$login_page_url = get_permalink( $login_page );
+
+
+								if ( strpos( $login_page_url, '?' ) ) {
+									$login_page_url = $login_page_url . '&';
+								} else {
+									$login_page_url = $login_page_url . '?';
+								}
+								// Password reset cookie was not set OR password rest key check failed
+								if ( is_wp_error( $user ) ) {
+									if ( $user->get_error_code() === 'expired_key' ) {
+										wp_safe_redirect( $login_page_url . 'action=validatepasswordreset&issue=expiredkey' );
+										die();
+									} else {
+										wp_safe_redirect( $login_page_url . 'action=validatepasswordreset&issue=invalidkey' );
+										die();
+									}
+								}
+
+							}
 							setcookie( $rp_cookie, $value, 0, '/', COOKIE_DOMAIN, is_ssl(), true );
 						}
 					}
