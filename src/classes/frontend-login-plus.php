@@ -1399,7 +1399,12 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	public static function maybe_remove_login_hooks( $user, $username, $password ) {
 
 		$login_page = get_permalink( self::get_login_redirect_page_id() );
-		$login_mode_enabled = \LearnDash_Settings_Section::get_section_setting( 'LearnDash_Settings_Theme_LD30', 'login_mode_enabled' );
+		$login_mode_enabled = '';
+		
+		if ( class_exists( '\LearnDash_Settings_Section' ) ) {
+			$login_mode_enabled = \LearnDash_Settings_Section::get_section_setting( 'LearnDash_Settings_Theme_LD30', 'login_mode_enabled' );
+		}
+		
 		if(isset($_SERVER['HTTP_REFERER']) && $_SERVER['HTTP_REFERER'] === $login_page ){
 			remove_action( 'wp_login_failed', 'learndash_login_failed', 1 );
 		}elseif( 'yes' !== $login_mode_enabled){
