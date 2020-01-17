@@ -33,7 +33,7 @@ The Uncanny LearnDash Toolkit adds the following features to your LearnDash site
 * **[Not Enrolled Redirect](https://www.uncannyowl.com/knowledge-base/redirect-user-if-not-enrolled/?utm_medium=ldtoolkitreadme)**: Redirect users to a specific URL if they are not enrolled in a course.
 * **[Show LearnDash Certificates](https://www.uncannyowl.com/knowledge-base/show-learndash-certificates/?utm_medium=ldtoolkitreadme)**: Use a simple shortcode to display a list of all certificates (course and quiz) earned by the current user.
 * **[LearnDash Groups in User Profiles](https://www.uncannyowl.com/knowledge-base/learndash-groups-user-profiles/?utm_medium=ldtoolkitreadme)**: Easily identify LearnDash Group membership from user profile pages.
-* **[Disable Emails] (https://www.uncannyowl.com/knowledge-base/disable-emails/?utm_medium=ldtoolkitreadme)**: Easily disable all outgoing emails when troubleshooting issues.
+* **[Disable Emails](https://www.uncannyowl.com/knowledge-base/disable-emails/?utm_medium=ldtoolkitreadme)**: Easily disable all outgoing emails when troubleshooting issues.
 
 We welcome contributions to the Uncanny LearnDash Toolkit! The plugin is managed in a [Bitbucket Repository](https://bitbucket.org/uncannyowl/uncanny-learndash-toolkit).
 
