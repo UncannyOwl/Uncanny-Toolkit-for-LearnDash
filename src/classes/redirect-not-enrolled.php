@@ -217,6 +217,7 @@ class RedirectNotEnrolled extends Config implements RequiredFunctions {
 
 			if ( ! empty( $redirect_to ) ) {
 
+				$redirect_to = do_shortcode($redirect_to);
 
 				//is there a user to check?
 
