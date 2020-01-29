@@ -133,7 +133,7 @@ class Boot extends Config {
 	public static function uo_frontend_assets() {
 		wp_enqueue_style( 'uncannyowl-learndash-toolkit-free', plugins_url( 'src/assets/frontend/dist/bundle.min.css', dirname( __FILE__ ) ), [], UNCANNY_TOOLKIT_VERSION );
 
-		wp_enqueue_script( 'uncannyowl-learndash-toolkit-free', plugins_url( 'src/assets/frontend/dist/bundle.min.js', dirname( __FILE__ ) ), [], UNCANNY_TOOLKIT_VERSION );
+		wp_enqueue_script( 'uncannyowl-learndash-toolkit-free', plugins_url( 'src/assets/frontend/dist/bundle.min.js', dirname( __FILE__ ) ), [ 'jquery' ], UNCANNY_TOOLKIT_VERSION );
 	}
 
 	/**
