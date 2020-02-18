@@ -324,8 +324,6 @@ html.noscroll .ult-modal {
 			content: '\e90b';
 		}
 
-		/* WARNING: This CSS is global, we can't put it inside .ult because Select2 renders the container outside it */
-
 		.ult-select2 .select2-dropdown {
 			border: 0 !important;
 			font-size: 14px;
@@ -339,10 +337,12 @@ html.noscroll .ult-modal {
 
 			.ult-select2.select2-container--default .select2-search--dropdown .select2-search__field {
 				border: 1px solid #cdcdcd !important;
-				padding: 10px 15px;
+				border-radius: 0 !important;
+				padding: 8px 15px;
 				outline: none;
 				font-size: 15px;
 				font-family: inherit;
+				line-height: 1 !important;
 			}
 
 				.ult-select2.select2-container--default .select2-search--dropdown .select2-search__field:hover {
@@ -420,8 +420,6 @@ html.noscroll .ult-modal {
 		.ult-select2.select2-container--default .select2-results__option--highlighted[aria-selected] {
 			background: #f3f3f3 !important;
 		}
-
-		/* END OF WARNING */
 
 		.ult .form-element--loading .select2-selection {
 			background: #ebebeb !important;
