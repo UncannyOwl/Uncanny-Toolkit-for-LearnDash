@@ -522,17 +522,8 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			),
 			array(
 				'type'        => 'checkbox',
-				'label'       => esc_html__( 'Enable password strength', 'uncanny-learndash-toolkit' ),
+				'label'       => esc_html__( 'Enable minimum password strength', 'uncanny-learndash-toolkit' ),
 				'option_name' => 'uo_frontendloginplus_reset_password_strength',
-			),
-			array(
-				'type'       => 'radio',
-				'label'      => esc_html__( 'Password strength apply to', 'uncanny-learndash-toolkit' ),
-				'radio_name' => 'uo_frontendloginplus_reset_password_strength_roles',
-				'radios'     => array(
-					array( 'value' => 'all', 'text' => 'All Roles' ),
-					array( 'value' => 'admin', 'text' => 'An Author, Editor or Administrator' ),
-				),
 			),
 			array(
 				'type'        => 'text',
