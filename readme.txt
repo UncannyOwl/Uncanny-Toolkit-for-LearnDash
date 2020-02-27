@@ -4,7 +4,7 @@ Tags: LearnDash, eLearning, LMS, education, learning, courseware
 Requires at least: 4.6
 Tested up to: 5.3.2
 Requires PHP: 5.6
-Stable tag: 3.2
+Stable tag: 3.2.1
 License: This plugin is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or any later version.   LearnDash Groups in User Profiles is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.   You should have received a copy of the GNU General Public License along with LearnDash Groups in User Profiles. If not, see {URI to Plugin License}.
 License URI: https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
 
@@ -68,6 +68,13 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 1. Uncanny LearnDash Toolkit Dashboard
 
 == Changelog ==
+
+= 3.2.1 =
+* Added: Front End Login - Require strong password option for password reset form (minimum 8 characters including 1 uppercase letter, 1 lowercase letter and 1 number)
+* Updated: Not Enrolled Redirect - Redirect field now accepts shortcodes
+* Updated: Tweaked CSS style for select2 dropdowns in /wp-admin
+* Updated: Front End Login - redirect_to parameter in URL now takes precedence over redirect shortcode attribute and Login/Logout redirects module
+* Fixed: Front End Login - PHP fatal error on some sites when initiating a password reset before LearnDash settings are initialized
 
 = 3.2 =
 * Added: New Module: Disable Emails - When active, disables all emails sent via wp_mail function.  Fork of the excellent Disable Emails plugin by webaware

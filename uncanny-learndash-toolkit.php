@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Uncanny LearnDash Toolkit
-Version: 3.2
+Version: 3.2.1
 Description: Extend the LearnDash plugin with a variety of complementary features to make building engaging learner experiences even easier.
 Author: Uncanny Owl
 Author URI: www.uncannyowl.com
@@ -15,7 +15,7 @@ global $uncanny_learndash_toolkit;
 
 // Define version
 if ( ! defined( 'UNCANNY_TOOLKIT_VERSION' ) ) {
-	define( 'UNCANNY_TOOLKIT_VERSION', '3.2' );
+	define( 'UNCANNY_TOOLKIT_VERSION', '3.2.1' );
 }
 
 // Define prefix

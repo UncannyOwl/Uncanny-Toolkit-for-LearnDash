@@ -3,14 +3,14 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: Uncanny LearnDash Toolkit\n"
-"POT-Creation-Date: 2020-01-02 21:06+0100\n"
-"PO-Revision-Date: 2020-01-02 21:06+0100\n"
+"POT-Creation-Date: 2020-02-27 12:08-0800\n"
+"PO-Revision-Date: 2020-02-27 12:07-0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.2.4\n"
+"X-Generator: Poedit 2.3\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-Flags-xgettext: --add-comments=translators:\n"
 "X-Poedit-WPHeader: uncanny-learndash-toolkit.php\n"
@@ -441,7 +441,7 @@ msgstr ""
 
 #: src/classes/frontend-login-plus.php:295
 #: src/classes/frontend-login-plus.php:445
-#: src/classes/frontend-login-plus.php:539 src/classes/widget-cert.php:370
+#: src/classes/frontend-login-plus.php:531 src/classes/widget-cert.php:370
 msgid "Title"
 msgstr ""
 
@@ -455,7 +455,7 @@ msgstr ""
 
 #: src/classes/frontend-login-plus.php:307
 #: src/classes/frontend-login-plus.php:451
-#: src/classes/frontend-login-plus.php:545
+#: src/classes/frontend-login-plus.php:537
 #: src/includes/custom-walker-nav-menu.php:190
 msgid "Description"
 msgstr ""
@@ -478,7 +478,7 @@ msgid "Username or Email Address"
 msgstr ""
 
 #: src/classes/frontend-login-plus.php:326
-#: src/classes/frontend-login-plus.php:551
+#: src/classes/frontend-login-plus.php:543
 msgid "Password Field Label"
 msgstr ""
 
@@ -508,7 +508,7 @@ msgstr ""
 
 #: src/classes/frontend-login-plus.php:349
 #: src/classes/frontend-login-plus.php:463
-#: src/classes/frontend-login-plus.php:570
+#: src/classes/frontend-login-plus.php:562
 msgid "Button Label"
 msgstr ""
 
@@ -688,109 +688,111 @@ msgid "Reset Password Form"
 msgstr ""
 
 #: src/classes/frontend-login-plus.php:525
-msgid "Enable password strength"
+msgid "Require strong password"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:530
-msgid "Password strength apply to"
+#: src/classes/frontend-login-plus.php:527
+msgid "(Minimum 8 characters with 1 uppercase, 1 lowercase, 1 number)"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:540
-#: src/classes/frontend-login-plus.php:571
+#: src/classes/frontend-login-plus.php:532
+#: src/classes/frontend-login-plus.php:563
 msgid "Reset Password"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:546
+#: src/classes/frontend-login-plus.php:538
 msgid "Enter a new password below."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:552
+#: src/classes/frontend-login-plus.php:544
 msgid "New Password"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:557
+#: src/classes/frontend-login-plus.php:549
 msgid "Confirm Password Field Label"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:558
+#: src/classes/frontend-login-plus.php:550
 msgid "Confirm New Password"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:576
+#: src/classes/frontend-login-plus.php:568
 msgid "Passwords Do Not Match Message"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:577
+#: src/classes/frontend-login-plus.php:569
 msgid "The passwords you entered do not match."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:582
+#: src/classes/frontend-login-plus.php:574
 msgid "Passwords strength is not strong"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:583
+#: src/classes/frontend-login-plus.php:575
 msgid "The passwords you entered is not strong."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:595
+#: src/classes/frontend-login-plus.php:587
 msgid "Invalid Reset Link Message"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:596
+#: src/classes/frontend-login-plus.php:588
 msgid "Invalid password reset link."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:601
+#: src/classes/frontend-login-plus.php:593
 msgid "Password Reset Successful Message"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:602
+#: src/classes/frontend-login-plus.php:594
 msgid "Your password was successfully reset. Please log in."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:725
-#: src/classes/frontend-login-plus.php:742
+#: src/classes/frontend-login-plus.php:717
+#: src/classes/frontend-login-plus.php:734
 #, php-format
 msgid "%s - Account Verified"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:728
+#: src/classes/frontend-login-plus.php:720
 msgid "Your account has been approved! "
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:729
+#: src/classes/frontend-login-plus.php:721
 #, php-format
 msgid "Please visit %s to login. "
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:745
+#: src/classes/frontend-login-plus.php:737
 #, php-format
 msgid "%s account has been approved! "
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:746
+#: src/classes/frontend-login-plus.php:738
 #, php-format
 msgid " Visit %s to view / edit user. "
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:771
+#: src/classes/frontend-login-plus.php:763
 msgid "We haven't verified this account."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1912
+#: src/classes/frontend-login-plus.php:1932
 msgid "Invalid key."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1930
+#: src/classes/frontend-login-plus.php:1950
 msgid "<strong>ERROR</strong>: Password fields cannot be empty."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1933
+#: src/classes/frontend-login-plus.php:1953
 msgid "<strong>ERROR</strong>: Passwords do not match."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1940
-msgid "<strong>ERROR</strong>: Please make the password a strong one."
+#: src/classes/frontend-login-plus.php:1960
+msgid ""
+"<strong>ERROR</strong>: Please enter a password of minimum 8 characters "
+"including at least 1 uppercase letter, 1 lowercase letter and 1 number."
 msgstr ""
 
 #: src/classes/hide-admin-bar.php:37
