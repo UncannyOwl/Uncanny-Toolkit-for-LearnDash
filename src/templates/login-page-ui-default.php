@@ -122,7 +122,7 @@ namespace uncanny_learndash_toolkit;
 				
 				if ( isset( $_POST['pass1'] ) && $_password_strength === 'on' ) {
 					$password_ok = self::slt_fsp_password_strength($_POST['pass1'],$user->user_login);
-					if( $password_ok !== 4 ){
+					if( $password_ok < 3 ){
 						$error     = $innerText['Password-Not-Strong'];
 						$rp_key    = $_POST['rp_key'];
 						$rp_login  = $_POST['rp_login'];

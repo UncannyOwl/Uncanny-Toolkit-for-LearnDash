@@ -524,6 +524,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				'type'        => 'checkbox',
 				'label'       => esc_html__( 'Enable minimum password strength', 'uncanny-learndash-toolkit' ),
 				'option_name' => 'uo_frontendloginplus_reset_password_strength',
+                'description' => esc_html__( '(Minimum 8 characters with 1 uppercase, 1 lowercase, 1 number)', 'uncanny-learndash-toolkit' ),
 			),
 			array(
 				'type'        => 'text',
@@ -1955,7 +1956,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 					if ( $_password_strength === 'on' ) {
 						$password_ok = self::slt_fsp_password_strength( $_POST['pass1'], $user->user_login );
-						if ( $password_ok !== 4 ) {
+						if ( $password_ok < 3 ) {
 							$errors->add( 'pass', __( '<strong>ERROR</strong>: Please make the password a strong one.', 'uncanny-learndash-toolkit' ) );
 						}
 					}
@@ -2033,9 +2034,10 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		if ( preg_match( '/[^a-zA-Z0-9]/', $i ) ) {
 			$d += 31;
 		}
+
 		$g = log( pow( $d, strlen( $i ) ) );
 		$c = $g / log( 2 );
-		if ( $c < 40 ) {
+		if ( $c < 47 ) {
 			return $e;
 		}
 		if ( $c < 56 ) {
