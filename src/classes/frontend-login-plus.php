@@ -522,7 +522,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			),
 			array(
 				'type'        => 'checkbox',
-				'label'       => esc_html__( 'Enable minimum password strength', 'uncanny-learndash-toolkit' ),
+				'label'       => esc_html__( 'Require strong password', 'uncanny-learndash-toolkit' ),
 				'option_name' => 'uo_frontendloginplus_reset_password_strength',
                 'description' => esc_html__( '(Minimum 8 characters with 1 uppercase, 1 lowercase, 1 number)', 'uncanny-learndash-toolkit' ),
 			),
