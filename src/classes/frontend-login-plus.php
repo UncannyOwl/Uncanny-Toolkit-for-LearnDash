@@ -1957,7 +1957,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 					if ( $_password_strength === 'on' ) {
 						$password_ok = self::slt_fsp_password_strength( $_POST['pass1'], $user->user_login );
 						if ( $password_ok < 3 ) {
-							$errors->add( 'pass', __( '<strong>ERROR</strong>: Please make the password a strong one.', 'uncanny-learndash-toolkit' ) );
+							$errors->add( 'pass', __( '<strong>ERROR</strong>: Please enter a password of minimum 8 characters including at least 1 uppercase letter, 1 lowercase letter and 1 number.', 'uncanny-learndash-toolkit' ) );
 						}
 					}
 				}
