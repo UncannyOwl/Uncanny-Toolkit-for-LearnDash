@@ -1,6 +1,10 @@
 import './sidebar.js';
 
 import {
+    moduleIsActive
+} from '../utilities';
+
+import {
     UncannyOwlIconColor
 } from '../components/icons';
 
@@ -11,7 +15,7 @@ import {
 const {__} = wp.i18n;
 const {registerBlockType} = wp.blocks;
 
-if (typeof ultpModules.active != null && ultpModules.active.hasOwnProperty("uncanny_learndash_toolkit\\LearnDashResume")) {
+if ( moduleIsActive( 'LearnDashResume' ) ){
     registerBlockType('uncanny-toolkit/resume-button', {
         title: __('Resume Button'),
 

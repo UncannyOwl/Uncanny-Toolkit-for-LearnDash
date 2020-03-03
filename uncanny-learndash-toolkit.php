@@ -20,7 +20,7 @@ if ( ! defined( 'UNCANNY_TOOLKIT_VERSION' ) ) {
 
 // Define prefix
 if ( ! defined( 'UNCANNY_TOOLKIT_PREFIX' ) ) {
-	define( 'UNCANNY_TOOLKIT_PREFIX', 'ultp' );
+	define( 'UNCANNY_TOOLKIT_PREFIX', 'ult' );
 }
 
 // Define the main plugin file

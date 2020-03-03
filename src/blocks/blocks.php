@@ -94,9 +94,16 @@ class Blocks {
 						true
 					);
 
-					wp_localize_script($this->prefix . '-gutenberg-editor', $this->prefix . 'Modules', array(
-						'active' => $this->active_classes,
-					));
+					// Get only the Free blocks
+					$free_blocks = array_values( array_map( function( $block ){
+						// Remove the prefix
+						return str_replace( 'uncanny_learndash_toolkit\\', '', $block );
+					}, array_filter( $this->active_classes, function( $block ){
+						// Filter only Pro blocks
+						return strpos( $block, 'uncanny_learndash_toolkit\\' ) !== false;
+					} ) ) );
+
+					wp_add_inline_script( $this->prefix . '-gutenberg-editor', 'var ultGutenbergModules = ' . json_encode( $free_blocks ), 'before' );
 
 					wp_enqueue_style(
 						$this->prefix . '-gutenberg-editor',

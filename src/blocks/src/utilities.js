@@ -1,12 +1,10 @@
-export const moduleIsActive = ( module ) => {
+export const moduleIsActive = ( toolkitModule ) => {
 	let isActive = false;
 
-	if ( isDefined( ultpModules.active ) ){
-		if ( ultpModules.active.hasOwnProperty( module ) ){
-			isActive = true;
-		}
+	if ( isDefined( window.ultGutenbergModules ) ){
+		isActive = ultGutenbergModules.includes( toolkitModule );
 	}
-
+		
 	return isActive;
 }
 

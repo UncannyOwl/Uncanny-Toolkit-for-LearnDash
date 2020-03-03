@@ -3,17 +3,17 @@ import {
 } from '../components/icons';
 
 import {
-    ToolkitPlaceholder
-} from '../components/editor';
-
-import {
     moduleIsActive
 } from '../utilities';
+
+import {
+    ToolkitPlaceholder
+} from '../components/editor';
 
 const { __ } = wp.i18n;
 const { registerBlockType } = wp.blocks;
 
-if ( moduleIsActive( 'uncanny_learndash_toolkit\\FrontendLoginPlus' ) ){
+if ( moduleIsActive( 'FrontendLoginPlus' ) ){
 
     registerBlockType( 'uncanny-toolkit/frontend-login', {
         title: __( 'Front End Login' ),
