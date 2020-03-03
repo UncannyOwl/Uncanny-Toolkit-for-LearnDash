@@ -87,7 +87,7 @@ class Blocks {
 				// Enqueue Gutenberg block assets for backend editor
 				add_action( 'enqueue_block_editor_assets', function () {
 					wp_enqueue_script(
-						$this->prefix . '-gutenberg-editor',
+						$this->prefix . '-gutenberg-blocks-editor',
 						plugins_url( 'blocks/dist/blocks.build.js', dirname( __FILE__ ) ),
 						[ 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor' ],
 						UNCANNY_TOOLKIT_VERSION,
@@ -103,10 +103,10 @@ class Blocks {
 						return strpos( $block, 'uncanny_learndash_toolkit\\' ) !== false;
 					} ) ) );
 
-					wp_add_inline_script( $this->prefix . '-gutenberg-editor', 'var ultGutenbergModules = ' . json_encode( $free_blocks ), 'before' );
+					wp_add_inline_script( $this->prefix . '-gutenberg-blocks-editor', 'var ultGutenbergModules = ' . json_encode( $free_blocks ), 'before' );
 
 					wp_enqueue_style(
-						$this->prefix . '-gutenberg-editor',
+						$this->prefix . '-gutenberg-blocks-editor',
 						plugins_url( 'blocks/dist/blocks.editor.build.css', dirname( __FILE__ ) ),
 						[ 'wp-edit-blocks' ],
 						UNCANNY_TOOLKIT_VERSION
