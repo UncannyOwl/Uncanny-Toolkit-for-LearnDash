@@ -105,6 +105,12 @@ class Blocks {
 
 					wp_add_inline_script( $this->prefix . '-gutenberg-blocks-editor', 'var ultGutenbergModules = ' . json_encode( $free_blocks ), 'before' );
 
+					// Add support for Uncanny LearnDash Toolkit Pro > 3.5
+					if ( version_compare( UNCANNY_TOOLKIT_PRO_VERSION, '3.5', '>' ) ){
+						// Add a variable with the old data
+						wp_add_inline_script( $this->prefix . '-gutenberg-blocks-editor', 'var ultpModules = ' . json_encode( $this->active_classes ), 'before' );
+					}
+
 					wp_enqueue_style(
 						$this->prefix . '-gutenberg-blocks-editor',
 						plugins_url( 'blocks/dist/blocks.editor.build.css', dirname( __FILE__ ) ),
