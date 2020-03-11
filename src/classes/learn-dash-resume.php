@@ -32,7 +32,7 @@ class LearnDashResume extends Config implements RequiredFunctions {
 		}
 
 	}
-	
+
 	/**
 	 * Does the plugin rely on another function or plugin
 	 *
@@ -241,13 +241,13 @@ class LearnDashResume extends Config implements RequiredFunctions {
 							esc_attr( $css_classes ),
 							esc_attr( $resume_link_text )
 						);
-                                                
-                                                if($show_name === 'on'){
-                                                    printf(
-                                                            '<div class="resume-item-name">%s</div>',
-                                                            $title							
-                                                    );
-                                                }
+
+						if ( $show_name === 'on' ) {
+							printf(
+								'<div class="resume-item-name">%s</div>',
+								$title
+							);
+						}
 
 						$resume_link = ob_get_contents();
 						ob_end_clean();
@@ -309,11 +309,11 @@ class LearnDashResume extends Config implements RequiredFunctions {
 				$post_type        = $last_know_post_object->post_type; // getting post_type of last page.
 				$label            = get_post_type_object( $post_type ); // getting Labels of the post type.
 				$title            = $last_know_post_object->post_title;
-				$resume_link_text = 'RESUME';
+				$resume_link_text = __( 'RESUME', 'uncanny-learndash-toolkit' );
 
 				// Resume Link Text
 				$link_text = self::get_settings_value( 'learn-dash-resume-button-text', __CLASS__ );
-                                $show_name = self::get_settings_value( 'learn-dash-resume-show-name', __CLASS__ );
+				$show_name = self::get_settings_value( 'learn-dash-resume-show-name', __CLASS__ );
 
 				if ( strlen( trim( $link_text ) ) ) {
 					$resume_link_text = $link_text;
@@ -344,13 +344,13 @@ class LearnDashResume extends Config implements RequiredFunctions {
 					esc_attr( $css_classes ),
 					esc_attr( $resume_link_text )
 				);
-                                
-                                if($show_name === 'on'){
-                                    printf(
-                                            '<div class="resume-item-name">%s</div>',
-                                            $title							
-                                    );
-                                }
+
+				if ( $show_name === 'on' ) {
+					printf(
+						'<div class="resume-item-name">%s</div>',
+						$title
+					);
+				}
 				$resume_link = ob_get_contents();
 				ob_end_clean();
 
@@ -361,7 +361,7 @@ class LearnDashResume extends Config implements RequiredFunctions {
 
 		return '';
 	}
-	
+
 	/**
 	 * prevent wordpress from adding <link rel="next" />
 	 */
