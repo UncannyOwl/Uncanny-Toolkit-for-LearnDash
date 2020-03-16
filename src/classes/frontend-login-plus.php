@@ -1185,7 +1185,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		$disable_remember = self::get_settings_value( 'uo_frontendloginplus_disable_rememberme', __CLASS__ );
 		$label_remember   = self::get_settings_value( 'uo_frontend_login_rememberme_label', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
 		$label_log_in     = self::get_settings_value( 'uo_frontend_login_button_label', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
-		$redirect_to      = isset( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : false;
+		$redirect_to      = isset( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : home_url( '/wp-admin/' ) ;
 		
 		return array(
 			'echo'           => true,
@@ -1545,7 +1545,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		/**
          * Check if redirect_to is set in GET/POST then set it to top priority
 		*/
-		if ( isset( $_REQUEST['redirect_to'] ) && ! empty( $_REQUEST['redirect_to'] ) ) {
+		if ( isset( $_REQUEST['redirect_to'] ) && ! empty( $_REQUEST['redirect_to'] ) && $_REQUEST['redirect_to'] != home_url( '/wp-admin/' ) ) {
 			// checking if login redirect priority is set.
 			$settings = get_option( 'LoginRedirect', [] );
 			if ( ! empty( $settings ) ) {
