@@ -122,21 +122,20 @@ class Blocks {
 						UNCANNY_TOOLKIT_VERSION
 					);
 				} );
-
-				// Create custom block category
-				add_filter( 'block_categories', function ( $categories, $post ) {
-					return array_merge(
-						$categories,
-						array(
-							array(
-								'slug'  => 'uncanny-learndash-toolkit',
-								'title' => __( 'Uncanny LearnDash Toolkit', 'uncanny-learndash-toolkit' ),
-							),
-						)
-					);
-				}, 10, 2 );
 			}
 
+			// Create custom block category
+			add_filter( 'block_categories', function ( $categories, $post ) {
+				return array_merge(
+					$categories,
+					array(
+						array(
+							'slug'  => 'uncanny-learndash-toolkit',
+							'title' => __( 'Uncanny LearnDash Toolkit', 'uncanny-learndash-toolkit' ),
+						),
+					)
+				);
+			}, 10, 2 );
 		}
 	}
 }
