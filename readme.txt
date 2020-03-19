@@ -69,6 +69,12 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 
 == Changelog ==
 
+= 3.2.2 =
+* Updated: Resume button - "RESUME" Button text now localized
+* Fixed: Uncanny Toolkit Pro Gutenberg blocks were unavailable unless at least one module from the Uncanny Toolkit (free version) that contained a Gutenberg block was active
+* Fixed: Front End Login - Admins being redirected to blank wp-login.php page on login on some sites
+* Fixed: Topics Autocomplete Lessons - After completing all topics, lesson no longer autocompleted if it contains an incomplete assignment
+
 = 3.2.1 =
 * Added: Front End Login - Require strong password option for password reset form (minimum 8 characters including 1 uppercase letter, 1 lowercase letter and 1 number)
 * Updated: Not Enrolled Redirect - Redirect field now accepts shortcodes
