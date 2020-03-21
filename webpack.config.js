@@ -18,7 +18,6 @@ module.exports = ( env, options ) => {
 		watch: fileWatcher,
 		devtool: 'source-map',
 		entry: {
-			//backend: './src/assets/backend/index.js',
 			frontend: './src/assets/frontend/src/index.js',
 		},
 		output: {
@@ -28,11 +27,6 @@ module.exports = ( env, options ) => {
 		externals: {
 			jquery: 'jQuery'
 		},
-		// resolve: {
-		// 	alias: {
-		// 		fonts: path.resolve( __dirname, './src/assets/common/fonts' ),
-		// 	},
-		// },
 		module: {
 			rules: [
 				{
@@ -57,7 +51,6 @@ module.exports = ( env, options ) => {
 					test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
 					include: [
 						path.join( __dirname, './src/assets/frontend/img/' ),
-						//path.join( __dirname, './src/assets/backend/img/' ),
 					],
 					loader: 'url-loader',
 					options: {
@@ -90,22 +83,10 @@ module.exports = ( env, options ) => {
 				'./src/assets/frontend/dist/*'
 			] ),
 			new CopyWebpackPlugin( [
-				// {
-				// 	from: './src/assets/backend/img',
-				// 	to: './backend/img'
-				// },
 				{
 					from: './src/assets/frontend/img',
 					to: './frontend/img'
 				}
-				// {
-				// 	from: './src/assets/common/img',
-				// 	to: './common/img'
-				// },
-				// {
-				// 	from: './src/assets/common/fonts',
-				// 	to: './common/fonts'
-				// }
 			] ),
 			new OptimizeCssAssetsPlugin( {
 				assetNameRegExp: /\.css$/g,
