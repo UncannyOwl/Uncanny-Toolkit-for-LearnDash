@@ -1186,7 +1186,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		$label_remember   = self::get_settings_value( 'uo_frontend_login_rememberme_label', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
 		$label_log_in     = self::get_settings_value( 'uo_frontend_login_button_label', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
 		$redirect_to      = isset( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : home_url( '/wp-admin/' ) ;
-		
+
 		return array(
 			'echo'           => true,
 			'redirect'       => $redirect_to,
@@ -1392,11 +1392,11 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 		$login_page = get_permalink( self::get_login_redirect_page_id() );
 		$login_mode_enabled = '';
-		
+
 		if ( class_exists( '\LearnDash_Settings_Section' ) ) {
 			$login_mode_enabled = \LearnDash_Settings_Section::get_section_setting( 'LearnDash_Settings_Theme_LD30', 'login_mode_enabled' );
 		}
-		
+
 		if(isset($_SERVER['HTTP_REFERER']) && $_SERVER['HTTP_REFERER'] === $login_page ){
 			remove_action( 'wp_login_failed', 'learndash_login_failed', 1 );
 		}elseif( 'yes' !== $login_mode_enabled){
@@ -1550,7 +1550,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			$settings = get_option( 'LoginRedirect', [] );
 			if ( ! empty( $settings ) ) {
 				foreach ( $settings as $setting ) {
-					
+
 					if ( 'redirect_priority' === $setting['name'] ) {
 						$redirect_priority = $setting['value'];
 					}
@@ -1559,12 +1559,12 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			if ( empty( $redirect_priority ) ) {
 				$redirect_priority = 999;
 			}
-			
+
 			add_filter( 'login_redirect', function ( $redirect_to, $request, $user ) {
 				return $_REQUEST['redirect_to'];
 			}, $redirect_priority, 3 );
 		}
-		
+
 		return $user;
 	}
 
@@ -1962,7 +1962,9 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 					}
 				}
 
-				if ( ! $errors->has_errors() ) {
+				if ( is_wp_error( $errors ) && method_exists( '\WP_Error', 'has_errors' ) && $errors->has_errors() ) {
+					//do something?
+				} else {
 					reset_password( $user, $_POST['pass1'] );
 					wp_redirect( $login_page_url . 'action=reset&success=true' );
 					die();
