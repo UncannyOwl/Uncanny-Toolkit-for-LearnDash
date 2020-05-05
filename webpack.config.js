@@ -22,7 +22,7 @@ module.exports = ( env, options ) => {
 		},
 		output: {
 			path: path.join( __dirname, './src/assets/frontend/dist/' ),
-			filename: '[name]/bundle.min.js'
+			filename: 'bundle.min.js'
 		},
 		externals: {
 			jquery: 'jQuery'
@@ -77,7 +77,7 @@ module.exports = ( env, options ) => {
 				jQuery: 'jquery'
 			}),
 			new MiniCssExtractPlugin( {
-				filename: '[name]/bundle.min.css'
+				filename: 'bundle.min.css'
 			} ),
 			new CleanWebpackPlugin( [
 				'./src/assets/frontend/dist/*'
@@ -85,7 +85,7 @@ module.exports = ( env, options ) => {
 			new CopyWebpackPlugin( [
 				{
 					from: './src/assets/frontend/img',
-					to: './frontend/img'
+					to: './img'
 				}
 			] ),
 			new OptimizeCssAssetsPlugin( {
