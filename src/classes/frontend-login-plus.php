@@ -1276,6 +1276,10 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 		$login_page  = get_permalink( self::get_login_redirect_page_id() );
 		$page_viewed = basename( $_SERVER['REQUEST_URI'] );
+		
+		if ( ! $login_page ) {
+			return;
+		}
 
 		$registering = false;
 		if ( isset( $_GET['action'] ) ) {
@@ -1358,14 +1362,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	 * Redirect to custom login page if login has failed
 	 */
 	public static function login_failed() {
-
-//		echo '<pre>';
-//		var_dump( 'login_failed' );
-//		var_dump( $_SERVER );
-//		var_dump( $_POST );
-//		var_dump( $_GET );
-//		echo '</pre>';
-//		wp_die('UO redirect');
+	    
 		// Check for REST requests.
 		if ( defined( 'REST_REQUEST' ) && REST_REQUEST ) {
 			return;
@@ -1380,6 +1377,9 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		}
 
 		$login_page = get_permalink( self::get_login_redirect_page_id() );
+		if ( ! $login_page ) {
+			return;
+		}
 		wp_safe_redirect( add_query_arg( array( 'login' => 'failed' ), $login_page ) );
 		exit;
 	}
@@ -1391,6 +1391,9 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	public static function maybe_remove_login_hooks( $user, $username, $password ) {
 
 		$login_page = get_permalink( self::get_login_redirect_page_id() );
+		if ( ! $login_page ) {
+			return $user;
+		}
 		$login_mode_enabled = '';
 		
 		if ( class_exists( '\LearnDash_Settings_Section' ) ) {
@@ -1429,6 +1432,9 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		}
 
 		$login_page = get_permalink( self::get_login_redirect_page_id() );
+		if ( ! $login_page ) {
+			return $user;
+		}
 		if ( isset( $_GET['redirect_to'] ) ) {
 			$login_page = add_query_arg( [ 'redirect_to' => $_GET['redirect_to'] ], $login_page );
         }
@@ -1681,7 +1687,9 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 		foreach ( $settings as $setting ) {
 			if ( 'login_page' === $setting['name'] ) {
-				$page_id = $setting['value'];
+			    if( 'publish' === get_post_status( $setting['value'] ) ) {
+				    $page_id = $setting['value'];
+			    }
 			}
 		}
 
