@@ -6,8 +6,15 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
+/**
+ * Class LearnDashResume
+ * @package uncanny_learndash_toolkit
+ */
 class LearnDashResume extends Config implements RequiredFunctions {
 
+	/**
+	 * @var string
+	 */
 	static $topic_type = 'sfwd-topic';
 
 
@@ -21,6 +28,9 @@ class LearnDashResume extends Config implements RequiredFunctions {
 	/*
 	 * Initialize frontend actions and filters
 	 */
+	/**
+	 *
+	 */
 	public static function run_frontend_hooks() {
 
 		if ( true === self::dependants_exist() ) {
@@ -28,6 +38,7 @@ class LearnDashResume extends Config implements RequiredFunctions {
 			add_action( 'wp_head', array( __CLASS__, 'find_last_known_learndash_page' ) );
 			add_shortcode( 'uo-learndash-resume', array( __CLASS__, 'learndash_resume' ) );
 			add_shortcode( 'uo_learndash_resume', array( __CLASS__, 'learndash_resume' ) );
+			add_shortcode( 'uo_learndash_resume_link', array( __CLASS__, 'learndash_resume_link' ) );
 			add_shortcode( 'uo_course_resume', array( __CLASS__, 'uo_course_resume' ) );
 		}
 
@@ -268,7 +279,29 @@ class LearnDashResume extends Config implements RequiredFunctions {
 	 * @return string
 	 */
 	public static function learndash_resume() {
+		return self::resume_function();
+	}
 
+	/**
+	 * @param $atts
+	 *
+	 * @return false|string
+	 */
+	public static function learndash_resume_link( $atts ) {
+		$atts = shortcode_atts( array(
+			'url_only' => 'no',
+		), $atts, 'uo_learndash_resume_link' );
+
+		return self::resume_function( true, $atts['url_only'] );
+	}
+
+	/**
+	 * @param bool $link
+	 * @param string $url
+	 *
+	 * @return false|string
+	 */
+	public static function resume_function( $link = false, $url = 'no' ) {
 		$user = wp_get_current_user();
 
 		if ( is_user_logged_in() ) {
@@ -323,27 +356,46 @@ class LearnDashResume extends Config implements RequiredFunctions {
 
 				$css_classes = apply_filters( 'learndash_resume_css_classes', 'learndash-resume-button' );
 
-				ob_start();
-
 				if ( function_exists( 'learndash_get_step_permalink' ) ) {
 					$permalink = learndash_get_step_permalink( $step_id, $step_course_id );
 				} else {
 					$permalink = get_permalink( $step_id );
 				}
 
-				printf(
-					'<a href="%s" title="%s" class="%s"><input type="submit" value="%s" class=""></a>',
-					$permalink,
-					esc_attr(
-						sprintf(
-							esc_html_x( 'Resume %s: %s', 'LMS shortcode Resume link title "Resume post_type_name: Post_title ', 'uncanny-learndash-toolkit' ),
-							$label->labels->singular_name,
-							$title
-						)
-					),
-					esc_attr( $css_classes ),
-					esc_attr( $resume_link_text )
-				);
+				if ( 'yes' === (string) $url ) {
+					return $permalink;
+				}
+
+				ob_start();
+				if ( $link ) {
+					printf(
+						'<a href="%s" title="%s" class="%s">%s</a>',
+						$permalink,
+						esc_attr(
+							sprintf(
+								esc_html_x( 'Resume %s: %s', 'LMS shortcode Resume link title "Resume post_type_name: Post_title ', 'uncanny-learndash-toolkit' ),
+								$label->labels->singular_name,
+								$title
+							)
+						),
+						esc_attr( $css_classes ),
+						esc_attr( $resume_link_text )
+					);
+				} else {
+					printf(
+						'<a href="%s" title="%s" class="%s"><input type="button" value="%s" class=""></a>',
+						$permalink,
+						esc_attr(
+							sprintf(
+								esc_html_x( 'Resume %s: %s', 'LMS shortcode Resume link title "Resume post_type_name: Post_title ', 'uncanny-learndash-toolkit' ),
+								$label->labels->singular_name,
+								$title
+							)
+						),
+						esc_attr( $css_classes ),
+						esc_attr( $resume_link_text )
+					);
+				}
 
 				if ( $show_name === 'on' ) {
 					printf(
