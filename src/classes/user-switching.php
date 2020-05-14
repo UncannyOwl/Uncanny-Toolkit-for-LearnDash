@@ -59,9 +59,11 @@ class UserSwitching extends Config implements RequiredFunctions {
 	 */
 	public static function plugins_loaded() {
 
-
 		// If user switching plugin is active. Make sure we turn on off the user switching module
-		// TODO not working yet
+		if ( ! function_exists( 'is_plugin_active' ) ) {
+			include_once ABSPATH . 'wp-admin/includes/plugin.php';
+		}
+
 		if ( is_plugin_active( 'user-switching/user-switching.php' ) ) {
 			$active_classes = get_option( 'uncanny_toolkit_active_classes', 0 );
 			if ( 0 !== $active_classes ) {
@@ -71,10 +73,7 @@ class UserSwitching extends Config implements RequiredFunctions {
 			}
 
 		} else {
-
 			if ( ! class_exists( 'user_switching' ) ) {
-
-
 				// User Switching's auth_cookie
 				if ( ! defined( 'USER_SWITCHING_COOKIE' ) ) {
 					define( 'USER_SWITCHING_COOKIE', 'wordpress_user_sw_' . COOKIEHASH );
@@ -93,7 +92,6 @@ class UserSwitching extends Config implements RequiredFunctions {
 				// Version 1.5.4 | By John Blackbourn
 				require_once( Config::get_include( 'user-switching.php' ) );
 				\user_switching::get_instance();
-
 			}
 		}
 	}
