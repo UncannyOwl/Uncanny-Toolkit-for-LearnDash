@@ -626,20 +626,24 @@ class Config {
 					<div class="ult-modal-footer">
 						<div class="ult-modal-notice"></div>
 						<div class="ult-modal-actions">
-                            <div class="ult-modal-action">
-                                <div class="ult-modal-action__btn ult-modal-action__btn--secondary ult-aligb-left ult-modal-action__btn-help-js" data-action="help">
-									<?php _e( 'Help', 'uncanny-learndash-toolkit' ); ?>
-                                </div>
-                            </div>
-                            <div class="ult-modal-action">
-								<div class="ult-modal-action__btn ult-modal-action__btn--secondary ult-modal-action__btn-cancel-js" data-action="cancel">
-									<?php _e( 'Close', 'uncanny-learndash-toolkit' ); ?>
-								</div>
+							<div class="ult-modal-actions__left">
+								<div class="ult-modal-action">
+	                                <a target="_blank" class="ult-modal-action__btn ult-modal-action__btn--secondary ult-modal-action__btn-help-js">
+										<?php _e( 'Help', 'uncanny-learndash-toolkit' ); ?>
+	                                </a>
+	                            </div>
 							</div>
-							<div class="ult-modal-action">
-								<button class="ult-modal-action__btn ult-modal-action__btn--primary ult-modal-action__btn-submit-js" type="submit">
-									<?php _e( 'Save module', 'uncanny-learndash-toolkit' ); ?>
-								</button>
+							<div class="ult-modal-actions__right">
+								<div class="ult-modal-action">
+									<div class="ult-modal-action__btn ult-modal-action__btn--secondary ult-modal-action__btn-cancel-js" data-action="cancel">
+										<?php _e( 'Close', 'uncanny-learndash-toolkit' ); ?>
+									</div>
+								</div>
+								<div class="ult-modal-action">
+									<button class="ult-modal-action__btn ult-modal-action__btn--primary ult-modal-action__btn-submit-js" type="submit">
+										<?php _e( 'Save module', 'uncanny-learndash-toolkit' ); ?>
+									</button>
+								</div>
 							</div>
 						</div>
 					</div>

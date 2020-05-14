@@ -1191,6 +1191,7 @@ html.noscroll .ult-modal {
 						width: 100%;
 						border-radius: 3px;
 						border: 1px solid #cdcdcd;
+						line-height: 1;
 						outline: none;
 						transition: border 150ms ease-in-out;
 						box-shadow: 0 2px 5px 0 rgba(0,0,0,.1);
@@ -1351,8 +1352,13 @@ html.noscroll .ult-modal {
 					background: #f3f5f6;
 					padding: 15px 7px;
 					display: flex;
-					justify-content: flex-end;
+					justify-content: space-between;
 				}
+
+					.ult-modal-actions__left,
+					.ult-modal-actions__right {
+						display: flex;
+					}
 
 					.ult-modal-action {
 						padding: 0 8px;
@@ -1367,6 +1373,7 @@ html.noscroll .ult-modal {
 							display: inline-block;
 							outline: none;
 							font-weight: 400;
+							text-decoration: none;
 							text-align: center;
 							white-space: nowrap;
 							vertical-align: middle;
