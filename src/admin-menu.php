@@ -40,7 +40,37 @@ class AdminMenu extends Boot {
 
 		$position = 81; // 81 - Above Settings Menu
 		add_menu_page( $page_title, $menu_title, $capability, $menu_slug, null, $icon_url, $position );
-		add_submenu_page( $menu_slug, 'Modules', 'Modules', 'manage_options', $menu_slug, $function );
+
+		add_submenu_page( $menu_slug, __( 'Modules', 'uncanny-learndash-toolkit' ), __( 'Modules', 'uncanny-learndash-toolkit' ), 'manage_options', $menu_slug, $function );
+
+		// Try Automator link
+		$menu_item_name = '<span class="ult-sidebar-featured-item"><span class="ult-sidebar-featured-item__text">' . sprintf( __( 'Try %s!', 'uncanny-learndash-toolkit' ), 'Automator' ) . '</span><span class="ult-sidebar-featured-item__tag">' . __( 'New', 'uncanny-learndash-toolkit' ) . '</span></span>';
+
+		add_submenu_page( $menu_slug, sprintf( __( 'Try %s!', 'uncanny-learndash-toolkit' ), 'Automator' ), $menu_item_name, 'manage_options', self::get_automator_url(), null );
+	}
+
+	public static function get_automator_url(){
+		// Define the default URL
+		$automator_url = 'https://wordpress.org/plugins/uncanny-automator/';
+
+		// Get the current page locale
+		$locale = get_locale();
+
+		// Check if it's a Spanish locale
+		if ( substr( $locale, 0, 3 ) == 'es_' ){
+			// Check if it's the Argentinean locale
+			if ( $locale == 'es_AR' ){
+				$automator_url = 'https://es-ar.wordpress.org/plugins/uncanny-automator/';
+			}
+			elseif ( $locale == 'es_CO' ){
+				$automator_url = 'https://es-co.wordpress.org/plugins/uncanny-automator/';
+			}
+			else {
+				$automator_url = 'https://es.wordpress.org/plugins/uncanny-automator/';
+			}
+		}
+
+		return $automator_url;
 	}
 
 	/*
@@ -54,6 +84,10 @@ class AdminMenu extends Boot {
 	 * @param $hook
 	 */
 	public static function scripts( $hook ){
+		// Load global admin assets
+		wp_enqueue_style( 'ult-global', Config::get_admin_css( 'global.css' ), array(), UNCANNY_TOOLKIT_VERSION );
+		wp_enqueue_script( 'ult-global', Config::get_admin_js( 'global.js' ), array( 'jquery' ), UNCANNY_TOOLKIT_VERSION );
+
 		// Target Toolkit pages
 		if ( strpos( $hook, 'uncanny-toolkit' ) || strpos( $hook, 'uncanny-toolkit-kb' ) || strpos( $hook, 'uncanny-toolkit-plugins' ) || strpos( $hook, 'uncanny-toolkit-license' ) ){
 			// Main CSS file
