@@ -76,9 +76,6 @@ class AdminMenu extends Boot {
 			if ( $locale == 'es_AR' ){
 				$automator_url = 'https://es-ar.wordpress.org/plugins/uncanny-automator/';
 			}
-			elseif ( $locale == 'es_CO' ){
-				$automator_url = 'https://es-co.wordpress.org/plugins/uncanny-automator/';
-			}
 			else {
 				$automator_url = 'https://es.wordpress.org/plugins/uncanny-automator/';
 			}
