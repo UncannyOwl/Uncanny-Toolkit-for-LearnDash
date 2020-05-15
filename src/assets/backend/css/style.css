@@ -1165,6 +1165,12 @@ html.noscroll .ult-modal {
                     margin: 20px 0 0 0;
 				}
 
+					.ult-modal-options h2:first-child {
+						border-top: 0;
+						margin-top: 0;
+						padding-top: 0;
+					}
+
 					.ult-modal-options .ult-modal__field:first-child > h2 {
 						padding-top: 0;
 						margin-top: 0;
