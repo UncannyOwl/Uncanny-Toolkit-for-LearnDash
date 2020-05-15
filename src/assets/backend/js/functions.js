@@ -459,7 +459,7 @@ jQuery( function($){
                     $elements.submitButton.addClass( 'ult-modal-action__btn--loading' );
 
                     // Hide the notices
-                    this.hideNotice();
+                    this.hideNotice( $modal );
 
                     // Save data
                     ULT_Utility.ajaxRequest({
