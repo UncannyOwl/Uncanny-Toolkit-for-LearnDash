@@ -195,7 +195,7 @@
  */
 
 /* Remove WP styling */
-#uap-review-banner {
+#ult-review-banner {
 	padding: 0;
 	border: 0;
 	box-shadow: none;
@@ -204,7 +204,11 @@
 	display: block !important;
 }
 
-	.uap .uap-review-banner {
+	.nav-tab-wrapper + #ult-review-banner {
+		margin-top: 15px;
+	}
+
+	.ult .ult-review-banner {
 		width: 100%;
 
 		background: #fff;
@@ -215,237 +219,66 @@
 		line-height: 1.4;
 		color: #343434;
 
-		display: flex;
+		padding: 20px;
 
 		position: relative;
 	}
 
-		.uap .uap-review-banner-left {
-			width: 86px;
+		.ult .ult-review-banner__title {
+			font-size: 15px;
+			font-weight: 600;
 
-			flex: 0 0 auto;
+			padding-right: 25px;
+		}
+
+		.ult .ult-review-banner__description {
+			font-size: 14px;
+			margin-top: 2px;
+		}
+
+		.ult .ult-review-banner__actions {
+			padding-top: 20px;
 
 			display: flex;
+			align-items: center;
+			flex-wrap: wrap;
 
-			padding: 20px 0 0 20px;
+			margin-bottom: -10px;
 		}
 
-			.uap-review-banner__robot {
-				width: 100%;
-				height: 100%;
+			.ult .ult-review-banner__action {
+				display: inline-block;
 
-				position: relative;
-				overflow: hidden;
-			}
+				padding: 5px 15px;
 
-				.uap-review-banner__robot img {
-					width: 100%;
+				margin-bottom: 10px;
 
-					position: absolute;
-					top: 0;
-					left: 0;
-				}
+				border: 1px solid #b7b7b7;
+				border-radius: 4px;
+				box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.1);
 
-		.uap .uap-review-banner-right {
-			flex: 1 1 auto;
+				font-weight: 500;
+				color: #6c757d;
 
-			padding: 20px;
-		}
-
-			.uap .uap-review-banner__title {
-				font-size: 15px;
-				font-weight: 600;
-
-				padding-right: 25px;
-			}
-
-			.uap .uap-review-banner__description {
-				font-size: 14px;
-				margin-top: 2px;
-			}
-
-			.uap .uap-review-banner__actions {
-				padding-top: 20px;
-
-				display: flex;
-				align-items: center;
-				flex-wrap: wrap;
-
-				margin-bottom: -10px;
-			}
-
-				.uap .uap-review-banner__action {
-					display: inline-block;
-
-					padding: 5px 15px;
-
-					margin-bottom: 10px;
-
-					border: 1px solid #b7b7b7;
-					border-radius: 4px;
-					box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.1);
-
-					font-weight: 500;
-					color: #6c757d;
-
-					text-decoration: none;
-
-					cursor: pointer;
-
-					position: relative;
-
-					transition: background 150ms ease-in-out,
-					            color      150ms ease-in-out,
-					            border     150ms ease-in-out;
-				}
-
-					.uap .uap-review-banner__action:before {
-						content: '';
-
-						width: 10px;
-						height: 10px;
-
-						border: 2px solid transparent;
-						border-top-color: #fff;
-						border-radius: 50%;
-
-						position: absolute;
-						top: 50%;
-						left: 50%;
-
-						opacity: 0;
-
-						user-select: none;
-
-						animation: rotating-centered 2s linear infinite;
-						transition: opacity 150ms ease-in-out;
-					}
-
-				.uap .uap-review-banner__action:not(:last-child) {
-					margin-right: 10px;
-				}
-
-					.uap .uap-review-banner__action:hover {
-						color: #fff;
-						background: #9e9e9e;
-						border-color: #9e9e9e;
-					}
-
-					.uap .uap-review-banner__action--loading,
-					.uap .uap-review-banner__action--loading:hover,
-					.uap .uap-review-banner__action--loading:active,
-					.uap .uap-review-banner__action--loading:focus {
-						color: transparent;
-						background: #9e9e9e;
-						border-color: #9e9e9e;
-					}
-
-					.uap .uap-review-banner__action--loading:before {
-						opacity: 1;
-					}
-
-					.uap .uap-review-banner__action--primary {
-						border-color: #0790e8;
-						color: #0790e8;
-					}
-
-						.uap .uap-review-banner__action--primary:hover {
-							background: #0790e8;
-							border-color: #0790e8;
-						}
-
-						.uap .uap-review-banner__action--primary.uap-review-banner__action--loading,
-						.uap .uap-review-banner__action--primary.uap-review-banner__action--loading:hover,
-						.uap .uap-review-banner__action--primary.uap-review-banner__action--loading:active,
-						.uap .uap-review-banner__action--primary.uap-review-banner__action--loading:focus {
-							background: #0790e8;
-							border-color: #0790e8;
-						}
-
-					.uap .uap-review-banner__action--anchor {
-						box-shadow: none;
-						border: 0;
-						padding-left: 0;
-						padding-right: 0;
-						background: transparent;
-						border-color: transparent;
-					}
-
-						.uap .uap-review-banner__action--anchor-border {
-							text-decoration: underline;
-						}
-
-						.uap .uap-review-banner__action--anchor:hover {
-							background: transparent;
-							border-color: transparent;
-							color: #5c636a;
-						}
-
-						.uap .uap-review-banner__action--anchor.uap-review-banner__action--loading,
-						.uap .uap-review-banner__action--anchor.uap-review-banner__action--loading:hover,
-						.uap .uap-review-banner__action--anchor.uap-review-banner__action--loading:active,
-						.uap .uap-review-banner__action--anchor.uap-review-banner__action--loading:focus {
-							color: #5c636a;
-						}
-
-						.uap .uap-review-banner__action--anchor.uap-review-banner__action--loading {
-							padding-right: 35px;
-						}
-
-						.uap .uap-review-banner__action--anchor:before {
-							border-top-color: #9e9e9e;
-							left: auto;
-							right: 0;
-						}
-
-					.uap-review-banner__action--no-margin-right {
-						margin-right: 5px !important;
-					}
-
-					.uap .uap-review-banner__disclaimer {
-						font-size: 13px;
-						color: #9e9e9e;
-					}
-
-			.uap #uap-review-banner__close {
-				position: absolute;
-				top: 15px;
-				right: 15px;
-				z-index: 10;
-
-				padding: 5px;
+				text-decoration: none;
 
 				cursor: pointer;
 
-				border-radius: 50%;
+				position: relative;
 
-				transition: background 150ms ease-in-out;
+				transition: background 150ms ease-in-out,
+				            color      150ms ease-in-out,
+				            border     150ms ease-in-out;
 			}
 
-				.uap .uap-review-banner__close-tooltip {
-					width: 100%;
-					height: 100%;
-					border-radius: 50%;
-
-					position: absolute;
-					top: 0;
-					left: 0;
-
-					z-index: 100;
-				}
-
-				.uap #uap-review-banner__close:hover {
-					background: #e0e2e3;
-				}
-
-				.uap #uap-review-banner__close:before {
+				.ult .ult-review-banner__action:before {
 					content: '';
 
 					width: 10px;
 					height: 10px;
 
 					border: 2px solid transparent;
-					border-top-color: #90979c;
+					border-top-color: #fff;
 					border-radius: 50%;
 
 					position: absolute;
@@ -456,57 +289,196 @@
 
 					user-select: none;
 
-					animation: rotating-centered 2s linear infinite;
+					animation: ult-review-banner-rotating-centered 2s linear infinite;
 					transition: opacity 150ms ease-in-out;
 				}
 
-					.uap #uap-review-banner__close.uap-review-banner__close--loading:before {
-						opacity: 1;
-					}
+			.ult .ult-review-banner__action:not(:last-child) {
+				margin-right: 10px;
+			}
 
-				.uap .uap-review-banner__close-icon {
-					width: 14px;
-					height: 14px;
+				.ult .ult-review-banner__action:hover {
+					color: #fff;
+					background: #9e9e9e;
+					border-color: #9e9e9e;
+				}
 
+				.ult .ult-review-banner__action--loading,
+				.ult .ult-review-banner__action--loading:hover,
+				.ult .ult-review-banner__action--loading:active,
+				.ult .ult-review-banner__action--loading:focus {
+					color: transparent;
+					background: #9e9e9e;
+					border-color: #9e9e9e;
+				}
+
+				.ult .ult-review-banner__action--loading:before {
 					opacity: 1;
-
-					position: relative;
-
-					transition: opacity 150ms ease-in-out;
 				}
 
-					.uap .uap-review-banner__close--loading .uap-review-banner__close-icon {
-						opacity: 0;
+				.ult .ult-review-banner__action--primary {
+					border-color: #0790e8;
+					color: #0790e8;
+				}
+
+					.ult .ult-review-banner__action--primary:hover {
+						background: #0790e8;
+						border-color: #0790e8;
 					}
 
-				.uap .uap-review-banner__close-icon:before,
-				.uap .uap-review-banner__close-icon:after {
-					content: '';
+					.ult .ult-review-banner__action--primary.ult-review-banner__action--loading,
+					.ult .ult-review-banner__action--primary.ult-review-banner__action--loading:hover,
+					.ult .ult-review-banner__action--primary.ult-review-banner__action--loading:active,
+					.ult .ult-review-banner__action--primary.ult-review-banner__action--loading:focus {
+						background: #0790e8;
+						border-color: #0790e8;
+					}
 
-					position: absolute;
-
-					top: 50%;
-					left: 50%;
-					transform-origin: center;
-
-					width: 100%;
-					height: 2px;
-					background: #90979c;
+				.ult .ult-review-banner__action--anchor {
+					box-shadow: none;
+					border: 0;
+					padding-left: 0;
+					padding-right: 0;
+					background: transparent;
+					border-color: transparent;
 				}
 
-				.uap .uap-review-banner__close-icon:before {
-					transform: translate(-50%,-50%) rotate(-45deg);
+					.ult .ult-review-banner__action--anchor-border {
+						text-decoration: underline;
+					}
+
+					.ult .ult-review-banner__action--anchor:hover {
+						background: transparent;
+						border-color: transparent;
+						color: #5c636a;
+					}
+
+					.ult .ult-review-banner__action--anchor.ult-review-banner__action--loading,
+					.ult .ult-review-banner__action--anchor.ult-review-banner__action--loading:hover,
+					.ult .ult-review-banner__action--anchor.ult-review-banner__action--loading:active,
+					.ult .ult-review-banner__action--anchor.ult-review-banner__action--loading:focus {
+						color: #5c636a;
+					}
+
+					.ult .ult-review-banner__action--anchor.ult-review-banner__action--loading {
+						padding-right: 35px;
+					}
+
+					.ult .ult-review-banner__action--anchor:before {
+						border-top-color: #9e9e9e;
+						left: auto;
+						right: 0;
+					}
+
+				.ult-review-banner__action--no-margin-right {
+					margin-right: 5px !important;
 				}
 
-				.uap .uap-review-banner__close-icon:after {
-					transform: translate(-50%,-50%) rotate(45deg);
+				.ult .ult-review-banner__disclaimer {
+					font-size: 13px;
+					color: #9e9e9e;
 				}
+
+		.ult #ult-review-banner__close {
+			position: absolute;
+			top: 15px;
+			right: 15px;
+			z-index: 10;
+
+			padding: 5px;
+
+			cursor: pointer;
+
+			border-radius: 50%;
+
+			transition: background 150ms ease-in-out;
+		}
+
+			.ult .ult-review-banner__close-tooltip {
+				width: 100%;
+				height: 100%;
+				border-radius: 50%;
+
+				position: absolute;
+				top: 0;
+				left: 0;
+
+				z-index: 100;
+			}
+
+			.ult #ult-review-banner__close:hover {
+				background: #e0e2e3;
+			}
+
+			.ult #ult-review-banner__close:before {
+				content: '';
+
+				width: 10px;
+				height: 10px;
+
+				border: 2px solid transparent;
+				border-top-color: #90979c;
+				border-radius: 50%;
+
+				position: absolute;
+				top: 50%;
+				left: 50%;
+
+				opacity: 0;
+
+				user-select: none;
+
+				animation: rotating-centered 2s linear infinite;
+				transition: opacity 150ms ease-in-out;
+			}
+
+				.ult #ult-review-banner__close.ult-review-banner__close--loading:before {
+					opacity: 1;
+				}
+
+			.ult .ult-review-banner__close-icon {
+				width: 14px;
+				height: 14px;
+
+				opacity: 1;
+
+				position: relative;
+
+				transition: opacity 150ms ease-in-out;
+			}
+
+				.ult .ult-review-banner__close--loading .ult-review-banner__close-icon {
+					opacity: 0;
+				}
+
+			.ult .ult-review-banner__close-icon:before,
+			.ult .ult-review-banner__close-icon:after {
+				content: '';
+
+				position: absolute;
+
+				top: 50%;
+				left: 50%;
+				transform-origin: center;
+
+				width: 100%;
+				height: 2px;
+				background: #90979c;
+			}
+
+			.ult .ult-review-banner__close-icon:before {
+				transform: translate(-50%,-50%) rotate(-45deg);
+			}
+
+			.ult .ult-review-banner__close-icon:after {
+				transform: translate(-50%,-50%) rotate(45deg);
+			}
 
 /**
  * Keyframes
  */
 
-@keyframes rotating-centered {
+@keyframes ult-review-banner-rotating-centered {
 	from {
 		transform: translate(-50%,-50%) rotate(0deg);
 	}

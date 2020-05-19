@@ -55,7 +55,7 @@ jQuery( function($){
             $button.addClass( loadingClass );
 
             // Do rest call
-            UA_Utilities.restCall( 'review-banner-visibility', 'POST', {
+            ULT_Utilities.restCall( 'review-banner-visibility', 'POST', {
                 action: action
             }, function( response ){
                 if ( response.success ){
@@ -67,14 +67,14 @@ jQuery( function($){
                 }
                 else {
                     // If it fails, add a parameter to the page and reload
-                    UA_Utilities.insertParameterToURL( 'ult_review-banner-visibility', action, true );
+                    ULT_Utilities.insertParameterToURL( 'ult_review-banner-visibility', action, true );
 
                     // Hide the banner
                     _this.closeBanner();
                 }
             }, function(){
                 // If it fails, add a parameter to the page and reload
-                UA_Utilities.insertParameterToURL( 'ult_review-banner-visibility', action, true );
+                ULT_Utilities.insertParameterToURL( 'ult_review-banner-visibility', action, true );
 
                 // Hide the banner
                 _this.closeBanner();
@@ -190,7 +190,7 @@ jQuery( function($){
                     // Check if the request succeeded
                     if ( response.success ){
                         // Check if onSuccess
-                        if ( UA_Utilities.isDefined( onSuccess ) ){
+                        if ( ULT_Utilities.isDefined( onSuccess ) ){
                             // Invoke callback
                             onSuccess( response );
                         }
@@ -200,7 +200,7 @@ jQuery( function($){
                         console.error( 'The call was successful, but there were errors.' );
 
                         // Check if the onFail callback is defined
-                        if ( UA_Utilities.isDefined( onFail ) ){
+                        if ( ULT_Utilities.isDefined( onFail ) ){
                             // Invoke callback
                             onFail( response );
                         }
@@ -214,7 +214,7 @@ jQuery( function($){
                 },
 
                 fail: function ( response ){
-                    if ( UA_Utilities.isDefined( onFail ) ){
+                    if ( ULT_Utilities.isDefined( onFail ) ){
                         onFail( response );
                     }
                 },

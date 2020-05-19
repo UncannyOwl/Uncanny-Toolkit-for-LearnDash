@@ -99,8 +99,15 @@ class AdminMenu extends Boot {
 	 */
 	public static function scripts( $hook ){
 		// Load global admin assets
-		wp_enqueue_style( 'ult-global', Config::get_admin_css( 'global.css' ), array(), UNCANNY_TOOLKIT_VERSION );
-		wp_enqueue_script( 'ult-global', Config::get_admin_js( 'global.js' ), array( 'jquery' ), UNCANNY_TOOLKIT_VERSION );
+		wp_enqueue_style( 'ult-admin-global', Config::get_admin_css( 'global.css' ), array(), UNCANNY_TOOLKIT_VERSION );
+		wp_enqueue_script( 'ult-admin-global', Config::get_admin_js( 'global.js' ), array( 'jquery' ), UNCANNY_TOOLKIT_VERSION );
+
+		wp_localize_script( 'ult-admin-global', 'UncannyAutomatorGlobal', [
+			'rest' => [
+				'url'   => esc_url_raw( rest_url() . UNCANNY_TOOLKIT_REST_API_END_POINT ),
+				'nonce' => \wp_create_nonce( 'wp_rest' ),
+			]
+		] );
 
 		// Target Toolkit pages
 		if ( strpos( $hook, 'uncanny-toolkit' ) || strpos( $hook, 'uncanny-toolkit-kb' ) || strpos( $hook, 'uncanny-toolkit-plugins' ) || strpos( $hook, 'uncanny-toolkit-license' ) ){

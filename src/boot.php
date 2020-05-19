@@ -248,10 +248,17 @@ class Boot extends Config {
 				$url_send_review = 'https://wordpress.org/support/plugin/uncanny-learndash-toolkit/reviews/#new-post';
 
 				// Send feedback URL
-				$url_send_feedback_version = $is_pro ? 'Uncanny%20Automator%20Pro%20' . $version : 'Uncanny%20Automator%20' . $version;
-				$url_send_feedback_source  = $is_pro ? 'uncanny_automator_pro' : 'uncanny_automator';
-				$url_send_feedback         = 'https://automatorplugin.com/feedback/?version=' . $url_send_feedback_version . '&utm_source=' . $url_send_feedback_source . '&utm_medium=review_banner';
+				if ( $is_pro ){
+					$url_send_feedback_plugin = 'Uncanny%20LearnDash%20Toolkit%20Pro';
+					$url_send_feedback_source = 'uncanny_learndash_toolkit_pro';
+					$url_send_feedback        = 'https://www.uncannyowl.com/request-plugin-feature/?plugin=' . $url_send_feedback_plugin . '&utm_source=' . $url_send_feedback_source . '&utm_medium=review_banner';
+				}
+				else {
+					$url_send_feedback = 'https://wordpress.org/support/plugin/uncanny-learndash-toolkit/#new-topic-0';
+				}
+
 				include Config::get_template( 'admin-review-banner.php' );
+				
 			} );
 		}
 	}
