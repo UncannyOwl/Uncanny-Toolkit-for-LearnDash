@@ -178,12 +178,12 @@ jQuery( function($){
             // Do AJAX
             $.ajax({
                 method: method,
-                url:    UncannyAutomatorGlobal.rest.url + endPoint + '/',
+                url:    UncannyToolkitGlobal.rest.url + endPoint + '/',
                 data:   $.param( data ) + '&' + $.param({ doing_rest: 1 }),
 
                 // Attach Nonce the the header of the request
                 beforeSend: function( xhr ){
-                    xhr.setRequestHeader( 'X-WP-Nonce', UncannyAutomatorGlobal.rest.nonce );
+                    xhr.setRequestHeader( 'X-WP-Nonce', UncannyToolkitGlobal.rest.nonce );
                 },
 
                 success: function( response ){
