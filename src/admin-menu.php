@@ -48,19 +48,22 @@ class AdminMenu extends Boot {
 	}
 
 	public static function sidebar_menu_add_try_automator(){
-		// Create the link content
-		$menu_item_name = '<span class="ult-sidebar-featured-item"><span class="ult-sidebar-featured-item__text">' . sprintf( __( 'Try %s!', 'uncanny-learndash-toolkit' ), 'Automator' ) . '</span><span class="ult-sidebar-featured-item__tag">' . __( 'New', 'uncanny-learndash-toolkit' ) . '</span></span>';
+		// Check if Automator is already installed
+		if ( ! defined( 'AUTOMATOR_BASE_FILE' ) ){
+			// Create the link content
+			$menu_item_name = '<span class="ult-sidebar-featured-item"><span class="ult-sidebar-featured-item__text">' . sprintf( __( 'Try %s!', 'uncanny-learndash-toolkit' ), 'Automator' ) . '</span><span class="ult-sidebar-featured-item__tag">' . __( 'New', 'uncanny-learndash-toolkit' ) . '</span></span>';
 
-		// Add the subpage menu
-		add_submenu_page(
-			'uncanny-toolkit',
-			sprintf( __( 'Try %s!', 'uncanny-learndash-toolkit' ), 'Automator' ),
-			$menu_item_name,
-			'manage_options',
-			self::get_automator_url(),
-			null,
-			99
-		);
+			// Add the subpage menu
+			add_submenu_page(
+				'uncanny-toolkit',
+				sprintf( __( 'Try %s!', 'uncanny-learndash-toolkit' ), 'Automator' ),
+				$menu_item_name,
+				'manage_options',
+				self::get_automator_url(),
+				null,
+				99
+			);
+		}
 	}
 
 	public static function get_automator_url(){
