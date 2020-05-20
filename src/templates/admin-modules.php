@@ -295,7 +295,7 @@ foreach ( $modules as $key => $module ){
 									// Add the link
 									?>
 
-									<a href="<?php echo $module['kb_link']; ?>" target="_blank" class="ult-directory-module-settings ult-directory-module__btn ult-btn ult-btn--secondary">
+									<a href="<?php echo $module['kb_link']; ?>" target="_blank" class="ult-directory-module-settings ult-directory-module-settings--kb-link ult-directory-module__btn ult-btn ult-btn--secondary">
 										<?php _e( 'Learn More', 'uncanny-learndash-toolkit' ); ?>
 									</a>
 

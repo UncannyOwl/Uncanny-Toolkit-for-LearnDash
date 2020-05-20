@@ -417,12 +417,18 @@ jQuery( function($){
                     // Save button
                     let $button = $( this );
 
+                    // Get the module box
+                    let $moduleBox = $button.closest( '.ult-directory-module' );
+
                     // Get settings ID
                     let settingsId = ULT_Utility.removeBackslash( $button.data( 'settings' ) );
                     //settingsId = settingsId.toLowerCase();
 
                     // Get modal
                     let $modal = _this.getModal( settingsId );
+
+                    // Set the URL of the help buttons
+                    _this.setHelpButtonURL( $moduleBox, $modal );
 
                     // Show Modal
                     _this.showModal( $modal, settingsId );
@@ -451,6 +457,9 @@ jQuery( function($){
 
                     // Add loading class to submit button
                     $elements.submitButton.addClass( 'ult-modal-action__btn--loading' );
+
+                    // Hide the notices
+                    this.hideNotice( $modal );
 
                     // Save data
                     ULT_Utility.ajaxRequest({
@@ -503,6 +512,23 @@ jQuery( function($){
                         this.unbindModalActions( $modal );
                     }
                 });
+            },
+
+            setHelpButtonURL: function( $moduleBox, $modal ){
+                // Get the URL of the KB article
+                const KBArticleURL = $moduleBox.find( '.ult-directory-module-settings--kb-link' ).prop( 'href' );
+
+                // Get the "Help" button in the modal
+                const $helpButton = $modal.find( '.ult-modal-action__btn-help-js' );
+
+                // Check if it's defined
+                if ( ULT_Utility.isDefined( KBArticleURL ) ){
+                    // Set the URL
+                    $helpButton.prop( 'href', KBArticleURL );
+                }
+                else {
+                    $helpButton.hide();
+                }
             },
 
             showNotice: function( $modal, type, message ){

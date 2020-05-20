@@ -71,6 +71,9 @@ class Boot extends Config {
 				}
 			}
 		}
+
+		add_action( 'rest_api_init', [ $this, 'uo_register_api' ] );
+		add_action( 'admin_init', [ $this, 'maybe_ask_review' ] );
 	}
 
 	/**
@@ -186,9 +189,97 @@ class Boot extends Config {
 		}
 
 	}
+
+	/**
+	 * Register rest api calls for misc tasks.
+	 *
+	 * @since 3.3
+	 */
+	public function uo_register_api() {
+		register_rest_route( UNCANNY_TOOLKIT_REST_API_END_POINT, '/review-banner-visibility/', [
+			'methods'  => 'POST',
+			'callback' => [ $this, 'save_review_settings' ],
+		] );
+	}
+
+
+	/**
+	 * Admin notice for review this plugin.
+	 *
+	 * @since 3.3
+	 */
+	public function maybe_ask_review() {
+
+		// check plugin install date
+		$review_time = get_option( '_uncanny_toolkit_review_time', '' );
+
+		if ( empty( $review_time ) ) {
+			$review_time = current_time( 'timestamp' );
+			update_option( '_uncanny_toolkit_review_time', $review_time );
+		}
+
+		$current_date = current_time( 'timestamp' );
+		$days_after   = 10;
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+		if ( ceil( ( $current_date - $review_time ) / 86400 ) > $days_after ) {
+
+			$_is_reminder   = get_option( '_uncanny_toolkit_review_reminder', '' );
+			$_reminder_date = get_option( '_uncanny_toolkit_review_reminder_date', current_time( 'timestamp' ) );
+
+			if ( ! empty( $_is_reminder ) && 'hide-forever' === $_is_reminder ) {
+				return;
+			}
+
+			if ( ! empty( $_is_reminder ) && 'maybe-later' === $_is_reminder ) {
+				// check reminder date difference
+				if ( ceil( ( $current_date - $_reminder_date ) / 86400 ) < $days_after ) {
+					return;
+				}
+			}
+
+			add_action( 'admin_notices', function () {
+				// Get data about Toolkit version
+				$is_pro  = defined( 'UNCANNY_TOOLKIT_PRO_VERSION' );
+				$version = $is_pro ? UNCANNY_TOOLKIT_PRO_VERSION : UNCANNY_TOOLKIT_VERSION;
+
+				// Send review URL
+				$url_send_review = 'https://wordpress.org/support/plugin/uncanny-learndash-toolkit/reviews/#new-post';
+
+				// Send feedback URL
+				if ( $is_pro ){
+					$url_send_feedback_plugin = 'Uncanny%20LearnDash%20Toolkit%20Pro';
+					$url_send_feedback_source = 'uncanny_learndash_toolkit_pro';
+					$url_send_feedback        = 'https://www.uncannyowl.com/request-plugin-feature/?plugin=' . $url_send_feedback_plugin . '&utm_source=' . $url_send_feedback_source . '&utm_medium=review_banner';
+				}
+				else {
+					$url_send_feedback = 'https://wordpress.org/support/plugin/uncanny-learndash-toolkit/#new-topic-0';
+				}
+
+				include Config::get_template( 'admin-review-banner.php' );
+				
+			} );
+		}
+	}
+
+	/**
+	 * Rest API callback for saving user selection for review.
+	 *
+	 * @since 2.1.4
+	 * @param object $request
+	 *
+	 * @return object
+	 */
+	public function save_review_settings( $request ) {
+		// check if its a valid request.
+		$data = $request->get_params();
+		if ( isset( $data['action'] ) && ( 'maybe-later' === $data['action'] || 'hide-forever' === $data['action'] ) ) {
+			update_option( '_uncanny_toolkit_review_reminder', $data['action'] );
+			update_option( '_uncanny_toolkit_review_reminder_date', current_time( 'timestamp' ) );
+			return new \WP_REST_Response( [ 'success' => true ], 200 );
+		}
+
+		return new \WP_REST_Response( [ 'success' => false ], 200 );
+	}
 }
-
-
-
-
-
