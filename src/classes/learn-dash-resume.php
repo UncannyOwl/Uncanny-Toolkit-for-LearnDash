@@ -224,7 +224,7 @@ class LearnDashResume extends Config implements RequiredFunctions {
 						$show_name = self::get_settings_value( 'learn-dash-resume-show-name', __CLASS__ );
 
 						if ( strlen( trim( $link_text ) ) ) {
-							$resume_link_text = $link_text;
+							$resume_link_text = __( $link_text, 'uncanny-learndash-toolkit' );
 						}
 
 						$resume_link_text = apply_filters( 'learndash_resume_link_text', $resume_link_text );
@@ -349,7 +349,7 @@ class LearnDashResume extends Config implements RequiredFunctions {
 				$show_name = self::get_settings_value( 'learn-dash-resume-show-name', __CLASS__ );
 
 				if ( strlen( trim( $link_text ) ) ) {
-					$resume_link_text = $link_text;
+					$resume_link_text = __( $link_text, 'uncanny-learndash-toolkit' );
 				}
 
 				$resume_link_text = apply_filters( 'learndash_resume_link_text', $resume_link_text );
