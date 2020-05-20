@@ -59,28 +59,21 @@ class UserSwitching extends Config implements RequiredFunctions {
 	 */
 	public static function plugins_loaded() {
 
-
 		// If user switching plugin is active. Make sure we turn on off the user switching module
-		// TODO not working yet
-		if ( in_array( 'user-switching\user-switching.php', (array) get_option( 'active_plugins', array() ) ) ) {
+		if ( ! function_exists( 'is_plugin_active' ) ) {
+			include_once ABSPATH . 'wp-admin/includes/plugin.php';
+		}
 
-			deactivate_plugins( '/plugin-folder/plugin-name.php' );
-
+		if ( is_plugin_active( 'user-switching/user-switching.php' ) ) {
 			$active_classes = get_option( 'uncanny_toolkit_active_classes', 0 );
-
 			if ( 0 !== $active_classes ) {
 				if ( is_array( $active_classes ) && isset( $active_classes['uncanny_learndash_toolkit\UserSwitching'] ) ) {
-					unset( $active_classes['uncanny_learndash_toolkit\UserSwitching'] );
-					$new_classes = $active_classes;
-					update_option( 'uncanny_toolkit_active_classes', $new_classes );
+					deactivate_plugins( 'user-switching/user-switching.php' );
 				}
 			}
 
 		} else {
-
 			if ( ! class_exists( 'user_switching' ) ) {
-
-
 				// User Switching's auth_cookie
 				if ( ! defined( 'USER_SWITCHING_COOKIE' ) ) {
 					define( 'USER_SWITCHING_COOKIE', 'wordpress_user_sw_' . COOKIEHASH );
@@ -96,10 +89,9 @@ class UserSwitching extends Config implements RequiredFunctions {
 					define( 'USER_SWITCHING_OLDUSER_COOKIE', 'wordpress_user_sw_olduser_' . COOKIEHASH );
 				}
 
-				// Version 1.2.0 | By John Blackbourn
+				// Version 1.5.4 | By John Blackbourn
 				require_once( Config::get_include( 'user-switching.php' ) );
 				\user_switching::get_instance();
-
 			}
 		}
 	}
@@ -110,11 +102,11 @@ class UserSwitching extends Config implements RequiredFunctions {
 	 * This information is only loaded in the admin settings page to create a module which includes an on/off switch
 	 * and settings modal pop up that populates module options in the WP DB. The details are retrieve by creating a
 	 * reflection class(http://php.net/manual/en/class.reflectionclass.php). The class does not need to be initialized to get the details
-	 * @see   uncanny_learndash_toolkit/AdminMenu::get_class_details()
-	 *
+	 * @return array $class_details
 	 * @since 1.0.0
 	 *
-	 * @return array $class_details
+	 * @see   uncanny_learndash_toolkit/AdminMenu::get_class_details()
+	 *
 	 */
 	public static function get_details() {
 

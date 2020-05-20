@@ -4,7 +4,7 @@ Tags: LearnDash, eLearning, LMS, education, learning, courseware
 Requires at least: 4.6
 Tested up to: 5.3.2
 Requires PHP: 5.6
-Stable tag: 3.2
+Stable tag: 3.2.2
 License: This plugin is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or any later version.   LearnDash Groups in User Profiles is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.   You should have received a copy of the GNU General Public License along with LearnDash Groups in User Profiles. If not, see {URI to Plugin License}.
 License URI: https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
 
@@ -13,7 +13,7 @@ Extend LearnDash with a variety of useful functions that make it even easier to 
 == Description ==
 **Important: This plugin requires PHP 5.6 or higher and LearnDash 2.5 or higher.**
 
-The Uncanny LearnDash Toolkit adds 14 modules that every elearning site needs, including a login form, login redirect, resume capabilities and more. Trusted to power over 10,000 LearnDash sites, it's the easiest way to improve the learning experience for your students.  Translation ready and multisite capable!
+The Uncanny LearnDash Toolkit adds 14 modules that every elearning site needs, including a login form, login redirect, resume capabilities and more. Trusted to power over 20,000 LearnDash sites, it's the easiest way to improve the learning experience for your students.  Translation ready and multisite capable!
 
 https://www.youtube.com/watch?v=o0MWoyR5Sos
 
@@ -50,9 +50,9 @@ Our [Pro add-ons plugin for the LearnDash Toolkit](https://www.uncannyowl.com/do
 
 **More LearnDash Plugins!**
 
-Uncanny Owl offers a full suite of plugins that extend the LearnDash platform and make it easier to build and manage a great learning experience. Here are a few:
+Uncanny Owl offers a full suite of [plugins that extend the LearnDash platform](https://www.uncannyowl.com/plugins/?utm_medium=ldtoolkitreadme) and make it easier to build and manage a great learning experience. Here are a few:
 
-* **[Uncanny Automator](https://automatorplugin.com/better-elearning-courses-with-wordpress/?utm_medium=ldtoolkitreadme)**: Create personal learning paths and connect LearnDash to over a dozen other plugins and Zapier. Choose from millions of LearnDash recipes to deliver better learning experiences to your students.
+* **[Uncanny Automator](https://wordpress.org/plugins/uncanny-automator/?utm_medium=ldtoolkitreadme)**: Now FREE! Create personal learning paths and connect LearnDash to over a dozen other plugins and Zapier. Choose from millions of LearnDash recipes to deliver better learning experiences to your students.
 * **[Tin Canny LearnDash Reporting](https://www.uncannyowl.com/downloads/tin-canny-reporting/?utm_medium=ldtoolkitreadme)**: Add support for your SCORM and Tin Can modules inside WordPress as well as powerful drill-down LearnDash reports.
 * **[Uncanny LearnDash Groups](https://www.uncannyowl.com/downloads/uncanny-learndash-groups/?utm_medium=ldtoolkitreadme)**: Make it easy for your customers and member organizations to manage their learners in the front end, track their progress with powerful reports, and buy courses and course licenses.
 * **[Uncanny LearnDash Codes](https://www.uncannyowl.com/downloads/uncanny-learndash-codes/?utm_medium=ldtoolkitreadme)**: An easier way to get your learners into LearnDash Groups or courses. Generate codes that can be used by learners to self-enrol into LearnDash groups and courses when they register, make a purchase, or are simply signed in.
@@ -68,6 +68,19 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 1. Uncanny LearnDash Toolkit Dashboard
 
 == Changelog ==
+
+= 3.2.2 =
+* Updated: Resume button - "RESUME" Button text now localized
+* Fixed: Uncanny Toolkit Pro Gutenberg blocks were unavailable unless at least one module from the Uncanny Toolkit (free version) that contained a Gutenberg block was active
+* Fixed: Front End Login - Admins being redirected to blank wp-login.php page on login on some sites
+* Fixed: Topics Autocomplete Lessons - After completing all topics, lesson no longer autocompleted if it contains an incomplete assignment
+
+= 3.2.1 =
+* Added: Front End Login - Require strong password option for password reset form (minimum 8 characters including 1 uppercase letter, 1 lowercase letter and 1 number)
+* Updated: Not Enrolled Redirect - Redirect field now accepts shortcodes
+* Updated: Tweaked CSS style for select2 dropdowns in /wp-admin
+* Updated: Front End Login - redirect_to parameter in URL now takes precedence over redirect shortcode attribute and Login/Logout redirects module
+* Fixed: Front End Login - PHP fatal error on some sites when initiating a password reset before LearnDash settings are initialized
 
 = 3.2 =
 * Added: New Module: Disable Emails - When active, disables all emails sent via wp_mail function.  Fork of the excellent Disable Emails plugin by webaware

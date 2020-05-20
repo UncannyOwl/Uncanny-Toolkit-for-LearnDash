@@ -89,8 +89,14 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 			// Check if all topics and quizzes are complete in lesson
 			if ( true === $lesson_completed['topics_completed'] && true === $lesson_completed['quizzes_completed'] ) {
 
-				$mark_complete = learndash_process_mark_complete( null, $lesson_id );
+				//Check if assignment is turned on
+				$maybe_complete = self::is_linked_with_assignment( $data['lesson'], true );
 
+				if ( $maybe_complete ) {
+					$mark_complete = learndash_process_mark_complete( null, $lesson_id );
+				} else {
+					$mark_complete = false;
+				}
 				if ( $mark_complete ) {
 
 					//Adding Lesson completed dummy filter so that BadgeOS ( or any other plugin ) hooking in to
@@ -278,6 +284,27 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 		}
 
 		return false;
+
+	}
+
+	/**
+	 * @param $post
+	 * @param $maybe_complete
+	 *
+	 * @return bool
+	 */
+	public static function is_linked_with_assignment( $post, $maybe_complete ) {
+		//Check if assignment is turned on
+		if ( lesson_hasassignments( $post ) ) {
+			$post_options_auto_complete = (array) learndash_get_setting( $post );
+			if ( key_exists( 'auto_approve_assignment', $post_options_auto_complete ) && 'on' === $post_options_auto_complete['auto_approve_assignment'] ) {
+				$maybe_complete = true;
+			} else {
+				$maybe_complete = false;
+			}
+		}
+
+		return $maybe_complete;
 
 	}
 }

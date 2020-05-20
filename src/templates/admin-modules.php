@@ -36,7 +36,7 @@ $config = [
  * @var Array
  */
 
-$modules = self::$modules;
+$modules = AdminMenu::$modules;
 
 /**
  * Sort alphabetically
@@ -287,21 +287,7 @@ foreach ( $modules as $key => $module ){
 
 									<?php } ?>
 
-								<?php } else { ?>
-
-									<?php foreach ( $module['missing_dependencies'] as $dependency ) { ?>
-
-										<a href="<?php echo $dependency['get_url']; ?>"
-										   class="ult-btn ult-btn--secondary ult-directory-module__btn <?php printf( 'ult-directory-module__btn--%s', $dependency['type'] ); ?>"
-										   target="_blank">
-											<?php printf( __( 'Get %s', 'uncanny-learndash-toolkit' ), $dependency['title'] ); ?>
-										</a>
-
-									<?php } ?>
-
-								<?php } ?>
-
-								<?php
+								<?php }
 
 								// Check if it has a KB article
 								if ( ! empty( $module['kb_link'] ) ) {
@@ -309,7 +295,7 @@ foreach ( $modules as $key => $module ){
 									// Add the link
 									?>
 
-									<a href="<?php echo $module['kb_link']; ?>" target="_blank" class="ult-directory-module-settings ult-directory-module__btn ult-btn ult-btn--secondary">
+									<a href="<?php echo $module['kb_link']; ?>" target="_blank" class="ult-directory-module-settings ult-directory-module-settings--kb-link ult-directory-module__btn ult-btn ult-btn--secondary">
 										<?php _e( 'Learn More', 'uncanny-learndash-toolkit' ); ?>
 									</a>
 
