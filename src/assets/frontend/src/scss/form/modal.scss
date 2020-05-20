@@ -1,0 +1,98 @@
+.ult-wrapper .ult-wrapper-login-modal { position: relative; }
+
+.ult-wrapper .ult-modal { position: absolute; -webkit-transform: translateY(-50%) translateX(-50%); -ms-transform: translateY(-50%) translateX(-50%); transform: translateY(-50%) translateX(-50%); z-index: 999; width: 100%; z-index: 9000; max-width: 1024px; min-height: 300px; background: white; border-radius: 6px; overflow: hidden; overflow-y: auto; -webkit-box-shadow: -3px -3px 20px rgba(0, 0, 0, 0.14); box-shadow: -3px -3px 20px rgba(0, 0, 0, 0.14); opacity: 0; visibility: hidden; -webkit-transition: all 0.3s ease; transition: all 0.3s ease; }
+
+.ult-wrapper .ult-modal .ult-modal-closer { position: absolute; top: 0.5em; right: 0; z-index: 9; color: #728188; cursor: pointer; line-height: 0.5; padding: 1em; font-size: 1.5em; }
+
+.ult-wrapper .ult-modal.ult-can-register .ult-modal-closer { color: #fff; }
+
+.ult-wrapper.ult-modal-closed { display: none !important; }
+
+.ult-wrapper.ult-modal-open .ult-modal { opacity: 1; visibility: visible; }
+
+.ult-wrapper .ult-login-modal { display: -webkit-box; display: -ms-flexbox; display: flex; text-align: center; margin: 25% 50% 20px 50%; /* .ult-alert { padding: 10px; margin: 10 auto; .ult-alert-icon { position: relative; left: 0; top: 0; } } */ }
+
+.ult-wrapper .ult-login-modal .ult-modal-heading { font-weight: 300; font-size: 2.25em; margin: 0; margin: 0.5em 0; }
+
+.ult-wrapper .ult-login-modal .ult-login-modal-wrapper { padding: 20px; max-width: 350px; min-width: 80%; margin: 0 auto; }
+
+.ult-wrapper .ult-login-modal .ult-login-modal-login { -webkit-box-flex: 1; -ms-flex: 1; flex: 1; background: white; display: -webkit-box; display: -ms-flexbox; display: flex; -webkit-box-orient: vertical; -webkit-box-direction: normal; -ms-flex-direction: column; flex-direction: column; -webkit-box-pack: center; -ms-flex-pack: center; justify-content: center; }
+
+.ult-wrapper .ult-login-modal .ult-login-modal-login .ult-modal-heading { color: #00a2e8; }
+
+.ult-wrapper .ult-login-modal .ult-login-modal-login .ult-modal-text { color: #728188; font-size: 0.875em; }
+
+.ult-wrapper .ult-login-modal .ult-login-modal-register { -webkit-box-flex: 1; -ms-flex: 1; flex: 1; background: #00a2e8; display: -webkit-box; display: -ms-flexbox; display: flex; -webkit-box-orient: vertical; -webkit-box-direction: normal; -ms-flex-direction: column; flex-direction: column; -webkit-box-pack: center; -ms-flex-pack: center; justify-content: center; color: white; }
+
+.ult-wrapper .ult-login-modal .ult-login-modal-register .ult-button:hover { opacity: 1; -webkit-box-shadow: 0 0 0 5px #fff !important; box-shadow: 0 0 0 5px #fff !important; }
+
+.ult-wrapper .ult-login-modal .ult-login-modal-register label { display: block; font-weight: bold; margin-bottom: 0.5em; font-size: 14px; }
+
+.ult-wrapper .ult-login-modal .ult-login-modal-register #ult-user-register { margin: 2em 0; }
+
+.ult-wrapper .ult-login-modal .ult-login-modal-register input[type='text'], .ult-wrapper .ult-login-modal .ult-login-modal-register input[type='password'], .ult-wrapper .ult-login-modal .ult-login-modal-register input[type='email'] { border: 2px solid #fff; margin: 0; margin-bottom: 1em; padding: 0; padding: 0.5em; background-color: #f9f9f9; padding-left: 2em; font-size: 1.2em; width: 100%; -webkit-transition: all ease-in-out 250ms; transition: all ease-in-out 250ms; }
+
+.ult-wrapper .ult-login-modal .ult-login-modal-register input[type='text']:focus, .ult-wrapper .ult-login-modal .ult-login-modal-register input[type='password']:focus, .ult-wrapper .ult-login-modal .ult-login-modal-register input[type='email']:focus { background: #fff; }
+
+.ult-wrapper .ult-login-modal .ult-login-modal-register #reg_passmail { font-size: 0.825em; }
+
+.ult-wrapper .ult-login-modal .ult-login-modal-register #wp-submit { margin: 0 auto; min-width: 150px; text-align: center; -webkit-box-pack: center; -ms-flex-pack: center; justify-content: center; border: 0; padding: 7px 35px; border-radius: 20px; font-weight: bold; font-size: 14px; border: 5px solid #fff; }
+
+.ult-wrapper .ult-login-modal .ult-login-modal-form { margin: 2em 0; }
+
+.ult-wrapper .ult-login-modal .ult-login-modal-form form { display: -webkit-box; display: -ms-flexbox; display: flex; -webkit-box-orient: vertical; -webkit-box-direction: normal; -ms-flex-direction: column; flex-direction: column; }
+
+.ult-wrapper .ult-login-modal .ult-login-modal-form p { margin: 0; }
+
+.ult-wrapper .ult-login-modal .ult-login-modal-form p.login-submit { text-align: center; }
+
+.ult-wrapper .ult-login-modal .ult-login-modal-form label { display: block; color: #728188; font-weight: bold; margin-bottom: 0.5em; font-size: 14px; }
+
+.ult-wrapper .ult-login-modal .ult-login-modal-form .login-username { position: relative; }
+
+.ult-wrapper .ult-login-modal .ult-login-modal-form .login-username:before { font-family: 'ult-icons' !important; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; display: inline-block; content: "\e90c"; position: absolute; color: #728188; top: 2.5em; left: 0.5em; }
+
+.ult-wrapper .ult-login-modal .ult-login-modal-form .login-password { position: relative; }
+
+.ult-wrapper .ult-login-modal .ult-login-modal-form .login-password:before { font-family: 'ult-icons' !important; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; display: inline-block; content: "\e900"; position: absolute; color: #728188; top: 2.5em; left: 0.5em; }
+
+.ult-wrapper .ult-login-modal .ult-login-modal-form .ult-login-modal-branding { position: relative; padding-top: 2em; margin-top: 1em; }
+
+.ult-wrapper .ult-login-modal .ult-login-modal-form .ult-login-modal-branding:before { content: ''; display: block; position: absolute; width: 50px; height: 3px; background-color: #e2e7ed; left: 50%; top: 0; -webkit-transform: translateX(-50%); -ms-transform: translateX(-50%); transform: translateX(-50%); }
+
+.ult-wrapper .ult-login-modal .ult-login-modal-form .ult-login-modal-branding img { max-width: 100%; max-height: 250px; height: auto; }
+
+.ult-wrapper .ult-login-modal input[type='text'], .ult-wrapper .ult-login-modal input[type='password'], .ult-wrapper .ult-login-modal input[type='email'], .ult-wrapper .ult-login-modal .ult-login-field, .ult-wrapper .ult-login-modal .ult-password-field { border: 2px solid #e2e7ed; margin: 0; margin-bottom: 1em; padding: 0; padding: 0.5em; background-color: #f0f3f6; color: #728188; padding-left: 2em; font-size: 0.875em; width: 100%; -webkit-transition: all ease-in-out 250ms; transition: all ease-in-out 250ms; }
+
+.ult-wrapper .ult-login-modal input[type='text']:focus, .ult-wrapper .ult-login-modal input[type='password']:focus, .ult-wrapper .ult-login-modal input[type='email']:focus, .ult-wrapper .ult-login-modal .ult-login-field:focus, .ult-wrapper .ult-login-modal .ult-password-field:focus { border-color: #495255; }
+
+.ult-wrapper .ult-login-modal ::-webkit-input-placeholder { font-family: 'Open Sans', 'Arial','Helvetica', sans-serif; }
+
+.ult-wrapper .ult-login-modal :-ms-input-placeholder { font-family: 'Open Sans', 'Arial','Helvetica', sans-serif; }
+
+.ult-wrapper .ult-login-modal ::placeholder { font-family: 'Open Sans', 'Arial','Helvetica', sans-serif; }
+
+.ult-wrapper .ult-login-modal .ult-forgot-password-link { color: #333333; text-decoration: underline; font-size: 0.875em; }
+
+.ult-wrapper .ult-login-modal .ult-button, .ult-wrapper .ult-login-modal input[type='submit'] { margin: 2em auto; min-width: 150px; text-align: center; -webkit-box-pack: center; -ms-flex-pack: center; justify-content: center; border: 0; border-radius: 20px; font-weight: bold; font-size: 14px; }
+
+.ult-wrapper .ult-login-modal input[type='submit'] { background: #00a2e8; color: #fff; cursor: pointer; padding: 0.75em 5em; -webkit-transition: all ease-in-out 250ms; transition: all ease-in-out 250ms; }
+
+.ult-wrapper .ult-login-modal input[type='submit']:hover { opacity: 0.8; }
+
+@media (max-width: 1024px) { .ult-wrapper .ult-login-modal { top: 100px; width: 80%; -webkit-transform: translateX(-50%); -ms-transform: translateX(-50%); transform: translateX(-50%); }
+  .ult-wrapper .ult-login-modal.ult-can-register .ult-modal-closer { color: #728188; } }
+
+@media (max-width: 768px) { .ult-wrapper .ult-login-modal { -webkit-box-orient: vertical; -webkit-box-direction: normal; -ms-flex-direction: column; flex-direction: column; } }
+
+@media (max-width: 640px) { .ult-wrapper .ult-login-modal { width: 100%; } }
+
+.ult-wrapper .ult-button.ult-login-button { display: -webkit-box; display: -ms-flexbox; display: flex; }
+
+.ult-wrapper .ult-button.ult-login-button.ult-logout { -webkit-box-pack: justify; -ms-flex-pack: justify; justify-content: space-between; }
+
+.ult-wrapper .ult-button.ult-login-button.ult-login { -webkit-box-pack: start; -ms-flex-pack: start; justify-content: flex-start; }
+
+.ult-wrapper .ult-button.ult-login-button.ult-login .ult-icon { margin-right: 10px; }
+
+.ult-hide { display: none !important; }
