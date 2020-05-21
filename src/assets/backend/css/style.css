@@ -626,6 +626,7 @@ html.noscroll .ult-modal {
 		flex-wrap: wrap;
 		vertical-align: bottom;
 		margin-bottom: 20px;
+		font-size: 14px;
 	}
 
 		.ult .ult-directory-filters {
