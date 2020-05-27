@@ -137,6 +137,13 @@ class Boot extends Config {
 		wp_enqueue_style( 'uncannyowl-learndash-toolkit-free', plugins_url( 'src/assets/frontend/dist/bundle.min.css', dirname( __FILE__ ) ), [], UNCANNY_TOOLKIT_VERSION );
 
 		wp_enqueue_script( 'uncannyowl-learndash-toolkit-free', plugins_url( 'src/assets/frontend/dist/bundle.min.js', dirname( __FILE__ ) ), [ 'jquery' ], UNCANNY_TOOLKIT_VERSION );
+
+		wp_localize_script( 'uncannyowl-learndash-toolkit-free', 'UncannyToolkit', apply_filters( 'uncannyowl-learndash-toolkit-js', [
+			'ajax' => [
+				'url'   => admin_url( 'admin-ajax.php' ),
+				'nonce' => wp_create_nonce( 'uncannyowl-learndash-toolkit' )
+			]
+		] ) );
 	}
 
 	/**

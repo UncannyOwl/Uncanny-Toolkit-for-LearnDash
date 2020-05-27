@@ -134,6 +134,8 @@ class NewLogin {
                     this.$elements.submitButton.classList.add( 'ult-form__submit-btn--disabled' );
                 }
 
+                console.log( formData );
+
                 var $_self = this;
                 var formData = jQuery( this.$elements.loginForm ).serializeArray();
                 formData.push({'name': 'action', 'value': 'uo_login', 'on_login_page' : uo_login.on_login_page});

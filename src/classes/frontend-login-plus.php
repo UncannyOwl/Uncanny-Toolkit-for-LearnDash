@@ -68,13 +68,17 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			add_filter( 'uo-front-login-register-template', array( __CLASS__, 'set_ult_login_theme' ), 9, 1 );
 			add_filter( 'uo-front-login-reset-template', array( __CLASS__, 'set_ult_login_theme' ), 9, 1 );
 			add_filter( 'uo-front-login-login-template', array( __CLASS__, 'set_ult_login_theme' ), 9, 1 );
+
+			add_filter( 'uncannyowl-learndash-toolkit-js', array( __CLASS__, 'uo_ajax_login_js' ), 10 );
 			
 			if( 'no' === $disable_ajax_support ){
 			    // override menu login item
 				add_filter( 'wp_nav_menu_objects', [ __CLASS__, 'uo_login_menu_items'], 40, 2 );
 				add_filter( 'login_form_middle', [ __CLASS__, 'ajax_error_message_box'], 100, 1 );
 				add_action( 'uo_forgot_before_submit', [ __CLASS__, 'ajax_lp_error_message_box'], 100, 1 );
-				add_action( 'wp_enqueue_scripts', array( __CLASS__, 'uo_ajax_login_assets' ) );
+
+				add_filter( 'uncannyowl-learndash-toolkit-js', array( __CLASS__, 'uo_ajax_login_js_ajax' ), 11 );
+
 				add_action( "wp_ajax_uo_login", [ __CLASS__, 'uo_login_action' ] );
 				add_action( "wp_ajax_nopriv_uo_login", [ __CLASS__, 'uo_login_action' ] );
 				add_action( "wp_ajax_uo_lostPass", [ __CLASS__, 'uo_lostPass_action' ] );
@@ -2453,19 +2457,57 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	}
 	
 	/**
-	 * Inject JS variables when Ajax enabled
+	 * Add the default frontend login data to 
+	 * the main JS variable
 	 *
 	 * @since   3.3
 	 */
-	public static function uo_ajax_login_assets() {
+	public static function uo_ajax_login_js( $js_data ){
 		global $post;
-		
-		$args = [ 'ajax_url' => admin_url( 'admin-ajax.php' ), 'is_ajax' => true, 'on_login_page' => false ];
-		if( $post->ID == self::get_login_redirect_page_id()) {
-			$args['on_login_page'] = true;
+
+		// Add the default data
+		$js_data[ 'frontendLogin' ] = [
+			'isAjax'                 => false,
+			'hasReCAPTCHA'           => false,
+			'currentPageIsLoginPage' => false,
+			'ui'                     => [
+				'showAnimationOnSubmit'  => true,
+				'buttonDisabledOnSubmit' => true
+			]
+		];
+
+		// Check if it has reCAPTCHA enabled
+		$recaptcha_key         = Config::get_settings_value( 'uo_frontend_login_recaptcha_key', 'FrontendLoginPlus' );
+		$recaptcha_secrete_key = Config::get_settings_value( 'uo_frontend_login_recaptcha_secret_key', 'FrontendLoginPlus' );
+		if ( '' !== trim( $recaptcha_key ) && '' !== trim( $recaptcha_secrete_key ) ){
+			$js_data[ 'frontendLogin' ][ 'hasReCAPTCHA' ] = true;
+		}
+
+		// Check if the current page is the Login page
+		if ( $post->ID == self::get_login_redirect_page_id() ){
+			$js_data[ 'frontendLogin' ][ 'currentPageIsLoginPage' ] = true;
         }
-		wp_localize_script( 'uncannyowl-learndash-toolkit-free', 'uo_login', $args );
+
+        return $js_data;
 	}
+
+	/**
+	 * Modify the frontend login JS data to know
+	 * if the user has the AJAX functionality enabled
+	 *
+	 * @since   3.3
+	 */
+	public static function uo_ajax_login_js_ajax( $js_data ){
+		// First, check if the required data is defined
+		if ( isset( $js_data[ 'frontendLogin' ] ) ){
+			// Overwrite the element that defines if the
+			// login is using AJAX
+			$js_data[ 'frontendLogin' ][ 'isAjax' ] = true;
+		}
+
+		return $js_data;
+	}
+
 	/**
 	 * Check and override if #uo_login added in menu items
 	 *
