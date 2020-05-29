@@ -2,8 +2,10 @@
 @import '../../node_modules/sass-svg/index';
 
 @import './variables.scss';
+@import './animations.scss';
 
 @import './box/box.scss';
 @import './form/form.scss';
 @import './notice/notice.scss';
-@import './form/modal.scss';
+
+@import './modal.scss';
