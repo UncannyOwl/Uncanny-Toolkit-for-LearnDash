@@ -16,23 +16,10 @@ class FrontendLogin {
 
 	getElements(){
 		// Get the main elements
-		this.$elements = {
-			container: document.getElementById( 'ult-login' ),
-			mainForm:  document.getElementById( 'ult-login-form' ),
-			submitButton: {
-				container: document.getElementsByClassName( 'login-submit' )[0],
-				button: document.getElementById( 'ult-login-submit' )
-			}
-		}
+		this.$elements = {}
 
 		// Define the main CSS classes
-		this.cssClasses = {
-			reCAPTCHAerror: 'ult-login--recaptcha-error',
-			loading:        'ult-login--loading',
-			disabled:       'ult-login--disabled',
-			btnLoading:     'ult-form__submit-btn--loading',
-			btnDisabled:    'ult-form__submit-btn--disabled',
-		}
+		this.cssClasses = {}
 	}
 
 	validateFormSubmission(){
@@ -118,7 +105,7 @@ class FrontendLogin {
     }
 
     shouldInvokeMethods(){
-    	return isDefined( this.$elements.container.length );
+    	return isDefined( this.$elements.container );
     }
 }
 

@@ -142,6 +142,9 @@ class Boot extends Config {
 			'ajax' => [
 				'url'   => admin_url( 'admin-ajax.php' ),
 				'nonce' => wp_create_nonce( 'uncannyowl-learndash-toolkit' )
+			],
+			'i18n' => [
+				'dismiss' => __( 'Dismiss', 'uncanny-learndash-toolkit' )
 			]
 		] ) );
 	}

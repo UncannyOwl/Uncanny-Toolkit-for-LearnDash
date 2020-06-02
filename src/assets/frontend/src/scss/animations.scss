@@ -1,0 +1,17 @@
+.ult--fade-in {
+	animation: ult_fadein 300ms;
+}
+
+.ult--fade-out {
+	animation: ult_fadeout 300ms;
+}
+
+@keyframes ult_fadein {
+	0% { opacity: 0; }
+	100% { opacity: 1; }
+}
+
+@keyframes ult_fadeout {
+	0% { opacity: 1; }
+	100% { opacity: 0; }
+}
