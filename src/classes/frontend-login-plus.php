@@ -1329,7 +1329,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			if ( isset( $_REQUEST['redirect_to'] ) ) {
 				$login_page = add_query_arg( [ 'redirect_to' => $_REQUEST['redirect_to'] ], $login_page );
 			}
-			wp_safe_redirect( $login_page );
+			wp_safe_redirect( $login_page, 301 );
 			exit;
 		}
 
@@ -1349,7 +1349,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			$query['registered'] = 'success';
 		}
 
-		wp_safe_redirect( add_query_arg( $query, $login_page ) );
+		wp_safe_redirect( add_query_arg( $query, $login_page ), 301 );
 		exit;
 	}
 
@@ -1458,7 +1458,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			$login_page = add_query_arg( [ 'redirect_to' => $_GET['redirect_to'] ], $login_page );
 		}
 		if ( isset( $_GET['redirect_to'] ) && false !== strpos( $_GET['redirect_to'], 'wp-admin' ) ) {
-			wp_safe_redirect( add_query_arg( array( 'ojs' => 'wp-admin' ), $login_page ) );
+			wp_safe_redirect( add_query_arg( array( 'ojs' => 'wp-admin' ), $login_page ), 301 );
 			exit;
 		}
 
