@@ -2519,16 +2519,22 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		<script>
 
 		var UncannyToolkitFrontendLoginReCaptchaCorrect = function( response ){
-			if ( typeof UncannyToolkit.frontendLogin.reCaptcha !== 'undefined' ){
-				if ( typeof UncannyToolkit.frontendLogin.reCaptcha.correct !== 'undefined' ){
-					UncannyToolkit.frontendLogin.reCaptcha.correct( response );
+			if ( typeof UncannyToolkit !== 'undefined' ){
+				if ( typeof UncannyToolkit.frontendLogin !== 'undefined' ){
+					if ( typeof UncannyToolkit.frontendLogin.reCaptcha !== 'undefined' ){
+						if ( typeof UncannyToolkit.frontendLogin.reCaptcha.correct !== 'undefined' ){
+							UncannyToolkit.frontendLogin.reCaptcha.correct( response );
+						}
+					}
 				}
 			}
 		}
 
 		var UncannyToolkitFrontendLoginReCaptchaInit = function(){
-			if ( typeof UncannyToolkit.reCaptchaInit !== 'undefined' ){
-				UncannyToolkit.reCaptchaInit();
+			if ( typeof UncannyToolkit !== 'undefined' ){
+				if ( typeof UncannyToolkit.reCaptchaInit !== 'undefined' ){
+					UncannyToolkit.reCaptchaInit();
+				}
 			}
 		}
 
