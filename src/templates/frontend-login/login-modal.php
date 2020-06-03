@@ -2,7 +2,7 @@
 namespace uncanny_learndash_toolkit;
 ?>
 
-<a class="ult-modal-open" data-id="ult-login">Open modal</a>
+<a href="/login/#ult-modal-open----ult-login">Open modal</a>
 
 <div class="ult-modal" data-id="ult-login" data-btn-dismiss="0">
     <div id="ult-login-modal" class="ult-login-modal--login">

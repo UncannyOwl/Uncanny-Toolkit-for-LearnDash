@@ -433,23 +433,27 @@ export class FrontendLogin_Modal {
 	}
 
 	handleContainerVisiblity(){
-		// Listen clicks to the button to show the Forgot Password section
-		this.$elements.forgotPasswordShowButton.addEventListener( 'click', ( event ) => {
-			// Prevent the event, we don't want to send them to another page
-			event.preventDefault();
+		if ( isDefined( this.$elements.forgotPasswordShowButton ) ){
+			// Listen clicks to the button to show the Forgot Password section
+			this.$elements.forgotPasswordShowButton.addEventListener( 'click', ( event ) => {
+				// Prevent the event, we don't want to send them to another page
+				event.preventDefault();
 
-			// Show the Forgot Password form
-			this.showSection( 'forgot-password' );
-		});
+				// Show the Forgot Password form
+				this.showSection( 'forgot-password' );
+			});
+		}
+		
+		if ( isDefined( this.$elements.loginShowButton ) ){
+			// Listen clicks to the button to show the Log in section
+			this.$elements.loginShowButton.addEventListener( 'click', ( event ) => {
+				// Prevent the event, we don't want to send them to another page
+				event.preventDefault();
 
-		// Listen clicks to the button to show the Log in section
-		this.$elements.loginShowButton.addEventListener( 'click', ( event ) => {
-			// Prevent the event, we don't want to send them to another page
-			event.preventDefault();
-
-			// Show the Forgot Password form
-			this.showSection( 'login' );
-		});
+				// Show the Forgot Password form
+				this.showSection( 'login' );
+			});
+		}
 	}
 
 	showSection( section = 'login' ){
