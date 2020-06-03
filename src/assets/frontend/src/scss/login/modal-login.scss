@@ -18,3 +18,27 @@
 		border: 1px solid #ff0000;
 	}
 }
+
+#ult-login-modal {
+	$section: &;
+
+	&.ult-login-modal--login {
+		#{ $section }__login {
+			display: block;
+		}
+
+		#{ $section }__forgot-password {
+			display: none;
+		}
+	}
+
+	&.ult-login-modal--forgot-password {
+		#{ $section }__login {
+			display: none;
+		}
+
+		#{ $section }__forgot-password {
+			display: block;
+		}
+	}
+}

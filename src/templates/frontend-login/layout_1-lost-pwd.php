@@ -5,6 +5,10 @@ if ( '' !== trim( $recaptcha_key ) && '' !== trim( $recaptcha_secrete_key ) ) {
 }else{
 	$has_recaptcha = false;
 }
+
+$login_page      = \uncanny_learndash_toolkit\FrontendLoginPlus::get_login_redirect_page_id();
+$login_page_url  = get_permalink( $login_page );
+
 ?>
 	
 	<?php do_action( 'uo_forgot_before_container' ); ?>
@@ -134,6 +138,22 @@ if ( '' !== trim( $recaptcha_key ) && '' !== trim( $recaptcha_secrete_key ) ) {
 				<?php do_action( 'uo_forgot_after_form' ); ?>
 			
 			<?php } ?>
+
+			<?php do_action( 'uo_forgot_before_footer' ); ?>
+
+			<div class="ult-form__footer">
+
+				<?php do_action( 'uo_forgot_before_login' ); ?>
+
+				<div class="ult-form-footer__login">
+					<a id="ult-form-footer-login" href="<?php echo $login_page_url; ?>">
+						<?php _e( 'Log in instead (add an option to modify this string)' ); ?>
+					</a>
+				</div>
+
+			</div>
+
+			<?php do_action( 'uo_forgot_after_footer' ); ?>
 
         </div>
     </div>

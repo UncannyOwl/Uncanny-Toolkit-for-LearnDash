@@ -197,7 +197,7 @@ add_filter( 'login_form_middle', function( $content ){
 			<?php do_action( 'uo_login_before_forgot_password' ); ?>
 
 			<div class="ult-form-footer__forgot-password">
-				<a href="<?php echo $login->urls->forgot_password; ?>">
+				<a id="ult-form-footer-forgot-password" href="<?php echo $login->urls->forgot_password; ?>">
 					<?php echo $login->strings->forgot_password; ?>
 				</a>
 			</div>

@@ -97,7 +97,7 @@ class FrontendLogin {
 
 				// Check if the call was really successful
 				if ( response.success ){
-					console.log( '%cHIDE MODAL', 'color: red' );
+					this.afterValidSubmission( response );
 				}
 				else {
 					// Check if there is a message
@@ -129,6 +129,8 @@ class FrontendLogin {
 			});
 		}
 	}
+
+	afterValidSubmission( response ){}
 
 	setLoadingStatus( setAsLoading = true ){
 		// Check if we have to add a loading animation to the submit button
@@ -210,6 +212,10 @@ class FrontendLogin {
 		return grecaptcha.getResponse( id );
 	}
 
+	isOnModal(){
+		return isDefined( UncannyToolkit.modals[ 'ult-login' ] );
+	}
+
     isCaptchaChecked(){
         return ! isEmpty( this.getReCAPTCHAResponse() );
     }
@@ -275,6 +281,16 @@ export class Login extends FrontendLogin {
 
 		return formData;
 	}
+
+	afterValidSubmission( response ){
+		// Reload the page
+		if ( ! isEmpty( this.formData.redirectTo ) ){
+			window.location.href = this.formData.redirectTo;
+		}
+		else {
+			window.location.reload();
+		}
+	}
 }
 
 export class ForgotPassword extends FrontendLogin {
@@ -326,6 +342,11 @@ export class ForgotPassword extends FrontendLogin {
 		}
 
 		return formData;
+	}
+
+	afterValidSubmission( response ){
+		// Show a confirmation message
+		console.log( 'Show a confirmation message' );
 	}
 }
 
@@ -380,5 +401,71 @@ export class ResetPassword extends FrontendLogin {
 		}
 
 		return formData;
+	}
+
+	afterValidSubmission( response ){
+		// Show a confirmation message
+		console.log( 'Show a confirmation message' );
+	}
+}
+
+/**
+ * This class handles the login functionality when 
+ */
+export class FrontendLogin_Modal {
+	constructor(){
+		// Check if we should invoke the callbacks
+		if ( this.shouldInvokeMethods() ){
+			// Get elements
+			this.getElements();
+
+			// Handle clicks to the buttons to show the sections
+			this.handleContainerVisiblity();
+		}
+	}
+
+	getElements(){
+		this.$elements = {
+			container: document.getElementById( 'ult-login-modal' ),
+			loginShowButton: document.getElementById( 'ult-form-footer-login' ),
+			forgotPasswordShowButton: document.getElementById( 'ult-form-footer-forgot-password' )
+		}
+	}
+
+	handleContainerVisiblity(){
+		// Listen clicks to the button to show the Forgot Password section
+		this.$elements.forgotPasswordShowButton.addEventListener( 'click', ( event ) => {
+			// Prevent the event, we don't want to send them to another page
+			event.preventDefault();
+
+			// Show the Forgot Password form
+			this.showSection( 'forgot-password' );
+		});
+
+		// Listen clicks to the button to show the Log in section
+		this.$elements.loginShowButton.addEventListener( 'click', ( event ) => {
+			// Prevent the event, we don't want to send them to another page
+			event.preventDefault();
+
+			// Show the Forgot Password form
+			this.showSection( 'login' );
+		});
+	}
+
+	showSection( section = 'login' ){
+		// Remove both classes. We'll add the correct one later
+		this.$elements.container.classList.remove( 'ult-login-modal--login', 'ult-login-modal--forgot-password' );
+
+		// Show and hide sections
+		if ( section == 'login' ){
+			this.$elements.container.classList.add( 'ult-login-modal--login' );
+		}
+		else if ( section == 'forgot-password' ){
+			this.$elements.container.classList.add( 'ult-login-modal--forgot-password' );
+		}
+	}
+
+	shouldInvokeMethods(){
+		return ! UncannyToolkit.frontendLogin.currentPageIsLoginPage && isDefined( UncannyToolkit.modals[ 'ult-login' ] );
 	}
 }

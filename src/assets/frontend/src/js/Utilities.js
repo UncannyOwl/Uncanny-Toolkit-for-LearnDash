@@ -113,7 +113,7 @@ export function AJAXRequest( action = null, data = null, onSuccess = null, onFai
             console.error( '✋Uncanny Toolkit: The fetch call threw an error' );
 
             if ( isDefined( onFail ) ){
-                onFail( response );
+                onFail({ ...response, ...{ success: false }});
             }
 
             // Stop chain
@@ -130,15 +130,15 @@ export function AJAXRequest( action = null, data = null, onSuccess = null, onFai
         }
         else {
             if ( isDefined( onFail ) ){
-                onFail( response );
+                onFail({ ...response, ...{ success: false }});
             }
         }
     })
     .catch(( response ) => {
         console.error( '✋Uncanny Toolkit: The fetch call threw an error' );
-        
+
         if ( isDefined( onFail ) ){
-            onFail( response );
+            onFail({ ...response, ...{ success: false }});
         }
     });;
 }
