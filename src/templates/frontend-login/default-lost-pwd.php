@@ -35,7 +35,7 @@ if ( isset( $forgot_password_response ) && ! $forgot_password_response->error ) 
         </p>
         <input type="hidden" name="redirect_to" value="<?php echo $login_page_url ?>action=forgot&success=1">
 		<?php if ( '' !== trim( $recaptcha_key ) && '' !== trim( $recaptcha_secrete_key ) ) { ?>
-            <div class="g-recaptcha" data-sitekey="<?php echo $recaptcha_key; ?>" data-callback="correctCaptcha" data-expired-callback="expiredCaptcha"></div>
+            <div class="ult-form-recaptcha" data-sitekey="<?php echo $recaptcha_key; ?>" data-callback="UncannyToolkitFrontendLoginReCaptchaCorrect"></div>
 		<?php } ?>
         <p class="submit">
             <input type="submit" name="wp-submit" id="wp-submit" value="<?php echo $innerText['Get-New-Password']; ?>"/></p>

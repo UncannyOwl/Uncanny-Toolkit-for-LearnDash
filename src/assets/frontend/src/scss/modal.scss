@@ -49,7 +49,8 @@ html.ult-modal--open body {
 		width: calc(100% - 40px);
 		max-width: 565px;
 
-		max-height: 680px;
+		max-height: calc(100vh - 40px);
+		overflow-y: auto;
 
 		background: #fff;
 
@@ -58,9 +59,70 @@ html.ult-modal--open body {
 		display: flex;
 		flex-direction: column;
 
+		position: relative;
+
 		border-radius: 8px;
 
 		overflow: hidden;
+
+		&:before {
+			content: '';
+
+			width: 0;
+			height: 0;
+
+			position: absolute;
+			top: 0;
+			left: 0;
+			z-index: 10;
+
+			background: #fff;
+
+			opacity: 0;
+
+			transition: opacity 300ms ease-in-out;
+
+			border-radius: 8px;
+		}
+
+		&:after {
+			content: '';
+
+			width: 0;
+			height: 0;
+
+			border-radius: 50%;
+
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			z-index: 11;
+
+			opacity: 0;
+
+			user-select: none;
+
+			transition: opacity 300ms ease-in-out;
+		}
+
+		.ult-modal-container--loading &:before {
+			width: 100%;
+			height: 100%;
+
+			opacity: 1;
+		}
+
+		.ult-modal-container--loading &:after {
+			width: 50px;
+			height: 50px;
+
+			border: 3px solid transparent;
+			border-top-color: #202020;
+
+			animation: ult_rotating_centered 2s linear infinite;
+
+			opacity: 1;
+		}
 	}
 
 	.ult-modal--small .ult-modal-box {

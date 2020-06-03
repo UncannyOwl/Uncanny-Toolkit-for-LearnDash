@@ -19,7 +19,7 @@ namespace uncanny_learndash_toolkit;
 	<br class="clear">
 	<input type="hidden" name="redirect_to" value="">
 	<?php if ( '' !== trim( $recaptcha_key ) && '' !== trim( $recaptcha_secrete_key ) ) { ?>
-		<div class="g-recaptcha" data-sitekey="<?php echo $recaptcha_key; ?>" data-callback="correctCaptcha" data-expired-callback="expiredCaptcha"></div>
+		<div class="ult-form-recaptcha" data-sitekey="<?php echo $recaptcha_key; ?>" data-callback="UncannyToolkitFrontendLoginReCaptchaCorrect"></div>
 	<?php } ?>
 	<p class="submit"><input type="submit" name="wp-submit" id="wp-submit"
 	                         class="button button-primary button-large" value="Register"></p>

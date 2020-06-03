@@ -144,8 +144,12 @@ class Boot extends Config {
 				'nonce' => wp_create_nonce( 'uncannyowl-learndash-toolkit' )
 			],
 			'i18n' => [
-				'dismiss' => __( 'Dismiss', 'uncanny-learndash-toolkit' )
-			]
+				'dismiss' => __( 'Dismiss', 'uncanny-learndash-toolkit' ),
+				'error' => [
+					'generic' => __( 'Something went wrong. Please, try again', 'uncanny-learndash-toolkit' )
+				]
+			],
+			'modals' => []
 		] ) );
 	}
 

@@ -77,5 +77,68 @@ export const fade = ( in_out = 'in', element, callback ) => {
 
         // Invoke the callback
         callback();
-    }, 300 );
+    }, 280 );
+}
+
+/**
+ * Performs an AJAX request
+ *
+ * @since 3.3
+ *
+ * @param {object}    data - Data to be sent in the request
+ * @param {callback}  [onSuccess] - Function to be invoked if the request is successful
+ * @param {callback}  [onFail] - Function to be invoked if the request fails
+ */
+
+export function AJAXRequest( action = null, data = null, onSuccess = null, onFail = null ){
+    // Add {action} to the data object
+    data = { ...data, ...{
+        action: action,
+        nonce:  UncannyToolkit.ajax.nonce
+    }};
+
+    // Do the call
+    fetch( UncannyToolkit.ajax.url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Cache-Control': 'no-cache',
+        },
+        body: new URLSearchParams( data ),
+        
+    })
+    .then(( response ) => {
+        // Check if the call was not successful
+        if ( ! response.ok ){
+            console.error( '✋Uncanny Toolkit: The fetch call threw an error' );
+
+            if ( isDefined( onFail ) ){
+                onFail( response );
+            }
+
+            // Stop chain
+            Promise.reject( err );
+        }
+    })
+    .then(( response ) => response.json() )
+    .then(( response ) => {
+        // Check if the call was successful
+        if ( response.success ){
+            if ( isDefined( onSuccess ) ){
+                onSuccess( response );
+            }
+        }
+        else {
+            if ( isDefined( onFail ) ){
+                onFail( response );
+            }
+        }
+    })
+    .catch(( response ) => {
+        console.error( '✋Uncanny Toolkit: The fetch call threw an error' );
+        
+        if ( isDefined( onFail ) ){
+            onFail( response );
+        }
+    });;
 }

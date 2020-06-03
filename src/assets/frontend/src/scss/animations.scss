@@ -15,3 +15,8 @@
 	0% { opacity: 1; }
 	100% { opacity: 0; }
 }
+
+@keyframes ult_rotating_centered {
+	0% { transform: translate(-50%,-50%) rotate(0deg); }
+	100% { transform: translate(-50%,-50%) rotate(360deg); }
+}

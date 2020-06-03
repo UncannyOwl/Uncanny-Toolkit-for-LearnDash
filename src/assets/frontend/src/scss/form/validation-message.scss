@@ -1,6 +1,11 @@
 .ult-form__validation {
 	margin-top: 15px;
+	display: none;
 }
+
+	.ult-form__validation--has-error {
+		display: block;
+	}
 
 	.ult-form__validation:first-child {
 		margin-top: 0;

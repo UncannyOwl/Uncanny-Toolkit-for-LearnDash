@@ -86,24 +86,37 @@ if ( '' !== trim( $recaptcha_key ) && '' !== trim( $recaptcha_secrete_key ) ) {
 						<?php if ( $has_recaptcha ){ ?>
 
                             <div class="ult-form__row ult-form__row--recaptcha">
-                                <div class="g-recaptcha" data-sitekey="<?php echo $recaptcha_key; ?>" data-callback="correctCaptcha" data-expired-callback="expiredCaptcha"></div>
+                                <div class="ult-form-recaptcha" data-sitekey="<?php echo $recaptcha_key; ?>" data-callback="UncannyToolkitFrontendLoginReCaptchaCorrect"></div>
                             </div>
 						
 						<?php } ?>
 						
-						<?php if ( isset( $forgot_password_response ) ){ ?>
-							
-							<?php do_action( 'uo_forgot_before_error' ); ?>
+						<?php 
 
-                            <div class="ult-form__row ult-form__row--validation">
-                                <div class="ult-notice ult-notice--error">
-									<?php do_action( 'uo_forgot_before_error_message' ); ?>
-									<?php echo $forgot_password_response->message; ?>
-									<?php do_action( 'uo_forgot_after_error_message' ); ?>
-                                </div>
+						// Validation classes
+						$notice_css_classes = [];
+
+						// Add a CSS class if it has an error
+						if ( isset( $forgot_password_response ) ){
+							$notice_css_classes[] = 'ult-form__validation--has-error';
+						}
+						else {
+							$forgot_password_response = '';
+						}
+
+						?>
+							
+						<?php do_action( 'uo_forgot_before_error' ); ?>
+
+                        <div class="ult-form__validation <?php echo implode( ' ', $notice_css_classes ); ?>">
+                            <div class="ult-notice ult-notice--error">
+								<?php do_action( 'uo_forgot_before_error_message' ); ?>
+
+								<span class="ult-notice-text"><?php echo $forgot_password_response->message; ?></span>
+
+								<?php do_action( 'uo_forgot_after_error_message' ); ?>
                             </div>
-						
-						<?php } ?>
+                        </div>
 						
 						<?php do_action( 'uo_forgot_before_submit' ); ?>
 

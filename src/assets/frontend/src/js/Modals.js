@@ -13,6 +13,10 @@ class Modals {
 		// on this page
 		this.allModals = [];
 
+		// Create a property in the main global object
+		// to save the modals
+		UncannyToolkit.modals = {};
+
 		// Get elements
 		this.getElements();
 
@@ -35,10 +39,13 @@ class Modals {
 			// Check if there isn't already a modal with that ID
 			if ( ! this.allModals.includes( modalID ) ){
 				// Then create the modal
-				new Modal( $modal );
+				let modal = new Modal( $modal );
 
 				// And save the ID
 				this.allModals.push( modalID );
+
+				// Save the modal in the main global variable
+				UncannyToolkit.modals[ modalID ] = modal;
 			}
 		});
 	}
@@ -72,6 +79,9 @@ class Modal {
 	renderModal( $modalContent ){
 		// Create the modal
 		const $modal = document.createElement( 'div' );
+
+		// Set the element ID
+		$modal.id = `ult-modal-container-${ this.modalData.id }`;
 
 		// Add class to the main container
 		$modal.classList.add( 'ult-modal-container' );
@@ -111,7 +121,8 @@ class Modal {
 		// Save the main elements
 		this.$elements = {
 			container: $modal,
-			box: $modal.querySelector( '.ult-modal-box' )
+			box: $modal.querySelector( '.ult-modal-box' ),
+			content: $modal.querySelector( '.ult-modal-box-content .ult-modal' )
 		}
 
 		// Check if it has the dismiss button
@@ -158,6 +169,22 @@ class Modal {
                 this.hideModal();
             }
         });
+	}
+
+	setLoading( isLoading = true ){
+		// Check if we have to set the loading class
+		if ( isLoading ){
+			this.$elements.container.classList.add( 'ult-modal-container--loading' );
+		}
+		else {
+			// Remove the loading class
+			this.$elements.container.classList.remove( 'ult-modal-container--loading' );
+		}
+	}
+
+	setContent( HTMLcontent = '' ){
+		// Set the content
+		this.$elements.content.innerHTML = HTMLcontent;
 	}
 
 	showModal(){

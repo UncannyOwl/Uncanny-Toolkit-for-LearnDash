@@ -29,10 +29,6 @@ $login_page_url  = get_permalink( $login_page );
 $recaptcha_key  = Config::get_settings_value( 'uo_frontend_login_recaptcha_key', 'FrontendLoginPlus' );
 $recaptcha_secrete_key  = Config::get_settings_value( 'uo_frontend_login_recaptcha_secret_key', 'FrontendLoginPlus' );
 
-if ( '' !== trim( $recaptcha_key ) && '' !== trim( $recaptcha_secrete_key )) {
-	wp_enqueue_script( 'FrontendLoginPlus', 'https://www.google.com/recaptcha/api.js' );
-}
-
 if ( strpos( $login_page_url, '?' ) ) {
 	$login_page_url = $login_page_url . '&';
 }
@@ -104,37 +100,42 @@ add_filter( 'login_form_middle', function( $content ){
 	// Get submission error
 	$error = FrontendLoginPlus::get_error();
 
+	// Validation classes
+	$css_classes = [];
+
 	// Check if there are errors
 	$has_errors = ! empty( $error );
 
-	// Do only if there are errors
+	// Add a CSS class if it has an error
 	if ( $has_errors ){
-		// Start output
-		ob_start();
-
-		// Do uo_login_before_validation
-		do_action( 'uo_login_before_validation' );
-
-		?>
-
-		<div class="ult-form__validation">
-			<div class="ult-notice ult-notice--error">
-				<?php do_action( 'uo_login_before_validation_message' ); ?>
-
-				<?php echo $error; ?>
-
-				<?php do_action( 'uo_login_after_validation_message' ); ?>
-			</div>
-		</div>
-
-		<?php
-
-		// End output
-		$output = ob_get_clean();
-
-		// Add output to the current content, but at the bottom
-		$content .= $output;
+		$css_classes[] = 'ult-form__validation--has-error';
 	}
+
+	// Start output
+	ob_start();
+
+	// Do uo_login_before_validation
+	do_action( 'uo_login_before_validation' );
+
+	?>
+
+	<div class="ult-form__validation <?php echo implode( ' ', $css_classes ); ?>">
+		<div class="ult-notice ult-notice--error">
+			<?php do_action( 'uo_login_before_validation_message' ); ?>
+
+			<span class="ult-notice-text"><?php echo $error; ?></span>
+
+			<?php do_action( 'uo_login_after_validation_message' ); ?>
+		</div>
+	</div>
+
+	<?php
+
+	// End output
+	$output = ob_get_clean();
+
+	// Add output to the current content, but at the bottom
+	$content .= $output;
 
 	return $content;
 }, 10, 1 );

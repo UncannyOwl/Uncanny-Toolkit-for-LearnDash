@@ -3,6 +3,21 @@ namespace uncanny_learndash_toolkit;
 
 ?>
 
+<?php
+
+// Validation classes
+$notice_css_classes = [];
+
+// Check if there are errors
+$has_errors = ! empty( $error );
+
+// Add a CSS class if it has an error
+if ( $has_errors ){
+	$notice_css_classes[] = 'ult-form__validation--has-error';
+}
+
+?>
+
 <?php do_action( 'uo_reset_before_container' ); ?>
 		
 <div id="ult-reset-password">
@@ -70,21 +85,17 @@ namespace uncanny_learndash_toolkit;
 
 				<?php do_action( 'uo_reset_before_captcha' ); ?>
 
-				<?php if ( ! empty( $error ) ) { ?>
+				<?php do_action( 'uo_reset_before_error' ); ?>
 
-					<?php do_action( 'uo_reset_before_error' ); ?>
+				<div class="ult-form__validation <?php echo implode( ' ', $notice_css_classes ); ?>">
+					<div class="ult-notice ult-notice--error">
+						<?php do_action( 'uo_reset_before_error_message' ); ?>
 
-					<div class="ult-form__row ult-form__row--validation">
-						<div class="ult-notice ult-notice--error">
-							<?php do_action( 'uo_reset_before_error_message' ); ?>
+						<span class="ult-notice-text"><?php echo $error; ?></span>
 
-							<?php echo $error; ?>
-
-							<?php do_action( 'uo_reset_after_error_message' ); ?>
-						</div>
+						<?php do_action( 'uo_reset_after_error_message' ); ?>
 					</div>
-
-				<?php } ?>
+				</div>
 
 				<?php do_action( 'uo_reset_before_submit' ); ?>
 

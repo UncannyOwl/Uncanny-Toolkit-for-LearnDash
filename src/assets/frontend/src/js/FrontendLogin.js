@@ -1,4 +1,6 @@
 import {
+	AJAXRequest,
+	isEmpty,
 	isDefined
 } from './Utilities';
 
@@ -11,6 +13,9 @@ class FrontendLogin {
 		if ( this.shouldInvokeMethods() ){
 			// Bind form submission
 			this.validateFormSubmission();
+
+			// Handle reCAPTCHA changes
+			this.handleReCaptchaChanges();
 		}
 	}
 
@@ -22,6 +27,14 @@ class FrontendLogin {
 		this.cssClasses = {}
 	}
 
+	get formData(){
+		return {}
+	}
+
+	get ajaxAction(){
+		return '';
+	}
+
 	validateFormSubmission(){
 		// Check if the form exists
 		if ( isDefined( this.$elements.mainForm ) ){
@@ -31,12 +44,15 @@ class FrontendLogin {
 				let canSubmit = true;
 
 				// Check if the recaptcha is enabled, but the checkbox is not checked
-				if ( UncannyToolkit.frontendLogin.hasReCAPTCHA && ! this.isCaptchaChecked() ){
+				if ( this.hasReCAPTCHA() && ! this.isCaptchaChecked() ){
 					// Add a CSS class for the reCAPTCHA error
 					this.$elements.container.classList.add( this.cssClasses.reCAPTCHAerror );
 
 					// Update the error status
 					canSubmit = false;
+
+					// Set frontend error
+					this.setError( UncannyToolkit.frontendLogin.i18n.checkReCaptcha );
 
 					console.error( '✋Frontend Login: The form is using reCAPTCHA, but you didn\'t pass the verification' );
 				}
@@ -44,7 +60,7 @@ class FrontendLogin {
 				// Check if we can submit the form
 				if ( canSubmit ){
 					// Submit the form
-					this.submitForm();
+					this.submitForm( event );
 				}
 				else {
 					// Prevent the form submission
@@ -56,12 +72,62 @@ class FrontendLogin {
 		}
 	}
 
-	submitForm(){
+	submitForm( event ){
+		// Hide errors
+		this.setError( false );
+
 		// Add the loading animation
 		this.setLoadingStatus( true );
 
 		// Disable the submit button
 		this.setButtonDisableStatus( true );
+
+		// Check if we have to use AJAX
+		if ( UncannyToolkit.frontendLogin.hasAjaxEnabled ){
+			// Prevent the form submission
+			event.preventDefault();
+
+			// Do AJAX call
+			AJAXRequest( this.ajaxAction, this.formData, ( response ) => {
+				// Remove the loading animation
+				this.setLoadingStatus( false );
+
+				// Enable the submit button
+				this.setButtonDisableStatus( false );
+
+				// Check if the call was really successful
+				if ( response.success ){
+					console.log( '%cHIDE MODAL', 'color: red' );
+				}
+				else {
+					// Check if there is a message
+					if ( isDefined( response.message ) ){
+						// Show the error
+						this.setError( response.message );
+					}
+					else {
+						// Set a generic error message
+						this.setError( UncannyToolkit.i18n.error.generic );
+					}
+				}
+			}, ( response ) => {
+				// Check if there is a message
+				if ( isDefined( response.message ) ){
+					// Show the error
+					this.setError( response.message );
+				}
+				else {
+					// Set a generic error message
+					this.setError( UncannyToolkit.i18n.error.generic );
+				}
+
+				// Remove the loading animation
+				this.setLoadingStatus( false );
+
+				// Enable the submit button
+				this.setButtonDisableStatus( false );
+			});
+		}
 	}
 
 	setLoadingStatus( setAsLoading = true ){
@@ -100,8 +166,52 @@ class FrontendLogin {
 		}
 	}
 
+	setError( error = false ){
+		// Check if the error is defined
+		if ( ! isEmpty( error ) ){
+			// Set the class to show the notice
+			this.$elements.errorNotice.container.classList.add( this.cssClasses.noticeHasError );
+
+			// Set the error message
+			this.$elements.errorNotice.textNode.textContent = error;
+		}
+		else {
+			// Set the class to hide the notice
+			this.$elements.errorNotice.container.classList.remove( this.cssClasses.noticeHasError );
+
+			// Set the error message
+			this.$elements.errorNotice.textNode.textContent = '';
+
+			// Remove a CSS class for the reCAPTCHA error
+			this.$elements.container.classList.remove( this.cssClasses.reCAPTCHAerror );
+		}
+	}
+
+	handleReCaptchaChanges(){
+		// Add global method to handle what happened when
+		// the reCAPTCHA is checked
+		UncannyToolkit.frontendLogin.reCaptcha = {
+			correct: ( response ) => {
+				// Reset errors
+				this.setError( false );
+			}
+		}
+	}
+
+	hasReCAPTCHA(){
+		return isDefined( this.$elements.formFields.reCAPTCHA );
+	}
+
+	getReCAPTCHAResponse(){
+		// Get the reCAPTCHA ID
+		const id = this.$elements.formFields.reCAPTCHA.getAttribute( 'data-id' );
+
+		// Get the response
+		return grecaptcha.getResponse( id );
+	}
+
     isCaptchaChecked(){
-        return grecaptcha && grecaptcha.getResponse().length !== 0;
+        return ! isEmpty( this.getReCAPTCHAResponse() );
     }
 
     shouldInvokeMethods(){
@@ -118,17 +228,52 @@ export class Login extends FrontendLogin {
 			submitButton: {
 				container: document.getElementsByClassName( 'login-submit' )[0],
 				button: document.getElementById( 'ult-login-submit' )
+			},
+			errorNotice: {
+				container: document.querySelector( '#ult-login .ult-form__validation' ),
+				textNode: document.querySelector( '#ult-login .ult-notice-text' ),
+			},
+			formFields: {
+				email: document.getElementById( 'ult-login-email' ),
+				password: document.getElementById( 'ult-login-password' ),
+				redirectTo: document.querySelector( '#ult-login .login-submit input[name="redirect_to"]' ),
+				reCAPTCHA: document.querySelector( '#ult-login .ult-form-recaptcha' ),
+				rememberMe: document.getElementById( 'ult-login-remember' )
 			}
 		}
+	}
 
-		// Define the main CSS classes
-		this.cssClasses = {
+	// Define the AJAX action ID
+	get ajaxAction(){
+		return 'ult-login';
+	}
+
+	get cssClasses(){
+		return {
 			reCAPTCHAerror: 'ult-login--recaptcha-error',
 			loading:        'ult-login--loading',
 			disabled:       'ult-login--disabled',
 			btnLoading:     'ult-form__submit-btn--loading',
 			btnDisabled:    'ult-form__submit-btn--disabled',
+			noticeHasError: 'ult-form__validation--has-error' 
+		};
+	}
+
+	get formData(){
+		// Get the form data
+		const formData = {
+			email: this.$elements.formFields.email.value,
+			password: this.$elements.formFields.password.value,
+			redirectTo: this.$elements.formFields.redirectTo.value,
+			rememberMe: this.$elements.formFields.rememberMe.checked
 		}
+
+		// Check if it has a reCAPTCHA
+		if ( this.hasReCAPTCHA() ){
+			formData.reCAPTCHA = this.getReCAPTCHAResponse();
+		}
+
+		return formData;
 	}
 }
 
@@ -141,17 +286,46 @@ export class ForgotPassword extends FrontendLogin {
 			submitButton: {
 				container: document.querySelector( '.ult-form__row--submit' ),
 				button: document.getElementById( 'ult-forgot-password-submit-btn' )
+			},
+			errorNotice: {
+				container: document.querySelector( '#ult-forgot-password .ult-form__validation' ),
+				textNode: document.querySelector( '#ult-forgot-password .ult-notice-text' ),
+			},
+			formFields: {
+				email: document.getElementById( 'ult-forgot-email' ),
+				reCAPTCHA: document.querySelector( '#ult-forgot-password .ult-form-recaptcha' ),
 			}
 		}
+	}
 
-		// Define the main CSS classes
-		this.cssClasses = {
+	// Define the AJAX action ID
+	get ajaxAction(){
+		return 'ult-forgot-password';
+	}
+
+	get cssClasses(){
+		return {
 			reCAPTCHAerror: 'ult-forgot-password--recaptcha-error',
 			loading:        'ult-forgot-password--loading',
 			disabled:       'ult-forgot-password--disabled',
 			btnLoading:     'ult-form__submit-btn--loading',
 			btnDisabled:    'ult-form__submit-btn--disabled',
+			noticeHasError: 'ult-form__validation--has-error' 
+		};
+	}
+
+	get formData(){
+		// Get the form data
+		const formData = {
+			email: this.$elements.formFields.email.value
 		}
+
+		// Check if it has a reCAPTCHA
+		if ( this.hasReCAPTCHA() ){
+			formData.reCAPTCHA = this.getReCAPTCHAResponse();
+		}
+
+		return formData;
 	}
 }
 
@@ -164,16 +338,47 @@ export class ResetPassword extends FrontendLogin {
 			submitButton: {
 				container: document.querySelector( '.ult-form__row--submit' ),
 				button: document.getElementById( 'ult-reset-password-submit-btn' )
+			},
+			errorNotice: {
+				container: document.querySelector( '#ult-reset-password .ult-form__validation' ),
+				textNode: document.querySelector( '#ult-reset-password .ult-notice-text' ),
+			},
+			formFields: {
+				password: document.getElementById( 'ult-reset-new-password' ),
+				passwordRepeat: document.getElementById( 'ult-reset-confirm-password' ),
+				reCAPTCHA: document.querySelector( '#ult-reset-password .ult-form-recaptcha' ),
 			}
 		}
+	}
 
-		// Define the main CSS classes
-		this.cssClasses = {
+	// Define the AJAX action ID
+	get ajaxAction(){
+		return 'ult-reset-password';
+	}
+
+	get cssClasses(){
+		return {
 			reCAPTCHAerror: 'ult-reset-password--recaptcha-error',
 			loading:        'ult-reset-password--loading',
 			disabled:       'ult-reset-password--disabled',
 			btnLoading:     'ult-form__submit-btn--loading',
 			btnDisabled:    'ult-form__submit-btn--disabled',
+			noticeHasError: 'ult-form__validation--has-error' 
+		};
+	}
+
+	get formData(){
+		// Get the form data
+		const formData = {
+			password: this.$elements.formFields.password.value,
+			passwordRepeat: this.$elements.formFields.passwordRepeat.value,
 		}
+
+		// Check if it has a reCAPTCHA
+		if ( this.hasReCAPTCHA() ){
+			formData.reCAPTCHA = this.getReCAPTCHAResponse();
+		}
+
+		return formData;
 	}
 }

@@ -70,17 +70,23 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			add_filter( 'uo-front-login-login-template', array( __CLASS__, 'set_ult_login_theme' ), 9, 1 );
 
 			add_filter( 'uncannyowl-learndash-toolkit-js', array( __CLASS__, 'uo_ajax_login_js' ), 10 );
+
+			add_action( 'wp_print_scripts', array( __CLASS__, 'uo_ajax_login_js_recaptcha_handler' ), 10, 2 );
+
+			add_action( 'wp_print_scripts', array( __CLASS__, 'uo_login_recaptcha' ), 10, 2 );
 			
 			if( 'no' === $disable_ajax_support ){
 			    // override menu login item
 				add_filter( 'wp_nav_menu_objects', [ __CLASS__, 'uo_login_menu_items'], 40, 2 );
-				add_filter( 'login_form_middle', [ __CLASS__, 'ajax_error_message_box'], 100, 1 );
+
+				// add_filter( 'login_form_middle', [ __CLASS__, 'ajax_error_message_box'], 100, 1 );
+				// 
 				add_action( 'uo_forgot_before_submit', [ __CLASS__, 'ajax_lp_error_message_box'], 100, 1 );
 
 				add_filter( 'uncannyowl-learndash-toolkit-js', array( __CLASS__, 'uo_ajax_login_js_ajax' ), 11 );
 
-				add_action( "wp_ajax_uo_login", [ __CLASS__, 'uo_login_action' ] );
-				add_action( "wp_ajax_nopriv_uo_login", [ __CLASS__, 'uo_login_action' ] );
+				add_action( "wp_ajax_ult-login", [ __CLASS__, 'uo_login_action' ] );
+				add_action( "wp_ajax_nopriv_ult-login", [ __CLASS__, 'uo_login_action' ] );
 				add_action( "wp_ajax_uo_lostPass", [ __CLASS__, 'uo_lostPass_action' ] );
 				add_action( "wp_ajax_nopriv_uo_lostPass", [ __CLASS__, 'uo_lostPass_action' ] );
             }
@@ -948,7 +954,6 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		$recaptcha_secrete_key = Config::get_settings_value( 'uo_frontend_login_recaptcha_secret_key', 'FrontendLoginPlus' );
 
 		if ( '' !== trim( $recaptcha_key ) && '' !== trim( $recaptcha_secrete_key ) ) {
-			wp_enqueue_script( 'FrontendLoginPlus', 'https://www.google.com/recaptcha/api.js' );
 			self::add_recaptcha_box();
 		}
 
@@ -1015,10 +1020,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		$login_page_url        = get_permalink( $login_page );
 		$recaptcha_key         = Config::get_settings_value( 'uo_frontend_login_recaptcha_key', 'FrontendLoginPlus' );
 		$recaptcha_secrete_key = Config::get_settings_value( 'uo_frontend_login_recaptcha_secret_key', 'FrontendLoginPlus' );
-		
-		if ( '' !== trim( $recaptcha_key ) && '' !== trim( $recaptcha_secrete_key ) ) {
-			wp_enqueue_script( 'FrontendLoginPlus', 'https://www.google.com/recaptcha/api.js' );
-		}
+
 		if ( strpos( $login_page_url, '?' ) ) {
 			$login_page_url = $login_page_url . '&';
 		} else {
@@ -1155,11 +1157,13 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 		//Render Template
 		ob_start();
+		
 		include self::get_template( '/login-page-ui-default.php' );
+
 		$login_ui = ob_get_clean();
 
 		return $login_ui;
-
+   
 	}
 
 	/**
@@ -1742,8 +1746,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			ob_start();
 			?>
             <div class="ult-form__row ult-form__row--recaptcha">
-                <div class="g-recaptcha" data-sitekey="<?php echo $recaptcha_key; ?>" data-callback="correctCaptcha"
-                     data-expired-callback="expiredCaptcha"></div>
+                <div class="ult-form-recaptcha" data-sitekey="<?php echo $recaptcha_key; ?>" data-callback="UncannyToolkitFrontendLoginReCaptchaCorrect"></div>
             </div>
 			<?php
 			return ob_get_clean();
@@ -2058,12 +2061,15 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	 * @since   3.3
 	 */
 	public static function ajax_error_message_box( $content ) {
+		/*
 		
 		ob_start();
 		?>
+
         <div class="ult-form__validation ult-hide" id="ult_error_container">
             <div class="ult-notice ult-notice--error"></div>
         </div>
+        
 		<?php
 		
 		// End output
@@ -2071,8 +2077,11 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		
 		// Add output to the current content, but at the bottom
 		$content .= $output;
+
+		*/
 		
 		return $content;
+
 	}
 	
 	/**
@@ -2108,17 +2117,17 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		$response      = [];
 		$response_code = 200;
 		$secure_cookie = '';
-		
+
 		// validate input first.
-		if ( ! isset( $_POST['log'] ) || ! isset( $_POST['pwd'] ) || empty( $_POST['log'] ) || empty( $_POST['pwd'] ) ) {
+		if ( ! isset( $_POST['email'] ) || ! isset( $_POST['password'] ) || empty( $_POST['email'] ) || empty( $_POST['password'] ) ) {
 			$response['error']         = TRUE;
 			$response['error_message'] = Config::get_settings_value( 'uo_frontend_login_failed_error', 'FrontendLoginPlus', esc_html__( 'Invalid username and/or password.', 'uncanny-learndash-toolkit' ) );
 			wp_send_json( $response, $response_code );
 		}
 		
 		if ( ! isset( $response['error'] ) ) {
-			if ( ! empty( $_POST['log'] ) && ! force_ssl_admin() ) {
-				$user_name = sanitize_user( $_POST['log'] );
+			if ( ! empty( $_POST['email'] ) && ! force_ssl_admin() ) {
+				$user_name = sanitize_user( $_POST['email'] );
 				$user      = get_user_by( 'login', $user_name );
 				
 				if ( ! $user && strpos( $user_name, '@' ) ) {
@@ -2139,14 +2148,14 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			// check if recaptcha is setup
 			if ( '' !== trim( $recaptcha_key ) && '' !== trim( $recaptcha_secrete_key ) ) {
 				
-				if ( ! isset( $_POST['g-recaptcha-response'] ) ) {
+				if ( ! isset( $_POST['reCAPTCHA'] ) ) {
 					$response['error']         = TRUE;
 					$response['error_message'] = self::get_settings_value( 'uo_frontend_login_recaptchafailed_error', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
 					wp_send_json( $response, $response_code );
 				}
 				
 				// make sure its filled
-				$recaptcha_response = sanitize_text_field( $_POST['g-recaptcha-response'] );
+				$recaptcha_response = sanitize_text_field( $_POST['reCAPTCHA'] );
 				
 				if ( empty( trim( $recaptcha_response ) ) ) {
 					$response['error']         = TRUE;
@@ -2330,7 +2339,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 					$response['message'] = self::get_settings_value( 'uo_frontend_login_successsendemail', __CLASS__, '%placeholder%', self::get_class_settings( '', TRUE ) );
 				    ob_start();
 				    ?>
-                    <div class="ult-form__row ult-form__row--validation">
+                    <div class="ult-form__validation">
                         <div class="ult-notice ult-notice--success">
 							<?php do_action( 'uo_forgot_before_success_message' ); ?>
 							<?php echo $response['message']; ?>
@@ -2467,21 +2476,17 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 		// Add the default data
 		$js_data[ 'frontendLogin' ] = [
-			'isAjax'                 => false,
-			'hasReCAPTCHA'           => false,
+			'hasAjaxEnabled'         => false,
 			'currentPageIsLoginPage' => false,
 			'ui'                     => [
 				'showAnimationOnSubmit'  => true,
 				'buttonDisabledOnSubmit' => true
+			],
+			'i18n'                   => [
+				'checkReCaptcha'     => __( 
+					'Please verify that you are not a robot.', 'uncanny-learndash-toolkit' )
 			]
 		];
-
-		// Check if it has reCAPTCHA enabled
-		$recaptcha_key         = Config::get_settings_value( 'uo_frontend_login_recaptcha_key', 'FrontendLoginPlus' );
-		$recaptcha_secrete_key = Config::get_settings_value( 'uo_frontend_login_recaptcha_secret_key', 'FrontendLoginPlus' );
-		if ( '' !== trim( $recaptcha_key ) && '' !== trim( $recaptcha_secrete_key ) ){
-			$js_data[ 'frontendLogin' ][ 'hasReCAPTCHA' ] = true;
-		}
 
 		// Check if the current page is the Login page
 		if ( $post->ID == self::get_login_redirect_page_id() ){
@@ -2502,10 +2507,49 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		if ( isset( $js_data[ 'frontendLogin' ] ) ){
 			// Overwrite the element that defines if the
 			// login is using AJAX
-			$js_data[ 'frontendLogin' ][ 'isAjax' ] = true;
+			$js_data[ 'frontendLogin' ][ 'hasAjaxEnabled' ] = true;
 		}
 
 		return $js_data;
+	}
+
+	public static function uo_ajax_login_js_recaptcha_handler(){
+		?>
+	
+		<script>
+
+		var UncannyToolkitFrontendLoginReCaptchaCorrect = function( response ){
+			if ( typeof UncannyToolkit.frontendLogin.reCaptcha !== 'undefined' ){
+				if ( typeof UncannyToolkit.frontendLogin.reCaptcha.correct !== 'undefined' ){
+					UncannyToolkit.frontendLogin.reCaptcha.correct( response );
+				}
+			}
+		}
+
+		var UncannyToolkitFrontendLoginReCaptchaInit = function(){
+			if ( typeof UncannyToolkit.reCaptchaInit !== 'undefined' ){
+				UncannyToolkit.reCaptchaInit();
+			}
+		}
+
+		</script>
+
+		<?php
+	}
+
+	public static function uo_login_recaptcha(){
+		$recaptcha_key         = Config::get_settings_value( 'uo_frontend_login_recaptcha_key', 'FrontendLoginPlus' );
+		$recaptcha_secrete_key = Config::get_settings_value( 'uo_frontend_login_recaptcha_secret_key', 'FrontendLoginPlus' );
+
+		if ( '' !== trim( $recaptcha_key ) && '' !== trim( $recaptcha_secrete_key ) ) {
+			?>
+	
+			<script src="https://www.google.com/recaptcha/api.js?onload=UncannyToolkitFrontendLoginReCaptchaInit&render=explicit" async defer></script>
+
+			<?php
+		}
+
+		
 	}
 
 	/**

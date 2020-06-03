@@ -1,0 +1,20 @@
+#ult-modal-container-ult-login {
+	.ult-box {
+		box-shadow: none;
+		padding: 0;
+		border: 0;
+	}
+
+	.ult-modal {
+		max-height: 680px;
+	}
+}
+
+.ult-login--recaptcha-error,
+.ult-forgot-password--recaptcha-error,
+.ult-reset-password--recaptcha-error {
+	.g-recaptcha iframe {
+		border-radius: 4px;
+		border: 1px solid #ff0000;
+	}
+}
