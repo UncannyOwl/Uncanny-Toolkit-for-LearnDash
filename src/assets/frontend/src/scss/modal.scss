@@ -2,11 +2,6 @@
  * Modal
  */
 
-html.ult-modal--open,
-html.ult-modal--open body {
-	overflow: hidden !important;
-}
-
 .ult-modal {
 	display: none;
 }
@@ -27,8 +22,6 @@ html.ult-modal--open body {
 	left: 0;
 
 	z-index: 100000;
-
-	background: rgba(0,0,0,.4);
 }
 
 	.ult-modal-container--open {
@@ -154,6 +147,8 @@ html.ult-modal--open body {
 
 		position: relative;
 		display: inline-flex;
+
+		overflow: hidden;
 		
 		flex: 1 1 auto;
 	}
@@ -187,8 +182,8 @@ html.ult-modal--open body {
 
 			position: relative;
 
-			margin: 0px 20px;
-			padding: 20px;
+			margin: 0px;
+			padding: 20px 40px;
 
 			outline: none;
 		}
@@ -262,3 +257,15 @@ html.ult-modal--open body {
 			line-height: 26px;
 		}
 	}
+
+/**
+ * Global modifications
+ */
+
+body.ult-modals--open {
+	overflow: hidden !important;
+}
+
+body.ult-modals--dim-background .ult-modal-container {
+	background: rgba(0,0,0,.4);
+}

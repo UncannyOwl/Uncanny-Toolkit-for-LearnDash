@@ -486,6 +486,6 @@ export class FrontendLogin_Modal {
 	}
 
 	shouldInvokeMethods(){
-		return ! UncannyToolkit.frontendLogin.currentPageIsLoginPage && isDefined( UncannyToolkit.modals[ 'ult-login' ] );
+		return isDefined( UncannyToolkit.frontendLogin ) && isDefined( UncannyToolkit.frontendLogin.currentPageIsLoginPage ) && ! UncannyToolkit.frontendLogin.currentPageIsLoginPage && isDefined( UncannyToolkit.modals[ 'ult-login' ] );
 	}
 }

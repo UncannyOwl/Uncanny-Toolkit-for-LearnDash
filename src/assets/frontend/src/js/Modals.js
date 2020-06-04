@@ -73,6 +73,7 @@ class Modal {
 			id:         isDefined( $modalContent.getAttribute( 'data-id' ) ) ? $modalContent.getAttribute( 'data-id' ) : '',
 			title:      isDefined( $modalContent.getAttribute( 'data-title' ) ) ? $modalContent.getAttribute( 'data-title' ) : '',
 			btnDismiss: isDefined( $modalContent.getAttribute( 'data-btn-dismiss' ) ) ? !! parseInt( $modalContent.getAttribute( 'data-btn-dismiss' ) ) : true,
+			dimBackground: isDefined( $modalContent.getAttribute( 'data-dim-background' ) ) ? !! parseInt( $modalContent.getAttribute( 'data-dim-background' ) ) : true,
 		}
 	}
 
@@ -194,7 +195,13 @@ class Modal {
 
 		// Add class to the body element, so the user can use it
 		// to change other stuff
-		document.body.classList.add( 'ult-modal--open' );
+		document.body.classList.add( 'ult-modals--open' );
+
+		// Check if we have to dim the background
+		if ( this.modalData.dimBackground ){
+			// Add class to dim the background
+			document.body.classList.add( 'ult-modals--dim-background' );
+		}
 	}
 
 	hideModal(){
@@ -204,7 +211,10 @@ class Modal {
 			this.$elements.container.classList.remove( 'ult-modal-container--open' );
 
 			// Remove class from the body element
-			document.body.classList.remove( 'ult-modal--open' );
+			document.body.classList.remove( 'ult-modals--open' );
+
+			// Remove the class to dim the background
+			document.body.classList.remove( 'ult-modals--dim-background' );
 		});
 	}
 }
