@@ -271,7 +271,11 @@ export class Login extends FrontendLogin {
 			email: this.$elements.formFields.email.value,
 			password: this.$elements.formFields.password.value,
 			redirectTo: this.$elements.formFields.redirectTo.value,
-			rememberMe: this.$elements.formFields.rememberMe.checked
+		}
+
+		// Check if it has the "Remember me" checkbox
+		if ( isDefined( this.$elements.formFields.rememberMe ) ){
+			formData.rememberMe = this.$elements.formFields.rememberMe.checked;
 		}
 
 		// Check if it has a reCAPTCHA
