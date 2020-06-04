@@ -9,8 +9,9 @@ namespace uncanny_learndash_toolkit;
         </div>
         <div id="ult-login-modal__forgot-password">
             <?php
-
-            $innerText        = apply_filters( 'uo-login-inner-text', FrontendLoginPlus::fetch_inner_text(), $login );
+            $recaptcha_key         = Config::get_settings_value( 'uo_frontend_login_recaptcha_key', 'FrontendLoginPlus' );
+            $recaptcha_secrete_key = Config::get_settings_value( 'uo_frontend_login_recaptcha_secret_key', 'FrontendLoginPlus' );
+            $innerText        = apply_filters( 'uo-login-inner-text', FrontendLoginPlus::fetch_inner_text(), 'not-set' );
 
             $template_to_load = apply_filters( 'uo-login-template', Config::get_settings_value( 'uo_frontend_login_template', 'FrontendLoginPlus', 'default' ) );
             

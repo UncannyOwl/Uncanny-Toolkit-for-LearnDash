@@ -2141,8 +2141,15 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		$response      = [];
 		$response_code = 200;
 		$secure_cookie = '';
-
-		// validate input first.
+		
+		// Validate ajax call here.
+		if( ! check_ajax_referer('uncannyowl-learndash-toolkit','nonce') ) {
+            $response['success'] = false;
+            $response['message'] = esc_html__( 'Something went wrong. Please, try again', 'uncanny-learndash-toolkit' );
+            self::wp_send_json( $response, $response_code );
+        }
+        
+		// validate input then.
 		if ( ! isset( $_POST['email'] ) || ! isset( $_POST['password'] ) || empty( $_POST['email'] ) || empty( $_POST['password'] ) ) {
 			$response['success'] = false;
 			$response['message'] = Config::get_settings_value( 'uo_frontend_login_failed_error', 'FrontendLoginPlus', esc_html__( 'Invalid username and/or password.', 'uncanny-learndash-toolkit' ) );
@@ -2286,7 +2293,14 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		$response      = [];
 		$response_code = 200;
 		
-		// validate input first.
+		// Validate ajax call here.
+		if( ! check_ajax_referer('uncannyowl-learndash-toolkit','nonce') ) {
+			$response['success'] = false;
+			$response['message'] = esc_html__( 'Something went wrong. Please, try again', 'uncanny-learndash-toolkit' );
+			self::wp_send_json( $response, $response_code );
+		}
+		
+		// validate inputs.
 		if ( ! isset( $_POST['email'] ) || empty( $_POST['email'] ) ) {
 			$response['success'] = false;
 			$response['message'] = Config::get_settings_value( 'uo_login_forgot_pass_invalid_creds', 'FrontendLoginPlus', esc_html__( 'Invalid username/email.', 'uncanny-learndash-toolkit' ) );
@@ -2344,6 +2358,8 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
             }
         }
 		$_POST['user_login'] = $_POST['email'];
+        // remove old validation
+		remove_action( 'lostpassword_post', array( __CLASS__, 'lostpassword_post' ) );
 		$errors              = self::retrieve_password();
         
         if ( ! is_wp_error( $errors ) ) {
@@ -2498,7 +2514,14 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		$response      = [];
 		$response_code = 200;
 		
-		// validate input first.
+		// Validate ajax call here.
+		if( ! check_ajax_referer('uncannyowl-learndash-toolkit','nonce') ) {
+			$response['success'] = false;
+			$response['message'] = esc_html__( 'Something went wrong. Please, try again', 'uncanny-learndash-toolkit' );
+			self::wp_send_json( $response, $response_code );
+		}
+		
+		// validate inputs.
 		if ( ! isset( $_POST['password'] ) || empty( $_POST['password'] ) || ! isset( $_POST['passwordRepeat'] ) || empty( $_POST['passwordRepeat'] ) ) {
 			$response['success'] = FALSE;
 			$response['message'] = esc_html__( 'Password fields cannot be empty.', 'uncanny-learndash-toolkit' );
@@ -2629,8 +2652,10 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		];
 
 		// Check if the current page is the Login page
-		if ( $post->ID == self::get_login_redirect_page_id() ){
+		if ( ! empty( $post ) && $post->ID == self::get_login_redirect_page_id() ){
 			$js_data[ 'frontendLogin' ][ 'currentPageIsLoginPage' ] = true;
+        } else {
+		    
         }
 
         return $js_data;
@@ -2718,6 +2743,8 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				$login_page    = '#ult-modal-open----ult-login';
 				if ( $login_page_id ) {
 					$login_page = get_permalink( $login_page_id ) . $login_page;
+				} else {
+					$login_page = site_url( 'wp-login.php' ) . $login_page;
 				}
 				$menu_item->url = $login_page;
 			}
@@ -2757,7 +2784,9 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		$login_page    = '#ult-modal-open----ult-login';
 		if ( $login_page_id ) {
 			$login_page = get_permalink( $login_page_id ) . $login_page;
-		}
+		} else {
+			$login_page = site_url( 'wp-login.php' ). $login_page;
+        }
 		$uo_frontend_login_modal_button_title_label = self::get_settings_value( 'uo_frontend_login_modal_button_title_label', __CLASS__, '%placeholder%', self::get_class_settings( '', TRUE ) );
 		if ( ! is_user_logged_in() ) {
 			ob_start();
