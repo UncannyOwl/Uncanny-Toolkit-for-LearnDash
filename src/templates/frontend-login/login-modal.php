@@ -5,6 +5,9 @@ $uo_frontend_login_modal_background = '0';
 if ( "on" === Config::get_settings_value( 'uo_frontend_login_modal_background', 'FrontendLoginPlus' ) ) {
 	$uo_frontend_login_modal_background = '1';
 }
+add_filter( 'uo-login-template', function ( $layout ) {
+	return 'layout_1';
+}, 100 );
 ?>
 <div class="ult-modal" data-id="ult-login" data-btn-dismiss="0" data-dim-background="<?php echo $uo_frontend_login_modal_background;?>">
     <div id="ult-login-modal" class="ult-login-modal--login">
@@ -16,10 +19,8 @@ if ( "on" === Config::get_settings_value( 'uo_frontend_login_modal_background', 
             $recaptcha_key         = Config::get_settings_value( 'uo_frontend_login_recaptcha_key', 'FrontendLoginPlus' );
             $recaptcha_secrete_key = Config::get_settings_value( 'uo_frontend_login_recaptcha_secret_key', 'FrontendLoginPlus' );
             $innerText        = apply_filters( 'uo-login-inner-text', FrontendLoginPlus::fetch_inner_text(), 'not-set' );
-
-            $template_to_load = apply_filters( 'uo-login-template', Config::get_settings_value( 'uo_frontend_login_template', 'FrontendLoginPlus', 'default' ) );
             
-            include( Config::get_template( apply_filters( 'uo-front-login-lost-pwd-template', 'frontend-login/' . $template_to_load . '-lost-pwd.php', $template_to_load ) ) );
+            include( Config::get_template( apply_filters( 'uo-front-login-lost-pwd-template', 'frontend-login/layout_1-lost-pwd.php', 'layout_1' ) ) );
 
             ?>
         </div>
