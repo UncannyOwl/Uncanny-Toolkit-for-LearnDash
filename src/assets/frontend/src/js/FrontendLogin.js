@@ -109,6 +109,9 @@ class FrontendLogin {
 						// Set a generic error message
 						this.setError( UncannyToolkit.i18n.error.generic );
 					}
+
+					// Reset reCAPTCHA
+					this.resetReCAPTCHA();
 				}
 			}, ( response ) => {
 				// Check if there is a message
@@ -120,6 +123,9 @@ class FrontendLogin {
 					// Set a generic error message
 					this.setError( UncannyToolkit.i18n.error.generic );
 				}
+
+				// Reset reCAPTCHA
+				this.resetReCAPTCHA();grecaptcha.reset();
 
 				// Remove the loading animation
 				this.setLoadingStatus( false );
@@ -163,7 +169,7 @@ class FrontendLogin {
 				// Disable the submit button
 				this.$elements.container.classList.remove( this.cssClasses.disabled );
 				this.$elements.submitButton.container.classList.remove( this.cssClasses.btnDisabled );
-				this.$elements.submitButton.button.setAttribute( 'disabled', false );
+				this.$elements.submitButton.button.removeAttribute( 'disabled' );
 			}
 		}
 	}
@@ -210,6 +216,12 @@ class FrontendLogin {
 
 		// Get the response
 		return grecaptcha.getResponse( id );
+	}
+
+	resetReCAPTCHA(){
+		try {
+			grecaptcha.reset();
+		} catch ( e ){}
 	}
 
 	isOnModal(){
