@@ -2755,7 +2755,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	}
 	
 	public static function wp_send_json( $response, $status_code = null ) {
-		@header( 'Content-Type: application/json; charset=' . get_option( 'blog_charset' ) );
+		//@header( 'Content-Type: application/json; charset=' . get_option( 'blog_charset' ) );
 		if ( null !== $status_code ) {
 			status_header( $status_code );
 		}
