@@ -117,10 +117,12 @@ export function AJAXRequest( action = null, data = null, onSuccess = null, onFai
             }
 
             // Stop chain
-            Promise.reject( err );
+            Promise.reject( new Error( UncannyToolkit.i18n.error.generic ) );
+        }
+        else {
+            return response.json();
         }
     })
-    .then(( response ) => response.json() )
     .then(( response ) => {
         // Check if the call was successful
         if ( response.success ){
@@ -135,6 +137,8 @@ export function AJAXRequest( action = null, data = null, onSuccess = null, onFai
         }
     })
     .catch(( response ) => {
+        console.log( response );
+
         console.error( '✋Uncanny Toolkit: The fetch call threw an error' );
 
         if ( isDefined( onFail ) ){
