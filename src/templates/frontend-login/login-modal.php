@@ -1,8 +1,12 @@
 <?php
 namespace uncanny_learndash_toolkit;
 
+$uo_frontend_login_modal_background = '0';
+if ( "on" === Config::get_settings_value( 'uo_frontend_login_modal_background', 'FrontendLoginPlus' ) ) {
+	$uo_frontend_login_modal_background = '1';
+}
 ?>
-<div class="ult-modal" data-id="ult-login" data-btn-dismiss="0">
+<div class="ult-modal" data-id="ult-login" data-btn-dismiss="0" data-dim-background="<?php echo $uo_frontend_login_modal_background;?>">
     <div id="ult-login-modal" class="ult-login-modal--login">
         <div id="ult-login-modal__login">
             <?php echo do_shortcode( '[uo_login_ui]' ); ?>

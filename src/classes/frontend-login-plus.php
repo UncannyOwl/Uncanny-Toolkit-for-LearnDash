@@ -446,8 +446,13 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			array(
 				'type'        => 'text',
 				'label'       => esc_html__( 'Login Modal Button Title', 'uncanny-learndash-toolkit' ),
-				'placeholder' => esc_html__( 'Login', 'uncanny-learndash-toolkit' ),
+				'placeholder' => esc_html__( 'Log In', 'uncanny-learndash-toolkit' ),
 				'option_name' => 'uo_frontend_login_modal_button_title_label',
+			),
+			array(
+				'type'        => 'checkbox',
+				'label'       => esc_html__( 'Dim the background when the modal is open', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_frontend_login_modal_background'
 			),
 			array(
 				'type'        => 'text',
@@ -2367,17 +2372,17 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
             $template_to_load = apply_filters( 'uo-login-template', Config::get_settings_value( 'uo_frontend_login_template', 'FrontendLoginPlus', 'default' ) );
             if("default" === $template_to_load) {
                 $response['message'] = self::get_settings_value( 'uo_frontend_login_successsendemail', __CLASS__, '%placeholder%', self::get_class_settings( '', TRUE ) );
-                ob_start();
+                /*ob_start();
                 ?>
                 <p>
                     <?php echo $response['message']; ?>
                 </p>
                 <?php
                 
-                $response['message'] = ob_get_clean();
+                $response['message'] = ob_get_clean();*/
             } else{
                 $response['message'] = self::get_settings_value( 'uo_frontend_login_successsendemail', __CLASS__, '%placeholder%', self::get_class_settings( '', TRUE ) );
-                ob_start();
+                /*ob_start();
                 ?>
                 <div class="ult-form__validation">
                     <div class="ult-notice ult-notice--success">
@@ -2388,7 +2393,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
                 </div>
                 <?php
                 
-                $response['message'] = ob_get_clean();
+                $response['message'] = ob_get_clean();*/
             }
             self::wp_send_json( $response, $response_code );
         } else {
@@ -2791,7 +2796,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		if ( ! is_user_logged_in() ) {
 			ob_start();
 			?>
-            <a href="<?php echo $login_page; ?>" class="ult-modal-open" data-id="ult-login">
+            <a href="<?php echo $login_page; ?>" class="ult-modal-open ult-login-modal-open" data-id="ult-login">
 				<?php echo $uo_frontend_login_modal_button_title_label; ?>
             </a>
 			<?php
