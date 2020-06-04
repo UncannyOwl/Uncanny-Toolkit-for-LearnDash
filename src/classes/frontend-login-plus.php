@@ -75,10 +75,11 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 			add_action( 'wp_print_scripts', array( __CLASS__, 'uo_login_recaptcha' ), 10, 2 );
 			
+			// override menu login item
+			add_filter( 'wp_nav_menu_objects', [ __CLASS__, 'uo_login_menu_items'], 40, 2 );
+			
 			if( 'no' === $disable_ajax_support ){
-			    // override menu login item
-				add_filter( 'wp_nav_menu_objects', [ __CLASS__, 'uo_login_menu_items'], 40, 2 );
-
+			 
 				// add_filter( 'login_form_middle', [ __CLASS__, 'ajax_error_message_box'], 100, 1 );
 				// 
 				add_action( 'uo_forgot_before_submit', [ __CLASS__, 'ajax_lp_error_message_box'], 100, 1 );
@@ -310,12 +311,6 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				'label'       => esc_html__( 'Manual User Verification', 'uncanny-learndash-toolkit' ),
 				'option_name' => 'uo_frontendloginplus_needs_verifcation',
 			),
-			array(
-				'type'        => 'text',
-				'label'       => esc_html__( 'Login Modal Button Title', 'uncanny-learndash-toolkit' ),
-				'placeholder' => esc_html__( 'Login', 'uncanny-learndash-toolkit' ),
-				'option_name' => 'uo_frontend_login_modal_button_title_label',
-			),
 			// Will implement in later version
 			/*array(
 				'type'        => 'checkbox',
@@ -443,6 +438,22 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				'label'       => esc_html__( 'Message For Logged In Users', 'uncanny-learndash-toolkit' ),
 				'placeholder' => esc_html__( 'You are logged in.', 'uncanny-learndash-toolkit' ),
 				'option_name' => 'uo_frontend_login_logged_in_message',
+			),
+			array(
+				'type'       => 'html',
+				'inner_html' => '<h2>' . __( 'Login Modal Form', 'uncanny-learndash-toolkit' ) . '</h2>',
+			),
+			array(
+				'type'        => 'text',
+				'label'       => esc_html__( 'Login Modal Button Title', 'uncanny-learndash-toolkit' ),
+				'placeholder' => esc_html__( 'Login', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_frontend_login_modal_button_title_label',
+			),
+			array(
+				'type'        => 'text',
+				'label'       => esc_html__( 'Log in instead Text', 'uncanny-learndash-toolkit' ),
+				'placeholder' => esc_html__( 'Log in instead', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_frontend_login_modal_login_instead_label',
 			),
 			array(
 				'type'       => 'html',
@@ -1270,6 +1281,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		$uo_login_forgot_pass_button_label        = self::get_settings_value( 'uo_login_forgot_pass_button_label', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
 		$uo_frontend_login_recaptchaempty_error   = self::get_settings_value( 'uo_frontend_login_recaptchaempty_error', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
 		$uo_frontend_login_recaptchafailed_error  = self::get_settings_value( 'uo_frontend_login_recaptchafailed_error', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
+		$uo_frontend_login_instead_label          = self::get_settings_value( 'uo_frontend_login_modal_login_instead_label', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
 
 		$innerText = array(
 			'Logged-In-Message'          => $uo_frontend_login_logged_in_message,
@@ -1297,7 +1309,8 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			'Register-Link'              => $uo_frontend_register_link_text,
 			'Get-New-Password'           => $uo_login_forgot_pass_button_label,
 			'recaptchaempty'             => $uo_frontend_login_recaptchaempty_error,
-			'recaptchafailed'            => $uo_frontend_login_recaptchafailed_error
+			'recaptchafailed'            => $uo_frontend_login_recaptchafailed_error,
+			'Log-in-instead'             => $uo_frontend_login_instead_label,
 		);
 
 		return $innerText;
@@ -2192,9 +2205,9 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				);
 				
 				// validate server side
-				$context  = stream_context_create( $opts );
-				$response = file_get_contents( 'https://www.google.com/recaptcha/api/siteverify', false, $context );
-				$result   = json_decode( $response );
+				$context      = stream_context_create( $opts );
+				$response_cap = file_get_contents( 'https://www.google.com/recaptcha/api/siteverify', FALSE, $context );
+				$result       = json_decode( $response_cap );
 				
 				// return if there is an error
 				if ( ! $result->success ) {
@@ -2204,6 +2217,8 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				}
 			}
 			$credential = [ 'user_login' => $_POST['email'], 'user_password' => $_POST['password'] ];
+			// Removing our old authentication filter here.
+			remove_filter( 'authenticate', array( __CLASS__, 'verify_username_password_40' ), 40 );
 			$user = wp_signon( $credential, $secure_cookie );
 			
 			if ( is_wp_error( $user ) ) {
@@ -2317,9 +2332,9 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
             );
             
             // validate server side
-            $context  = stream_context_create( $opts );
-            $response = file_get_contents( 'https://www.google.com/recaptcha/api/siteverify', false, $context );
-            $result   = json_decode( $response );
+	        $context      = stream_context_create( $opts );
+	        $response_cap = file_get_contents( 'https://www.google.com/recaptcha/api/siteverify', FALSE, $context );
+	        $result       = json_decode( $response_cap );
             
             // return if there is an error
             if ( ! $result->success ) {
@@ -2529,9 +2544,9 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			];
 			
 			// validate server side
-			$context  = stream_context_create( $opts );
-			$response = file_get_contents( 'https://www.google.com/recaptcha/api/siteverify', FALSE, $context );
-			$result   = json_decode( $response );
+			$context      = stream_context_create( $opts );
+			$response_cap = file_get_contents( 'https://www.google.com/recaptcha/api/siteverify', FALSE, $context );
+			$result       = json_decode( $response_cap );
 			
 			// return if there is an error
 			if ( ! $result->success ) {
@@ -2699,9 +2714,14 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			}
 			// Replace default wp-login.php with hash
 			if ( ( strpos( $menu_item->url, 'wp-login.php' ) !== false ) ) {
-				$menu_item->url = '#ult-login';
+				$login_page_id = self::get_login_redirect_page_id();
+				$login_page    = '#ult-modal-open----ult-login';
+				if ( $login_page_id ) {
+					$login_page = get_permalink( $login_page_id ) . $login_page;
+				}
+				$menu_item->url = $login_page;
 			}
-			if ( ( strpos( $menu_item->url, '#uo_login' ) !== false ) ) {
+			if ( ( strpos( $menu_item->url, '#ult-modal-open' ) !== false ) ) {
 				if( $post->ID !== self::get_login_redirect_page_id()) {
 					if ( apply_filters( 'uo_login_menu_item_process', TRUE, $menu_item, $menu_args ) ) {
 						add_action( 'wp_footer', [ __CLASS__,'load_login_modal']);
@@ -2734,9 +2754,9 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	
 	public static function uo_login_modal() {
 		$login_page_id = self::get_login_redirect_page_id();
-		$login_page    = '#ult-login';
+		$login_page    = '#ult-modal-open----ult-login';
 		if ( $login_page_id ) {
-			$login_page = get_permalink( $login_page_id );
+			$login_page = get_permalink( $login_page_id ) . $login_page;
 		}
 		$uo_frontend_login_modal_button_title_label = self::get_settings_value( 'uo_frontend_login_modal_button_title_label', __CLASS__, '%placeholder%', self::get_class_settings( '', TRUE ) );
 		if ( ! is_user_logged_in() ) {
@@ -2755,7 +2775,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	}
 	
 	public static function wp_send_json( $response, $status_code = null ) {
-		//@header( 'Content-Type: application/json; charset=' . get_option( 'blog_charset' ) );
+		@header( 'Content-Type: application/json;' );
 		if ( null !== $status_code ) {
 			status_header( $status_code );
 		}

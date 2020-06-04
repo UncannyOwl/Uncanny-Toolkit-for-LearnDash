@@ -147,7 +147,7 @@ $login_page_url  = get_permalink( $login_page );
 
 				<div class="ult-form-footer__login">
 					<a id="ult-form-footer-login" href="<?php echo $login_page_url; ?>">
-						<?php _e( 'Log in instead (add an option to modify this string)' ); ?>
+						<?php echo $innerText[ 'Log-in-instead' ]; ?>
 					</a>
 				</div>
 
