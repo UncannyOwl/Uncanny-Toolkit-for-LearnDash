@@ -87,8 +87,10 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 				add_action( "wp_ajax_ult-login", [ __CLASS__, 'uo_login_action' ] );
 				add_action( "wp_ajax_nopriv_ult-login", [ __CLASS__, 'uo_login_action' ] );
-				add_action( "wp_ajax_uo_lostPass", [ __CLASS__, 'uo_lostPass_action' ] );
-				add_action( "wp_ajax_nopriv_uo_lostPass", [ __CLASS__, 'uo_lostPass_action' ] );
+				add_action( "wp_ajax_ult-forgot-password", [ __CLASS__, 'uo_lostPass_action' ] );
+				add_action( "wp_ajax_nopriv_ult-forgot-password", [ __CLASS__, 'uo_lostPass_action' ] );
+				add_action( "wp_ajax_ult-reset-password", [ __CLASS__, 'uo_reset_password_action' ] );
+				add_action( "wp_ajax_nopriv_ult-reset-password", [ __CLASS__, 'uo_reset_password_action' ] );
             }
 
 			if ( 'yes' === $is_login_page_set ) {
@@ -2120,12 +2122,12 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 		// validate input first.
 		if ( ! isset( $_POST['email'] ) || ! isset( $_POST['password'] ) || empty( $_POST['email'] ) || empty( $_POST['password'] ) ) {
-			$response['error']         = TRUE;
-			$response['error_message'] = Config::get_settings_value( 'uo_frontend_login_failed_error', 'FrontendLoginPlus', esc_html__( 'Invalid username and/or password.', 'uncanny-learndash-toolkit' ) );
+			$response['success'] = false;
+			$response['message'] = Config::get_settings_value( 'uo_frontend_login_failed_error', 'FrontendLoginPlus', esc_html__( 'Invalid username and/or password.', 'uncanny-learndash-toolkit' ) );
 			wp_send_json( $response, $response_code );
 		}
 		
-		if ( ! isset( $response['error'] ) ) {
+		if ( ! isset( $response['success'] ) ) {
 			if ( ! empty( $_POST['email'] ) && ! force_ssl_admin() ) {
 				$user_name = sanitize_user( $_POST['email'] );
 				$user      = get_user_by( 'login', $user_name );
@@ -2149,8 +2151,8 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			if ( '' !== trim( $recaptcha_key ) && '' !== trim( $recaptcha_secrete_key ) ) {
 				
 				if ( ! isset( $_POST['reCAPTCHA'] ) ) {
-					$response['error']         = TRUE;
-					$response['error_message'] = self::get_settings_value( 'uo_frontend_login_recaptchafailed_error', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
+					$response['success'] = false;
+					$response['message'] = self::get_settings_value( 'uo_frontend_login_recaptchafailed_error', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
 					wp_send_json( $response, $response_code );
 				}
 				
@@ -2158,8 +2160,8 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				$recaptcha_response = sanitize_text_field( $_POST['reCAPTCHA'] );
 				
 				if ( empty( trim( $recaptcha_response ) ) ) {
-					$response['error']         = TRUE;
-					$response['error_message'] = self::get_settings_value( 'uo_frontend_login_recaptchaempty_error', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
+					$response['success'] = false;
+					$response['message'] = self::get_settings_value( 'uo_frontend_login_recaptchaempty_error', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
 					wp_send_json( $response, $response_code );
 				}
 				
@@ -2187,17 +2189,17 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				
 				// return if there is an error
 				if ( ! $result->success ) {
-					$response['error']         = TRUE;
-					$response['error_message'] = self::get_settings_value( 'uo_frontend_login_recaptchafailed_error', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
+					$response['success'] = false;
+					$response['message'] = self::get_settings_value( 'uo_frontend_login_recaptchafailed_error', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
 					wp_send_json( $response, $response_code );
 				}
 			}
-			
-			$user = wp_signon( [], $secure_cookie );
+			$credential = [ 'user_login' => $_POST['email'], 'user_password' => $_POST['password'] ];
+			$user = wp_signon( $credential, $secure_cookie );
 			
 			if ( is_wp_error( $user ) ) {
-				$response['error']         = TRUE;
-				$response['error_message'] = Config::get_settings_value( 'uo_frontend_login_failed_error', 'FrontendLoginPlus', esc_html__( 'Invalid username and/or password.', 'uncanny-learndash-toolkit' ) );
+				$response['success'] = false;
+				$response['message'] = Config::get_settings_value( 'uo_frontend_login_failed_error', 'FrontendLoginPlus', esc_html__( 'Invalid username and/or password.', 'uncanny-learndash-toolkit' ) );
 				wp_send_json( $response, $response_code );
 			}
 			
@@ -2226,8 +2228,8 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 					
 					// Is the use logging in disabled?
 					if ( '1' !== $user_verified_value ) {
-						$response['error']         = TRUE;
-						$response['error_message'] = Config::get_settings_value( 'uo_frontend_login_notverified_error', 'FrontendLoginPlus', esc_html__( 'This account is not verified.', 'uncanny-learndash-toolkit' ) );
+						$response['success'] = false;
+						$response['message'] = Config::get_settings_value( 'uo_frontend_login_notverified_error', 'FrontendLoginPlus', esc_html__( 'This account is not verified.', 'uncanny-learndash-toolkit' ) );
 						wp_send_json( $response, $response_code );
 					}
 				}
@@ -2261,104 +2263,101 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		$response_code = 200;
 		
 		// validate input first.
-		if ( ! isset( $_POST['user_login'] ) || empty( $_POST['user_login'] ) ) {
-			$response['error']         = TRUE;
+		if ( ! isset( $_POST['email'] ) || empty( $_POST['email'] ) ) {
+			$response['success'] = false;
 			$response['message'] = Config::get_settings_value( 'uo_login_forgot_pass_invalid_creds', 'FrontendLoginPlus', esc_html__( 'Invalid username/email.', 'uncanny-learndash-toolkit' ) );
 			wp_send_json( $response, $response_code );
 		}
 		
-		if ( ! isset( $response['error'] ) ) {
-			
-			$recaptcha_key         = Config::get_settings_value( 'uo_frontend_login_recaptcha_key', 'FrontendLoginPlus' );
-			$recaptcha_secrete_key = Config::get_settings_value( 'uo_frontend_login_recaptcha_secret_key', 'FrontendLoginPlus' );
-			
-			// check if recaptcha is setup
-			if ( '' !== trim( $recaptcha_key ) && '' !== trim( $recaptcha_secrete_key ) ) {
-				
-				if ( ! isset( $_POST['g-recaptcha-response'] ) ) {
-					$response['error']         = TRUE;
-					$response['message'] = self::get_settings_value( 'uo_frontend_login_recaptchafailed_error', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
-					wp_send_json( $response, $response_code );
-				}
-				
-				// make sure its filled
-				$recaptcha_response = sanitize_text_field( $_POST['g-recaptcha-response'] );
-				
-				if ( empty( trim( $recaptcha_response ) ) ) {
-					$response['error']         = TRUE;
-					$response['message'] = self::get_settings_value( 'uo_frontend_login_recaptchaempty_error', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
-					wp_send_json( $response, $response_code );
-				}
-				
-				$post_data = http_build_query(
-					array(
-						'secret'   => $recaptcha_secrete_key,
-						'response' => $recaptcha_response,
-						'remoteip' => $_SERVER['REMOTE_ADDR']
-					)
-				);
-				
-				$opts = array(
-					'http' =>
-						array(
-							'method'  => 'POST',
-							'header'  => 'Content-type: application/x-www-form-urlencoded',
-							'content' => $post_data
-						)
-				);
-				
-				// validate server side
-				$context  = stream_context_create( $opts );
-				$response = file_get_contents( 'https://www.google.com/recaptcha/api/siteverify', false, $context );
-				$result   = json_decode( $response );
-				
-				// return if there is an error
-				if ( ! $result->success ) {
-					$response['error']         = TRUE;
-					$response['message'] = self::get_settings_value( 'uo_frontend_login_recaptchafailed_error', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
-					wp_send_json( $response, $response_code );
-				}
-			}
-			
-			$errors = self::retrieve_password();
-			
-			if ( ! is_wp_error( $errors ) ) {
-				$response['success'] = TRUE;
-				$template_to_load = apply_filters( 'uo-login-template', Config::get_settings_value( 'uo_frontend_login_template', 'FrontendLoginPlus', 'default' ) );
-				if("default" === $template_to_load) {
-					$response['message'] = self::get_settings_value( 'uo_frontend_login_successsendemail', __CLASS__, '%placeholder%', self::get_class_settings( '', TRUE ) );
-					ob_start();
-					?>
-                    <p>
+        $recaptcha_key         = Config::get_settings_value( 'uo_frontend_login_recaptcha_key', 'FrontendLoginPlus' );
+        $recaptcha_secrete_key = Config::get_settings_value( 'uo_frontend_login_recaptcha_secret_key', 'FrontendLoginPlus' );
+        
+        // check if recaptcha is setup
+        if ( '' !== trim( $recaptcha_key ) && '' !== trim( $recaptcha_secrete_key ) ) {
+            
+            if ( ! isset( $_POST['reCAPTCHA'] ) ) {
+                $response['success'] = false;
+                $response['message'] = self::get_settings_value( 'uo_frontend_login_recaptchafailed_error', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
+                wp_send_json( $response, $response_code );
+            }
+            
+            // make sure its filled
+            $recaptcha_response = sanitize_text_field( $_POST['reCAPTCHA'] );
+            
+            if ( empty( trim( $recaptcha_response ) ) ) {
+	            $response['success'] = false;
+                $response['message'] = self::get_settings_value( 'uo_frontend_login_recaptchaempty_error', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
+                wp_send_json( $response, $response_code );
+            }
+            
+            $post_data = http_build_query(
+                array(
+                    'secret'   => $recaptcha_secrete_key,
+                    'response' => $recaptcha_response,
+                    'remoteip' => $_SERVER['REMOTE_ADDR']
+                )
+            );
+            
+            $opts = array(
+                'http' =>
+                    array(
+                        'method'  => 'POST',
+                        'header'  => 'Content-type: application/x-www-form-urlencoded',
+                        'content' => $post_data
+                    )
+            );
+            
+            // validate server side
+            $context  = stream_context_create( $opts );
+            $response = file_get_contents( 'https://www.google.com/recaptcha/api/siteverify', false, $context );
+            $result   = json_decode( $response );
+            
+            // return if there is an error
+            if ( ! $result->success ) {
+	            $response['success'] = false;
+                $response['message'] = self::get_settings_value( 'uo_frontend_login_recaptchafailed_error', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
+                wp_send_json( $response, $response_code );
+            }
+        }
+		$_POST['user_login'] = $_POST['email'];
+		$errors              = self::retrieve_password();
+        
+        if ( ! is_wp_error( $errors ) ) {
+            $response['success'] = TRUE;
+            $template_to_load = apply_filters( 'uo-login-template', Config::get_settings_value( 'uo_frontend_login_template', 'FrontendLoginPlus', 'default' ) );
+            if("default" === $template_to_load) {
+                $response['message'] = self::get_settings_value( 'uo_frontend_login_successsendemail', __CLASS__, '%placeholder%', self::get_class_settings( '', TRUE ) );
+                ob_start();
+                ?>
+                <p>
+                    <?php echo $response['message']; ?>
+                </p>
+                <?php
+                
+                $response['message'] = ob_get_clean();
+            } else{
+                $response['message'] = self::get_settings_value( 'uo_frontend_login_successsendemail', __CLASS__, '%placeholder%', self::get_class_settings( '', TRUE ) );
+                ob_start();
+                ?>
+                <div class="ult-form__validation">
+                    <div class="ult-notice ult-notice--success">
+                        <?php do_action( 'uo_forgot_before_success_message' ); ?>
                         <?php echo $response['message']; ?>
-                    </p>
-					<?php
-					
-					$response['message'] = ob_get_clean();
-				} else{
-					$response['message'] = self::get_settings_value( 'uo_frontend_login_successsendemail', __CLASS__, '%placeholder%', self::get_class_settings( '', TRUE ) );
-				    ob_start();
-				    ?>
-                    <div class="ult-form__validation">
-                        <div class="ult-notice ult-notice--success">
-							<?php do_action( 'uo_forgot_before_success_message' ); ?>
-							<?php echo $response['message']; ?>
-							<?php do_action( 'uo_forgot_after_success_message' ); ?>
-                        </div>
+                        <?php do_action( 'uo_forgot_after_success_message' ); ?>
                     </div>
-                    <?php
-                    
-					$response['message'] = ob_get_clean();
-                }
-				wp_send_json( $response, $response_code );
-			} else {
-				$response['error']   = TRUE;
-				$response['message'] = self::get_settings_value( 'uo_login_forgot_pass_invalid_creds', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
-				wp_send_json( $response, $response_code );
-			}
-			
-		}
-		
+                </div>
+                <?php
+                
+                $response['message'] = ob_get_clean();
+            }
+            wp_send_json( $response, $response_code );
+        } else {
+            $response['success'] = false;
+            $response['message'] = self::get_settings_value( 'uo_login_forgot_pass_invalid_creds', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
+            wp_send_json( $response, $response_code );
+        }
+        
+		$response['success'] = false;
 		wp_send_json( $response, $response_code );
 	}
 	
@@ -2463,6 +2462,123 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		}
 		
 		return true;
+	}
+	
+	/**
+	 * Validate and reset user password.
+	 *
+	 * @since 3.3
+	 */
+	
+	public static function uo_reset_password_action() {
+		$response      = [];
+		$response_code = 200;
+		
+		// validate input first.
+		if ( ! isset( $_POST['password'] ) || empty( $_POST['password'] ) || ! isset( $_POST['passwordRepeat'] ) || empty( $_POST['passwordRepeat'] ) ) {
+			$response['success'] = FALSE;
+			$response['message'] = esc_html__( 'Password fields cannot be empty.', 'uncanny-learndash-toolkit' );
+			wp_send_json( $response, $response_code );
+		}
+		
+		$recaptcha_key         = Config::get_settings_value( 'uo_frontend_login_recaptcha_key', 'FrontendLoginPlus' );
+		$recaptcha_secrete_key = Config::get_settings_value( 'uo_frontend_login_recaptcha_secret_key', 'FrontendLoginPlus' );
+		
+		// check if recaptcha is setup
+		if ( '' !== trim( $recaptcha_key ) && '' !== trim( $recaptcha_secrete_key ) ) {
+			
+			if ( ! isset( $_POST['reCAPTCHA'] ) ) {
+				$response['success'] = FALSE;
+				$response['message'] = self::get_settings_value( 'uo_frontend_login_recaptchafailed_error', __CLASS__, '%placeholder%', self::get_class_settings( '', TRUE ) );
+				wp_send_json( $response, $response_code );
+			}
+			
+			// make sure its filled
+			$recaptcha_response = sanitize_text_field( $_POST['reCAPTCHA'] );
+			
+			if ( empty( trim( $recaptcha_response ) ) ) {
+				$response['success'] = FALSE;
+				$response['message'] = self::get_settings_value( 'uo_frontend_login_recaptchaempty_error', __CLASS__, '%placeholder%', self::get_class_settings( '', TRUE ) );
+				wp_send_json( $response, $response_code );
+			}
+			
+			$post_data = http_build_query(
+				[
+					'secret'   => $recaptcha_secrete_key,
+					'response' => $recaptcha_response,
+					'remoteip' => $_SERVER['REMOTE_ADDR'],
+				]
+			);
+			
+			$opts = [
+				'http' =>
+					[
+						'method'  => 'POST',
+						'header'  => 'Content-type: application/x-www-form-urlencoded',
+						'content' => $post_data,
+					],
+			];
+			
+			// validate server side
+			$context  = stream_context_create( $opts );
+			$response = file_get_contents( 'https://www.google.com/recaptcha/api/siteverify', FALSE, $context );
+			$result   = json_decode( $response );
+			
+			// return if there is an error
+			if ( ! $result->success ) {
+				$response['success'] = FALSE;
+				$response['message'] = self::get_settings_value( 'uo_frontend_login_recaptchafailed_error', __CLASS__, '%placeholder%', self::get_class_settings( '', TRUE ) );
+				wp_send_json( $response, $response_code );
+			}
+		}
+		
+		$rp_cookie = 'wp-resetpass-' . COOKIEHASH;
+		if ( isset( $_COOKIE[ $rp_cookie ] ) && 0 < strpos( $_COOKIE[ $rp_cookie ], ':' ) ) {
+			
+			list( $rp_login, $rp_key ) = explode( ':', wp_unslash( $_COOKIE[ $rp_cookie ] ), 2 );
+			
+			$user = check_password_reset_key( $rp_key, $rp_login );
+			
+		} else {
+			$user = new \WP_Error( 'invalid_key', __( 'Invalid key.' ) );
+		}
+		
+		// Password reset cookie was not set OR password rest key check failed
+		if ( is_wp_error( $user ) ) {
+			$response['success'] = FALSE;
+			$response['message'] = self::get_settings_value( 'uo_frontend_login_invalidresetkey_error', __CLASS__, '%placeholder%', self::get_class_settings( '', TRUE ) );
+			wp_send_json( $response, $response_code );
+		}
+		
+		if ( ! isset( $_POST['password'] ) || ! isset( $_POST['passwordRepeat'] ) ) {
+			
+			$response['success'] = FALSE;
+			$response['message'] = esc_html__( 'Password fields cannot be empty.', 'uncanny-learndash-toolkit' );
+			wp_send_json( $response, $response_code );
+			
+		} elseif ( $_POST['password'] !== $_POST['passwordRepeat'] ) {
+			$response['success'] = FALSE;
+			$response['message'] = self::get_settings_value( 'uo_frontend_login_passwordnotmatch_error', __CLASS__, '%placeholder%', self::get_class_settings( '', TRUE ) );
+			wp_send_json( $response, $response_code );
+		}
+		
+		// check password strength
+        $_password_strength = self::get_settings_value( 'uo_frontendloginplus_reset_password_strength', __CLASS__ );
+        
+        if ( $_password_strength === 'on' ) {
+            $password_ok = self::slt_fsp_password_strength( $_POST['password'], $user->user_login );
+            if ( $password_ok < 3 ) {
+                $response['success'] = FALSE;
+                $response['message'] = self::get_settings_value( 'uo_frontend_login_passwordstrength_error', __CLASS__, 'Please enter a password of minimum 8 characters including at least 1 uppercase letter, 1 lowercase letter and 1 number.', self::get_class_settings( '', TRUE ) );
+                wp_send_json( $response, $response_code );
+            }
+        }
+        
+		// Finally reset Password
+		reset_password( $user, $_POST['password'] );
+        $response['success'] = TRUE;
+        $response['message'] = self::get_settings_value( 'uo_frontend_login_reset_successful', __CLASS__, '%placeholder%', self::get_class_settings( '', TRUE ) );
+        wp_send_json( $response, $response_code );
 	}
 	
 	/**
