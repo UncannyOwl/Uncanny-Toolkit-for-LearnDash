@@ -129,6 +129,9 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 				// Create Login UI Shortcode that can be added anywhere
 				add_shortcode( 'uo_login_ui', array( __CLASS__, 'uo_login_ui' ) );
+				
+				// Create Login Modal Shortcode that can be added anywhere
+				add_shortcode( 'uo_login_modal', array( __CLASS__, 'uo_login_modal' ) );
 
 				// Redirect from wp-login.php to custom login page
 				add_action( 'init', array( __CLASS__, 'redirect_login_page' ) );
@@ -306,6 +309,12 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				'type'        => 'checkbox',
 				'label'       => esc_html__( 'Manual User Verification', 'uncanny-learndash-toolkit' ),
 				'option_name' => 'uo_frontendloginplus_needs_verifcation',
+			),
+			array(
+				'type'        => 'text',
+				'label'       => esc_html__( 'Login Modal Button Title', 'uncanny-learndash-toolkit' ),
+				'placeholder' => esc_html__( 'Login', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_frontend_login_modal_button_title_label',
 			),
 			// Will implement in later version
 			/*array(
@@ -2124,7 +2133,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		if ( ! isset( $_POST['email'] ) || ! isset( $_POST['password'] ) || empty( $_POST['email'] ) || empty( $_POST['password'] ) ) {
 			$response['success'] = false;
 			$response['message'] = Config::get_settings_value( 'uo_frontend_login_failed_error', 'FrontendLoginPlus', esc_html__( 'Invalid username and/or password.', 'uncanny-learndash-toolkit' ) );
-			wp_send_json( $response, $response_code );
+			self::wp_send_json( $response, $response_code );
 		}
 		
 		if ( ! isset( $response['success'] ) ) {
@@ -2153,7 +2162,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				if ( ! isset( $_POST['reCAPTCHA'] ) ) {
 					$response['success'] = false;
 					$response['message'] = self::get_settings_value( 'uo_frontend_login_recaptchafailed_error', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
-					wp_send_json( $response, $response_code );
+					self::wp_send_json( $response, $response_code );
 				}
 				
 				// make sure its filled
@@ -2162,7 +2171,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				if ( empty( trim( $recaptcha_response ) ) ) {
 					$response['success'] = false;
 					$response['message'] = self::get_settings_value( 'uo_frontend_login_recaptchaempty_error', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
-					wp_send_json( $response, $response_code );
+					self::wp_send_json( $response, $response_code );
 				}
 				
 				$post_data = http_build_query(
@@ -2191,7 +2200,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				if ( ! $result->success ) {
 					$response['success'] = false;
 					$response['message'] = self::get_settings_value( 'uo_frontend_login_recaptchafailed_error', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
-					wp_send_json( $response, $response_code );
+					self::wp_send_json( $response, $response_code );
 				}
 			}
 			$credential = [ 'user_login' => $_POST['email'], 'user_password' => $_POST['password'] ];
@@ -2200,7 +2209,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			if ( is_wp_error( $user ) ) {
 				$response['success'] = false;
 				$response['message'] = Config::get_settings_value( 'uo_frontend_login_failed_error', 'FrontendLoginPlus', esc_html__( 'Invalid username and/or password.', 'uncanny-learndash-toolkit' ) );
-				wp_send_json( $response, $response_code );
+				self::wp_send_json( $response, $response_code );
 			}
 			
 			// check account verification
@@ -2230,15 +2239,15 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 					if ( '1' !== $user_verified_value ) {
 						$response['success'] = false;
 						$response['message'] = Config::get_settings_value( 'uo_frontend_login_notverified_error', 'FrontendLoginPlus', esc_html__( 'This account is not verified.', 'uncanny-learndash-toolkit' ) );
-						wp_send_json( $response, $response_code );
+						self::wp_send_json( $response, $response_code );
 					}
 				}
 			}
 		}
 		
 		// Decide the redirection it will only happen when user on login page
-		if ( isset( $_REQUEST['redirect_to'] ) ) {
-			$redirect_to = $_REQUEST['redirect_to'];
+		if ( isset( $_REQUEST['redirectTo'] ) ) {
+			$redirect_to = $_REQUEST['redirectTo'];
 			// Redirect to HTTPS if user wants SSL.
 			if ( $secure_cookie && FALSE !== strpos( $redirect_to, 'wp-admin' ) ) {
 				$redirect_to = preg_replace( '|^http://|', 'https://', $redirect_to );
@@ -2248,9 +2257,9 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		}
 		$response['success']     = TRUE;
 		$requested_redirect_to   = isset( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : '';
-		$response['redirect_to'] = apply_filters( 'login_redirect', $redirect_to, $requested_redirect_to, $user );
+		$response['redirectTo'] = apply_filters( 'login_redirect', $redirect_to, $requested_redirect_to, $user );
 		
-		wp_send_json( $response, $response_code );
+		self::wp_send_json( $response, $response_code );
 	}
 	
 	/**
@@ -2266,7 +2275,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		if ( ! isset( $_POST['email'] ) || empty( $_POST['email'] ) ) {
 			$response['success'] = false;
 			$response['message'] = Config::get_settings_value( 'uo_login_forgot_pass_invalid_creds', 'FrontendLoginPlus', esc_html__( 'Invalid username/email.', 'uncanny-learndash-toolkit' ) );
-			wp_send_json( $response, $response_code );
+			self::wp_send_json( $response, $response_code );
 		}
 		
         $recaptcha_key         = Config::get_settings_value( 'uo_frontend_login_recaptcha_key', 'FrontendLoginPlus' );
@@ -2278,7 +2287,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
             if ( ! isset( $_POST['reCAPTCHA'] ) ) {
                 $response['success'] = false;
                 $response['message'] = self::get_settings_value( 'uo_frontend_login_recaptchafailed_error', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
-                wp_send_json( $response, $response_code );
+                self::wp_send_json( $response, $response_code );
             }
             
             // make sure its filled
@@ -2287,7 +2296,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
             if ( empty( trim( $recaptcha_response ) ) ) {
 	            $response['success'] = false;
                 $response['message'] = self::get_settings_value( 'uo_frontend_login_recaptchaempty_error', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
-                wp_send_json( $response, $response_code );
+                self::wp_send_json( $response, $response_code );
             }
             
             $post_data = http_build_query(
@@ -2316,7 +2325,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
             if ( ! $result->success ) {
 	            $response['success'] = false;
                 $response['message'] = self::get_settings_value( 'uo_frontend_login_recaptchafailed_error', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
-                wp_send_json( $response, $response_code );
+                self::wp_send_json( $response, $response_code );
             }
         }
 		$_POST['user_login'] = $_POST['email'];
@@ -2350,15 +2359,15 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
                 
                 $response['message'] = ob_get_clean();
             }
-            wp_send_json( $response, $response_code );
+            self::wp_send_json( $response, $response_code );
         } else {
             $response['success'] = false;
             $response['message'] = self::get_settings_value( 'uo_login_forgot_pass_invalid_creds', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
-            wp_send_json( $response, $response_code );
+            self::wp_send_json( $response, $response_code );
         }
         
 		$response['success'] = false;
-		wp_send_json( $response, $response_code );
+		self::wp_send_json( $response, $response_code );
 	}
 	
 	/**
@@ -2478,7 +2487,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		if ( ! isset( $_POST['password'] ) || empty( $_POST['password'] ) || ! isset( $_POST['passwordRepeat'] ) || empty( $_POST['passwordRepeat'] ) ) {
 			$response['success'] = FALSE;
 			$response['message'] = esc_html__( 'Password fields cannot be empty.', 'uncanny-learndash-toolkit' );
-			wp_send_json( $response, $response_code );
+			self::wp_send_json( $response, $response_code );
 		}
 		
 		$recaptcha_key         = Config::get_settings_value( 'uo_frontend_login_recaptcha_key', 'FrontendLoginPlus' );
@@ -2490,7 +2499,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			if ( ! isset( $_POST['reCAPTCHA'] ) ) {
 				$response['success'] = FALSE;
 				$response['message'] = self::get_settings_value( 'uo_frontend_login_recaptchafailed_error', __CLASS__, '%placeholder%', self::get_class_settings( '', TRUE ) );
-				wp_send_json( $response, $response_code );
+				self::wp_send_json( $response, $response_code );
 			}
 			
 			// make sure its filled
@@ -2499,7 +2508,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			if ( empty( trim( $recaptcha_response ) ) ) {
 				$response['success'] = FALSE;
 				$response['message'] = self::get_settings_value( 'uo_frontend_login_recaptchaempty_error', __CLASS__, '%placeholder%', self::get_class_settings( '', TRUE ) );
-				wp_send_json( $response, $response_code );
+				self::wp_send_json( $response, $response_code );
 			}
 			
 			$post_data = http_build_query(
@@ -2528,7 +2537,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			if ( ! $result->success ) {
 				$response['success'] = FALSE;
 				$response['message'] = self::get_settings_value( 'uo_frontend_login_recaptchafailed_error', __CLASS__, '%placeholder%', self::get_class_settings( '', TRUE ) );
-				wp_send_json( $response, $response_code );
+				self::wp_send_json( $response, $response_code );
 			}
 		}
 		
@@ -2547,19 +2556,19 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		if ( is_wp_error( $user ) ) {
 			$response['success'] = FALSE;
 			$response['message'] = self::get_settings_value( 'uo_frontend_login_invalidresetkey_error', __CLASS__, '%placeholder%', self::get_class_settings( '', TRUE ) );
-			wp_send_json( $response, $response_code );
+			self::wp_send_json( $response, $response_code );
 		}
 		
 		if ( ! isset( $_POST['password'] ) || ! isset( $_POST['passwordRepeat'] ) ) {
 			
 			$response['success'] = FALSE;
 			$response['message'] = esc_html__( 'Password fields cannot be empty.', 'uncanny-learndash-toolkit' );
-			wp_send_json( $response, $response_code );
+			self::wp_send_json( $response, $response_code );
 			
 		} elseif ( $_POST['password'] !== $_POST['passwordRepeat'] ) {
 			$response['success'] = FALSE;
 			$response['message'] = self::get_settings_value( 'uo_frontend_login_passwordnotmatch_error', __CLASS__, '%placeholder%', self::get_class_settings( '', TRUE ) );
-			wp_send_json( $response, $response_code );
+			self::wp_send_json( $response, $response_code );
 		}
 		
 		// check password strength
@@ -2570,7 +2579,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
             if ( $password_ok < 3 ) {
                 $response['success'] = FALSE;
                 $response['message'] = self::get_settings_value( 'uo_frontend_login_passwordstrength_error', __CLASS__, 'Please enter a password of minimum 8 characters including at least 1 uppercase letter, 1 lowercase letter and 1 number.', self::get_class_settings( '', TRUE ) );
-                wp_send_json( $response, $response_code );
+                self::wp_send_json( $response, $response_code );
             }
         }
         
@@ -2578,7 +2587,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		reset_password( $user, $_POST['password'] );
         $response['success'] = TRUE;
         $response['message'] = self::get_settings_value( 'uo_frontend_login_reset_successful', __CLASS__, '%placeholder%', self::get_class_settings( '', TRUE ) );
-        wp_send_json( $response, $response_code );
+        self::wp_send_json( $response, $response_code );
 	}
 	
 	/**
@@ -2690,7 +2699,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			}
 			// Replace default wp-login.php with hash
 			if ( ( strpos( $menu_item->url, 'wp-login.php' ) !== false ) ) {
-				$menu_item->url = '#uo_login';
+				$menu_item->url = '#ult-login';
 			}
 			if ( ( strpos( $menu_item->url, '#uo_login' ) !== false ) ) {
 				if( $post->ID !== self::get_login_redirect_page_id()) {
@@ -2721,5 +2730,38 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		if ( ( isset( $uo_login_model_html ) ) && ( ! empty( $uo_login_model_html ) ) ) {
 			echo $uo_login_model_html;
 		}
+	}
+	
+	public static function uo_login_modal() {
+		$login_page_id = self::get_login_redirect_page_id();
+		$login_page    = '#ult-login';
+		if ( $login_page_id ) {
+			$login_page = get_permalink( $login_page_id );
+		}
+		$uo_frontend_login_modal_button_title_label = self::get_settings_value( 'uo_frontend_login_modal_button_title_label', __CLASS__, '%placeholder%', self::get_class_settings( '', TRUE ) );
+		if ( ! is_user_logged_in() ) {
+			ob_start();
+			?>
+            <a href="<?php echo $login_page; ?>" class="ult-modal-open" data-id="ult-login">
+				<?php echo $uo_frontend_login_modal_button_title_label; ?>
+            </a>
+			<?php
+			self::load_login_modal();
+			$uo_login_model_html = ob_get_clean();
+			
+			return $uo_login_model_html;
+		}
+		
+	}
+	
+	public static function wp_send_json( $response, $status_code = null ) {
+		@header( 'Content-Type: application/json; charset=' . get_option( 'blog_charset' ) );
+		if ( null !== $status_code ) {
+			status_header( $status_code );
+		}
+		
+		echo json_encode( $response );
+		
+		die;
 	}
 }
