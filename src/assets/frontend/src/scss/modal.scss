@@ -154,6 +154,8 @@ html.ult-modal--open body {
 
 		position: relative;
 		display: inline-flex;
+
+		overflow: hidden;
 		
 		flex: 1 1 auto;
 	}
@@ -187,8 +189,8 @@ html.ult-modal--open body {
 
 			position: relative;
 
-			margin: 0px 20px;
-			padding: 20px;
+			margin: 0px;
+			padding: 20px 40px;
 
 			outline: none;
 		}
