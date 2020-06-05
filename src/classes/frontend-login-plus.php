@@ -2696,13 +2696,10 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				if ( typeof UncannyToolkit !== 'undefined' ){
 					if ( typeof UncannyToolkit.reCaptchaInit !== 'undefined' ){
 						if ( document.readyState == 'complete' || document.readyState == 'interactive' ){
-							console.log( 'DOM already ready' );
 							UncannyToolkit.reCaptchaInit();
 						}
 						else {
-							console.log( 'DOMContentLoaded' );
 							document.addEventListener( 'DOMContentLoaded', () => {
-								console.log( 'DOMContentLoaded: ready' );
 								UncannyToolkit.reCaptchaInit();
 							});
 						}
