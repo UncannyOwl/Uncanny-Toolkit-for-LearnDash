@@ -1,9 +1,9 @@
 <?php
 namespace uncanny_learndash_toolkit;
 
-$uo_frontend_login_modal_background = '0';
+$uo_frontend_login_modal_background = '1';
 if ( "on" === Config::get_settings_value( 'uo_frontend_login_modal_background', 'FrontendLoginPlus' ) ) {
-	$uo_frontend_login_modal_background = '1';
+	$uo_frontend_login_modal_background = '0';
 }
 add_filter( 'uo-login-template', function ( $layout ) {
 	return 'layout_1';

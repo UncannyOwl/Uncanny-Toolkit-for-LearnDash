@@ -451,7 +451,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			),
 			array(
 				'type'        => 'checkbox',
-				'label'       => esc_html__( 'Dim the background when the modal is open', 'uncanny-learndash-toolkit' ),
+				'label'       => esc_html__( "Don't dim the background when the modal is open", 'uncanny-learndash-toolkit' ),
 				'option_name' => 'uo_frontend_login_modal_background'
 			),
 			array(
@@ -2372,28 +2372,38 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
             $template_to_load = apply_filters( 'uo-login-template', Config::get_settings_value( 'uo_frontend_login_template', 'FrontendLoginPlus', 'default' ) );
             if("default" === $template_to_load) {
                 $response['message'] = self::get_settings_value( 'uo_frontend_login_successsendemail', __CLASS__, '%placeholder%', self::get_class_settings( '', TRUE ) );
-                /*ob_start();
+                ob_start();
                 ?>
                 <p>
                     <?php echo $response['message']; ?>
                 </p>
                 <?php
                 
-                $response['message'] = ob_get_clean();*/
+                $response['message'] = ob_get_clean();
             } else{
                 $response['message'] = self::get_settings_value( 'uo_frontend_login_successsendemail', __CLASS__, '%placeholder%', self::get_class_settings( '', TRUE ) );
-                /*ob_start();
+                ob_start();
                 ?>
-                <div class="ult-form__validation">
+	            <?php do_action( 'uo_forgot_before_title' ); ?>
+
+                <div class="ult-form__title">
+		            <?php echo self::get_settings_value( 'uo_login_forgot_pass_title', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) ); ?>
+                </div>
+	
+	            <?php do_action( 'uo_forgot_before_success' ); ?>
+
+                <div class="ult-form__row ult-form__row--validation">
                     <div class="ult-notice ult-notice--success">
-                        <?php do_action( 'uo_forgot_before_success_message' ); ?>
-                        <?php echo $response['message']; ?>
-                        <?php do_action( 'uo_forgot_after_success_message' ); ?>
+			            <?php do_action( 'uo_forgot_before_success_message' ); ?>
+			            <?php echo $response['message']; ?>
+			            <?php do_action( 'uo_forgot_after_success_message' ); ?>
                     </div>
                 </div>
+	
+	            <?php do_action( 'uo_forgot_after_success' ); ?>
                 <?php
                 
-                $response['message'] = ob_get_clean();*/
+                $response['message'] = ob_get_clean();
             }
             self::wp_send_json( $response, $response_code );
         } else {
