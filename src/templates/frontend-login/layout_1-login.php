@@ -148,49 +148,53 @@ add_filter( 'login_form_middle', function( $content ){
 
 	<div class="ult-box">
 
-		<?php if ( isset( $reset_password_sucess ) && ! empty( $reset_password_sucess ) ){ ?>
+		<div class="ult-form__content">
+			
+			<?php if ( isset( $reset_password_sucess ) && ! empty( $reset_password_sucess ) ){ ?>
 
-			<?php do_action( 'uo_login_before_reset_success' ); ?>
+				<?php do_action( 'uo_login_before_reset_success' ); ?>
 
-			<div class="ult-notice ult-notice--success">
-				<?php do_action( 'uo_login_before_reset_success_message' ); ?>
+				<div class="ult-notice ult-notice--success">
+					<?php do_action( 'uo_login_before_reset_success_message' ); ?>
 
-				<?php echo $reset_password_sucess; ?>
+					<?php echo $reset_password_sucess; ?>
 
-				<?php do_action( 'uo_login_before_reset_success_message' ); ?>
+					<?php do_action( 'uo_login_before_reset_success_message' ); ?>
+				</div>
+
+			<?php } ?>
+
+			<?php do_action( 'uo_login_before_title' ); ?>
+
+			<?php if ( $login->config->show_title ){ ?>
+
+				<div class="ult-form__title">
+					<?php echo $login->strings->title; ?>
+				</div>
+
+			<?php } ?>
+
+			<?php do_action( 'uo_login_before_description' ); ?>
+
+			<?php if ( $login->config->show_description ){ ?>
+
+				<div class="ult-form__description">
+					<?php echo $login->strings->description; ?>
+				</div>
+
+			<?php } ?>
+
+			<?php do_action( 'uo_login_before_form' ); ?>
+
+			<div class="ult-form__container">
+
+				<?php wp_login_form( $login_form_args ); ?>
+
 			</div>
 
-		<?php } ?>
-
-		<?php do_action( 'uo_login_before_title' ); ?>
-
-		<?php if ( $login->config->show_title ){ ?>
-
-			<div class="ult-form__title">
-				<?php echo $login->strings->title; ?>
-			</div>
-
-		<?php } ?>
-
-		<?php do_action( 'uo_login_before_description' ); ?>
-
-		<?php if ( $login->config->show_description ){ ?>
-
-			<div class="ult-form__description">
-				<?php echo $login->strings->description; ?>
-			</div>
-
-		<?php } ?>
-
-		<?php do_action( 'uo_login_before_form' ); ?>
-
-		<div class="ult-form__container">
-
-			<?php wp_login_form( $login_form_args ); ?>
+			<?php do_action( 'uo_login_before_footer' ); ?>
 
 		</div>
-
-		<?php do_action( 'uo_login_before_footer' ); ?>
 
 		<div class="ult-form__footer">
 
