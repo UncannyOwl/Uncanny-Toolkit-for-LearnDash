@@ -16,18 +16,11 @@ class reCAPTCHAs {
 	}
 
 	whenReady( callback ){
-		// Check if the reCAPTCHA script already loaded
-		if ( isDefined( window.grecaptcha ) ){
+		// Define a function that will be invoked once Google reCAPTCHA
+		// is ready to use
+		window.UncannyToolkit.reCaptchaInit = () => {
 			// Invoke the callback
 			callback();
-		}
-		else {
-			// Define a function that will be invoked once Google reCAPTCHA
-			// is ready to use
-			window.UncannyToolkit.reCaptchaInit = () => {
-				// Invoke the callback
-				callback();
-			}
 		}
 	}
 
