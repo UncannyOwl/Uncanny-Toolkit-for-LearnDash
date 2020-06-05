@@ -72,8 +72,6 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			add_filter( 'uncannyowl-learndash-toolkit-js', array( __CLASS__, 'uo_ajax_login_js' ), 10 );
 
 			add_action( 'wp_print_scripts', array( __CLASS__, 'uo_ajax_login_js_recaptcha_handler' ), 10, 2 );
-
-			add_action( 'wp_print_scripts', array( __CLASS__, 'uo_login_recaptcha' ), 10, 2 );
 			
 			// override menu login item
 			add_filter( 'wp_nav_menu_objects', [ __CLASS__, 'uo_login_menu_items'], 40, 2 );
@@ -2694,48 +2692,49 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	}
 
 	public static function uo_ajax_login_js_recaptcha_handler(){
-		?>
-	
-		<script>
 
-		var UncannyToolkitFrontendLoginReCaptchaCorrect = function( response ){
-			if ( typeof UncannyToolkit !== 'undefined' ){
-				if ( typeof UncannyToolkit.frontendLogin !== 'undefined' ){
-					if ( typeof UncannyToolkit.frontendLogin.reCaptcha !== 'undefined' ){
-						if ( typeof UncannyToolkit.frontendLogin.reCaptcha.correct !== 'undefined' ){
-							UncannyToolkit.frontendLogin.reCaptcha.correct( response );
-						}
-					}
-				}
-			}
-		}
-
-		var UncannyToolkitFrontendLoginReCaptchaInit = function(){
-			if ( typeof UncannyToolkit !== 'undefined' ){
-				if ( typeof UncannyToolkit.reCaptchaInit !== 'undefined' ){
-					UncannyToolkit.reCaptchaInit();
-				}
-			}
-		}
-
-		</script>
-
-		<?php
-	}
-
-	public static function uo_login_recaptcha(){
 		$recaptcha_key         = Config::get_settings_value( 'uo_frontend_login_recaptcha_key', 'FrontendLoginPlus' );
 		$recaptcha_secrete_key = Config::get_settings_value( 'uo_frontend_login_recaptcha_secret_key', 'FrontendLoginPlus' );
+
 
 		if ( '' !== trim( $recaptcha_key ) && '' !== trim( $recaptcha_secrete_key ) ) {
 			?>
 	
+			<script>
+
+			var UncannyToolkitFrontendLoginReCaptchaInit = function(){
+				if ( typeof UncannyToolkit !== 'undefined' ){
+					if ( typeof UncannyToolkit.reCaptchaInit !== 'undefined' ){
+						if ( document.readyState == 'complete' || document.readyState == 'interactive' ){
+							UncannyToolkit.reCaptchaInit();
+						}
+						else {
+							document.addEventListener( 'DOMContentLoaded', () => {
+								UncannyToolkit.reCaptchaInit();
+							});
+						}
+					}
+				}
+			}
+
+			var UncannyToolkitFrontendLoginReCaptchaCorrect = function( response ){
+				if ( typeof UncannyToolkit !== 'undefined' ){
+					if ( typeof UncannyToolkit.frontendLogin !== 'undefined' ){
+						if ( typeof UncannyToolkit.frontendLogin.reCaptcha !== 'undefined' ){
+							if ( typeof UncannyToolkit.frontendLogin.reCaptcha.correct !== 'undefined' ){
+								UncannyToolkit.frontendLogin.reCaptcha.correct( response );
+							}
+						}
+					}
+				}
+			}
+
+			</script>
+
 			<script src="https://www.google.com/recaptcha/api.js?onload=UncannyToolkitFrontendLoginReCaptchaInit&render=explicit" async defer></script>
 
 			<?php
 		}
-
-		
 	}
 
 	/**

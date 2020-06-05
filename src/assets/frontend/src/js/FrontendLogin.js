@@ -125,7 +125,7 @@ class FrontendLogin {
 				}
 
 				// Reset reCAPTCHA
-				this.resetReCAPTCHA();grecaptcha.reset();
+				this.resetReCAPTCHA();
 
 				// Remove the loading animation
 				this.setLoadingStatus( false );
@@ -220,7 +220,11 @@ class FrontendLogin {
 
 	resetReCAPTCHA(){
 		try {
-			grecaptcha.reset();
+			// Get the reCAPTCHA ID
+			const id = this.$elements.formFields.reCAPTCHA.getAttribute( 'data-id' );
+
+			// Reset the reCAPTCHA
+			grecaptcha.reset( id );
 		} catch ( e ){}
 	}
 
@@ -314,6 +318,7 @@ export class ForgotPassword extends FrontendLogin {
 		// Get the main elements
 		this.$elements = {
 			container: document.getElementById( 'ult-forgot-password' ),
+			boxContent: document.querySelector( '#ult-forgot-password .ult-form__content' ),
 			mainForm:  document.getElementById( 'ult-forgot-password-form' ),
 			submitButton: {
 				container: document.querySelector( '.ult-form__row--submit' ),
@@ -362,7 +367,7 @@ export class ForgotPassword extends FrontendLogin {
 
 	afterValidSubmission( response ){
 		// Show a confirmation message
-		console.log( 'Show a confirmation message' );
+		this.$elements.boxContent.innerHTML = response.message;
 	}
 }
 
