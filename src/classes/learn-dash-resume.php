@@ -108,7 +108,7 @@ class LearnDashResume extends Config implements RequiredFunctions {
 				'type'        => 'checkbox',
 				'label'       => esc_html__( 'Show Name of Last Course / Lesson / Topic', 'uncanny-learndash-toolkit' ),
 				'option_name' => 'learn-dash-resume-show-name',
-			)
+			),
 
 		);
 
@@ -225,6 +225,8 @@ class LearnDashResume extends Config implements RequiredFunctions {
 
 						if ( strlen( trim( $link_text ) ) ) {
 							$resume_link_text = __( $link_text, 'uncanny-learndash-toolkit' );
+						} else {
+							$resume_link_text = __( 'Resume', 'uncanny-learndash-toolkit' );
 						}
 
 						$resume_link_text = apply_filters( 'learndash_resume_link_text', $resume_link_text );
@@ -350,6 +352,8 @@ class LearnDashResume extends Config implements RequiredFunctions {
 
 				if ( strlen( trim( $link_text ) ) ) {
 					$resume_link_text = __( $link_text, 'uncanny-learndash-toolkit' );
+				} else {
+					$resume_link_text = __( 'Resume', 'uncanny-learndash-toolkit' );
 				}
 
 				$resume_link_text = apply_filters( 'learndash_resume_link_text', $resume_link_text );
