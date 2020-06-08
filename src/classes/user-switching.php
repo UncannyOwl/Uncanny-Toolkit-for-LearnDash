@@ -46,6 +46,7 @@ class UserSwitching extends Config implements RequiredFunctions {
 	 */
 	public function __construct() {
 		add_action( 'plugins_loaded', array( __CLASS__, 'plugins_loaded' ) );
+		add_action( 'wp_footer', [ __CLASS__, 'add_focus_mode_support' ] );
 	}
 
 	/*
@@ -56,6 +57,9 @@ class UserSwitching extends Config implements RequiredFunctions {
 	 * executing any action, filters, and/or extending classes from it.
 	 *
 	 * @since 1.0.0
+	 */
+	/**
+	 *
 	 */
 	public static function plugins_loaded() {
 
@@ -171,9 +175,38 @@ class UserSwitching extends Config implements RequiredFunctions {
 	 *
 	 * @return boolean || string
 	 */
+	/**
+	 * @return bool|mixed
+	 */
 	public static function dependants_exist() {
 		// Return true dependency is available
 		return true;
+	}
+
+	/**
+	 *
+	 */
+	public static function add_focus_mode_support() {
+		?>
+        <script>
+            jQuery(document).ready(function () {
+                jQuery('p#user_switching_switch_on').css('position', 'relative');
+            })
+        </script>
+		<?php
+		//Support LearnDash focus mode
+		if ( class_exists( 'LearnDash_Settings_Section' ) ) {
+			$focus_mode = \LearnDash_Settings_Section::get_section_setting( 'LearnDash_Settings_Theme_LD30', 'focus_mode_enabled' );
+			if ( 'yes' === $focus_mode ) {
+				?>
+                <script>
+                    jQuery(document).ready(function () {
+                        jQuery('p#user_switching_switch_on').css('float', 'right').css('padding-right', '10px');
+                    })
+                </script>
+				<?php
+			}
+		}
 	}
 
 }
