@@ -3,60 +3,15 @@
 namespace uncanny_learndash_toolkit;
 
 
+/**
+ * Class Config
+ * @package uncanny_learndash_toolkit
+ */
 class Config {
-	/**
-	 * @var string
-	 */
-	private static $version;
-	/**
-	 * @var string
-	 */
-	private static $file;
-	/**
-	 * @var string
-	 */
-	private static $basename;
-	/**
-	 * @var string
-	 */
-	private static $project_name;
-	/**
-	 * @var string
-	 */
-	private static $plugin_dir;
-	/**
-	 * @var string
-	 */
-	private static $plugin_url;
-
-	/**
-	 * @var string
-	 */
-	private static $css_prefix;
 	/**
 	 * @var array
 	 */
 	private static $available_plugins;
-	/**
-	 * @var bool
-	 */
-	private static $caching_on = false;
-
-	/**
-	 * @return boolean
-	 */
-	public static function is_caching_on() {
-		return self::$caching_on;
-	}
-
-	/**
-	 * @param $class_names
-	 *
-	 * @return array
-	 */
-	public static function set_available_classes( $class_names ) {
-		self::$available_plugins = $class_names;
-	}
 
 	/**
 	 * @return array of class names
@@ -70,50 +25,6 @@ class Config {
 		}
 
 		return self::$available_plugins;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public static function get_basename() {
-		if ( null === self::$basename ) {
-			self::$basename = plugin_basename( self::$file );
-		}
-
-		return self::$basename;
-	}
-
-	/**
-	 * @return string
-	 */
-	public static function get_file() {
-		if ( null === self::$file ) {
-			self::$file = __FILE__;
-		}
-
-		return self::$file;
-	}
-
-	/**
-	 * @return string
-	 */
-	public static function get_plugin_dir() {
-		if ( null === self::$plugin_dir ) {
-			self::$plugin_dir = plugin_dir_path( self::$file );
-		}
-
-		return self::$plugin_dir;
-	}
-
-	/**
-	 * @return string
-	 */
-	public static function get_plugin_url() {
-		if ( null === self::$plugin_url ) {
-			self::$plugin_url = plugin_dir_url( self::$file );
-		}
-
-		return self::$plugin_url;
 	}
 
 	/**
@@ -154,39 +65,6 @@ class Config {
 	 *
 	 * @return string
 	 */
-	public static function get_site_media( $file_name ) {
-		$asset_url = plugins_url( 'assets/site/media/' . $file_name, __FILE__ );
-
-		return $asset_url;
-	}
-
-	/**
-	 * @param string $file_name
-	 *
-	 * @return string
-	 */
-	public static function get_site_css( $file_name ) {
-		$asset_url = plugins_url( 'assets/site/css/' . $file_name, __FILE__ );
-
-		return $asset_url;
-	}
-
-	/**
-	 * @param string $file_name
-	 *
-	 * @return string
-	 */
-	public static function get_site_js( $file_name ) {
-		$asset_url = plugins_url( 'assets/site/js/' . $file_name, __FILE__ );
-
-		return $asset_url;
-	}
-
-	/**
-	 * @param string $file_name
-	 *
-	 * @return string
-	 */
 	public static function get_vendor( $file_name ) {
 		$asset_url = plugins_url( 'assets/vendor/' . $file_name, __FILE__ );
 
@@ -195,7 +73,7 @@ class Config {
 
 	/**
 	 * @param string $file_name File name must be prefixed with a \ (foreword slash)
-	 * @param mixed  $file      (false || __FILE__ )
+	 * @param mixed $file (false || __FILE__ )
 	 *
 	 * @return string
 	 */
@@ -220,17 +98,18 @@ class Config {
 	 * Searches in the STYLESHEETPATH before TEMPLATEPATH and wp-includes/theme-compat
 	 * so that themes which inherit from a parent theme can just overload one file.
 	 *
-	 * @since 3.1
-	 *
 	 * @param string|array $template_names Template file(s) to search for, in order.
 	 *
 	 * @return string The template filename if one is located.
+	 * @since 3.1
+	 *
 	 */
 	public static function locate_template( $template_names ) {
 		$located = '';
 		foreach ( (array) $template_names as $template_name ) {
-			if ( !$template_name )
+			if ( ! $template_name ) {
 				continue;
+			}
 			if ( file_exists( get_stylesheet_directory() . DIRECTORY_SEPARATOR . $template_name ) ) {
 				$located = get_stylesheet_directory() . DIRECTORY_SEPARATOR . $template_name;
 				break;
@@ -248,7 +127,7 @@ class Config {
 
 	/**
 	 * @param string $file_name File name must be prefixed with a \ (foreword slash)
-	 * @param mixed  $file      (false || __FILE__ )
+	 * @param mixed $file (false || __FILE__ )
 	 *
 	 * @return string
 	 */
@@ -266,69 +145,8 @@ class Config {
 	/**
 	 * @return string
 	 */
-	public static function get_project_name() {
-		if ( null === self::$project_name ) {
-			self::$project_name = 'uncanny_learndash_toolkit';
-		}
-
-		return self::$project_name;
-	}
-
-	/**
-	 * @param $project_name
-	 */
-	public static function set_project_name( $project_name ) {
-		self::$project_name = $project_name;
-	}
-
-	/**
-	 * @return string
-	 */
-	public static function get_prefix() {
-		return self::get_project_name() . '_';
-	}
-
-	/**
-	 * @return string
-	 */
-	public static function get_css_prefix() {
-		if ( null === self::$css_prefix ) {
-			self::$css_prefix = str_replace( '_', '-', self::get_prefix() );
-		}
-
-		return self::$css_prefix;
-	}
-
-	/**
-	 * @return string
-	 */
-	public static function _get_prefix() {
-		return '_' . self::get_prefix();
-	}
-
-	/**
-	 * @return string
-	 */
 	public static function get_namespace() {
-		return self::get_project_name();
-	}
-
-	/**
-	 * @return string
-	 */
-	public static function get_date_formant() {
-		return 'y/m/d g:i';
-	}
-
-	/**
-	 * @return string
-	 */
-	public static function get_version() {
-		if ( null === self::$version ) {
-			self::$version = '1.3.7';
-		}
-
-		return self::$version;
+		return __NAMESPACE__;
 	}
 
 	/**
@@ -363,31 +181,31 @@ class Config {
 
 		$modal_id = stripslashes( $class );
 		$modal_id = str_replace( __NAMESPACE__, '', $modal_id );
-		
+
 		add_filter( 'tiny_mce_before_init', function ( $init ) {
 			$init['extended_valid_elements'] = '*[*]';
-			$init['remove_linebreaks']       = FALSE;
-			$init['convert_newlines_to_brs'] = TRUE;
-			$init['remove_redundant_brs']    = FALSE;
-			
+			$init['remove_linebreaks']       = false;
+			$init['convert_newlines_to_brs'] = true;
+			$init['remove_redundant_brs']    = false;
+
 			return $init;
 		} );
 		ob_start();
 
 		?>
 
-		<div class="ult-modal" data-settings="<?php echo $modal_id; ?>">
-			<div class="ult-modal-box">
-				<div class="ult-modal__header">
-					<div class="ult-modal-title">
-						<div class="ult-modal-title__icon"></div>
-						<div class="ult-modal-title__text">
+        <div class="ult-modal" data-settings="<?php echo $modal_id; ?>">
+            <div class="ult-modal-box">
+                <div class="ult-modal__header">
+                    <div class="ult-modal-title">
+                        <div class="ult-modal-title__icon"></div>
+                        <div class="ult-modal-title__text">
 							<?php echo $title; ?>
-						</div>
-					</div>
-				</div>
-				<form method="POST" class="ult-modal-form ult-modal-form-js">
-					<div class="ult-modal-options">
+                        </div>
+                    </div>
+                </div>
+                <form method="POST" class="ult-modal-form ult-modal-form-js">
+                    <div class="ult-modal-options">
 						<?php
 
 						// Create options
@@ -399,9 +217,9 @@ class Config {
 
 									?>
 
-									<div class="ult-modal-form-row ult-modal-form-row--html <?php echo $content['class']; ?>">
+                                    <div class="ult-modal-form-row ult-modal-form-row--html <?php echo $content['class']; ?>">
 										<?php echo $content['inner_html']; ?>
-									</div>
+                                    </div>
 
 									<?php
 
@@ -411,20 +229,22 @@ class Config {
 
 									?>
 
-									<div class="ult-modal-form-row ult-modal__field--text">
-										<div class="ult-modal-form-row__label">
+                                    <div class="ult-modal-form-row ult-modal__field--text">
+                                        <div class="ult-modal-form-row__label">
 											<?php echo $content['label']; ?>
-										</div>
-										<div class="ult-modal-form-row__field">
-											<input type="text" placeholder="<?php echo $content['placeholder']; ?>" class="ult-modal-form-row__input <?php echo $content['class'] ?>" name="<?php echo $content['option_name']; ?>" data-type="text">
+                                        </div>
+                                        <div class="ult-modal-form-row__field">
+                                            <input type="text" placeholder="<?php echo $content['placeholder']; ?>"
+                                                   class="ult-modal-form-row__input <?php echo $content['class'] ?>"
+                                                   name="<?php echo $content['option_name']; ?>" data-type="text">
 
 											<?php if ( ! empty( $content['description'] ) ) { ?>
-												<div class="ult-modal-form-row__description">
+                                                <div class="ult-modal-form-row__description">
 													<?php echo $content['description']; ?>
-												</div>
+                                                </div>
 											<?php } ?>
-										</div>
-									</div>
+                                        </div>
+                                    </div>
 
 									<?php
 
@@ -434,20 +254,22 @@ class Config {
 
 									?>
 
-									<div class="ult-modal-form-row ult-modal__field--color">
-										<div class="ult-modal-form-row__label">
+                                    <div class="ult-modal-form-row ult-modal__field--color">
+                                        <div class="ult-modal-form-row__label">
 											<?php echo $content['label']; ?>
-										</div>
-										<div class="ult-modal-form-row__field">
-											<input type="color" placeholder="<?php echo $content['placeholder']; ?>" class="ult-modal-form-row__color" name="<?php echo $content['option_name']; ?>" data-type="color">
+                                        </div>
+                                        <div class="ult-modal-form-row__field">
+                                            <input type="color" placeholder="<?php echo $content['placeholder']; ?>"
+                                                   class="ult-modal-form-row__color"
+                                                   name="<?php echo $content['option_name']; ?>" data-type="color">
 
 											<?php if ( ! empty( $content['description'] ) ) { ?>
-												<div class="ult-modal-form-row__description">
+                                                <div class="ult-modal-form-row__description">
 													<?php echo $content['description']; ?>
-												</div>
+                                                </div>
 											<?php } ?>
-										</div>
-									</div>
+                                        </div>
+                                    </div>
 
 									<?php
 
@@ -468,11 +290,11 @@ class Config {
 
 										?>
 
-										<div class="ult-modal-form-row ult-modal__field--tinymce">
-											<div class="ult-modal-form-row__label">
+                                        <div class="ult-modal-form-row ult-modal__field--tinymce">
+                                            <div class="ult-modal-form-row__label">
 												<?php echo $content['label']; ?>
-											</div>
-											<div class="ult-modal-form-row__field">
+                                            </div>
+                                            <div class="ult-modal-form-row__field">
 												<?php
 
 												echo wp_editor(
@@ -486,31 +308,35 @@ class Config {
 												?>
 
 												<?php if ( ! empty( $content['description'] ) ) { ?>
-													<div class="ult-modal-form-row__description">
+                                                    <div class="ult-modal-form-row__description">
 														<?php echo $content['description']; ?>
-													</div>
+                                                    </div>
 												<?php } ?>
-											</div>
-										</div>
+                                            </div>
+                                        </div>
 
 										<?php
 									} else {
 										?>
 
-										<div class="ult-modal-form-row ult-modal__field--textarea">
-											<div class="ult-modal-form-row__label">
+                                        <div class="ult-modal-form-row ult-modal__field--textarea">
+                                            <div class="ult-modal-form-row__label">
 												<?php echo $content['label']; ?>
-											</div>
-											<div class="ult-modal-form-row__field">
-												<textarea class="ult-modal-form-row__textarea <?php echo $content['class']; ?>" name="<?php echo $content['option_name']; ?>" placeholder="<?php echo $content['placeholder']; ?>" type="textarea"></textarea>
+                                            </div>
+                                            <div class="ult-modal-form-row__field">
+                                                <textarea
+                                                        class="ult-modal-form-row__textarea <?php echo $content['class']; ?>"
+                                                        name="<?php echo $content['option_name']; ?>"
+                                                        placeholder="<?php echo $content['placeholder']; ?>"
+                                                        type="textarea"></textarea>
 
 												<?php if ( ! empty( $content['description'] ) ) { ?>
-													<div class="ult-modal-form-row__description">
+                                                    <div class="ult-modal-form-row__description">
 														<?php echo $content['description']; ?>
-													</div>
+                                                    </div>
 												<?php } ?>
-											</div>
-										</div>
+                                            </div>
+                                        </div>
 
 										<?php
 									}
@@ -521,20 +347,21 @@ class Config {
 
 									?>
 
-									<div class="ult-modal-form-row ult-modal__field--checkbox">
-										<div class="ult-modal-form-row__field">
-											<label>
-												<input type="checkbox" name="<?php echo $content['option_name']; ?>" class="ult-modal-form-row__checkbox" data-type="checkbox">
+                                    <div class="ult-modal-form-row ult-modal__field--checkbox">
+                                        <div class="ult-modal-form-row__field">
+                                            <label>
+                                                <input type="checkbox" name="<?php echo $content['option_name']; ?>"
+                                                       class="ult-modal-form-row__checkbox" data-type="checkbox">
 												<?php echo $content['label']; ?>
-											</label>
+                                            </label>
 
 											<?php if ( ! empty( $content['description'] ) ) { ?>
-												<div class="ult-modal-form-row__description">
+                                                <div class="ult-modal-form-row__description">
 													<?php echo $content['description']; ?>
-												</div>
+                                                </div>
 											<?php } ?>
-										</div>
-									</div>
+                                        </div>
+                                    </div>
 
 									<?php
 
@@ -544,11 +371,11 @@ class Config {
 
 									?>
 
-									<div class="ult-modal-form-row ult-modal__field--radio">
-										<div class="ult-modal-form-row__label">
+                                    <div class="ult-modal-form-row ult-modal__field--radio">
+                                        <div class="ult-modal-form-row__label">
 											<?php echo $content['label']; ?>
-										</div>
-										<div class="ult-modal-form-row__field">
+                                        </div>
+                                        <div class="ult-modal-form-row__field">
 											<?php
 
 											/**
@@ -558,12 +385,13 @@ class Config {
 											foreach ( $content['radios'] as $radio ) {
 												?>
 
-												<label class="ult-modal-form-row__radio-label">
-													<input type="radio" name="<?php echo $content['radio_name']; ?>" value="<?php echo $radio['value']; ?>" data-type="radio">
-													<span>
+                                                <label class="ult-modal-form-row__radio-label">
+                                                    <input type="radio" name="<?php echo $content['radio_name']; ?>"
+                                                           value="<?php echo $radio['value']; ?>" data-type="radio">
+                                                    <span>
 														<?php echo $radio['text']; ?>
 													</span>
-												</label>
+                                                </label>
 
 												<?php
 											}
@@ -571,49 +399,44 @@ class Config {
 											?>
 
 											<?php if ( ! empty( $content['description'] ) ) { ?>
-												<div class="ult-modal-form-row__description">
+                                                <div class="ult-modal-form-row__description">
 													<?php echo $content['description']; ?>
-												</div>
+                                                </div>
 											<?php } ?>
-										</div>
-									</div>
+                                        </div>
+                                    </div>
 
 									<?php
 
 									break;
 
 								case 'select':
-
 									?>
-
-									<div class="ult-modal-form-row ult-modal__field--select">
-										<div class="ult-modal-form-row__label">
+                                    <div class="ult-modal-form-row ult-modal__field--select">
+                                        <div class="ult-modal-form-row__label">
 											<?php echo $content['label']; ?>
-										</div>
-										<div class="ult-modal-form-row__field">
-											<select class="ult-modal-form-row__select" name="<?php echo $content['select_name']; ?>" data-type="select">
+                                        </div>
+                                        <div class="ult-modal-form-row__field">
+                                            <select class="ult-modal-form-row__select"
+                                                    name="<?php echo $content['select_name']; ?>" data-type="select">
 												<?php
-
 												foreach ( $content['options'] as $option ) {
 													?>
-
-													<option value="<?php echo $option['value']; ?>">
+                                                    <option value="<?php echo $option['value']; ?>">
 														<?php echo $option['text']; ?>
-													</option>
-
+                                                    </option>
 													<?php
 												}
-
 												?>
-											</select>
+                                            </select>
 
 											<?php if ( ! empty( $content['description'] ) ) { ?>
-												<div class="ult-modal-form-row__description">
+                                                <div class="ult-modal-form-row__description">
 													<?php echo $content['description']; ?>
-												</div>
+                                                </div>
 											<?php } ?>
-										</div>
-									</div>
+                                        </div>
+                                    </div>
 
 									<?php
 
@@ -622,34 +445,37 @@ class Config {
 						}
 
 						?>
-					</div>
-					<div class="ult-modal-footer">
-						<div class="ult-modal-notice"></div>
-						<div class="ult-modal-actions">
-							<div class="ult-modal-actions__left">
-								<div class="ult-modal-action">
-	                                <a target="_blank" class="ult-modal-action__btn ult-modal-action__btn--secondary ult-modal-action__btn-help-js">
+                    </div>
+                    <div class="ult-modal-footer">
+                        <div class="ult-modal-notice"></div>
+                        <div class="ult-modal-actions">
+                            <div class="ult-modal-actions__left">
+                                <div class="ult-modal-action">
+                                    <a target="_blank"
+                                       class="ult-modal-action__btn ult-modal-action__btn--secondary ult-modal-action__btn-help-js">
 										<?php _e( 'Help', 'uncanny-learndash-toolkit' ); ?>
-	                                </a>
-	                            </div>
-							</div>
-							<div class="ult-modal-actions__right">
-								<div class="ult-modal-action">
-									<div class="ult-modal-action__btn ult-modal-action__btn--secondary ult-modal-action__btn-cancel-js" data-action="cancel">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="ult-modal-actions__right">
+                                <div class="ult-modal-action">
+                                    <div class="ult-modal-action__btn ult-modal-action__btn--secondary ult-modal-action__btn-cancel-js"
+                                         data-action="cancel">
 										<?php _e( 'Close', 'uncanny-learndash-toolkit' ); ?>
-									</div>
-								</div>
-								<div class="ult-modal-action">
-									<button class="ult-modal-action__btn ult-modal-action__btn--primary ult-modal-action__btn-submit-js" type="submit">
+                                    </div>
+                                </div>
+                                <div class="ult-modal-action">
+                                    <button class="ult-modal-action__btn ult-modal-action__btn--primary ult-modal-action__btn-submit-js"
+                                            type="submit">
 										<?php _e( 'Save module', 'uncanny-learndash-toolkit' ); ?>
-									</button>
-								</div>
-							</div>
-						</div>
-					</div>
-				</form>
-			</div>
-		</div>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
 
 
 		<?php
@@ -660,6 +486,9 @@ class Config {
 
 	}
 
+	/**
+	 *
+	 */
 	public static function ajax_activate_deactivate_module() {
 
 		/*
@@ -667,11 +496,11 @@ class Config {
 	   * Well If it is a fatal error then this return is FUBAR anyway...
 	   * We do this because some badly configured servers will return notices and warnings switch get prepended or appended to the rest response.
 	   */
-		if ( defined( 'WP_DEBUG' ) ) {
+		/*if ( defined( 'WP_DEBUG' ) ) {
 			if ( false === WP_DEBUG ) {
 				error_reporting( 0 );
 			}
-		}
+		}*/
 
 		$capability = apply_filters( 'toolkit_settings_module_switch_cap', 'manage_options' );
 
@@ -716,6 +545,7 @@ class Config {
 	}
 
 	/*
+	 *
 	 * @return string
 	 */
 	public static function ajax_settings_save() {
@@ -726,15 +556,15 @@ class Config {
 	   * Well If it is a fatal error then this return is FUBAR anyway...
 	   * We do this because some badly configured servers will return notices and warnings switch get prepended or appended to the rest response.
 	   */
-		if ( defined( 'WP_DEBUG' ) ) {
+		/*if ( defined( 'WP_DEBUG' ) ) {
 			if ( false === WP_DEBUG ) {
 				error_reporting( 0 );
 			}
-		}
+		}*/
 
 		$response = [
 			'error'   => true,
-			'message' => ''
+			'message' => '',
 		];
 
 		$capability = apply_filters( 'toolkit_settings_save_cap', 'manage_options' );
@@ -743,7 +573,7 @@ class Config {
 
 			if ( isset( $_POST['class'] ) ) {
 
-				$class   = $_POST['class'];
+				$class   = sanitize_text_field( $_POST['class'] );
 				$options = ( isset( $_POST['options'] ) ) ? $_POST['options'] : array();
 
 				// Delete option and add option are called instead of update option because
@@ -769,7 +599,7 @@ class Config {
 			$response['message'] = __( 'You must be an admin to save settings', 'uncanny-learndash-toolkit' );
 		}
 
-		echo json_encode( $response );
+		echo wp_json_encode( $response );
 
 		wp_die();
 
@@ -785,37 +615,27 @@ class Config {
 		* Well If it is a fatal error then this return is FUBAR anyway...
 		* We do this because some badly configured servers will return notices and warnings switch get prepended or appended to the rest response.
 		*/
-		if ( defined( 'WP_DEBUG' ) ) {
+		/*if ( defined( 'WP_DEBUG' ) ) {
 			if ( false === WP_DEBUG ) {
 				error_reporting( 0 );
 			}
-		}
+		}*/
 
 		$capability = apply_filters( 'toolkit_settings_load_cap', 'manage_options' );
-
 		if ( current_user_can( $capability ) ) {
-
 			if ( isset( $_POST['class'] ) ) {
-
-				$class = $_POST['class'];
-
+				$class    = sanitize_text_field( $_POST['class'] );
 				$settings = get_option( $class, array() );
-
 				foreach ( $settings as &$setting ) {
 					$setting['value'] = stripslashes( $setting['value'] );
 				}
-
 				$response = wp_json_encode( $settings );
-
 			} else {
-				$response = 'Class for addon is not set.';
+				$response = __( 'Class for addon is not set.', 'uncanny-learndash-toolkit' );
 			}
 		} else {
-
-			$response = 'You must be an admin to save settings.';
-
+			$response = __( 'You must be an admin to save settings.', 'uncanny-learndash-toolkit' );
 		}
-
 		echo $response;
 
 		wp_die();
@@ -825,7 +645,8 @@ class Config {
 	/**
 	 * @param $key
 	 * @param $class
-	 * @param $default
+	 * @param string $default
+	 * @param array $class_settings
 	 *
 	 * @return string
 	 */
@@ -865,12 +686,6 @@ class Config {
 
 		return $default;
 	}
-	/*
-		public static function removeslashes( $string ) {
-			$string = implode( "", explode( "\\", $string ) );
-
-			return stripslashes( trim( $string ) );
-		}*/
 
 
 	/**
@@ -879,7 +694,7 @@ class Config {
 	 * @param string $file_name
 	 */
 	public static function trace_logs( $trace = '', $trace_name = '', $file_name = 'logs' ) {
-		$timestamp   = date( 'F d, Y H:i:s' );
+		$timestamp   = date( 'F d, Y H:i:s', current_time( 'timestamp' ) );
 		$boundary    = "\n===========================<<<< {$timestamp} >>>>===========================\n";
 		$log_type    = "*******************************[[[[[[[[[[ {$trace_name} ]]]]]]]]]]*******************************\n";
 		$log_end     = "\n===========================<<<< TRACE END >>>>===========================\n\n";

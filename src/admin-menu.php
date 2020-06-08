@@ -5,9 +5,19 @@ namespace uncanny_learndash_toolkit;
 use ReflectionClass;
 
 
+/**
+ * Class AdminMenu
+ * @package uncanny_learndash_toolkit
+ */
 class AdminMenu extends Boot {
 
+	/**
+	 * @var bool
+	 */
 	public static $is_pro_active = false;
+	/**
+	 * @var array
+	 */
 	public static $modules = [];
 
 	/**
@@ -36,20 +46,23 @@ class AdminMenu extends Boot {
 		$function   = array( __CLASS__, 'options_menu_page_output' );
 
 		// Menu Icon blends into sidebar when the default admin color scheme is used
-		$admin_color_scheme = get_user_meta( get_current_user_id(), 'admin_color', true );
-		$icon_url           = 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c3ZnIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDU4MSA2NDAiIHZlcnNpb249IjEuMSIgdmlld0JveD0iMCAwIDU4MSA2NDAiIHhtbDpzcGFjZT0icHJlc2VydmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0ibTUyNi40IDM0LjFjMC42IDUgMSAxMC4xIDEuMyAxNS4xIDAuNSAxMC4zIDEuMiAyMC42IDAuOCAzMC45LTAuNSAxMS41LTEgMjMtMi4xIDM0LjQtMi42IDI2LjctNy44IDUzLjMtMTYuNSA3OC43LTcuMyAyMS4zLTE3LjEgNDEuOC0yOS45IDYwLjQtMTIgMTcuNS0yNi44IDMzLTQzLjggNDUuOS0xNy4yIDEzLTM2LjcgMjMtNTcuMSAyOS45LTI1LjEgOC41LTUxLjUgMTIuNy03Ny45IDEzLjggNzAuMyAyNS4zIDEwNi45IDEwMi44IDgxLjYgMTczLjEtMTguOSA1Mi42LTY4LjEgODguMS0xMjQgODkuNWgtNi4xYy0xMS4xLTAuMi0yMi4xLTEuOC0zMi45LTQuNy0yOS40LTcuOS01NS45LTI2LjMtNzMuNy01MC45LTI5LjItNDAuMi0zNC4xLTkzLjEtMTIuNi0xMzgtMjUgMjUuMS00NC41IDU1LjMtNTkuMSA4Ny40LTguOCAxOS43LTE2LjEgNDAuMS0yMC44IDYxLjEtMS4yLTE0LjMtMS4yLTI4LjYtMC42LTQyLjkgMS4zLTI2LjYgNS4xLTUzLjIgMTIuMi03OC45IDUuOC0yMS4yIDEzLjktNDEuOCAyNC43LTYwLjlzMjQuNC0zNi42IDQwLjYtNTEuM2MxNy4zLTE1LjcgMzcuMy0yOC4xIDU5LjEtMzYuOCAyNC41LTkuOSA1MC42LTE1LjIgNzYuOC0xNy4yIDEzLjMtMS4xIDI2LjctMC44IDQwLjEtMi4zIDI0LjUtMi40IDQ4LjgtOC40IDcxLjMtMTguMyAyMS05LjIgNDAuNC0yMS44IDU3LjUtMzcuMiAxNi41LTE0LjkgMzAuOC0zMi4xIDQyLjgtNTAuOCAxMy0yMC4yIDIzLjQtNDIuMSAzMS42LTY0LjcgNy42LTIxLjEgMTMuNC00Mi45IDE2LjctNjUuM3ptLTI3OS40IDMyOS41Yy0xOC42IDEuOC0zNi4yIDguOC01MC45IDIwLjQtMTcuMSAxMy40LTI5LjggMzIuMi0zNi4yIDUyLjktNy40IDIzLjktNi44IDQ5LjUgMS43IDczIDcuMSAxOS42IDE5LjkgMzcuMiAzNi44IDQ5LjYgMTQuMSAxMC41IDMwLjkgMTYuOSA0OC40IDE4LjZzMzUuMi0xLjYgNTEtOS40YzEzLjUtNi43IDI1LjQtMTYuMyAzNC44LTI4LjEgMTAuNi0xMy40IDE3LjktMjkgMjEuNS00NS43IDQuOC0yMi40IDIuOC00NS43LTUuOC02Ni45LTguMS0yMC0yMi4yLTM3LjYtNDAuMy00OS4zLTE4LTExLjctMzkuNS0xNy02MS0xNS4xeiIgZmlsbD0iIzgyODc4QyIvPjxwYXRoIGQ9Im0yNDIuNiA0MDIuNmM2LjItMS4zIDEyLjYtMS44IDE4LjktMS41LTExLjQgMTEuNC0xMi4yIDI5LjctMS44IDQyIDExLjIgMTMuMyAzMS4xIDE1LjEgNDQuNCAzLjkgNS4zLTQuNCA4LjktMTAuNCAxMC41LTE3LjEgMTIuNCAxNi44IDE2LjYgMzkuNCAxMSA1OS41LTUgMTguNS0xOCAzNC42LTM1IDQzLjUtMzQuNSAxOC4yLTc3LjMgNS4xLTk1LjUtMjkuNS0xLTItMi00LTIuOS02LjEtOC4xLTE5LjYtNi41LTQzIDQuMi02MS4zIDEwLTE3IDI2LjgtMjkuMiA0Ni4yLTMzLjR6IiBmaWxsPSIjODI4NzhDIi8+PC9zdmc+';
+		//$admin_color_scheme = get_user_meta( get_current_user_id(), 'admin_color', true );
+		$icon_url = 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c3ZnIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDU4MSA2NDAiIHZlcnNpb249IjEuMSIgdmlld0JveD0iMCAwIDU4MSA2NDAiIHhtbDpzcGFjZT0icHJlc2VydmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0ibTUyNi40IDM0LjFjMC42IDUgMSAxMC4xIDEuMyAxNS4xIDAuNSAxMC4zIDEuMiAyMC42IDAuOCAzMC45LTAuNSAxMS41LTEgMjMtMi4xIDM0LjQtMi42IDI2LjctNy44IDUzLjMtMTYuNSA3OC43LTcuMyAyMS4zLTE3LjEgNDEuOC0yOS45IDYwLjQtMTIgMTcuNS0yNi44IDMzLTQzLjggNDUuOS0xNy4yIDEzLTM2LjcgMjMtNTcuMSAyOS45LTI1LjEgOC41LTUxLjUgMTIuNy03Ny45IDEzLjggNzAuMyAyNS4zIDEwNi45IDEwMi44IDgxLjYgMTczLjEtMTguOSA1Mi42LTY4LjEgODguMS0xMjQgODkuNWgtNi4xYy0xMS4xLTAuMi0yMi4xLTEuOC0zMi45LTQuNy0yOS40LTcuOS01NS45LTI2LjMtNzMuNy01MC45LTI5LjItNDAuMi0zNC4xLTkzLjEtMTIuNi0xMzgtMjUgMjUuMS00NC41IDU1LjMtNTkuMSA4Ny40LTguOCAxOS43LTE2LjEgNDAuMS0yMC44IDYxLjEtMS4yLTE0LjMtMS4yLTI4LjYtMC42LTQyLjkgMS4zLTI2LjYgNS4xLTUzLjIgMTIuMi03OC45IDUuOC0yMS4yIDEzLjktNDEuOCAyNC43LTYwLjlzMjQuNC0zNi42IDQwLjYtNTEuM2MxNy4zLTE1LjcgMzcuMy0yOC4xIDU5LjEtMzYuOCAyNC41LTkuOSA1MC42LTE1LjIgNzYuOC0xNy4yIDEzLjMtMS4xIDI2LjctMC44IDQwLjEtMi4zIDI0LjUtMi40IDQ4LjgtOC40IDcxLjMtMTguMyAyMS05LjIgNDAuNC0yMS44IDU3LjUtMzcuMiAxNi41LTE0LjkgMzAuOC0zMi4xIDQyLjgtNTAuOCAxMy0yMC4yIDIzLjQtNDIuMSAzMS42LTY0LjcgNy42LTIxLjEgMTMuNC00Mi45IDE2LjctNjUuM3ptLTI3OS40IDMyOS41Yy0xOC42IDEuOC0zNi4yIDguOC01MC45IDIwLjQtMTcuMSAxMy40LTI5LjggMzIuMi0zNi4yIDUyLjktNy40IDIzLjktNi44IDQ5LjUgMS43IDczIDcuMSAxOS42IDE5LjkgMzcuMiAzNi44IDQ5LjYgMTQuMSAxMC41IDMwLjkgMTYuOSA0OC40IDE4LjZzMzUuMi0xLjYgNTEtOS40YzEzLjUtNi43IDI1LjQtMTYuMyAzNC44LTI4LjEgMTAuNi0xMy40IDE3LjktMjkgMjEuNS00NS43IDQuOC0yMi40IDIuOC00NS43LTUuOC02Ni45LTguMS0yMC0yMi4yLTM3LjYtNDAuMy00OS4zLTE4LTExLjctMzkuNS0xNy02MS0xNS4xeiIgZmlsbD0iIzgyODc4QyIvPjxwYXRoIGQ9Im0yNDIuNiA0MDIuNmM2LjItMS4zIDEyLjYtMS44IDE4LjktMS41LTExLjQgMTEuNC0xMi4yIDI5LjctMS44IDQyIDExLjIgMTMuMyAzMS4xIDE1LjEgNDQuNCAzLjkgNS4zLTQuNCA4LjktMTAuNCAxMC41LTE3LjEgMTIuNCAxNi44IDE2LjYgMzkuNCAxMSA1OS41LTUgMTguNS0xOCAzNC42LTM1IDQzLjUtMzQuNSAxOC4yLTc3LjMgNS4xLTk1LjUtMjkuNS0xLTItMi00LTIuOS02LjEtOC4xLTE5LjYtNi41LTQzIDQuMi02MS4zIDEwLTE3IDI2LjgtMjkuMiA0Ni4yLTMzLjR6IiBmaWxsPSIjODI4NzhDIi8+PC9zdmc+';
 
 		$position = 81; // 81 - Above Settings Menu
 		add_menu_page( $page_title, $menu_title, $capability, $menu_slug, null, $icon_url, $position );
 
 		add_submenu_page( $menu_slug, __( 'Modules', 'uncanny-learndash-toolkit' ), __( 'Modules', 'uncanny-learndash-toolkit' ), 'manage_options', $menu_slug, $function );
 
-		
+
 	}
 
-	public static function sidebar_menu_add_try_automator(){
+	/**
+	 *
+	 */
+	public static function sidebar_menu_add_try_automator() {
 		// Check if Automator is already installed
-		if ( ! defined( 'AUTOMATOR_BASE_FILE' ) ){
+		if ( ! defined( 'AUTOMATOR_BASE_FILE' ) ) {
 			// Create the link content
 			$menu_item_name = '<span class="ult-sidebar-featured-item"><span class="ult-sidebar-featured-item__text">' . sprintf( __( 'Try %s!', 'uncanny-learndash-toolkit' ), 'Automator' ) . '</span><span class="ult-sidebar-featured-item__tag">' . __( 'New', 'uncanny-learndash-toolkit' ) . '</span></span>';
 
@@ -66,7 +79,10 @@ class AdminMenu extends Boot {
 		}
 	}
 
-	public static function get_automator_url(){
+	/**
+	 * @return string
+	 */
+	public static function get_automator_url() {
 		// Define the default URL
 		$automator_url = 'https://wordpress.org/plugins/uncanny-automator/';
 
@@ -74,12 +90,11 @@ class AdminMenu extends Boot {
 		$locale = get_locale();
 
 		// Check if it's a Spanish locale
-		if ( substr( $locale, 0, 3 ) == 'es_' ){
+		if ( 'es_' === (string) substr( $locale, 0, 3 ) ) {
 			// Check if it's the Argentinean locale
-			if ( $locale == 'es_AR' ){
+			if ( 'es_AR' === (string) $locale ) {
 				$automator_url = 'https://es-ar.wordpress.org/plugins/uncanny-automator/';
-			}
-			else {
+			} else {
 				$automator_url = 'https://es.wordpress.org/plugins/uncanny-automator/';
 			}
 		}
@@ -90,6 +105,9 @@ class AdminMenu extends Boot {
 	/*
 	* Whitelisted Options that are saved on the page
 	*/
+	/**
+	 *
+	 */
 	public static function register_options_menu_page_settings() {
 		register_setting( 'uncanny_learndash_toolkit-group', 'uncanny_toolkit_active_classes' );
 	}
@@ -97,7 +115,7 @@ class AdminMenu extends Boot {
 	/**
 	 * @param $hook
 	 */
-	public static function scripts( $hook ){
+	public static function scripts( $hook ) {
 		// Load global admin assets
 		wp_enqueue_style( 'ult-admin-global', Config::get_admin_css( 'global.css' ), array(), UNCANNY_TOOLKIT_VERSION );
 		wp_enqueue_script( 'ult-admin-global', Config::get_admin_js( 'global.js' ), array( 'jquery' ), UNCANNY_TOOLKIT_VERSION );
@@ -110,7 +128,7 @@ class AdminMenu extends Boot {
 		] );
 
 		// Target Toolkit pages
-		if ( strpos( $hook, 'uncanny-toolkit' ) || strpos( $hook, 'uncanny-toolkit-kb' ) || strpos( $hook, 'uncanny-toolkit-plugins' ) || strpos( $hook, 'uncanny-toolkit-license' ) ){
+		if ( strpos( $hook, 'uncanny-toolkit' ) || strpos( $hook, 'uncanny-toolkit-kb' ) || strpos( $hook, 'uncanny-toolkit-plugins' ) || strpos( $hook, 'uncanny-toolkit-license' ) ) {
 			// Main CSS file
 			wp_enqueue_style( 'ult-admin', Config::get_admin_css( 'style.css' ), array(), UNCANNY_TOOLKIT_VERSION );
 
@@ -166,26 +184,26 @@ class AdminMenu extends Boot {
 
 		?>
 
-		<div class="wrap">
-			<div class="uo-plugins-header">
-				<div class="uo-plugins-header__title">
-					Uncanny LearnDash Toolkit
-				</div>
-				<div class="uo-plugins-header__author">
-					<span><?php _e( 'by', 'uncanny-learndash-toolkit' ); ?></span>
-					<a href="https://uncannyowl.com" target="_blank" class="uo-plugins-header__logo">
-						<img src="<?php echo esc_url( Config::get_admin_media( 'uncanny-owl-logo.svg' ) ); ?>"
-						     alt="Uncanny Owl">
-					</a>
-				</div>
-			</div>
+        <div class="wrap">
+            <div class="uo-plugins-header">
+                <div class="uo-plugins-header__title">
+                    Uncanny LearnDash Toolkit
+                </div>
+                <div class="uo-plugins-header__author">
+                    <span><?php _e( 'by', 'uncanny-learndash-toolkit' ); ?></span>
+                    <a href="https://uncannyowl.com" target="_blank" class="uo-plugins-header__logo">
+                        <img src="<?php echo esc_url( Config::get_admin_media( 'uncanny-owl-logo.svg' ) ); ?>"
+                             alt="Uncanny Owl">
+                    </a>
+                </div>
+            </div>
 
-			<div class="uo-plugins-tabs">
+            <div class="uo-plugins-tabs">
 				<?php include( Config::get_template( 'admin-tabs.php' ) ) ?>
-			</div>
+            </div>
 
 			<?php include( Config::get_template( 'admin-modules.php' ) ) ?>
-		</div>
+        </div>
 
 		<?php self::create_features( $classes_available, $active_classes );
 
@@ -255,11 +273,11 @@ class AdminMenu extends Boot {
 	/**
 	 * Populates an array of classes in internal and external file in the classes folder
 	 *
-	 * @param bool $external_classes
+	 * @param array $external_classes
 	 *
 	 * @return array
 	 */
-	public static function get_available_classes( $external_classes = false ) {
+	public static function get_available_classes( $external_classes = [] ) {
 
 		$class_details = array();
 
@@ -273,7 +291,7 @@ class AdminMenu extends Boot {
 
 		$class_details = array_merge( $class_details, $internal_details );
 
-		if ( false !== $external_classes ) {
+		if ( ! empty( $external_classes ) ) {
 			foreach ( $external_classes as $external_class ) {
 				// Make sure that the external path being loaded exists
 				if ( false !== $external_class['path'] ) {
@@ -371,9 +389,9 @@ class AdminMenu extends Boot {
 			if ( 'uncanny_learndash_toolkit\Sample' === $key || 'uncanny_custom_toolkit\Sample' === $key || 'uncanny_pro_toolkit\Sample' === $key ) {
 				continue;
 			}
-			//$class_name = config::removeslashes( $key );
 
-			self::$modules[ $key ]['class_name']  = $key;
+			$class_name                           = $key;
+			self::$modules[ $key ]['class_name']  = $class_name;
 			self::$modules[ $key ]['settings_id'] = str_replace( __NAMESPACE__, '', stripslashes( $key ) );
 
 			if ( false === $class ) {
@@ -459,7 +477,7 @@ class AdminMenu extends Boot {
 			if ( true !== $dependants_exist ) {
 				self::$modules[ $key ]['can_use']         = false;
 				self::$modules[ $key ]['cant_use_notice'] = $dependants_exist;
-				if( 0 === strpos( self::$modules[ $key ]['cant_use_notice'],'Plugin:')){
+				if ( 0 === strpos( self::$modules[ $key ]['cant_use_notice'], 'Plugin:' ) ) {
 					self::$modules[ $key ]['cant_use_notice'] .= ' is needed for this addon.';
 				}
 			}
@@ -474,20 +492,22 @@ class AdminMenu extends Boot {
 
 			// Link to KB for Feature
 			if ( null !== $class['kb_link'] ) {
-				// KB LINK $class['kb_link']
 				self::$modules[ $key ]['kb_link'] = $class['kb_link'];
 			}
 
 			self::$modules[ $key ]['description'] = $class['description'];
 
-			if( isset( $class['category'] ) && ! empty( $class['category'] ) ){
+			if ( isset( $class['category'] ) && ! empty( $class['category'] ) ) {
 				self::$modules[ $key ]['category'] = $class['category'];
-			}else{
+			} else {
 				self::$modules[ $key ]['category'] = '';
 			}
 		}
 	}
 
+	/**
+	 *
+	 */
 	public static function get_psuedo_pro_modules() {
 
 		$pro_modules = [
