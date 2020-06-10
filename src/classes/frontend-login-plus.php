@@ -73,13 +73,12 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 			add_action( 'wp_print_scripts', array( __CLASS__, 'uo_ajax_login_js_recaptcha_handler' ), 10, 2 );
 			
-			// override menu login item
-			add_filter( 'wp_nav_menu_objects', [ __CLASS__, 'uo_login_menu_items'], 40, 2 );
 			
 			if( 'no' === $disable_ajax_support ){
-			 
-				// add_filter( 'login_form_middle', [ __CLASS__, 'ajax_error_message_box'], 100, 1 );
-				// 
+				
+				// override menu login item
+				add_filter( 'wp_nav_menu_objects', [ __CLASS__, 'uo_login_menu_items'], 40, 2 );
+				
 				add_action( 'uo_forgot_before_submit', [ __CLASS__, 'ajax_lp_error_message_box'], 100, 1 );
 
 				add_filter( 'uncannyowl-learndash-toolkit-js', array( __CLASS__, 'uo_ajax_login_js_ajax' ), 11 );
@@ -2794,6 +2793,10 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	}
 	
 	public static function uo_login_modal() {
+		if ( "on" === self::get_settings_value( 'uo_frontendloginplus_disable_ajax_support', __CLASS__, '' ) ) {
+			return false;
+		}
+		
 		$login_page_id = self::get_login_redirect_page_id();
 		$login_page    = '#ult-modal-open----ult-login';
 		if ( $login_page_id ) {

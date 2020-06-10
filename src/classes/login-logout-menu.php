@@ -55,7 +55,9 @@ class LoginLogoutMenu extends Config implements RequiredFunctions {
 			}
 			
 			if ( class_exists( '\uncanny_learndash_toolkit\FrontendLoginPlus', false ) ) {
-				self::$login_menu_item_urls[] = '#ult-modal-open----ult-login';
+				if ( "on" !== self::get_settings_value( 'uo_frontendloginplus_disable_ajax_support', 'FrontendLoginPlus', '' ) ) {
+					self::$login_menu_item_urls[] = '#ult-modal-open----ult-login';
+				}
 			}
 		}
 
