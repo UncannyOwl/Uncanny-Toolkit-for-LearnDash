@@ -1,8 +1,8 @@
 <?php
 /*
-Plugin Name: Uncanny LearnDash Toolkit
+Plugin Name: Uncanny Toolkit for LearnDash
 Version: 3.2.2
-Description: Extend the LearnDash plugin with a variety of complementary features to make building engaging learner experiences even easier.
+Description: Extend LearnDash with a variety of complementary features to make building engaging learner experiences even easier.
 Author: Uncanny Owl
 Author URI: www.uncannyowl.com
 Plugin URI: www.uncannyowl.com/uncanny-learndash-toolkit/
