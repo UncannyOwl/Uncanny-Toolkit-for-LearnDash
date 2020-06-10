@@ -1,4 +1,4 @@
-=== Uncanny LearnDash Toolkit ===
+=== Uncanny Toolkit for LearnDash ===
 Contributors: uncannyowl
 Tags: LearnDash, eLearning, LMS, education, learning, courseware
 Requires at least: 4.6
@@ -13,11 +13,11 @@ Extend LearnDash with a variety of useful functions that make it even easier to 
 == Description ==
 **Important: This plugin requires PHP 5.6 or higher and LearnDash 2.5 or higher.**
 
-The Uncanny LearnDash Toolkit adds 14 modules that every elearning site needs, including a login form, login redirect, resume capabilities and more. Trusted to power over 20,000 LearnDash sites, it's the easiest way to improve the learning experience for your students.  Translation ready and multisite capable!
+The Uncanny Toolkit for LearnDash adds 15 modules that every elearning site needs, including a login form, login redirect, resume capabilities and more. Trusted to power over 20,000 LearnDash sites, it's the easiest way to improve the learning experience for your students.  Translation ready and multisite capable!
 
 https://www.youtube.com/watch?v=o0MWoyR5Sos
 
-The Uncanny LearnDash Toolkit adds the following features to your LearnDash site:
+The Uncanny Toolkit for LearnDash adds the following features to your LearnDash site:
 
 * **[Front End Login](https://www.uncannyowl.com/knowledge-base/front-end-login/?utm_medium=ldtoolkitreadme)**: Replace the default WordPress login form with a clean, modern login form that you can add to any branded page. Also supports front end password reset with a custom email. User verification can be enabled to require registrations be approved by an administrator.
 * **[Hide Admin Bar](https://www.uncannyowl.com/knowledge-base/hide-admin-bar/?utm_medium=ldtoolkitreadme)**: Hide the WordPress admin bar for specific user roles.
@@ -35,11 +35,11 @@ The Uncanny LearnDash Toolkit adds the following features to your LearnDash site
 * **[LearnDash Groups in User Profiles](https://www.uncannyowl.com/knowledge-base/learndash-groups-user-profiles/?utm_medium=ldtoolkitreadme)**: Easily identify LearnDash Group membership from user profile pages.
 * **[Disable Emails](https://www.uncannyowl.com/knowledge-base/disable-emails/?utm_medium=ldtoolkitreadme)**: Easily disable all outgoing emails when troubleshooting issues.
 
-We welcome contributions to the Uncanny LearnDash Toolkit! The plugin is managed in a [Bitbucket Repository](https://bitbucket.org/uncannyowl/uncanny-learndash-toolkit).
+We welcome contributions to the Uncanny Toolkit! The plugin is managed in a [Bitbucket Repository](https://bitbucket.org/uncannyowl/uncanny-learndash-toolkit).
 
 **Ready to take your LearnDash site even further?**
 
-Our [Pro add-ons plugin for the LearnDash Toolkit](https://www.uncannyowl.com/downloads/uncanny-learndash-toolkit-pro/?utm_medium=ldtoolkitreadme) adds a continuously expanding list of powerful features (20 at last count!) to the Toolkit. With the Pro modules, you can:
+The [Pro version of the Uncanny Toolkit](https://www.uncannyowl.com/downloads/uncanny-learndash-toolkit-pro/?utm_medium=ldtoolkitreadme) adds a continuously expanding list of powerful features (20 at last count!) to the Toolkit. With the Pro modules, you can:
 
 * Autocomplete lessons and topics (no more "Mark Complete" buttons!)
 * Track the time users spend completing courses
@@ -48,24 +48,28 @@ Our [Pro add-ons plugin for the LearnDash Toolkit](https://www.uncannyowl.com/do
 * Send certificates by email
 * [And much more!](https://www.uncannyowl.com/downloads/uncanny-learndash-toolkit-pro/?utm_medium=ldtoolkitreadme)
 
+**Uncanny Automator**
+
+If you like the Uncanny Toolkit, you'll love [Uncanny Automator](https://wordpress.org/plugins/uncanny-automator/?utm_medium=ldtoolkitreadme), now FREE! Create better experiences for your users by connecting LearnDash to dozens of other plugins and services or by creating personal learning paths for your learners.
+
 **More LearnDash Plugins!**
 
 Uncanny Owl offers a full suite of [plugins that extend the LearnDash platform](https://www.uncannyowl.com/plugins/?utm_medium=ldtoolkitreadme) and make it easier to build and manage a great learning experience. Here are a few:
 
-* **[Uncanny Automator](https://wordpress.org/plugins/uncanny-automator/?utm_medium=ldtoolkitreadme)**: Now FREE! Create personal learning paths and connect LearnDash to over a dozen other plugins and Zapier. Choose from millions of LearnDash recipes to deliver better learning experiences to your students.
-* **[Tin Canny LearnDash Reporting](https://www.uncannyowl.com/downloads/tin-canny-reporting/?utm_medium=ldtoolkitreadme)**: Add support for your SCORM and Tin Can modules inside WordPress as well as powerful drill-down LearnDash reports.
-* **[Uncanny LearnDash Groups](https://www.uncannyowl.com/downloads/uncanny-learndash-groups/?utm_medium=ldtoolkitreadme)**: Make it easy for your customers and member organizations to manage their learners in the front end, track their progress with powerful reports, and buy courses and course licenses.
-* **[Uncanny LearnDash Codes](https://www.uncannyowl.com/downloads/uncanny-learndash-codes/?utm_medium=ldtoolkitreadme)**: An easier way to get your learners into LearnDash Groups or courses. Generate codes that can be used by learners to self-enrol into LearnDash groups and courses when they register, make a purchase, or are simply signed in.
+* **[Tin Canny Reporting for LearnDash](https://www.uncannyowl.com/downloads/tin-canny-reporting/?utm_medium=ldtoolkitreadme)**: Add support for your SCORM and Tin Can modules inside WordPress as well as powerful drill-down LearnDash reports.
+* **[Uncanny Groups for LearnDash](https://www.uncannyowl.com/downloads/uncanny-learndash-groups/?utm_medium=ldtoolkitreadme)**: Make it easy for your customers and member organizations to manage their learners in the front end, track their progress with powerful reports, and buy courses and course licenses.
+* **[Uncanny Codes for LearnDash](https://www.uncannyowl.com/downloads/uncanny-learndash-codes/?utm_medium=ldtoolkitreadme)**: An easier way to get your learners into LearnDash Groups or courses. Generate codes that can be used by learners to self-enrol into LearnDash groups and courses when they register, make a purchase, or are simply signed in.
+* **[Uncanny Continuing Education Credits](https://www.uncannyowl.com/downloads/uncanny-continuing-education-credits/?utm_medium=ldtoolkitreadme)**: Track, report on and award LearnDash certificates for completion of multiple courses or based on course credits.
 
 Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitter](https://twitter.com/uncannyowl), [Facebook](https://www.facebook.com/UncannyOwl/) and [YouTube](https://www.youtube.com/user/UncannyOwl).
 
 == Installation ==
-1. Ensure that your installation of WordPress is using PHP 5.6 or higher and LearnDash 2.5 or higher.
+1. Ensure that your installation of WordPress is using PHP 7.0 or higher and LearnDash 3.0 or higher.
 2. Upload the contents of the plugin zip file to the `/wp-content/plugins/` directory.
 3. Activate the plugin through the Plugins menu in WordPress.
 
 == Screenshots ==
-1. Uncanny LearnDash Toolkit Dashboard
+1. Uncanny Toolkit Dashboard
 
 == Changelog ==
 
