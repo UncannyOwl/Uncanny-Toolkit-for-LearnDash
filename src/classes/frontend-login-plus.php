@@ -438,11 +438,11 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			),
 			array(
 				'type'       => 'html',
-				'inner_html' => '<h2>' . __( 'Login Modal Form', 'uncanny-learndash-toolkit' ) . '</h2>',
+				'inner_html' => '<h2>' . __( 'Modal Login', 'uncanny-learndash-toolkit' ) . '</h2>',
 			),
 			array(
 				'type'        => 'text',
-				'label'       => esc_html__( 'Login Modal Button Title', 'uncanny-learndash-toolkit' ),
+				'label'       => esc_html__( 'Modal Login Button Label [uo_login_modal]', 'uncanny-learndash-toolkit' ),
 				'placeholder' => esc_html__( 'Log In', 'uncanny-learndash-toolkit' ),
 				'option_name' => 'uo_frontend_login_modal_button_title_label',
 			),
@@ -453,8 +453,8 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			),
 			array(
 				'type'        => 'text',
-				'label'       => esc_html__( 'Log in instead Text', 'uncanny-learndash-toolkit' ),
-				'placeholder' => esc_html__( 'Log in instead', 'uncanny-learndash-toolkit' ),
+				'label'       => esc_html__( 'Return to login link', 'uncanny-learndash-toolkit' ),
+				'placeholder' => esc_html__( 'Return to login', 'uncanny-learndash-toolkit' ),
 				'option_name' => 'uo_frontend_login_modal_login_instead_label',
 			),
 			array(
