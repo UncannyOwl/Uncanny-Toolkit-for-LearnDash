@@ -2762,7 +2762,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				$menu_item->url = $login_page;
 			}
 			if ( ( strpos( $menu_item->url, '#ult-modal-open' ) !== false ) ) {
-				if( $post->ID !== self::get_login_redirect_page_id()) {
+				if( ! isset( $post->ID ) || $post->ID !== self::get_login_redirect_page_id()) {
 					if ( apply_filters( 'uo_login_menu_item_process', TRUE, $menu_item, $menu_args ) ) {
 						add_action( 'wp_footer', [ __CLASS__,'load_login_modal']);
 					}
