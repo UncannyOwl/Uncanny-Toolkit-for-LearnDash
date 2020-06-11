@@ -371,6 +371,12 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			),
 			array(
 				'type'        => 'text',
+				'label'       => esc_html__( 'Return to login link', 'uncanny-learndash-toolkit' ),
+				'placeholder' => esc_html__( 'Return to login', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_frontend_login_modal_login_instead_label',
+			),
+			array(
+				'type'        => 'text',
 				'label'       => esc_html__( 'Forgot Password Link Text', 'uncanny-learndash-toolkit' ),
 				'placeholder' => esc_html__( 'Forgot Password?', 'uncanny-learndash-toolkit' ),
 				'option_name' => 'uo_frontend_login_forgetpass_label',
@@ -509,12 +515,6 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				'label'       => esc_html__( 'Button Label', 'uncanny-learndash-toolkit' ),
 				'placeholder' => esc_html__( 'Recover Account', 'uncanny-learndash-toolkit' ),
 				'option_name' => 'uo_login_forgot_pass_button_label',
-			),
-			array(
-				'type'        => 'text',
-				'label'       => esc_html__( 'Return to login link', 'uncanny-learndash-toolkit' ),
-				'placeholder' => esc_html__( 'Return to login', 'uncanny-learndash-toolkit' ),
-				'option_name' => 'uo_frontend_login_modal_login_instead_label',
 			),
 			// Field is now required
 			//			array(
