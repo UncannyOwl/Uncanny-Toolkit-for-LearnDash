@@ -2023,7 +2023,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 					}
 				}
 
-				if ( ! is_wp_error( $errors ) ) {
+				if ( ! $errors->has_errors() ) {
 					reset_password( $user, $_POST['pass1'] );
 					wp_safe_redirect( $login_page_url . 'action=reset&success=true' );
 					die();
