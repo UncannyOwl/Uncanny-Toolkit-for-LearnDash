@@ -218,6 +218,10 @@ msgstr ""
 msgid "This module requires Uncanny LearnDash Pro to be active. {{Buy it here}}"
 msgstr ""
 
+#: src/admin-menu.php:548
+msgid "This module requires Uncanny Toolkit Pro. {{Buy it here}}"
+msgstr ""
+
 #: src/boot.php:25
 msgid "Please contact your hosting company to update to php version 5.3+ and enable spl extensions."
 msgstr ""

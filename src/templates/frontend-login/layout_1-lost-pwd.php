@@ -65,7 +65,7 @@ $login_page_url  = get_permalink( $login_page );
 
 	                    <form id="ult-forgot-password-form" name="lostpasswordform" action="<?php echo site_url( 'wp-login.php?action=lostpassword', 'login_post' ); ?>" method="POST">
 
-	                        <input type="hidden" name="redirect_to" value="<?php echo $login_page_url ?>action=forgot&success=1">
+	                        <input type="hidden" name="redirect_to" value="<?php echo $login_page_url . ( strpos( $login_page_url, '?' )?'&':'?')?>action=forgot&success=1">
 							
 							<?php do_action( 'uo_forgot_before_email' ); ?>
 

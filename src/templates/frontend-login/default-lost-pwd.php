@@ -33,7 +33,7 @@ if ( isset( $forgot_password_response ) && ! $forgot_password_response->error ) 
         <p class="ult-form__validation ult-hide" id="ult_lp_error_container">
             <span class="ult-notice ult-notice--error"></span>
         </p>
-        <input type="hidden" name="redirect_to" value="<?php echo $login_page_url ?>action=forgot&success=1">
+        <input type="hidden" name="redirect_to" value="<?php echo $login_page_url. ( strpos( $login_page_url, '?' )?'&':'?'); ?>action=forgot&success=1">
 		<?php if ( '' !== trim( $recaptcha_key ) && '' !== trim( $recaptcha_secrete_key ) ) { ?>
             <div class="ult-form-recaptcha" data-sitekey="<?php echo $recaptcha_key; ?>" data-callback="UncannyToolkitFrontendLoginReCaptchaCorrect"></div>
 		<?php } ?>
