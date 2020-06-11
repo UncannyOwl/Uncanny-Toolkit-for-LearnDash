@@ -2636,7 +2636,21 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		// Finally reset Password
 		reset_password( $user, $_POST['password'] );
         $response['success'] = TRUE;
-        $response['message'] = self::get_settings_value( 'uo_frontend_login_reset_successful', __CLASS__, '%placeholder%', self::get_class_settings( '', TRUE ) );
+		$response['message'] = self::get_settings_value( 'uo_frontend_login_reset_successful', __CLASS__, '%placeholder%', self::get_class_settings( '', TRUE ) );
+	
+		ob_start();
+		
+    		do_action( 'uo_login_before_reset_success' ); ?>
+
+            <div class="ult-notice ult-notice--success">
+                <?php do_action( 'uo_login_before_reset_success_message' ); ?>
+                
+                <?php echo $response['message']; ?>
+                
+                <?php do_action( 'uo_login_before_reset_success_message' ); ?>
+            </div>
+        <?php
+		$response['message'] = ob_get_clean();
         self::wp_send_json( $response, $response_code );
 	}
 	
