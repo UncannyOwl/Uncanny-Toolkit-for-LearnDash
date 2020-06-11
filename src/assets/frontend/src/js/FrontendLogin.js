@@ -386,6 +386,7 @@ export class ResetPassword extends FrontendLogin {
 		// Get the main elements
 		this.$elements = {
 			container: document.getElementById( 'ult-reset-password' ),
+			boxContent: document.querySelector( '#ult-reset-password .ult-form__content' ),
 			mainForm:  document.getElementById( 'ult-reset-password-form' ),
 			submitButton: {
 				container: document.querySelector( '.ult-form__row--submit' ),
@@ -436,7 +437,7 @@ export class ResetPassword extends FrontendLogin {
 
 	afterValidSubmission( response ){
 		// Show a confirmation message
-		console.log( 'Show a confirmation message' );
+		this.$elements.boxContent.innerHTML = response.message;
 	}
 }
 
