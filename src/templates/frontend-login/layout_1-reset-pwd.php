@@ -6,6 +6,9 @@ if ( '' !== trim( $recaptcha_key ) && '' !== trim( $recaptcha_secrete_key ) ) {
 	$has_recaptcha = false;
 }
 
+$login_page      = \uncanny_learndash_toolkit\FrontendLoginPlus::get_login_redirect_page_id();
+$login_page_url  = get_permalink( $login_page );
+
 ?>
 
 <?php
@@ -125,6 +128,16 @@ if ( $has_errors ){
 
 			</div>
 			
+		</div>
+
+		<div class="ult-form__footer">
+			<?php do_action( 'uo_forgot_before_login' ); ?>
+
+			<div class="ult-form-footer__login">
+				<a id="ult-form-footer-login" href="<?php echo $login_page_url; ?>">
+					<?php echo $innerText[ 'Log-in-instead' ]; ?>
+				</a>
+			</div>
 		</div>
 
 		<?php do_action( 'uo_reset_after_form' ); ?>
