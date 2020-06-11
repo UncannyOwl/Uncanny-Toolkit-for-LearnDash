@@ -2765,7 +2765,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				continue;
 			}
 			// Replace default wp-login.php with hash
-			if ( ( strpos( $menu_item->url, 'wp-login.php' ) !== false ) ) {
+			/*if ( ( strpos( $menu_item->url, 'wp-login.php' ) !== false ) ) {
 				$login_page_id = self::get_login_redirect_page_id();
 				$login_page    = '#ult-modal-open----ult-login';
 				if ( $login_page_id ) {
@@ -2774,7 +2774,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 					$login_page = site_url( 'wp-login.php' ) . $login_page;
 				}
 				$menu_item->url = $login_page;
-			}
+			}*/
 			if ( ( strpos( $menu_item->url, '#ult-modal-open' ) !== false ) ) {
 				if( ! isset( $post->ID ) || $post->ID !== self::get_login_redirect_page_id()) {
 					if ( apply_filters( 'uo_login_menu_item_process', TRUE, $menu_item, $menu_args ) ) {
