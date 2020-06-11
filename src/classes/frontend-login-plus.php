@@ -170,6 +170,9 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				// Add lost password link to login form
 				add_action( 'login_form_middle', array( __CLASS__, 'add_recaptcha_box' ) );
 			}
+			
+			/* Remove LearnDash interruption in login form while this module active */
+			remove_filter( 'login_form_top', 'learndash_add_login_field_top' );
 
 			/* Redirect Login Page */
 			// Create Login Only Shortcode that can be added anywhere
