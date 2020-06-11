@@ -455,12 +455,6 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				'option_name' => 'uo_frontend_login_modal_background'
 			),
 			array(
-				'type'        => 'text',
-				'label'       => esc_html__( 'Return to login link', 'uncanny-learndash-toolkit' ),
-				'placeholder' => esc_html__( 'Return to login', 'uncanny-learndash-toolkit' ),
-				'option_name' => 'uo_frontend_login_modal_login_instead_label',
-			),
-			array(
 				'type'       => 'html',
 				'inner_html' => '<h2>' . esc_html__( 'Google reCAPTCHA Settings', 'uncanny-learndash-toolkit' ) . '</h2>',
 			),
@@ -515,6 +509,12 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				'label'       => esc_html__( 'Button Label', 'uncanny-learndash-toolkit' ),
 				'placeholder' => esc_html__( 'Recover Account', 'uncanny-learndash-toolkit' ),
 				'option_name' => 'uo_login_forgot_pass_button_label',
+			),
+			array(
+				'type'        => 'text',
+				'label'       => esc_html__( 'Return to login link', 'uncanny-learndash-toolkit' ),
+				'placeholder' => esc_html__( 'Return to login', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_frontend_login_modal_login_instead_label',
 			),
 			// Field is now required
 			//			array(
