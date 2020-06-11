@@ -43,7 +43,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			$uo_frontend_registration = 'no';
 			$class_name               = str_replace( [ __NAMESPACE__, '\\' ], '', __CLASS__ );
 			$settings                 = get_option( $class_name, [] );
-			$disable_ajax_support     = 'no';
+			$enable_ajax_support     = 'no';
 			
 			foreach ( $settings as $setting ) {
 
@@ -59,8 +59,8 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 					$uo_frontend_registration = 'yes';
 				}
 				
-				if ( 'uo_frontendloginplus_disable_ajax_support' === $setting['name'] && 'on' === $setting['value'] ) {
-					$disable_ajax_support = 'yes';
+				if ( 'uo_frontendloginplus_enable_ajax_support' === $setting['name'] && 'on' === $setting['value'] ) {
+					$enable_ajax_support = 'yes';
 				}
 			}
 
@@ -74,7 +74,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			add_action( 'wp_print_scripts', array( __CLASS__, 'uo_ajax_login_js_recaptcha_handler' ), 10, 2 );
 			
 			
-			if( 'no' === $disable_ajax_support ){
+			if( 'yes' === $enable_ajax_support ){
 				
 				// override menu login item
 				add_filter( 'wp_nav_menu_objects', [ __CLASS__, 'uo_login_menu_items'], 40, 2 );
@@ -288,8 +288,8 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			),*/
 			array(
 				'type'        => 'checkbox',
-				'label'       => esc_html__( 'Disable AJAX support', 'uncanny-learndash-toolkit' ),
-				'option_name' => 'uo_frontendloginplus_disable_ajax_support',
+				'label'       => esc_html__( 'Enable AJAX', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_frontendloginplus_enable_ajax_support',
 			),
 			array(
 				'type'        => 'select',
@@ -2810,7 +2810,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	}
 	
 	public static function uo_login_modal() {
-		if ( "on" === self::get_settings_value( 'uo_frontendloginplus_disable_ajax_support', __CLASS__, '' ) ) {
+		if ( "" === self::get_settings_value( 'uo_frontendloginplus_enable_ajax_support', __CLASS__, '' ) ) {
 			return false;
 		}
 		

@@ -537,6 +537,22 @@ class Config {
 						], 'no' );
 					}
 				}
+				
+				// If the frontend login module is being turned on then check if settings are available or not.
+				if ( 'uncanny_learndash_toolkit\FrontendLoginPlus' === $value ) {
+					if ( 'active' === $_POST['active'] ) {
+						$existing_settings = get_option( 'FrontendLoginPlus', '' );
+						if ( empty( $existing_settings ) ) {
+							$default_settings = [
+								[
+									'name'  => 'uo_frontendloginplus_enable_ajax_support',
+									'value' => 'on',
+								],
+							];
+							update_option( 'FrontendLoginPlus', $default_settings );
+						}
+					}
+				}
 
 				echo $response;
 				wp_die();
