@@ -303,6 +303,16 @@ export class Login extends FrontendLogin {
 	}
 
 	afterValidSubmission( response ){
+		// Show the loading animation again, we're going 
+		// to redirect them to another page and it might
+		// take some seconds
+
+		// Add the loading animation
+		this.setLoadingStatus( true );
+
+		// Disable the submit button
+		this.setButtonDisableStatus( true );
+
 		// Reload the page
 		if ( ! isEmpty( this.formData.redirectTo ) ){
 			window.location.href = this.formData.redirectTo;
