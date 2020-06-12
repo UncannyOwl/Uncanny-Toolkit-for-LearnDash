@@ -468,7 +468,7 @@ class AdminMenu extends Boot {
 			],
 			[
 				'title'       => esc_html__( 'Group Logo/List', 'uncanny-learndash-toolkit' ),
-				'description' => esc_html__( 'Add group-specific logos to any page, including registration pages. A shortcode to list a userâ€™s LearnDash Groups is also available.', 'uncanny-learndash-toolkit' ),
+				'description' => esc_html__( 'Add group-specific logos to any page, including registration pages. A shortcode to list a user’s LearnDash Groups is also available.', 'uncanny-learndash-toolkit' ),
 				'kb_link'     => 'https://www.uncannyowl.com/knowledge-base/ld-group-logo-list/',
 			],
 			[
@@ -540,6 +540,41 @@ class AdminMenu extends Boot {
 				'title'       => esc_html__( 'Drip Lessons by Group', 'uncanny-learndash-toolkit' ),
 				'description' => esc_html__( 'Unlock access to LearnDash lessons by setting dates for LearnDash Groups rather than for all enrolled users.', 'uncanny-learndash-toolkit' ),
 				'kb_link'     => 'http://www.uncannyowl.com/knowledge-base/drip-lessons-by-ldgroup/',
+			],
+			[
+				'title'       => esc_html__( 'Autocomplete Lessons & Topics When Quiz is Graded', 'uncanny-learndash-toolkit' ),
+				'description' => esc_html__( 'Automatically mark LearnDash lessons and topics as completed when the associated quiz is manually graded.', 'uncanny-learndash-toolkit' ),
+				'kb_link'     => 'https://www.uncannyowl.com/knowledge-base/autocomplete-lessons-topics-when-quiz-is-graded/',
+			],
+			[
+				'title'       => esc_html__( 'Certificate Preview', 'uncanny-learndash-toolkit' ),
+				'description' => esc_html__( 'Get a preview of your quiz or course certificate without leaving the editor.', 'uncanny-learndash-toolkit' ),
+				'kb_link'     => 'https://www.uncannyowl.com/knowledge-base/certificate-preview/',
+			],
+			[
+				'title'       => esc_html__( 'Enhanced LearnDash CSV Reports', 'uncanny-learndash-toolkit' ),
+				'description' => esc_html__( 'This module will add additional columns to the LearnDash csv reports (course and quiz).', 'uncanny-learndash-toolkit' ),
+				'kb_link'     => 'https://www.uncannyowl.com/knowledge-base/enhanced-learndash-csv-reports/',
+			],
+			[
+				'title'       => esc_html__( 'Group Forums with bbPress', 'uncanny-learndash-toolkit' ),
+				'description' => esc_html__( 'Create group-specific discussion forums with bbPress. Only group members will have access to group-specific forums. Includes a handy widget.', 'uncanny-learndash-toolkit' ),
+				'kb_link'     => 'https://www.uncannyowl.com/knowledge-base/learndash-group-forums-with-bbpress/',
+			],
+			[
+				'title'       => esc_html__( 'Group Login Redirect', 'uncanny-learndash-toolkit' ),
+				'description' => esc_html__( 'Adds a group-specific login redirect setting to LearnDash groups. Automatically redirect group members to a specific page on login.', 'uncanny-learndash-toolkit' ),
+				'kb_link'     => 'https://www.uncannyowl.com/knowledge-base/learndash-group-login-redirect/',
+			],
+			[
+				'title'       => esc_html__( 'Lazy Loading Course Navigation', 'uncanny-learndash-toolkit' ),
+				'description' => esc_html__( 'Shortcode that loads a course navigation tree via AJAX. Useful on sites with many lessons and topics where the native LearnDash Course Navigation widget is extending page load time.', 'uncanny-learndash-toolkit' ),
+				'kb_link'     => 'https://www.uncannyowl.com/knowledge-base/lazy-loading-course-navigation/',
+			],
+			[
+				'title'       => esc_html__( 'Restrict Page Access', 'uncanny-learndash-toolkit' ),
+				'description' => esc_html__( 'Restrict access to any page by logged in/out status, course enrollment, group membership, or role. Display a message or automatically redirect users that are denied access.', 'uncanny-learndash-toolkit' ),
+				'kb_link'     => 'https://www.uncannyowl.com/knowledge-base/restrict-page-access/',
 			],
 		];
 
