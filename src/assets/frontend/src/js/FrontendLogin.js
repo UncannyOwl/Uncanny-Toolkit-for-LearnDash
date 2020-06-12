@@ -314,8 +314,8 @@ export class Login extends FrontendLogin {
 		this.setButtonDisableStatus( true );
 
 		// Reload the page
-		if ( ! isEmpty( this.formData.redirectTo ) ){
-			window.location.href = this.formData.redirectTo;
+		if ( ! this.isOnModal() && ! isEmpty( response.redirectTo )){
+			window.location.href = response.redirectTo;
 		}
 		else {
 			window.location.reload();
