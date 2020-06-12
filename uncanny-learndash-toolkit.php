@@ -25,7 +25,7 @@ if ( ! defined( 'UNCANNY_TOOLKIT_PREFIX' ) ) {
 
 // Register REST API endpoint
 if ( ! defined( 'UNCANNY_TOOLKIT_REST_API_END_POINT' ) ) {
-	define( 'UNCANNY_TOOLKIT_REST_API_END_POINT', 'ult/v2/' );
+	define( 'UNCANNY_TOOLKIT_REST_API_END_POINT', 'ult/v2' );
 }
 
 // Define the main plugin file

@@ -178,7 +178,7 @@ jQuery( function($){
             // Do AJAX
             $.ajax({
                 method: method,
-                url:    UncannyToolkitGlobal.rest.url + endPoint + '/',
+                url:    UncannyToolkitGlobal.rest.url + '/' + endPoint + '/',
                 data:   $.param( data ) + '&' + $.param({ doing_rest: 1 }),
 
                 // Attach Nonce the the header of the request
