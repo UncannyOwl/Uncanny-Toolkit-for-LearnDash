@@ -468,7 +468,7 @@ class AdminMenu extends Boot {
 			],
 			[
 				'title'       => esc_html__( 'Group Logo/List', 'uncanny-learndash-toolkit' ),
-				'description' => esc_html__( 'Add group-specific logos to any page, including registration pages. A shortcode to list a user’s LearnDash Groups is also available.', 'uncanny-learndash-toolkit' ),
+				'description' => esc_html__( 'Add group-specific logos to any page, including registration pages. A shortcode to list a user\'s LearnDash Groups is also available.', 'uncanny-learndash-toolkit' ),
 				'kb_link'     => 'https://www.uncannyowl.com/knowledge-base/ld-group-logo-list/',
 			],
 			[
