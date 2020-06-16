@@ -3,8 +3,8 @@
  * Plugin Name:         Uncanny Toolkit for LearnDash
  * Description:         Extend LearnDash with a variety of complementary features to make building engaging learner experiences even easier.
  * Author:              Uncanny Owl
- * Author URI:          www.uncannyowl.com
- * Plugin URI:          www.uncannyowl.com/uncanny-learndash-toolkit/
+ * Author URI:          https://www.uncannyowl.com
+ * Plugin URI:          https://www.uncannyowl.com/uncanny-learndash-toolkit/
  * Text Domain:         uncanny-learndash-toolkit
  * Domain Path:         /languages
  * License:             GPLv3
