@@ -32,7 +32,7 @@ class Modals {
 
 	createModals(){
 		// Itearate the modals (if any)
-		[ ...this.$elements.modals ].forEach(( $modal ) => {
+		[].forEach.call( this.$elements.modals, ( $modal ) => {
 			// Get the modal ID
 			const modalID = isDefined( $modal.getAttribute( 'data-id' ) ) ? $modal.getAttribute( 'data-id' ) : '';
 

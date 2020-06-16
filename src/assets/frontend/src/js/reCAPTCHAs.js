@@ -29,7 +29,7 @@ class reCAPTCHAs {
 		const $reCAPTCHAs = document.querySelectorAll( '.ult-form-recaptcha' );
 
 		// Iterate the elements
-		[ ...$reCAPTCHAs ].forEach(( $reCAPTCHA ) => {
+		[].forEach.call( $reCAPTCHAs, ( $reCAPTCHA ) => {
 			// Render the reCAPTCHA
 			const id = window.grecaptcha.render( $reCAPTCHA, {
 				sitekey:  $reCAPTCHA.getAttribute( 'data-sitekey' ),
