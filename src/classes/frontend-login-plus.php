@@ -2725,7 +2725,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 							UncannyToolkit.reCaptchaInit();
 						}
 						else {
-							document.addEventListener( 'DOMContentLoaded', () => {
+							document.addEventListener( 'DOMContentLoaded', function(){
 								UncannyToolkit.reCaptchaInit();
 							});
 						}
