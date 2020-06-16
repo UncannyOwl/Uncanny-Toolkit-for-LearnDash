@@ -6,7 +6,7 @@ namespace uncanny_learndash_toolkit;
 <div class="wrap">
 	<div class="uo-plugins-header">
 		<div class="uo-plugins-header__title">
-			Uncanny Toolkit For LearnDash
+			Uncanny Toolkit for LearnDash
 		</div>
 		<div class="uo-plugins-header__author">
 			<span><?php _e( 'by', 'uncanny-learndash-toolkit' ); ?></span>

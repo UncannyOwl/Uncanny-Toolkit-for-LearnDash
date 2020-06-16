@@ -131,7 +131,7 @@ class Blocks {
 					array(
 						array(
 							'slug'  => 'uncanny-learndash-toolkit',
-							'title' => __( 'Uncanny Toolkit For LearnDash', 'uncanny-learndash-toolkit' ),
+							'title' => __( 'Uncanny Toolkit for LearnDash', 'uncanny-learndash-toolkit' ),
 						),
 					)
 				);

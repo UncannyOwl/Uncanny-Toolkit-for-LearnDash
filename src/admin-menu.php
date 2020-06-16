@@ -39,7 +39,7 @@ class AdminMenu extends Boot {
 	 */
 	public static function register_options_menu_page() {
 
-		$page_title = esc_html__( 'Uncanny Toolkit For LearnDash', 'uncanny-learndash-toolkit' );
+		$page_title = esc_html__( 'Uncanny Toolkit for LearnDash', 'uncanny-learndash-toolkit' );
 		$menu_title = esc_html__( 'Uncanny Toolkit', 'uncanny-learndash-toolkit' );
 		$capability = 'manage_options';
 		$menu_slug  = 'uncanny-toolkit';
@@ -187,7 +187,7 @@ class AdminMenu extends Boot {
         <div class="wrap">
             <div class="uo-plugins-header">
                 <div class="uo-plugins-header__title">
-                    Uncanny Toolkit For LearnDash
+                    Uncanny Toolkit for LearnDash
                 </div>
                 <div class="uo-plugins-header__author">
                     <span><?php _e( 'by', 'uncanny-learndash-toolkit' ); ?></span>

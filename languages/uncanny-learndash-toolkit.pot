@@ -9,12 +9,14 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2020-06-16T15:15:39+00:00\n"
+"POT-Creation-Date: 2020-06-16T15:26:45+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.4.0\n"
 "X-Domain: uncanny-learndash-toolkit\n"
 
 #. Plugin Name of the plugin
+#: src/admin-menu.php:42
+#: src/blocks/blocks.php:134
 msgid "Uncanny Toolkit for LearnDash"
 msgstr ""
 
@@ -32,11 +34,6 @@ msgstr ""
 
 #. Author URI of the plugin
 msgid "www.uncannyowl.com"
-msgstr ""
-
-#: src/admin-menu.php:42
-#: src/blocks/blocks.php:134
-msgid "Uncanny Toolkit For LearnDash"
 msgstr ""
 
 #: src/admin-menu.php:43
@@ -297,7 +294,7 @@ msgstr ""
 
 #: src/boot.php:79
 #: src/boot.php:89
-msgid "Uncanny Toolkit For LearnDash Support"
+msgid "Uncanny Toolkit for LearnDash Support"
 msgstr ""
 
 #: src/boot.php:80
@@ -1176,7 +1173,7 @@ msgid "Site Data"
 msgstr ""
 
 #: src/templates/admin-modules.php:13
-msgid "Uncanny LearnDash Toolkit Pro"
+msgid "Uncanny Toolkit Pro for LearnDash"
 msgstr ""
 
 #: src/templates/admin-modules.php:132
@@ -1401,9 +1398,9 @@ msgid "The %s plugin requires %s version %s or greater. Your current version is 
 msgstr ""
 
 #: uncanny-learndash-toolkit.php:140
-msgid "The Uncanny Toolkit For LearnDash requires LearnDash version 2.1 or higher to work properly. Please make sure you have version 2.1 or higher installed before using any LearnDash modules in the Toolkit. Your current version is: %s"
+msgid "The Uncanny Toolkit for LearnDash requires LearnDash version 2.1 or higher to work properly. Please make sure you have version 2.1 or higher installed before using any LearnDash modules in the Toolkit. Your current version is: %s"
 msgstr ""
 
 #: uncanny-learndash-toolkit.php:154
-msgid "The Uncanny Toolkit For LearnDash requires LearnDash version 2.1 or higher to work properly. Please make sure you have version 2.1 or higher installed before using any LearnDash modules in the Toolkit."
+msgid "The Uncanny Toolkit for LearnDash requires LearnDash version 2.1 or higher to work properly. Please make sure you have version 2.1 or higher installed before using any LearnDash modules in the Toolkit."
 msgstr ""
