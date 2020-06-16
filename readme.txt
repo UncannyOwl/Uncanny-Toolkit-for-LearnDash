@@ -74,19 +74,21 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 == Changelog ==
 
 = 3.3 =
-* Added: Front End Login - New pop-up modal login form
-* Added: Front End Login - AJAX support for common actions
 * Added: Resume Button - Added shortcode to output a properly formatted link: [uo_learndash_resume_link] or URL [uo_learndash_resume_link url_only="yes"]
 * Added: "Help" button on module settings dialogs
+* Added: Front End Login - New pop-up modal login form
+* Added: Front End Login - AJAX support for common actions (Boxed with shadow template only)
+* Updated: Front End Login - Redirect to login page changed from 302 to 301 
+* Updated: Front End Login - Improved compatibility with Login/Logout Redirects module
+* Updated: Front End Login - reCAPTCHA now rendered explicitly to support more than one reCAPTCHA on the same page
+* Updated: Front End Login - Removed jQuery dependency from front end assets
 * Updated: Changed plugin name from "Uncanny LearnDash Toolkit" to "Uncanny Toolkit for LearnDash"
 * Updated: Resume Button - Improved translation support
 * Updated: User Switching updated to version 1.5.4 by John Blackbourn
 * Updated: Improved compatibility with WordPress versions < 5.1
-* Updated: Front End Login - Redirect to login page changed from 302 to 301 
-* Updated: Front End Login - Improved compatibility with Login/Logout Redirects module
 * Updated: Code cleanup
 * Fixed: Front End Login - Workaround to enable users to log in if the login page is in the trash
-* Fixed: PHP Notice: register_rest_route was called incorrectly in WordPress > 5.4.2
+* Fixed: PHP Notice: register_rest_route was called incorrectly in WordPress 5.4.2 and newer
 * Fixed: Blocks now show up in Gutenberg editor
 
 = 3.2.2 =
