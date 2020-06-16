@@ -87,6 +87,9 @@ function add_files() {
             await fs.copy('./' + pluginSlug + '.php', './temp/' + pluginSlug + '/' + pluginSlug + '.php');
             console.log('Copied: main plugin file');
 
+            await fs.copy('./readme.txt', './temp/' + pluginSlug + '/readme.txt');
+            console.log('Copied: readme file');
+
             await fs.copy('./languages/', './temp/' + pluginSlug + '/languages');
             console.log('Copied: languages directory');
 
@@ -119,6 +122,9 @@ function add_files() {
 
             await fs.copy('./src/templates', './temp/' + pluginSlug + '/src/templates');
             console.log('Copied: templates directory');
+
+            await fs.copy('./src/admin-menu.php', './temp/' + pluginSlug + '/src/admin-menu.php');
+            console.log('Copied: boot.php file');
 
             await fs.copy('./src/boot.php', './temp/' + pluginSlug + '/src/boot.php');
             console.log('Copied: boot.php file');

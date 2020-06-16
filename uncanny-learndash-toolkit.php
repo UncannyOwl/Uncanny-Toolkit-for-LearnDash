@@ -1,13 +1,17 @@
 <?php
 /*
-Plugin Name: Uncanny Toolkit for LearnDash
-Version: 3.2.2
-Description: Extend LearnDash with a variety of complementary features to make building engaging learner experiences even easier.
-Author: Uncanny Owl
-Author URI: www.uncannyowl.com
-Plugin URI: www.uncannyowl.com/uncanny-learndash-toolkit/
-Text Domain: uncanny-learndash-toolkit
-Domain Path: /languages
+ * Plugin Name:         Uncanny Toolkit for LearnDash
+ * Description:         Extend LearnDash with a variety of complementary features to make building engaging learner experiences even easier.
+ * Author:              Uncanny Owl
+ * Author URI:          www.uncannyowl.com
+ * Plugin URI:          www.uncannyowl.com/uncanny-learndash-toolkit/
+ * Text Domain:         uncanny-learndash-toolkit
+ * Domain Path:         /languages
+ * License:             GPLv3
+ * License URI:         https://www.gnu.org/licenses/gpl-3.0.html
+ * Version:             3.3
+ * Requires at least:   4.6
+ * Requires PHP:        7.0
 */
 
 // All Class instance are store in Global Variable $uncanny_learndash_toolkit
@@ -15,7 +19,7 @@ global $uncanny_learndash_toolkit;
 
 // Define version
 if ( ! defined( 'UNCANNY_TOOLKIT_VERSION' ) ) {
-	define( 'UNCANNY_TOOLKIT_VERSION', '3.2.2' );
+	define( 'UNCANNY_TOOLKIT_VERSION', '3.3' );
 }
 
 // Define prefix
@@ -50,7 +54,7 @@ function learndash_version_notice() {
 	global $wp_version;
 
 	//Minimum versions
-	$wp         = '4.0';
+	$wp         = '4.6';
 	$php        = '5.6';
 	$learn_dash = '2.1';
 
@@ -80,7 +84,7 @@ function learndash_version_notice() {
 					esc_html__( 'The %s requires PHP version %s or higher (7.2 or higher is recommended). Because you are using an unsupported version of PHP (%s), the Toolkit plugin will not initialize. Please contact your hosting company to upgrade to PHP 5.6 or higher.', 'uncanny-learndash-toolkit'
 					),
 
-					'Uncanny LearnDash Toolkit',
+					'Uncanny Toolkit For LearnDash',
 					$version,
 					$current ); ?>
 			</h3>
@@ -116,7 +120,7 @@ function learndash_version_notice() {
 					esc_html__( 'The %s plugin requires %s version %s or greater. Your current version is %s.', 'uncanny-learndash-toolkit'
 					),
 
-					'Uncanny LearnDash Toolkit',
+					'Uncanny Toolkit For LearnDash',
 					$flag,
 					$version,
 					$current ); ?>
@@ -133,7 +137,7 @@ function learndash_version_notice() {
 			<div class="notice notice-error">
 				<h3><?php echo sprintf(
 
-						esc_html__( 'The Uncanny LearnDash Toolkit requires LearnDash version 2.1 or higher to work properly. Please make sure you have version 2.1 or higher installed before using any LearnDash modules in the Toolkit. Your current version is: %s', 'uncanny-learndash-toolkit' ),
+						esc_html__( 'The Uncanny Toolkit For LearnDash requires LearnDash version 2.1 or higher to work properly. Please make sure you have version 2.1 or higher installed before using any LearnDash modules in the Toolkit. Your current version is: %s', 'uncanny-learndash-toolkit' ),
 
 						$learn_dash_version
 					); ?>
@@ -147,7 +151,7 @@ function learndash_version_notice() {
 			<div class="notice notice-error">
 				<h3><?php echo sprintf(
 
-						esc_html__( 'The Uncanny LearnDash Toolkit requires LearnDash version 2.1 or higher to work properly. Please make sure you have version 2.1 or higher installed before using any LearnDash modules in the Toolkit.', 'uncanny-learndash-toolkit' ),
+						esc_html__( 'The Uncanny Toolkit For LearnDash requires LearnDash version 2.1 or higher to work properly. Please make sure you have version 2.1 or higher installed before using any LearnDash modules in the Toolkit.', 'uncanny-learndash-toolkit' ),
 
 						$learn_dash_version
 					); ?>

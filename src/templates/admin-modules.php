@@ -10,7 +10,7 @@ namespace uncanny_learndash_toolkit;
 $config = [
 	'has_toolkit_pro' => ( defined( 'UNCANNY_TOOLKIT_PRO_VERSION' ) ) ? true : false,
 	'get_toolkit_pro' => 'https://www.uncannyowl.com/downloads/uncanny-learndash-toolkit-pro/',
-	'pro_name'        => __( 'Uncanny LearnDash Toolkit Pro', 'uncanny-learndash-toolkit' ),
+	'pro_name'        => __( 'Uncanny Toolkit Pro for LearnDash', 'uncanny-learndash-toolkit' ),
 ];
 
 /**

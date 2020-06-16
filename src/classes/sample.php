@@ -8,9 +8,9 @@ if ( ! defined( 'WPINC' ) ) {
 /**
  * Class Sample
  *
- * Sample Uncanny LearnDash Toolkit class that can be used to build a module.
+ * Sample Uncanny Toolkit For LearnDash class that can be used to build a module.
  * Module: A module on the wp-admin/admin.php?page=uncanny-toolkit page that is part
- * of the Uncanny LearnDash Toolkit available for free in the WP plugin repo.
+ * of the Uncanny Toolkit For LearnDash available for free in the WP plugin repo.
  *
  * @see src/boot.php
  *
