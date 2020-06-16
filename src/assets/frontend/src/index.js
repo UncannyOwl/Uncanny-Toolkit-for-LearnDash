@@ -1,4 +1,3 @@
-import '@babel/polyfill';
 import 'whatwg-fetch';
 import 'url-search-params-polyfill';
 
@@ -15,7 +14,7 @@ import './scss/main.scss';
 
 // Do on DOM ready
 document.addEventListener( 'DOMContentLoaded', () => {
-	// Modals (global module)
+	// reCAPTCHA (global module)
 	new reCAPTCHAs();
 
 	// Modals (global module)
