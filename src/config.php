@@ -482,7 +482,7 @@ class Config {
 
 		$html_options = ob_get_clean();
 
-		return array( 'link' => $modal_link, 'modal' => $html_options );
+		return array( 'link' => '', 'modal' => $html_options );
 
 	}
 
