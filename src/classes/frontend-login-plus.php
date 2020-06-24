@@ -1840,20 +1840,6 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		}
 	}
 
-	public static function detect_inner_block( $blocks, $block_code ) {
-		$block_is_on_page = false;
-		foreach ( $blocks as $block ) {
-			if ( $block_code === $block['blockName'] ) {
-				return true;
-			}
-			if ( ! empty( $block['innerBlocks'] ) ) {
-				return self::detect_inner_block( $block['innerBlocks'], $block_code );
-			}
-		}
-
-		return $block_is_on_page;
-	}
-
 	public static function htmlEmailContent( $contentType ) {
 		return 'text/html';
 	}
