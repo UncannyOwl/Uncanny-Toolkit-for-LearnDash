@@ -195,7 +195,7 @@ class CustomWalkerNavMenu extends Walker_Nav_Menu {
 
 				<?php
 				// This is the added section
-				do_action( 'wp_nav_menu_item_uo_fields', $item_id, $item, $depth, $args );
+				//do_action( 'wp_nav_menu_item_uo_fields', $item_id, $item, $depth, $args );
 				do_action( 'wp_nav_menu_item_custom_fields', $item_id, $item, $depth, $args );
 				// end added section
 				?>
