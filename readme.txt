@@ -69,9 +69,17 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 3. Activate the plugin through the Plugins menu in WordPress.
 
 == Screenshots ==
-1. Uncanny Toolkit Dashboard
+1. 15+ powerful modules
+2. Fully-featured Front End Login module with modal support
+3. LearnDash Resume Button module - works at a global or course level
 
 == Changelog ==
+
+= 3.3.1 =
+* Updated: Menu Item Visibility - Updated to version 1.10.1 by Kathy Darling
+* Fixed: Resume Button - Input type changed back to "submit" from "button"
+* Fixed: Front End Login - Login form showing up twice on login pages created with the Gutenberg editor
+* Fixed: PHP notice $modal_link undefined on modules page
 
 = 3.3 =
 * Added: Resume Button - Added shortcode to output a properly formatted link: [uo_learndash_resume_link] or URL [uo_learndash_resume_link url_only="yes"]
