@@ -75,13 +75,13 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 
 == Changelog ==
 
-= 3.3.1 =
+= 3.3.1 [2020-06-25] =
 * Updated: Menu Item Visibility - Updated to version 1.10.1 by Kathy Darling
 * Fixed: Resume Button - Input type changed back to "submit" from "button"
 * Fixed: Front End Login - Login form showing up twice on login pages created with the Gutenberg editor
 * Fixed: PHP notice $modal_link undefined on modules page
 
-= 3.3 =
+= 3.3 [2020-06-16] =
 * Added: Resume Button - Added shortcode to output a properly formatted link: [uo_learndash_resume_link] or URL [uo_learndash_resume_link url_only="yes"]
 * Added: "Help" button on module settings dialogs
 * Added: Front End Login - New pop-up modal login form
@@ -99,20 +99,20 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 * Fixed: PHP Notice: register_rest_route was called incorrectly in WordPress 5.4.2 and newer
 * Fixed: Blocks now show up in Gutenberg editor
 
-= 3.2.2 =
+= 3.2.2 [2020-03-19] =
 * Updated: Resume button - "RESUME" Button text now localized
 * Fixed: Uncanny Toolkit Pro Gutenberg blocks were unavailable unless at least one module from the Uncanny Toolkit (free version) that contained a Gutenberg block was active
 * Fixed: Front End Login - Admins being redirected to blank wp-login.php page on login on some sites
 * Fixed: Topics Autocomplete Lessons - After completing all topics, lesson no longer autocompleted if it contains an incomplete assignment
 
-= 3.2.1 =
+= 3.2.1 [2020-02-27] =
 * Added: Front End Login - Require strong password option for password reset form (minimum 8 characters including 1 uppercase letter, 1 lowercase letter and 1 number)
 * Updated: Not Enrolled Redirect - Redirect field now accepts shortcodes
 * Updated: Tweaked CSS style for select2 dropdowns in /wp-admin
 * Updated: Front End Login - redirect_to parameter in URL now takes precedence over redirect shortcode attribute and Login/Logout redirects module
 * Fixed: Front End Login - PHP fatal error on some sites when initiating a password reset before LearnDash settings are initialized
 
-= 3.2 =
+= 3.2 [2020-01-02] =
 * Added: New Module: Disable Emails - When active, disables all emails sent via wp_mail function.  Fork of the excellent Disable Emails plugin by webaware
 * Added: Certificate Widget/Show Certificates shortcode - Setting to output Certificate Name instead of Course/Quiz name
 * Added: Certificate Widget  - Sort order options
