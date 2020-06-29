@@ -95,10 +95,8 @@ jQuery( function($){
                 // Fuse options
                 var options = {
                     shouldSort: true,
-                    threshold: 0.6,
-                    location: 0,
-                    distance: 100,
-                    maxPatternLength: 32,
+                    threshold: 0.2,
+                    ignoreLocation: true,
                     minMatchCharLength: 1,
                     keys: [
                         'title',
