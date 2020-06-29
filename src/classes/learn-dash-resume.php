@@ -387,7 +387,7 @@ class LearnDashResume extends Config implements RequiredFunctions {
 					);
 				} else {
 					printf(
-						'<a href="%s" title="%s" class="%s"><input type="button" value="%s" class=""></a>',
+						'<a href="%s" title="%s" class="%s"><input type="submit" value="%s" class=""></a>',
 						$permalink,
 						esc_attr(
 							sprintf(
