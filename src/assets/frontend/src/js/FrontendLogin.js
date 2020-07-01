@@ -1,3 +1,5 @@
+const events = require( 'eventslibjs' );
+
 import {
 	AJAXRequest,
 	isEmpty,
@@ -454,13 +456,21 @@ export class FrontendLogin_Modal {
 			// Handle clicks to the buttons to show the sections
 			this.handleContainerVisiblity();
 		}
+		else {
+			// Check if the current page is the Login page
+			// That would mean that the modal is not defined here
+			// We want to reload the page when they click on the "Login" link
+			if ( isDefined( UncannyToolkit.frontendLogin.currentPageIsLoginPage ) &&  UncannyToolkit.frontendLogin.currentPageIsLoginPage ){
+				this.handleModalInLoginPage();
+			}
+		}
 	}
 
 	getElements(){
 		this.$elements = {
 			container: document.getElementById( 'ult-login-modal' ),
 			loginShowButton: document.getElementById( 'ult-form-footer-login' ),
-			forgotPasswordShowButton: document.getElementById( 'ult-form-footer-forgot-password' )
+			forgotPasswordShowButton: document.getElementById( 'ult-form-footer-forgot-password' ),
 		}
 	}
 
@@ -503,5 +513,15 @@ export class FrontendLogin_Modal {
 
 	shouldInvokeMethods(){
 		return isDefined( UncannyToolkit.frontendLogin ) && isDefined( UncannyToolkit.frontendLogin.currentPageIsLoginPage ) && ! UncannyToolkit.frontendLogin.currentPageIsLoginPage && isDefined( UncannyToolkit.modals[ 'ult-login' ] );
+	}
+
+	handleModalInLoginPage(){
+		events.on( 'click', `[href*="ult-modal-open----ult-login"]`, ( event ) => {
+			// Prevent default
+			event.preventDefault();
+
+			// Reload the page
+			location.reload();
+		});
 	}
 }
