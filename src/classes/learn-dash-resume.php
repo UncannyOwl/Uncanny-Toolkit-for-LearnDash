@@ -334,7 +334,28 @@ class LearnDashResume extends Config implements RequiredFunctions {
 			}
 
 			$last_know_post_object = get_post( $step_id );
-
+			
+			// Check if current step_id is same as current post then no need to show this button.
+			// Someone may use this shortcode on any LearnDash post page which will create a loop.
+			global $post;
+			if( $post->ID == $step_id ) {
+				$learn_dash_post_types = apply_filters(
+					'last_known_learndash_post_types',
+					array(
+						'sfwd-courses',
+						'sfwd-lessons',
+						'sfwd-topic',
+						'sfwd-quiz',
+						'sfwd-certificates',
+						'sfwd-assignment',
+					)
+				);
+				if ( is_singular( $learn_dash_post_types ) ) {
+					return '';
+				}
+			}
+			
+			
 			// Make sure the post exists and that the user hit a page that was a post
 			// if $last_know_page_id returns '' then get post will return current pages post object
 			// so we need to make sure first that the $last_know_page_id is returning something and
