@@ -2148,11 +2148,13 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		$secure_cookie = '';
 		
 		// Validate ajax call here.
+		/*
 		if( ! check_ajax_referer('uncannyowl-learndash-toolkit','nonce') ) {
             $response['success'] = false;
             $response['message'] = esc_html__( 'Something went wrong. Please, try again', 'uncanny-learndash-toolkit' );
             self::wp_send_json( $response, $response_code );
         }
+        */
         
 		// validate input then.
 		if ( ! isset( $_POST['email'] ) || ! isset( $_POST['password'] ) || empty( $_POST['email'] ) || empty( $_POST['password'] ) ) {
@@ -2299,11 +2301,13 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		$response_code = 200;
 		
 		// Validate ajax call here.
+		/*
 		if( ! check_ajax_referer('uncannyowl-learndash-toolkit','nonce') ) {
 			$response['success'] = false;
 			$response['message'] = esc_html__( 'Something went wrong. Please, try again', 'uncanny-learndash-toolkit' );
 			self::wp_send_json( $response, $response_code );
 		}
+		*/
 		
 		// validate inputs.
 		if ( ! isset( $_POST['email'] ) || empty( $_POST['email'] ) ) {
@@ -2530,11 +2534,13 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		$response_code = 200;
 		
 		// Validate ajax call here.
+		/*
 		if( ! check_ajax_referer('uncannyowl-learndash-toolkit','nonce') ) {
 			$response['success'] = false;
 			$response['message'] = esc_html__( 'Something went wrong. Please, try again', 'uncanny-learndash-toolkit' );
 			self::wp_send_json( $response, $response_code );
 		}
+		*/
 		
 		// validate inputs.
 		if ( ! isset( $_POST['password'] ) || empty( $_POST['password'] ) || ! isset( $_POST['passwordRepeat'] ) || empty( $_POST['passwordRepeat'] ) ) {
