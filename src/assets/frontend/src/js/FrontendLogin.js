@@ -134,6 +134,8 @@ class FrontendLogin {
 
 				// Enable the submit button
 				this.setButtonDisableStatus( false );
+			}, {
+				includeNonce: false
 			});
 		}
 	}

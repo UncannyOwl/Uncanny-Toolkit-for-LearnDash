@@ -90,12 +90,16 @@ export const fade = ( in_out = 'in', element, callback ) => {
  * @param {callback}  [onFail] - Function to be invoked if the request fails
  */
 
-export function AJAXRequest( action = null, data = null, onSuccess = null, onFail = null ){
+export function AJAXRequest( action = null, data = null, onSuccess = null, onFail = null, options = {} ){
     // Add {action} to the data object
     data = { ...data, ...{
-        action: action,
-        nonce:  UncannyToolkit.ajax.nonce
+        action: action
     }};
+
+    // Check if we should include the nonce
+    if ( ! isDefined( options.includeNonce ) || options.includeNonce ){
+        data.nonce = UncannyToolkit.ajax.nonce;
+    }
 
     // Do the call
     fetch( UncannyToolkit.ajax.url, {
