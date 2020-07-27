@@ -4,7 +4,7 @@ Tags: LearnDash, eLearning, LMS, education, learning, courseware
 Requires at least: 4.6
 Tested up to: 5.4.2
 Requires PHP: 7.0
-Stable tag: 3.3.1
+Stable tag: 3.3.2
 License: This plugin is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or any later version.   LearnDash Groups in User Profiles is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.   You should have received a copy of the GNU General Public License along with LearnDash Groups in User Profiles. If not, see {URI to Plugin License}.
 License URI: https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
 
@@ -74,6 +74,14 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 3. LearnDash Resume Button module - works at a global or course level
 
 == Changelog ==
+
+= 3.3.2 [2020-07-27] =
+* Updated: Front End Login - Improved compatibility of modal login with server-side caching
+* Updated: Front End Login - Added redirect attribute to uo_login_ui shortcode
+* Updated: Front End Login - Modal Login menu link now reloads the page if clicked while the user is on the login page specified in settings
+* Updated: Resume Button - Resume data now deleted when course progress is cleared
+* Updated: Resume Button - No longer appears on LearnDash post types (Universal resume button only; course-specific resume button will still appear on course pages)
+* Fixed: Not Enrolled Redirect - No longer redirects on the course archive page
 
 = 3.3.1 [2020-06-25] =
 * Updated: Menu Item Visibility - Updated to version 1.10.1 by Kathy Darling

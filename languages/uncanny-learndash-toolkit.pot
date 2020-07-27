@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the Uncanny Toolkit for LearnDash plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Uncanny Toolkit for LearnDash 3.3.1\n"
+"Project-Id-Version: Uncanny Toolkit for LearnDash 3.3.2\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/uncanny-learndash-toolkit\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2020-06-24T20:07:31+00:00\n"
+"POT-Creation-Date: 2020-07-27T16:47:16+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.4.0\n"
 "X-Domain: uncanny-learndash-toolkit\n"
@@ -46,245 +46,245 @@ msgstr ""
 msgid "Modules"
 msgstr ""
 
-#: src/admin-menu.php:67
-#: src/admin-menu.php:72
+#: src/admin-menu.php:69
+#: src/admin-menu.php:77
 msgid "Try %s!"
 msgstr ""
 
-#: src/admin-menu.php:67
+#: src/admin-menu.php:72
 msgid "New"
 msgstr ""
 
-#: src/admin-menu.php:193
+#: src/admin-menu.php:199
 #: src/templates/admin-support.php:12
 msgid "by"
 msgstr ""
 
-#: src/admin-menu.php:515
+#: src/admin-menu.php:521
 msgid "Days Until Course Expiry"
 msgstr ""
 
-#: src/admin-menu.php:516
+#: src/admin-menu.php:522
 msgid "Use this shortcode to display the number of days until the learner's access expires for the current course. This is a useful shortcode to include on course pages."
 msgstr ""
 
-#: src/admin-menu.php:520
+#: src/admin-menu.php:526
 msgid "Email Course Certificates"
 msgstr ""
 
-#: src/admin-menu.php:521
+#: src/admin-menu.php:527
 msgid "Sends a copy of certificate earned from course completion and saves certificates on the server."
 msgstr ""
 
-#: src/admin-menu.php:525
+#: src/admin-menu.php:531
 msgid "Simple Course Timer"
 msgstr ""
 
-#: src/admin-menu.php:526
+#: src/admin-menu.php:532
 msgid "Tracks time spent in all LearnDash courses and detects when a user is idle. Course completion time and total course time are both added to LearnDash reports. Enables blocking access to quizzes until minimum time spent in course."
 msgstr ""
 
-#: src/admin-menu.php:530
+#: src/admin-menu.php:536
 msgid "Email Quiz Certificates"
 msgstr ""
 
-#: src/admin-menu.php:531
+#: src/admin-menu.php:537
 msgid "Sends a copy of certificates earned from quiz completion and saves certificates on the server."
 msgstr ""
 
-#: src/admin-menu.php:535
+#: src/admin-menu.php:541
 msgid "Autocomplete Lessons & Topics on Gravity Form Submission"
 msgstr ""
 
-#: src/admin-menu.php:536
+#: src/admin-menu.php:542
 msgid "Automatically mark LearnDash lessons and topics as completed when the user submits Gravity Forms."
 msgstr ""
 
-#: src/admin-menu.php:540
+#: src/admin-menu.php:546
 msgid "Improved Group Leader Interface"
 msgstr ""
 
-#: src/admin-menu.php:541
+#: src/admin-menu.php:547
 msgid "Enhances the experience of LearnDash Group Leaders by providing direct access to reports and removing unnecessary distractions from the admin panel."
 msgstr ""
 
-#: src/admin-menu.php:545
+#: src/admin-menu.php:551
 msgid "Group Logo/List"
 msgstr ""
 
-#: src/admin-menu.php:546
+#: src/admin-menu.php:552
 msgid "Add group-specific logos to any page, including registration pages. A shortcode to list a user's LearnDash Groups is also available."
 msgstr ""
 
-#: src/admin-menu.php:550
+#: src/admin-menu.php:556
 msgid "Import Users"
 msgstr ""
 
-#: src/admin-menu.php:551
+#: src/admin-menu.php:557
 msgid "Create or update users and assign them to courses and LearnDash Groups from a CSV file."
 msgstr ""
 
-#: src/admin-menu.php:555
+#: src/admin-menu.php:561
 msgid "Group Expiration"
 msgstr ""
 
-#: src/admin-menu.php:556
+#: src/admin-menu.php:562
 msgid "Set expiration dates for LearnDash groups so that course enrolment for the group is removed on the specified day. Reminder emails can be sent to users advising them of group expiration."
 msgstr ""
 
-#: src/admin-menu.php:560
+#: src/admin-menu.php:566
 msgid "Group Registration"
 msgstr ""
 
-#: src/admin-menu.php:561
+#: src/admin-menu.php:567
 msgid "Allow users to add themselves directly to LearnDash Groups on registration by assigning each group a unique registration URL. Users can also change or add groups themselves by visiting group URLs."
 msgstr ""
 
-#: src/admin-menu.php:565
+#: src/admin-menu.php:571
 msgid "Course Dashboard"
 msgstr ""
 
-#: src/admin-menu.php:566
+#: src/admin-menu.php:572
 msgid "Use the [uo_dashboard] shortcode to display the list of enrolled courses for the current user. This is essentially a modified version of the [ld_profile] shortcode without profile data."
 msgstr ""
 
-#: src/admin-menu.php:570
+#: src/admin-menu.php:576
 msgid "Duplicate Pages & Posts"
 msgstr ""
 
-#: src/admin-menu.php:571
+#: src/admin-menu.php:577
 msgid "Easily clone pages, posts, LearnDash courses, lessons, topics, quizzes and more. This plugin handles quiz duplication properly."
 msgstr ""
 
-#: src/admin-menu.php:575
+#: src/admin-menu.php:581
 msgid "Reset Progress Button"
 msgstr ""
 
-#: src/admin-menu.php:576
+#: src/admin-menu.php:582
 msgid "Inserts a button that allows learners to reset the course."
 msgstr ""
 
-#: src/admin-menu.php:580
+#: src/admin-menu.php:586
 msgid "Lesson/Topic/Quiz Table Colors"
 msgstr ""
 
-#: src/admin-menu.php:581
+#: src/admin-menu.php:587
 msgid "Change the background and header text color of LearnDash tables. This module modifies the course, lesson, topic, quiz, and Pro Dashboard tables."
 msgstr ""
 
-#: src/admin-menu.php:585
+#: src/admin-menu.php:591
 msgid "Learner Transcript"
 msgstr ""
 
-#: src/admin-menu.php:586
+#: src/admin-menu.php:592
 msgid "Add printable transcripts to the front end for your learners. This is a great way for learners to have a record of all course progress and overall standing."
 msgstr ""
 
-#: src/admin-menu.php:590
+#: src/admin-menu.php:596
 msgid "Autocomplete Lessons & Topics"
 msgstr ""
 
-#: src/admin-menu.php:591
+#: src/admin-menu.php:597
 msgid "Automatically mark all lessons and topics as completed on user visit and remove Mark Complete buttons. Global settings can be overridden for individual lessons and topics."
 msgstr ""
 
-#: src/admin-menu.php:595
+#: src/admin-menu.php:601
 msgid "Autocomplete Lessons & Topics on Quiz Results Page"
 msgstr ""
 
-#: src/admin-menu.php:596
+#: src/admin-menu.php:602
 msgid "Automatically mark LearnDash lessons and topics as completed when the user reaches the quiz results page with a passing mark."
 msgstr ""
 
-#: src/admin-menu.php:600
+#: src/admin-menu.php:606
 msgid "Enhanced Lessons/Topics Grid"
 msgstr ""
 
-#: src/admin-menu.php:601
+#: src/admin-menu.php:607
 msgid "Add a highly customizable grid of LearnDash lessons/topics to the front end, learner dashboard or anywhere you want. This is a great tool for sites with a large number of lessons/topics."
 msgstr ""
 
-#: src/admin-menu.php:605
+#: src/admin-menu.php:611
 msgid "Sample Lesson Label"
 msgstr ""
 
-#: src/admin-menu.php:606
+#: src/admin-menu.php:612
 msgid "Add visual label to sample lessons."
 msgstr ""
 
-#: src/admin-menu.php:610
+#: src/admin-menu.php:616
 msgid "Enhanced Course Grid"
 msgstr ""
 
-#: src/admin-menu.php:611
+#: src/admin-menu.php:617
 msgid "Add a highly customizable grid of LearnDash courses to the front end, learner dashboard or anywhere you want. This is a great tool for sites with a large number of courses."
 msgstr ""
 
-#: src/admin-menu.php:615
+#: src/admin-menu.php:621
 msgid "Drip Lessons by Group"
 msgstr ""
 
-#: src/admin-menu.php:616
+#: src/admin-menu.php:622
 msgid "Unlock access to LearnDash lessons by setting dates for LearnDash Groups rather than for all enrolled users."
 msgstr ""
 
-#: src/admin-menu.php:620
+#: src/admin-menu.php:626
 msgid "Autocomplete Lessons & Topics When Quiz is Graded"
 msgstr ""
 
-#: src/admin-menu.php:621
+#: src/admin-menu.php:627
 msgid "Automatically mark LearnDash lessons and topics as completed when the associated quiz is manually graded."
 msgstr ""
 
-#: src/admin-menu.php:625
+#: src/admin-menu.php:631
 msgid "Certificate Preview"
 msgstr ""
 
-#: src/admin-menu.php:626
+#: src/admin-menu.php:632
 msgid "Get a preview of your quiz or course certificate without leaving the editor."
 msgstr ""
 
-#: src/admin-menu.php:630
+#: src/admin-menu.php:636
 msgid "Enhanced LearnDash CSV Reports"
 msgstr ""
 
-#: src/admin-menu.php:631
+#: src/admin-menu.php:637
 msgid "This module will add additional columns to the LearnDash csv reports (course and quiz)."
 msgstr ""
 
-#: src/admin-menu.php:635
+#: src/admin-menu.php:641
 msgid "Group Forums with bbPress"
 msgstr ""
 
-#: src/admin-menu.php:636
+#: src/admin-menu.php:642
 msgid "Create group-specific discussion forums with bbPress. Only group members will have access to group-specific forums. Includes a handy widget."
 msgstr ""
 
-#: src/admin-menu.php:640
+#: src/admin-menu.php:646
 msgid "Group Login Redirect"
 msgstr ""
 
-#: src/admin-menu.php:641
+#: src/admin-menu.php:647
 msgid "Adds a group-specific login redirect setting to LearnDash groups. Automatically redirect group members to a specific page on login."
 msgstr ""
 
-#: src/admin-menu.php:645
+#: src/admin-menu.php:651
 msgid "Lazy Loading Course Navigation"
 msgstr ""
 
-#: src/admin-menu.php:646
+#: src/admin-menu.php:652
 msgid "Shortcode that loads a course navigation tree via AJAX. Useful on sites with many lessons and topics where the native LearnDash Course Navigation widget is extending page load time."
 msgstr ""
 
-#: src/admin-menu.php:650
+#: src/admin-menu.php:656
 msgid "Restrict Page Access"
 msgstr ""
 
-#: src/admin-menu.php:651
+#: src/admin-menu.php:657
 msgid "Restrict access to any page by logged in/out status, course enrollment, group membership, or role. Display a message or automatically redirect users that are denied access."
 msgstr ""
 
-#: src/admin-menu.php:658
+#: src/admin-menu.php:664
 msgid "This module requires Uncanny Toolkit Pro. {{Buy it here}}"
 msgstr ""
 
@@ -313,9 +313,6 @@ msgid "Dismiss"
 msgstr ""
 
 #: src/boot.php:147
-#: src/classes/frontend-login-plus.php:2153
-#: src/classes/frontend-login-plus.php:2304
-#: src/classes/frontend-login-plus.php:2535
 #: src/config.php:608
 msgid "Something went wrong. Please, try again"
 msgstr ""
@@ -551,8 +548,8 @@ msgid "Invalid Credentials Message"
 msgstr ""
 
 #: src/classes/frontend-login-plus.php:409
-#: src/classes/frontend-login-plus.php:2160
-#: src/classes/frontend-login-plus.php:2238
+#: src/classes/frontend-login-plus.php:2175
+#: src/classes/frontend-login-plus.php:2253
 #: src/templates/frontend-login/layout_1-login.php:13
 msgid "Invalid username and/or password."
 msgstr ""
@@ -624,7 +621,7 @@ msgid "reCAPTCHA Not Checked Message"
 msgstr ""
 
 #: src/classes/frontend-login-plus.php:482
-#: src/classes/frontend-login-plus.php:2678
+#: src/classes/frontend-login-plus.php:2697
 msgid "Please verify that you are not a robot."
 msgstr ""
 
@@ -795,29 +792,29 @@ msgstr ""
 msgid "We haven't verified this account."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:2011
+#: src/classes/frontend-login-plus.php:2024
 msgid "<strong>ERROR</strong>: Password fields cannot be empty."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:2014
+#: src/classes/frontend-login-plus.php:2027
 msgid "<strong>ERROR</strong>: Passwords do not match."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:2021
+#: src/classes/frontend-login-plus.php:2034
 msgid "<strong>ERROR</strong>: Please enter a password of minimum 8 characters including at least 1 uppercase letter, 1 lowercase letter and 1 number."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:2268
+#: src/classes/frontend-login-plus.php:2283
 #: src/templates/frontend-login/layout_1-login.php:23
 msgid "This account is not verified."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:2311
+#: src/classes/frontend-login-plus.php:2328
 msgid "Invalid username/email."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:2542
-#: src/classes/frontend-login-plus.php:2618
+#: src/classes/frontend-login-plus.php:2561
+#: src/classes/frontend-login-plus.php:2637
 msgid "Password fields cannot be empty."
 msgstr ""
 
@@ -829,35 +826,35 @@ msgstr ""
 msgid "Hides the Admin Bar at the top of WordPress pages based on the user role."
 msgstr ""
 
-#: src/classes/learn-dash-resume.php:68
+#: src/classes/learn-dash-resume.php:71
 msgid "Resume Button"
 msgstr ""
 
-#: src/classes/learn-dash-resume.php:70
+#: src/classes/learn-dash-resume.php:73
 msgid "Inserts a button that allows learners to return to the course, lesson or topic they last visited."
 msgstr ""
 
-#: src/classes/learn-dash-resume.php:104
+#: src/classes/learn-dash-resume.php:107
 msgid "Resume Button Text"
 msgstr ""
 
-#: src/classes/learn-dash-resume.php:109
+#: src/classes/learn-dash-resume.php:112
 msgid "Show Name of Last Course / Lesson / Topic"
 msgstr ""
 
-#: src/classes/learn-dash-resume.php:220
-#: src/classes/learn-dash-resume.php:347
+#: src/classes/learn-dash-resume.php:223
+#: src/classes/learn-dash-resume.php:371
 msgid "RESUME"
 msgstr ""
 
-#: src/classes/learn-dash-resume.php:229
-#: src/classes/learn-dash-resume.php:356
+#: src/classes/learn-dash-resume.php:232
+#: src/classes/learn-dash-resume.php:380
 msgid "Resume"
 msgstr ""
 
-#: src/classes/learn-dash-resume.php:249
-#: src/classes/learn-dash-resume.php:380
-#: src/classes/learn-dash-resume.php:394
+#: src/classes/learn-dash-resume.php:252
+#: src/classes/learn-dash-resume.php:404
+#: src/classes/learn-dash-resume.php:418
 msgctxt "LMS shortcode Resume link title \"Resume post_type_name: Post_title "
 msgid "Resume %s: %s"
 msgstr ""

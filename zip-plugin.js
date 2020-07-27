@@ -2,6 +2,7 @@ const fs = require('fs-extra');
 const prompts = require('prompts');
 const slugify = require('slugify');
 const zipFolder = require('zip-folder');
+const minimist  = require('minimist');
 
 // Used as the name of the final zipped package
 const pluginSlug = 'uncanny-learndash-toolkit';
@@ -29,6 +30,13 @@ const onCancel = prompt => {
  * starts to create needed directories
  */
 (async () => {
+
+    var argv = minimist(process.argv.slice(2));
+    version  = argv['v'];
+    console.log( 'Version passed: ' + version );
+
+    //injecting version automatically
+    prompts.inject( [ version ] );
 
     // Adds questions to the CLI
     const response = await prompts(questions, {onCancel});
