@@ -81,8 +81,9 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 	public static function check_learndash_topic_completed( $data ) {
 
 		$lesson_id = $data['lesson']->ID;
+		$user_id   = $data['user']->ID;
 
-		$lesson_completed = self::check_lesson_complete( $lesson_id );
+		$lesson_completed = self::check_lesson_complete( $lesson_id, $user_id );
 
 		if ( $lesson_completed ) {
 
@@ -93,7 +94,7 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 				$maybe_complete = self::is_linked_with_assignment( $data['lesson'], true );
 
 				if ( $maybe_complete ) {
-					$mark_complete = learndash_process_mark_complete( null, $lesson_id );
+					$mark_complete = learndash_process_mark_complete( $user_id, $lesson_id );
 				} else {
 					$mark_complete = false;
 				}
@@ -105,7 +106,7 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 					if ( ( isset( $_POST['post'] ) && absint( $_POST['post'] ) ) && isset( $_POST['uploadfile'] ) ) {
 						$post = get_post( absint( $_POST['post'] ) );
 						if ( lesson_hasassignments( $post ) ) {
-							learndash_approve_assignment( get_current_user_id(), absint( $_POST['post'] ) );
+							learndash_approve_assignment( $user_id, absint( $_POST['post'] ) );
 						}
 					}
 
@@ -126,7 +127,7 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 
 				foreach ( $Lesson_quiz_ids as $quiz_id ) {
 
-					$is_quiz_notcomplete = learndash_is_quiz_notcomplete( null, array( $quiz_id ) );
+					$is_quiz_notcomplete = learndash_is_quiz_notcomplete( $user_id, array( $quiz_id ) );
 
 					// Redirect to first incomplete quiz in list
 					if ( $is_quiz_notcomplete ) {
@@ -207,10 +208,11 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 	 * @return bool || Array
 	 *
 	 */
-	public static function check_lesson_complete( $lesson_id ) {
-
-		$user_id = get_current_user_id();
-
+	public static function check_lesson_complete( $lesson_id , $user_id = null ) {
+		
+		if ( empty( $user_id ) ) {
+			$user_id = get_current_user_id();
+		}
 		// Get all user quiz results
 		$user_quizzes = get_user_meta( $user_id, '_sfwd-quizzes', true );
 		if ( '' === $user_quizzes ) {
@@ -269,7 +271,7 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 
 		// Check if all topics in lesson were completed
 		// A passed quiz in a topic will automatically mark that topic complete
-		$topics_completed = learndash_lesson_topics_completed( $lesson_id, false );
+		$topics_completed = self::learndash_lesson_topics_completed( $user_id, $lesson_id, false );
 
 		$completion_status = array(
 			'topics_completed'  => $topics_completed,
@@ -306,5 +308,43 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 
 		return $maybe_complete;
 
+	}
+	
+	/**
+	 * Modified Learndash function for adding user id support.
+	 * Checks if the lesson topics are completed.
+	 *
+	 * @since 3.3.3
+	 *
+	 * @param  int     $user_id              Lesson ID.
+	 * @param  int     $lesson_id            Lesson ID.
+	 * @param  boolean $mark_lesson_complete Optional. Whether to mark the lesson complete. Default false.
+	 *
+	 * @return boolean Returns true if the lesson is completed otherwise false.
+	 */
+	private static function learndash_lesson_topics_completed( $user_id, $lesson_id, $mark_lesson_complete = false ) {
+		$topics = learndash_get_topic_list( $lesson_id );
+		
+		if ( empty( $topics[0]->ID ) ) {
+			return true;
+		}
+		
+		$progress = learndash_get_course_progress( $user_id, $topics[0]->ID );
+		
+		if ( empty( $progress['posts'] ) || ! is_array( $progress['posts'] ) ) {
+			return false;
+		}
+		
+		foreach ( $progress['posts'] as $topic ) {
+			if ( empty( $topic->completed ) ) {
+				return false;
+			}
+		}
+		
+		if ( $mark_lesson_complete ) {
+			learndash_process_mark_complete( $user_id, $lesson_id );
+		}
+		
+		return true;
 	}
 }
