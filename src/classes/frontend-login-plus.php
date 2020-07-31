@@ -17,10 +17,19 @@ if ( '' !== Config::get_settings_value( 'uo_frontend_registration', 'FrontendLog
 class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 	// Title of our new column
+	/**
+	 * @var string
+	 */
 	private static $column_title = 'Verified';
 	// Meta key that will populate in our new column
+	/**
+	 * @var string
+	 */
 	private static $user_meta_key_col = 'uo_is_verified';
 
+	/**
+	 * @var string
+	 */
 	public static $login_error = '';
 
 	/**
@@ -32,6 +41,9 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 	/*
 	 * Initialize frontend actions and filters
+	 */
+	/**
+	 *
 	 */
 	public static function run_frontend_hooks() {
 
@@ -668,6 +680,11 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	 * @return Array
 	 *
 	 */
+	/**
+	 * @param $columns
+	 *
+	 * @return mixed
+	 */
 	public static function add_meta_column( $columns ) {
 		$columns['uo_column'] = apply_filters( 'uo_user_column_title', self::$column_title );
 
@@ -679,6 +696,13 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	 *
 	 * @return Array All columns
 	 *
+	 */
+	/**
+	 * @param $value
+	 * @param $column_name
+	 * @param $user_id
+	 *
+	 * @return string
 	 */
 	public static function add_meta_column_content( $value, $column_name, $user_id ) {
 
@@ -705,6 +729,9 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	/*
 	 * Add custom field to user profile
 	 * @param object $user
+	 */
+	/**
+	 * @param $user
 	 */
 	public static function my_show_extra_profile_fields( $user ) {
 		$checked = esc_attr( get_user_meta( $user->ID, 'uo_is_verified', true ) );
@@ -741,6 +768,11 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	 * Save custom fields from user profile
 	 * @param int $user_id
 	 *
+	 */
+	/**
+	 * @param $user_id
+	 *
+	 * @return bool
 	 */
 	public static function my_save_extra_profile_fields( $user_id ) {
 
@@ -818,6 +850,9 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		return $message;
 	}
 
+	/**
+	 *
+	 */
 	public static function set_cookies() {
 
 		global $post;
@@ -875,6 +910,9 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		}
 	}
 
+	/**
+	 *
+	 */
 	public static function maybe_set_cookies() {
 
 		global $post;
@@ -1032,6 +1070,11 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	 * v3.0 --- Introduced different templates,
 	 * moved a lot of code out of login-page-ui to
 	 * the function.
+	 *
+	 * @return false|string
+	 */
+	/**
+	 * @param array $attribute
 	 *
 	 * @return false|string
 	 */
@@ -1408,6 +1451,11 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	 *                                       e.g., an empty field, an invalid username or email,
 	 *                                       e.g., an empty field, an invalid username or email,
 	 */
+	/**
+	 * @param $sanitized_user_login
+	 * @param $user_email
+	 * @param $errors
+	 */
 	public static function redirect_registration_errors( $sanitized_user_login, $user_email, $errors ) {
 
 		if ( ! empty( $errors->errors ) ) {
@@ -1418,6 +1466,9 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 	}
 
+	/**
+	 * @param $error_code
+	 */
 	public static function redirect_registration_error( $error_code ) {
 		$login_page = get_permalink( self::get_login_redirect_page_id() );
 		wp_safe_redirect( add_query_arg( array( 'action' => 'register', 'wp-error' => $error_code ), $login_page ) );
@@ -1585,29 +1636,10 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				exit;
 			}
 
-			$post_data = http_build_query(
-				array(
-					'body' => [
-						'secret'   => $recaptcha_secrete_key,
-						'response' => $recaptcha_response,
-						'remoteip' => $_SERVER['REMOTE_ADDR'],
-					]
-				)
-			);
-
-			$response = wp_remote_post( 'https://www.google.com/recaptcha/api/siteverify', $post_data );
-
-			if ( $response instanceof \WP_Error ) {
-				wp_safe_redirect( add_query_arg( array( 'login' => 'recaptchafailed' ), $login_page ) );
-				exit;
-			}
-
-			$response_code = wp_remote_retrieve_response_code( $response );
-			$response_body = wp_remote_retrieve_body( $response );
-			$result        = json_decode( $response_body, true );
+			$result = self::get_recaptcha_response( $recaptcha_secrete_key, $recaptcha_response );
 
 			// return if there is an error
-			if ( 200 === (int) $response_code && false === $result->success ) {
+			if ( false === $result ) {
 				wp_safe_redirect( add_query_arg( array( 'login' => 'recaptchafailed' ), $login_page ) );
 				exit;
 			}
@@ -1681,30 +1713,10 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				exit;
 			}
 
-			$post_data = http_build_query(
-				array(
-					'secret'   => $recaptcha_secrete_key,
-					'response' => $recaptcha_response,
-					'remoteip' => $_SERVER['REMOTE_ADDR']
-				)
-			);
-
-			$opts = array(
-				'http' =>
-					array(
-						'method'  => 'POST',
-						'header'  => 'Content-type: application/x-www-form-urlencoded',
-						'content' => $post_data
-					)
-			);
-
-			// validate server side
-			$context  = stream_context_create( $opts );
-			$response = file_get_contents( 'https://www.google.com/recaptcha/api/siteverify', false, $context );
-			$result   = json_decode( $response );
+			$result = self::get_recaptcha_response( $recaptcha_secrete_key, $recaptcha_response );
 
 			// return if there is an error
-			if ( ! $result->success ) {
+			if ( false === $result ) {
 				wp_safe_redirect( add_query_arg( array(
 					'action'  => 'forgot',
 					'success' => 'recaptchafailed'
@@ -1769,6 +1781,9 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	/*
 	 * Add lost password link the login form
 	 */
+	/**
+	 * @return string
+	 */
 	public static function add_lost_password_link() {
 
 		$login_page                         = get_permalink( self::get_login_redirect_page_id() );
@@ -1780,6 +1795,9 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 	/*
 	 * Add reCaptcha to the login form
+	 */
+	/**
+	 * @return false|string
 	 */
 	public static function add_recaptcha_box() {
 
@@ -1801,6 +1819,14 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 	/*
 	 * Custom email message to retrieve password
+	 */
+	/**
+	 * @param $message
+	 * @param string $key
+	 * @param string $user_login
+	 * @param null $user_data
+	 *
+	 * @return string|string[]
 	 */
 	public static function custom_retrieve_password_message( $message, $key = '', $user_login = '', $user_data = null ) {
 
@@ -1828,6 +1854,13 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	/*
 	 * Custom email message to retrieve password
 	 */
+	/**
+	 * @param $message
+	 * @param string $user_login
+	 * @param null $user_data
+	 *
+	 * @return string|string[]
+	 */
 	public static function custom_retrieve_password_title( $message, $user_login = '', $user_data = null ) {
 
 		$custom_message = self::get_settings_value( 'uo_frontend_resetpassword_email_subject', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
@@ -1844,6 +1877,9 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	/*
 	 * Prevent login lock out if frontend login is enabled but no shortcode exists on login page
 	 * Add the temporary shortcode with a warning
+	 */
+	/**
+	 *
 	 */
 	public static function maybe_add_ui_shortcode() {
 
@@ -1876,6 +1912,12 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		}
 	}
 
+	/**
+	 * @param $blocks
+	 * @param $block_code
+	 *
+	 * @return bool
+	 */
 	public static function detect_inner_block( $blocks, $block_code ) {
 		$block_is_on_page = false;
 		foreach ( $blocks as $block ) {
@@ -1890,6 +1932,11 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		return $block_is_on_page;
 	}
 
+	/**
+	 * @param $contentType
+	 *
+	 * @return string
+	 */
 	public static function htmlEmailContent( $contentType ) {
 		return 'text/html';
 	}
@@ -1962,6 +2009,11 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		return $url;
 	}
 
+	/**
+	 * @param $current_theme
+	 *
+	 * @return string|string[]
+	 */
 	public static function set_ult_login_theme( $current_theme ) {
 
 		if ( 'layout_1' === Config::get_settings_value( 'uo_frontend_login_template', 'FrontendLoginPlus', 'default' ) ) {
@@ -2217,30 +2269,10 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 					self::wp_send_json( $response, $response_code );
 				}
 
-				$post_data = http_build_query(
-					array(
-						'secret'   => $recaptcha_secrete_key,
-						'response' => $recaptcha_response,
-						'remoteip' => $_SERVER['REMOTE_ADDR']
-					)
-				);
-
-				$opts = array(
-					'http' =>
-						array(
-							'method'  => 'POST',
-							'header'  => 'Content-type: application/x-www-form-urlencoded',
-							'content' => $post_data
-						)
-				);
-
-				// validate server side
-				$context      = stream_context_create( $opts );
-				$response_cap = file_get_contents( 'https://www.google.com/recaptcha/api/siteverify', false, $context );
-				$result       = json_decode( $response_cap );
+				$result = self::get_recaptcha_response( $recaptcha_secrete_key, $recaptcha_response );
 
 				// return if there is an error
-				if ( ! $result->success ) {
+				if ( false === $result ) {
 					$response['success'] = false;
 					$response['message'] = self::get_settings_value( 'uo_frontend_login_recaptchafailed_error', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
 					self::wp_send_json( $response, $response_code );
@@ -2353,30 +2385,10 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				self::wp_send_json( $response, $response_code );
 			}
 
-			$post_data = http_build_query(
-				array(
-					'secret'   => $recaptcha_secrete_key,
-					'response' => $recaptcha_response,
-					'remoteip' => $_SERVER['REMOTE_ADDR']
-				)
-			);
-
-			$opts = array(
-				'http' =>
-					array(
-						'method'  => 'POST',
-						'header'  => 'Content-type: application/x-www-form-urlencoded',
-						'content' => $post_data
-					)
-			);
-
-			// validate server side
-			$context      = stream_context_create( $opts );
-			$response_cap = file_get_contents( 'https://www.google.com/recaptcha/api/siteverify', false, $context );
-			$result       = json_decode( $response_cap );
+			$result = self::get_recaptcha_response( $recaptcha_secrete_key, $recaptcha_response );
 
 			// return if there is an error
-			if ( ! $result->success ) {
+			if ( false === $result ) {
 				$response['success'] = false;
 				$response['message'] = self::get_settings_value( 'uo_frontend_login_recaptchafailed_error', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
 				self::wp_send_json( $response, $response_code );
@@ -2590,30 +2602,10 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				self::wp_send_json( $response, $response_code );
 			}
 
-			$post_data = http_build_query(
-				[
-					'secret'   => $recaptcha_secrete_key,
-					'response' => $recaptcha_response,
-					'remoteip' => $_SERVER['REMOTE_ADDR'],
-				]
-			);
-
-			$opts = [
-				'http' =>
-					[
-						'method'  => 'POST',
-						'header'  => 'Content-type: application/x-www-form-urlencoded',
-						'content' => $post_data,
-					],
-			];
-
-			// validate server side
-			$context      = stream_context_create( $opts );
-			$response_cap = file_get_contents( 'https://www.google.com/recaptcha/api/siteverify', false, $context );
-			$result       = json_decode( $response_cap );
+			$result = self::get_recaptcha_response( $recaptcha_secrete_key, $recaptcha_response );
 
 			// return if there is an error
-			if ( ! $result->success ) {
+			if ( false === $result ) {
 				$response['success'] = false;
 				$response['message'] = self::get_settings_value( 'uo_frontend_login_recaptchafailed_error', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
 				self::wp_send_json( $response, $response_code );
@@ -2733,6 +2725,9 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		return $js_data;
 	}
 
+	/**
+	 *
+	 */
 	public static function uo_ajax_login_js_recaptcha_handler() {
 
 		$recaptcha_key         = Config::get_settings_value( 'uo_frontend_login_recaptcha_key', 'FrontendLoginPlus' );
@@ -2837,6 +2832,9 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		}
 	}
 
+	/**
+	 * @return false|string
+	 */
 	public static function uo_login_modal() {
 		if ( "" === self::get_settings_value( 'uo_frontendloginplus_enable_ajax_support', __CLASS__, '' ) ) {
 			return false;
@@ -2865,6 +2863,45 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 	}
 
+	/**
+	 * @param $recaptcha_secrete_key
+	 * @param $recaptcha_response
+	 *
+	 * @return bool
+	 */
+	public static function get_recaptcha_response( $recaptcha_secrete_key, $recaptcha_response ) {
+		$post_data = http_build_query(
+			array(
+				'body' => [
+					'secret'   => $recaptcha_secrete_key,
+					'response' => $recaptcha_response,
+					'remoteip' => $_SERVER['REMOTE_ADDR'],
+				]
+			)
+		);
+
+		$response = wp_remote_post( 'https://www.google.com/recaptcha/api/siteverify', $post_data );
+
+		if ( $response instanceof \WP_Error ) {
+			return false;
+		}
+
+		$response_code = wp_remote_retrieve_response_code( $response );
+		$response_body = wp_remote_retrieve_body( $response );
+		$result        = json_decode( $response_body, true );
+
+		// return if there is an error
+		if ( 200 === (int) $response_code && false === $result->success ) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * @param $response
+	 * @param null $status_code
+	 */
 	public static function wp_send_json( $response, $status_code = null ) {
 		@header( 'Content-Type: application/json;' );
 		if ( null !== $status_code ) {
