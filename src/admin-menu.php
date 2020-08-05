@@ -63,20 +63,26 @@ class AdminMenu extends Boot {
 	public static function sidebar_menu_add_try_automator() {
 		// Check if Automator is already installed
 		if ( ! defined( 'AUTOMATOR_BASE_FILE' ) ) {
-			// Create the link content
-			$menu_item_name = '<span class="ult-sidebar-featured-item"><span class="ult-sidebar-featured-item__text">' . sprintf( __( 'Try %s!', 'uncanny-learndash-toolkit' ), 'Automator' ) . '</span><span class="ult-sidebar-featured-item__tag">' . __( 'New', 'uncanny-learndash-toolkit' ) . '</span></span>';
+			// Check if we have to render the item
+			if ( apply_filters( 'ult_admin_sidebar_try_automator_add', true ) ){
+				// Get the item text
+				$menu_item_text = apply_filters( 'ult_admin_sidebar_try_automator_text', sprintf( __( 'Try %s!', 'uncanny-learndash-toolkit' ), 'Automator' ) );
 
-			// Add the subpage menu
-			add_submenu_page(
-				'uncanny-toolkit',
-				sprintf( __( 'Try %s!', 'uncanny-learndash-toolkit' ), 'Automator' ),
-				$menu_item_name,
-				'manage_options',
-				self::get_automator_url(),
-				null,
-				99
-			);
-		}
+				// Create the link content
+				$menu_item_html = '<span class="ult-sidebar-featured-item">' . apply_filters( 'ult_admin_sidebar_try_automator_inner_html', '<span class="ult-sidebar-featured-item__text">' . $menu_item_text . '</span><span class="ult-sidebar-featured-item__tag">' . __( 'New', 'uncanny-learndash-toolkit' ) . '</span>' ) . '</span>';
+
+				// Add the subpage menu
+				add_submenu_page(
+					'uncanny-toolkit',
+					sprintf( __( 'Try %s!', 'uncanny-learndash-toolkit' ), 'Automator' ),
+					$menu_item_html,
+					'manage_options',
+					self::get_automator_url(),
+					null,
+					99
+				);
+			}
+		}	
 	}
 
 	/**

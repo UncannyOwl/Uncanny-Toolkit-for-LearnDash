@@ -40,6 +40,9 @@ class LearnDashResume extends Config implements RequiredFunctions {
 			add_shortcode( 'uo_learndash_resume', array( __CLASS__, 'learndash_resume' ) );
 			add_shortcode( 'uo_learndash_resume_link', array( __CLASS__, 'learndash_resume_link' ) );
 			add_shortcode( 'uo_course_resume', array( __CLASS__, 'uo_course_resume' ) );
+			add_action( 'init', [ __CLASS__, 'reset_resume_data' ] );
+			add_action( 'learndash_delete_user_data', [ __CLASS__, 'reset_resume_data_by_learndash' ] );
+			add_action( 'learndash_update_user_activity', [ __CLASS__, 'reset_resume_data_by_learndash_activity' ] );
 		}
 
 	}
@@ -334,7 +337,28 @@ class LearnDashResume extends Config implements RequiredFunctions {
 			}
 
 			$last_know_post_object = get_post( $step_id );
-
+			
+			// Check if current step_id is same as current post then no need to show this button.
+			// Someone may use this shortcode on any LearnDash post page which will create a loop.
+			global $post;
+			if( $post->ID == $step_id ) {
+				$learn_dash_post_types = apply_filters(
+					'last_known_learndash_post_types',
+					array(
+						'sfwd-courses',
+						'sfwd-lessons',
+						'sfwd-topic',
+						'sfwd-quiz',
+						'sfwd-certificates',
+						'sfwd-assignment',
+					)
+				);
+				if ( is_singular( $learn_dash_post_types ) ) {
+					return '';
+				}
+			}
+			
+			
 			// Make sure the post exists and that the user hit a page that was a post
 			// if $last_know_page_id returns '' then get post will return current pages post object
 			// so we need to make sure first that the $last_know_page_id is returning something and
@@ -387,7 +411,7 @@ class LearnDashResume extends Config implements RequiredFunctions {
 					);
 				} else {
 					printf(
-						'<a href="%s" title="%s" class="%s"><input type="button" value="%s" class=""></a>',
+						'<a href="%s" title="%s" class="%s"><input type="submit" value="%s" class=""></a>',
 						$permalink,
 						esc_attr(
 							sprintf(
@@ -428,4 +452,68 @@ class LearnDashResume extends Config implements RequiredFunctions {
 			remove_action( 'wp_head', 'adjacent_posts_rel_link_wp_head', 10, 0 );
 		}
 	}
+	
+	/**
+	 * Using Pro reset form for resume reset
+	 */
+	public static function reset_resume_data() {
+		if ( isset( $_POST['learndash_reset_course_nonce'] ) && wp_verify_nonce( $_POST['learndash_reset_course_nonce'], 'learndash_reset_course' ) ) {
+			if ( is_user_logged_in() ) {
+				$user = wp_get_current_user();
+				$course_id = intval( $_POST['ld_reset_course_id'] );
+				$last_know_step = get_user_meta( $user->ID, 'learndash_last_known_page', true );
+				if ( false !== strpos( $last_know_step, ',' ) ) {
+					$last_know_step = explode( ',', $last_know_step );
+					$step_id        = $last_know_step[0];
+					$step_course_id = $last_know_step[1];
+					if( $step_course_id == $course_id ) {
+						delete_user_meta( $user->ID, 'learndash_last_known_page' );
+						delete_user_meta( $user->ID, 'learndash_last_known_course_' . $step_course_id );
+					}
+				}
+			}
+		}
+	}
+	
+	/**
+	 * By using Learndash reset user data from profile.
+	 */
+	public static function reset_resume_data_by_learndash( $user_id ) {
+		$last_know_step = get_user_meta( $user_id, 'learndash_last_known_page', true );
+		if ( empty( $last_know_step ) ) {
+			return;
+		}
+		
+		if ( false !== strpos( $last_know_step, ',' ) ) {
+			$last_know_step = explode( ',', $last_know_step );
+			$step_id        = $last_know_step[0];
+			$step_course_id = $last_know_step[1];
+			delete_user_meta( $user_id, 'learndash_last_known_course_' . $step_course_id );
+		}
+		delete_user_meta( $user_id, 'learndash_last_known_page' );
+		
+	}
+	
+	/**
+	 * By using Learndash reset user data from profile.
+	 */
+	public static function reset_resume_data_by_learndash_activity( $args ) {
+		if ( isset( $args['activity_type'] ) && $args['activity_type'] === 'course' && $args['activity_action'] == 'update' ) {
+			if ( ! empty( $args['activity_id'] ) && ! empty( $args['activity_meta'] ) && isset( $args['activity_meta']['steps_completed'] ) && $args['activity_meta']['steps_completed'] == 0 ) {
+				$user_id        = $args['user_id'];
+				$course_id      = $args['course_id'];
+				$last_know_step = get_user_meta( $user_id, 'learndash_last_known_page', TRUE );
+				if ( FALSE !== strpos( $last_know_step, ',' ) ) {
+					$last_know_step = explode( ',', $last_know_step );
+					$step_id        = $last_know_step[0];
+					$step_course_id = $last_know_step[1];
+					if ( $step_course_id == $course_id ) {
+						delete_user_meta( $user_id, 'learndash_last_known_page' );
+						delete_user_meta( $user_id, 'learndash_last_known_course_' . $step_course_id );
+					}
+				}
+			}
+		}
+	}
+	
 }
