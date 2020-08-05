@@ -462,7 +462,11 @@ export class FrontendLogin_Modal {
 			// Check if the current page is the Login page
 			// That would mean that the modal is not defined here
 			// We want to reload the page when they click on the "Login" link
-			if ( isDefined( UncannyToolkit.frontendLogin.currentPageIsLoginPage ) &&  UncannyToolkit.frontendLogin.currentPageIsLoginPage ){
+			if ( 
+				isDefined( UncannyToolkit.frontendLogin ) && 
+				isDefined( UncannyToolkit.frontendLogin.currentPageIsLoginPage ) &&  
+				UncannyToolkit.frontendLogin.currentPageIsLoginPage
+			){
 				this.handleModalInLoginPage();
 			}
 		}
@@ -514,7 +518,12 @@ export class FrontendLogin_Modal {
 	}
 
 	shouldInvokeMethods(){
-		return isDefined( UncannyToolkit.frontendLogin ) && isDefined( UncannyToolkit.frontendLogin.currentPageIsLoginPage ) && ! UncannyToolkit.frontendLogin.currentPageIsLoginPage && isDefined( UncannyToolkit.modals[ 'ult-login' ] );
+		return (
+			isDefined( UncannyToolkit.frontendLogin ) && 
+			isDefined( UncannyToolkit.frontendLogin.currentPageIsLoginPage ) && 
+			! UncannyToolkit.frontendLogin.currentPageIsLoginPage && 
+			isDefined( UncannyToolkit.modals[ 'ult-login' ] )
+		);
 	}
 
 	handleModalInLoginPage(){
