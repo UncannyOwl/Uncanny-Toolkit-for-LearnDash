@@ -1605,19 +1605,8 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		$is_short_code_page = false;
 		if ( ! empty( $referer_id ) ) {
 			$referer_page     = get_post( $referer_id );
-			$block_is_on_page = false;
-			if ( function_exists( 'parse_blocks' ) ) {
-				$blocks = parse_blocks( $referer_page->post_content );
-				foreach ( $blocks as $block ) {
-					if ( 'uncanny-toolkit/frontend-login' === $block['blockName'] ) {
-						$block_is_on_page = true;
-					}
-				}
-			}
 
-			if ( has_shortcode( $referer_page->post_content, 'uo_login_ui' ) || has_shortcode( $referer_page->post_content, 'uo_login' ) || $block_is_on_page ) {
-				$is_short_code_page = true;
-			}
+			$is_short_code_page = ( has_shortcode( $referer_page->post_content, 'uo_login_ui' ) || has_shortcode( $referer_page->post_content, 'uo_login' ) || has_block( 'uncanny-toolkit/frontend-login', $referer_page->post_content ) );
 
 		}
 		// check if recaptcha is setup
@@ -1891,21 +1880,12 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 			if ( 'login_page' === $setting['name'] && '0' !== $setting['value'] ) {
 				$login_page_id = $setting['value'];
-				if ( $post->ID == (int) $login_page_id ) {
-					if ( ! has_shortcode( $post->post_content, 'uo_login_ui' ) ) {
-						$block_is_on_page = false;
-						if ( function_exists( 'parse_blocks' ) ) {
-							$blocks = parse_blocks( $post->post_content );
-
-							$block_is_on_page = self::detect_inner_block( $blocks, 'uncanny-toolkit/frontend-login' );
-
-							if ( ! $block_is_on_page ) {
-								echo '<div id="ult-login-no-setup-notice"><strong> Note: This page has been set as the login page for this site. The form below has been added for your convenience. To hide this message, add the shortcode [uo_login_ui] or the Front End Login Gutenberg block to this page.</strong></div>';
-								echo do_shortcode( '[uo_login_ui]' );
-
-
-							}
-						}
+				if ( $post->ID === (int) $login_page_id ) {
+					if ( ! has_shortcode( $post->post_content, 'uo_login_ui' ) && ! has_block( 'uncanny-toolkit/frontend-login', $post->post_content ) ) {
+						echo '<div id="ult-login-no-setup-notice"><strong>';
+						_e( 'Note: This page has been set as the login page for this site. The form below has been added for your convenience. To hide this message, add the shortcode [uo_login_ui] or the Front End Login Gutenberg block to this page.', 'uncanny-learndash-toolkit' );
+						echo '</strong></div>';
+						echo do_shortcode( '[uo_login_ui]' );
 					}
 				}
 			}
@@ -1918,20 +1898,6 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	 *
 	 * @return bool
 	 */
-	public static function detect_inner_block( $blocks, $block_code ) {
-		$block_is_on_page = false;
-		foreach ( $blocks as $block ) {
-			if ( $block_code === $block['blockName'] ) {
-				return true;
-			}
-			if ( ! empty( $block['innerBlocks'] ) ) {
-				return self::detect_inner_block( $block['innerBlocks'], $block_code );
-			}
-		}
-
-		return $block_is_on_page;
-	}
-
 	/**
 	 * @param $contentType
 	 *
@@ -2033,7 +1999,6 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 		$login_page     = FrontendLoginPlus::get_login_redirect_page_id();
 		$login_page_url = get_permalink( $login_page );
-
 
 		if ( strpos( $login_page_url, '?' ) ) {
 			$login_page_url = $login_page_url . '&';
