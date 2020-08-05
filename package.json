@@ -56,7 +56,7 @@
     "git-tag": "git tag $VERSION-release HEAD",
     "git-tag-push": "git push --follow-tags",
     "prerelease": "npm run pot && npm run build && npm run build-blocks && exit",
-    "package": "npm run clean && npm run prerelease && npm run zip-plugin && exit",
+    "package": "npm run clean && npm run zip-plugin && exit",
     "git": "npm run git-add && npm run git-commit && npm run git-push && exit",
     "gittag": "npm run git-tag && npm run git-tag-push && exit"
   },
