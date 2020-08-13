@@ -317,10 +317,11 @@ export class Login extends FrontendLogin {
 		// Disable the submit button
 		this.setButtonDisableStatus( true );
 
-		// Reload the page
-		if ( ! this.isOnModal() && ! isEmpty( response.redirectTo )){
+		// Check if we have to redirect to a URL
+		if ( ! isEmpty( response.redirectTo ) ){
 			window.location.href = response.redirectTo;
 		}
+		// Otherwise, just reload the page
 		else {
 			window.location.reload();
 		}
