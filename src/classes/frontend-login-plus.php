@@ -1880,7 +1880,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 			if ( 'login_page' === $setting['name'] && '0' !== $setting['value'] ) {
 				$login_page_id = $setting['value'];
-				if ( $post->ID === (int) $login_page_id ) {
+				if ( $post instanceof \WP_Post && $post->ID === (int) $login_page_id ) {
 					if ( ! has_shortcode( $post->post_content, 'uo_login_ui' ) && ! has_block( 'uncanny-toolkit/frontend-login', $post->post_content ) ) {
 						echo '<div id="ult-login-no-setup-notice"><strong>';
 						_e( 'Note: This page has been set as the login page for this site. The form below has been added for your convenience. To hide this message, add the shortcode [uo_login_ui] or the Front End Login Gutenberg block to this page.', 'uncanny-learndash-toolkit' );

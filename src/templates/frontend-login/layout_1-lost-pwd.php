@@ -117,7 +117,7 @@ $login_page_url  = get_permalink( $login_page );
 	                            <div class="ult-notice ult-notice--error">
 									<?php do_action( 'uo_forgot_before_error_message' ); ?>
 
-									<span class="ult-notice-text"><?php echo $forgot_password_response->message; ?></span>
+									<span class="ult-notice-text"><?php echo isset( $forgot_password_response->message ) ? $forgot_password_response->message : ''; ?></span>
 
 									<?php do_action( 'uo_forgot_after_error_message' ); ?>
 	                            </div>
