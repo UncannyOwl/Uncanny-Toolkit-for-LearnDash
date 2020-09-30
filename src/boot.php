@@ -210,6 +210,7 @@ class Boot extends Config {
 		register_rest_route( UNCANNY_TOOLKIT_REST_API_END_POINT, '/review-banner-visibility/', [
 			'methods'  => 'POST',
 			'callback' => [ $this, 'save_review_settings' ],
+			'permission_callback' => '__return_true',
 		] );
 	}
 
