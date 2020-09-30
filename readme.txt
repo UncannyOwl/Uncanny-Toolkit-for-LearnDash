@@ -2,9 +2,9 @@
 Contributors: uncannyowl
 Tags: LearnDash, eLearning, LMS, education, learning, courseware
 Requires at least: 4.6
-Tested up to: 5.4.2
+Tested up to: 5.5.1
 Requires PHP: 7.0
-Stable tag: 3.3.3
+Stable tag: 3.3.4
 License: This plugin is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or any later version.   LearnDash Groups in User Profiles is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.   You should have received a copy of the GNU General Public License along with LearnDash Groups in User Profiles. If not, see {URI to Plugin License}.
 License URI: https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
 
@@ -75,9 +75,16 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 
 == Changelog ==
 
+= 3.3.4 [2020-09-30] =
+* Updated: Menu Item Visibility - Updated nav menu walker function for improved compatibility with newer versions of WordPress
+* Updated: Added permission_callback to all Rest API calls for WordPress v5.5 compatibility
+* Fixed: Front End Login - Redirect attribute now redirects correctly when logging in using modal login form
+* Fixed: Front End Login - PHP notice: Trying to get property 'ID' of non-object on some non-post pages
+
 = 3.3.3 [2020-08-05] =
 * Updated: Front End Login - Replaced file_get_contents with wp_remote_post to improve compatibility with some hosts
 * Fixed: Front End Login - Javascript notice - Uncaught TypeError: Cannot read property 'currentPageIsLoginPage' of undefined
+* Fixed: Topics Autocomplete Lessons - When someone other than the user (e.g. an Admin or Group Leader) marks the last topic in a lesson complete for the user the associated lesson is now automatically marked complete
 
 = 3.3.2 [2020-07-27] =
 * Updated: Front End Login - Improved compatibility of modal login with server-side caching
