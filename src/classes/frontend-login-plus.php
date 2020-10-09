@@ -103,6 +103,10 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				add_action( "wp_ajax_nopriv_ult-reset-password", [ __CLASS__, 'uo_reset_password_action' ] );
 			}
 
+			if ( 'yes' === $uo_manual_verification ) {
+				add_action( 'user_register', array( __CLASS__, 'registration_save' ), 10, 1 );
+			}
+
 			if ( 'yes' === $is_login_page_set ) {
 
 				/* Add Manual Verification */
@@ -192,6 +196,13 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 		}
 
+	}
+
+	/**
+	 * @param $user_id
+	 */
+	public static function registration_save( $user_id ) {
+			update_user_meta($user_id, self::$user_meta_key_col, '0');
 	}
 
 	/**
@@ -1572,7 +1583,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				}
 
 				// Is the use logging in disabled?
-				if ( '1' !== $user_verified_value ) {
+				if ( '0' === $user_verified_value ) {
 					wp_destroy_current_session();
 					wp_clear_auth_cookie();
 					wp_safe_redirect( add_query_arg( array( 'login' => 'notverified' ), $login_page ) );
