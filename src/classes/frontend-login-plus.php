@@ -721,14 +721,18 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 		if ( 'uo_column' === $column_name ) {
 
-			$message = 'Not Verified';
+			$message = __('Not Verified', 'uncanny-learndash-toolkit');
 
 			if ( '1' === $user_verified_value ) {
-				$message = '<span style="color:green;">Verified</span>';
+				$message = '<span style="color:green;">'.__('Verified', 'uncanny-learndash-toolkit') .'</span>';
+			}
+
+			if( '0' === $user_verified_value ){
+				$message = '<span style="color:green;">'.__('Auto Verified', 'uncanny-learndash-toolkit') .'</span>';
 			}
 
 			if ( user_can( $user_id, 'activate_plugins' ) ) {
-				$message = '<span style="color:green;">Auto Verified</span>';
+				$message = '<span style="color:green;">'.__('Auto Verified', 'uncanny-learndash-toolkit') .'</span>';
 			}
 
 			return $message;
@@ -2289,7 +2293,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 					}
 
 					// Is the use logging in disabled?
-					if ( '1' !== $user_verified_value ) {
+					if ( '0' === $user_verified_value ) {
 						$response['success'] = false;
 						$response['message'] = Config::get_settings_value( 'uo_frontend_login_notverified_error', 'FrontendLoginPlus', esc_html__( 'This account is not verified.', 'uncanny-learndash-toolkit' ) );
 						self::wp_send_json( $response, $response_code );
