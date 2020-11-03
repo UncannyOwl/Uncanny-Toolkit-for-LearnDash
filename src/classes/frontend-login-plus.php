@@ -721,14 +721,14 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 		if ( 'uo_column' === $column_name ) {
 
-			$message = __('Not Verified', 'uncanny-learndash-toolkit');
+			$message = __('Auto Verified', 'uncanny-learndash-toolkit');
 
 			if ( '1' === $user_verified_value ) {
 				$message = '<span style="color:green;">'.__('Verified', 'uncanny-learndash-toolkit') .'</span>';
 			}
 
 			if( '0' === $user_verified_value ){
-				$message = '<span style="color:green;">'.__('Auto Verified', 'uncanny-learndash-toolkit') .'</span>';
+				$message = '<span style="color:green;">'.__('Not Verified', 'uncanny-learndash-toolkit') .'</span>';
 			}
 
 			if ( user_can( $user_id, 'activate_plugins' ) ) {
