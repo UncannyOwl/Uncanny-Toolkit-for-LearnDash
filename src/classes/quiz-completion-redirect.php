@@ -41,7 +41,7 @@ class QuizCompletionRedirect extends Config implements RequiredFunctions {
 	public static function get_details() {
 
 		$class_title       = esc_html__( 'Quiz completion advances to next step', 'uncanny-learndash-toolkit' );
-		$kb_link           = 'http://www.uncannyowl.com/knowledge-base/quiz-completion-redirect/';
+		$kb_link           = 'https://www.uncannyowl.com/knowledge-base/quiz-completion-advances-to-next-step/';
 		$class_description = esc_html__( 'Automatically advance to the next step when user clicks "Click here to continue" on final quiz page of a lesson/topic.', 'uncanny-learndash-toolkit' );
 		$class_icon        = '<i class="uo_icon_fa fa fa-check-circle-o"></i>';
 		$category          = 'learndash';
@@ -92,6 +92,8 @@ class QuizCompletionRedirect extends Config implements RequiredFunctions {
 		}
 		global $post;
 		parse_str( $url, $query_string );
+		$next_link = '';
+		$prev_link = $url;
 		$course_id = learndash_get_course_id( $post );
 		if ( isset( $query_string['lesson_id'] ) ) {
 			$lesson_topic_id = absint( $query_string['lesson_id'] );
@@ -111,6 +113,6 @@ class QuizCompletionRedirect extends Config implements RequiredFunctions {
 			}
 		}
 
-		return $return_link;
+		return apply_filters( 'uo_quiz_continue_link', $return_link, $next_link, $prev_link, $course_id, $post );
 	}
 }
