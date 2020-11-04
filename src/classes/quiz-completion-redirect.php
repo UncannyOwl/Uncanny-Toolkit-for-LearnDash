@@ -90,17 +90,22 @@ class QuizCompletionRedirect extends Config implements RequiredFunctions {
 			// We are bailing out early
 			return $return_link;
 		}
-
-
 		global $post;
 		parse_str( $url, $query_string );
 		$course_id = learndash_get_course_id( $post );
 		if ( isset( $query_string['lesson_id'] ) ) {
-			$lesson_id = absint( $query_string['lesson_id'] );
-			if ( 'sfwd-lessons' !== get_post( $lesson_id )->post_type ) {
-				$lesson_id = learndash_get_lesson_id( $lesson_id, $course_id );
+			$lesson_topic_id = absint( $query_string['lesson_id'] );
+			$next_link       = learndash_next_post_link( '', true, get_post( $lesson_topic_id ) );
+
+			if ( empty( $next_link ) ) {
+				// There is no next step for topic/lesson.. Check if this step is topic
+				if ( 'sfwd-lessons' !== get_post( $lesson_topic_id )->post_type ) {
+					// get lesson Id and try to get next lesson Id
+					$lesson_id = learndash_get_lesson_id( $lesson_topic_id, $course_id );
+					$next_link = learndash_next_post_link( '', true, get_post( $lesson_id ) );
+				}
 			}
-			$next_link = learndash_next_post_link( '', true, get_post( $lesson_id ) );
+
 			if ( ! empty( $next_link ) ) {
 				$return_link = '<a id="quiz_continue_link" href="' . $next_link . '">' . esc_html( \LearnDash_Custom_Label::get_label( 'button_click_here_to_continue' ) ) . '</a>';
 			}
