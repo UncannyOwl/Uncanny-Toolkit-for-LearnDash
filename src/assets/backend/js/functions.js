@@ -404,6 +404,10 @@ jQuery( function($){
 
                 // Bind buttons
                 this.bindButtons();
+
+                // Set the visibility of fields depending on
+                // the values of other fields
+                this.conditionalVisibility();
             },
 
             bindButtons: function(){
@@ -618,6 +622,36 @@ jQuery( function($){
             },
 
             fillFields: function( $modal, data ){
+                // Get the default values 
+                let $fieldsWithDefaultValues = $modal.find( '.ult-modal-form-row:not([data-default=""])[data-id][data-type]' );
+                let fieldDefaultValues = {};
+                $.each( $fieldsWithDefaultValues, ( index, field ) => {
+                    // Get the jQuery element
+                    field = $( field );
+                    // Add the default value
+                    fieldDefaultValues[ field.data( 'id' ) ] = field.data( 'default' );
+                });
+
+                // Convert the array with the data from an array with objects
+                // to and object
+                let fieldData = {};
+                $.each( data, ( index, field ) => {
+                    fieldData[ field.name ] = field.value;
+                });
+
+                // Merge the default values with the field data
+                fieldData = $.extend( fieldDefaultValues, fieldData );
+
+                // Convert the field data from an object to an
+                // array with objects
+                data = [];
+                $.each( fieldData, ( key, value ) => {
+                    data.push({
+                        name:  key,
+                        value: value
+                    });
+                });
+
                 // Iterate each option
                 $.each( data, ( index, field ) => {
                     // Get field info
@@ -637,7 +671,7 @@ jQuery( function($){
                         case 'text':
                         case 'textarea':
                         case 'tinymce':
-                            field.$element.val( field.value );
+                            field.$element.val( field.value ).trigger( 'input' );
 
                             if ( field.type == 'tinymce' ){
                                 let editor = tinymce.get( field.name );
@@ -660,7 +694,7 @@ jQuery( function($){
                         case 'checkbox':
                             // Check if the checkbox is selected
                             if ( field.value == 'on' ){
-                                field.$element.prop( 'checked', true );
+                                field.$element.prop( 'checked', true ).trigger( 'change' );
                             }
                             break;
 
@@ -670,21 +704,25 @@ jQuery( function($){
                                 let $radio = $(this);
 
                                 if ( $radio.val() == field.value ){
-                                    $radio.prop( 'checked', true );
+                                    $radio.prop( 'checked', true ).trigger( 'change' );
                                 }
                             });
                             break;
                     };
-                })
+                });
             },
 
             getFieldByName: function( $modal, fieldName ){
                 // Find field
-                let $field = $modal.find( `*[name="${fieldName}"]` );
+                let $field    = $modal.find( `*[name="${ fieldName }"]` );
+                let $fieldRow = $field.closest( '.ult-modal-form-row' );
 
                 return {
-                    $element: $field,
-                    type:   $field.data( 'type' )
+                    $row:         $fieldRow,
+                    $element:     $field,
+                    type:         $field.data( 'type' ),
+                    showIf:       $fieldRow.data( 'show-if' ),
+                    defaultValue: $fieldRow.data( 'default' ),
                 };
             },
 
@@ -726,6 +764,70 @@ jQuery( function($){
 
                 // Return data
                 return formData;
+            },
+
+            conditionalVisibility: function(){
+                // Get all the fields with conditional visibility rules
+                const $fieldsWithShowIf = $( '.ult-modal-form-row:not([data-show-if=""])' );
+
+                // Get the modals that have a field that's shown dynamically
+                let $modals = $fieldsWithShowIf.closest( '.ult-modal' );
+
+                // Iterate the modals
+                $.each( $modals, ( index, $modal ) => {
+                    $modal = $( $modal );
+
+                    // Get the fields with conditional visibility in the modal
+                    const $fieldsWithShowIfInModal = $modal.find( '.ult-modal-form-row:not([data-show-if=""])' );
+
+                    // Get the visibility conditions of each field
+                    let fieldsWithShowIfInModal = {};
+                    $.each( $fieldsWithShowIfInModal, ( index, $field ) => {
+                        $field = $( $field );
+
+                        // Get the field row
+                        const $fieldRow = $field.closest( '.ult-modal-form-row' );
+
+                        // Try to get the show-if conditions
+                        let showIf = $fieldRow.data( 'show-if' );
+
+                        try {
+                            showIf = JSON.parse( showIf );
+                        } catch ( e ){}
+
+                        fieldsWithShowIfInModal[ $fieldRow.data( 'id' ) ] = {
+                            $fieldRow:  $fieldRow,
+                            conditions: showIf
+                        };
+                    });
+
+                    // Listen changes in the fields
+                    $modal.find( 'input, textarea, select' ).on( 'change input', ULT_Utility.debounce(() => {
+                        // Get the value of all the fields
+                        let fieldsValuesArray = $modal.find( 'form' ).serializeArray();
+                        fieldsValues = {};
+                        $.each( fieldsValuesArray, ( index, $field ) => {
+                            fieldsValues[ $field.name ] = $field.value;
+                        });
+
+                        // Iterate the fields with conditional visibility
+                        $.each( fieldsWithShowIfInModal, ( fieldID, field ) => {
+                            // Check if it matches the condition
+                            let shouldShow = Object.entries( field.conditions ).reduce(( accumulator, [ conditionKey, conditionValue ]) => {
+                                return accumulator && fieldsValues[ conditionKey ] == conditionValue;
+                            }, true );
+
+                            // Check if it should show the field
+                            if ( shouldShow ){
+                                field.$fieldRow.removeClass( 'ult-modal-form-row--hide' );
+                            }
+                            else {
+                                // Hide it
+                                field.$fieldRow.addClass( 'ult-modal-form-row--hide' );
+                            }
+                        });
+                    }, 20 ));
+                });
             },
 
             disableScroll: function(){
@@ -829,6 +931,31 @@ jQuery( function($){
             }
 
             return fieldType;
-        }
+        },
+
+        throttle( func, interval ){
+            var lastCall = 0;
+
+            return function(){
+                var now = Date.now();
+                if ( lastCall + interval < now ){
+                    lastCall = now;
+                    return func.apply( this, arguments );
+                }
+            };
+        },
+
+        debounce( func, interval ){
+            var lastCall = -1;
+
+            return function(){
+                clearTimeout( lastCall );
+                var args = arguments;
+                var self = this;
+                lastCall = setTimeout( function(){
+                    func.apply( self, args );
+                }, interval );
+            };
+        },
     }
 });
