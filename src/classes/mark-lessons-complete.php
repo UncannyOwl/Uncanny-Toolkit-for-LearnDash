@@ -22,11 +22,14 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 	/*
 	 * Initialize frontend actions and filters
 	 */
+	/**
+	 *
+	 */
 	public static function run_frontend_hooks() {
 
 		if ( true === self::dependants_exist() ) {
 			add_action( 'learndash_topic_completed', array( __CLASS__, 'check_learndash_topic_completed' ), 20, 1 );
-			//add_action( 'learndash_lesson_completed', array( __CLASS__, 'check_learndash_lesson_completed' ), 10, 1 );
+			add_filter( 'learndash_quiz_continue_link', array( __CLASS__, 'quiz_continue_link_func' ), 99, 2 );
 		}
 
 	}
@@ -52,10 +55,42 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 			'kb_link'          => $kb_link, // OR set as null not to display
 			'description'      => $class_description,
 			'dependants_exist' => self::dependants_exist(),
-			'settings'         => false,
+			'settings'         => self::get_class_settings( $class_title ),
 			'icon'             => $class_icon,
 		);
 
+	}
+
+	/**
+	 * HTML for modal to create settings
+	 *
+	 * @static
+	 *
+	 * @param string $class_title The title of the class.
+	 *
+	 * @return string|array
+	 */
+	public static function get_class_settings( $class_title ) {
+
+		// Create options
+		$options = array(
+
+			array(
+				'type'        => 'checkbox',
+				'label'       => esc_html__( 'Do not allow "Click here to continue" button at the end of the quiz to move forward to next step in course hierarchy if quiz is the last step in the lesson/topic.', 'uncanny-pro-toolkit' ),
+				'option_name' => 'uo-mark-lesson-complete-quiz-continue-btn',
+			),
+		);
+
+		// Build html
+		$html = self::settings_output(
+			array(
+				'class'   => __CLASS__,
+				'title'   => $class_title,
+				'options' => $options,
+			) );
+
+		return $html;
 	}
 
 	/**
@@ -156,6 +191,11 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 	 *
 	 * @return bool $maybe_redirect
 	 */
+	/**
+	 * @param $lesson_post_object
+	 *
+	 * @return bool
+	 */
 	private static function maybe_redirect( $lesson_post_object ) {
 
 		$active_classes = Config::get_active_classes();
@@ -199,6 +239,9 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 	 * when we completed a topic, make sure we redirect to the next lesson or
 	 * learndash will redirect to the current lesson
 	*/
+	/**
+	 * @param $data
+	 */
 	public static function check_learndash_lesson_completed( $data ) {
 	}
 
@@ -208,8 +251,14 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 	 * @return bool || Array
 	 *
 	 */
-	public static function check_lesson_complete( $lesson_id , $user_id = null ) {
-		
+	/**
+	 * @param $lesson_id
+	 * @param null $user_id
+	 *
+	 * @return array|false
+	 */
+	public static function check_lesson_complete( $lesson_id, $user_id = null ) {
+
 		if ( empty( $user_id ) ) {
 			$user_id = get_current_user_id();
 		}
@@ -309,42 +358,73 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 		return $maybe_complete;
 
 	}
-	
+
 	/**
 	 * Modified Learndash function for adding user id support.
 	 * Checks if the lesson topics are completed.
 	 *
-	 * @since 3.3.3
-	 *
-	 * @param  int     $user_id              Lesson ID.
-	 * @param  int     $lesson_id            Lesson ID.
-	 * @param  boolean $mark_lesson_complete Optional. Whether to mark the lesson complete. Default false.
+	 * @param int $user_id Lesson ID.
+	 * @param int $lesson_id Lesson ID.
+	 * @param boolean $mark_lesson_complete Optional. Whether to mark the lesson complete. Default false.
 	 *
 	 * @return boolean Returns true if the lesson is completed otherwise false.
+	 * @since 3.3.3
+	 *
 	 */
 	private static function learndash_lesson_topics_completed( $user_id, $lesson_id, $mark_lesson_complete = false ) {
 		$topics = learndash_get_topic_list( $lesson_id );
-		
+
 		if ( empty( $topics[0]->ID ) ) {
 			return true;
 		}
-		
+
 		$progress = learndash_get_course_progress( $user_id, $topics[0]->ID );
-		
+
 		if ( empty( $progress['posts'] ) || ! is_array( $progress['posts'] ) ) {
 			return false;
 		}
-		
+
 		foreach ( $progress['posts'] as $topic ) {
 			if ( empty( $topic->completed ) ) {
 				return false;
 			}
 		}
-		
+
 		if ( $mark_lesson_complete ) {
 			learndash_process_mark_complete( $user_id, $lesson_id );
 		}
-		
+
 		return true;
+	}
+
+	/**
+	 * @param $return_link
+	 * @param $url
+	 *
+	 * @return string
+	 */
+	public static function quiz_continue_link_func( $return_link, $url ) {
+		$settings_value = self::get_settings_value( 'uo-mark-lesson-complete-quiz-continue-btn', __CLASS__ );
+		if ( ! empty( $settings_value ) ) {
+			// We are bailing out early
+			return $return_link;
+		}
+
+
+		global $post;
+		parse_str( $url, $query_string );
+		$course_id = learndash_get_course_id( $post );
+		if ( isset( $query_string['lesson_id'] ) ) {
+			$lesson_id = absint( $query_string['lesson_id'] );
+			if ( 'sfwd-lessons' !== get_post( $lesson_id )->post_type ) {
+				$lesson_id = learndash_get_lesson_id( $lesson_id, $course_id );
+			}
+			$next_link = learndash_next_post_link( '', true, get_post( $lesson_id ) );
+			if ( ! empty( $next_link ) ) {
+				$return_link = '<a id="quiz_continue_link" href="' . $next_link . '">' . esc_html( \LearnDash_Custom_Label::get_label( 'button_click_here_to_continue' ) ) . '</a>';
+			}
+		}
+
+		return $return_link;
 	}
 }
