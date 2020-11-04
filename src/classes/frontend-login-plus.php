@@ -202,7 +202,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	 * @param $user_id
 	 */
 	public static function registration_save( $user_id ) {
-			update_user_meta($user_id, self::$user_meta_key_col, '0');
+		update_user_meta( $user_id, self::$user_meta_key_col, '0' );
 	}
 
 	/**
@@ -721,18 +721,18 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 		if ( 'uo_column' === $column_name ) {
 
-			$message = __('Auto Verified', 'uncanny-learndash-toolkit');
+			$message = __( 'Auto Verified', 'uncanny-learndash-toolkit' );
 
 			if ( '1' === $user_verified_value ) {
-				$message = '<span style="color:green;">'.__('Verified', 'uncanny-learndash-toolkit') .'</span>';
+				$message = '<span style="color:green;">' . __( 'Verified', 'uncanny-learndash-toolkit' ) . '</span>';
 			}
 
-			if( '0' === $user_verified_value ){
-				$message = '<span style="color:green;">'.__('Not Verified', 'uncanny-learndash-toolkit') .'</span>';
+			if ( '0' === $user_verified_value ) {
+				$message = '<span style="color:green;">' . __( 'Not Verified', 'uncanny-learndash-toolkit' ) . '</span>';
 			}
 
 			if ( user_can( $user_id, 'activate_plugins' ) ) {
-				$message = '<span style="color:green;">'.__('Auto Verified', 'uncanny-learndash-toolkit') .'</span>';
+				$message = '<span style="color:green;">' . __( 'Auto Verified', 'uncanny-learndash-toolkit' ) . '</span>';
 			}
 
 			return $message;
@@ -1522,6 +1522,15 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	 */
 	public static function maybe_remove_login_hooks( $user, $username, $password ) {
 
+		// Check for REST requests.
+		if ( defined( 'REST_REQUEST' ) && REST_REQUEST ) {
+			return $user;
+		}
+		// Redundant check for REST because in some cases REST_REQUEST constant does not work.
+		if ( strpos( $_SERVER['REQUEST_URI'], '/wp-json/' ) !== false ) {
+			return $user;
+		}
+
 		$login_page = get_permalink( self::get_login_redirect_page_id() );
 		if ( ! $login_page ) {
 			return $user;
@@ -1548,6 +1557,14 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	 * Redirect to custom login page if username or password is empty
 	 */
 	public static function verify_username_password_40( $user, $username, $password ) {
+		// Check for REST requests.
+		if ( defined( 'REST_REQUEST' ) && REST_REQUEST ) {
+			return $user;
+		}
+		// Redundant check for REST because in some cases REST_REQUEST constant does not work.
+		if ( strpos( $_SERVER['REQUEST_URI'], '/wp-json/' ) !== false ) {
+			return $user;
+		}
 
 		$uo_manual_verification = 'no';
 
@@ -1619,7 +1636,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		$referer_id         = url_to_postid( wp_get_referer() );
 		$is_short_code_page = false;
 		if ( ! empty( $referer_id ) ) {
-			$referer_page     = get_post( $referer_id );
+			$referer_page = get_post( $referer_id );
 
 			$is_short_code_page = ( has_shortcode( $referer_page->post_content, 'uo_login_ui' ) || has_shortcode( $referer_page->post_content, 'uo_login' ) || has_block( 'uncanny-toolkit/frontend-login', $referer_page->post_content ) );
 
