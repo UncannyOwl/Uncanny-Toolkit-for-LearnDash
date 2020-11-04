@@ -97,20 +97,74 @@ class LoginRedirect extends Config implements RequiredFunctions {
 		$options = array(
 
 			array(
-				'type'        => 'text',
-				'label'       => esc_html__( 'Login Redirect', 'uncanny-learndash-toolkit' ),
-				'option_name' => 'login_redirect',
+				'type'       => 'radio',
+				'label'      => esc_html__( 'When the user logs in', 'uncanny-learndash-toolkit' ),
+				'radio_name' => 'login_redirect_source',
+				'default'    => 'redirect-to-page',
+				'radios'     => array(
+					array(
+						'value' => 'stay-on-same-page', 
+						'text'  => esc_html__( 'Stay on the same page', 'uncanny-learndash-toolkit' ),
+					),
+					array( 
+						'value' => 'redirect-to-page', 
+						'text'  => esc_html__( 'Redirect to an URL', 'uncanny-learndash-toolkit' ),
+					),
+				),
 			),
 
 			array(
 				'type'        => 'text',
-				'label'       => esc_html__( 'Logout Redirect', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'login_redirect',
+				'label'       => esc_html__( 'URL', 'uncanny-learndash-toolkit' ),
+				'description' => sprintf( esc_html__( 'You can also use a relative URL, like %1$s.', 'uncanny-learndash-toolkit' ), '<code>' . esc_html__( '/dashboard', 'uncanny-learndash-toolkit' ) . '</code>' ),
+				'class'       => 'ult-modal-form-row--children',
+				'show_if'     => [
+					'login_redirect_source' => 'redirect-to-page'
+				],
+			),
+
+			array(
+				'type'       => 'html',
+				'inner_html' => '<hr>',
+			),
+
+			array(
+				'type'       => 'radio',
+				'label'      => esc_html__( 'When the user logs out', 'uncanny-learndash-toolkit' ),
+				'radio_name' => 'logout_redirect_source',
+				'default'    => 'redirect-to-page',
+				'radios'     => array(
+					array(
+						'value' => 'stay-on-same-page', 
+						'text'  => esc_html__( 'Stay on the same page', 'uncanny-learndash-toolkit' ),
+					),
+					array( 
+						'value' => 'redirect-to-page', 
+						'text'  => esc_html__( 'Redirect to an URL', 'uncanny-learndash-toolkit' ),
+					),
+				),
+			),
+
+			array(
+				'type'        => 'text',
+				'label'       => esc_html__( 'URL', 'uncanny-learndash-toolkit' ),
 				'option_name' => 'logout_redirect',
+				'description' => sprintf( esc_html__( 'You can also use a relative URL, like %1$s.', 'uncanny-learndash-toolkit' ), '<code>' . esc_html__( '/see-you-soon', 'uncanny-learndash-toolkit' ) . '</code>' ),
+				'class'       => 'ult-modal-form-row--children',
+				'show_if'     => [
+					'logout_redirect_source' => 'redirect-to-page'
+				]
+			),
+
+			array(
+				'type'       => 'html',
+				'inner_html' => '<hr>',
 			),
 			
 			array(
 				'type'        => 'text',
-				'label'       => esc_html__( 'Redirect Priority', 'uncanny-learndash-toolkit' ),
+				'label'       => esc_html__( 'Redirect priority', 'uncanny-learndash-toolkit' ),
 				'option_name' => 'redirect_priority',
 				'placeholder' => '999'
 			),
