@@ -1507,15 +1507,6 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	 */
 	public static function maybe_remove_login_hooks( $user, $username, $password ) {
 
-		// Check for REST requests.
-		if ( defined( 'REST_REQUEST' ) && REST_REQUEST ) {
-			return $user;
-		}
-		// Redundant check for REST because in some cases REST_REQUEST constant does not work.
-		if ( strpos( $_SERVER['REQUEST_URI'], '/wp-json/' ) !== false ) {
-			return $user;
-		}
-
 		$login_page = get_permalink( self::get_login_redirect_page_id() );
 		if ( ! $login_page ) {
 			return $user;
@@ -1542,15 +1533,6 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	 * Redirect to custom login page if username or password is empty
 	 */
 	public static function verify_username_password_40( $user, $username, $password ) {
-
-		// Check for REST requests.
-		if ( defined( 'REST_REQUEST' ) && REST_REQUEST ) {
-			return $user;
-		}
-		// Redundant check for REST because in some cases REST_REQUEST constant does not work.
-		if ( strpos( $_SERVER['REQUEST_URI'], '/wp-json/' ) !== false ) {
-			return $user;
-		}
 
 		$uo_manual_verification = 'no';
 
