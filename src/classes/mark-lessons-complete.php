@@ -22,11 +22,13 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 	/*
 	 * Initialize frontend actions and filters
 	 */
+	/**
+	 *
+	 */
 	public static function run_frontend_hooks() {
 
 		if ( true === self::dependants_exist() ) {
 			add_action( 'learndash_topic_completed', array( __CLASS__, 'check_learndash_topic_completed' ), 20, 1 );
-			//add_action( 'learndash_lesson_completed', array( __CLASS__, 'check_learndash_lesson_completed' ), 10, 1 );
 		}
 
 	}
@@ -156,6 +158,11 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 	 *
 	 * @return bool $maybe_redirect
 	 */
+	/**
+	 * @param $lesson_post_object
+	 *
+	 * @return bool
+	 */
 	private static function maybe_redirect( $lesson_post_object ) {
 
 		$active_classes = Config::get_active_classes();
@@ -199,6 +206,9 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 	 * when we completed a topic, make sure we redirect to the next lesson or
 	 * learndash will redirect to the current lesson
 	*/
+	/**
+	 * @param $data
+	 */
 	public static function check_learndash_lesson_completed( $data ) {
 	}
 
@@ -208,8 +218,14 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 	 * @return bool || Array
 	 *
 	 */
-	public static function check_lesson_complete( $lesson_id , $user_id = null ) {
-		
+	/**
+	 * @param $lesson_id
+	 * @param null $user_id
+	 *
+	 * @return array|false
+	 */
+	public static function check_lesson_complete( $lesson_id, $user_id = null ) {
+
 		if ( empty( $user_id ) ) {
 			$user_id = get_current_user_id();
 		}
@@ -309,42 +325,42 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 		return $maybe_complete;
 
 	}
-	
+
 	/**
 	 * Modified Learndash function for adding user id support.
 	 * Checks if the lesson topics are completed.
 	 *
-	 * @since 3.3.3
-	 *
-	 * @param  int     $user_id              Lesson ID.
-	 * @param  int     $lesson_id            Lesson ID.
-	 * @param  boolean $mark_lesson_complete Optional. Whether to mark the lesson complete. Default false.
+	 * @param int $user_id Lesson ID.
+	 * @param int $lesson_id Lesson ID.
+	 * @param boolean $mark_lesson_complete Optional. Whether to mark the lesson complete. Default false.
 	 *
 	 * @return boolean Returns true if the lesson is completed otherwise false.
+	 * @since 3.3.3
+	 *
 	 */
 	private static function learndash_lesson_topics_completed( $user_id, $lesson_id, $mark_lesson_complete = false ) {
 		$topics = learndash_get_topic_list( $lesson_id );
-		
+
 		if ( empty( $topics[0]->ID ) ) {
 			return true;
 		}
-		
+
 		$progress = learndash_get_course_progress( $user_id, $topics[0]->ID );
-		
+
 		if ( empty( $progress['posts'] ) || ! is_array( $progress['posts'] ) ) {
 			return false;
 		}
-		
+
 		foreach ( $progress['posts'] as $topic ) {
 			if ( empty( $topic->completed ) ) {
 				return false;
 			}
 		}
-		
+
 		if ( $mark_lesson_complete ) {
 			learndash_process_mark_complete( $user_id, $lesson_id );
 		}
-		
+
 		return true;
 	}
 }
