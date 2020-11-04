@@ -2,9 +2,9 @@
 Contributors: uncannyowl
 Tags: LearnDash, eLearning, LMS, education, learning, courseware
 Requires at least: 4.6
-Tested up to: 5.5.1
+Tested up to: 5.5.3
 Requires PHP: 7.0
-Stable tag: 3.3.4
+Stable tag: 3.4
 License: This plugin is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or any later version.   LearnDash Groups in User Profiles is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.   You should have received a copy of the GNU General Public License along with LearnDash Groups in User Profiles. If not, see {URI to Plugin License}.
 License URI: https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
 
@@ -27,6 +27,7 @@ The Uncanny Toolkit for LearnDash adds the following features to your LearnDash 
 * **[Show or Hide Content](https://www.uncannyowl.com/knowledge-base/show-hide-content/?utm_medium=ldtoolkitreadme)**: Use shortcodes to show or hide content based on whether or not a user is signed in. Great for Open course types.
 * **[Log In/Log Out Links](https://www.uncannyowl.com/knowledge-base/log-in-log-out-links/?utm_medium=ldtoolkitreadme)**: Add Log In and Log Out links to menus, or to any page or widget with a shortcode. If you have been frustrated by signed in users seeing Login links, this will help.
 * **[Topics Autocomplete Lessons](https://www.uncannyowl.com/knowledge-base/topics-autocomplete-lessons/?utm_medium=ldtoolkitreadme)**: Automatically mark lessons complete when all topics and quizzes for that lesson are marked complete.
+* **[Quiz completion advances to next step](https://www.uncannyowl.com/knowledge-base/quiz-completion-advances-to-next-step/?utm_medium=ldtoolkitreadme)**: Automatically advance to the next step when user clicks "Click here to continue" on final quiz page of a lesson/topic.
 * **[User Switching](https://www.uncannyowl.com/knowledge-base/user-switching-module/?utm_medium=ldtoolkitreadme)**: View courses and the rest of your site as a specific user without requiring their password.
 * **[LearnDash Breadcrumbs](https://www.uncannyowl.com/knowledge-base/learndash-breadcrumb-links/?utm_medium=ldtoolkitreadme)**: Add breadcrumb links that support courses, lessons, topics and quizzes. Also supports WooCommerce, custom post types and more.
 * **[LearnDash Certificate Widget](https://www.uncannyowl.com/knowledge-base/learndash-certificate-widget/?utm_medium=ldtoolkitreadme)**: Display all the certificates a learner has earned using a widget.
@@ -74,6 +75,11 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 3. LearnDash Resume Button module - works at a global or course level
 
 == Changelog ==
+
+= 3.4 [2020-11-05] =
+* **New Module:** Quiz completion advances to next step - Automatically advance to the next step when user clicks "Click here to continue" on final quiz page of a lesson/topic
+* Updated: Front End Login - Users created before the module was activated or while the module is not activated are set to "Auto verified" instead of "Not verified"
+* Updated: Front End Login - Update to allow basic auth plugin to work with wp-json routes. _Contribute by asppsa_
 
 = 3.3.4 [2020-09-30] =
 * Updated: Menu Item Visibility - Updated nav menu walker function for improved compatibility with newer versions of WordPress
