@@ -79,7 +79,7 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 = 3.4 [2020-11-05] =
 * **New Module:** Quiz completion advances to next step - Automatically advance to the next step when user clicks "Click here to continue" on final quiz page of a lesson/topic
 * Updated: Front End Login - Users created before the module was activated or while the module is not activated are set to "Auto verified" instead of "Not verified"
-* Updated: Front End Login - Update to allow basic auth plugin to work with wp-json routes. _Contribute by asppsa_
+* Updated: Front End Login - Update to allow basic auth plugin to work with wp-json routes. _Contributed by asppsa_
 
 = 3.3.4 [2020-09-30] =
 * Updated: Menu Item Visibility - Updated nav menu walker function for improved compatibility with newer versions of WordPress
