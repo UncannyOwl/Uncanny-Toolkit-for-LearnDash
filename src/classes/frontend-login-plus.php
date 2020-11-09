@@ -296,7 +296,6 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 		$password_reset_message .= __( 'If you did not request a password reset, you may safely ignore this email.', 'uncanny-learndash-toolkit' ) . "\r\n\r\n";
 
-
 		// Create options
 		$options = array(
 			array(
@@ -482,6 +481,11 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				'type'        => 'checkbox',
 				'label'       => esc_html__( "Don't dim the background when the modal is open", 'uncanny-learndash-toolkit' ),
 				'option_name' => 'uo_frontend_login_modal_background'
+			),
+			array(
+				'type'        => 'checkbox',
+				'label'       => esc_html__( "Ignore Login redirect for Modal Login", 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_frontend_login_modal_ignore_redirect'
 			),
 			array(
 				'type'       => 'html',
@@ -2329,9 +2333,22 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		} else {
 			$redirect_to = admin_url();
 		}
+
 		$response['success']    = true;
 		$requested_redirect_to  = isset( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : '';
-		$response['redirectTo'] = apply_filters( 'login_redirect', $redirect_to, $requested_redirect_to, $user );
+
+		// Decide if there will be a redirect
+		$redirect_ignored = Config::get_settings_value( 'uo_frontend_login_modal_ignore_redirect', 'FrontendLoginPlus', false );
+
+		$redirect_ignored = apply_filters( 'uo_frontend_login_modal_ignore_redirect', $redirect_ignored, $redirect_to, $requested_redirect_to, $user );
+
+		if( 'on' !== $redirect_ignored ){
+			$response['redirectTo'] = apply_filters( 'login_redirect', $redirect_to, $requested_redirect_to, $user );
+		}else{
+			$response['ignoredRedirectTo'] = true;
+			$response['message'] = __('You are now logged in');
+		}
+
 
 		self::wp_send_json( $response, $response_code );
 	}
