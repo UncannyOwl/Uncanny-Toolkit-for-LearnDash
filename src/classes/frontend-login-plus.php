@@ -342,6 +342,11 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				'inner_html' => '<h2>' . esc_html__( 'User Verified Email', 'uncanny-learndash-toolkit' ) . '</h2>',
 			),
 			array(
+				'type'        => 'checkbox',
+				'label'       => esc_html__( 'Disable User Verification Email', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_frontendloginplus_disable_verification_email',
+			),
+			array(
 				'type'        => 'text',
 				'placeholder' => esc_html__( '%Site Name% - Account Verified', 'uncanny-learndash-toolkit' ),
 				'label'       => esc_html__( 'Subject', 'uncanny-learndash-toolkit' ),
@@ -842,6 +847,12 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		$verified_email_sent = get_user_meta( $user_id, 'uo_verified_email_sent', true );
 
 		if ( $verified === '1' && 'yes' !== $verified_email_sent ) {
+
+			$disable_email = self::get_settings_value( 'uo_frontendloginplus_disable_verification_email', __CLASS__ );
+
+			if ( 'on' === $disable_email ) {
+				return true;
+			}
 
 			$user        = get_userdata( $user_id );
 			$admin_email = get_option( 'admin_email' );
