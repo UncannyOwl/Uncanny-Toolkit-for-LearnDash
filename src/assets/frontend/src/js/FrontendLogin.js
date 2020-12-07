@@ -324,20 +324,7 @@ export class Login extends FrontendLogin {
 		}
 		// Otherwise, just reload the page
 		else {
-			if( isEmpty( response.ignoredRedirectTo )  ){
-				window.location.reload();
-			}else{
-				// Remove the loading animation
-				this.setLoadingStatus( false );
-
-				// Enable the submit button
-				this.setButtonDisableStatus( false );
-
-				// Close Modal
-				let modal = document.getElementById("ult-modal-container-ult-login");
-				modal.classList.remove("ult-modal-container--open");
-				modal.classList.add("ult-modal-container--close");
-			}
+			window.location.reload();
 		}
 	}
 }
