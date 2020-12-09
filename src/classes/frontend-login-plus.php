@@ -1399,7 +1399,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	public static function redirect_login_page() {
 
 		$login_page  = get_permalink( self::get_login_redirect_page_id() );
-		$page_viewed = basename( $_SERVER['REQUEST_URI'] );
+		$page_viewed = $_SERVER['REQUEST_URI'];
 
 		if ( ! $login_page ) {
 			return;
@@ -1411,26 +1411,11 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				$registering = true;
 			}
 		}
-		/*
-				if ( isset( $_GET['registration'] ) ) {
-					if ( $_GET['registration'] === 'disabled' ) {
-						wp_safe_redirect( add_query_arg( array(
-							'action'   => 'register',
-							'wp-error' => 'registration-disabled'
-						), $login_page ) );
-						exit();
-					}
-				}
-
-				if ( isset( $_GET['checkemail'] ) && 'registered' == $_GET['checkemail'] ) {
-					wp_safe_redirect( add_query_arg( array(
-						'action'   => 'register',
-						'wp-error' => 'registration-success'
-					), $login_page ) );
-					exit();
-				}
-		*/
-		if ( 'wp-login.php' === $page_viewed && 'GET' === $_SERVER['REQUEST_METHOD'] && ! $registering ) {
+				
+		if ( false !== strpos($page_viewed,'wp-login.php' ) && 'GET' === $_SERVER['REQUEST_METHOD'] && ! $registering ) {
+			if( isset( $_REQUEST['action']) &&  'logout' === $_REQUEST['action']){
+				return;
+			}
 			if ( isset( $_REQUEST['redirect_to'] ) ) {
 				$login_page = add_query_arg( [ 'redirect_to' => $_REQUEST['redirect_to'] ], $login_page );
 			}
