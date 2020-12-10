@@ -1417,6 +1417,10 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				return;
 			}
 			if ( isset( $_REQUEST['redirect_to'] ) ) {
+				if( is_user_logged_in()){
+					wp_safe_redirect(  $_REQUEST['redirect_to'], 301 );
+					exit;
+				}
 				$login_page = add_query_arg( [ 'redirect_to' => $_REQUEST['redirect_to'] ], $login_page );
 			}
 			wp_safe_redirect( $login_page, 301 );
