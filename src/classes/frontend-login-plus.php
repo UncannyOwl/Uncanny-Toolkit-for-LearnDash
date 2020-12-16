@@ -779,23 +779,46 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		<?php
 	}
 
-	/*
-	 * Save custom fields from user profile
-	 * @param int $user_id
-	 *
-	 */
 	/**
-	 * @param $user_id
+	 * Save verification status of user.
+	 *
+	 * @param int $user_id User's ID.
 	 *
 	 * @return bool
 	 */
 	public static function my_save_extra_profile_fields( $user_id ) {
 
+		// Only run for admin level users.
 		if ( ! current_user_can( 'edit_user' ) ) {
 			return false;
 		}
 
-		update_user_meta( $user_id, 'uo_is_verified', $_POST['uo_is_verified'] );
+		// Get the posted verification status.
+		$is_verified = filter_input( INPUT_POST, 'uo_is_verified', FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE );
+
+		// if this wasn't posted at all, bail.
+		if ( null === $is_verified ) {
+			return true;
+		}
+
+		// convert status into integers from boolean.
+		$is_verified = intval( $is_verified );
+
+		// Update the user's metadata with verification status.
+		update_user_meta( $user_id, 'uo_is_verified', $is_verified );
+
+		// if the user was verified, run action hook.
+		if ( $is_verified ) {
+			/**
+			 * Fires after a user is manually verified.
+			 *
+			 * @param int $user_id     The verified user's ID.
+			 * @param int $verifier_id The user (admin) that verified the user.
+			 * 
+			 * @since 3.4.1
+			 */
+			do_action( 'uo_user_verified', $user_id, $verifier_id = get_current_user_id() );
+		}
 
 		$verified            = get_user_meta( $user_id, 'uo_is_verified', true );
 		$verified_email_sent = get_user_meta( $user_id, 'uo_verified_email_sent', true );
@@ -809,20 +832,39 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 			$from      = $blog_name . ' <' . $admin_email . '>';
 			$headers[] = 'From: ' . $from;
-			$headers   = apply_filters( 'uo_verified_email_headers', $headers, $user );
+
+			/**
+			 * Filters user verification email headers.
+			 * 
+			 * @param array   $headers The email headers.
+			 * @param WP_User $user    The verified user.
+			 */
+			$headers = apply_filters( 'uo_verified_email_headers', $headers, $user );
 
 			$to = $user->user_email;
 
 			$subject = sprintf( __( '%s - Account Verified', 'uncanny-learndash-toolkit' ), $blog_name );
+
+			/**
+			 * Filters user verification subject.
+			 * 
+			 * @param string  $subject The email subject.
+			 * @param WP_User $user    The verified user.
+			 */
 			$subject = apply_filters( 'uo_verified_email_subject', $subject, $user );
 
 			$message = __( 'Your account has been approved! ', 'uncanny-learndash-toolkit' ) . "\r\n\n";
 			$message .= sprintf( __( 'Please visit %s to login. ', 'uncanny-learndash-toolkit' ), home_url() ) . " \r\n";
+
+			/**
+			 * Filters user verification email message.
+			 * 
+			 * @param array   $headers The email message.
+			 * @param WP_User $user    The verified user.
+			 */
 			$message = apply_filters( 'uo_verified_email_message', $message, $user );
 
 			$mailed = wp_mail( $to, $subject, $message, $headers );
-
-			// after wp_mail successful
 
 			$from      = $blog_name . ' <' . $admin_email . '>';
 			$headers[] = 'From: ' . $from;
@@ -831,22 +873,47 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			$to = $admin_email;
 
 			$subject = sprintf( __( '%s - Account Verified', 'uncanny-learndash-toolkit' ), $blog_name );
+
+			/**
+			 * Filters subject of user verification email sent to admin.
+			 * 
+			 * @param array   $headers The email headers.
+			 * @param WP_User $user    The verified user.
+			 */
 			$subject = apply_filters( 'uo_verified_email_subject', $subject, $user );
 
 			$message      = sprintf( __( '%s account has been approved! ', 'uncanny-learndash-toolkit' ), $user->user_email ) . " \r\n\n";
 			$message      .= sprintf( __( ' Visit %s to view / edit user. ', 'uncanny-learndash-toolkit' ), admin_url( 'user-edit.php?user_id=' . $user->id ) ) . " \r\n";
-			$message      = apply_filters( 'uo_verified_email_message', $message, $user );
+
+			/**
+			 * Filters message of user verification email sent to admin.
+			 * 
+			 * @param array   $message The email message.
+			 * @param WP_User $user    The verified user.
+			 */
+			$message = apply_filters( 'uo_verified_email_message', $message, $user );
+
 			$admin_mailed = wp_mail( $to, $subject, $message, $headers );
 
-			// after wp_mail successful
+			// after wp_mail successful.
 			if ( $admin_mailed && $mailed ) {
+
 				update_user_meta( $user_id, 'uo_verified_email_sent', 'yes' );
+
+				/**
+				 * Fires after user verification emails are sent.
+				 *
+				 * @param int $user_id     The verified user's ID.
+				 * @param int $verifier_id The user (admin) that verified the user.
+				 * 
+				 * @since 3.4.1
+				 */
+				do_action( 'uo_user_verification_emails_sent', $user_id, $verifier_id = get_current_user_id() );
 			}
 
 		}
 
 		return true;
-
 	}
 
 	/**
