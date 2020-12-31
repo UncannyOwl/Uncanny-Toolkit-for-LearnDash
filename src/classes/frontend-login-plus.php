@@ -2504,7 +2504,21 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			self::wp_send_json( $response, $response_code );
 		} else {
 			$response['success'] = false;
-			$response['message'] = self::get_settings_value( 'uo_login_forgot_pass_invalid_creds', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
+
+			// Iterate errors
+			$response[ 'message' ] = '';
+			foreach ( $errors->errors as $error_key => $error_message ){
+				// Check if it's the Toolkit "invalidcombo" error, and show a custom message
+				if ( $error_key == 'invalidcombo' ){
+					$error_message = self::get_settings_value( 'uo_login_forgot_pass_invalid_creds', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
+				}
+				else {
+					$error_message = is_array( $error_message ) ? implode( ' ', $error_message ) : $error_message;
+				}
+
+				$response[ 'message' ] = '<div class="ult-forgot-password-error ult-forgot-password-error--' . esc_attr( $error_key ) . '">' . $error_message . '</div>';
+			}
+
 			self::wp_send_json( $response, $response_code );
 		}
 
