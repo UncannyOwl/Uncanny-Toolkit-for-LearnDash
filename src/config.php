@@ -592,6 +592,9 @@ class Config {
 				$class   = sanitize_text_field( $_POST['class'] );
 				$options = ( isset( $_POST['options'] ) ) ? $_POST['options'] : array();
 
+				// Validate action if any module need some values to set.
+                do_action( 'toolkit_settings_save_validation', $class, $options );
+                
 				// Delete option and add option are called instead of update option because
 				// sometimes update value is equal to the existing value and a false
 				// positive is returned
