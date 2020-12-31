@@ -307,6 +307,7 @@ export class Login extends FrontendLogin {
 	}
 
 	afterValidSubmission( response ){
+
 		// Show the loading animation again, we're going 
 		// to redirect them to another page and it might
 		// take some seconds
