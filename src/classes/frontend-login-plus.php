@@ -1143,6 +1143,8 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			'value_remember' => true,
 		);
 
+		$login_form_args = apply_filters('uo_frontend_login_args', $login_form_args);
+
 		return wp_login_form( $login_form_args );
 	}
 
