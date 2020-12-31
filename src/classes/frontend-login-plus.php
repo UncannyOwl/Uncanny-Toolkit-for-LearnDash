@@ -354,10 +354,10 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			array(
 				'type'       => 'html',
 				'inner_html' => '<strong>' .
-								esc_html__( 'Available variables for subject', 'uncanny-learndash-toolkit' ) .
-								'</strong><br /><ul><li><strong>%Site Name%</strong> &mdash; ' .
-								esc_html__( 'Prints Site\'s Name', 'uncanny-learndash-toolkit' ) .
-								'</li></ul>',
+				                esc_html__( 'Available variables for subject', 'uncanny-learndash-toolkit' ) .
+				                '</strong><br /><ul><li><strong>%Site Name%</strong> &mdash; ' .
+				                esc_html__( 'Prints Site\'s Name', 'uncanny-learndash-toolkit' ) .
+				                '</li></ul>',
 			),
 			array(
 				'type'        => 'textarea',
@@ -368,17 +368,17 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			array(
 				'type'       => 'html',
 				'inner_html' => '<strong>' .
-								esc_html__( 'Available variables for email body', 'uncanny-learndash-toolkit' ) .
-								'</strong><br />'.
-								'<ul><li><strong>%Display Name%</strong> &mdash; ' .
-								esc_html__( 'Prints User\'s Display Name', 'uncanny-learndash-toolkit' ) .
-								'</li><li><strong>%First Name%</strong> &mdash; '
-								. esc_html__( 'Prints User\'s First Name', 'uncanny-learndash-toolkit' ) .
-								'</li><li><strong>%Last Name%</strong> &mdash; '
-								. esc_html__( 'Prints User\'s Last Name', 'uncanny-learndash-toolkit' ) .
-								'</li><li><strong>%Home Url%</strong> &mdash; '
-								. esc_html__( 'Prints Site\'s Home URL', 'uncanny-learndash-toolkit' ) .
-								'</li></ul>',
+				                esc_html__( 'Available variables for email body', 'uncanny-learndash-toolkit' ) .
+				                '</strong><br />' .
+				                '<ul><li><strong>%Display Name%</strong> &mdash; ' .
+				                esc_html__( 'Prints User\'s Display Name', 'uncanny-learndash-toolkit' ) .
+				                '</li><li><strong>%First Name%</strong> &mdash; '
+				                . esc_html__( 'Prints User\'s First Name', 'uncanny-learndash-toolkit' ) .
+				                '</li><li><strong>%Last Name%</strong> &mdash; '
+				                . esc_html__( 'Prints User\'s Last Name', 'uncanny-learndash-toolkit' ) .
+				                '</li><li><strong>%Home Url%</strong> &mdash; '
+				                . esc_html__( 'Prints Site\'s Home URL', 'uncanny-learndash-toolkit' ) .
+				                '</li></ul>',
 			),
 			// Will implement in later version
 			/*array(
@@ -634,12 +634,12 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			array(
 				'type'       => 'html',
 				'inner_html' => '<strong>' .
-								esc_html__( 'Available variables for email body', 'uncanny-learndash-toolkit' ) .
-								'</strong><br /><ul><li><strong>%User Login%</strong> &mdash; ' .
-								esc_html__( 'Prints User\'s Login', 'uncanny-learndash-toolkit' ) .
-								'</li><li><strong>%Reset Link%</strong> &mdash; '
-								. esc_html__( 'Prints Password Reset Link', 'uncanny-learndash-toolkit' ) .
-								'</li></ul>',
+				                esc_html__( 'Available variables for email body', 'uncanny-learndash-toolkit' ) .
+				                '</strong><br /><ul><li><strong>%User Login%</strong> &mdash; ' .
+				                esc_html__( 'Prints User\'s Login', 'uncanny-learndash-toolkit' ) .
+				                '</li><li><strong>%Reset Link%</strong> &mdash; '
+				                . esc_html__( 'Prints Password Reset Link', 'uncanny-learndash-toolkit' ) .
+				                '</li></ul>',
 			),
 			array(
 				'type'       => 'html',
@@ -810,21 +810,21 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		$echo    = true;
 		?>
 
-		<table class="form-table">
-			<tr class="uo_is_verified-container">
-				<th scope="row">
-					<h2>Verify User</h2>
-				</th>
-				<td>
-					<label for="uo_is_verified">
-						<input type="checkbox" id="uo_is_verified" name="uo_is_verified"
-							   value="1" <?php checked( $checked, $current, $echo ); ?>/>
-						Verify this user and allow them to log in
-					</label>
-				</td>
-			</tr>
+        <table class="form-table">
+            <tr class="uo_is_verified-container">
+                <th scope="row">
+                    <h2>Verify User</h2>
+                </th>
+                <td>
+                    <label for="uo_is_verified">
+                        <input type="checkbox" id="uo_is_verified" name="uo_is_verified"
+                               value="1" <?php checked( $checked, $current, $echo ); ?>/>
+                        Verify this user and allow them to log in
+                    </label>
+                </td>
+            </tr>
 
-		</table>
+        </table>
 
 		<?php
 	}
@@ -862,9 +862,9 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			/**
 			 * Fires after a user is manually verified.
 			 *
-			 * @param int $user_id     The verified user's ID.
+			 * @param int $user_id The verified user's ID.
 			 * @param int $verifier_id The user (admin) that verified the user.
-			 * 
+			 *
 			 * @since 3.4.1
 			 */
 			do_action( 'uo_user_verified', $user_id, $verifier_id = get_current_user_id() );
@@ -888,16 +888,6 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			// Create verified user subject
 			$default_subject = sprintf( __( '%s - Account Verified', 'uncanny-learndash-toolkit' ), $blog_name );
 
-			/**
-			 * Filters user verification email headers.
-			 * 
-			 * @param array   $headers The email headers.
-			 * @param \WP_User $user    The verified user.
-			 */
-			$from      = $blog_name . ' <' . $admin_email . '>';
-			$headers[] = 'From: ' . $from;
-			$headers = apply_filters( 'uo_verified_email_headers', $headers, $user );
-
 			$subject = self::get_settings_value(
 				'uo_frontend_verified_email_subject',
 				__CLASS__,
@@ -911,9 +901,9 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 			/**
 			 * Filters user verification subject.
-			 * 
-			 * @param string  $subject The email subject.
-			 * @param \WP_User $user    The verified user.
+			 *
+			 * @param string $subject The email subject.
+			 * @param \WP_User $user The verified user.
 			 */
 			$subject = apply_filters( 'uo_verified_email_subject', $subject, $user );
 
@@ -922,9 +912,9 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			$default_body .= sprintf( __( 'Please visit %s to login. ', 'uncanny-learndash-toolkit' ), home_url() ) . " \r\n";
 			/**
 			 * Filters user verification email message.
-			 * 
-			 * @param array   $headers The email message.
-			 * @param \WP_User $user    The verified user.
+			 *
+			 * @param array $headers The email message.
+			 * @param \WP_User $user The verified user.
 			 */
 
 			$body = self::get_settings_value(
@@ -945,12 +935,24 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			$to        = $user->user_email;
 			$from      = $blog_name . ' <' . $admin_email . '>';
 			$headers[] = 'From: ' . $from;
-			$headers   = apply_filters( 'uo_verified_email_headers', $headers, $user );
-			$mailed    = wp_mail( $to, $subject, $body, $headers );
+			/**
+			 * Filters user verification email headers.
+			 *
+			 * @param array $headers The email headers.
+			 * @param \WP_User $user The verified user.
+			 */
+			$headers = apply_filters( 'uo_verified_email_headers', $headers, $user );
+			$mailed  = wp_mail( $to, $subject, $body, $headers );
 			// after wp_mail successful
 			$from      = $blog_name . ' <' . $admin_email . '>';
 			$headers[] = 'From: ' . $from;
-			$headers   = apply_filters( 'uo_verified_email_headers', $headers, $user );
+			/**
+			 * Filters user verification email headers.
+			 *
+			 * @param array $headers The email headers.
+			 * @param \WP_User $user The verified user.
+			 */
+			$headers = apply_filters( 'uo_verified_email_headers', $headers, $user );
 
 			$to = $admin_email;
 
@@ -958,20 +960,20 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 			/**
 			 * Filters subject of user verification email sent to admin.
-			 * 
-			 * @param array   $headers The email headers.
-			 * @param \WP_User $user    The verified user.
+			 *
+			 * @param array $headers The email headers.
+			 * @param \WP_User $user The verified user.
 			 */
 			$subject = apply_filters( 'uo_verified_email_subject', $subject, $user );
 
-			$message      = sprintf( __( '%s account has been approved! ', 'uncanny-learndash-toolkit' ), $user->user_email ) . " \r\n\n";
-			$message      .= sprintf( __( ' Visit %s to view / edit user. ', 'uncanny-learndash-toolkit' ), admin_url( 'user-edit.php?user_id=' . $user->id ) ) . " \r\n";
+			$message = sprintf( __( '%s account has been approved! ', 'uncanny-learndash-toolkit' ), $user->user_email ) . " \r\n\n";
+			$message .= sprintf( __( ' Visit %s to view / edit user. ', 'uncanny-learndash-toolkit' ), admin_url( 'user-edit.php?user_id=' . $user->id ) ) . " \r\n";
 
 			/**
 			 * Filters message of user verification email sent to admin.
-			 * 
-			 * @param array   $message The email message.
-			 * @param \WP_User $user    The verified user.
+			 *
+			 * @param array $message The email message.
+			 * @param \WP_User $user The verified user.
 			 */
 			$message = apply_filters( 'uo_verified_email_message', $message, $user );
 
@@ -985,9 +987,9 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				/**
 				 * Fires after user verification emails are sent.
 				 *
-				 * @param int $user_id     The verified user's ID.
+				 * @param int $user_id The verified user's ID.
 				 * @param int $verifier_id The user (admin) that verified the user.
-				 * 
+				 *
 				 * @since 3.4.1
 				 */
 				do_action( 'uo_user_verification_emails_sent', $user_id, $verifier_id = get_current_user_id() );
@@ -1188,12 +1190,12 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 		if ( 'no' !== $placeholder ) {
 			?>
-			<script type='text/javascript'>
-				jQuery( document ).ready( function (){
-					jQuery( '#user_login' ).attr( 'placeholder', '<?php echo $username_label; ?>' )
-					jQuery( '#user_pass' ).attr( 'placeholder', '<?php echo $password_label; ?>' )
-				} )
-			</script>
+            <script type='text/javascript'>
+                jQuery(document).ready(function () {
+                    jQuery('#user_login').attr('placeholder', '<?php echo $username_label; ?>')
+                    jQuery('#user_pass').attr('placeholder', '<?php echo $password_label; ?>')
+                })
+            </script>
 			<?php
 			$username_label = '';
 			$password_label = '';
@@ -1225,7 +1227,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			'value_remember' => true,
 		);
 
-		$login_form_args = apply_filters('uo_frontend_login_args', $login_form_args);
+		$login_form_args = apply_filters( 'uo_frontend_login_args', $login_form_args );
 
 		return wp_login_form( $login_form_args );
 	}
@@ -1562,15 +1564,15 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				$registering = true;
 			}
 		}
-				
-		if ( false !== strpos($page_viewed,'wp-login.php' ) && 'GET' === $_SERVER['REQUEST_METHOD'] && ! $registering ) {
-			if( isset( $_REQUEST['action']) &&  'logout' === $_REQUEST['action']){
+
+		if ( false !== strpos( $page_viewed, 'wp-login.php' ) && 'GET' === $_SERVER['REQUEST_METHOD'] && ! $registering ) {
+			if ( isset( $_REQUEST['action'] ) && 'logout' === $_REQUEST['action'] ) {
 				return;
 			}
 			if ( isset( $_REQUEST['redirect_to'] ) ) {
-				if( is_user_logged_in()){
+				if ( is_user_logged_in() ) {
 					$redirect = apply_filters( 'login_redirect', $_REQUEST['redirect_to'], $_REQUEST, get_current_user() );
-					wp_safe_redirect(  $redirect, 301 );
+					wp_safe_redirect( $redirect, 301 );
 					exit;
 				}
 				$login_page = add_query_arg( [ 'redirect_to' => $_REQUEST['redirect_to'] ], $login_page );
@@ -1969,10 +1971,10 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		if ( '' !== trim( $recaptcha_key ) && '' !== trim( $recaptcha_secrete_key ) ) {
 			ob_start();
 			?>
-			<div class="ult-form__row ult-form__row--recaptcha">
-				<div class="ult-form-recaptcha" data-sitekey="<?php echo $recaptcha_key; ?>"
-					 data-callback="UncannyToolkitFrontendLoginReCaptchaCorrect"></div>
-			</div>
+            <div class="ult-form__row ult-form__row--recaptcha">
+                <div class="ult-form-recaptcha" data-sitekey="<?php echo $recaptcha_key; ?>"
+                     data-callback="UncannyToolkitFrontendLoginReCaptchaCorrect"></div>
+            </div>
 			<?php
 			return ob_get_clean();
 
@@ -1986,7 +1988,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	 * @param        $message
 	 * @param string $key
 	 * @param string $user_login
-	 * @param null   $user_data
+	 * @param null $user_data
 	 *
 	 * @return string|string[]
 	 */
@@ -2019,7 +2021,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	/**
 	 * @param        $message
 	 * @param string $user_login
-	 * @param null   $user_data
+	 * @param null $user_data
 	 *
 	 * @return string|string[]
 	 */
@@ -2083,8 +2085,8 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	/**
 	 * Filter the result of get_site_url().
 	 *
-	 * @param string $url    The URL.
-	 * @param string $path   The path.
+	 * @param string $url The URL.
+	 * @param string $path The path.
 	 * @param string $scheme The URL scheme.
 	 *
 	 * @return string The filtered URL.
@@ -2331,9 +2333,9 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 		ob_start();
 		?>
-		<div class="ult-form__validation ult-hide" id="ult_lp_error_container">
-			<div class="ult-notice ult-notice--error"></div>
-		</div>
+        <div class="ult-form__validation ult-hide" id="ult_lp_error_container">
+            <div class="ult-notice ult-notice--error"></div>
+        </div>
 		<?php
 
 		// End output
@@ -2440,10 +2442,10 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			if ( 'yes' === $uo_manual_verification ) {
 
 				// Check if there's a user with the supplied email.
-				$potential_user = get_user_by( 'email', $credential[ 'user_login' ] );
+				$potential_user = get_user_by( 'email', $credential['user_login'] );
 
 				// If not, also check if there's a user with the username.
-				$potential_user = $potential_user ? $potential_user : get_user_by( 'login', $credential[ 'user_login' ] );
+				$potential_user = $potential_user ? $potential_user : get_user_by( 'login', $credential['user_login'] );
 
 				// If there is a valid user with the suppied email/ username.
 				if ( ( $potential_user ) && ( is_a( $potential_user, 'WP_User' ) ) ) {
@@ -2491,19 +2493,19 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			$redirect_to = admin_url();
 		}
 
-		$response['success']    = true;
-		$requested_redirect_to  = isset( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : '';
+		$response['success']   = true;
+		$requested_redirect_to = isset( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : '';
 
 		// Decide if there will be a redirect
 		$redirect_ignored = Config::get_settings_value( 'uo_frontend_login_modal_ignore_redirect', 'FrontendLoginPlus', false );
 
 		$redirect_ignored = apply_filters( 'uo_frontend_login_modal_ignore_redirect', $redirect_ignored, $redirect_to, $requested_redirect_to, $user );
 
-		if( 'on' !== $redirect_ignored ){
+		if ( 'on' !== $redirect_ignored ) {
 			$response['redirectTo'] = apply_filters( 'login_redirect', $redirect_to, $requested_redirect_to, $user );
-		}else{
+		} else {
 			$response['ignoredRedirectTo'] = true;
-			$response['message'] = __('You are now logged in');
+			$response['message']           = __( 'You are now logged in' );
 		}
 
 
@@ -2577,9 +2579,9 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				$response['message'] = self::get_settings_value( 'uo_frontend_login_successsendemail', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
 				ob_start();
 				?>
-				<p>
+                <p>
 					<?php echo $response['message']; ?>
-				</p>
+                </p>
 				<?php
 
 				$response['message'] = ob_get_clean();
@@ -2589,19 +2591,19 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				?>
 				<?php do_action( 'uo_forgot_before_title' ); ?>
 
-				<div class="ult-form__title">
+                <div class="ult-form__title">
 					<?php echo self::get_settings_value( 'uo_login_forgot_pass_title', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) ); ?>
-				</div>
+                </div>
 
 				<?php do_action( 'uo_forgot_before_success' ); ?>
 
-				<div class="ult-form__row ult-form__row--validation">
-					<div class="ult-notice ult-notice--success">
+                <div class="ult-form__row ult-form__row--validation">
+                    <div class="ult-notice ult-notice--success">
 						<?php do_action( 'uo_forgot_before_success_message' ); ?>
 						<?php echo $response['message']; ?>
 						<?php do_action( 'uo_forgot_after_success_message' ); ?>
-					</div>
-				</div>
+                    </div>
+                </div>
 
 				<?php do_action( 'uo_forgot_after_success' ); ?>
 				<?php
@@ -2613,17 +2615,16 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			$response['success'] = false;
 
 			// Iterate errors
-			$response[ 'message' ] = '';
-			foreach ( $errors->errors as $error_key => $error_message ){
+			$response['message'] = '';
+			foreach ( $errors->errors as $error_key => $error_message ) {
 				// Check if it's the Toolkit "invalidcombo" error, and show a custom message
-				if ( $error_key == 'invalidcombo' ){
+				if ( $error_key == 'invalidcombo' ) {
 					$error_message = self::get_settings_value( 'uo_login_forgot_pass_invalid_creds', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
-				}
-				else {
+				} else {
 					$error_message = is_array( $error_message ) ? implode( ' ', $error_message ) : $error_message;
 				}
 
-				$response[ 'message' ] = '<div class="ult-forgot-password-error ult-forgot-password-error--' . esc_attr( $error_key ) . '">' . $error_message . '</div>';
+				$response['message'] = '<div class="ult-forgot-password-error ult-forgot-password-error--' . esc_attr( $error_key ) . '">' . $error_message . '</div>';
 			}
 
 			self::wp_send_json( $response, $response_code );
@@ -2707,9 +2708,9 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		/**
 		 * Filters the subject of the password reset email.
 		 *
-		 * @param string  $title      Default email title.
-		 * @param string  $user_login The username for the user.
-		 * @param \WP_User $user_data  \WP_User object.
+		 * @param string $title Default email title.
+		 * @param string $user_login The username for the user.
+		 * @param \WP_User $user_data \WP_User object.
 		 *
 		 * @since 4.4.0 Added the `$user_login` and `$user_data` parameters.
 		 *
@@ -2722,10 +2723,10 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		 *
 		 * If the filtered message is empty, the password reset email will not be sent.
 		 *
-		 * @param string  $message    Default mail message.
-		 * @param string  $key        The activation key.
-		 * @param string  $user_login The username for the user.
-		 * @param \WP_User $user_data  \WP_User object.
+		 * @param string $message Default mail message.
+		 * @param string $key The activation key.
+		 * @param string $user_login The username for the user.
+		 * @param \WP_User $user_data \WP_User object.
 		 *
 		 * @since 2.8.0
 		 * @since 4.1.0 Added `$user_login` and `$user_data` parameters.
@@ -2848,13 +2849,13 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 		do_action( 'uo_login_before_reset_success' ); ?>
 
-		<div class="ult-notice ult-notice--success">
+        <div class="ult-notice ult-notice--success">
 			<?php do_action( 'uo_login_before_reset_success_message' ); ?>
 
 			<?php echo $response['message']; ?>
 
 			<?php do_action( 'uo_login_before_reset_success_message' ); ?>
-		</div>
+        </div>
 		<?php
 		$response['message'] = ob_get_clean();
 		self::wp_send_json( $response, $response_code );
@@ -2922,38 +2923,38 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		if ( '' !== trim( $recaptcha_key ) && '' !== trim( $recaptcha_secrete_key ) ) {
 			?>
 
-			<script>
+            <script>
 
-				var UncannyToolkitFrontendLoginReCaptchaInit = function (){
-					if (typeof UncannyToolkit !== 'undefined') {
-						if (typeof UncannyToolkit.reCaptchaInit !== 'undefined') {
-							if (document.readyState == 'complete' || document.readyState == 'interactive') {
-								UncannyToolkit.reCaptchaInit();
-							} else {
-								document.addEventListener( 'DOMContentLoaded', function (){
-									UncannyToolkit.reCaptchaInit();
-								} );
-							}
-						}
-					}
-				}
+                var UncannyToolkitFrontendLoginReCaptchaInit = function () {
+                    if (typeof UncannyToolkit !== 'undefined') {
+                        if (typeof UncannyToolkit.reCaptchaInit !== 'undefined') {
+                            if (document.readyState == 'complete' || document.readyState == 'interactive') {
+                                UncannyToolkit.reCaptchaInit();
+                            } else {
+                                document.addEventListener('DOMContentLoaded', function () {
+                                    UncannyToolkit.reCaptchaInit();
+                                });
+                            }
+                        }
+                    }
+                }
 
-				var UncannyToolkitFrontendLoginReCaptchaCorrect = function ( response ){
-					if (typeof UncannyToolkit !== 'undefined') {
-						if (typeof UncannyToolkit.frontendLogin !== 'undefined') {
-							if (typeof UncannyToolkit.frontendLogin.reCaptcha !== 'undefined') {
-								if (typeof UncannyToolkit.frontendLogin.reCaptcha.correct !== 'undefined') {
-									UncannyToolkit.frontendLogin.reCaptcha.correct( response );
-								}
-							}
-						}
-					}
-				}
+                var UncannyToolkitFrontendLoginReCaptchaCorrect = function (response) {
+                    if (typeof UncannyToolkit !== 'undefined') {
+                        if (typeof UncannyToolkit.frontendLogin !== 'undefined') {
+                            if (typeof UncannyToolkit.frontendLogin.reCaptcha !== 'undefined') {
+                                if (typeof UncannyToolkit.frontendLogin.reCaptcha.correct !== 'undefined') {
+                                    UncannyToolkit.frontendLogin.reCaptcha.correct(response);
+                                }
+                            }
+                        }
+                    }
+                }
 
-			</script>
+            </script>
 
-			<script src="https://www.google.com/recaptcha/api.js?onload=UncannyToolkitFrontendLoginReCaptchaInit&render=explicit"
-					async defer></script>
+            <script src="https://www.google.com/recaptcha/api.js?onload=UncannyToolkitFrontendLoginReCaptchaInit&render=explicit"
+                    async defer></script>
 
 			<?php
 		}
@@ -2963,7 +2964,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	 * Check and override if #uo_login added in menu items
 	 *
 	 * @param array $menu_items From WP Menu items to be displayed.
-	 * @param array $menu_args  From WP Menu args related to the menu set to be displayed.
+	 * @param array $menu_args From WP Menu args related to the menu set to be displayed.
 	 *
 	 * @return array $menu_items
 	 *
@@ -3036,9 +3037,9 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		if ( ! is_user_logged_in() ) {
 			ob_start();
 			?>
-			<a href="<?php echo $login_page; ?>" class="ult-modal-open ult-login-modal-open" data-id="ult-login">
+            <a href="<?php echo $login_page; ?>" class="ult-modal-open ult-login-modal-open" data-id="ult-login">
 				<?php echo $uo_frontend_login_modal_button_title_label; ?>
-			</a>
+            </a>
 			<?php
 			self::load_login_modal();
 			$uo_login_model_html = ob_get_clean();
