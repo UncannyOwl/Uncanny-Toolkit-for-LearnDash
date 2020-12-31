@@ -892,8 +892,10 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			 * Filters user verification email headers.
 			 * 
 			 * @param array   $headers The email headers.
-			 * @param WP_User $user    The verified user.
+			 * @param \WP_User $user    The verified user.
 			 */
+			$from      = $blog_name . ' <' . $admin_email . '>';
+			$headers[] = 'From: ' . $from;
 			$headers = apply_filters( 'uo_verified_email_headers', $headers, $user );
 
 			$subject = self::get_settings_value(
@@ -911,7 +913,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			 * Filters user verification subject.
 			 * 
 			 * @param string  $subject The email subject.
-			 * @param WP_User $user    The verified user.
+			 * @param \WP_User $user    The verified user.
 			 */
 			$subject = apply_filters( 'uo_verified_email_subject', $subject, $user );
 
@@ -922,7 +924,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			 * Filters user verification email message.
 			 * 
 			 * @param array   $headers The email message.
-			 * @param WP_User $user    The verified user.
+			 * @param \WP_User $user    The verified user.
 			 */
 
 			$body = self::get_settings_value(
@@ -958,7 +960,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			 * Filters subject of user verification email sent to admin.
 			 * 
 			 * @param array   $headers The email headers.
-			 * @param WP_User $user    The verified user.
+			 * @param \WP_User $user    The verified user.
 			 */
 			$subject = apply_filters( 'uo_verified_email_subject', $subject, $user );
 
@@ -969,7 +971,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			 * Filters message of user verification email sent to admin.
 			 * 
 			 * @param array   $message The email message.
-			 * @param WP_User $user    The verified user.
+			 * @param \WP_User $user    The verified user.
 			 */
 			$message = apply_filters( 'uo_verified_email_message', $message, $user );
 
@@ -2707,7 +2709,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		 *
 		 * @param string  $title      Default email title.
 		 * @param string  $user_login The username for the user.
-		 * @param WP_User $user_data  WP_User object.
+		 * @param \WP_User $user_data  \WP_User object.
 		 *
 		 * @since 4.4.0 Added the `$user_login` and `$user_data` parameters.
 		 *
@@ -2723,7 +2725,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		 * @param string  $message    Default mail message.
 		 * @param string  $key        The activation key.
 		 * @param string  $user_login The username for the user.
-		 * @param WP_User $user_data  WP_User object.
+		 * @param \WP_User $user_data  \WP_User object.
 		 *
 		 * @since 2.8.0
 		 * @since 4.1.0 Added `$user_login` and `$user_data` parameters.
