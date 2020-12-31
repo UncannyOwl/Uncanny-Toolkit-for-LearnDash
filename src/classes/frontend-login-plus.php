@@ -2295,6 +2295,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			self::wp_send_json( $response, $response_code );
 		}
 
+		// Internal note: This  conditional isn't doing anything except increasing the cyclomatic complexity. Please consider removing.
 		if ( ! isset( $response['success'] ) ) {
 			if ( ! empty( $_POST['email'] ) && ! force_ssl_admin() ) {
 				$user_name = sanitize_user( $_POST['email'] );
@@ -2343,17 +2344,13 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				}
 			}
 			$credential = [ 'user_login' => $_POST['email'], 'user_password' => $_POST['password'] ];
+
 			// Removing our old authentication filter here.
 			remove_filter( 'authenticate', array( __CLASS__, 'verify_username_password_40' ), 40 );
-			$user = wp_signon( $credential, $secure_cookie );
 
-			if ( is_wp_error( $user ) ) {
-				$response['success'] = false;
-				$response['message'] = Config::get_settings_value( 'uo_frontend_login_failed_error', 'FrontendLoginPlus', esc_html__( 'Invalid username and/or password.', 'uncanny-learndash-toolkit' ) );
-				self::wp_send_json( $response, $response_code );
-			}
+			/* At this point, we have credentials that "may" be for a valid user. */
 
-			// check account verification
+			// Instead of directly attempting login, check if only verified accounts are allowed to login.
 			$uo_manual_verification = 'no';
 			$settings               = get_option( 'FrontendLoginPlus', [] );
 			if ( false !== $settings ) {
@@ -2365,24 +2362,47 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				}
 			}
 
+			// If manual verification is on.
 			if ( 'yes' === $uo_manual_verification ) {
 
-				if ( ( $user ) && ( is_a( $user, 'WP_User' ) ) ) {
+				// Check if there's a user with the supplied email.
+				$potential_user = get_user_by( 'email', $credential[ 'user_login' ] );
 
-					$user_verified_value = get_user_meta( $user->ID, self::$user_meta_key_col, true );
+				// If not, also check if there's a user with the username.
+				$potential_user = $potential_user ? $potential_user : get_user_by( 'login', $credential[ 'user_login' ] );
 
-					// bypass admins
-					if ( user_can( $user->ID, 'activate_plugins' ) ) {
+				// If there is a valid user with the suppied email/ username.
+				if ( ( $potential_user ) && ( is_a( $potential_user, 'WP_User' ) ) ) {
+
+					// Check if they are already verified.
+					$user_verified_value = get_user_meta( $potential_user->ID, self::$user_meta_key_col, true );
+
+					// Set Admins as verified by default. 
+					if ( user_can( $potential_user->ID, 'activate_plugins' ) ) {
 						$user_verified_value = '1';
 					}
 
-					// Is the use logging in disabled?
+					// If the user hasn't been verified yet.
 					if ( '0' === $user_verified_value ) {
+
+						// return a response indicating unverified status.
 						$response['success'] = false;
 						$response['message'] = Config::get_settings_value( 'uo_frontend_login_notverified_error', 'FrontendLoginPlus', esc_html__( 'This account is not verified.', 'uncanny-learndash-toolkit' ) );
 						self::wp_send_json( $response, $response_code );
 					}
 				}
+			}
+
+			/* At this point, either manual verification is disabled or the user has already been verified. */
+
+			// Try to log them in.
+			$user = wp_signon( $credential, $secure_cookie );
+
+			// Logging in failed.
+			if ( is_wp_error( $user ) ) {
+				$response['success'] = false;
+				$response['message'] = Config::get_settings_value( 'uo_frontend_login_failed_error', 'FrontendLoginPlus', esc_html__( 'Invalid username and/or password.', 'uncanny-learndash-toolkit' ) );
+				self::wp_send_json( $response, $response_code );
 			}
 		}
 
