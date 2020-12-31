@@ -9,7 +9,7 @@
  * Domain Path:         /languages
  * License:             GPLv3
  * License URI:         https://www.gnu.org/licenses/gpl-3.0.html
- * Version:             3.4
+ * Version:             3.4.1
  * Requires at least:   4.6
  * Requires PHP:        7.0
 */
@@ -19,7 +19,7 @@ global $uncanny_learndash_toolkit;
 
 // Define version
 if ( ! defined( 'UNCANNY_TOOLKIT_VERSION' ) ) {
-	define( 'UNCANNY_TOOLKIT_VERSION', '3.4' );
+	define( 'UNCANNY_TOOLKIT_VERSION', '3.4.1' );
 }
 
 // Define prefix
