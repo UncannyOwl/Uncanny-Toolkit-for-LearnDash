@@ -12,6 +12,8 @@ if ( ! defined( 'WPINC' ) ) {
  */
 class MarkLessonsComplete extends Config implements RequiredFunctions {
 
+	public static $lesson_redirection = null;
+	public static $quiz_redirection = null;
 	/**
 	 * Class constructor
 	 */
@@ -115,7 +117,13 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 					// only redirect if lesson does not have auto-complete on
 					if ( self::maybe_redirect( $data['lesson'] ) ) {
 						if ( ! is_admin() && ! isset( $_REQUEST['doing_rest'] ) ) {
-							learndash_get_next_lesson_redirect( $data['lesson'] );
+							// The do_action topic completed runs before the activity log is updated.
+							self::$lesson_redirection = $data['lesson'];
+							// Do the redirect on shutdown so all processes can complete
+							add_action('shutdown', function(){
+								learndash_get_next_lesson_redirect( self::$lesson_redirection );
+							});
+
 						}
 					}
 
@@ -137,8 +145,12 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 						// only redirect if lesson does not have auto-complete on
 						if ( self::maybe_redirect( $data['lesson'] ) ) {
 							if ( ! is_admin() && ! isset( $_REQUEST['doing_rest'] ) ) {
-								wp_safe_redirect( get_permalink( $quiz_id ) );
-								exit;
+								// The do_action topic completed runs before the activity log is updated.
+								self::$quiz_redirection = $quiz_id;
+								// Do the redirect on shutdown so all processes can complete
+								add_action('shutdown', function(){
+									wp_safe_redirect( get_permalink( self::$quiz_redirection ) );
+								});
 							}
 
 						}

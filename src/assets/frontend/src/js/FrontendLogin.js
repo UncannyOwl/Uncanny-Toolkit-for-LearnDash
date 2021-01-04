@@ -185,7 +185,7 @@ class FrontendLogin {
 			this.$elements.errorNotice.container.classList.add( this.cssClasses.noticeHasError );
 
 			// Set the error message
-			this.$elements.errorNotice.textNode.textContent = error;
+			this.$elements.errorNotice.textNode.innerHTML = error;
 		}
 		else {
 			// Set the class to hide the notice
@@ -307,6 +307,7 @@ export class Login extends FrontendLogin {
 	}
 
 	afterValidSubmission( response ){
+
 		// Show the loading animation again, we're going 
 		// to redirect them to another page and it might
 		// take some seconds
