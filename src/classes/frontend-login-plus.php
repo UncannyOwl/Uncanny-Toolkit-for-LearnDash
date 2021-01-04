@@ -296,6 +296,8 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 		$password_reset_message .= __( 'If you did not request a password reset, you may safely ignore this email.', 'uncanny-learndash-toolkit' ) . "\r\n\r\n";
 
+		$verified_user_body = __( 'Your account has been approved! ', 'uncanny-learndash-toolkit' );
+		$verified_user_body .= __( 'Please visit %Home Url% to login. ', 'uncanny-learndash-toolkit' );
 
 		// Create options
 		$options = array(
@@ -333,6 +335,50 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				'type'        => 'checkbox',
 				'label'       => esc_html__( 'Manual User Verification', 'uncanny-learndash-toolkit' ),
 				'option_name' => 'uo_frontendloginplus_needs_verifcation',
+			),
+			array(
+				'type'       => 'html',
+				'inner_html' => '<h2>' . esc_html__( 'User Verified Email', 'uncanny-learndash-toolkit' ) . '</h2>',
+			),
+			array(
+				'type'        => 'checkbox',
+				'label'       => esc_html__( 'Disable User Verification Email', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_frontendloginplus_disable_verification_email',
+			),
+			array(
+				'type'        => 'text',
+				'placeholder' => esc_html__( '%Site Name% - Account Verified', 'uncanny-learndash-toolkit' ),
+				'label'       => esc_html__( 'Subject', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_frontend_verified_email_subject',
+			),
+			array(
+				'type'       => 'html',
+				'inner_html' => '<strong>' .
+				                esc_html__( 'Available variables for subject', 'uncanny-learndash-toolkit' ) .
+				                '</strong><br /><ul><li><strong>%Site Name%</strong> &mdash; ' .
+				                esc_html__( 'Prints Site\'s Name', 'uncanny-learndash-toolkit' ) .
+				                '</li></ul>',
+			),
+			array(
+				'type'        => 'textarea',
+				'placeholder' => $verified_user_body,
+				'label'       => esc_html__( 'Body', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_frontend_verified_email_body',
+			),
+			array(
+				'type'       => 'html',
+				'inner_html' => '<strong>' .
+				                esc_html__( 'Available variables for email body', 'uncanny-learndash-toolkit' ) .
+				                '</strong><br />' .
+				                '<ul><li><strong>%Display Name%</strong> &mdash; ' .
+				                esc_html__( 'Prints User\'s Display Name', 'uncanny-learndash-toolkit' ) .
+				                '</li><li><strong>%First Name%</strong> &mdash; '
+				                . esc_html__( 'Prints User\'s First Name', 'uncanny-learndash-toolkit' ) .
+				                '</li><li><strong>%Last Name%</strong> &mdash; '
+				                . esc_html__( 'Prints User\'s Last Name', 'uncanny-learndash-toolkit' ) .
+				                '</li><li><strong>%Home Url%</strong> &mdash; '
+				                . esc_html__( 'Prints Site\'s Home URL', 'uncanny-learndash-toolkit' ) .
+				                '</li></ul>',
 			),
 			// Will implement in later version
 			/*array(
@@ -484,6 +530,11 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				'option_name' => 'uo_frontend_login_modal_background'
 			),
 			array(
+				'type'        => 'checkbox',
+				'label'       => esc_html__( "Ignore Login redirect for Modal Login", 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_frontend_login_modal_ignore_redirect'
+			),
+			array(
 				'type'       => 'html',
 				'inner_html' => '<h2>' . esc_html__( 'Google reCAPTCHA Settings', 'uncanny-learndash-toolkit' ) . '</h2>',
 			),
@@ -564,7 +615,6 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				'placeholder' => esc_html__( 'Check your email for a password reset link.', 'uncanny-learndash-toolkit' ),
 				'option_name' => 'uo_frontend_login_successsendemail',
 			),
-
 			array(
 				'type'       => 'html',
 				'inner_html' => '<h2>' . esc_html__( 'Forgot Password Email', 'uncanny-learndash-toolkit' ) . '</h2>',
@@ -779,74 +829,175 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		<?php
 	}
 
-	/*
-	 * Save custom fields from user profile
-	 * @param int $user_id
-	 *
-	 */
 	/**
-	 * @param $user_id
+	 * Save verification status of user.
+	 *
+	 * @param int $user_id User's ID.
 	 *
 	 * @return bool
 	 */
 	public static function my_save_extra_profile_fields( $user_id ) {
 
+		// Only run for admin level users.
 		if ( ! current_user_can( 'edit_user' ) ) {
 			return false;
 		}
 
-		update_user_meta( $user_id, 'uo_is_verified', $_POST['uo_is_verified'] );
+		// Get the posted verification status.
+		$is_verified = filter_input( INPUT_POST, 'uo_is_verified', FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE );
+
+		// if this wasn't posted at all, bail.
+		if ( null === $is_verified ) {
+			return true;
+		}
+
+		// convert status into integers from boolean.
+		$is_verified = intval( $is_verified );
+
+		// Update the user's metadata with verification status.
+		update_user_meta( $user_id, 'uo_is_verified', $is_verified );
+
+		// if the user was verified, run action hook.
+		if ( $is_verified ) {
+			/**
+			 * Fires after a user is manually verified.
+			 *
+			 * @param int $user_id The verified user's ID.
+			 * @param int $verifier_id The user (admin) that verified the user.
+			 *
+			 * @since 3.4.1
+			 */
+			do_action( 'uo_user_verified', $user_id, $verifier_id = get_current_user_id() );
+		}
 
 		$verified            = get_user_meta( $user_id, 'uo_is_verified', true );
 		$verified_email_sent = get_user_meta( $user_id, 'uo_verified_email_sent', true );
 
 		if ( $verified === '1' && 'yes' !== $verified_email_sent ) {
 
-			$user = get_userdata( $user_id );
+			$disable_email = self::get_settings_value( 'uo_frontendloginplus_disable_verification_email', __CLASS__ );
 
-			$blog_name   = get_option( 'blogname' );
+			if ( 'on' === $disable_email ) {
+				return true;
+			}
+
+			$user        = get_userdata( $user_id );
 			$admin_email = get_option( 'admin_email' );
+			$blog_name   = get_option( 'blogname' );
 
-			$from      = $blog_name . ' <' . $admin_email . '>';
-			$headers[] = 'From: ' . $from;
-			$headers   = apply_filters( 'uo_verified_email_headers', $headers, $user );
+			// Create verified user subject
+			$default_subject = sprintf( __( '%s - Account Verified', 'uncanny-learndash-toolkit' ), $blog_name );
 
-			$to = $user->user_email;
+			$subject = self::get_settings_value(
+				'uo_frontend_verified_email_subject',
+				__CLASS__,
+				/* translators: %s: site name */
+				$default_subject,
+				self::get_class_settings( '', true )
+			);
 
-			$subject = sprintf( __( '%s - Account Verified', 'uncanny-learndash-toolkit' ), $blog_name );
+			$subject = str_ireplace( '%Site Name%', $blog_name, $subject );
+
+
+			/**
+			 * Filters user verification subject.
+			 *
+			 * @param string $subject The email subject.
+			 * @param \WP_User $user The verified user.
+			 */
 			$subject = apply_filters( 'uo_verified_email_subject', $subject, $user );
 
-			$message = __( 'Your account has been approved! ', 'uncanny-learndash-toolkit' ) . "\r\n\n";
-			$message .= sprintf( __( 'Please visit %s to login. ', 'uncanny-learndash-toolkit' ), home_url() ) . " \r\n";
-			$message = apply_filters( 'uo_verified_email_message', $message, $user );
+			// Create verified user body
+			$default_body = __( 'Your account has been approved! ', 'uncanny-learndash-toolkit' ) . "\r\n\n";
+			$default_body .= sprintf( __( 'Please visit %s to login. ', 'uncanny-learndash-toolkit' ), home_url() ) . " \r\n";
+			/**
+			 * Filters user verification email message.
+			 *
+			 * @param array $headers The email message.
+			 * @param \WP_User $user The verified user.
+			 */
 
-			$mailed = wp_mail( $to, $subject, $message, $headers );
+			$body = self::get_settings_value(
+				'uo_frontend_verified_email_body',
+				__CLASS__,
+				$default_body,
+				self::get_class_settings( '', true )
+			);
 
-			// after wp_mail successful
+			$body = str_ireplace( '%Display Name%', $user->display_name, $body );
+			$body = str_ireplace( '%First Name%', $user->first_name, $body );
+			$body = str_ireplace( '%Last Name%', $user->last_name, $body );
+			$body = str_ireplace( '%Home URL%', home_url(), $body );
 
+			$body = apply_filters( 'uo_verified_email_message', $body, $user );
+
+			// Send verified user email
+			$to        = $user->user_email;
 			$from      = $blog_name . ' <' . $admin_email . '>';
 			$headers[] = 'From: ' . $from;
-			$headers   = apply_filters( 'uo_verified_email_headers', $headers, $user );
+			/**
+			 * Filters user verification email headers.
+			 *
+			 * @param array $headers The email headers.
+			 * @param \WP_User $user The verified user.
+			 */
+			$headers = apply_filters( 'uo_verified_email_headers', $headers, $user );
+			$mailed  = wp_mail( $to, $subject, $body, $headers );
+			// after wp_mail successful
+			$from      = $blog_name . ' <' . $admin_email . '>';
+			$headers[] = 'From: ' . $from;
+			/**
+			 * Filters user verification email headers.
+			 *
+			 * @param array $headers The email headers.
+			 * @param \WP_User $user The verified user.
+			 */
+			$headers = apply_filters( 'uo_verified_email_headers', $headers, $user );
 
 			$to = $admin_email;
 
 			$subject = sprintf( __( '%s - Account Verified', 'uncanny-learndash-toolkit' ), $blog_name );
+
+			/**
+			 * Filters subject of user verification email sent to admin.
+			 *
+			 * @param array $headers The email headers.
+			 * @param \WP_User $user The verified user.
+			 */
 			$subject = apply_filters( 'uo_verified_email_subject', $subject, $user );
 
-			$message      = sprintf( __( '%s account has been approved! ', 'uncanny-learndash-toolkit' ), $user->user_email ) . " \r\n\n";
-			$message      .= sprintf( __( ' Visit %s to view / edit user. ', 'uncanny-learndash-toolkit' ), admin_url( 'user-edit.php?user_id=' . $user->id ) ) . " \r\n";
-			$message      = apply_filters( 'uo_verified_email_message', $message, $user );
+			$message = sprintf( __( '%s account has been approved! ', 'uncanny-learndash-toolkit' ), $user->user_email ) . " \r\n\n";
+			$message .= sprintf( __( ' Visit %s to view / edit user. ', 'uncanny-learndash-toolkit' ), admin_url( 'user-edit.php?user_id=' . $user->id ) ) . " \r\n";
+
+			/**
+			 * Filters message of user verification email sent to admin.
+			 *
+			 * @param array $message The email message.
+			 * @param \WP_User $user The verified user.
+			 */
+			$message = apply_filters( 'uo_verified_email_message', $message, $user );
+
 			$admin_mailed = wp_mail( $to, $subject, $message, $headers );
 
-			// after wp_mail successful
+			// after wp_mail successful.
 			if ( $admin_mailed && $mailed ) {
+
 				update_user_meta( $user_id, 'uo_verified_email_sent', 'yes' );
+
+				/**
+				 * Fires after user verification emails are sent.
+				 *
+				 * @param int $user_id The verified user's ID.
+				 * @param int $verifier_id The user (admin) that verified the user.
+				 *
+				 * @since 3.4.1
+				 */
+				do_action( 'uo_user_verification_emails_sent', $user_id, $verifier_id = get_current_user_id() );
 			}
 
 		}
 
 		return true;
-
 	}
 
 	/**
@@ -1075,6 +1226,8 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			'value_username' => null,
 			'value_remember' => true,
 		);
+
+		$login_form_args = apply_filters( 'uo_frontend_login_args', $login_form_args );
 
 		return wp_login_form( $login_form_args );
 	}
@@ -1399,7 +1552,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	public static function redirect_login_page() {
 
 		$login_page  = get_permalink( self::get_login_redirect_page_id() );
-		$page_viewed = basename( $_SERVER['REQUEST_URI'] );
+		$page_viewed = $_SERVER['REQUEST_URI'];
 
 		if ( ! $login_page ) {
 			return;
@@ -1411,27 +1564,17 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				$registering = true;
 			}
 		}
-		/*
-				if ( isset( $_GET['registration'] ) ) {
-					if ( $_GET['registration'] === 'disabled' ) {
-						wp_safe_redirect( add_query_arg( array(
-							'action'   => 'register',
-							'wp-error' => 'registration-disabled'
-						), $login_page ) );
-						exit();
-					}
-				}
 
-				if ( isset( $_GET['checkemail'] ) && 'registered' == $_GET['checkemail'] ) {
-					wp_safe_redirect( add_query_arg( array(
-						'action'   => 'register',
-						'wp-error' => 'registration-success'
-					), $login_page ) );
-					exit();
-				}
-		*/
-		if ( 'wp-login.php' === $page_viewed && 'GET' === $_SERVER['REQUEST_METHOD'] && ! $registering ) {
+		if ( false !== strpos( $page_viewed, 'wp-login.php' ) && 'GET' === $_SERVER['REQUEST_METHOD'] && ! $registering ) {
+			if ( isset( $_REQUEST['action'] ) && 'logout' === $_REQUEST['action'] ) {
+				return;
+			}
 			if ( isset( $_REQUEST['redirect_to'] ) ) {
+				if ( is_user_logged_in() ) {
+					$redirect = apply_filters( 'login_redirect', $_REQUEST['redirect_to'], $_REQUEST, get_current_user() );
+					wp_safe_redirect( $redirect, 301 );
+					exit;
+				}
 				$login_page = add_query_arg( [ 'redirect_to' => $_REQUEST['redirect_to'] ], $login_page );
 			}
 			wp_safe_redirect( $login_page, 301 );
@@ -1842,7 +1985,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	 * Custom email message to retrieve password
 	 */
 	/**
-	 * @param $message
+	 * @param        $message
 	 * @param string $key
 	 * @param string $user_login
 	 * @param null $user_data
@@ -1876,7 +2019,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	 * Custom email message to retrieve password
 	 */
 	/**
-	 * @param $message
+	 * @param        $message
 	 * @param string $user_login
 	 * @param null $user_data
 	 *
@@ -2228,6 +2371,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			self::wp_send_json( $response, $response_code );
 		}
 
+		// Internal note: This  conditional isn't doing anything except increasing the cyclomatic complexity. Please consider removing.
 		if ( ! isset( $response['success'] ) ) {
 			if ( ! empty( $_POST['email'] ) && ! force_ssl_admin() ) {
 				$user_name = sanitize_user( $_POST['email'] );
@@ -2276,17 +2420,13 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				}
 			}
 			$credential = [ 'user_login' => $_POST['email'], 'user_password' => $_POST['password'] ];
+
 			// Removing our old authentication filter here.
 			remove_filter( 'authenticate', array( __CLASS__, 'verify_username_password_40' ), 40 );
-			$user = wp_signon( $credential, $secure_cookie );
 
-			if ( is_wp_error( $user ) ) {
-				$response['success'] = false;
-				$response['message'] = Config::get_settings_value( 'uo_frontend_login_failed_error', 'FrontendLoginPlus', esc_html__( 'Invalid username and/or password.', 'uncanny-learndash-toolkit' ) );
-				self::wp_send_json( $response, $response_code );
-			}
+			/* At this point, we have credentials that "may" be for a valid user. */
 
-			// check account verification
+			// Instead of directly attempting login, check if only verified accounts are allowed to login.
 			$uo_manual_verification = 'no';
 			$settings               = get_option( 'FrontendLoginPlus', [] );
 			if ( false !== $settings ) {
@@ -2298,24 +2438,47 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				}
 			}
 
+			// If manual verification is on.
 			if ( 'yes' === $uo_manual_verification ) {
 
-				if ( ( $user ) && ( is_a( $user, 'WP_User' ) ) ) {
+				// Check if there's a user with the supplied email.
+				$potential_user = get_user_by( 'email', $credential['user_login'] );
 
-					$user_verified_value = get_user_meta( $user->ID, self::$user_meta_key_col, true );
+				// If not, also check if there's a user with the username.
+				$potential_user = $potential_user ? $potential_user : get_user_by( 'login', $credential['user_login'] );
 
-					// bypass admins
-					if ( user_can( $user->ID, 'activate_plugins' ) ) {
+				// If there is a valid user with the suppied email/ username.
+				if ( ( $potential_user ) && ( is_a( $potential_user, 'WP_User' ) ) ) {
+
+					// Check if they are already verified.
+					$user_verified_value = get_user_meta( $potential_user->ID, self::$user_meta_key_col, true );
+
+					// Set Admins as verified by default. 
+					if ( user_can( $potential_user->ID, 'activate_plugins' ) ) {
 						$user_verified_value = '1';
 					}
 
-					// Is the use logging in disabled?
+					// If the user hasn't been verified yet.
 					if ( '0' === $user_verified_value ) {
+
+						// return a response indicating unverified status.
 						$response['success'] = false;
 						$response['message'] = Config::get_settings_value( 'uo_frontend_login_notverified_error', 'FrontendLoginPlus', esc_html__( 'This account is not verified.', 'uncanny-learndash-toolkit' ) );
 						self::wp_send_json( $response, $response_code );
 					}
 				}
+			}
+
+			/* At this point, either manual verification is disabled or the user has already been verified. */
+
+			// Try to log them in.
+			$user = wp_signon( $credential, $secure_cookie );
+
+			// Logging in failed.
+			if ( is_wp_error( $user ) ) {
+				$response['success'] = false;
+				$response['message'] = Config::get_settings_value( 'uo_frontend_login_failed_error', 'FrontendLoginPlus', esc_html__( 'Invalid username and/or password.', 'uncanny-learndash-toolkit' ) );
+				self::wp_send_json( $response, $response_code );
 			}
 		}
 
@@ -2329,9 +2492,22 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		} else {
 			$redirect_to = admin_url();
 		}
-		$response['success']    = true;
-		$requested_redirect_to  = isset( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : '';
-		$response['redirectTo'] = apply_filters( 'login_redirect', $redirect_to, $requested_redirect_to, $user );
+
+		$response['success']   = true;
+		$requested_redirect_to = isset( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : '';
+
+		// Decide if there will be a redirect
+		$redirect_ignored = Config::get_settings_value( 'uo_frontend_login_modal_ignore_redirect', 'FrontendLoginPlus', false );
+
+		$redirect_ignored = apply_filters( 'uo_frontend_login_modal_ignore_redirect', $redirect_ignored, $redirect_to, $requested_redirect_to, $user );
+
+		if ( 'on' !== $redirect_ignored ) {
+			$response['redirectTo'] = apply_filters( 'login_redirect', $redirect_to, $requested_redirect_to, $user );
+		} else {
+			$response['ignoredRedirectTo'] = true;
+			$response['message']           = __( 'You are now logged in' );
+		}
+
 
 		self::wp_send_json( $response, $response_code );
 	}
@@ -2437,7 +2613,20 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			self::wp_send_json( $response, $response_code );
 		} else {
 			$response['success'] = false;
-			$response['message'] = self::get_settings_value( 'uo_login_forgot_pass_invalid_creds', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
+
+			// Iterate errors
+			$response['message'] = '';
+			foreach ( $errors->errors as $error_key => $error_message ) {
+				// Check if it's the Toolkit "invalidcombo" error, and show a custom message
+				if ( $error_key == 'invalidcombo' ) {
+					$error_message = self::get_settings_value( 'uo_login_forgot_pass_invalid_creds', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
+				} else {
+					$error_message = is_array( $error_message ) ? implode( ' ', $error_message ) : $error_message;
+				}
+
+				$response['message'] = '<div class="ult-forgot-password-error ult-forgot-password-error--' . esc_attr( $error_key ) . '">' . $error_message . '</div>';
+			}
+
 			self::wp_send_json( $response, $response_code );
 		}
 
@@ -2521,7 +2710,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		 *
 		 * @param string $title Default email title.
 		 * @param string $user_login The username for the user.
-		 * @param WP_User $user_data WP_User object.
+		 * @param \WP_User $user_data \WP_User object.
 		 *
 		 * @since 4.4.0 Added the `$user_login` and `$user_data` parameters.
 		 *
@@ -2537,7 +2726,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		 * @param string $message Default mail message.
 		 * @param string $key The activation key.
 		 * @param string $user_login The username for the user.
-		 * @param WP_User $user_data WP_User object.
+		 * @param \WP_User $user_data \WP_User object.
 		 *
 		 * @since 2.8.0
 		 * @since 4.1.0 Added `$user_login` and `$user_data` parameters.
@@ -2896,7 +3085,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	}
 
 	/**
-	 * @param $response
+	 * @param      $response
 	 * @param null $status_code
 	 */
 	public static function wp_send_json( $response, $status_code = null ) {
