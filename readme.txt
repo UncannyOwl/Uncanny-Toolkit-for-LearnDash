@@ -2,9 +2,9 @@
 Contributors: uncannyowl
 Tags: LearnDash, eLearning, LMS, education, learning, courseware
 Requires at least: 4.6
-Tested up to: 5.5.3
+Tested up to: 5.6
 Requires PHP: 7.0
-Stable tag: 3.4
+Stable tag: 3.4.1
 License: This plugin is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or any later version.   LearnDash Groups in User Profiles is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.   You should have received a copy of the GNU General Public License along with LearnDash Groups in User Profiles. If not, see {URI to Plugin License}.
 License URI: https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
 
@@ -76,10 +76,31 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 
 == Changelog ==
 
+= 3.4.1 [2021-01-04] =
+**Added:**
+
+* Front End Login - Option to ignore login redirects when using the modal login
+* Front End Login - Option to customize the user verification email
+* Front End Login - Option to disable the user verification email
+* Front End Login - Filter uo_frontend_login_args for developers to modify the login form arguments
+* Front End Login - Show custom error messages in the Forgot password form
+* Front End Login - Actions to support user verification trigger in Uncanny Automator
+* Added `do_action( 'toolkit_settings_save_validation', $class, $options )` to let users manipulate module settings
+
+**Updated:**
+
+* Front End Login - Redirects from /wp-login.php to the assigned login page now preserve the redirect_to parameter in the URL
+
+**Fixed:**
+
+* Topics Autocomplete Lessons - Activity tables now updated with proper completion data for the last topic in a lesson
+* Front End Login - Unverified users are no longer able to log in
+* Fixed - Log in / log out redirect - Conflict with frontend login module
+
 = 3.4 [2020-11-05] =
 * **New Module:** Quiz completion advances to next step - Automatically advance to the next step when user clicks "Click here to continue" on final quiz page of a lesson/topic
 * Updated: Front End Login - Users created before the module was activated or while the module is not activated are set to "Auto verified" instead of "Not verified"
-* Updated: Front End Login - Update to allow basic auth plugin to work with wp-json routes. _Contribute by asppsa_
+* Updated: Front End Login - Update to allow basic auth plugin to work with wp-json routes. _Contributed by asppsa_
 
 = 3.3.4 [2020-09-30] =
 * Updated: Menu Item Visibility - Updated nav menu walker function for improved compatibility with newer versions of WordPress

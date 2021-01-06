@@ -1,7 +1,7 @@
-const fs = require('fs-extra');
-const prompts = require('prompts');
-const slugify = require('slugify');
-const zipFolder = require('zip-folder');
+const fs        = require( 'fs-extra' );
+const prompts   = require( 'prompts' );
+const slugify   = require( 'slugify' );
+const zipFolder = require( 'zip-folder' );
 const minimist  = require('minimist');
 
 // Used as the name of the final zipped package
@@ -20,7 +20,7 @@ const questions = [{
 
 // If the script is cancelled before the version is set
 const onCancel = prompt => {
-    console.log('A version number must be provided -- EXITING');
+    console.log( 'A version number must be provided -- EXITING' );
     return true;
 };
 
@@ -29,7 +29,7 @@ const onCancel = prompt => {
  * Asks in the command line what the new version of the plugin is then
  * starts to create needed directories
  */
-(async () => {
+( async() => {
 
     var argv = minimist(process.argv.slice(2));
     version  = argv['v'];
@@ -39,44 +39,44 @@ const onCancel = prompt => {
     prompts.inject( [ version ] );
 
     // Adds questions to the CLI
-    const response = await prompts(questions, {onCancel});
+    const response = await prompts( questions, {onCancel} );
 
     // Only continue if version has been set in th CLI
     if (response.version === '') {
-        console.log('A version number must be provided -- EXITING');
+        console.log( 'A version number must be provided -- EXITING' );
     } else {
-        slugify.extend({'.': '-'});
-        version = slugify(response.version);
-        console.log('Set Version: ' + version);
+        slugify.extend( {'.': '-'} );
+        version = slugify( response.version );
+        console.log( 'Set Version: ' + version );
 
         create_dir();
     }
-})();
+} )();
 
 /**
  * Step two of the zip-plugin process
  * Creates the zip-package and temp directories
  * Starts adding files to the temp directory
  */
-function create_dir() {
+function create_dir(){
 
     // Create a directory where the final zip will be stored
-    fs.ensureDir('./zip-package')
-        .then(() => {
-            console.log('Created: zip-package directory');
-        })
-        .catch(err => {
-            console.error(err)
-        });
+    fs.ensureDir( './zip-package' )
+        .then( () => {
+            console.log( 'Created: zip-package directory' );
+        } )
+        .catch( err => {
+            console.error( err )
+        } );
 
     // Create a temp directory where the needed plugin package files will be stored temporarily
-    fs.ensureDir('./temp/' + pluginSlug)
-        .then(() => {
-            console.log('Created: temp plugin directory');
-        })
-        .catch(err => {
-            console.error(err)
-        });
+    fs.ensureDir( './temp/' + pluginSlug )
+        .then( () => {
+            console.log( 'Created: temp plugin directory' );
+        } )
+        .catch( err => {
+            console.error( err )
+        } );
 
     add_files();
 }
