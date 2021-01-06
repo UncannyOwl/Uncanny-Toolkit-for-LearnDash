@@ -288,9 +288,12 @@ class Config {
 											<?php echo $content['label']; ?>
                                         </div>
                                         <div class="ult-modal-form-row__field">
-                                            <input type="color" placeholder="<?php echo $content['placeholder']; ?>"
-                                                   class="ult-modal-form-row__color"
-                                                   name="<?php echo $content['option_name']; ?>" data-type="color">
+                                            <input type="color" 
+                                                   placeholder="<?php echo $content['placeholder']; ?>"
+                                                   class="ult-modal-form-row__color uo-color-picker"
+                                                   name="<?php echo $content['option_name']; ?>"
+                                                   data-type="color"
+                                            >
 
 											<?php if ( ! empty( $content['description'] ) ) { ?>
                                                 <div class="ult-modal-form-row__description">
