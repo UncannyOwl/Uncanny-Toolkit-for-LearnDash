@@ -9,7 +9,7 @@ namespace uncanny_learndash_toolkit;
 class Boot extends Config {
 
 	/**
-	 * class constructor
+	 * class constructor 
 	 */
 	public function __construct() {
 
