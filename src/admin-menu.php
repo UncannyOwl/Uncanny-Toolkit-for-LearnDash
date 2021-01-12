@@ -64,7 +64,7 @@ class AdminMenu extends Boot {
 		// Check if Automator is already installed
 		if ( ! defined( 'AUTOMATOR_BASE_FILE' ) ) {
 			// Check if we have to render the item
-			if ( apply_filters( 'ult_admin_sidebar_try_automator_add', true ) ){
+			if ( apply_filters( 'ult_admin_sidebar_try_automator_add', true ) ) {
 				// Get the item text
 				$menu_item_text = apply_filters( 'ult_admin_sidebar_try_automator_text', sprintf( __( 'Try %s!', 'uncanny-learndash-toolkit' ), 'Automator' ) );
 
@@ -82,7 +82,7 @@ class AdminMenu extends Boot {
 					99
 				);
 			}
-		}	
+		}
 	}
 
 	/**
@@ -366,12 +366,12 @@ class AdminMenu extends Boot {
 	public static function create_features( $classes_available, $active_classes ) {
 
 		/* If Magic Quotes are enable we need to stripslashes from ouw $active classes */
-		if ( function_exists( 'get_magic_quotes_gpc' ) ) {
-			if ( get_magic_quotes_gpc() ) {
-				//strip slashes from all keys in array
-				$active_classes = Config::stripslashes_deep( $active_classes );
-			}
-		}
+		//if ( function_exists( 'get_magic_quotes_gpc' ) ) {
+		//if ( get_magic_quotes_gpc() ) {
+		//strip slashes from all keys in array
+		$active_classes = Config::stripslashes_deep( $active_classes );
+		//}
+		//}
 
 		$modal_html = '';
 		foreach ( $classes_available as $key => $class ) {
@@ -442,12 +442,12 @@ class AdminMenu extends Boot {
 	public static function create_modules( $classes_available, $active_classes ) {
 
 		/* If Magic Quotes are enable we need to stripslashes from ouw $active classes */
-		if ( function_exists( 'get_magic_quotes_gpc' ) ) {
-			if ( get_magic_quotes_gpc() ) {
-				//strip slashes from all keys in array
-				$active_classes = Config::stripslashes_deep( $active_classes );
-			}
-		}
+		//if ( function_exists( 'get_magic_quotes_gpc' ) ) {
+		//if ( get_magic_quotes_gpc() ) {
+		//strip slashes from all keys in array
+		$active_classes = Config::stripslashes_deep( $active_classes );
+		//}
+		//}
 
 		$add_on_titles = array();
 		foreach ( $classes_available as $key => $row ) {
