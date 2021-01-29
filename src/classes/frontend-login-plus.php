@@ -853,9 +853,16 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 		// convert status into integers from boolean.
 		$is_verified = intval( $is_verified );
-
+		
 		// Update the user's metadata with verification status.
 		update_user_meta( $user_id, 'uo_is_verified', $is_verified );
+		
+		// Reset verification email if already sent and user unverified
+		$is_verification_email_sent = get_user_meta( $user_id, 'uo_verified_email_sent', true );
+		
+		if ( 'yes' === $is_verification_email_sent && $is_verified !== 1 ) {
+			update_user_meta( $user_id, 'uo_verified_email_sent', 'no' );
+		}
 
 		// if the user was verified, run action hook.
 		if ( $is_verified ) {
