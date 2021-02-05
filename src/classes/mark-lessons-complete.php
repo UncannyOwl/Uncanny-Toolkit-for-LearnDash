@@ -145,6 +145,14 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 					// only redirect if lesson does not have auto-complete on.
 					if ( self::maybe_redirect( $data['lesson'] ) ) {
 						if ( ! is_admin() && ! isset( $_REQUEST['doing_rest'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+							$next_lesson = learndash_next_post_link( '', true, $step );
+
+							// if there's no next lesson, this is the last lesson in the course.
+							if ( empty( $next_lesson ) ) {
+								//complete the course too.
+								learndash_process_mark_complete( $user_id, $data['course']->ID );
+							}
+
 							// The do_action topic completed runs before the activity log is updated.
 							self::$lesson_redirection = $data['lesson'];
 							// Do the redirect on shutdown so all processes can complete.
