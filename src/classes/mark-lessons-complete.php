@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName
 /**
  * Contains Topics Autocomplete Lesson Module
  *
@@ -55,6 +55,7 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 	public static function run_frontend_hooks() {
 
 		if ( true === self::dependants_exist() ) {
+			// hook into topic completion.
 			add_action( 'learndash_topic_completed', array( __CLASS__, 'check_learndash_topic_completed' ), 20, 1 );
 		}
 
@@ -78,7 +79,7 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 			'title'            => $class_title,
 			'type'             => $type,
 			'category'         => $category,
-			'kb_link'          => $kb_link, // OR set as null not to display
+			'kb_link'          => $kb_link, // OR set as null not to display.
 			'description'      => $class_description,
 			'dependants_exist' => self::dependants_exist(),
 			'settings'         => false,
@@ -104,9 +105,9 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 	}
 
 	/**
-	 * Checks if a topic is completed/
+	 * Checks if a topic is completed
 	 *
-	 * @param  array $data Completion data.
+	 * @param array $data Completion data.
 	 */
 	public static function check_learndash_topic_completed( $data ) {
 
@@ -133,19 +134,19 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 					// Adding Lesson completed dummy filter so that BadgeOS ( or any other plugin ) hooking in to
 					// learndash_lesson_completed can run here.
 					add_filter( 'learndash_lesson_completed', array( __CLASS__, 'learndash_lesson_completed_filter' ) );
-					if ( ( isset( $_POST['post'] ) && absint( $_POST['post'] ) ) && isset( $_POST['uploadfile'] ) ) {
-						$post = get_post( absint( $_POST['post'] ) );
+					if ( ( isset( $_POST['post'] ) && absint( $_POST['post'] ) ) && isset( $_POST['uploadfile'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
+						$post = get_post( absint( $_POST['post'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
 						if ( lesson_hasassignments( $post ) ) {
-							learndash_approve_assignment( $user_id, absint( $_POST['post'] ) );
+							learndash_approve_assignment( $user_id, absint( $_POST['post'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
 						}
 					}
 
 					// only redirect if lesson does not have auto-complete on.
 					if ( self::maybe_redirect( $data['lesson'] ) ) {
-						if ( ! is_admin() && ! isset( $_REQUEST['doing_rest'] ) ) {
+						if ( ! is_admin() && ! isset( $_REQUEST['doing_rest'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 							// The do_action topic completed runs before the activity log is updated.
 							self::$lesson_redirection = $data['lesson'];
-							// Do the redirect on shutdown so all processes can complete
+							// Do the redirect on shutdown so all processes can complete.
 							add_action(
 								'shutdown',
 								function() {
@@ -172,7 +173,7 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 
 						// only redirect if lesson does not have auto-complete on.
 						if ( self::maybe_redirect( $data['lesson'] ) ) {
-							if ( ! is_admin() && ! isset( $_REQUEST['doing_rest'] ) ) {
+							if ( ! is_admin() && ! isset( $_REQUEST['doing_rest'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 								// The do_action topic completed runs before the activity log is updated.
 								self::$quiz_redirection = $quiz_id;
 								// Do the redirect on shutdown so all processes can complete.
@@ -205,7 +206,7 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 		$maybe_redirect = true;
 
 		// is auto-complete active.
-		if ( in_array( 'uncanny_pro_toolkit\LessonTopicAutoComplete', $active_classes ) ) {
+		if ( in_array( 'uncanny_pro_toolkit\LessonTopicAutoComplete', $active_classes ) ) { // phpcs:ignore WordPress.PHP.StrictInArray.MissingTrueStrict
 			$maybe_redirect = false;
 
 			$feature_auto_complete_default = self::get_settings_value( 'uo_global_auto_complete', 'uncanny_pro_toolkit/LessonTopicAutoComplete' );
@@ -259,13 +260,13 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 		if ( empty( $user_id ) ) {
 			$user_id = get_current_user_id();
 		}
-		// Get all user quiz results
+		// Get all user quiz results.
 		$user_quizzes = get_user_meta( $user_id, '_sfwd-quizzes', true );
 		if ( '' === $user_quizzes ) {
 			$user_quizzes = array();
 		}
 
-		// Get all quizzes associated with the lesson ( topic->quizzes are not included )
+		// Get all quizzes associated with the lesson ( topic->quizzes are not included ).
 		$quiz_list = learndash_get_lesson_quiz_list( $lesson_id );
 		if ( '' === $quiz_list ) {
 			$quiz_list = array();
@@ -282,6 +283,7 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 
 			// Loop all quizzes in lessons.
 			foreach ( $quiz_list as $quiz ) {
+
 				if ( is_array( $user_quizzes ) && ! empty( $user_quizzes ) ) {
 
 					// Loop all quizzes completed by user.
@@ -299,13 +301,11 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 							} else { // Quiz was attempted but not passed.
 								array_push( $quiz_list_left, $quiz['post']->ID );
 							}
-						} else {
-							// Quiz was not attempted.
+						} else { // Quiz was not attempted.
 							array_push( $quiz_list_left, $quiz['post']->ID );
 						}
 					}
-				} else {
-					// User has not yet attempted any quizzes
+				} else { // User has not yet attempted any quizzes.
 					array_push( $quiz_list_left, $quiz['post']->ID );
 				}
 			}
