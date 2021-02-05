@@ -114,6 +114,7 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 		$lesson_id = $data['lesson']->ID;
 		$user_id   = $data['user']->ID;
 
+		// get the lesson's completion data.
 		$lesson_completed = self::check_lesson_complete( $lesson_id, $user_id );
 
 		if ( $lesson_completed ) {
