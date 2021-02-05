@@ -1,4 +1,12 @@
-<?php
+<?php  // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName
+/**
+ * Contains Quiz Completion Redirection Module
+ *
+ * @since unknown
+ * @version 3.4.2
+ *
+ * @package Uncanny_Learndash_Toolkit
+ */
 
 namespace uncanny_learndash_toolkit;
 
@@ -8,7 +16,6 @@ if ( ! defined( 'WPINC' ) ) {
 
 /**
  * Class MarkLessonsComplete
- * @package uncanny_custom_toolkit
  */
 class QuizCompletionRedirect extends Config implements RequiredFunctions {
 
@@ -19,11 +26,8 @@ class QuizCompletionRedirect extends Config implements RequiredFunctions {
 		add_action( 'plugins_loaded', array( __CLASS__, 'run_frontend_hooks' ) );
 	}
 
-	/*
-	 * Initialize frontend actions and filters
-	 */
 	/**
-	 *
+	 * Initialize frontend actions and filters
 	 */
 	public static function run_frontend_hooks() {
 
@@ -51,7 +55,7 @@ class QuizCompletionRedirect extends Config implements RequiredFunctions {
 			'title'            => $class_title,
 			'type'             => $type,
 			'category'         => $category,
-			'kb_link'          => $kb_link, // OR set as null not to display
+			'kb_link'          => $kb_link, // OR set as null not to display.
 			'description'      => $class_description,
 			'dependants_exist' => self::dependants_exist(),
 			'settings'         => false,
@@ -64,8 +68,7 @@ class QuizCompletionRedirect extends Config implements RequiredFunctions {
 	/**
 	 * Does the plugin rely on another function or plugin
 	 *
-	 * @return boolean || string Return either true or name of function or plugin
-	 *
+	 * @return boolean|string Return either true or name of function or plugin
 	 */
 	public static function dependants_exist() {
 
@@ -79,15 +82,17 @@ class QuizCompletionRedirect extends Config implements RequiredFunctions {
 	}
 
 	/**
-	 * @param $return_link
-	 * @param $url
+	 * Returns a custom quiz continue link
+	 *
+	 * @param string $return_link Link HTML.
+	 * @param string $url Link URL.
 	 *
 	 * @return string
 	 */
 	public static function quiz_continue_link_func( $return_link, $url ) {
 		$settings_value = self::get_settings_value( 'uo-quiz-completion-redirect-continue-btn', __CLASS__ );
 		if ( ! empty( $settings_value ) ) {
-			// We are bailing out early
+			// We are bailing out early.
 			return $return_link;
 		}
 		global $post;
@@ -100,11 +105,18 @@ class QuizCompletionRedirect extends Config implements RequiredFunctions {
 			$next_link       = learndash_next_post_link( '', true, get_post( $lesson_topic_id ) );
 
 			if ( empty( $next_link ) ) {
-				// There is no next step for topic/lesson.. Check if this step is topic
+				// There is no next step for topic/lesson.. Check if this step is topic.
 				if ( 'sfwd-lessons' !== get_post( $lesson_topic_id )->post_type ) {
-					// get lesson Id and try to get next lesson Id
+					// get lesson Id and try to get next lesson Id.
 					$lesson_id = learndash_get_lesson_id( $lesson_topic_id, $course_id );
 					$next_link = learndash_next_post_link( '', true, get_post( $lesson_id ) );
+
+					// if there's no next link, we're on the last lesson.
+					if ( empty( $next_link ) ) {
+
+						// get the course's permalink instead.
+						$next_link = get_permalink( $course_id );
+					}
 				}
 			}
 
