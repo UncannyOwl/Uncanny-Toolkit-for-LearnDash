@@ -204,10 +204,6 @@ class RedirectNotEnrolled extends Config implements RequiredFunctions {
 			return;
 		}
 
-		if ( is_null( $post ) ) {
-			return;
-		}
-
 		if ( ! $post instanceof \WP_Post ) {
 			return;
 		}
@@ -236,18 +232,13 @@ class RedirectNotEnrolled extends Config implements RequiredFunctions {
 		}
 
 		$user = wp_get_current_user();
-
-		if ( ! isset( $user->roles ) ) {
-			return;
-		}
-
 		//check for admins
 		if ( user_can( $user, 'administrator' ) ) {
 			return;
 		}
 
 		// check user access to course via direct enrollment and via group access. If both fails, redirect
-		if ( ! sfwd_lms_has_access( $post->ID, get_current_user_id() ) && is_null( learndash_user_group_enrolled_to_course_from( $user->ID, $post->ID, true ) ) ) {
+		if ( ! sfwd_lms_has_access( $post->ID, get_current_user_id() ) && null === learndash_user_group_enrolled_to_course_from( $user->ID, $post->ID, true ) ) {
 			// redirect them to the default place
 			wp_safe_redirect( $redirect_to );
 			exit;
