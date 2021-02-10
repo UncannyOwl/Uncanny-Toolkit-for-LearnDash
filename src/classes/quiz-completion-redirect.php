@@ -1,4 +1,5 @@
-<?php  // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName
+<?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName
+
 /**
  * Contains Quiz Completion Redirection Module
  *
@@ -90,33 +91,87 @@ class QuizCompletionRedirect extends Config implements RequiredFunctions {
 	 * @return string
 	 */
 	public static function quiz_continue_link_func( $return_link, $url ) {
-		$settings_value = self::get_settings_value( 'uo-quiz-completion-redirect-continue-btn', __CLASS__ );
-		if ( ! empty( $settings_value ) ) {
-			// We are bailing out early.
-			return $return_link;
-		}
+
 		global $post;
 		parse_str( $url, $query_string );
 		$next_link = '';
 		$prev_link = $url;
 		$course_id = learndash_get_course_id( $post );
+		Boot::trace_logs( [
+			'$return_link'  => $return_link,
+			'$query_string' => $query_string,
+			'$course_id'    => $course_id,
+		], '', '$next-step' );
 		if ( isset( $query_string['lesson_id'] ) ) {
-			$lesson_topic_id = absint( $query_string['lesson_id'] );
-			$next_link       = learndash_next_post_link( '', true, get_post( $lesson_topic_id ) );
+			$lesson_topic_id  = absint( $query_string['lesson_id'] );
+			$quiz_id          = absint( $query_string['quiz_id'] );
+			$next_link        = learndash_next_post_link( '', true, get_post( $lesson_topic_id ) );
+			$lesson_completed = MarkLessonsComplete::check_lesson_complete( $lesson_topic_id, wp_get_current_user()->ID );
+			$topics_completed = MarkLessonsComplete::learndash_lesson_topics_completed( wp_get_current_user()->ID, $lesson_topic_id, false );
+			$quiz_list        = self::check_quiz_list( $lesson_topic_id, $quiz_id, wp_get_current_user() );
+			Boot::trace_logs( [
+				'$lesson_completed' => $lesson_completed,
+				'$topics_completed' => $topics_completed,
+				'$quiz_list'        => $quiz_list,
+				'$next_link'        => $next_link,
+			], '$topics_completed-1', '$next-step' );
 
 			if ( empty( $next_link ) ) {
 				// There is no next step for topic/lesson.. Check if this step is topic.
 				if ( 'sfwd-lessons' !== get_post( $lesson_topic_id )->post_type ) {
 					// get lesson Id and try to get next lesson Id.
-					$lesson_id = learndash_get_lesson_id( $lesson_topic_id, $course_id );
-					$next_link = learndash_next_post_link( '', true, get_post( $lesson_id ) );
+					$lesson_id        = learndash_get_lesson_id( $lesson_topic_id, $course_id );
+					$next_link        = learndash_next_post_link( '', true, get_post( $lesson_id ) );
+					$lesson_completed = MarkLessonsComplete::check_lesson_complete( $lesson_id, wp_get_current_user()->ID );
+					$topics_completed = MarkLessonsComplete::learndash_lesson_topics_completed( wp_get_current_user()->ID, $lesson_id, false );
+					$quiz_list        = self::check_quiz_list( $lesson_id, $quiz_id, wp_get_current_user() );
+					Boot::trace_logs( [
+						'$lesson_id'        => $lesson_id,
+						'$lesson_completed' => $lesson_completed,
+						'$topics_completed' => $topics_completed,
+						'$quiz_list'        => $quiz_list,
+						'$next_link'        => $next_link,
+					], '$topics_completed-2', '$next-step' );
 
 					// if there's no next link, we're on the last lesson.
 					if ( empty( $next_link ) ) {
-
-						// get the course's permalink instead.
-						$next_link = get_permalink( $course_id );
+						if ( 'sfwd-topic' === (string) get_post( $lesson_topic_id )->post_type ) {
+							// get the lesson's permalink instead.
+							$next_link = get_permalink( $lesson_id );
+						} else {
+							// get the course's permalink instead.
+							$next_link = get_permalink( $course_id );
+						}
+					} else {
+						if ( ! $quiz_list ) {
+							// get the lesson's permalink instead.
+							$next_link = get_permalink( $lesson_id );
+						}
 					}
+				} else {
+					$quizzes_completed = 0;
+					$topics_completed  = $lesson_completed['topics_completed'];
+					if ( isset( $lesson_completed['quizzes_completed'] ) && isset( $lesson_completed['quiz_list_left'] ) && empty( $lesson_completed['quizzes_completed'] ) ) {
+						$quiz_list = $lesson_completed['quiz_list_left'];
+						if ( in_array( absint( $query_string['quiz_id'] ), $quiz_list, true ) && 1 === (int) count( $quiz_list ) ) {
+							// assume all quizzes completed
+							$quizzes_completed = 1;
+						}
+					}
+					if ( 1 === absint( $quizzes_completed ) && 1 === absint( $topics_completed ) ) {
+						// Check if assignment is turned on.
+						$maybe_complete = MarkLessonsComplete::is_linked_with_assignment( get_post( $lesson_topic_id ), true );
+						if ( $maybe_complete ) {
+							$next_link = get_permalink( $course_id );
+						}
+					}
+					Boot::trace_logs( [
+						'$lesson_completed'  => $lesson_completed,
+						'$quizzes_completed' => $quizzes_completed,
+						'$topics_completed'  => $topics_completed,
+						'$maybe_complete'    => $maybe_complete,
+						'$next_link'         => $next_link,
+					], 'lesson-step', '$next-step' );
 				}
 			}
 
@@ -124,7 +179,58 @@ class QuizCompletionRedirect extends Config implements RequiredFunctions {
 				$return_link = '<a id="quiz_continue_link" href="' . $next_link . '">' . esc_html( \LearnDash_Custom_Label::get_label( 'button_click_here_to_continue' ) ) . '</a>';
 			}
 		}
+		$count     = learndash_get_course_steps_count( $course_id );
+		$completed = learndash_course_get_completed_steps( wp_get_current_user()->ID, $course_id );
+		$progress  = learndash_get_course_progress( wp_get_current_user()->ID, null, $course_id );
+		Boot::trace_logs( [
+			'$next_link'   => $next_link,
+			'$prev_link'   => $prev_link,
+			'$course_id'   => $course_id,
+			'$return_link' => $return_link,
+			'$count'       => $count,
+			'$completed'   => $completed,
+			'$progress'    => $progress,
+		], '$final-step', '$next-step' );
 
 		return apply_filters( 'uo_quiz_continue_link', $return_link, $next_link, $prev_link, $course_id, $post );
 	}
+
+	/**
+	 * @param $lesson_topic_id
+	 * @param $quiz_id_match
+	 * @param null $user
+	 *
+	 * @return bool
+	 */
+	public static function check_quiz_list( $lesson_topic_id, $quiz_id_match, $user = null ) {
+
+		if ( empty( $user ) ) {
+			$user = wp_get_current_user();
+		}
+
+		$quiz_list = learndash_get_lesson_quiz_list( $lesson_topic_id );
+		if ( empty( $quiz_list ) ) {
+			$quiz_list = array();
+		}
+
+		if ( is_array( $quiz_list ) && ! empty( $quiz_list ) ) {
+
+			// Loop all quizzes in lessons
+			foreach ( $quiz_list as $quiz ) {
+
+				$quiz_id = $quiz['post']->ID;
+				if ( ! learndash_is_quiz_complete( $user->ID, $quiz_id ) ) {
+					// If the quiz id matches the current quiz id, assume it's completed but not recorded yet
+					if ( absint( $quiz_id ) === absint( $quiz_id_match ) ) {
+						continue;
+					}
+
+					return false;
+				}
+			}
+		}
+
+		return true;
+	}
+
 }
