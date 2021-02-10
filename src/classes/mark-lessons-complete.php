@@ -1,4 +1,5 @@
 <?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName
+
 /**
  * Contains Topics Autocomplete Lesson Module
  *
@@ -162,7 +163,7 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 							// Do the redirect on shutdown so all processes can complete.
 							add_action(
 								'shutdown',
-								function() {
+								function () {
 									learndash_get_next_lesson_redirect( self::$lesson_redirection );
 								}
 							);
@@ -192,7 +193,7 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 								// Do the redirect on shutdown so all processes can complete.
 								add_action(
 									'shutdown',
-									function() {
+									function () {
 										wp_safe_redirect( get_permalink( self::$quiz_redirection ) );
 									}
 								);
@@ -312,14 +313,20 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 									$amount_quizzes_user_passed ++;
 								}
 							} else { // Quiz was attempted but not passed.
-								array_push( $quiz_list_left, $quiz['post']->ID );
+								if ( ! in_array( $quiz['post']->ID, $quiz_list_left, false ) ) {
+									array_push( $quiz_list_left, $quiz['post']->ID );
+								}
 							}
 						} else { // Quiz was not attempted.
-							array_push( $quiz_list_left, $quiz['post']->ID );
+							if ( ! in_array( $quiz['post']->ID, $quiz_list_left, false ) ) {
+								array_push( $quiz_list_left, $quiz['post']->ID );
+							}
 						}
 					}
 				} else { // User has not yet attempted any quizzes.
-					array_push( $quiz_list_left, $quiz['post']->ID );
+					if ( ! in_array( $quiz['post']->ID, $quiz_list_left, false ) ) {
+						array_push( $quiz_list_left, $quiz['post']->ID );
+					}
 				}
 			}
 		}
@@ -354,7 +361,7 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 	 * Checks if a step is linked with an assignment.
 	 *
 	 * @param WP_Post $post LearnDash step, toic/lesson.
-	 * @param bool    $maybe_complete Whenther to complete the step.
+	 * @param bool $maybe_complete Whenther to complete the step.
 	 *
 	 * @return bool
 	 */
@@ -377,14 +384,14 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 	 * Modified Learndash function for adding user id support.
 	 * Checks if the lesson topics are completed.
 	 *
-	 * @param int     $user_id User ID.
-	 * @param int     $lesson_id Lesson ID.
+	 * @param int $user_id User ID.
+	 * @param int $lesson_id Lesson ID.
 	 * @param boolean $mark_lesson_complete Optional. Whether to mark the lesson complete. Default false.
 	 *
 	 * @return boolean Returns true if the lesson is completed otherwise false.
 	 * @since 3.3.3
 	 */
-	private static function learndash_lesson_topics_completed( $user_id, $lesson_id, $mark_lesson_complete = false ) {
+	public static function learndash_lesson_topics_completed( $user_id, $lesson_id, $mark_lesson_complete = false ) {
 		$topics = learndash_get_topic_list( $lesson_id );
 
 		if ( empty( $topics[0]->ID ) ) {
