@@ -97,41 +97,19 @@ class QuizCompletionRedirect extends Config implements RequiredFunctions {
 		$next_link = '';
 		$prev_link = $url;
 		$course_id = learndash_get_course_id( $post );
-		Boot::trace_logs( [
-			'$return_link'  => $return_link,
-			'$query_string' => $query_string,
-			'$course_id'    => $course_id,
-		], '', '$next-step' );
 		if ( isset( $query_string['lesson_id'] ) ) {
 			$lesson_topic_id  = absint( $query_string['lesson_id'] );
 			$quiz_id          = absint( $query_string['quiz_id'] );
 			$next_link        = learndash_next_post_link( '', true, get_post( $lesson_topic_id ) );
 			$lesson_completed = MarkLessonsComplete::check_lesson_complete( $lesson_topic_id, wp_get_current_user()->ID );
-			$topics_completed = MarkLessonsComplete::learndash_lesson_topics_completed( wp_get_current_user()->ID, $lesson_topic_id, false );
-			$quiz_list        = self::check_quiz_list( $lesson_topic_id, $quiz_id, wp_get_current_user() );
-			Boot::trace_logs( [
-				'$lesson_completed' => $lesson_completed,
-				'$topics_completed' => $topics_completed,
-				'$quiz_list'        => $quiz_list,
-				'$next_link'        => $next_link,
-			], '$topics_completed-1', '$next-step' );
 
 			if ( empty( $next_link ) ) {
 				// There is no next step for topic/lesson.. Check if this step is topic.
 				if ( 'sfwd-lessons' !== get_post( $lesson_topic_id )->post_type ) {
 					// get lesson Id and try to get next lesson Id.
-					$lesson_id        = learndash_get_lesson_id( $lesson_topic_id, $course_id );
-					$next_link        = learndash_next_post_link( '', true, get_post( $lesson_id ) );
-					$lesson_completed = MarkLessonsComplete::check_lesson_complete( $lesson_id, wp_get_current_user()->ID );
-					$topics_completed = MarkLessonsComplete::learndash_lesson_topics_completed( wp_get_current_user()->ID, $lesson_id, false );
-					$quiz_list        = self::check_quiz_list( $lesson_id, $quiz_id, wp_get_current_user() );
-					Boot::trace_logs( [
-						'$lesson_id'        => $lesson_id,
-						'$lesson_completed' => $lesson_completed,
-						'$topics_completed' => $topics_completed,
-						'$quiz_list'        => $quiz_list,
-						'$next_link'        => $next_link,
-					], '$topics_completed-2', '$next-step' );
+					$lesson_id = learndash_get_lesson_id( $lesson_topic_id, $course_id );
+					$next_link = learndash_next_post_link( '', true, get_post( $lesson_id ) );
+					$quiz_list = self::check_quiz_list( $lesson_id, $quiz_id, wp_get_current_user() );
 
 					// if there's no next link, we're on the last lesson.
 					if ( empty( $next_link ) ) {
@@ -165,13 +143,6 @@ class QuizCompletionRedirect extends Config implements RequiredFunctions {
 							$next_link = get_permalink( $course_id );
 						}
 					}
-					Boot::trace_logs( [
-						'$lesson_completed'  => $lesson_completed,
-						'$quizzes_completed' => $quizzes_completed,
-						'$topics_completed'  => $topics_completed,
-						'$maybe_complete'    => $maybe_complete,
-						'$next_link'         => $next_link,
-					], 'lesson-step', '$next-step' );
 				}
 			}
 
@@ -179,18 +150,6 @@ class QuizCompletionRedirect extends Config implements RequiredFunctions {
 				$return_link = '<a id="quiz_continue_link" href="' . $next_link . '">' . esc_html( \LearnDash_Custom_Label::get_label( 'button_click_here_to_continue' ) ) . '</a>';
 			}
 		}
-		$count     = learndash_get_course_steps_count( $course_id );
-		$completed = learndash_course_get_completed_steps( wp_get_current_user()->ID, $course_id );
-		$progress  = learndash_get_course_progress( wp_get_current_user()->ID, null, $course_id );
-		Boot::trace_logs( [
-			'$next_link'   => $next_link,
-			'$prev_link'   => $prev_link,
-			'$course_id'   => $course_id,
-			'$return_link' => $return_link,
-			'$count'       => $count,
-			'$completed'   => $completed,
-			'$progress'    => $progress,
-		], '$final-step', '$next-step' );
 
 		return apply_filters( 'uo_quiz_continue_link', $return_link, $next_link, $prev_link, $course_id, $post );
 	}
