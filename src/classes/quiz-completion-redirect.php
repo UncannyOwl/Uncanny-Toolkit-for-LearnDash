@@ -104,7 +104,7 @@ class QuizCompletionRedirect extends Config implements RequiredFunctions {
 			$lesson_completed = MarkLessonsComplete::check_lesson_complete( $lesson_topic_id, wp_get_current_user()->ID );
 
 			if ( empty( $next_link ) ) {
-				// There is no next step for topic/lesson.. Check if this step is topic.
+				// There is no next step for topic/lesson.. Check if this step is not lesson.
 				if ( 'sfwd-lessons' !== get_post( $lesson_topic_id )->post_type ) {
 					// get lesson Id and try to get next lesson Id.
 					$lesson_id = learndash_get_lesson_id( $lesson_topic_id, $course_id );
@@ -113,12 +113,11 @@ class QuizCompletionRedirect extends Config implements RequiredFunctions {
 
 					// if there's no next link, we're on the last lesson.
 					if ( empty( $next_link ) ) {
-						if ( 'sfwd-topic' === (string) get_post( $lesson_topic_id )->post_type ) {
+						$next_link = self::get_next_link( $lesson_completed, $query_string, $lesson_topic_id, $course_id );
+						// if next link is still empty, redirect to lesson
+						if ( empty( $next_link ) ) {
 							// get the lesson's permalink instead.
 							$next_link = get_permalink( $lesson_id );
-						} else {
-							// get the course's permalink instead.
-							$next_link = get_permalink( $course_id );
 						}
 					} else {
 						if ( ! $quiz_list ) {
@@ -127,22 +126,8 @@ class QuizCompletionRedirect extends Config implements RequiredFunctions {
 						}
 					}
 				} else {
-					$quizzes_completed = 0;
-					$topics_completed  = $lesson_completed['topics_completed'];
-					if ( isset( $lesson_completed['quizzes_completed'] ) && isset( $lesson_completed['quiz_list_left'] ) && empty( $lesson_completed['quizzes_completed'] ) ) {
-						$quiz_list = $lesson_completed['quiz_list_left'];
-						if ( in_array( absint( $query_string['quiz_id'] ), $quiz_list, true ) && 1 === (int) count( $quiz_list ) ) {
-							// assume all quizzes completed
-							$quizzes_completed = 1;
-						}
-					}
-					if ( 1 === absint( $quizzes_completed ) && 1 === absint( $topics_completed ) ) {
-						// Check if assignment is turned on.
-						$maybe_complete = MarkLessonsComplete::is_linked_with_assignment( get_post( $lesson_topic_id ), true );
-						if ( $maybe_complete ) {
-							$next_link = get_permalink( $course_id );
-						}
-					}
+					// It's a lesson
+					$next_link = self::get_next_link( $lesson_completed, $query_string, $lesson_topic_id, $course_id );
 				}
 			}
 
@@ -192,4 +177,33 @@ class QuizCompletionRedirect extends Config implements RequiredFunctions {
 		return true;
 	}
 
+	/**
+	 * @param $lesson_completed
+	 * @param $query_string
+	 * @param $lesson_topic_id
+	 * @param $course_id
+	 *
+	 * @return false|string|\WP_Error
+	 */
+	public static function get_next_link( $lesson_completed, $query_string, $lesson_topic_id, $course_id ) {
+		$next_link         = '';
+		$quizzes_completed = 0;
+		$topics_completed  = $lesson_completed['topics_completed'];
+		if ( isset( $lesson_completed['quizzes_completed'] ) && isset( $lesson_completed['quiz_list_left'] ) && empty( $lesson_completed['quizzes_completed'] ) ) {
+			$quiz_list = $lesson_completed['quiz_list_left'];
+			if ( in_array( absint( $query_string['quiz_id'] ), $quiz_list, true ) && 1 === (int) count( $quiz_list ) ) {
+				// assume all quizzes completed
+				$quizzes_completed = 1;
+			}
+		}
+		if ( 1 === absint( $quizzes_completed ) && 1 === absint( $topics_completed ) ) {
+			// Check if assignment is turned on.
+			$maybe_complete = MarkLessonsComplete::is_linked_with_assignment( get_post( $lesson_topic_id ), true );
+			if ( $maybe_complete ) {
+				$next_link = get_permalink( $course_id );
+			}
+		}
+
+		return $next_link;
+	}
 }
