@@ -2,18 +2,18 @@
 Contributors: uncannyowl
 Tags: LearnDash, eLearning, LMS, education, learning, courseware
 Requires at least: 4.6
-Tested up to: 5.6
+Tested up to: 5.6.1
 Requires PHP: 7.0
-Stable tag: 3.4.1
-License: This plugin is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or any later version.   LearnDash Groups in User Profiles is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.   You should have received a copy of the GNU General Public License along with LearnDash Groups in User Profiles. If not, see {URI to Plugin License}.
-License URI: https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
+Stable tag: 3.4.2
+License: This plugin is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or any later version. Uncanny Toolkit for LearnDash is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with Uncanny Toolkit for LearnDash. If not, see https://www.gnu.org/licenses/gpl-3.0.html.
+License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
 Extend LearnDash with a variety of useful functions that make it even easier to build great learner experiences with LearnDash.
 
 == Description ==
 **Important: This plugin requires PHP 7.0 or higher and LearnDash 3.0 or higher.**
 
-The Uncanny Toolkit for LearnDash adds 15 modules that every elearning site needs, including a login form, login redirect, resume capabilities and more. Trusted to power over 20,000 LearnDash sites, it's the easiest way to improve the learning experience for your students.  Translation ready and multisite capable!
+The Uncanny Toolkit for LearnDash adds 16 modules that every elearning site needs, including a login form, login redirect, resume capabilities and more. Trusted to power over **30,000+** LearnDash sites, it's the easiest way to improve the learning experience for your students. Translation ready and multisite capable!
 
 https://www.youtube.com/watch?v=o0MWoyR5Sos
 
@@ -40,7 +40,7 @@ We welcome contributions to the Uncanny Toolkit! The plugin is managed in a [Bit
 
 **Ready to take your LearnDash site even further?**
 
-The [Pro version of the Uncanny Toolkit](https://www.uncannyowl.com/downloads/uncanny-learndash-toolkit-pro/?utm_medium=ldtoolkitreadme) adds a continuously expanding list of powerful features (20 at last count!) to the Toolkit. With the Pro modules, you can:
+The [Pro version of the Uncanny Toolkit](https://www.uncannyowl.com/downloads/uncanny-learndash-toolkit-pro/?utm_medium=ldtoolkitreadme) adds a continuously expanding list of powerful features (29 at last count!) to the Toolkit. With the Pro modules, you can:
 
 * Autocomplete lessons and topics (no more "Mark Complete" buttons!)
 * Track the time users spend completing courses
@@ -75,6 +75,24 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 3. LearnDash Resume Button module - works at a global or course level
 
 == Changelog ==
+
+= 3.4.2 [2021-02-11] =
+**Added:**
+
+* New parameters to settings array to support future functionality
+
+**Updated:**
+
+* Quiz completion advances to next step: "Click here to continue" button on last quiz of a course will now redirect to course page instead of lesson/topic
+* Not Enrolled Redirect: Now detects if users are enrolled via group access
+
+**Fixed:**
+
+* User Switching: Could not switch users on some site if Front End Login is enabled
+* Deprecated: Function get_magic_quotes_gpc()
+* Notices on module page when LearnDash is not active
+* Disable Emails: PHP notice: Constant DISABLE_EMAILS_OPTIONS already defined
+* Front End Login: Users that become unverified and then are reverified will now receive a notification email
 
 = 3.4.1 [2021-01-04] =
 **Added:**

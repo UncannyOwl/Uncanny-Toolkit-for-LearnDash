@@ -853,9 +853,16 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 		// convert status into integers from boolean.
 		$is_verified = intval( $is_verified );
-
+		
 		// Update the user's metadata with verification status.
 		update_user_meta( $user_id, 'uo_is_verified', $is_verified );
+		
+		// Reset verification email if already sent and user unverified
+		$is_verification_email_sent = get_user_meta( $user_id, 'uo_verified_email_sent', true );
+		
+		if ( 'yes' === $is_verification_email_sent && $is_verified !== 1 ) {
+			update_user_meta( $user_id, 'uo_verified_email_sent', 'no' );
+		}
 
 		// if the user was verified, run action hook.
 		if ( $is_verified ) {
@@ -1551,6 +1558,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	 */
 	public static function redirect_login_page() {
 
+
 		$login_page  = get_permalink( self::get_login_redirect_page_id() );
 		$page_viewed = $_SERVER['REQUEST_URI'];
 
@@ -1568,6 +1576,16 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		if ( false !== strpos( $page_viewed, 'wp-login.php' ) && 'GET' === $_SERVER['REQUEST_METHOD'] && ! $registering ) {
 			if ( isset( $_REQUEST['action'] ) && 'logout' === $_REQUEST['action'] ) {
 				return;
+			}
+
+			// if User Switching is on, add exceptions
+			$active_classes = get_option( 'uncanny_toolkit_active_classes', 0 );
+			if ( 0 !== $active_classes ) {
+				if ( is_array( $active_classes ) && isset( $active_classes['uncanny_learndash_toolkit\UserSwitching'] ) ) {
+					if ( isset( $_REQUEST['action'] ) && ( 'switch_to_user' === $_REQUEST['action'] ) || 'switch_to_olduser' === $_REQUEST['action'] ) {
+						return;
+					}
+				}
 			}
 			if ( isset( $_REQUEST['redirect_to'] ) ) {
 				if ( is_user_logged_in() ) {

@@ -64,7 +64,7 @@ class AdminMenu extends Boot {
 		// Check if Automator is already installed
 		if ( ! defined( 'AUTOMATOR_BASE_FILE' ) ) {
 			// Check if we have to render the item
-			if ( apply_filters( 'ult_admin_sidebar_try_automator_add', true ) ){
+			if ( apply_filters( 'ult_admin_sidebar_try_automator_add', true ) ) {
 				// Get the item text
 				$menu_item_text = apply_filters( 'ult_admin_sidebar_try_automator_text', sprintf( __( 'Try %s!', 'uncanny-learndash-toolkit' ), 'Automator' ) );
 
@@ -82,7 +82,7 @@ class AdminMenu extends Boot {
 					99
 				);
 			}
-		}	
+		}
 	}
 
 	/**
@@ -190,26 +190,26 @@ class AdminMenu extends Boot {
 
 		?>
 
-        <div class="wrap">
-            <div class="uo-plugins-header">
-                <div class="uo-plugins-header__title">
-                    Uncanny Toolkit for LearnDash
-                </div>
-                <div class="uo-plugins-header__author">
-                    <span><?php _e( 'by', 'uncanny-learndash-toolkit' ); ?></span>
-                    <a href="https://uncannyowl.com" target="_blank" class="uo-plugins-header__logo">
-                        <img src="<?php echo esc_url( Config::get_admin_media( 'uncanny-owl-logo.svg' ) ); ?>"
-                             alt="Uncanny Owl">
-                    </a>
-                </div>
-            </div>
+		<div class="wrap">
+			<div class="uo-plugins-header">
+				<div class="uo-plugins-header__title">
+					Uncanny Toolkit for LearnDash
+				</div>
+				<div class="uo-plugins-header__author">
+					<span><?php _e( 'by', 'uncanny-learndash-toolkit' ); ?></span>
+					<a href="https://uncannyowl.com" target="_blank" class="uo-plugins-header__logo">
+						<img src="<?php echo esc_url( Config::get_admin_media( 'uncanny-owl-logo.svg' ) ); ?>"
+							 alt="Uncanny Owl">
+					</a>
+				</div>
+			</div>
 
-            <div class="uo-plugins-tabs">
+			<div class="uo-plugins-tabs">
 				<?php include( Config::get_template( 'admin-tabs.php' ) ) ?>
-            </div>
+			</div>
 
 			<?php include( Config::get_template( 'admin-modules.php' ) ) ?>
-        </div>
+		</div>
 
 		<?php self::create_features( $classes_available, $active_classes );
 
@@ -366,12 +366,12 @@ class AdminMenu extends Boot {
 	public static function create_features( $classes_available, $active_classes ) {
 
 		/* If Magic Quotes are enable we need to stripslashes from ouw $active classes */
-		if ( function_exists( 'get_magic_quotes_gpc' ) ) {
-			if ( get_magic_quotes_gpc() ) {
-				//strip slashes from all keys in array
-				$active_classes = Config::stripslashes_deep( $active_classes );
-			}
-		}
+		//if ( function_exists( 'get_magic_quotes_gpc' ) ) {
+		//if ( get_magic_quotes_gpc() ) {
+		//strip slashes from all keys in array
+		$active_classes = Config::stripslashes_deep( $active_classes );
+		//}
+		//}
 
 		$modal_html = '';
 		foreach ( $classes_available as $key => $class ) {
@@ -442,12 +442,12 @@ class AdminMenu extends Boot {
 	public static function create_modules( $classes_available, $active_classes ) {
 
 		/* If Magic Quotes are enable we need to stripslashes from ouw $active classes */
-		if ( function_exists( 'get_magic_quotes_gpc' ) ) {
-			if ( get_magic_quotes_gpc() ) {
-				//strip slashes from all keys in array
-				$active_classes = Config::stripslashes_deep( $active_classes );
-			}
-		}
+		//if ( function_exists( 'get_magic_quotes_gpc' ) ) {
+		//if ( get_magic_quotes_gpc() ) {
+		//strip slashes from all keys in array
+		$active_classes = Config::stripslashes_deep( $active_classes );
+		//}
+		//}
 
 		$add_on_titles = array();
 		foreach ( $classes_available as $key => $row ) {
@@ -521,141 +521,169 @@ class AdminMenu extends Boot {
 				'title'       => esc_html__( 'Days Until Course Expiry', 'uncanny-learndash-toolkit' ),
 				'description' => esc_html__( 'Use this shortcode to display the number of days until the learner\'s access expires for the current course. This is a useful shortcode to include on course pages.', 'uncanny-learndash-toolkit' ),
 				'kb_link'     => 'http://www.uncannyowl.com/knowledge-base/days-until-course-expiry/',
+				'category'    => 'learndash',
 			],
 			[
 				'title'       => esc_html__( 'Email Course Certificates', 'uncanny-learndash-toolkit' ),
 				'description' => esc_html__( 'Sends a copy of certificate earned from course completion and saves certificates on the server.', 'uncanny-learndash-toolkit' ),
 				'kb_link'     => 'https://www.uncannyowl.com/knowledge-base/send-course-certificates-email/',
+				'category'    => 'learndash',
 			],
 			[
 				'title'       => esc_html__( 'Simple Course Timer', 'uncanny-learndash-toolkit' ),
 				'description' => esc_html__( 'Tracks time spent in all LearnDash courses and detects when a user is idle. Course completion time and total course time are both added to LearnDash reports. Enables blocking access to quizzes until minimum time spent in course.', 'uncanny-learndash-toolkit' ),
 				'kb_link'     => 'http://www.uncannyowl.com/knowledge-base/simple-course-timer/',
+				'category'    => 'learndash',
 			],
 			[
 				'title'       => esc_html__( 'Email Quiz Certificates', 'uncanny-learndash-toolkit' ),
 				'description' => esc_html__( 'Sends a copy of certificates earned from quiz completion and saves certificates on the server.', 'uncanny-learndash-toolkit' ),
 				'kb_link'     => 'https://www.uncannyowl.com/knowledge-base/send-certificates-by-email/',
+				'category'    => 'learndash',
 			],
 			[
 				'title'       => esc_html__( 'Autocomplete Lessons & Topics on Gravity Form Submission', 'uncanny-learndash-toolkit' ),
 				'description' => esc_html__( 'Automatically mark LearnDash lessons and topics as completed when the user submits Gravity Forms.', 'uncanny-learndash-toolkit' ),
 				'kb_link'     => 'http://www.uncannyowl.com/knowledge-base/gravity-forms-auto-completes-lessons-topics/',
+				'category'    => 'learndash',
 			],
 			[
 				'title'       => esc_html__( 'Improved Group Leader Interface', 'uncanny-learndash-toolkit' ),
 				'description' => esc_html__( 'Enhances the experience of LearnDash Group Leaders by providing direct access to reports and removing unnecessary distractions from the admin panel.', 'uncanny-learndash-toolkit' ),
 				'kb_link'     => 'http://www.uncannyowl.com/knowledge-base/group-leader-access/',
+				'category'    => 'learndash',
 			],
 			[
 				'title'       => esc_html__( 'Group Logo/List', 'uncanny-learndash-toolkit' ),
 				'description' => esc_html__( 'Add group-specific logos to any page, including registration pages. A shortcode to list a user\'s LearnDash Groups is also available.', 'uncanny-learndash-toolkit' ),
 				'kb_link'     => 'https://www.uncannyowl.com/knowledge-base/ld-group-logo-list/',
+				'category'    => 'learndash',
 			],
 			[
 				'title'       => esc_html__( 'Import Users', 'uncanny-learndash-toolkit' ),
 				'description' => esc_html__( 'Create or update users and assign them to courses and LearnDash Groups from a CSV file.', 'uncanny-learndash-toolkit' ),
 				'kb_link'     => 'https://www.uncannyowl.com/knowledge-base/import-learndash-users/',
+				'category'    => 'wordpress',
 			],
 			[
 				'title'       => esc_html__( 'Group Expiration', 'uncanny-learndash-toolkit' ),
 				'description' => esc_html__( 'Set expiration dates for LearnDash groups so that course enrolment for the group is removed on the specified day. Reminder emails can be sent to users advising them of group expiration.', 'uncanny-learndash-toolkit' ),
 				'kb_link'     => 'http://www.uncannyowl.com/knowledge-base/learndash-group-expiration/',
+				'category'    => 'learndash',
 			],
 			[
 				'title'       => esc_html__( 'Group Registration', 'uncanny-learndash-toolkit' ),
 				'description' => esc_html__( 'Allow users to add themselves directly to LearnDash Groups on registration by assigning each group a unique registration URL. Users can also change or add groups themselves by visiting group URLs.', 'uncanny-learndash-toolkit' ),
 				'kb_link'     => 'http://www.uncannyowl.com/knowledge-base/group-sign-up/',
+				'category'    => 'learndash',
 			],
 			[
 				'title'       => esc_html__( 'Course Dashboard', 'uncanny-learndash-toolkit' ),
 				'description' => esc_html__( 'Use the [uo_dashboard] shortcode to display the list of enrolled courses for the current user. This is essentially a modified version of the [ld_profile] shortcode without profile data.', 'uncanny-learndash-toolkit' ),
 				'kb_link'     => 'http://www.uncannyowl.com/knowledge-base/learndash-course-dashboard/',
+				'category'    => 'learndash',
 			],
 			[
 				'title'       => esc_html__( 'Duplicate Pages & Posts', 'uncanny-learndash-toolkit' ),
 				'description' => esc_html__( 'Easily clone pages, posts, LearnDash courses, lessons, topics, quizzes and more. This plugin handles quiz duplication properly.', 'uncanny-learndash-toolkit' ),
 				'kb_link'     => 'http://www.uncannyowl.com/knowledge-base/duplicate-pages-posts/',
+				'category'    => 'wordpress',
 			],
 			[
 				'title'       => esc_html__( 'Reset Progress Button', 'uncanny-learndash-toolkit' ),
 				'description' => esc_html__( 'Inserts a button that allows learners to reset the course.', 'uncanny-learndash-toolkit' ),
 				'kb_link'     => 'https://www.uncannyowl.com/knowledge-base/learndash-reset/',
+				'category'    => 'learndash',
 			],
 			[
 				'title'       => esc_html__( 'Lesson/Topic/Quiz Table Colors', 'uncanny-learndash-toolkit' ),
 				'description' => esc_html__( 'Change the background and header text color of LearnDash tables. This module modifies the course, lesson, topic, quiz, and Pro Dashboard tables.', 'uncanny-learndash-toolkit' ),
 				'kb_link'     => 'http://www.uncannyowl.com/knowledge-base/learndash-table-colors/',
+				'category'    => 'learndash',
 			],
 			[
 				'title'       => esc_html__( 'Learner Transcript', 'uncanny-learndash-toolkit' ),
 				'description' => esc_html__( 'Add printable transcripts to the front end for your learners. This is a great way for learners to have a record of all course progress and overall standing.', 'uncanny-learndash-toolkit' ),
 				'kb_link'     => 'http://www.uncannyowl.com/knowledge-base/learner-transcript/',
+				'category'    => 'learndash',
 			],
 			[
 				'title'       => esc_html__( 'Autocomplete Lessons & Topics', 'uncanny-learndash-toolkit' ),
 				'description' => esc_html__( 'Automatically mark all lessons and topics as completed on user visit and remove Mark Complete buttons. Global settings can be overridden for individual lessons and topics.', 'uncanny-learndash-toolkit' ),
 				'kb_link'     => 'http://www.uncannyowl.com/knowledge-base/autocomplete-lessons-topics/',
+				'category'    => 'learndash',
 			],
 			[
 				'title'       => esc_html__( 'Autocomplete Lessons & Topics on Quiz Results Page', 'uncanny-learndash-toolkit' ),
 				'description' => esc_html__( 'Automatically mark LearnDash lessons and topics as completed when the user reaches the quiz results page with a passing mark.', 'uncanny-learndash-toolkit' ),
 				'kb_link'     => 'http://www.uncannyowl.com/knowledge-base/autocomplete-lessons-topics-on-quiz-completion/',
+				'category'    => 'learndash',
 			],
 			[
 				'title'       => esc_html__( 'Enhanced Lessons/Topics Grid', 'uncanny-learndash-toolkit' ),
 				'description' => esc_html__( 'Add a highly customizable grid of LearnDash lessons/topics to the front end, learner dashboard or anywhere you want. This is a great tool for sites with a large number of lessons/topics.', 'uncanny-learndash-toolkit' ),
 				'kb_link'     => 'https://www.uncannyowl.com/knowledge-base/enhanced-lessons-topics-grid/',
+				'category'    => 'learndash',
 			],
 			[
 				'title'       => esc_html__( 'Sample Lesson Label', 'uncanny-learndash-toolkit' ),
 				'description' => esc_html__( 'Add visual label to sample lessons.', 'uncanny-learndash-toolkit' ),
 				'kb_link'     => 'http://www.uncannyowl.com/knowledge-base/sample-lesson-label/',
+				'category'    => 'learndash',
 			],
 			[
 				'title'       => esc_html__( 'Enhanced Course Grid', 'uncanny-learndash-toolkit' ),
 				'description' => esc_html__( 'Add a highly customizable grid of LearnDash courses to the front end, learner dashboard or anywhere you want. This is a great tool for sites with a large number of courses.', 'uncanny-learndash-toolkit' ),
 				'kb_link'     => 'http://www.uncannyowl.com/knowledge-base/enhanced-course-grid/',
+				'category'    => 'learndash',
 			],
 			[
 				'title'       => esc_html__( 'Drip Lessons by Group', 'uncanny-learndash-toolkit' ),
 				'description' => esc_html__( 'Unlock access to LearnDash lessons by setting dates for LearnDash Groups rather than for all enrolled users.', 'uncanny-learndash-toolkit' ),
 				'kb_link'     => 'http://www.uncannyowl.com/knowledge-base/drip-lessons-by-ldgroup/',
+				'category'    => 'learndash',
 			],
 			[
 				'title'       => esc_html__( 'Autocomplete Lessons & Topics When Quiz is Graded', 'uncanny-learndash-toolkit' ),
 				'description' => esc_html__( 'Automatically mark LearnDash lessons and topics as completed when the associated quiz is manually graded.', 'uncanny-learndash-toolkit' ),
 				'kb_link'     => 'https://www.uncannyowl.com/knowledge-base/autocomplete-lessons-topics-when-quiz-is-graded/',
+				'category'    => 'learndash',
 			],
 			[
 				'title'       => esc_html__( 'Certificate Preview', 'uncanny-learndash-toolkit' ),
 				'description' => esc_html__( 'Get a preview of your quiz or course certificate without leaving the editor.', 'uncanny-learndash-toolkit' ),
 				'kb_link'     => 'https://www.uncannyowl.com/knowledge-base/certificate-preview/',
+				'category'    => 'learndash',
 			],
 			[
 				'title'       => esc_html__( 'Enhanced LearnDash CSV Reports', 'uncanny-learndash-toolkit' ),
 				'description' => esc_html__( 'This module will add additional columns to the LearnDash csv reports (course and quiz).', 'uncanny-learndash-toolkit' ),
 				'kb_link'     => 'https://www.uncannyowl.com/knowledge-base/enhanced-learndash-csv-reports/',
+				'category'    => 'learndash',
 			],
 			[
 				'title'       => esc_html__( 'Group Forums with bbPress', 'uncanny-learndash-toolkit' ),
 				'description' => esc_html__( 'Create group-specific discussion forums with bbPress. Only group members will have access to group-specific forums. Includes a handy widget.', 'uncanny-learndash-toolkit' ),
 				'kb_link'     => 'https://www.uncannyowl.com/knowledge-base/learndash-group-forums-with-bbpress/',
+				'category'    => '',
 			],
 			[
 				'title'       => esc_html__( 'Group Login Redirect', 'uncanny-learndash-toolkit' ),
 				'description' => esc_html__( 'Adds a group-specific login redirect setting to LearnDash groups. Automatically redirect group members to a specific page on login.', 'uncanny-learndash-toolkit' ),
 				'kb_link'     => 'https://www.uncannyowl.com/knowledge-base/learndash-group-login-redirect/',
+				'category'    => 'learndash',
 			],
 			[
 				'title'       => esc_html__( 'Lazy Loading Course Navigation', 'uncanny-learndash-toolkit' ),
 				'description' => esc_html__( 'Shortcode that loads a course navigation tree via AJAX. Useful on sites with many lessons and topics where the native LearnDash Course Navigation widget is extending page load time.', 'uncanny-learndash-toolkit' ),
 				'kb_link'     => 'https://www.uncannyowl.com/knowledge-base/lazy-loading-course-navigation/',
+				'category'    => 'learndash',
 			],
 			[
 				'title'       => esc_html__( 'Restrict Page Access', 'uncanny-learndash-toolkit' ),
 				'description' => esc_html__( 'Restrict access to any page by logged in/out status, course enrollment, group membership, or role. Display a message or automatically redirect users that are denied access.', 'uncanny-learndash-toolkit' ),
 				'kb_link'     => 'https://www.uncannyowl.com/knowledge-base/restrict-page-access/',
+				'category'    => 'wordpress',
 			],
 		];
 
@@ -663,6 +691,8 @@ class AdminMenu extends Boot {
 
 			$module['cant_use_notice'] = str_replace( '{{', '<a href="https://www.uncannyowl.com/downloads/uncanny-learndash-toolkit-pro/?utm_source=toolkit_free&utm_medium=modules_pro_notice" target="_blank">', str_replace( '}}', '</a>', __( 'This module requires Uncanny Toolkit Pro. {{Buy it here}}', 'uncanny-learndash-toolkit' ) ) );
 
+			$module['can_use']    = false;
+			$module['is_active']  = false;
 			$module['version']    = 'pro';
 			$module['is_pro']     = true;
 			$module['pseudo-pro'] = true;

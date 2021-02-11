@@ -15,9 +15,9 @@ class DisableEmails extends Config implements RequiredFunctions {
 		if ( ! defined( 'DISABLE_EMAILS_PLUGIN_ROOT' ) ) {
 
 			add_action( 'admin_bar_menu', array( __CLASS__, 'admin_bar_emails_disabled' ), 999 );
-
-			define( 'DISABLE_EMAILS_OPTIONS', 'disable_emails' );
-
+			if ( ! defined( 'DISABLE_EMAILS_OPTIONS' ) ) {
+				define( 'DISABLE_EMAILS_OPTIONS', 'disable_emails' );
+			}
 			include_once UNCANNY_TOOLKIT_DIR . '/src/includes/class.DisableEmailsPlugin.php';
 
 			DisableEmailsPlugin::getInstance();
