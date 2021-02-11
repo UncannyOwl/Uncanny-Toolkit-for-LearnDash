@@ -5,15 +5,15 @@ Requires at least: 4.6
 Tested up to: 5.6.1
 Requires PHP: 7.0
 Stable tag: 3.4.2
-License: This plugin is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or any later version. LearnDash Groups in User Profiles is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with LearnDash Groups in User Profiles. If not, see {URI to Plugin License}.
-License URI: https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
+License: This plugin is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or any later version. Uncanny Toolkit for LearnDash is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with Uncanny Toolkit for LearnDash. If not, see https://www.gnu.org/licenses/gpl-3.0.html.
+License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
 Extend LearnDash with a variety of useful functions that make it even easier to build great learner experiences with LearnDash.
 
 == Description ==
 **Important: This plugin requires PHP 7.0 or higher and LearnDash 3.0 or higher.**
 
-The Uncanny Toolkit for LearnDash adds 16 modules that every elearning site needs, including a login form, login redirect, resume capabilities and more. Trusted to power over 30,000 LearnDash sites, it's the easiest way to improve the learning experience for your students. Translation ready and multisite capable!
+The Uncanny Toolkit for LearnDash adds 16 modules that every elearning site needs, including a login form, login redirect, resume capabilities and more. Trusted to power over **30,000+** LearnDash sites, it's the easiest way to improve the learning experience for your students. Translation ready and multisite capable!
 
 https://www.youtube.com/watch?v=o0MWoyR5Sos
 
