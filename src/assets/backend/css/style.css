@@ -1116,7 +1116,7 @@ html.noscroll .ult-modal {
 
 	.ult-modal-box {
 		width: 100%;
-		max-width: 450px;
+		max-width: 500px;
 		max-height: 80vh;
 
 		border-radius: 4px;
@@ -1263,6 +1263,15 @@ html.noscroll .ult-modal {
 				.ult-modal-form-row {
 					position: relative;
 				}
+
+					.ult-modal-form-row--children {
+						padding-left: 15px;
+						border-left: 10px solid #eee;
+					}
+
+					.ult-modal-form-row--hide {
+						display: none;
+					}
 
 					.ult-modal-form-row:not(:last-child){
 						margin-bottom: 15px;

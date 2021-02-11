@@ -211,13 +211,30 @@ class Config {
 						// Create options
 						foreach ( $options as $content ) {
 
+							// Show if
+							$show_if = isset( $content[ 'show_if' ] ) && is_array( $content[ 'show_if' ] ) ? $content[ 'show_if' ] : '';
+							$show_if = is_array( $show_if ) ? esc_attr( json_encode( $show_if ) ) : '';
+
+							// Default value
+							$default_value = isset( $content[ 'default' ] ) ? $content[ 'default' ] : '';
+
+							// If it has a "show if" defined, hide it
+							$content[ 'class' ] = isset( $content[ 'class' ] ) ? $content[ 'class' ] : '';
+							if ( ! empty( $show_if ) ){
+								$content[ 'class' ] = $content[ 'class' ] . ' ult-modal-form-row--hide';
+							}
+
 							switch ( $content['type'] ) {
 
 								case 'html':
 
 									?>
 
-                                    <div class="ult-modal-form-row ult-modal-form-row--html <?php echo $content['class']; ?>">
+                                    <div 
+                                         class="ult-modal-form-row ult-modal-form-row--html <?php echo $content['class']; ?>"
+                                         data-show-if="<?php echo $show_if; ?>"
+                                         data-type="html"
+                                    >
 										<?php echo $content['inner_html']; ?>
                                     </div>
 
@@ -229,13 +246,19 @@ class Config {
 
 									?>
 
-                                    <div class="ult-modal-form-row ult-modal__field--text">
+                                    <div 
+                                         class="ult-modal-form-row ult-modal__field--text <?php echo $content['class']; ?>"
+                                         data-show-if="<?php echo $show_if; ?>"
+                                         data-default="<?php echo $default_value; ?>"
+                                         data-id="<?php echo $content['option_name']; ?>"
+                                         data-type="text"
+                                    >
                                         <div class="ult-modal-form-row__label">
 											<?php echo $content['label']; ?>
                                         </div>
                                         <div class="ult-modal-form-row__field">
                                             <input type="text" placeholder="<?php echo $content['placeholder']; ?>"
-                                                   class="ult-modal-form-row__input <?php echo $content['class'] ?>"
+                                                   class="ult-modal-form-row__input"
                                                    name="<?php echo $content['option_name']; ?>" data-type="text">
 
 											<?php if ( ! empty( $content['description'] ) ) { ?>
@@ -254,14 +277,23 @@ class Config {
 
 									?>
 
-                                    <div class="ult-modal-form-row ult-modal__field--color">
+                                    <div 
+                                         class="ult-modal-form-row ult-modal__field--color <?php echo $content['class']; ?>"
+                                         data-show-if="<?php echo $show_if; ?>"
+                                         data-default="<?php echo $default_value; ?>"
+                                         data-type="color"
+                                         data-id="<?php echo $content['option_name']; ?>"
+                                    >
                                         <div class="ult-modal-form-row__label">
 											<?php echo $content['label']; ?>
                                         </div>
                                         <div class="ult-modal-form-row__field">
-                                            <input type="color" placeholder="<?php echo $content['placeholder']; ?>"
-                                                   class="ult-modal-form-row__color"
-                                                   name="<?php echo $content['option_name']; ?>" data-type="color">
+                                            <input type="color" 
+                                                   placeholder="<?php echo $content['placeholder']; ?>"
+                                                   class="ult-modal-form-row__color uo-color-picker"
+                                                   name="<?php echo $content['option_name']; ?>"
+                                                   data-type="color"
+                                            >
 
 											<?php if ( ! empty( $content['description'] ) ) { ?>
                                                 <div class="ult-modal-form-row__description">
@@ -290,7 +322,13 @@ class Config {
 
 										?>
 
-                                        <div class="ult-modal-form-row ult-modal__field--tinymce">
+                                        <div 
+                                             class="ult-modal-form-row ult-modal__field--tinymce <?php echo $content['class']; ?>"
+                                             data-show-if="<?php echo $show_if; ?>"
+                                             data-default="<?php echo $default_value; ?>"
+                                             data-type="textarea"
+                                             data-id="<?php echo $content['option_name']; ?>"
+                                        >
                                             <div class="ult-modal-form-row__label">
 												<?php echo $content['label']; ?>
                                             </div>
@@ -319,13 +357,19 @@ class Config {
 									} else {
 										?>
 
-                                        <div class="ult-modal-form-row ult-modal__field--textarea">
+                                        <div 
+                                             class="ult-modal-form-row ult-modal__field--textarea <?php echo $content['class']; ?>"
+                                             data-show-if="<?php echo $show_if; ?>"
+                                             data-default="<?php echo $default_value; ?>"
+                                             data-type="textarea"
+                                             data-id="<?php echo $content['option_name']; ?>"
+                                        >
                                             <div class="ult-modal-form-row__label">
 												<?php echo $content['label']; ?>
                                             </div>
                                             <div class="ult-modal-form-row__field">
                                                 <textarea
-                                                        class="ult-modal-form-row__textarea <?php echo $content['class']; ?>"
+                                                        class="ult-modal-form-row__textarea"
                                                         name="<?php echo $content['option_name']; ?>"
                                                         placeholder="<?php echo $content['placeholder']; ?>"
                                                         type="textarea"></textarea>
@@ -347,7 +391,13 @@ class Config {
 
 									?>
 
-                                    <div class="ult-modal-form-row ult-modal__field--checkbox">
+                                    <div 
+                                         class="ult-modal-form-row ult-modal__field--checkbox <?php echo $content['class']; ?>"
+                                         data-show-if="<?php echo $show_if; ?>"
+                                         data-default="<?php echo $default_value; ?>"
+                                         data-type="checkbox"
+                                         data-id="<?php echo $content['option_name']; ?>"
+                                    >
                                         <div class="ult-modal-form-row__field">
                                             <label>
                                                 <input type="checkbox" name="<?php echo $content['option_name']; ?>"
@@ -371,7 +421,13 @@ class Config {
 
 									?>
 
-                                    <div class="ult-modal-form-row ult-modal__field--radio">
+                                    <div 
+                                         class="ult-modal-form-row ult-modal__field--radio <?php echo $content['class']; ?>"
+                                         data-show-if="<?php echo $show_if; ?>"
+                                         data-default="<?php echo $default_value; ?>"
+                                         data-type="radio"
+                                         data-id="<?php echo $content['radio_name']; ?>"
+                                    >
                                         <div class="ult-modal-form-row__label">
 											<?php echo $content['label']; ?>
                                         </div>
@@ -412,7 +468,13 @@ class Config {
 
 								case 'select':
 									?>
-                                    <div class="ult-modal-form-row ult-modal__field--select">
+                                    <div 
+                                         class="ult-modal-form-row ult-modal__field--select <?php echo $content['class']; ?>"
+                                         data-show-if="<?php echo $show_if; ?>"
+                                         data-default="<?php echo $default_value; ?>"
+                                         data-type="select"
+                                         data-id="<?php echo $content['select_name']; ?>"
+                                    >
                                         <div class="ult-modal-form-row__label">
 											<?php echo $content['label']; ?>
                                         </div>
