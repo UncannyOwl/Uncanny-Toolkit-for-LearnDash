@@ -26,6 +26,9 @@ class RedirectNotEnrolled extends Config implements RequiredFunctions {
 	/*
 	 * Initialize frontend actions and filters
 	 */
+	/**
+	 *
+	 */
 	public static function run_frontend_hooks() {
 
 		if ( true === self::dependants_exist() ) {
@@ -36,16 +39,10 @@ class RedirectNotEnrolled extends Config implements RequiredFunctions {
 			add_filter( 'learndash_post_args', array( __CLASS__, 'add_redirect_to_post_args_legacy' ) );
 
 			// 3.0+  - Add auto complete setting to LearnDash Lessons (auto creates field and loads value)
-			add_filter( 'learndash_settings_fields', array(
-				__CLASS__,
-				'add_redirect_to_post_args',
-			), 10, 2 ); // 3.0+
+			add_filter( 'learndash_settings_fields', array( __CLASS__, 'add_redirect_to_post_args' ), 10, 2 ); // 3.0+
 
 			// 3.0+ - Save custom lesson settings field
-			add_filter( 'learndash_metabox_save_fields', array(
-				__CLASS__,
-				'save_uo_redirect_url_meta',
-			), 60, 3 );
+			add_filter( 'learndash_metabox_save_fields', array( __CLASS__, 'save_uo_redirect_url_meta' ), 60, 3 );
 		}
 
 	}
@@ -108,11 +105,8 @@ class RedirectNotEnrolled extends Config implements RequiredFunctions {
 
 		if ( self::$settings_metabox_key === $settings_metabox_key ) {
 			// - Update the post's metadata. Nonce already verified by LearnDash
-			if (
-				isset( $_POST['learndash-course-display-content-settings'] ) &&
-				isset( $_POST['learndash-course-display-content-settings']['uo_redirect'] )
-			) {
-				$redirect_url = sanitize_text_field( $_POST['learndash-course-display-content-settings']['uo_redirect'] );
+			if ( isset( $_POST['learndash-course-display-content-settings'] ) && isset( $_POST['learndash-course-display-content-settings']['uo_redirect'] ) ) {
+				$redirect_url = sanitize_text_field( $_POST['learndash-course-display-content-settings']['uo_redirect'] ); //phpcs:ignore WordPress.CSRF.NonceVerification.NoNonceVerification
 				learndash_update_setting( $post, 'uo_redirect', $redirect_url );
 			}
 		}
@@ -120,11 +114,12 @@ class RedirectNotEnrolled extends Config implements RequiredFunctions {
 		return $settings_field_updates;
 	}
 
+
 	/**
 	 * @param $setting_option_fields
 	 * @param $settings_metabox_key
 	 *
-	 * @return mixed
+	 * @return mixed|array
 	 */
 	public static function add_redirect_to_post_args( $setting_option_fields, $settings_metabox_key ) {
 		if ( $settings_metabox_key === self::$settings_metabox_key ) {
@@ -150,7 +145,7 @@ class RedirectNotEnrolled extends Config implements RequiredFunctions {
 		return $setting_option_fields;
 	}
 
-	/* Add Idle time to LeearnDash Options Meta Box
+	/* Add Idle time to LearnDash Options Meta Box
 	 *@param array $post_args array of options from the LearnDash custom post type option meta box
 	 */
 	/**
@@ -180,7 +175,7 @@ class RedirectNotEnrolled extends Config implements RequiredFunctions {
 					'name'      => __( 'Not enrolled Redirect URL', 'uncanny-learndash-toolkit' ),
 					'type'      => 'text',
 					'help_text' => __( 'Redirect the user to the URL if they are not enrolled in the course', 'uncanny-learndash-toolkit' ),
-					'default'   => ''
+					'default'   => '',
 				);
 
 				// loop through existing fields to get proper placement of new fields
@@ -200,56 +195,53 @@ class RedirectNotEnrolled extends Config implements RequiredFunctions {
 	 * Redirect user if they are not enrolled in the course
 	 */
 	public static function not_enrolled_redirect() {
-
 		global $post;
-
-		if ( ! is_admin() && ! is_archive() && $post != null && isset( $post->post_type ) && 'sfwd-courses' === $post->post_type ) {
-			
-			$post_options_timeout = (array) learndash_get_setting( $post );
-
-			if ( isset( $post_options_timeout['uo_redirect'] ) ) {
-				$redirect_to = $post_options_timeout['uo_redirect'];
-			} else {
-				$redirect_to = '';
-			}
-
-
-			if ( ! empty( $redirect_to ) ) {
-
-				$redirect_to = do_shortcode($redirect_to);
-
-				//is there a user to check?
-
-				if ( ! is_user_logged_in() ) {
-					wp_redirect( $redirect_to );
-					exit;
-
-				}
-
-				$user = wp_get_current_user();
-
-
-				if ( isset( $user->roles ) && is_array( $user->roles ) ) {
-
-					//check for admins
-					if ( ! in_array( 'administrator', $user->roles ) ) {
-
-						if ( ! sfwd_lms_has_access( $post->ID, get_current_user_id() ) ) {
-							// redirect them to the default place
-							wp_redirect( $redirect_to );
-							exit;
-						}
-
-					}
-
-				}
-			}
-
-
+		if ( is_admin() ) {
+			return;
 		}
 
+		if ( is_archive() ) {
+			return;
+		}
 
+		if ( ! $post instanceof \WP_Post ) {
+			return;
+		}
+
+		if ( 'sfwd-courses' !== $post->post_type ) {
+			return;
+		}
+
+		$redirect_to          = '';
+		$post_options_timeout = (array) learndash_get_setting( $post );
+
+		if ( isset( $post_options_timeout['uo_redirect'] ) ) {
+			$redirect_to = $post_options_timeout['uo_redirect'];
+		}
+
+		if ( empty( $redirect_to ) ) {
+			return;
+		}
+
+		$redirect_to = do_shortcode( $redirect_to );
+
+		//is there a user to check?
+		if ( ! is_user_logged_in() ) {
+			wp_safe_redirect( $redirect_to );
+			exit;
+		}
+
+		$user = wp_get_current_user();
+		//check for admins
+		if ( user_can( $user, 'administrator' ) ) {
+			return;
+		}
+
+		// check user access to course via direct enrollment and via group access. If both fails, redirect
+		if ( ! sfwd_lms_has_access( $post->ID, get_current_user_id() ) && null === learndash_user_group_enrolled_to_course_from( $user->ID, $post->ID, true ) ) {
+			// redirect them to the default place
+			wp_safe_redirect( $redirect_to );
+			exit;
+		}
 	}
-
-
 }
