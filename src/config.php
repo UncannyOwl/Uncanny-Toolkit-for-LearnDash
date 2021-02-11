@@ -312,10 +312,10 @@ class Config {
 									if ( version_compare( UNCANNY_TOOLKIT_VERSION, '2.4' ) >= 0 ) {
 										// TinyMCE.
 
-										$tinymce_content = self::get_settings_value( $tinymce_content['option_name'], $class );
+										$tinymce_content = self::get_settings_value( $content['option_name'], $class );
 
-										if ( empty( $content ) ) {
-											$tinymce_content = $tinymce_content['placeholder'];
+										if ( empty( $tinymce_content ) ) {
+											$tinymce_content = $content['placeholder'];
 										}
 
 										$tinymce_content = stripslashes( $tinymce_content );
@@ -552,18 +552,6 @@ class Config {
 	 *
 	 */
 	public static function ajax_activate_deactivate_module() {
-
-		/*
-	   * If WP DEBUG is not on do NOT return any php warning, notices, and/or fatal errors.
-	   * Well If it is a fatal error then this return is FUBAR anyway...
-	   * We do this because some badly configured servers will return notices and warnings switch get prepended or appended to the rest response.
-	   */
-		/*if ( defined( 'WP_DEBUG' ) ) {
-			if ( false === WP_DEBUG ) {
-				error_reporting( 0 );
-			}
-		}*/
-
 		$capability = apply_filters( 'toolkit_settings_module_switch_cap', 'manage_options' );
 
 		if ( current_user_can( $capability ) ) {
@@ -599,7 +587,7 @@ class Config {
 						], 'no' );
 					}
 				}
-				
+
 				// If the frontend login module is being turned on then check if settings are available or not.
 				if ( 'uncanny_learndash_toolkit\FrontendLoginPlus' === $value ) {
 					if ( 'active' === $_POST['active'] ) {
@@ -622,24 +610,10 @@ class Config {
 		}
 	}
 
-	/*
+	/**
 	 *
-	 * @return string
 	 */
 	public static function ajax_settings_save() {
-
-
-		/*
-	   * If WP DEBUG is not on do NOT return any php warning, notices, and/or fatal errors.
-	   * Well If it is a fatal error then this return is FUBAR anyway...
-	   * We do this because some badly configured servers will return notices and warnings switch get prepended or appended to the rest response.
-	   */
-		/*if ( defined( 'WP_DEBUG' ) ) {
-			if ( false === WP_DEBUG ) {
-				error_reporting( 0 );
-			}
-		}*/
-
 		$response = [
 			'error'   => true,
 			'message' => '',
@@ -683,22 +657,11 @@ class Config {
 
 	}
 
-	/*
-	 * @return string
+
+	/**
+	 *
 	 */
 	public static function ajax_settings_load() {
-
-		/*
-		* If WP DEBUG is not on do NOT return any php warning, notices, and/or fatal errors.
-		* Well If it is a fatal error then this return is FUBAR anyway...
-		* We do this because some badly configured servers will return notices and warnings switch get prepended or appended to the rest response.
-		*/
-		/*if ( defined( 'WP_DEBUG' ) ) {
-			if ( false === WP_DEBUG ) {
-				error_reporting( 0 );
-			}
-		}*/
-
 		$capability = apply_filters( 'toolkit_settings_load_cap', 'manage_options' );
 		if ( current_user_can( $capability ) ) {
 			if ( isset( $_POST['class'] ) ) {
