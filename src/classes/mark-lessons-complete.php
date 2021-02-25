@@ -146,7 +146,7 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 					// only redirect if lesson does not have auto-complete on.
 					if ( self::maybe_redirect( $data['lesson'] ) ) {
 						if ( ! is_admin() && ! isset( $_REQUEST['doing_rest'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-							$next_lesson = learndash_next_post_link( '', true, $step );
+							$next_lesson = learndash_next_post_link( '', true, $data['lesson'] );
 
 							// The do_action topic completed runs before the activity log is updated.
 							self::$lesson_redirection = $data['lesson'];
