@@ -2897,8 +2897,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				'buttonDisabledOnSubmit' => true
 			],
 			'i18n'                   => [
-				'checkReCaptcha' => __(
-					'Please verify that you are not a robot.', 'uncanny-learndash-toolkit' )
+				'checkReCaptcha' => self::get_settings_value( 'uo_frontend_login_recaptchaempty_error', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) )
 			]
 		];
 
