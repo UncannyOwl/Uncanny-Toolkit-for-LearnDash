@@ -76,7 +76,7 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 
 == Changelog ==
 
-= 3.4.2 [2021-03-11] =
+= 3.4.3 [2021-03-17] =
 **Fixed:**
 
 * Front End Login: Custom reCAPTCHA text set in settings panel now overrides default reCAPTCHA text
@@ -156,7 +156,7 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 * Added: "Help" button on module settings dialogs
 * Added: Front End Login - New pop-up modal login form
 * Added: Front End Login - AJAX support for common actions (Boxed with shadow template only)
-* Updated: Front End Login - Redirect to login page changed from 302 to 301 
+* Updated: Front End Login - Redirect to login page changed from 302 to 301
 * Updated: Front End Login - Improved compatibility with Login/Logout Redirects module
 * Updated: Front End Login - reCAPTCHA now rendered explicitly to support more than one reCAPTCHA on the same page
 * Updated: Front End Login - Removed jQuery dependency from front end assets

@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-03-11T20:34:00+00:00\n"
+"POT-Creation-Date: 2021-03-17T16:29:21+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.4.0\n"
 "X-Domain: uncanny-learndash-toolkit\n"
@@ -298,7 +298,7 @@ msgid "Uncanny Toolkit for LearnDash Support"
 msgstr ""
 
 #: src/boot.php:80
-#: src/config.php:509
+#: src/config.php:530
 #: src/templates/admin-tabs.php:19
 msgid "Help"
 msgstr ""
@@ -313,7 +313,7 @@ msgid "Dismiss"
 msgstr ""
 
 #: src/boot.php:147
-#: src/config.php:635
+#: src/config.php:656
 msgid "Something went wrong. Please, try again"
 msgstr ""
 
@@ -686,7 +686,6 @@ msgid "reCAPTCHA Not Checked Message"
 msgstr ""
 
 #: src/classes/frontend-login-plus.php:556
-#: src/classes/frontend-login-plus.php:2900
 msgid "Please verify that you are not a robot."
 msgstr ""
 
@@ -1170,31 +1169,31 @@ msgstr ""
 msgid "Date Earned"
 msgstr ""
 
-#: src/config.php:517
+#: src/config.php:538
 msgid "Close"
 msgstr ""
 
-#: src/config.php:523
+#: src/config.php:544
 msgid "Save module"
 msgstr ""
 
-#: src/config.php:633
+#: src/config.php:654
 msgid "Settings saved successfully"
 msgstr ""
 
-#: src/config.php:639
+#: src/config.php:660
 msgid "Class for addon is not set"
 msgstr ""
 
-#: src/config.php:642
+#: src/config.php:663
 msgid "You must be an admin to save settings"
 msgstr ""
 
-#: src/config.php:666
+#: src/config.php:687
 msgid "Class for addon is not set."
 msgstr ""
 
-#: src/config.php:669
+#: src/config.php:690
 msgid "You must be an admin to save settings."
 msgstr ""
 

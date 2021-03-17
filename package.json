@@ -46,19 +46,12 @@
   },
   "scripts": {
     "build": "webpack --mode production",
-    "build-blocks": "cd src/blocks && ( npm list cgb-scripts || npm install ) && npm run build && cd .. && cd .. ",
+    "build-blocks": "cd src/blocks && npm install && npm update && npm run build && cd .. && cd .. ",
     "clean": "rimraf zip-package",
     "pot": "wp i18n make-pot . languages/uncanny-learndash-toolkit.pot --exclude=\".git,languages,node_modules,.gitignore,.babelrc,package.json,package-lock.json,webpack.config.js,zip-plugin,src/blocks/node_modules,src/blocks/package.json,src/blocks/README.md,src/blocks/package-lock.json\"",
     "zip-plugin": "node zip-plugin.js -v=$VERSION",
-    "git-add": "git add .",
-    "git-commit": "git commit -m \"$VERSION-$MSG\"",
-    "git-push": "git push -u origin HEAD",
-    "git-tag": "git tag $VERSION-release HEAD",
-    "git-tag-push": "git push --follow-tags",
     "prerelease": "npm run pot && npm run build && npm run build-blocks && exit",
-    "package": "npm run clean && npm run zip-plugin && exit",
-    "git": "npm run git-add && npm run git-commit && npm run git-push && exit",
-    "gittag": "npm run git-tag && npm run git-tag-push && exit"
+    "package": "npm run clean && npm run zip-plugin && exit"
   },
   "author": "Uncanny Owl",
   "license": "GPL-3.0-or-later"
