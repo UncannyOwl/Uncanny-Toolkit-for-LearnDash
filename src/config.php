@@ -58,9 +58,7 @@ class Config {
 	 * @return string
 	 */
 	public static function get_admin_media( $file_name ) {
-		$asset_url = plugins_url( 'assets/backend/img/' . $file_name, __FILE__ );
-
-		return $asset_url;
+		return plugins_url( 'assets/backend/img/' . $file_name, __FILE__ );
 	}
 
 	/**
@@ -69,9 +67,7 @@ class Config {
 	 * @return string
 	 */
 	public static function get_admin_css( $file_name ) {
-		$asset_url = plugins_url( 'assets/backend/css/' . $file_name, __FILE__ );
-
-		return $asset_url;
+		return plugins_url( 'assets/backend/css/' . $file_name, __FILE__ );
 	}
 
 	/**
@@ -80,9 +76,7 @@ class Config {
 	 * @return string
 	 */
 	public static function get_admin_js( $file_name ) {
-		$asset_url = plugins_url( 'assets/backend/js/' . $file_name, __FILE__ );
-
-		return $asset_url;
+		return plugins_url( 'assets/backend/js/' . $file_name, __FILE__ );
 	}
 
 	/**
@@ -91,9 +85,7 @@ class Config {
 	 * @return string
 	 */
 	public static function get_vendor( $file_name ) {
-		$asset_url = plugins_url( 'assets/vendor/' . $file_name, __FILE__ );
-
-		return $asset_url;
+		return plugins_url( 'assets/vendor/' . $file_name, __FILE__ );
 	}
 
 	/**
@@ -104,7 +96,7 @@ class Config {
 	 */
 	public static function get_template( $file_name, $file = false ) {
 
-		if ( false === $file ) {
+		if ( ! $file ) {
 			$file = __FILE__;
 		}
 		$template_path = apply_filters( 'uncanny_toolkit_template_path', 'uncanny-toolkit' . DIRECTORY_SEPARATOR );
@@ -162,7 +154,7 @@ class Config {
 	 */
 	public static function get_include( $file_name, $file = false ) {
 
-		if ( false === $file ) {
+		if ( ! $file ) {
 			$file = __FILE__;
 		}
 
@@ -223,18 +215,18 @@ class Config {
 
 		?>
 
-		<div class="ult-modal" data-settings="<?php echo $modal_id; ?>">
-			<div class="ult-modal-box">
-				<div class="ult-modal__header">
-					<div class="ult-modal-title">
-						<div class="ult-modal-title__icon"></div>
-						<div class="ult-modal-title__text">
+        <div class="ult-modal" data-settings="<?php echo $modal_id; ?>">
+            <div class="ult-modal-box">
+                <div class="ult-modal__header">
+                    <div class="ult-modal-title">
+                        <div class="ult-modal-title__icon"></div>
+                        <div class="ult-modal-title__text">
 							<?php echo $title; ?>
-						</div>
-					</div>
-				</div>
-				<form method="POST" class="ult-modal-form ult-modal-form-js">
-					<div class="ult-modal-options">
+                        </div>
+                    </div>
+                </div>
+                <form method="POST" class="ult-modal-form ult-modal-form-js">
+                    <div class="ult-modal-options">
 						<?php
 
 						// Create options
@@ -266,39 +258,39 @@ class Config {
 							switch ( $content['type'] ) {
 								case 'html':
 									?>
-									<div
-											class="ult-modal-form-row ult-modal-form-row--html <?php echo $css_class; ?>"
-											data-show-if="<?php echo $show_if; ?>"
-											data-type="html"
-									>
+                                    <div
+                                            class="ult-modal-form-row ult-modal-form-row--html <?php echo $css_class; ?>"
+                                            data-show-if="<?php echo $show_if; ?>"
+                                            data-type="html"
+                                    >
 										<?php echo $inner_html; ?>
-									</div>
+                                    </div>
 									<?php
 									break;
 								case 'text':
 									?>
-									<div
-											class="ult-modal-form-row ult-modal__field--text <?php echo $css_class; ?>"
-											data-show-if="<?php echo $show_if; ?>"
-											data-default="<?php echo $default_value; ?>"
-											data-id="<?php echo $option_name; ?>"
-											data-type="text"
-									>
-										<div class="ult-modal-form-row__label">
+                                    <div
+                                            class="ult-modal-form-row ult-modal__field--text <?php echo $css_class; ?>"
+                                            data-show-if="<?php echo $show_if; ?>"
+                                            data-default="<?php echo $default_value; ?>"
+                                            data-id="<?php echo $option_name; ?>"
+                                            data-type="text"
+                                    >
+                                        <div class="ult-modal-form-row__label">
 											<?php echo $label; ?>
-										</div>
-										<div class="ult-modal-form-row__field">
-											<input type="text" placeholder="<?php echo $placeholder; ?>"
-												   class="ult-modal-form-row__input"
-												   name="<?php echo $option_name; ?>" data-type="text">
+                                        </div>
+                                        <div class="ult-modal-form-row__field">
+                                            <input type="text" placeholder="<?php echo $placeholder; ?>"
+                                                   class="ult-modal-form-row__input"
+                                                   name="<?php echo $option_name; ?>" data-type="text">
 
 											<?php if ( ! empty( $description ) ) { ?>
-												<div class="ult-modal-form-row__description">
+                                                <div class="ult-modal-form-row__description">
 													<?php echo $description; ?>
-												</div>
+                                                </div>
 											<?php } ?>
-										</div>
-									</div>
+                                        </div>
+                                    </div>
 
 									<?php
 
@@ -306,31 +298,31 @@ class Config {
 
 								case 'color':
 									?>
-									<div
-											class="ult-modal-form-row ult-modal__field--color <?php echo $css_class; ?>"
-											data-show-if="<?php echo $show_if; ?>"
-											data-default="<?php echo $default_value; ?>"
-											data-type="color"
-											data-id="<?php echo $option_name; ?>"
-									>
-										<div class="ult-modal-form-row__label">
+                                    <div
+                                            class="ult-modal-form-row ult-modal__field--color <?php echo $css_class; ?>"
+                                            data-show-if="<?php echo $show_if; ?>"
+                                            data-default="<?php echo $default_value; ?>"
+                                            data-type="color"
+                                            data-id="<?php echo $option_name; ?>"
+                                    >
+                                        <div class="ult-modal-form-row__label">
 											<?php echo $label; ?>
-										</div>
-										<div class="ult-modal-form-row__field">
-											<input type="color"
-												   placeholder="<?php echo $placeholder; ?>"
-												   class="ult-modal-form-row__color uo-color-picker"
-												   name="<?php echo $option_name; ?>"
-												   data-type="color"
-											>
+                                        </div>
+                                        <div class="ult-modal-form-row__field">
+                                            <input type="color"
+                                                   placeholder="<?php echo $placeholder; ?>"
+                                                   class="ult-modal-form-row__color uo-color-picker"
+                                                   name="<?php echo $option_name; ?>"
+                                                   data-type="color"
+                                            >
 
 											<?php if ( ! empty( $description ) ) { ?>
-												<div class="ult-modal-form-row__description">
+                                                <div class="ult-modal-form-row__description">
 													<?php echo $description; ?>
-												</div>
+                                                </div>
 											<?php } ?>
-										</div>
-									</div>
+                                        </div>
+                                    </div>
 									<?php
 									break;
 								case 'textarea':
@@ -348,64 +340,64 @@ class Config {
 
 										?>
 
-										<div
-												class="ult-modal-form-row ult-modal__field--tinymce <?php echo $css_class; ?>"
-												data-show-if="<?php echo $show_if; ?>"
-												data-default="<?php echo $default_value; ?>"
-												data-type="textarea"
-												data-id="<?php echo $option_name; ?>"
-										>
-											<div class="ult-modal-form-row__label">
+                                        <div
+                                                class="ult-modal-form-row ult-modal__field--tinymce <?php echo $css_class; ?>"
+                                                data-show-if="<?php echo $show_if; ?>"
+                                                data-default="<?php echo $default_value; ?>"
+                                                data-type="textarea"
+                                                data-id="<?php echo $option_name; ?>"
+                                        >
+                                            <div class="ult-modal-form-row__label">
 												<?php echo $label; ?>
-											</div>
-											<div class="ult-modal-form-row__field">
+                                            </div>
+                                            <div class="ult-modal-form-row__field">
 												<?php
 
 												echo wp_editor(
-														$tinymce_content,
-														$option_name,
-														[
-																'editor_class'  => 'ult-tinymce',
-																'media_buttons' => false,
-																'editor_height' => 275,
-														] );
+													$tinymce_content,
+													$option_name,
+													[
+														'editor_class'  => 'ult-tinymce',
+														'media_buttons' => false,
+														'editor_height' => 275,
+													] );
 												?>
 
 												<?php if ( ! empty( $description ) ) { ?>
-													<div class="ult-modal-form-row__description">
+                                                    <div class="ult-modal-form-row__description">
 														<?php echo $description; ?>
-													</div>
+                                                    </div>
 												<?php } ?>
-											</div>
-										</div>
+                                            </div>
+                                        </div>
 
 										<?php
 									} else {
 										?>
-										<div
-												class="ult-modal-form-row ult-modal__field--textarea <?php echo $css_class; ?>"
-												data-show-if="<?php echo $show_if; ?>"
-												data-default="<?php echo $default_value; ?>"
-												data-type="textarea"
-												data-id="<?php echo $option_name; ?>"
-										>
-											<div class="ult-modal-form-row__label">
+                                        <div
+                                                class="ult-modal-form-row ult-modal__field--textarea <?php echo $css_class; ?>"
+                                                data-show-if="<?php echo $show_if; ?>"
+                                                data-default="<?php echo $default_value; ?>"
+                                                data-type="textarea"
+                                                data-id="<?php echo $option_name; ?>"
+                                        >
+                                            <div class="ult-modal-form-row__label">
 												<?php echo $label; ?>
-											</div>
-											<div class="ult-modal-form-row__field">
+                                            </div>
+                                            <div class="ult-modal-form-row__field">
                                                 <textarea
-														class="ult-modal-form-row__textarea"
-														name="<?php echo $option_name; ?>"
-														placeholder="<?php echo $placeholder; ?>"
-														type="textarea"></textarea>
+                                                        class="ult-modal-form-row__textarea"
+                                                        name="<?php echo $option_name; ?>"
+                                                        placeholder="<?php echo $placeholder; ?>"
+                                                        type="textarea"></textarea>
 
 												<?php if ( ! empty( $description ) ) { ?>
-													<div class="ult-modal-form-row__description">
+                                                    <div class="ult-modal-form-row__description">
 														<?php echo $description; ?>
-													</div>
+                                                    </div>
 												<?php } ?>
-											</div>
-										</div>
+                                            </div>
+                                        </div>
 
 										<?php
 									}
@@ -413,43 +405,43 @@ class Config {
 									break;
 								case 'checkbox':
 									?>
-									<div
-											class="ult-modal-form-row ult-modal__field--checkbox <?php echo $css_class; ?>"
-											data-show-if="<?php echo $show_if; ?>"
-											data-default="<?php echo $default_value; ?>"
-											data-type="checkbox"
-											data-id="<?php echo $option_name; ?>"
-									>
-										<div class="ult-modal-form-row__field">
-											<label>
-												<input type="checkbox" name="<?php echo $option_name; ?>"
-													   class="ult-modal-form-row__checkbox" data-type="checkbox">
+                                    <div
+                                            class="ult-modal-form-row ult-modal__field--checkbox <?php echo $css_class; ?>"
+                                            data-show-if="<?php echo $show_if; ?>"
+                                            data-default="<?php echo $default_value; ?>"
+                                            data-type="checkbox"
+                                            data-id="<?php echo $option_name; ?>"
+                                    >
+                                        <div class="ult-modal-form-row__field">
+                                            <label>
+                                                <input type="checkbox" name="<?php echo $option_name; ?>"
+                                                       class="ult-modal-form-row__checkbox" data-type="checkbox">
 												<?php echo $label; ?>
-											</label>
+                                            </label>
 
 											<?php if ( ! empty( $description ) ) { ?>
-												<div class="ult-modal-form-row__description">
+                                                <div class="ult-modal-form-row__description">
 													<?php echo $description; ?>
-												</div>
+                                                </div>
 											<?php } ?>
-										</div>
-									</div>
+                                        </div>
+                                    </div>
 
 									<?php
 									break;
 								case 'radio';
 									?>
-									<div
-											class="ult-modal-form-row ult-modal__field--radio <?php echo $css_class; ?>"
-											data-show-if="<?php echo $show_if; ?>"
-											data-default="<?php echo $default_value; ?>"
-											data-type="radio"
-											data-id="<?php echo $radio_name; ?>"
-									>
-										<div class="ult-modal-form-row__label">
+                                    <div
+                                            class="ult-modal-form-row ult-modal__field--radio <?php echo $css_class; ?>"
+                                            data-show-if="<?php echo $show_if; ?>"
+                                            data-default="<?php echo $default_value; ?>"
+                                            data-type="radio"
+                                            data-id="<?php echo $radio_name; ?>"
+                                    >
+                                        <div class="ult-modal-form-row__label">
 											<?php echo $label; ?>
-										</div>
-										<div class="ult-modal-form-row__field">
+                                        </div>
+                                        <div class="ult-modal-form-row__field">
 											<?php
 
 											/**
@@ -459,13 +451,13 @@ class Config {
 												foreach ( $radio_options as $radio ) {
 													?>
 
-													<label class="ult-modal-form-row__radio-label">
-														<input type="radio" name="<?php echo $radio_name; ?>"
-															   value="<?php echo $radio['value']; ?>" data-type="radio">
-														<span>
+                                                    <label class="ult-modal-form-row__radio-label">
+                                                        <input type="radio" name="<?php echo $radio_name; ?>"
+                                                               value="<?php echo $radio['value']; ?>" data-type="radio">
+                                                        <span>
 														<?php echo $radio['text']; ?>
 													</span>
-													</label>
+                                                    </label>
 
 													<?php
 												}
@@ -474,51 +466,51 @@ class Config {
 											?>
 
 											<?php if ( ! empty( $description ) ) { ?>
-												<div class="ult-modal-form-row__description">
+                                                <div class="ult-modal-form-row__description">
 													<?php echo $description; ?>
-												</div>
+                                                </div>
 											<?php } ?>
-										</div>
-									</div>
+                                        </div>
+                                    </div>
 
 									<?php
 
 									break;
 								case 'select':
 									?>
-									<div
-											class="ult-modal-form-row ult-modal__field--select <?php echo $css_class; ?>"
-											data-show-if="<?php echo $show_if; ?>"
-											data-default="<?php echo $default_value; ?>"
-											data-type="select"
-											data-id="<?php echo $select_name; ?>"
-									>
-										<div class="ult-modal-form-row__label">
+                                    <div
+                                            class="ult-modal-form-row ult-modal__field--select <?php echo $css_class; ?>"
+                                            data-show-if="<?php echo $show_if; ?>"
+                                            data-default="<?php echo $default_value; ?>"
+                                            data-type="select"
+                                            data-id="<?php echo $select_name; ?>"
+                                    >
+                                        <div class="ult-modal-form-row__label">
 											<?php echo $label; ?>
-										</div>
-										<div class="ult-modal-form-row__field">
-											<select class="ult-modal-form-row__select"
-													name="<?php echo $select_name; ?>" data-type="select">
+                                        </div>
+                                        <div class="ult-modal-form-row__field">
+                                            <select class="ult-modal-form-row__select"
+                                                    name="<?php echo $select_name; ?>" data-type="select">
 												<?php
 												if ( ! empty( $content_options ) ) {
 													foreach ( $content_options as $option ) {
 														?>
-														<option value="<?php echo $option['value']; ?>">
+                                                        <option value="<?php echo $option['value']; ?>">
 															<?php echo $option['text']; ?>
-														</option>
+                                                        </option>
 														<?php
 													}
 												}
 												?>
-											</select>
+                                            </select>
 
 											<?php if ( ! empty( $description ) ) { ?>
-												<div class="ult-modal-form-row__description">
+                                                <div class="ult-modal-form-row__description">
 													<?php echo $description; ?>
-												</div>
+                                                </div>
 											<?php } ?>
-										</div>
-									</div>
+                                        </div>
+                                    </div>
 
 									<?php
 
@@ -527,37 +519,37 @@ class Config {
 						}
 
 						?>
-					</div>
-					<div class="ult-modal-footer">
-						<div class="ult-modal-notice"></div>
-						<div class="ult-modal-actions">
-							<div class="ult-modal-actions__left">
-								<div class="ult-modal-action">
-									<a target="_blank"
-									   class="ult-modal-action__btn ult-modal-action__btn--secondary ult-modal-action__btn-help-js">
+                    </div>
+                    <div class="ult-modal-footer">
+                        <div class="ult-modal-notice"></div>
+                        <div class="ult-modal-actions">
+                            <div class="ult-modal-actions__left">
+                                <div class="ult-modal-action">
+                                    <a target="_blank"
+                                       class="ult-modal-action__btn ult-modal-action__btn--secondary ult-modal-action__btn-help-js">
 										<?php _e( 'Help', 'uncanny-learndash-toolkit' ); ?>
-									</a>
-								</div>
-							</div>
-							<div class="ult-modal-actions__right">
-								<div class="ult-modal-action">
-									<div class="ult-modal-action__btn ult-modal-action__btn--secondary ult-modal-action__btn-cancel-js"
-										 data-action="cancel">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="ult-modal-actions__right">
+                                <div class="ult-modal-action">
+                                    <div class="ult-modal-action__btn ult-modal-action__btn--secondary ult-modal-action__btn-cancel-js"
+                                         data-action="cancel">
 										<?php _e( 'Close', 'uncanny-learndash-toolkit' ); ?>
-									</div>
-								</div>
-								<div class="ult-modal-action">
-									<button class="ult-modal-action__btn ult-modal-action__btn--primary ult-modal-action__btn-submit-js"
-											type="submit">
+                                    </div>
+                                </div>
+                                <div class="ult-modal-action">
+                                    <button class="ult-modal-action__btn ult-modal-action__btn--primary ult-modal-action__btn-submit-js"
+                                            type="submit">
 										<?php _e( 'Save module', 'uncanny-learndash-toolkit' ); ?>
-									</button>
-								</div>
-							</div>
-						</div>
-					</div>
-				</form>
-			</div>
-		</div>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
 
 
 		<?php
@@ -600,10 +592,10 @@ class Config {
 				if ( 'uncanny_pro_toolkit\\learnDashMyCourses' === $value ) {
 					if ( 'active' === $_POST['active'] ) {
 						update_option( 'uncanny_pro_toolkitlearnDashMyCourses', [
-								[
-										'name'  => 'uo_dashboard_template',
-										'value' => '3_0',
-								],
+							[
+								'name'  => 'uo_dashboard_template',
+								'value' => '3_0',
+							],
 						], 'no' );
 					}
 				}
@@ -614,10 +606,10 @@ class Config {
 						$existing_settings = get_option( 'FrontendLoginPlus', '' );
 						if ( empty( $existing_settings ) ) {
 							$default_settings = [
-									[
-											'name'  => 'uo_frontendloginplus_enable_ajax_support',
-											'value' => 'on',
-									],
+								[
+									'name'  => 'uo_frontendloginplus_enable_ajax_support',
+									'value' => 'on',
+								],
 							];
 							update_option( 'FrontendLoginPlus', $default_settings );
 						}
@@ -635,8 +627,8 @@ class Config {
 	 */
 	public static function ajax_settings_save() {
 		$response = [
-				'error'   => true,
-				'message' => '',
+			'error'   => true,
+			'message' => '',
 		];
 
 		$capability = apply_filters( 'toolkit_settings_save_cap', 'manage_options' );
