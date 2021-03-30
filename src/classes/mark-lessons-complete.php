@@ -3,7 +3,7 @@
 /**
  * Contains Topics Autocomplete Lesson Module
  *
- * @since unknown
+ * @since   unknown
  * @version 3.4.2
  *
  * @package Uncanny_Learndash_Toolkit
@@ -18,7 +18,7 @@ if ( ! defined( 'WPINC' ) ) {
 /**
  * Class MarkLessonsComplete
  *
- * @since unknown
+ * @since   unknown
  * @version 3.4.2
  */
 class MarkLessonsComplete extends Config implements RequiredFunctions {
@@ -26,7 +26,7 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 	/**
 	 * Lesson Redirection
 	 *
-	 * @var [type]
+	 * @var   [type]
 	 *
 	 * @since unnknown
 	 */
@@ -35,7 +35,7 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 	/**
 	 * Quiz Redirection
 	 *
-	 * @var [type]
+	 * @var   [type]
 	 *
 	 * @since unknown
 	 */
@@ -146,7 +146,7 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 					// only redirect if lesson does not have auto-complete on.
 					if ( self::maybe_redirect( $data['lesson'] ) ) {
 						if ( ! is_admin() && ! isset( $_REQUEST['doing_rest'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-							$next_lesson = learndash_next_post_link( '', true, $step );
+							$next_lesson = learndash_next_post_link( '', true, $data['lesson'] );
 
 							// The do_action topic completed runs before the activity log is updated.
 							self::$lesson_redirection = $data['lesson'];
@@ -209,36 +209,34 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 	/**
 	 * Only redirect if the Pro module Auto complete lessons/Topics is off for lesson
 	 *
-	 * @param WP_Post $lesson_post_object custom post type lesson object.
+	 * @param \WP_Post $lesson_post_object custom post type lesson object.
 	 *
 	 * @return bool
 	 */
 	private static function maybe_redirect( $lesson_post_object ) {
-
-		$active_classes = Config::get_active_classes();
-
 		$maybe_redirect = true;
-
 		// is auto-complete active.
-		if ( in_array( 'uncanny_pro_toolkit\LessonTopicAutoComplete', $active_classes ) ) { // phpcs:ignore WordPress.PHP.StrictInArray.MissingTrueStrict
-			$maybe_redirect = false;
+		if ( ! self::is_toolkit_module_active( 'uncanny_pro_toolkit\LessonTopicAutoComplete', true ) ) {
+			return $maybe_redirect;
+		}
 
-			$feature_auto_complete_default = self::get_settings_value( 'uo_global_auto_complete', 'uncanny_pro_toolkit/LessonTopicAutoComplete' );
-			$post_options_auto_complete    = learndash_get_setting( $lesson_post_object );
+		$maybe_redirect = false;
 
-			// Is this lesson using auto-complete.
-			if ( isset( $post_options_auto_complete['uo_auto_complete'] ) ) {
+		$feature_auto_complete_default = self::get_settings_value( 'uo_global_auto_complete', 'uncanny_pro_toolkit/LessonTopicAutoComplete' );
+		$post_options_auto_complete    = learndash_get_setting( $lesson_post_object );
 
-				if ( 'disabled' === $post_options_auto_complete['uo_auto_complete'] ) {
-					$maybe_redirect = true;
-				}
+		// Is this lesson using auto-complete.
+		if ( isset( $post_options_auto_complete['uo_auto_complete'] ) ) {
+
+			if ( 'disabled' === $post_options_auto_complete['uo_auto_complete'] ) {
+				$maybe_redirect = true;
 			}
+		}
 
-			// Is the lesson not set.
-			if ( ! isset( $post_options_auto_complete['uo_auto_complete'] ) ) {
-				if ( '' !== $feature_auto_complete_default || 'auto_complete_only_lesson_topics_set' !== $feature_auto_complete_default ) {
-					$maybe_redirect = false;
-				}
+		// Is the lesson not set.
+		if ( ! isset( $post_options_auto_complete['uo_auto_complete'] ) ) {
+			if ( '' !== $feature_auto_complete_default || 'auto_complete_only_lesson_topics_set' !== $feature_auto_complete_default ) {
+				$maybe_redirect = false;
 			}
 		}
 
@@ -265,7 +263,7 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 	 * Check if lessons and/or topics are complete
 	 *
 	 * @param int $lesson_id Lesson ID.
-	 * @param int $user_id User ID.
+	 * @param int $user_id   User ID.
 	 *
 	 * @return array|false
 	 */
@@ -360,8 +358,8 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 	/**
 	 * Checks if a step is linked with an assignment.
 	 *
-	 * @param WP_Post $post LearnDash step, toic/lesson.
-	 * @param bool $maybe_complete Whenther to complete the step.
+	 * @param WP_Post $post           LearnDash step, toic/lesson.
+	 * @param bool    $maybe_complete Whenther to complete the step.
 	 *
 	 * @return bool
 	 */
@@ -384,8 +382,8 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 	 * Modified Learndash function for adding user id support.
 	 * Checks if the lesson topics are completed.
 	 *
-	 * @param int $user_id User ID.
-	 * @param int $lesson_id Lesson ID.
+	 * @param int     $user_id              User ID.
+	 * @param int     $lesson_id            Lesson ID.
 	 * @param boolean $mark_lesson_complete Optional. Whether to mark the lesson complete. Default false.
 	 *
 	 * @return boolean Returns true if the lesson is completed otherwise false.

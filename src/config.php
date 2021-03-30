@@ -28,14 +28,37 @@ class Config {
 	}
 
 	/**
+	 * @return bool
+	 */
+	public static function is_pro_active() {
+		return is_plugin_active( 'uncanny-toolkit-pro/uncanny-toolkit-pro.php' );
+	}
+
+	/**
+	 * Check if the module is active in Free / Pro of Toolkit
+	 *
+	 * @param       $module
+	 * @param false $in_pro
+	 *
+	 * @return bool
+	 */
+	public static function is_toolkit_module_active( $module, $in_pro = false ) {
+		if ( $in_pro && ! self::is_pro_active() ) {
+			return false;
+		}
+
+		$active_classes = self::get_active_classes();
+
+		return in_array( $module, $active_classes, false );
+	}
+
+	/**
 	 * @param string $file_name
 	 *
 	 * @return string
 	 */
 	public static function get_admin_media( $file_name ) {
-		$asset_url = plugins_url( 'assets/backend/img/' . $file_name, __FILE__ );
-
-		return $asset_url;
+		return plugins_url( 'assets/backend/img/' . $file_name, __FILE__ );
 	}
 
 	/**
@@ -44,9 +67,7 @@ class Config {
 	 * @return string
 	 */
 	public static function get_admin_css( $file_name ) {
-		$asset_url = plugins_url( 'assets/backend/css/' . $file_name, __FILE__ );
-
-		return $asset_url;
+		return plugins_url( 'assets/backend/css/' . $file_name, __FILE__ );
 	}
 
 	/**
@@ -55,9 +76,7 @@ class Config {
 	 * @return string
 	 */
 	public static function get_admin_js( $file_name ) {
-		$asset_url = plugins_url( 'assets/backend/js/' . $file_name, __FILE__ );
-
-		return $asset_url;
+		return plugins_url( 'assets/backend/js/' . $file_name, __FILE__ );
 	}
 
 	/**
@@ -66,20 +85,18 @@ class Config {
 	 * @return string
 	 */
 	public static function get_vendor( $file_name ) {
-		$asset_url = plugins_url( 'assets/vendor/' . $file_name, __FILE__ );
-
-		return $asset_url;
+		return plugins_url( 'assets/vendor/' . $file_name, __FILE__ );
 	}
 
 	/**
 	 * @param string $file_name File name must be prefixed with a \ (foreword slash)
-	 * @param mixed $file (false || __FILE__ )
+	 * @param mixed  $file      (false || __FILE__ )
 	 *
 	 * @return string
 	 */
 	public static function get_template( $file_name, $file = false ) {
 
-		if ( false === $file ) {
+		if ( ! $file ) {
 			$file = __FILE__;
 		}
 		$template_path = apply_filters( 'uncanny_toolkit_template_path', 'uncanny-toolkit' . DIRECTORY_SEPARATOR );
@@ -113,10 +130,14 @@ class Config {
 			if ( file_exists( get_stylesheet_directory() . DIRECTORY_SEPARATOR . $template_name ) ) {
 				$located = get_stylesheet_directory() . DIRECTORY_SEPARATOR . $template_name;
 				break;
-			} elseif ( file_exists( get_template_directory() . DIRECTORY_SEPARATOR . $template_name ) ) {
+			}
+
+			if ( file_exists( get_template_directory() . DIRECTORY_SEPARATOR . $template_name ) ) {
 				$located = get_template_directory() . DIRECTORY_SEPARATOR . $template_name;
 				break;
-			} elseif ( file_exists( ABSPATH . WPINC . DIRECTORY_SEPARATOR . 'theme-compat' . DIRECTORY_SEPARATOR . $template_name ) ) {
+			}
+
+			if ( file_exists( ABSPATH . WPINC . DIRECTORY_SEPARATOR . 'theme-compat' . DIRECTORY_SEPARATOR . $template_name ) ) {
 				$located = ABSPATH . WPINC . DIRECTORY_SEPARATOR . 'theme-compat' . DIRECTORY_SEPARATOR . $template_name;
 				break;
 			}
@@ -127,13 +148,13 @@ class Config {
 
 	/**
 	 * @param string $file_name File name must be prefixed with a \ (foreword slash)
-	 * @param mixed $file (false || __FILE__ )
+	 * @param mixed  $file      (false || __FILE__ )
 	 *
 	 * @return string
 	 */
 	public static function get_include( $file_name, $file = false ) {
 
-		if ( false === $file ) {
+		if ( ! $file ) {
 			$file = __FILE__;
 		}
 
@@ -573,8 +594,8 @@ class Config {
 						update_option( 'uncanny_pro_toolkitlearnDashMyCourses', [
 							[
 								'name'  => 'uo_dashboard_template',
-								'value' => '3_0'
-							]
+								'value' => '3_0',
+							],
 						], 'no' );
 					}
 				}
@@ -678,10 +699,10 @@ class Config {
 	}
 
 	/**
-	 * @param $key
-	 * @param $class
+	 * @param        $key
+	 * @param        $class
 	 * @param string $default
-	 * @param array $class_settings
+	 * @param array  $class_settings
 	 *
 	 * @return string
 	 */
@@ -735,18 +756,6 @@ class Config {
 		$log_end     = "\n===========================<<<< TRACE END >>>>===========================\n\n";
 		$final_trace = print_r( $trace, true );
 		$file        = WP_CONTENT_DIR . '/uo-' . $file_name . '.log';
-		error_log( $boundary . $log_type . $final_trace . $log_end, 3, $file );
-	}
-
-
-	/**
-	 * @return bool
-	 */
-	public static function is_pro_active() {
-		if ( in_array( 'uncanny-toolkit-pro/uncanny-toolkit-pro.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
-			return true;
-		} else {
-			return false;
-		}
+		error_log( $boundary . $log_type . $final_trace . $log_end, 3, $file ); // phpcs:ignore
 	}
 }

@@ -2,9 +2,9 @@
 Contributors: uncannyowl
 Tags: LearnDash, eLearning, LMS, education, learning, courseware
 Requires at least: 4.6
-Tested up to: 5.6.1
+Tested up to: 5.7
 Requires PHP: 7.0
-Stable tag: 3.4.2
+Stable tag: 3.4.3
 License: This plugin is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or any later version. Uncanny Toolkit for LearnDash is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with Uncanny Toolkit for LearnDash. If not, see https://www.gnu.org/licenses/gpl-3.0.html.
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -75,6 +75,12 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 3. LearnDash Resume Button module - works at a global or course level
 
 == Changelog ==
+
+= 3.4.3 [2021-03-17] =
+**Fixed:**
+
+* Front End Login: Custom reCAPTCHA text set in settings panel now overrides default reCAPTCHA text
+* Topics Autocomplete Lessons: Now only redirects to course level when completing the last topic in the last lesson of a course
 
 = 3.4.2 [2021-02-11] =
 **Added:**
@@ -150,7 +156,7 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 * Added: "Help" button on module settings dialogs
 * Added: Front End Login - New pop-up modal login form
 * Added: Front End Login - AJAX support for common actions (Boxed with shadow template only)
-* Updated: Front End Login - Redirect to login page changed from 302 to 301 
+* Updated: Front End Login - Redirect to login page changed from 302 to 301
 * Updated: Front End Login - Improved compatibility with Login/Logout Redirects module
 * Updated: Front End Login - reCAPTCHA now rendered explicitly to support more than one reCAPTCHA on the same page
 * Updated: Front End Login - Removed jQuery dependency from front end assets
