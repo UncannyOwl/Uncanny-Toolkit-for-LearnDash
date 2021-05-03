@@ -188,7 +188,13 @@ add_filter( 'login_form_middle', function( $content ){
 
 			<div class="ult-form__container">
 
-				<?php wp_login_form( $login_form_args ); ?>
+				<?php
+					if ( uo_toolkit_2fa_form_exists() ) {
+						uo_toolkit_2fa_render_authentication_form();
+					} else {
+						wp_login_form( $login_form_args );
+					}
+				?>
 
 			</div>
 

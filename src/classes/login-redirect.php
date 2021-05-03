@@ -134,7 +134,8 @@ class LoginRedirect extends Config implements RequiredFunctions {
 	 * @return string
 	 */
 	public static function login_redirect( $redirect_to, $request, $user ) {
-		//If uo_login shortcode with redirect is set, just return that
+		
+		// If uo_login shortcode with redirect is set, just return that
 		if ( strpos( $redirect_to, 'uo_redirect' ) ) {
 			return $redirect_to;
 		}
@@ -144,31 +145,25 @@ class LoginRedirect extends Config implements RequiredFunctions {
 		$settings = get_option( 'LoginRedirect', Array() );
 
 		foreach ( $settings as $setting ) {
-
 			if ( 'login_redirect' === $setting['name'] ) {
 				$login_redirect = $setting['value'];
 			}
 		}
 
-		//is there a user to check?
-		//global $user;
-
-		if ( isset( $user->roles ) && is_array( $user->roles ) ) {
-			//check for admins
-			if ( in_array( 'administrator', $user->roles ) ) {
-				// redirect them to the default place
+		// Is there a user to check?
+		// global $user;
+		if ( ! is_wp_error( $user ) ){ 
+			if ( user_can( $user, 'administrator' ) ) {
 				return $redirect_to;
 			}
-
-			if ( ! $login_redirect || '' === $login_redirect ) {
-				// if redirect is not set than send them home
-				return home_url();
-			} else {
-				return $login_redirect;
-			}
-		} else {
-			return $redirect_to;
 		}
+
+		if ( empty( $login_redirect ) ) {
+			// if redirect is not set than send them home.
+			return home_url();
+		}
+
+		return $login_redirect;
 		
 	}
 

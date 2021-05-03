@@ -19,8 +19,8 @@ class DisableEmailsPHPMailerMock {
 	*/
 	public function __construct() {
 
-		require_once ABSPATH . WPINC . '/class-phpmailer.php';
-		$this->phpmailer = new \PHPMailer( true );
+		require_once ABSPATH . WPINC . '/PHPMailer/PHPMailer.php';
+		$this->phpmailer = new \PHPMailer\PHPMailer\PHPMailer( true );
 
 		// build map of allowed function calls
 		$this->allowed_calls = array_flip( array(

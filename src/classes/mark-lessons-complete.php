@@ -138,7 +138,8 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 					add_filter( 'learndash_lesson_completed', array( __CLASS__, 'learndash_lesson_completed_filter' ) );
 					if ( ( isset( $_POST['post'] ) && absint( $_POST['post'] ) ) && isset( $_POST['uploadfile'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 						$post = get_post( absint( $_POST['post'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
-						if ( lesson_hasassignments( $post ) ) {
+						$assignments_exist_fn = function_exists( 'learndash_lesson_hasassignments' ) ? 'learndash_lesson_hasassignments' : 'lesson_hasassignments';
+						if ( $assignments_exist_fn( $post ) ) {
 							learndash_approve_assignment( $user_id, absint( $_POST['post'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
 						}
 					}
@@ -335,9 +336,11 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 			$quizzes_completed = false;
 		}
 
+		$course_id = learndash_get_course_id( $lesson_id );
+
 		// Check if all topics in lesson were completed.
 		// A passed quiz in a topic will automatically mark that topic complete.
-		$topics_completed = self::learndash_lesson_topics_completed( $user_id, $lesson_id, false );
+		$topics_completed = self::learndash_lesson_topics_completed( $user_id, $lesson_id, $course_id, false );
 
 		$completion_status = array(
 			'topics_completed'  => $topics_completed,
@@ -365,7 +368,8 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 	 */
 	public static function is_linked_with_assignment( $post, $maybe_complete ) {
 		// Check if assignment is turned on.
-		if ( lesson_hasassignments( $post ) ) {
+		$assignments_exist_fn = function_exists( 'learndash_lesson_hasassignments' ) ? 'learndash_lesson_hasassignments' : 'lesson_hasassignments';
+		if ( $assignments_exist_fn( $post ) ) {
 			$post_options_auto_complete = (array) learndash_get_setting( $post );
 			if ( key_exists( 'auto_approve_assignment', $post_options_auto_complete ) && 'on' === $post_options_auto_complete['auto_approve_assignment'] ) {
 				$maybe_complete = true;
@@ -384,13 +388,14 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 	 *
 	 * @param int     $user_id              User ID.
 	 * @param int     $lesson_id            Lesson ID.
+	 * @param int     $course_id            Course ID.
 	 * @param boolean $mark_lesson_complete Optional. Whether to mark the lesson complete. Default false.
 	 *
 	 * @return boolean Returns true if the lesson is completed otherwise false.
 	 * @since 3.3.3
 	 */
-	public static function learndash_lesson_topics_completed( $user_id, $lesson_id, $mark_lesson_complete = false ) {
-		$topics = learndash_get_topic_list( $lesson_id );
+	public static function learndash_lesson_topics_completed( $user_id, $lesson_id, $course_id, $mark_lesson_complete = false ) {
+		$topics = learndash_get_topic_list( $lesson_id, $course_id );
 
 		if ( empty( $topics[0]->ID ) ) {
 			return true;

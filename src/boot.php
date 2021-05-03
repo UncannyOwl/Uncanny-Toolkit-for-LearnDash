@@ -29,6 +29,7 @@ class Boot extends Config {
 		spl_autoload_register( array( __CLASS__, 'auto_loader' ) );
 
 		$uncanny_learndash_toolkit->admin_menu = new AdminMenu;
+		$uncanny_learndash_toolkit->install_automator = new InstallAutomator;
 		add_action( 'admin_menu', array( __CLASS__, 'uo_support_menu' ) );
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'uo_admin_support_css' ) );
 		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'uo_frontend_assets' ) );
@@ -66,12 +67,17 @@ class Boot extends Config {
 			}
 		}
 
+		// Import One Click Installer
+		require_once( dirname( __FILE__ ) . '/uncanny-one-click-installer/class-auto-plugin-install.php' );
+
 		add_action( 'rest_api_init', [ $this, 'uo_register_api' ] );
 		add_action( 'admin_init', [ $this, 'maybe_ask_review' ] );
 	}
-
+	
 	/**
+	 * uo_support_menu
 	 *
+	 * @return void
 	 */
 	public static function uo_support_menu() {
 		add_submenu_page(
@@ -94,16 +100,20 @@ class Boot extends Config {
 			'uo_support_page',
 		) );
 	}
-
+	
 	/**
+	 * uo_support_page
 	 *
+	 * @return void
 	 */
 	public static function uo_support_page() {
 		include( 'templates/admin-support.php' );
 	}
-
+	
 	/**
+	 * uo_admin_help_process
 	 *
+	 * @return void
 	 */
 	public static function uo_admin_help_process() {
 		if ( isset( $_POST['is_uncanny_help'] ) && check_admin_referer( 'uncanny0w1', 'is_uncanny_help' ) ) {
@@ -129,9 +139,11 @@ class Boot extends Config {
 			}
 		}
 	}
-
+	
 	/**
+	 * uo_frontend_assets
 	 *
+	 * @return void
 	 */
 	public static function uo_frontend_assets() {
 		wp_enqueue_style( 'uncannyowl-learndash-toolkit-free', plugins_url( 'src/assets/frontend/dist/bundle.min.css', dirname( __FILE__ ) ), [], UNCANNY_TOOLKIT_VERSION );
@@ -152,7 +164,9 @@ class Boot extends Config {
 	}
 
 	/**
+	 * uo_admin_support_css
 	 *
+	 * @return void
 	 */
 	public static function uo_admin_support_css() {
 		$pages_to_include = [ 'uncanny-toolkit-plugins', 'uncanny-toolkit-kb' ];

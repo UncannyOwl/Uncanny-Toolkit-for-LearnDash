@@ -122,7 +122,7 @@ jQuery( function($){
                 $container.addClass( 'ult-sidebar-featured-item-container' );
 
                 // Open that link on a new tab
-                $container.prop( 'target', '_blank' );
+                //$container.prop( 'target', '_blank' );
             });
         }
     }
@@ -158,7 +158,7 @@ jQuery( function($){
 
             if ( reload ){
                 // This will reload the page, it's likely better to store this until finished
-                document.location.search = kvp.join( '&' ); 
+                document.location.search = kvp.join( '&' );
             }
             else {
                 // Get title of the current page

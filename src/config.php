@@ -584,7 +584,7 @@ class Config {
 					update_option( 'uncanny_toolkit_active_classes', $new_classes );
 					$response = 'success';
 				} else {
-					$save_settings = add_option( 'uncanny_toolkit_active_classes', array( $value => $value ), 'no' );
+					$save_settings = add_option( 'uncanny_toolkit_active_classes', array( $value => $value ) );
 					$response      = ( $save_settings ) ? 'success' : 'notsaved';
 				}
 
@@ -649,7 +649,8 @@ class Config {
 
 				delete_option( $class );
 
-				$save_settings = add_option( $class, $options, 'no' );
+				$save_settings = add_option( $class, $options );
+
 
 				$response['error'] = ! $save_settings;
 

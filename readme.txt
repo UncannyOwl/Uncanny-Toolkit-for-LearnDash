@@ -2,9 +2,9 @@
 Contributors: uncannyowl
 Tags: LearnDash, eLearning, LMS, education, learning, courseware
 Requires at least: 4.6
-Tested up to: 5.7
+Tested up to: 5.7.1
 Requires PHP: 7.0
-Stable tag: 3.4.3
+Stable tag: 3.5
 License: This plugin is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or any later version. Uncanny Toolkit for LearnDash is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with Uncanny Toolkit for LearnDash. If not, see https://www.gnu.org/licenses/gpl-3.0.html.
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -75,6 +75,34 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 3. LearnDash Resume Button module - works at a global or course level
 
 == Changelog ==
+
+= 3.5 [2021-05-03] =
+
+**Added:**
+
+* WP 2FA - Two-factor Authentication plugin integration for Front End Login module #48
+* One-click Uncanny Automator install #47
+
+**Fixed:**
+
+* Notice: Undefined index: uc_exp_email_body in Group Expiration Module #31
+* Notice: Undefined index: uc_exp_email_title in Group Expiration Module #30
+* LearnDash 3.4.x compatibility for Topics AutoComplete Lessons Module #21
+* Topics complete lessons contains LD 3.4.0 incompatibility #46
+* Deprecated notice when saving any module settings. #41
+* Unable to open Settings in the Modules #34
+* Deprecated: add_option was called with a deprecated argument in Config #29
+* Notice: Trying to get property 'success' of non-object #28
+* Notice: Undefined index action in Frontend Login Plus #27
+* PHPMailer file path #16
+* Incompatibility with LearnDash 3.4.x in Topics Autocomplete Lessons module #14
+* Topics Autocomplete Lessons: Now only redirects to course level when completing the last topic in the last lesson of a course #4
+* Front End Login: Custom reCAPTCHA text set in settings panel now overrides default reCAPTCHA text #3
+
+**Updated:**
+
+* "Upgrade to Pro" to Plugins page #24
+* Code quality #18 #33
 
 = 3.4.3 [2021-03-17] =
 **Fixed:**

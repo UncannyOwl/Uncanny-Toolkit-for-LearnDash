@@ -38,8 +38,11 @@ if ( 'on' !== $show_description ) { ?>
 
 <?php }
 
-wp_login_form( $login_form_args );
-
+if ( uo_toolkit_2fa_form_exists() ) {
+	uo_toolkit_2fa_render_authentication_form();
+} else {
+	wp_login_form( $login_form_args );
+}
 
 // Add registration link allowed
 if ( get_option( 'users_can_register' ) ) {

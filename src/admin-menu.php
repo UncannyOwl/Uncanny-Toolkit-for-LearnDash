@@ -4,7 +4,6 @@ namespace uncanny_learndash_toolkit;
 
 use ReflectionClass;
 
-
 /**
  * Class AdminMenu
  * @package uncanny_learndash_toolkit
@@ -27,7 +26,6 @@ class AdminMenu extends Boot {
 		// Setup Theme Options Page Menu in Admin
 		if ( is_admin() ) {
 			add_action( 'admin_menu', array( __CLASS__, 'register_options_menu_page' ) );
-			add_action( 'admin_menu', array( __CLASS__, 'sidebar_menu_add_try_automator' ), 99 );
 			add_action( 'admin_init', array( __CLASS__, 'register_options_menu_page_settings' ) );
 			add_action( 'admin_enqueue_scripts', array( __CLASS__, 'scripts' ) );
 		}
@@ -55,57 +53,6 @@ class AdminMenu extends Boot {
 		add_submenu_page( $menu_slug, __( 'Modules', 'uncanny-learndash-toolkit' ), __( 'Modules', 'uncanny-learndash-toolkit' ), 'manage_options', $menu_slug, $function );
 
 
-	}
-
-	/**
-	 *
-	 */
-	public static function sidebar_menu_add_try_automator() {
-		// Check if Automator is already installed
-		if ( ! defined( 'AUTOMATOR_BASE_FILE' ) ) {
-			// Check if we have to render the item
-			if ( apply_filters( 'ult_admin_sidebar_try_automator_add', true ) ) {
-				// Get the item text
-				$menu_item_text = apply_filters( 'ult_admin_sidebar_try_automator_text', sprintf( __( 'Try %s!', 'uncanny-learndash-toolkit' ), 'Automator' ) );
-
-				// Create the link content
-				$menu_item_html = '<span class="ult-sidebar-featured-item">' . apply_filters( 'ult_admin_sidebar_try_automator_inner_html', '<span class="ult-sidebar-featured-item__text">' . $menu_item_text . '</span><span class="ult-sidebar-featured-item__tag">' . __( 'New', 'uncanny-learndash-toolkit' ) . '</span>' ) . '</span>';
-
-				// Add the subpage menu
-				add_submenu_page(
-					'uncanny-toolkit',
-					sprintf( __( 'Try %s!', 'uncanny-learndash-toolkit' ), 'Automator' ),
-					$menu_item_html,
-					'manage_options',
-					self::get_automator_url(),
-					null,
-					99
-				);
-			}
-		}
-	}
-
-	/**
-	 * @return string
-	 */
-	public static function get_automator_url() {
-		// Define the default URL
-		$automator_url = 'https://wordpress.org/plugins/uncanny-automator/';
-
-		// Get the current page locale
-		$locale = get_locale();
-
-		// Check if it's a Spanish locale
-		if ( 'es_' === (string) substr( $locale, 0, 3 ) ) {
-			// Check if it's the Argentinean locale
-			if ( 'es_AR' === (string) $locale ) {
-				$automator_url = 'https://es-ar.wordpress.org/plugins/uncanny-automator/';
-			} else {
-				$automator_url = 'https://es.wordpress.org/plugins/uncanny-automator/';
-			}
-		}
-
-		return $automator_url;
 	}
 
 	/*
@@ -154,6 +101,7 @@ class AdminMenu extends Boot {
 			wp_enqueue_style( 'wp-color-picker' );
 			wp_enqueue_script( 'wp-color-picker' );
 		}
+
 	}
 
 	/**

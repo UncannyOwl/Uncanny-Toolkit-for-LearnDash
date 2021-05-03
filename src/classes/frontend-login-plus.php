@@ -37,6 +37,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	 */
 	public function __construct() {
 		add_action( 'plugins_loaded', array( __CLASS__, 'run_frontend_hooks' ) );
+	
 	}
 
 	/*
@@ -718,6 +719,10 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				'label'       => esc_html__( 'Password Reset Successful Message', 'uncanny-learndash-toolkit' ),
 				'placeholder' => esc_html__( 'Your password was successfully reset. Please log in.', 'uncanny-learndash-toolkit' ),
 				'option_name' => 'uo_frontend_login_reset_successful',
+			),
+			array(
+				'type'        => 'html',
+				'inner_html'  => uo_toolkit_2fa_oci_button()  
 			),
 		);
 
@@ -1558,45 +1563,110 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	 */
 	public static function redirect_login_page() {
 
-
 		$login_page  = get_permalink( self::get_login_redirect_page_id() );
+		
 		$page_viewed = $_SERVER['REQUEST_URI'];
+
+		// This is the request action which holds the param 'action' for POST or GET request.
+		$http_request_action = '';
+		
+		// Cannot use filter input for $_REQUEST yet.
+		if ( isset ( $_REQUEST['action'] ) ) {
+			$http_request_action = $_REQUEST['action'];
+		}
+
+		// GET exclusive 'action'.
+		$http_get_action = filter_input( INPUT_GET, 'action', FILTER_SANITIZE_STRING );
 
 		if ( ! $login_page ) {
 			return;
 		}
 
 		$registering = false;
-		if ( isset( $_GET['action'] ) ) {
-			if ( 'register' === $_GET['action'] ) {
+		
+		if ( isset( $http_get_action ) ) {
+
+			if ( 'register' === $http_get_action ) {
 				$registering = true;
 			}
-		}
 
-		if ( false !== strpos( $page_viewed, 'wp-login.php' ) && 'GET' === $_SERVER['REQUEST_METHOD'] && ! $registering ) {
-			if ( isset( $_REQUEST['action'] ) && 'logout' === $_REQUEST['action'] ) {
+			// 2fa support for register.
+			if ( 'rp' === $http_get_action ) {
 				return;
 			}
 
-			// if User Switching is on, add exceptions
+			if ( 'backup_2fa' === $_GET['action'] ) {
+
+				$user_id = filter_input( INPUT_GET, 'wp-auth-id', FILTER_SANITIZE_NUMBER_INT );
+
+				$parameters = array(
+					'provider' => filter_input( INPUT_GET, 'provider', FILTER_SANITIZE_STRING ),
+					'wp-auth-id' => $user_id,
+					'_wpnonce' => wp_create_nonce( sprintf('uo-toolkit-2fa-user-%d-authentication', $user_id ) ),
+					'wp-auth-nonce' => filter_input( INPUT_GET, 'wp-auth-nonce', FILTER_SANITIZE_STRING ),
+					'rememberme' => filter_input( INPUT_GET, 'rememberme', FILTER_SANITIZE_NUMBER_INT ),
+					'redirect_to' => filter_input( INPUT_GET, 'redirect_to', FILTER_SANITIZE_STRING ),
+					'2fa_authentication' => 1, // Pass `2fa_authentication` to show the 2fa form.
+				);
+
+				$login_page = add_query_arg( $parameters, $login_page );
+				
+				wp_safe_redirect( $login_page, 302 );
+
+				exit;
+			}
+			
+		}
+
+		// Check email support for register. Not related to 2fa, but this action should be whitelisted.
+		$checkemail = filter_input( INPUT_GET, 'checkemail', FILTER_SANITIZE_STRING );
+			
+		if ( 'registered' == $checkemail ) {
+			return;
+		}
+		
+		// When the user is wp-login.php and server request method is get and is not registering.
+		if ( false !== strpos( $page_viewed, 'wp-login.php' ) && 'GET' === $_SERVER['REQUEST_METHOD'] && ! $registering ) {
+			
+			// Ignore redirect if action is logout.
+			if ( 'logout' === $http_request_action ) {
+				return;
+			}
+
+			// Allow 'User Switching' actions. Do not redirect to login page when the module is active. 
 			$active_classes = get_option( 'uncanny_toolkit_active_classes', 0 );
+			
 			if ( 0 !== $active_classes ) {
 				if ( is_array( $active_classes ) && isset( $active_classes['uncanny_learndash_toolkit\UserSwitching'] ) ) {
-					if ( isset( $_REQUEST['action'] ) && ( 'switch_to_user' === $_REQUEST['action'] ) || 'switch_to_olduser' === $_REQUEST['action'] ) {
-						return;
+					if ( ! empty( $http_request_action ) ) {
+						$allowed_actions = array('switch_to_user', 'switch_to_olduser');
+						if ( in_array( $http_request_action, $allowed_actions, true ) ) {
+							return;
+						}
 					}
 				}
 			}
+			
+			// Accept 'redirect_to' REQUEST parameter which redirects the user to the value of the parameter.
 			if ( isset( $_REQUEST['redirect_to'] ) ) {
 				if ( is_user_logged_in() ) {
 					$redirect = apply_filters( 'login_redirect', $_REQUEST['redirect_to'], $_REQUEST, get_current_user() );
-					wp_safe_redirect( $redirect, 301 );
+					// Change the redirect from `301` to `302` to prevent aggressive caching of browser.
+					wp_safe_redirect( $redirect, 302 );
 					exit;
 				}
+				
 				$login_page = add_query_arg( [ 'redirect_to' => $_REQUEST['redirect_to'] ], $login_page );
+
 			}
-			wp_safe_redirect( $login_page, 301 );
+			
+			// Allow modifications.
+			$login_page = apply_filters( 'uo-redirect-login-page', $login_page );
+
+			// Change the redirect from `301` to `302` to prevent aggressive caching of browser.
+			wp_safe_redirect( $login_page, 302 );
 			exit;
+
 		}
 
 	}
@@ -1655,7 +1725,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	 * Redirect to custom login page if login has failed
 	 */
 	public static function login_failed() {
-
+		
 		// Check for REST requests.
 		if ( defined( 'REST_REQUEST' ) && REST_REQUEST ) {
 			return;
@@ -1670,10 +1740,25 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		}
 
 		$login_page = get_permalink( self::get_login_redirect_page_id() );
+
+		// Append redirect_to parameters.
+		$redirect_to = filter_var( $_REQUEST['redirect_to'], FILTER_SANITIZE_STRING );
+
+		// Construct the new url.
+		$redirect_url = add_query_arg(
+			array(
+				'login' => 'failed',
+				'redirect_to' => $redirect_to
+			),
+			$login_page
+		);
+
 		if ( ! $login_page ) {
 			return;
 		}
-		wp_safe_redirect( add_query_arg( array( 'login' => 'failed' ), $login_page ) );
+
+		wp_safe_redirect( $redirect_url );
+		
 		exit;
 	}
 
@@ -2525,9 +2610,15 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			$response['ignoredRedirectTo'] = true;
 			$response['message']           = __( 'You are now logged in' );
 		}
+		
+		// Allow modifications. 
+		$response = apply_filters( 'uo-login-action-response', $response );
 
+		// Allow actions to be perform.
+		do_action('uo-login-action-before-json-response', $user);
 
 		self::wp_send_json( $response, $response_code );
+		
 	}
 
 	/**
@@ -3092,9 +3183,9 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		$response_code = wp_remote_retrieve_response_code( $response );
 		$response_body = wp_remote_retrieve_body( $response );
 		$result        = json_decode( $response_body, true );
-
+		
 		// return if there is an error
-		if ( 200 === (int) $response_code && false === $result->success ) {
+		if ( 200 === (int) $response_code && false === $result['success'] ) {
 			return false;
 		}
 
