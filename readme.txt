@@ -2,9 +2,9 @@
 Contributors: uncannyowl
 Tags: LearnDash, eLearning, LMS, education, learning, courseware
 Requires at least: 4.6
-Tested up to: 5.7.1
+Tested up to: 5.7.2
 Requires PHP: 7.0
-Stable tag: 3.5
+Stable tag: 3.5.1
 License: This plugin is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or any later version. Uncanny Toolkit for LearnDash is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with Uncanny Toolkit for LearnDash. If not, see https://www.gnu.org/licenses/gpl-3.0.html.
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -75,6 +75,14 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 3. LearnDash Resume Button module - works at a global or course level
 
 == Changelog ==
+
+= 3.5.1 [2021-06-08] =
+
+**Fixed:**
+
+* Filter on modules page now returns relevant results
+* Quiz Completion Advances to Next Step -  No longer advances to next lesson/topic if there are still incomplete quizzes in the lesson/topic
+* Login Redirect - No longer redirects admins on login
 
 = 3.5 [2021-05-03] =
 

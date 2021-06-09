@@ -759,4 +759,64 @@ class Config {
 		$file        = WP_CONTENT_DIR . '/uo-' . $file_name . '.log';
 		error_log( $boundary . $log_type . $final_trace . $log_end, 3, $file ); // phpcs:ignore
 	}
+
+	/**
+	 * Add UTM parameters to a given URL
+	 * @param  String $url                   URL
+	 * @param  Array  $custom_utm_parameters Array with the UTM parameters
+	 * @return String                        URL with the UTM parameters
+	 */
+	public static function utm_parameters( $url, $medium = '', $content = '' ){
+		// utm_source=plugin-id
+		// utm_medium=section-id
+		// utm_content=element-id+unique-id
+
+		$default_utm_parameters = [
+			'source' => defined( 'UNCANNY_TOOLKIT_PRO_PATH' ) ? 'uncanny_toolkit_pro' : 'uncanny_toolkit'
+		];
+
+		try {
+			// Parse the URL
+			$url_parts = parse_url( $url );
+
+			// If URL doesn't have a query string.
+			if ( isset( $url_parts[ 'query' ] ) ){
+				// Avoid 'Undefined index: query'
+			    parse_str( $url_parts[ 'query' ], $params );
+			}
+			else {
+			    $params = array();
+			}
+
+			// Add default parameters
+			foreach ( $default_utm_parameters as $default_utm_parameter_key => $default_utm_parameter_value ){
+				$params[ 'utm_' . $default_utm_parameter_key ] = $default_utm_parameter_value;
+			}
+
+			// Add custom parameters
+			if ( ! empty( $medium ) ){
+				$params[ 'utm_medium'  ] = $medium;
+			}
+				
+			if ( ! empty( $content ) ){
+				$params[ 'utm_content'  ] = $content;
+			}
+
+			// Encode parameters
+			$url_parts[ 'query' ] = http_build_query( $params );
+
+			if ( function_exists( 'http_build_url' ) ){
+				// If the user has pecl_http
+				$url = http_build_url( $url_parts );
+			}
+			else {
+				$url_parts[ 'path' ] = ! empty( $url_parts[ 'path' ] ) ? $url_parts[ 'path' ] : '';
+
+				$url = $url_parts[ 'scheme' ] . '://' . $url_parts[ 'host' ] . $url_parts[ 'path' ] . '?' . $url_parts[ 'query' ];
+			}
+		}
+		catch ( Exception $e ){}
+
+		return $url;
+	}
 }

@@ -52,7 +52,7 @@ class LoginRedirect extends Config implements RequiredFunctions {
 	 * @return array
 	 */
 	public static function get_details() {
-
+		$module_id         = 'log-in-log-out-redirects';
 		$class_title       = esc_html__( 'Log In/Log Out Redirects', 'uncanny-learndash-toolkit' );
 		$kb_link           = 'https://www.uncannyowl.com/knowledge-base/learndash-login-redirect/';
 		$class_description = esc_html__( 'Redirects all non-admin roles to a specific URL after logging into and/or out of the site.', 'uncanny-learndash-toolkit' );
@@ -61,6 +61,7 @@ class LoginRedirect extends Config implements RequiredFunctions {
 		$type              = 'free';
 
 		return array(
+			'id'               => $module_id,
 			'title'            => $class_title,
 			'type'             => $type,
 			'category'         => $category,
@@ -135,7 +136,7 @@ class LoginRedirect extends Config implements RequiredFunctions {
 	 */
 	public static function login_redirect( $redirect_to, $request, $user ) {
 		
-		// If uo_login shortcode with redirect is set, just return that
+		//If uo_login shortcode with redirect is set, just return that
 		if ( strpos( $redirect_to, 'uo_redirect' ) ) {
 			return $redirect_to;
 		}
@@ -145,25 +146,31 @@ class LoginRedirect extends Config implements RequiredFunctions {
 		$settings = get_option( 'LoginRedirect', Array() );
 
 		foreach ( $settings as $setting ) {
+
 			if ( 'login_redirect' === $setting['name'] ) {
 				$login_redirect = $setting['value'];
 			}
 		}
 
-		// Is there a user to check?
-		// global $user;
-		if ( ! is_wp_error( $user ) ){ 
-			if ( user_can( $user, 'administrator' ) ) {
+		//is there a user to check?
+		//global $user;
+
+		if ( isset( $user->roles ) && is_array( $user->roles ) ) {
+			//check for admins
+			if ( in_array( 'administrator', $user->roles ) ) {
+				// redirect them to the default place
 				return $redirect_to;
 			}
-		}
 
-		if ( empty( $login_redirect ) ) {
-			// if redirect is not set than send them home.
-			return home_url();
+			if ( ! $login_redirect || '' === $login_redirect ) {
+				// if redirect is not set than send them home
+				return home_url();
+			} else {
+				return $login_redirect;
+			}
+		} else {
+			return $redirect_to;
 		}
-
-		return $login_redirect;
 		
 	}
 

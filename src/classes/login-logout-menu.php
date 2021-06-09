@@ -69,7 +69,7 @@ class LoginLogoutMenu extends Config implements RequiredFunctions {
 	 * @return array
 	 */
 	public static function get_details() {
-
+		$module_id   = 'log-in-log-out-links';
 		$class_title = esc_html__( 'Log In/Log Out Links', 'uncanny-learndash-toolkit' );
 
 		$kb_link = 'https://www.uncannyowl.com/knowledge-base/log-in-log-out-links/';
@@ -83,6 +83,7 @@ class LoginLogoutMenu extends Config implements RequiredFunctions {
 		$type       = 'free';
 
 		return array(
+			'id'               => $module_id,
 			'title'            => $class_title,
 			'type'             => $type,
 			'category'         => $category,

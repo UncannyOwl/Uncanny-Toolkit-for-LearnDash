@@ -33,7 +33,7 @@ class HideAdminBar extends Config implements RequiredFunctions {
 	 * @return array
 	 */
 	public static function get_details() {
-
+		$module_id         = 'hide-admin-bar';
 		$class_title       = esc_html__( 'Hide Admin Bar', 'uncanny-learndash-toolkit' );
 		$kb_link           = 'https://www.uncannyowl.com/knowledge-base/hide-admin-bar/';
 		$class_description = esc_html__( 'Hides the Admin Bar at the top of WordPress pages based on the user role.', 'uncanny-learndash-toolkit' );
@@ -42,6 +42,7 @@ class HideAdminBar extends Config implements RequiredFunctions {
 		$type              = 'free';
 
 		return array(
+			'id'               => $module_id,
 			'title'            => $class_title,
 			'type'             => $type,
 			'category'         => $category,

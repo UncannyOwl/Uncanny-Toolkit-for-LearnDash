@@ -40,7 +40,7 @@ class ShowCertificatesShortcode extends Config implements RequiredFunctions {
 	 * @return array
 	 */
 	public static function get_details() {
-
+		$module_id         = 'show-certificates';
 		$class_title       = esc_html__( 'Show Certificates', 'uncanny-learndash-toolkit' );
 		$kb_link           = 'https://www.uncannyowl.com/knowledge-base/show-learndash-certificates/';
 		$class_description = esc_html__( 'Displays a list of LearnDash certificates (both course and quiz) earned by the user, with the most recent at the top.', 'uncanny-learndash-toolkit' );
@@ -49,6 +49,7 @@ class ShowCertificatesShortcode extends Config implements RequiredFunctions {
 		$type              = 'free';
 
 		return array(
+			'id'               => $module_id,
 			'title'            => $class_title,
 			'type'             => $type,
 			'category'         => $category,

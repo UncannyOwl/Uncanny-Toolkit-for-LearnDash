@@ -50,13 +50,13 @@ if ( isset( $_GET['page'] ) ) {
 			</div>
 
 			<div class="ult-admin-nav-social-icons">
-				<a href="https://www.facebook.com/UncannyOwl/" target="_blank" class="ult-admin-nav-social-icon ult-admin-nav-social-icon--facebook" ult-tooltip-admin="<?php _e( 'Follow us on Facebook', 'uncanny-learndash-toolkit' ); ?>">
+				<a href="<?php echo Config::utm_parameters( 'https://www.facebook.com/UncannyOwl/', 'header', 'social_link' ); ?>" target="_blank" class="ult-admin-nav-social-icon ult-admin-nav-social-icon--facebook" ult-tooltip-admin="<?php _e( 'Follow us on Facebook', 'uncanny-learndash-toolkit' ); ?>">
 					<span class="ult-icon ult-icon-facebook"></span>
 				</a>
-				<a href="https://twitter.com/UncannyOwl" target="_blank" class="ult-admin-nav-social-icon ult-admin-nav-social-icon--twitter" ult-tooltip-admin="<?php _e( 'Follow us on Twitter', 'uncanny-learndash-toolkit' ); ?>">
+				<a href="<?php echo Config::utm_parameters( 'https://twitter.com/UncannyOwl', 'header', 'social_link' ); ?>" target="_blank" class="ult-admin-nav-social-icon ult-admin-nav-social-icon--twitter" ult-tooltip-admin="<?php _e( 'Follow us on Twitter', 'uncanny-learndash-toolkit' ); ?>">
 					<span class="ult-icon ult-icon-twitter"></span>
 				</a>
-				<a href="https://www.linkedin.com/company/uncannyowl" target="_blank" class="ult-admin-nav-social-icon ult-admin-nav-social-icon--linkedin" ult-tooltip-admin="<?php _e( 'Follow us on LinkedIn', 'uncanny-learndash-toolkit' ); ?>">
+				<a href="<?php echo Config::utm_parameters( 'https://www.linkedin.com/company/uncannyowl', 'header', 'social_link' ); ?>" target="_blank" class="ult-admin-nav-social-icon ult-admin-nav-social-icon--linkedin" ult-tooltip-admin="<?php _e( 'Follow us on LinkedIn', 'uncanny-learndash-toolkit' ); ?>">
 					<span class="ult-icon ult-icon-linkedin"></span>
 				</a>
 			</div>

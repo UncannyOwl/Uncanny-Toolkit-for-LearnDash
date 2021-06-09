@@ -38,7 +38,7 @@ class DisableEmails extends Config implements RequiredFunctions {
 	 * @return array
 	 */
 	public static function get_details() {
-
+		$module_id         = 'disable-emails';
 		$class_title       = esc_html__( 'Disable Emails', 'uncanny-learndash-toolkit' );
 		$kb_link           = 'https://www.uncannyowl.com/knowledge-base/disable-emails/';
 		$class_description = esc_html__( 'While this module is active, WordPress and any plugins using native WordPress email functions will be prevented from sending email.', 'uncanny-learndash-toolkit' );
@@ -46,6 +46,7 @@ class DisableEmails extends Config implements RequiredFunctions {
 		$type              = 'free';
 
 		return array(
+			'id'               => $module_id,
 			'title'            => $class_title,
 			'type'             => $type,
 			'category'         => $category,

@@ -39,7 +39,7 @@ class ShowHideContent extends Config implements RequiredFunctions {
 	 * @return array
 	 */
 	public static function get_details() {
-
+		$module_id         = 'show-or-hide-content';
 		$class_title       = esc_html__( 'Show Or Hide Content', 'uncanny-learndash-toolkit' );
 		$kb_link           = 'https://www.uncannyowl.com/knowledge-base/show-hide-content/';
 		$class_description = esc_html__( 'Conditionally shows content to either logged in or logged out users. Great for Open course types.', 'uncanny-learndash-toolkit' );
@@ -48,6 +48,7 @@ class ShowHideContent extends Config implements RequiredFunctions {
 		$type              = 'free';
 
 		return array(
+			'id'               => $module_id,
 			'title'            => $class_title,
 			'type'             => $type,
 			'category'         => $category,

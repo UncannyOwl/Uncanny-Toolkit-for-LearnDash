@@ -113,7 +113,8 @@ class UserSwitching extends Config implements RequiredFunctions {
 	 *
 	 */
 	public static function get_details() {
-
+		$module_id = 'user-switching';
+		
 		/*
 		 * Link to class's associated knowledge base article
 		 *
@@ -154,6 +155,7 @@ class UserSwitching extends Config implements RequiredFunctions {
 		$category   = 'wordpress';
 
 		return array(
+			'id'               => $module_id,
 			'title'            => $class_title,
 			'type'             => $type,
 			'category'         => $category,

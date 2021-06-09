@@ -56,7 +56,7 @@ class MenuItemVisibility extends Config implements RequiredFunctions {
 	 * @return array
 	 */
 	public static function get_details() {
-
+		$module_id         = 'menu-item-visibility';
 		$class_title       = esc_html__( 'Menu Item Visibility', 'uncanny-learndash-toolkit' );
 		$kb_link           = 'https://www.uncannyowl.com/knowledge-base/menu-item-visibility/';
 		$class_description = esc_html__( 'Toggles the visibility of menu items based on whether or not users are signed in to the site.', 'uncanny-learndash-toolkit' );
@@ -65,6 +65,7 @@ class MenuItemVisibility extends Config implements RequiredFunctions {
 		$type              = 'free';
 
 		return array(
+			'id'               => $module_id,
 			'title'            => $class_title,
 			'type'             => $type,
 			'category'         => $category,

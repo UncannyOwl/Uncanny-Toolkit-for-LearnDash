@@ -145,7 +145,7 @@ jQuery( function($){
 
                 // Iterate each result
                 $.each( results, ( index, element ) => {
-                    ids.push( element.id );
+                    ids.push( element.item.id );
                 });
 
                 return ids;
@@ -159,7 +159,7 @@ jQuery( function($){
 
                 // If the user was trying to search an empty string then return true,
                 // Otherwise return true only if this element was one of the results
-                return this.searchQuery.length < 3 || results.includes( parseInt( element.dataset.id ) );
+                return this.searchQuery.length < 3 || $.inArray( element.dataset.id, results ) >= 0;;
             }
         },
 
@@ -388,7 +388,7 @@ jQuery( function($){
 
                 // Get elements
                 this.$elements.modals           = $( '.ult-modal' );
-                this.$elements.settingsButtons  = $( '.ult .ult-directory-module-settings' );
+                this.$elements.settingsButtons  = $( '.ult .ult-directory-module-settings--modal' );
                 this.$elements.bodyElement      = $( 'body' );
                 this.$elements.containerElement = $( '#wpwrap' );
 
@@ -572,7 +572,7 @@ jQuery( function($){
 
                 // Show modal
                 $modal.fadeIn( 150, () => {
-                    // Add class to know 
+                    // Add class to know
                     $modal.addClass( 'ult-modal--visible' );
                 });
 
@@ -622,7 +622,7 @@ jQuery( function($){
             },
 
             fillFields: function( $modal, data ){
-                // Get the default values 
+                // Get the default values
                 let $fieldsWithDefaultValues = $modal.find( '.ult-modal-form-row:not([data-default=""])[data-id][data-type]' );
                 let fieldDefaultValues = {};
                 $.each( $fieldsWithDefaultValues, ( index, field ) => {

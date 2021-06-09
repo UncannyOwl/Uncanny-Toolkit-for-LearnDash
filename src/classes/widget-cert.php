@@ -22,6 +22,7 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 	 * @return array
 	 */
 	public static function get_details() {
+		$module_id         = 'certificate-widget';
 		$class_title       = esc_html__( 'Certificate Widget', 'uncanny-learndash-toolkit' );
 		$kb_link           = 'https://www.uncannyowl.com/knowledge-base/learndash-certificate-widget/';
 		$class_description = esc_html__( 'Custom Widget that displays all certificates the user has earned.', 'uncanny-learndash-toolkit' );
@@ -30,6 +31,7 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 		$type              = 'free';
 
 		return array(
+			'id'               => $module_id,
 			'title'            => $class_title,
 			'type'             => $type,
 			'category'         => $category,

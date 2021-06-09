@@ -77,17 +77,6 @@ if ( ! defined( 'UNCANNY_TOOLKIT_PRO_VERSION' ) ) {
 }
 
 /**
- * Add autoincrement ID
- * We're going to use this in the JS
- */
-
-$start_counter = 0;
-foreach ( $modules as $key => $module ) {
-	$start_counter ++;
-	$modules[ $key ]['id'] = $start_counter;
-}
-
-/**
  * Determinate if each module can be used
  * we're going to check if the user has pro enabled and if it has the required dependencies
  */
@@ -95,23 +84,18 @@ foreach ( $modules as $key => $module ) {
 ?>
 
 <script>
+    <?php
+    $js_modules = [];
 
-	<?php
-
-	$js_modules = [];
-
-	foreach ( $modules as $module ) {
-		$js_modules[] = [
-			'id'          => $module['id'],
-			'title'       => $module['title'],
-			'description' => $module['description'],
-		];
-	}
-
-	?>
-
+    foreach ( $modules as $module ) {
+        $js_modules[] = [
+            'id'          => $module[ 'id' ],
+            'title'       => $module[ 'title' ],
+            'description' => $module[ 'description' ],
+        ];
+    }
+    ?>
     var ultModules = <?php echo json_encode( $js_modules ); ?>;
-
 </script>
 
 <div class="container">
@@ -128,7 +112,7 @@ foreach ( $modules as $key => $module ) {
                             <div class="ult-form-element__field">
                                 <select name="version" data-name="version" class="ult-form-element__select">
                                     <option value="">
-										<?php _e( 'All Versions', 'uncanny-learndash-toolkit' ) ?>
+										<?php _e( 'All versions', 'uncanny-learndash-toolkit' ) ?>
                                     </option>
                                     <option value="free">
 										<?php _e( 'Free only', 'uncanny-learndash-toolkit' ) ?>
@@ -145,7 +129,7 @@ foreach ( $modules as $key => $module ) {
                             <div class="ult-form-element__field">
                                 <select name="category" data-name="category" class="ult-form-element__select">
                                     <option value="">
-										<?php _e( 'All Categories', 'uncanny-learndash-toolkit' ) ?>
+										<?php _e( 'All categories', 'uncanny-learndash-toolkit' ) ?>
                                     </option>
                                     <option value="learndash">
 										<?php _e( 'LearnDash', 'uncanny-learndash-toolkit' ) ?>
@@ -162,7 +146,7 @@ foreach ( $modules as $key => $module ) {
                             <div class="ult-form-element__field">
                                 <select name="status" data-name="status" class="ult-form-element__select">
                                     <option value="">
-										<?php _e( 'All Statuses', 'uncanny-learndash-toolkit' ) ?>
+										<?php _e( 'All statuses', 'uncanny-learndash-toolkit' ) ?>
                                     </option>
                                     <option value="active">
 										<?php _e( 'Active', 'uncanny-learndash-toolkit' ) ?>
@@ -227,7 +211,12 @@ foreach ( $modules as $key => $module ) {
 							<?php if ( ! empty( $module['cant_use_notice'] ) ) { ?>
 
                                 <div class="ult-directory-module-notice">
-                                    <span class="ult-icon ult-icon--lock-alt"></span> <?php echo $module['cant_use_notice']; ?>
+                                    <div class="ult-directory-module-notice__icon">
+                                        <span class="ult-icon ult-icon--lock-alt"></span> 
+                                    </div>
+                                    <div class="ult-directory-module-notice__text">
+                                        <?php echo $module['cant_use_notice']; ?>
+                                    </div>
                                 </div>
 
 							<?php } ?>
@@ -240,9 +229,22 @@ foreach ( $modules as $key => $module ) {
 
 									<?php if ( isset( $module['version'] ) && 'pro' === $module['version'] ) { ?>
 
-                                        <a href="<?php echo $config['get_toolkit_pro']; ?>" target="_blank"
+                                        <?php
+
+                                        // Get the link
+                                        // Check if the module ID is defined
+                                        if ( ! empty( $module[ 'utm_id' ] ) ){
+                                            $get_toolkit_pro_link = Config::utm_parameters( $config[ 'get_toolkit_pro' ], 'modules', 'pro_badge_on_title-' . $module[ 'utm_id' ] );
+                                        }
+                                        else {
+                                            $get_toolkit_pro_link = Config::utm_parameters( $config[ 'get_toolkit_pro' ], 'modules', 'pro_badge_on_title' );
+                                        }
+
+                                        ?>
+
+                                        <a href="<?php echo $get_toolkit_pro_link; ?>" target="_blank"
                                            class="ult-directory-module__pro-label">
-                                            Pro
+                                            <?php _e( 'Pro', 'uncanny-learndash-toolkit' ); ?>
                                         </a>
 
 									<?php } ?>
@@ -279,7 +281,7 @@ foreach ( $modules as $key => $module ) {
 
 									<?php if ( false !== $module['has_settings'] ) { ?>
 
-                                        <div class="ult-directory-module-settings ult-directory-module__btn ult-btn ult-btn--primary"
+                                        <div class="ult-directory-module-settings ult-directory-module-settings--modal ult-directory-module__btn ult-btn ult-btn--primary"
                                              data-settings="<?php echo $module['settings_id']; ?>">
 											<?php _e( 'Settings', 'uncanny-learndash-toolkit' ); ?>
                                         </div>
@@ -291,10 +293,19 @@ foreach ( $modules as $key => $module ) {
 								// Check if it has a KB article
 								if ( ! empty( $module['kb_link'] ) ) {
 
+                                    // Get the link
+                                    // Check if the module ID is defined
+                                    if ( ! empty( $module[ 'utm_id' ] ) ){
+                                        $module_kb_link = Config::utm_parameters( $module[ 'kb_link' ], 'modules', 'learn_more-' . $module[ 'utm_id' ] );
+                                    }
+                                    else {
+                                        $module_kb_link = Config::utm_parameters( $module[ 'kb_link' ], 'modules', 'learn_more' );
+                                    }
+
 									// Add the link
 									?>
 
-                                    <a href="<?php echo $module['kb_link']; ?>" target="_blank"
+                                    <a href="<?php echo $module_kb_link; ?>" target="_blank"
                                        class="ult-directory-module-settings ult-directory-module-settings--kb-link ult-directory-module__btn ult-btn ult-btn--secondary">
 										<?php _e( 'Learn More', 'uncanny-learndash-toolkit' ); ?>
                                     </a>

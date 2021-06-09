@@ -57,6 +57,8 @@ class Breadcrumbs extends Config implements RequiredFunctions {
 	 * @return array
 	 */
 	public static function get_details() {
+		$module_id   = 'breadcrumbs';
+
 		$class_title = esc_html__( 'Breadcrumbs', 'uncanny-learndash-toolkit' );
 
 		$kb_link = 'https://www.uncannyowl.com/knowledge-base/learndash-breadcrumb-links/';
@@ -70,6 +72,7 @@ class Breadcrumbs extends Config implements RequiredFunctions {
 		$type       = 'free';
 
 		return array(
+			'id'               => $module_id,
 			'title'            => $class_title,
 			'type'             => $type,
 			'category'         => $category,
