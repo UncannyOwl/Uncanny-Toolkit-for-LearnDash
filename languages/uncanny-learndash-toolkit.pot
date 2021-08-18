@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Uncanny Toolkit for LearnDash 3.5.1\n"
+"Project-Id-Version: Uncanny Toolkit for LearnDash 3.5.2\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/uncanny-learndash-toolkit\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-06-08T20:29:25+00:00\n"
+"POT-Creation-Date: 2021-08-18T19:52:22+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.5.0\n"
 "X-Domain: uncanny-learndash-toolkit\n"
@@ -601,8 +601,8 @@ msgid "Invalid Credentials Message"
 msgstr ""
 
 #: src/classes/frontend-login-plus.php:480
-#: src/classes/frontend-login-plus.php:2474
-#: src/classes/frontend-login-plus.php:2584
+#: src/classes/frontend-login-plus.php:2485
+#: src/classes/frontend-login-plus.php:2595
 #: src/templates/frontend-login/layout_1-login.php:13
 msgid "Invalid username and/or password."
 msgstr ""
@@ -844,33 +844,33 @@ msgstr ""
 msgid "We haven't verified this account."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:2165
+#: src/classes/frontend-login-plus.php:2176
 msgid "Note: This page has been set as the login page for this site. The form below has been added for your convenience. To hide this message, add the shortcode [uo_login_ui] or the Front End Login Gutenberg block to this page."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:2323
+#: src/classes/frontend-login-plus.php:2334
 msgid "<strong>ERROR</strong>: Password fields cannot be empty."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:2326
+#: src/classes/frontend-login-plus.php:2337
 msgid "<strong>ERROR</strong>: Passwords do not match."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:2333
+#: src/classes/frontend-login-plus.php:2344
 msgid "<strong>ERROR</strong>: Please enter a password of minimum 8 characters including at least 1 uppercase letter, 1 lowercase letter and 1 number."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:2570
+#: src/classes/frontend-login-plus.php:2581
 #: src/templates/frontend-login/layout_1-login.php:23
 msgid "This account is not verified."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:2646
+#: src/classes/frontend-login-plus.php:2657
 msgid "Invalid username/email."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:2876
-#: src/classes/frontend-login-plus.php:2932
+#: src/classes/frontend-login-plus.php:2887
+#: src/classes/frontend-login-plus.php:2943
 msgid "Password fields cannot be empty."
 msgstr ""
 

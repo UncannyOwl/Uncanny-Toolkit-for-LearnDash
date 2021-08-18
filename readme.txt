@@ -2,9 +2,9 @@
 Contributors: uncannyowl
 Tags: LearnDash, eLearning, LMS, education, learning, courseware
 Requires at least: 4.6
-Tested up to: 5.7.2
+Tested up to: 5.8
 Requires PHP: 7.0
-Stable tag: 3.5.1
+Stable tag: 3.5.2
 License: This plugin is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or any later version. Uncanny Toolkit for LearnDash is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with Uncanny Toolkit for LearnDash. If not, see https://www.gnu.org/licenses/gpl-3.0.html.
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -40,14 +40,35 @@ We welcome contributions to the Uncanny Toolkit! The plugin is managed in a [Bit
 
 **Ready to take your LearnDash site even further?**
 
-The [Pro version of the Uncanny Toolkit](https://www.uncannyowl.com/downloads/uncanny-learndash-toolkit-pro/?utm_medium=ldtoolkitreadme) adds a continuously expanding list of powerful features (29 at last count!) to the Toolkit. With the Pro modules, you can:
+The [Pro version of the Uncanny Toolkit](https://www.uncannyowl.com/downloads/uncanny-learndash-toolkit-pro/?utm_medium=ldtoolkitreadme) adds a continuously expanding list of powerful features (27 at last count!) to the Toolkit. These include:
 
-* Autocomplete lessons and topics (no more "Mark Complete" buttons!)
-* Track the time users spend completing courses
-* Replace boring LearnDash tables with highly flexible grids of courses, lessons and topics (including featured images!)
-* Import users directly into LearnDash courses and groups
-* Send certificates by email
-* [And much more!](https://www.uncannyowl.com/downloads/uncanny-learndash-toolkit-pro/?utm_medium=ldtoolkitreadme)
+* [Autocomplete Lessons & Topics](https://www.uncannyowl.com/knowledge-base/autocomplete-lessons-topics/?utm_medium=ldtoolkitreadme)
+* [Autocomplete Lessons & Topics on Gravity Forms Submission](https://www.uncannyowl.com/knowledge-base/gravity-forms-auto-completes-lessons-topics/?utm_medium=ldtoolkitreadme)
+* [Autocomplete Lessons & Topics on Quiz Results Page](https://www.uncannyowl.com/knowledge-base/autocomplete-lessons-topics-quiz-results-page/?utm_medium=ldtoolkitreadme)
+* [Autocomplete Lessons & Topics when Quiz is Graded](https://www.uncannyowl.com/knowledge-base/autocomplete-lessons-topics-when-quiz-is-graded/?utm_medium=ldtoolkitreadme)
+* [Days Until Course Expiry](https://www.uncannyowl.com/knowledge-base/days-until-course-expiry/?utm_medium=ldtoolkitreadme)
+* [Drip Lessons by LearnDash Group](https://www.uncannyowl.com/knowledge-base/drip-lessons-by-ldgroup/?utm_medium=ldtoolkitreadme)
+* [Duplicate Pages & Posts](https://www.uncannyowl.com/knowledge-base/duplicate-pages-posts/?utm_medium=ldtoolkitreadme)
+* [Enhanced Course Grid](https://www.uncannyowl.com/knowledge-base/enhanced-course-grid/?utm_medium=ldtoolkitreadme)
+* [Enhanced Lesson/Topic Grid](https://www.uncannyowl.com/knowledge-base/enhanced-lessontopic-grid/?utm_medium=ldtoolkitreadme)
+* [Enhanced LearnDash CSV Reports](https://www.uncannyowl.com/knowledge-base/enhanced-learndash-csv-reports/?utm_medium=ldtoolkitreadme)
+* [Import Users](https://www.uncannyowl.com/knowledge-base/import-learndash-users/?utm_medium=ldtoolkitreadme)
+* [Improved Group Leader Interface](https://www.uncannyowl.com/knowledge-base/group-leader-access/?utm_medium=ldtoolkitreadme)
+* [Course Dashboard](https://www.uncannyowl.com/knowledge-base/learndash-course-dashboard/?utm_medium=ldtoolkitreadme)
+* [Certificate Preview](https://www.uncannyowl.com/knowledge-base/certificate-preview/?utm_medium=ldtoolkitreadme)
+* [Email Course Certificates](https://www.uncannyowl.com/knowledge-base/send-course-certificates-email/?utm_medium=ldtoolkitreadme)
+* [Email Quiz Certificates](https://www.uncannyowl.com/knowledge-base/send-quiz-certificates-by-email/?utm_medium=ldtoolkitreadme)
+* [Group Expiration](https://www.uncannyowl.com/knowledge-base/learndash-group-expiration/?utm_medium=ldtoolkitreadme)
+* [Group Forums with bbPress](https://www.uncannyowl.com/knowledge-base/learndash-group-forums-with-bbpress/?utm_medium=ldtoolkitreadme)
+* [Group Login Redirect](https://www.uncannyowl.com/knowledge-base/learndash-group-login-redirect/?utm_medium=ldtoolkitreadme)
+* [Group Logo/List](https://www.uncannyowl.com/knowledge-base/ld-group-logo-list/?utm_medium=ldtoolkitreadme)
+* [Group Registration](https://www.uncannyowl.com/knowledge-base/group-sign-up/?utm_medium=ldtoolkitreadme)
+* [Lazy Loading Course Navigation](https://www.uncannyowl.com/knowledge-base/lazy-loading-course-navigation/?utm_medium=ldtoolkitreadme)
+* [Learner Transcript](https://www.uncannyowl.com/knowledge-base/learner-transcript/?utm_medium=ldtoolkitreadme)
+* [Reset Progress Button](https://www.uncannyowl.com/knowledge-base/learndash-reset/?utm_medium=ldtoolkitreadme)
+* [Restrict Page Access](https://www.uncannyowl.com/knowledge-base/restrict-page-access/?utm_medium=ldtoolkitreadme)
+* [Simple Course Timer](https://www.uncannyowl.com/knowledge-base/simple-course-timer/?utm_medium=ldtoolkitreadme)
+* [Single Page Courses](https://www.uncannyowl.com/knowledge-base/single-page-courses/?utm_medium=ldtoolkitreadme)
 
 **Uncanny Automator**
 
@@ -76,7 +97,22 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 
 == Changelog ==
 
-= 3.5.1 [2021-06-08] =
+= 3.5.2 [2021-08-18] =
+
+**Updated:** 
+
+* Updated User switching codebase from John Blackbourn's User Switching plugin version 1.5.7 #97
+* Front End Login - Added custom events for JavaScript developers #89
+* No longer using `block_categories` filter as it was deprecated in WordPress 5.8
+
+**Fixed:**
+
+* Conflict with select2 library in other plugins prevented some toolkit modules from being enabled on some sites #99
+* Front End Login - No longer redirects to /Array when WordPress periodically attempts to verify the site email address #95
+* Front End Login - Unescaped redirect_to parameter causes 403 error on some hosts #94
+* Quiz Completion Advances to Next Step - Redirect erroneously uses $step instead of $step_id resulting in an incorrect redirect in some situations #91
+
+= 3.5.1 [2021-06-09] =
 
 **Fixed:**
 

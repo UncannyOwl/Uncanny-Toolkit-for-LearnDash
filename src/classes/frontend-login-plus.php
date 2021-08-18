@@ -37,7 +37,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	 */
 	public function __construct() {
 		add_action( 'plugins_loaded', array( __CLASS__, 'run_frontend_hooks' ) );
-	
+
 	}
 
 	/*
@@ -723,7 +723,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			),
 			array(
 				'type'        => 'html',
-				'inner_html'  => uo_toolkit_2fa_oci_button()  
+				'inner_html'  => uo_toolkit_2fa_oci_button()
 			),
 		);
 
@@ -859,13 +859,13 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 		// convert status into integers from boolean.
 		$is_verified = intval( $is_verified );
-		
+
 		// Update the user's metadata with verification status.
 		update_user_meta( $user_id, 'uo_is_verified', $is_verified );
-		
+
 		// Reset verification email if already sent and user unverified
 		$is_verification_email_sent = get_user_meta( $user_id, 'uo_verified_email_sent', true );
-		
+
 		if ( 'yes' === $is_verification_email_sent && $is_verified !== 1 ) {
 			update_user_meta( $user_id, 'uo_verified_email_sent', 'no' );
 		}
@@ -1565,12 +1565,12 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	public static function redirect_login_page() {
 
 		$login_page  = get_permalink( self::get_login_redirect_page_id() );
-		
+
 		$page_viewed = $_SERVER['REQUEST_URI'];
 
 		// This is the request action which holds the param 'action' for POST or GET request.
 		$http_request_action = '';
-		
+
 		// Cannot use filter input for $_REQUEST yet.
 		if ( isset ( $_REQUEST['action'] ) ) {
 			$http_request_action = $_REQUEST['action'];
@@ -1584,7 +1584,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		}
 
 		$registering = false;
-		
+
 		if ( isset( $http_get_action ) ) {
 
 			if ( 'register' === $http_get_action ) {
@@ -1593,6 +1593,16 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 			// 2fa support for register.
 			if ( 'rp' === $http_get_action ) {
+				return;
+			}
+
+			// confirm_admin_email support for login.
+			if ( 'confirm_admin_email' === $http_get_action ) {
+				return;
+			}
+			
+			// confirmaction support for login.
+			if ( 'confirmaction' === $http_get_action ) {
 				return;
 			}
 
@@ -1611,32 +1621,32 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				);
 
 				$login_page = add_query_arg( $parameters, $login_page );
-				
+
 				wp_safe_redirect( $login_page, 302 );
 
 				exit;
 			}
-			
+
 		}
 
 		// Check email support for register. Not related to 2fa, but this action should be whitelisted.
 		$checkemail = filter_input( INPUT_GET, 'checkemail', FILTER_SANITIZE_STRING );
-			
+
 		if ( 'registered' == $checkemail ) {
 			return;
 		}
-		
+
 		// When the user is wp-login.php and server request method is get and is not registering.
 		if ( false !== strpos( $page_viewed, 'wp-login.php' ) && 'GET' === $_SERVER['REQUEST_METHOD'] && ! $registering ) {
-			
+
 			// Ignore redirect if action is logout.
 			if ( 'logout' === $http_request_action ) {
 				return;
 			}
 
-			// Allow 'User Switching' actions. Do not redirect to login page when the module is active. 
+			// Allow 'User Switching' actions. Do not redirect to login page when the module is active.
 			$active_classes = get_option( 'uncanny_toolkit_active_classes', 0 );
-			
+
 			if ( 0 !== $active_classes ) {
 				if ( is_array( $active_classes ) && isset( $active_classes['uncanny_learndash_toolkit\UserSwitching'] ) ) {
 					if ( ! empty( $http_request_action ) ) {
@@ -1647,20 +1657,21 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 					}
 				}
 			}
-			
+
 			// Accept 'redirect_to' REQUEST parameter which redirects the user to the value of the parameter.
 			if ( isset( $_REQUEST['redirect_to'] ) ) {
 				if ( is_user_logged_in() ) {
-					$redirect = apply_filters( 'login_redirect', $_REQUEST['redirect_to'], $_REQUEST, get_current_user() );
+					$redirect_to = $_REQUEST['redirect_to'];
+					$redirect    = apply_filters( 'login_redirect', $_REQUEST['redirect_to'], $redirect_to, get_current_user() );
 					// Change the redirect from `301` to `302` to prevent aggressive caching of browser.
 					wp_safe_redirect( $redirect, 302 );
 					exit;
 				}
-				
+
 				$login_page = add_query_arg( [ 'redirect_to' => $_REQUEST['redirect_to'] ], $login_page );
 
 			}
-			
+
 			// Allow modifications.
 			$login_page = apply_filters( 'uo-redirect-login-page', $login_page );
 
@@ -1726,7 +1737,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	 * Redirect to custom login page if login has failed
 	 */
 	public static function login_failed() {
-		
+
 		// Check for REST requests.
 		if ( defined( 'REST_REQUEST' ) && REST_REQUEST ) {
 			return;
@@ -1749,7 +1760,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		$redirect_url = add_query_arg(
 			array(
 				'login' => 'failed',
-				'redirect_to' => $redirect_to
+				'redirect_to' => urlencode( $redirect_to )
 			),
 			$login_page
 		);
@@ -1759,7 +1770,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		}
 
 		wp_safe_redirect( $redirect_url );
-		
+
 		exit;
 	}
 
@@ -2403,19 +2414,19 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	 */
 	public static function ajax_error_message_box( $content ) {
 		/*
-		
+
 		ob_start();
 		?>
 
         <div class="ult-form__validation ult-hide" id="ult_error_container">
             <div class="ult-notice ult-notice--error"></div>
         </div>
-        
+
 		<?php
-		
+
 		// End output
 		$output = ob_get_clean();
-		
+
 		// Add output to the current content, but at the bottom
 		$content .= $output;
 
@@ -2557,7 +2568,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 					// Check if they are already verified.
 					$user_verified_value = get_user_meta( $potential_user->ID, self::$user_meta_key_col, true );
 
-					// Set Admins as verified by default. 
+					// Set Admins as verified by default.
 					if ( user_can( $potential_user->ID, 'activate_plugins' ) ) {
 						$user_verified_value = '1';
 					}
@@ -2611,15 +2622,15 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			$response['ignoredRedirectTo'] = true;
 			$response['message']           = __( 'You are now logged in' );
 		}
-		
-		// Allow modifications. 
+
+		// Allow modifications.
 		$response = apply_filters( 'uo-login-action-response', $response );
 
 		// Allow actions to be perform.
 		do_action('uo-login-action-before-json-response', $user);
 
 		self::wp_send_json( $response, $response_code );
-		
+
 	}
 
 	/**
@@ -3184,7 +3195,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		$response_code = wp_remote_retrieve_response_code( $response );
 		$response_body = wp_remote_retrieve_body( $response );
 		$result        = json_decode( $response_body, true );
-		
+
 		// return if there is an error
 		if ( 200 === (int) $response_code && false === $result['success'] ) {
 			return false;

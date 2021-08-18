@@ -151,7 +151,7 @@ class QuizCompletionRedirect extends Config implements RequiredFunctions {
 			return $next_quiz_url;
 		}
 
-		$step = get_post( $step );
+		$step = get_post( $step_id );
 
 		$next_step_url = learndash_next_post_link( '', true, $step );
 

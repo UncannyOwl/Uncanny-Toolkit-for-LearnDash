@@ -36,7 +36,7 @@ class Blocks {
 	 *
 	 * @param string $prefix
 	 * @param string $version
-	 * @param array  $active_classes
+	 * @param array $active_classes
 	 */
 	public function __construct( $prefix = '', $version = '', $active_classes = [] ) {
 
@@ -50,26 +50,26 @@ class Blocks {
 		if ( function_exists( 'register_block_type' ) ) {
 
 			if (
-				isset( $active_classes[ 'uncanny_learndash_toolkit\Breadcrumbs' ] ) ||
-				isset( $active_classes[ 'uncanny_learndash_toolkit\LearnDashResume' ] ) || 
-				isset( $active_classes[ 'uncanny_learndash_toolkit\FrontendLoginPlus' ] )
+				isset( $active_classes['uncanny_learndash_toolkit\Breadcrumbs'] ) ||
+				isset( $active_classes['uncanny_learndash_toolkit\LearnDashResume'] ) ||
+				isset( $active_classes['uncanny_learndash_toolkit\FrontendLoginPlus'] )
 			) {
 				$add_block_scripts = true;
 			}
 			// Register Blocks
 			add_action( 'init', function () {
-				if ( isset( $this->active_classes[ 'uncanny_learndash_toolkit\Breadcrumbs' ] ) ) {
+				if ( isset( $this->active_classes['uncanny_learndash_toolkit\Breadcrumbs'] ) ) {
 					require_once( dirname( __FILE__ ) . '/src/toolkit-breadcrumbs/block.php' );
 				}
 
-				if ( isset( $this->active_classes[ 'uncanny_learndash_toolkit\LearnDashResume' ] ) ) {
+				if ( isset( $this->active_classes['uncanny_learndash_toolkit\LearnDashResume'] ) ) {
 					require_once( dirname( __FILE__ ) . '/src/toolkit-resume-button/block.php' );
 				}
 
-				if ( isset( $this->active_classes[ 'uncanny_learndash_toolkit\FrontendLoginPlus' ] ) ) {
+				if ( isset( $this->active_classes['uncanny_learndash_toolkit\FrontendLoginPlus'] ) ) {
 					require_once( dirname( __FILE__ ) . '/src/toolkit-frontend-login/block.php' );
 				}
-			});
+			} );
 
 			if ( $add_block_scripts ) {
 
@@ -95,10 +95,10 @@ class Blocks {
 					);
 
 					// Get only the Free blocks
-					$free_blocks = array_values( array_map( function( $block ){
+					$free_blocks = array_values( array_map( function ( $block ) {
 						// Remove the prefix
 						return str_replace( 'uncanny_learndash_toolkit\\', '', $block );
-					}, array_filter( $this->active_classes, function( $block ){
+					}, array_filter( $this->active_classes, function ( $block ) {
 						// Filter only Pro blocks
 						return strpos( $block, 'uncanny_learndash_toolkit\\' ) !== false;
 					} ) ) );
@@ -106,12 +106,12 @@ class Blocks {
 					wp_add_inline_script( $this->prefix . '-gutenberg-blocks-editor', 'var ultGutenbergModules = ' . json_encode( $free_blocks ), 'before' );
 
 					// Add support for Uncanny Toolkit Pro for LearnDash > 3.4.3
-					if ( defined( 'UNCANNY_TOOLKIT_PRO_VERSION' ) ){
-						if ( version_compare( UNCANNY_TOOLKIT_PRO_VERSION, '3.4.3', '<' ) ){
+					if ( defined( 'UNCANNY_TOOLKIT_PRO_VERSION' ) ) {
+						if ( version_compare( UNCANNY_TOOLKIT_PRO_VERSION, '3.4.3', '<' ) ) {
 							// Add a variable with the old data
 							wp_localize_script( $this->prefix . '-gutenberg-blocks-editor', 'ultpModules', array(
 								'active' => $this->active_classes,
-							));
+							) );
 						}
 					}
 
@@ -123,19 +123,32 @@ class Blocks {
 					);
 				} );
 			}
-
-			// Create custom block category
-			add_filter( 'block_categories', function ( $categories, $post ) {
-				return array_merge(
-					$categories,
-					array(
-						array(
-							'slug'  => 'uncanny-learndash-toolkit',
-							'title' => __( 'Uncanny Toolkit for LearnDash', 'uncanny-learndash-toolkit' ),
-						),
-					)
-				);
-			}, 10, 2 );
+			if ( version_compare( get_bloginfo( 'version' ), '5.8', '<' ) ) {
+				// Legacy filter
+				// Create custom block category
+				add_filter( 'block_categories', array( $this, 'block_categories' ), 10, 2 );
+			} else {
+				// Create custom block category
+				add_filter( 'block_categories_all', array( $this, 'block_categories' ), 10, 2 );
+			}
 		}
+	}
+
+	/**
+	 * @param $categories
+	 * @param $post
+	 *
+	 * @return array
+	 */
+	public function block_categories( $categories, $post ) {
+		return array_merge(
+			$categories,
+			array(
+				array(
+					'slug'  => 'uncanny-learndash-toolkit',
+					'title' => __( 'Uncanny Toolkit for LearnDash', 'uncanny-learndash-toolkit' ),
+				),
+			)
+		);
 	}
 }
