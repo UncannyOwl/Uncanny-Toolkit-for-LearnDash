@@ -10,8 +10,8 @@
  *
  * Plugin Name:  User Switching
  * Description:  Instant switching between user accounts in WordPress
- * Version:      1.5.7
- * Plugin URI:   https://johnblackbourn.com/wordpress-plugin-user-switching/
+ * Version:      1.5.8
+ * Plugin URI:   https://wordpress.org/plugins/user-switching/
  * Author:       John Blackbourn & contributors
  * Author URI:   https://github.com/johnbillion/user-switching/graphs/contributors
  * Text Domain:  user-switching
@@ -211,7 +211,7 @@ class user_switching {
 				// Switch user:
 				if ( switch_to_user( $old_user->ID, self::remember(), false ) ) {
 
-					if ( ! empty( $_REQUEST['interim-login'] ) ) {
+					if ( ! empty( $_REQUEST['interim-login'] ) && function_exists( 'login_header' ) ) {
 						$GLOBALS['interim_login'] = 'success'; // @codingStandardsIgnoreLine
 						login_header( '', '' );
 						exit;

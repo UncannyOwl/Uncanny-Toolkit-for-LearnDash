@@ -9,7 +9,7 @@ namespace uncanny_learndash_toolkit;
 class Boot extends Config {
 
 	/**
-	 * class constructor 
+	 * class constructor
 	 */
 	public function __construct() {
 
@@ -28,7 +28,7 @@ class Boot extends Config {
 
 		spl_autoload_register( array( __CLASS__, 'auto_loader' ) );
 
-		$uncanny_learndash_toolkit->admin_menu = new AdminMenu;
+		$uncanny_learndash_toolkit->admin_menu        = new AdminMenu;
 		$uncanny_learndash_toolkit->install_automator = new InstallAutomator;
 		add_action( 'admin_menu', array( __CLASS__, 'uo_support_menu' ) );
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'uo_admin_support_css' ) );
@@ -73,7 +73,7 @@ class Boot extends Config {
 		add_action( 'rest_api_init', [ $this, 'uo_register_api' ] );
 		add_action( 'admin_init', [ $this, 'maybe_ask_review' ] );
 	}
-	
+
 	/**
 	 * uo_support_menu
 	 *
@@ -100,7 +100,7 @@ class Boot extends Config {
 			'uo_support_page',
 		) );
 	}
-	
+
 	/**
 	 * uo_support_page
 	 *
@@ -109,7 +109,7 @@ class Boot extends Config {
 	public static function uo_support_page() {
 		include( 'templates/admin-support.php' );
 	}
-	
+
 	/**
 	 * uo_admin_help_process
 	 *
@@ -117,17 +117,25 @@ class Boot extends Config {
 	 */
 	public static function uo_admin_help_process() {
 		if ( isset( $_POST['is_uncanny_help'] ) && check_admin_referer( 'uncanny0w1', 'is_uncanny_help' ) ) {
-			$name     = esc_html( $_POST['fullname'] );
-			$email    = esc_html( $_POST['email'] );
-			$website  = esc_html( $_POST['website'] );
-			$message  = esc_html( $_POST['message'] );
-			$siteinfo = stripslashes( $_POST['siteinfo'] );
+			$name        = sanitize_text_field( $_POST['fullname'] );
+			$email       = sanitize_email( $_POST['email'] );
+			$website     = esc_url_raw( $_POST['website'] );
+			$license_key = sanitize_text_field( $_POST['license_key'] );
+			$message     = sanitize_textarea_field( $_POST['message'] );
+			$siteinfo    = stripslashes( $_POST['siteinfo'] );
+			$message     = '<h3>Message:</h3><br/>' . wpautop( $message );
+			if ( isset( $_POST['website'] ) && ! empty( sanitize_text_field( $website ) ) ) {
+				$message .= '<hr /><strong>Website:</strong> ' . $website;
+			}
+			if ( isset( $_POST['license_key'] ) && ! empty( sanitize_text_field( $license_key ) ) ) {
+				$message .= '<hr /><strong>License:</strong> <a href="https://www.uncannyowl.com/wp-admin/edit.php?post_type=download&page=edd-licenses&s=' . $license_key . '" target="_blank">' . $license_key . '</a>';
+			}
 			if ( isset( $_POST['site-data'] ) && 'yes' === sanitize_text_field( $_POST['site-data'] ) ) {
-				$message = "<h3>Message:</h3><p>{$message}</p><br /><hr /><h3>User Site Information:</h3>{$siteinfo}";
+				$message = "$message<hr /><h3>User Site Information:</h3><br />{$siteinfo}";
 			}
 
 			$to        = 'support.41077.bb1dda3d33afb598@helpscout.net';
-			$subject   = esc_html( $_POST['subject'] );
+			$subject   = sanitize_text_field( $_POST['subject'] );
 			$headers   = array( 'Content-Type: text/html; charset=UTF-8' );
 			$headers[] = 'From: ' . $name . ' <' . $email . '>';
 			$headers[] = 'Reply-To:' . $name . ' <' . $email . '>';
@@ -139,7 +147,7 @@ class Boot extends Config {
 			}
 		}
 	}
-	
+
 	/**
 	 * uo_frontend_assets
 	 *
@@ -151,16 +159,29 @@ class Boot extends Config {
 		wp_localize_script( 'uncannyowl-learndash-toolkit-free', 'UncannyToolkit', apply_filters( 'uncannyowl-learndash-toolkit-js', [
 			'ajax'   => [
 				'url'   => admin_url( 'admin-ajax.php' ),
-				'nonce' => wp_create_nonce( 'uncannyowl-learndash-toolkit' )
+				'nonce' => wp_create_nonce( 'uncannyowl-learndash-toolkit' ),
 			],
+			'integrity' => array(
+				'shouldPreventConcurrentLogin' => self::ld_is_preventing_concurrent_login()
+			),
 			'i18n'   => [
 				'dismiss' => __( 'Dismiss', 'uncanny-learndash-toolkit' ),
+				'preventConcurrentLogin' => __( 'Your account has exceeded maximum concurrent login number.', 'learndash-integrity' ),
 				'error'   => [
-					'generic' => __( 'Something went wrong. Please, try again', 'uncanny-learndash-toolkit' )
-				]
+					'generic' => __( 'Something went wrong. Please, try again', 'uncanny-learndash-toolkit' ),
+				],
 			],
-			'modals' => []
+			'modals' => [],
 		] ) );
+	}
+
+	private static function ld_is_preventing_concurrent_login() {
+		// Get option
+		$option = get_option( 'learndash_settings_ld_integrity' );
+
+		// Check if it exists and the value if "yes"
+		// Condition from /learndash-integrity/includes/class-prevent-concurrent-login.php:30
+		return isset( $option[ 'prevent_concurrent_login' ] ) && 'yes' == $option[ 'prevent_concurrent_login' ];
 	}
 
 	/**
@@ -222,8 +243,8 @@ class Boot extends Config {
 	 */
 	public function uo_register_api() {
 		register_rest_route( UNCANNY_TOOLKIT_REST_API_END_POINT, '/review-banner-visibility/', [
-			'methods'  => 'POST',
-			'callback' => [ $this, 'save_review_settings' ],
+			'methods'             => 'POST',
+			'callback'            => [ $this, 'save_review_settings' ],
 			'permission_callback' => '__return_true',
 		] );
 	}

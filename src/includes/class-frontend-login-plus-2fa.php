@@ -116,6 +116,8 @@ class Frontend_Login_Plus_2fa {
 
 			add_filter( 'uo-redirect-login-page', array( $this, 'uo_redirect_login_page' ), 99, 1 );
 
+			add_action( 'wp_logout', array( $this, 'uo_clear_cookie_logout' ) );
+
 		}
 
 		return true;
@@ -180,6 +182,13 @@ class Frontend_Login_Plus_2fa {
 
 		$nonce = wp_create_nonce( sprintf( 'uo-toolkit-2fa-user-%d-authentication', $user->ID ) );
 
+		$this->set_form_cookie( wp_hash_password( $nonce ) );
+
+		// Invalidate the current login session to prevent from being re-used.
+		$this->two_factor::destroy_current_session_for_user( $user );
+
+		wp_clear_auth_cookie();
+
 		$redirect_from_ajax = filter_input( INPUT_POST, 'redirectTo', FILTER_SANITIZE_STRING );
 
 		$http_args = array(
@@ -189,8 +198,6 @@ class Frontend_Login_Plus_2fa {
 			'ukey'               => uniqid(),
 			'redirect_to'        => ! empty( $redirect_from_ajax ) ? $redirect_from_ajax : $this->get_redirect_to(),
 		);
-
-		$this->set_form_cookie( wp_hash_password( $nonce ) );
 
 		$two_factor_login_form_url = add_query_arg(
 			$http_args,
@@ -217,6 +224,13 @@ class Frontend_Login_Plus_2fa {
 
 		$auth_id = (int) $_POST['wp-auth-id']; //phpcs:ignore
 		$user    = get_userdata( $auth_id );
+
+		// Destroy the cookie.
+		$this->delete_form_cookie();
+
+		// Set the form cookie verification.
+		$cookie_nonce = wp_create_nonce( sprintf( 'uo-toolkit-2fa-user-%d-authentication', $user->ID ) );
+		$this->set_form_cookie( wp_hash_password( $cookie_nonce ) );
 
 		if ( ! $user ) {
 			return;
@@ -362,9 +376,6 @@ class Frontend_Login_Plus_2fa {
 			$redirect_to = apply_filters( 'login_redirect', esc_url_raw( wp_unslash( $_REQUEST['redirect_to'] ) ), esc_url_raw( wp_unslash( $_REQUEST['redirect_to'] ) ), $user ); //phpcs:ignore
 		}
 
-		// Destroy the cookie.
-		$this->delete_form_cookie();
-
 		// Catch empty redirect url.
 		if ( empty( $redirect_to ) ) {
 			$redirect_to = apply_filters( 'login_redirect', admin_url(), admin_url(), $user );
@@ -390,15 +401,15 @@ class Frontend_Login_Plus_2fa {
 			return;
 		}
 
+		$nonce = wp_create_nonce( sprintf( 'uo-toolkit-2fa-user-%d-authentication', $user->ID ) );
+
+		// Set the form cookie verification.
+		$this->set_form_cookie( wp_hash_password( $nonce ) );
+
 		// Invalidate the current login session to prevent from being re-used.
 		$this->two_factor::destroy_current_session_for_user( $user );
 
-		// Also clear the cookies which are no longer valid.
 		wp_clear_auth_cookie();
-
-		$nonce = wp_create_nonce( sprintf( 'uo-toolkit-2fa-user-%d-authentication', $user->ID ) );
-
-		$this->set_form_cookie( wp_hash_password( $nonce ) );
 
 		$redirect_to = isset( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : ''; // phpcs:ignore
 
@@ -461,13 +472,10 @@ class Frontend_Login_Plus_2fa {
 
 		$nonce = filter_input( INPUT_GET, '_wpnonce', FILTER_SANITIZE_STRING );
 
-		$verified = wp_verify_nonce( $nonce, sprintf( 'uo-toolkit-2fa-user-%d-authentication', $user->ID ) );
-
 		$form_cookie = filter_input( INPUT_COOKIE, 'uo-toolkit-guard', FILTER_SANITIZE_STRING );
 
-		// Allow only 12 hours. Also check if nonce is equals form cookie.
-		// Login form link cannot be shared. Login form will expire when the user close their browser.
-		if ( 1 === $verified && ( $this->verify_cookie( $nonce, $form_cookie ) ) ) {
+		// Verify the cookie.
+		if ( $this->verify_cookie( $nonce, $form_cookie ) ) {
 			$this->login_html( $user, $login_nonce['key'], $redirect_to, $error_message, $provider );
 		} else {
 			?>
@@ -483,12 +491,11 @@ class Frontend_Login_Plus_2fa {
 					</strong>
 				</span>
 			</div>
-
 			<div class="uo-toolkit-2fa-footer">
 				<a href="<?php echo esc_url( wp_login_url() ); ?>" 
 					title="<?php esc_attr_e( 'Return to login form', 'uncanny-learndash-toolkit' ); ?>">
 					&larr;
-			<?php esc_attr_e( 'Go back to login form', 'uncanny-learndash-toolkit' ); ?>
+					<?php esc_attr_e( 'Go back to login form', 'uncanny-learndash-toolkit' ); ?>
 				</a>    
 			</div>
 
@@ -617,11 +624,19 @@ class Frontend_Login_Plus_2fa {
 
 			?>
 
+			<?php if ( "backup_codes" !== filter_input( INPUT_GET, 'provider' ) ): ?>
 				<div class="uo-toolkit-2fa-footer__backup-codes">
 					<a href="<?php echo esc_url( $login_url ); ?>">
-			<?php esc_html_e( 'Or, use a backup code.', 'uncanny-learndash-toolkit' ); ?>
+						<?php esc_html_e( 'Or, use a backup code.', 'uncanny-learndash-toolkit' ); ?>
 					</a>
 				</div>
+			<?php else: ?>
+				<div class="uo-toolkit-2fa-footer__backup-codes">
+					<a href="<?php echo esc_url( wp_login_url() ); ?>">
+						<?php esc_html_e( 'Or, go back to login form.', 'uncanny-learndash-toolkit' ); ?>
+					</a>
+				</div>
+			<?php endif; ?>
 
 		<?php endif; ?>
 
@@ -719,6 +734,15 @@ class Frontend_Login_Plus_2fa {
 
 		return $redirect_to;
 
+	}
+
+	/**
+	 * Delete the form cookie when logging out.
+	 *
+	 * @return void
+	 */
+	public function uo_clear_cookie_logout() {
+		$this->delete_form_cookie();
 	}
 
 }

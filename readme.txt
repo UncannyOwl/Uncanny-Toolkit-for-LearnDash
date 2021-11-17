@@ -1,17 +1,17 @@
 === Uncanny Toolkit for LearnDash ===
 Contributors: uncannyowl
 Tags: LearnDash, eLearning, LMS, education, learning, courseware
-Requires at least: 4.6
-Tested up to: 5.8
+Requires at least: 5.2
+Tested up to: 5.8.2
 Requires PHP: 7.0
-Stable tag: 3.5.2
+Stable tag: 3.6
 License: This plugin is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or any later version. Uncanny Toolkit for LearnDash is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with Uncanny Toolkit for LearnDash. If not, see https://www.gnu.org/licenses/gpl-3.0.html.
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
 Extend LearnDash with a variety of useful functions that make it even easier to build great learner experiences with LearnDash.
 
 == Description ==
-**Important: This plugin requires PHP 7.0 or higher and LearnDash 3.0 or higher.**
+**Important: This plugin requires PHP 7.0 or higher and LearnDash 3.3 or higher.**
 
 The Uncanny Toolkit for LearnDash adds 16 modules that every elearning site needs, including a login form, login redirect, resume capabilities and more. Trusted to power over **30,000+** LearnDash sites, it's the easiest way to improve the learning experience for your students. Translation ready and multisite capable!
 
@@ -86,7 +86,7 @@ Uncanny Owl offers a full suite of [plugins that extend the LearnDash platform](
 Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitter](https://twitter.com/uncannyowl), [Facebook](https://www.facebook.com/UncannyOwl/) and [YouTube](https://www.youtube.com/user/UncannyOwl).
 
 == Installation ==
-1. Ensure that your installation of WordPress is using PHP 7.0 or higher and LearnDash 3.0 or higher.
+1. Ensure that your installation of WordPress is using PHP 7.0 or higher and LearnDash 3.3 or higher.
 2. Upload the contents of the plugin zip file to the `/wp-content/plugins/` directory.
 3. Activate the plugin through the Plugins menu in WordPress.
 
@@ -96,6 +96,24 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 3. LearnDash Resume Button module - works at a global or course level
 
 == Changelog ==
+
+= 3.6 [2021-11-17] =
+
+**Updated:** 
+
+* Updated User Switching code to version 1.5.8 of User Switching plugin by John Blackbourn #141
+* Front End Login - Added support for concurrent login feature in LearnDash Integrity plugin #138
+* Front End Login - Added detection of reCaptcha setting conflict with LearnDash Integrity plugin #137
+* Changes/fixes to ticket submission data when used with Toolkit Pro #135
+* Updated `uncanny_toolkit_template_path` for easier custom template overrides. **Note:** any sites using this function should update their code #133
+* Disable Emails - No fatal errors if fields in emails left blank #144
+
+**Fixed:**
+
+* Front End Login - Compatibility issue with WP 2FA on some sites #130
+* E_ERROR - `wp_remote_get()` - admin-showcase.php #128
+* Front End Login - Fixed compatibility issue with redirect filter in MemberPress #111
+* Learn More buttons exceed box bounds when Toolkit Pro or LearnDash not active #110
 
 = 3.5.2 [2021-08-18] =
 

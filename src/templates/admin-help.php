@@ -24,12 +24,11 @@ if ( ! $license_is_active ) {
 			echo sprintf(
 				__( 'Please <a href="%s">activate a valid license key</a> to submit a support ticket.', 'uncanny-learndash-toolkit' ),
 				$license_page_link
-			); ?>
+			);
+			?>
 		</h3>
 		<?php
 	}
-
-
 } elseif ( isset( $_GET['sent'] ) ) {
 	?>
 
@@ -47,20 +46,21 @@ if ( ! $license_is_active ) {
 
 	if ( $existing_license ) {
 		$json = wp_remote_get( 'https://www.uncannyowl.com/wp-json/uncanny-rest-api/v1/license/' . $existing_license . '?wpnonce=' . wp_create_nonce( time() ) );
+		if ( ! is_wp_error( $json ) ) {
+			if ( 200 === $json['response']['code'] ) {
+				$data = json_decode( $json['body'], true );
 
-		if ( 200 === $json['response']['code'] ) {
-			$data = json_decode( $json['body'], true );
-
-			if ( $data ) {
-				$name  = $data['name'];
-				$email = $data['email'];
+				if ( $data ) {
+					$name  = $data['name'];
+					$email = $data['email'];
+				}
 			}
 		}
 	}
 
 	ob_start();
 
-	include_once( 'admin-siteinfo.php' );
+	include_once 'admin-siteinfo.php';
 
 	$installation_information = ob_get_clean();
 
@@ -73,7 +73,7 @@ if ( ! $license_is_active ) {
 					<?php _e( 'Submit a Ticket', 'uncanny-learndash-toolkit' ); ?>
 				</div>
 
-				<form name="uncanny-help" method="POST" action="<?php echo admin_url( 'admin.php' ) ?>">
+				<form name="uncanny-help" method="POST" action="<?php echo admin_url( 'admin.php' ); ?>">
 					<?php wp_nonce_field( 'uncanny0w1', 'is_uncanny_help' ); ?>
 
 					<textarea class="uo-send-ticket__hidden-field"
@@ -104,7 +104,15 @@ if ( ! $license_is_active ) {
 							<?php _e( 'Site URL', 'uncanny-learndash-toolkit' ); ?>
 						</label>
 						<input required name="website" id="uo-website" type="url" class="uo-send-ticket-form__text"
-							   readonly value="<?php echo get_bloginfo( 'url' ) ?>">
+							   readonly value="<?php echo get_bloginfo( 'url' ); ?>">
+					</div>
+
+					<div class="uo-send-ticket-form__row">
+						<label for="uo-website" class="uo-send-ticket-form__label">
+							<?php _e( 'License Key', 'uncanny-learndash-toolkit' ); ?>
+						</label>
+						<input required name="license_key" id="uo-website" type="text" class="uo-send-ticket-form__text"
+							   readonly value="<?php echo trim( get_option( 'uo_license_key' ) ); ?>">
 					</div>
 
 					<div class="uo-send-ticket-form__row">

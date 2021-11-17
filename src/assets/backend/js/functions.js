@@ -26,9 +26,6 @@ jQuery( function($){
                 // Get elements
                 this.$elements.modulesContainer = $( '.ult .ult-directory-modules' );
                 this.$elements.modules = $( '.ult .ult-directory-module' );
-
-                // Create Shuffle Instance
-                this.createShuffleInstance();
             },
 
             // Search a module using a data attribute
@@ -38,24 +35,31 @@ jQuery( function($){
                 });
             },
 
-            // Shuffle
-            createShuffleInstance: function(){
-                // Get Shuffle
-                let Shuffle = window.Shuffle;
-
-                // Create Shuffle instance
-                this.ULT_Modules.shuffle = new Shuffle( this.$elements.modulesContainer, {
-                    itemSelector: '.ult-directory-module',
-                    sizer: '.ult-directory-module',
-                    buffer: 1,
-                });
-            },
-
             // Apply all filters
             filter: function(){
-                this.ULT_Modules.shuffle.filter(( element ) => {
-                    return this.ULT_Modules.Search.matchSearch( element ) && this.ULT_Modules.Filters.matchFilters( element );
-                });
+                const $results = this.$elements.modules
+                    .filter( ( index, toolkitModule ) => {
+                        // Check if we should show the element
+                        const shouldShow = (
+                            // Check search results
+                            this.ULT_Modules.Search.matchSearch( toolkitModule )
+                            // Check filters
+                            && this.ULT_Modules.Filters.matchFilters( toolkitModule )
+                        );
+
+                        const $toolkitModule = $( toolkitModule );
+
+                        if ( shouldShow && ! $toolkitModule.is( ':visible' ) ){
+                            $toolkitModule
+                                .fadeIn( 100 );
+                        } else if ( ! shouldShow && $toolkitModule.is( ':visible' ) ) {
+                            $toolkitModule
+                                .fadeOut( 100 );
+                        }
+
+                        return shouldShow;
+                    }
+                );    
             },
 
             // Show or hide loading animation
@@ -100,7 +104,6 @@ jQuery( function($){
                     minMatchCharLength: 1,
                     keys: [
                         'title',
-                        'description',
                         'keywords',
                     ]
                 };
@@ -115,7 +118,7 @@ jQuery( function($){
             // Bind search
             bindSearch: function (){
                 // Bind input event
-                this.$elements.searchField.on( 'input', () => {
+                this.$elements.searchField.on( 'input', ULT_Utility.debounce( () => {
                     // Query
                     let query = this.$elements.searchField.val();
 
@@ -128,7 +131,7 @@ jQuery( function($){
 
                     // Filter
                     this.ULT_Modules.Modules.filter();
-                });
+                }, 300 ) );
             },
 
             // Search

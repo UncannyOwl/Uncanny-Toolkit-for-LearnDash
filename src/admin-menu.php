@@ -88,14 +88,12 @@ class AdminMenu extends Boot {
 			// Main JS
 			wp_enqueue_script( 'ult-admin-functions', Config::get_admin_js( 'functions.js' ), array(
 				'jquery',
-				'ult-shuffle',
 				'ult-fuse',
 				'ult-select2'
 			), UNCANNY_TOOLKIT_VERSION, true );
 
 			// Libraries
 			wp_enqueue_style( 'ult-select2', Config::get_vendor( 'select2/css/select2.min.css' ), array(), UNCANNY_TOOLKIT_VERSION );
-			wp_enqueue_script( 'ult-shuffle', Config::get_vendor( 'shuffle/js/shuffle.min.js' ), array( 'jquery' ), UNCANNY_TOOLKIT_VERSION, true );
 			wp_enqueue_script( 'ult-fuse', Config::get_vendor( 'fuse/js/fuse.min.js' ), array( 'jquery' ), UNCANNY_TOOLKIT_VERSION, true );
 			wp_enqueue_script( 'ult-select2', Config::get_vendor( 'select2/js/select2.min.js' ), array( 'jquery' ), UNCANNY_TOOLKIT_VERSION, true );
 			wp_enqueue_style( 'wp-color-picker' );
