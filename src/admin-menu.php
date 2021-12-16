@@ -77,7 +77,7 @@ class AdminMenu extends Boot {
 			'rest' => [
 				'url'   => esc_url_raw( rest_url() . UNCANNY_TOOLKIT_REST_API_END_POINT ),
 				'nonce' => \wp_create_nonce( 'wp_rest' ),
-			]
+			],
 		] );
 
 		// Target Toolkit pages
@@ -89,7 +89,7 @@ class AdminMenu extends Boot {
 			wp_enqueue_script( 'ult-admin-functions', Config::get_admin_js( 'functions.js' ), array(
 				'jquery',
 				'ult-fuse',
-				'ult-select2'
+				'ult-select2',
 			), UNCANNY_TOOLKIT_VERSION, true );
 
 			// Libraries
@@ -143,7 +143,8 @@ class AdminMenu extends Boot {
 				</div>
 				<div class="uo-plugins-header__author">
 					<span><?php _e( 'by', 'uncanny-learndash-toolkit' ); ?></span>
-					<a href="<?php echo Config::utm_parameters( 'https://uncannyowl.com', 'header', 'logo' ); ?>" target="_blank" class="uo-plugins-header__logo">
+					<a href="<?php echo Config::utm_parameters( 'https://uncannyowl.com', 'header', 'logo' ); ?>"
+					   target="_blank" class="uo-plugins-header__logo">
 						<img src="<?php echo esc_url( Config::get_admin_media( 'uncanny-owl-logo.svg' ) ); ?>"
 							 alt="Uncanny Owl">
 					</a>
@@ -311,17 +312,13 @@ class AdminMenu extends Boot {
 	 */
 	public static function create_features( $classes_available, $active_classes ) {
 
-		/* If Magic Quotes are enable we need to stripslashes from ouw $active classes */
-		//if ( function_exists( 'get_magic_quotes_gpc' ) ) {
-		//if ( get_magic_quotes_gpc() ) {
-		//strip slashes from all keys in array
 		$active_classes = Config::stripslashes_deep( $active_classes );
-		//}
-		//}
-
-		$modal_html = '';
+		$modal_html     = '';
 		foreach ( $classes_available as $key => $class ) {
 			if ( ! isset( $class['settings'] ) || false === $class['settings'] ) {
+				$class['settings'] = array();
+			}
+			if ( empty( $class['settings'] ) ) {
 				$class['settings']['modal'] = '';
 				$class['settings']['link']  = '';
 			}
@@ -366,10 +363,6 @@ class AdminMenu extends Boot {
 				self::$modules[ $key ]['cant_use_notice'] = $dependants_exist;
 			}
 
-			if ( ! isset( $class['settings'] ) || false === $class['settings'] ) {
-				$class['settings']['modal'] = '';
-				$class['settings']['link']  = '';
-			}
 			self::$modules[ $key ]['is_pro'] = false;
 			if ( key_exists( 'type', $class ) && ! empty( $class['type'] ) ) {
 				if ( 'pro' === $class['type'] ) {
@@ -412,12 +405,11 @@ class AdminMenu extends Boot {
 			$class_name = $key;
 
 			// Add module ID and UTM ID
-			if ( isset( $class[ 'id' ] ) ){
-				self::$modules[ $key ][ 'id' ] = $class[ 'id' ];
-				self::$modules[ $key ][ 'utm_id' ] = str_replace( '-', '_', $class[ 'id' ] );
-			}
-			else {
-				self::$modules[ $key ][ 'id' ] = str_replace( '\\', '_', $key ) . '-' . uniqid();
+			if ( isset( $class['id'] ) ) {
+				self::$modules[ $key ]['id']     = $class['id'];
+				self::$modules[ $key ]['utm_id'] = str_replace( '-', '_', $class['id'] );
+			} else {
+				self::$modules[ $key ]['id'] = str_replace( '\\', '_', $key ) . '-' . uniqid();
 			}
 
 			self::$modules[ $key ]['class_name']   = $class_name;
@@ -645,7 +637,7 @@ class AdminMenu extends Boot {
 				'title'       => esc_html__( 'Group Forums with bbPress', 'uncanny-learndash-toolkit' ),
 				'description' => esc_html__( 'Create group-specific discussion forums with bbPress. Only group members will have access to group-specific forums. Includes a handy widget.', 'uncanny-learndash-toolkit' ),
 				'kb_link'     => 'https://www.uncannyowl.com/knowledge-base/learndash-group-forums-with-bbpress/',
-				'category'    => '',
+				'category'    => 'learndash',
 			],
 			[
 				'id'          => 'group-login-redirect',
@@ -666,7 +658,7 @@ class AdminMenu extends Boot {
 				'title'       => esc_html__( 'Restrict Page Access', 'uncanny-learndash-toolkit' ),
 				'description' => esc_html__( 'Restrict access to any page by logged in/out status, course enrollment, group membership, or role. Display a message or automatically redirect users that are denied access.', 'uncanny-learndash-toolkit' ),
 				'kb_link'     => 'https://www.uncannyowl.com/knowledge-base/restrict-page-access/',
-				'category'    => 'wordpress',
+				'category'    => [ 'learndash', 'wordpress' ],
 			],
 		];
 
@@ -679,9 +671,9 @@ class AdminMenu extends Boot {
 			$module['version']    = 'pro';
 			$module['is_pro']     = true;
 			$module['pseudo-pro'] = true;
-			$module[ 'utm_id' ]   = $module[ 'id' ];
+			$module['utm_id']     = $module['id'];
 
-			self::$modules[]      = $module;
+			self::$modules[] = $module;
 		}
 	}
 }

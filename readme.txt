@@ -4,7 +4,7 @@ Tags: LearnDash, eLearning, LMS, education, learning, courseware
 Requires at least: 5.2
 Tested up to: 5.8.2
 Requires PHP: 7.0
-Stable tag: 3.6
+Stable tag: 3.6.1
 License: This plugin is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or any later version. Uncanny Toolkit for LearnDash is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with Uncanny Toolkit for LearnDash. If not, see https://www.gnu.org/licenses/gpl-3.0.html.
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -97,6 +97,18 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 
 == Changelog ==
 
+= 3.6.1 [2021-12-16] =
+
+**Added:**
+
+* Front End Login - Support for 2FA plugin v2.0+ #155
+* Front End Login - uo_login shortcode now respects the "Disable Remember Me Checkbox" setting #156
+* PHP 8.x Compatibility #154
+
+**Fixed:**
+
+* Quiz completion advances to next step now forwards the user correctly in LearnDash 5.6.0.1 #152
+
 = 3.6 [2021-11-17] =
 
 **Updated:** 
@@ -106,7 +118,6 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 * Front End Login - Added detection of reCaptcha setting conflict with LearnDash Integrity plugin #137
 * Changes/fixes to ticket submission data when used with Toolkit Pro #135
 * Updated `uncanny_toolkit_template_path` for easier custom template overrides. **Note:** any sites using this function should update their code #133
-* Disable Emails - No fatal errors if fields in emails left blank #144
 
 **Fixed:**
 
@@ -531,4 +542,5 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 
 == Upgrade Notice ==
 
+= 3.0 =
 **IMPORTANT!** The Front End Login module of the Uncanny LearnDash Toolkit changes significantly in version 3.0. Please re-check your settings and review your login page as a logged out user after updating.

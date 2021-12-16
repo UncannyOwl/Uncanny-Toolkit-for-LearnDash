@@ -317,7 +317,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 		$password_reset_message .= __( 'If you did not request a password reset, you may safely ignore this email.', 'uncanny-learndash-toolkit' ) . "\r\n\r\n";
 
-		$verified_user_body = __( 'Your account has been approved! ', 'uncanny-learndash-toolkit' );
+		$verified_user_body  = __( 'Your account has been approved! ', 'uncanny-learndash-toolkit' );
 		$verified_user_body .= __( 'Please visit %Home Url% to login. ', 'uncanny-learndash-toolkit' );
 
 		// Create options
@@ -946,7 +946,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			$subject = apply_filters( 'uo_verified_email_subject', $subject, $user );
 
 			// Create verified user body
-			$default_body = __( 'Your account has been approved! ', 'uncanny-learndash-toolkit' ) . "\r\n\n";
+			$default_body  = __( 'Your account has been approved! ', 'uncanny-learndash-toolkit' ) . "\r\n\n";
 			$default_body .= sprintf( __( 'Please visit %s to login. ', 'uncanny-learndash-toolkit' ), home_url() ) . " \r\n";
 			/**
 			 * Filters user verification email message.
@@ -1004,7 +1004,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			 */
 			$subject = apply_filters( 'uo_verified_email_subject', $subject, $user );
 
-			$message = sprintf( __( '%s account has been approved! ', 'uncanny-learndash-toolkit' ), $user->user_email ) . " \r\n\n";
+			$message  = sprintf( __( '%s account has been approved! ', 'uncanny-learndash-toolkit' ), $user->user_email ) . " \r\n\n";
 			$message .= sprintf( __( ' Visit %s to view / edit user. ', 'uncanny-learndash-toolkit' ), admin_url( 'user-edit.php?user_id=' . $user->id ) ) . " \r\n";
 
 			/**
@@ -1242,6 +1242,8 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			$redirect = strpos( $redirect, '?' ) ? $redirect . '&uo_redirect=1' : $redirect . '?uo_redirect';
 		}
 
+		$base_login_form_args = self::fetch_login_form_args();
+
 		$login_form_args = array(
 			'echo'           => false,
 			'redirect'       => $redirect,
@@ -1254,7 +1256,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			'id_password'    => 'user_pass',
 			'id_remember'    => 'rememberme',
 			'id_submit'      => 'wp-submit',
-			'remember'       => true,
+			'remember'       => isset( $base_login_form_args['remember'] ) ? $base_login_form_args['remember'] : true,
 			'value_username' => null,
 			'value_remember' => true,
 		);
@@ -1554,7 +1556,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		}
 
 		// GET exclusive 'action'.
-		$http_get_action = filter_input( INPUT_GET, 'action', FILTER_SANITIZE_STRING );
+		$http_get_action = filter_input( INPUT_GET, 'action', FILTER_UNSAFE_RAW );
 
 		if ( ! $login_page ) {
 			return;
@@ -1595,12 +1597,12 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				setcookie( 'uo-toolkit-guard', wp_hash_password( $cookie_nonce ), 0, COOKIEPATH, COOKIE_DOMAIN );
 
 				$parameters = array(
-					'provider'           => filter_input( INPUT_GET, 'provider', FILTER_SANITIZE_STRING ),
+					'provider'           => filter_input( INPUT_GET, 'provider', FILTER_UNSAFE_RAW ),
 					'wp-auth-id'         => $user_id,
 					'_wpnonce'           => wp_create_nonce( sprintf( 'uo-toolkit-2fa-user-%d-authentication', $user_id ) ),
-					'wp-auth-nonce'      => filter_input( INPUT_GET, 'wp-auth-nonce', FILTER_SANITIZE_STRING ),
+					'wp-auth-nonce'      => filter_input( INPUT_GET, 'wp-auth-nonce', FILTER_UNSAFE_RAW ),
 					'rememberme'         => filter_input( INPUT_GET, 'rememberme', FILTER_SANITIZE_NUMBER_INT ),
-					'redirect_to'        => filter_input( INPUT_GET, 'redirect_to', FILTER_SANITIZE_STRING ),
+					'redirect_to'        => filter_input( INPUT_GET, 'redirect_to', FILTER_UNSAFE_RAW ),
 					'2fa_authentication' => 1, // Pass `2fa_authentication` to show the 2fa form.
 				);
 
@@ -1613,7 +1615,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		}
 
 		// Check email support for register. Not related to 2fa, but this action should be whitelisted.
-		$checkemail = filter_input( INPUT_GET, 'checkemail', FILTER_SANITIZE_STRING );
+		$checkemail = filter_input( INPUT_GET, 'checkemail', FILTER_UNSAFE_RAW );
 
 		if ( 'registered' == $checkemail ) {
 			return;
@@ -1747,7 +1749,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		$login_page = get_permalink( self::get_login_redirect_page_id() );
 
 		// Append redirect_to parameters.
-		$redirect_to = filter_var( $_REQUEST['redirect_to'], FILTER_SANITIZE_STRING );
+		$redirect_to = filter_var( $_REQUEST['redirect_to'], FILTER_UNSAFE_RAW );
 
 		// Construct the new url.
 		$redirect_url = add_query_arg(
@@ -1766,7 +1768,6 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 		exit;
 	}
-
 
 	/**
 	 * Redirect to custom login page if username or password is empty

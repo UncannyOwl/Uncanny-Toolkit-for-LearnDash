@@ -27,9 +27,26 @@ function uo_toolkit_2fa_load_dependencies() {
 
 	// Check if Two Factor is active or not.
 	if ( class_exists( '\WP2FA\Authenticator\Login' ) ) {
+
+		// Defaults to 2.0.0.
+		$wp2fa_version = '2.0.0';
+
+		$module = UNCANNY_TOOLKIT_DIR . '/src/includes/class-frontend-login-plus-2fa.php';
+
+		if ( defined( 'WP_2FA_VERSION' ) ) {
+			$wp2fa_version = WP_2FA_VERSION;
+		}
+
+		// Load the legacy class for wp2fa version below 2.0.0.
+		if ( version_compare( $wp2fa_version, '2.0.0', '<' ) ) {
+			$module = UNCANNY_TOOLKIT_DIR . '/src/includes/class-frontend-login-plus-2fa-legacy.php';
+		}
+
 		// Load front-end login 2fa.
-		require_once UNCANNY_TOOLKIT_DIR . '/src/includes/class-frontend-login-plus-2fa.php';
+		require_once $module;
+
 		$class_loaded_two_factor = true;
+
 	}
 
 	return $class_loaded_two_factor;
@@ -96,7 +113,7 @@ function uo_toolkit_oci_instance() {
  */
 function uo_toolkit_2fa_oci_ajax_actions() {
 
-	$page = filter_input( INPUT_GET, 'page', FILTER_SANITIZE_STRING );
+	$page = filter_input( INPUT_GET, 'page', FILTER_UNSAFE_RAW );
 
 	// Allow when requesting.
 	if ( ! wp_doing_ajax() ) {
@@ -171,8 +188,8 @@ function uo_toolkit_2fa_oci_button() {
 
 					<?php esc_html_e( 'Go to', 'uncanny-learndash-toolkit' ); ?>
 
-					<a target="_blank" 
-						href="<?php echo esc_url( admin_url( 'options-general.php?page=wp-2fa-settings' ) ); ?>" 
+					<a target="_blank"
+						href="<?php echo esc_url( admin_url( 'options-general.php?page=wp-2fa-settings' ) ); ?>"
 						title="<?php esc_attr_e( 'WP-ADMIN > Settings > Two-factor Authentication', 'uncanny-learndash-toolkit' ); ?>">
 						<?php esc_html_e( 'WP 2FA Settings', 'uncanny-learndash-toolkit' ); ?></a>
 
@@ -200,7 +217,7 @@ function uo_toolkit_2fa_oci_button() {
 					<?php esc_html_e( 'Uncanny Toolkit integrates with the free WP 2FA plugin to support two factor login authentication.', 'uncanny-learndash-toolkit' ); ?>
 				</p>
 
-				<?php echo uo_toolkit_oci_instance()->button( 'wp-2fa' ); //phpcs:ignore ?> 
+				<?php echo uo_toolkit_oci_instance()->button( 'wp-2fa' ); //phpcs:ignore ?>
 
 				<p class="ult-modal-form-row__description">
 
@@ -239,7 +256,7 @@ function uo_toolkit_2fa_oci_button() {
  */
 function uo_toolkit_2fa_form_exists() {
 
-	$auth = filter_input( INPUT_GET, '2fa_authentication', FILTER_SANITIZE_STRING );
+	$auth = filter_input( INPUT_GET, '2fa_authentication', FILTER_UNSAFE_RAW );
 
 	return ( ! empty( $auth ) ) && class_exists( '\WP2FA\Authenticator\Login' );
 

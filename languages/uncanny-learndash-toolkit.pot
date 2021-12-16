@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Uncanny Toolkit for LearnDash 3.6\n"
+"Project-Id-Version: Uncanny Toolkit for LearnDash 3.6.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/uncanny-learndash-toolkit\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-11-17T21:27:16+00:00\n"
+"POT-Creation-Date: 2021-12-16T19:09:26+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.5.0\n"
 "X-Domain: uncanny-learndash-toolkit\n"
@@ -52,231 +52,231 @@ msgstr ""
 msgid "by"
 msgstr ""
 
-#: src/admin-menu.php:477
+#: src/admin-menu.php:469
 msgid "Days Until Course Expiry"
 msgstr ""
 
-#: src/admin-menu.php:478
+#: src/admin-menu.php:470
 msgid "Use this shortcode to display the number of days until the learner's access expires for the current course. This is a useful shortcode to include on course pages."
 msgstr ""
 
-#: src/admin-menu.php:484
+#: src/admin-menu.php:476
 msgid "Email Course Certificates"
 msgstr ""
 
-#: src/admin-menu.php:485
+#: src/admin-menu.php:477
 msgid "Sends a copy of certificate earned from course completion and saves certificates on the server."
 msgstr ""
 
-#: src/admin-menu.php:491
+#: src/admin-menu.php:483
 msgid "Simple Course Timer"
 msgstr ""
 
-#: src/admin-menu.php:492
+#: src/admin-menu.php:484
 msgid "Tracks time spent in all LearnDash courses and detects when a user is idle. Course completion time and total course time are both added to LearnDash reports. Enables blocking access to quizzes until minimum time spent in course."
 msgstr ""
 
-#: src/admin-menu.php:498
+#: src/admin-menu.php:490
 msgid "Email Quiz Certificates"
 msgstr ""
 
-#: src/admin-menu.php:499
+#: src/admin-menu.php:491
 msgid "Sends a copy of certificates earned from quiz completion and saves certificates on the server."
 msgstr ""
 
-#: src/admin-menu.php:505
+#: src/admin-menu.php:497
 msgid "Autocomplete Lessons & Topics on Gravity Form Submission"
 msgstr ""
 
-#: src/admin-menu.php:506
+#: src/admin-menu.php:498
 msgid "Automatically mark LearnDash lessons and topics as completed when the user submits Gravity Forms."
 msgstr ""
 
-#: src/admin-menu.php:512
+#: src/admin-menu.php:504
 msgid "Improved Group Leader Interface"
 msgstr ""
 
-#: src/admin-menu.php:513
+#: src/admin-menu.php:505
 msgid "Enhances the experience of LearnDash Group Leaders by providing direct access to reports and removing unnecessary distractions from the admin panel."
 msgstr ""
 
-#: src/admin-menu.php:519
+#: src/admin-menu.php:511
 msgid "Group Logo/List"
 msgstr ""
 
-#: src/admin-menu.php:520
+#: src/admin-menu.php:512
 msgid "Add group-specific logos to any page, including registration pages. A shortcode to list a user's LearnDash Groups is also available."
 msgstr ""
 
-#: src/admin-menu.php:526
+#: src/admin-menu.php:518
 msgid "Import Users"
 msgstr ""
 
-#: src/admin-menu.php:527
+#: src/admin-menu.php:519
 msgid "Create or update users and assign them to courses and LearnDash Groups from a CSV file."
 msgstr ""
 
-#: src/admin-menu.php:533
+#: src/admin-menu.php:525
 msgid "Group Expiration"
 msgstr ""
 
-#: src/admin-menu.php:534
+#: src/admin-menu.php:526
 msgid "Set expiration dates for LearnDash groups so that course enrolment for the group is removed on the specified day. Reminder emails can be sent to users advising them of group expiration."
 msgstr ""
 
-#: src/admin-menu.php:540
+#: src/admin-menu.php:532
 msgid "Group Registration"
 msgstr ""
 
-#: src/admin-menu.php:541
+#: src/admin-menu.php:533
 msgid "Allow users to add themselves directly to LearnDash Groups on registration by assigning each group a unique registration URL. Users can also change or add groups themselves by visiting group URLs."
 msgstr ""
 
-#: src/admin-menu.php:547
+#: src/admin-menu.php:539
 msgid "Course Dashboard"
 msgstr ""
 
-#: src/admin-menu.php:548
+#: src/admin-menu.php:540
 msgid "Use the [uo_dashboard] shortcode to display the list of enrolled courses for the current user. This is essentially a modified version of the [ld_profile] shortcode without profile data."
 msgstr ""
 
-#: src/admin-menu.php:554
+#: src/admin-menu.php:546
 msgid "Duplicate Pages & Posts"
 msgstr ""
 
-#: src/admin-menu.php:555
+#: src/admin-menu.php:547
 msgid "Easily clone pages, posts, LearnDash courses, lessons, topics, quizzes and more. This plugin handles quiz duplication properly."
 msgstr ""
 
-#: src/admin-menu.php:561
+#: src/admin-menu.php:553
 msgid "Reset Progress Button"
 msgstr ""
 
-#: src/admin-menu.php:562
+#: src/admin-menu.php:554
 msgid "Inserts a button that allows learners to reset the course."
 msgstr ""
 
-#: src/admin-menu.php:568
+#: src/admin-menu.php:560
 msgid "Lesson/Topic/Quiz Table Colors"
 msgstr ""
 
-#: src/admin-menu.php:569
+#: src/admin-menu.php:561
 msgid "Change the background and header text color of LearnDash tables. This module modifies the course, lesson, topic, quiz, and Pro Dashboard tables."
 msgstr ""
 
-#: src/admin-menu.php:575
+#: src/admin-menu.php:567
 msgid "Learner Transcript"
 msgstr ""
 
-#: src/admin-menu.php:576
+#: src/admin-menu.php:568
 msgid "Add printable transcripts to the front end for your learners. This is a great way for learners to have a record of all course progress and overall standing."
 msgstr ""
 
-#: src/admin-menu.php:582
+#: src/admin-menu.php:574
 msgid "Autocomplete Lessons & Topics"
 msgstr ""
 
-#: src/admin-menu.php:583
+#: src/admin-menu.php:575
 msgid "Automatically mark all lessons and topics as completed on user visit and remove Mark Complete buttons. Global settings can be overridden for individual lessons and topics."
 msgstr ""
 
-#: src/admin-menu.php:589
+#: src/admin-menu.php:581
 msgid "Autocomplete Lessons & Topics on Quiz Results Page"
 msgstr ""
 
-#: src/admin-menu.php:590
+#: src/admin-menu.php:582
 msgid "Automatically mark LearnDash lessons and topics as completed when the user reaches the quiz results page with a passing mark."
 msgstr ""
 
-#: src/admin-menu.php:596
+#: src/admin-menu.php:588
 msgid "Enhanced Lessons/Topics Grid"
 msgstr ""
 
-#: src/admin-menu.php:597
+#: src/admin-menu.php:589
 msgid "Add a highly customizable grid of LearnDash lessons/topics to the front end, learner dashboard or anywhere you want. This is a great tool for sites with a large number of lessons/topics."
 msgstr ""
 
-#: src/admin-menu.php:603
+#: src/admin-menu.php:595
 msgid "Sample Lesson Label"
 msgstr ""
 
-#: src/admin-menu.php:604
+#: src/admin-menu.php:596
 msgid "Add visual label to sample lessons."
 msgstr ""
 
-#: src/admin-menu.php:610
+#: src/admin-menu.php:602
 msgid "Enhanced Course Grid"
 msgstr ""
 
-#: src/admin-menu.php:611
+#: src/admin-menu.php:603
 msgid "Add a highly customizable grid of LearnDash courses to the front end, learner dashboard or anywhere you want. This is a great tool for sites with a large number of courses."
 msgstr ""
 
-#: src/admin-menu.php:617
+#: src/admin-menu.php:609
 msgid "Drip Lessons by Group"
 msgstr ""
 
-#: src/admin-menu.php:618
+#: src/admin-menu.php:610
 msgid "Unlock access to LearnDash lessons by setting dates for LearnDash Groups rather than for all enrolled users."
 msgstr ""
 
-#: src/admin-menu.php:624
+#: src/admin-menu.php:616
 msgid "Autocomplete Lessons & Topics When Quiz is Graded"
 msgstr ""
 
-#: src/admin-menu.php:625
+#: src/admin-menu.php:617
 msgid "Automatically mark LearnDash lessons and topics as completed when the associated quiz is manually graded."
 msgstr ""
 
-#: src/admin-menu.php:631
+#: src/admin-menu.php:623
 msgid "Certificate Preview"
 msgstr ""
 
-#: src/admin-menu.php:632
+#: src/admin-menu.php:624
 msgid "Get a preview of your quiz or course certificate without leaving the editor."
 msgstr ""
 
-#: src/admin-menu.php:638
+#: src/admin-menu.php:630
 msgid "Enhanced LearnDash CSV Reports"
 msgstr ""
 
-#: src/admin-menu.php:639
+#: src/admin-menu.php:631
 msgid "This module will add additional columns to the LearnDash csv reports (course and quiz)."
 msgstr ""
 
-#: src/admin-menu.php:645
+#: src/admin-menu.php:637
 msgid "Group Forums with bbPress"
 msgstr ""
 
-#: src/admin-menu.php:646
+#: src/admin-menu.php:638
 msgid "Create group-specific discussion forums with bbPress. Only group members will have access to group-specific forums. Includes a handy widget."
 msgstr ""
 
-#: src/admin-menu.php:652
+#: src/admin-menu.php:644
 msgid "Group Login Redirect"
 msgstr ""
 
-#: src/admin-menu.php:653
+#: src/admin-menu.php:645
 msgid "Adds a group-specific login redirect setting to LearnDash groups. Automatically redirect group members to a specific page on login."
 msgstr ""
 
-#: src/admin-menu.php:659
+#: src/admin-menu.php:651
 msgid "Lazy Loading Course Navigation"
 msgstr ""
 
-#: src/admin-menu.php:660
+#: src/admin-menu.php:652
 msgid "Shortcode that loads a course navigation tree via AJAX. Useful on sites with many lessons and topics where the native LearnDash Course Navigation widget is extending page load time."
 msgstr ""
 
-#: src/admin-menu.php:666
+#: src/admin-menu.php:658
 msgid "Restrict Page Access"
 msgstr ""
 
-#: src/admin-menu.php:667
+#: src/admin-menu.php:659
 msgid "Restrict access to any page by logged in/out status, course enrollment, group membership, or role. Display a message or automatically redirect users that are denied access."
 msgstr ""
 
-#: src/admin-menu.php:675
+#: src/admin-menu.php:667
 msgid "This module requires Uncanny Toolkit Pro. {{Buy it here}}"
 msgstr ""
 
@@ -601,8 +601,8 @@ msgid "Invalid Credentials Message"
 msgstr ""
 
 #: src/classes/frontend-login-plus.php:505
-#: src/classes/frontend-login-plus.php:2520
-#: src/classes/frontend-login-plus.php:2637
+#: src/classes/frontend-login-plus.php:2521
+#: src/classes/frontend-login-plus.php:2638
 #: src/templates/frontend-login/layout_1-login.php:13
 msgid "Invalid username and/or password."
 msgstr ""
@@ -844,33 +844,33 @@ msgstr ""
 msgid "We haven't verified this account."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:2212
+#: src/classes/frontend-login-plus.php:2213
 msgid "Note: This page has been set as the login page for this site. The form below has been added for your convenience. To hide this message, add the shortcode [uo_login_ui] or the Front End Login Gutenberg block to this page."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:2369
+#: src/classes/frontend-login-plus.php:2370
 msgid "<strong>ERROR</strong>: Password fields cannot be empty."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:2372
+#: src/classes/frontend-login-plus.php:2373
 msgid "<strong>ERROR</strong>: Passwords do not match."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:2379
+#: src/classes/frontend-login-plus.php:2380
 msgid "<strong>ERROR</strong>: Please enter a password of minimum 8 characters including at least 1 uppercase letter, 1 lowercase letter and 1 number."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:2622
+#: src/classes/frontend-login-plus.php:2623
 #: src/templates/frontend-login/layout_1-login.php:23
 msgid "This account is not verified."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:2699
+#: src/classes/frontend-login-plus.php:2700
 msgid "Invalid username/email."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:2927
-#: src/classes/frontend-login-plus.php:2983
+#: src/classes/frontend-login-plus.php:2928
+#: src/classes/frontend-login-plus.php:2984
 msgid "Password fields cannot be empty."
 msgstr ""
 
@@ -1189,136 +1189,152 @@ msgstr ""
 msgid "You must be an admin to save settings."
 msgstr ""
 
-#: src/includes/class-frontend-login-plus-2fa.php:290
-#: src/includes/class-frontend-login-plus-2fa.php:300
-#: src/includes/class-frontend-login-plus-2fa.php:321
-#: src/includes/class-frontend-login-plus-2fa.php:340
+#: src/includes/class-frontend-login-plus-2fa-legacy.php:288
+#: src/includes/class-frontend-login-plus-2fa-legacy.php:298
+#: src/includes/class-frontend-login-plus-2fa-legacy.php:319
+#: src/includes/class-frontend-login-plus-2fa-legacy.php:338
+#: src/includes/class-frontend-login-plus-2fa.php:289
+#: src/includes/class-frontend-login-plus-2fa.php:299
+#: src/includes/class-frontend-login-plus-2fa.php:320
+#: src/includes/class-frontend-login-plus-2fa.php:339
 msgid "Failed to create a login nonce."
 msgstr ""
 
-#: src/includes/class-frontend-login-plus-2fa.php:347
+#: src/includes/class-frontend-login-plus-2fa-legacy.php:345
+#: src/includes/class-frontend-login-plus-2fa.php:346
 msgid "A new code has been sent."
 msgstr ""
 
-#: src/includes/class-frontend-login-plus-2fa.php:454
+#: src/includes/class-frontend-login-plus-2fa-legacy.php:452
+#: src/includes/class-frontend-login-plus-2fa.php:453
 msgid "ERROR: Failed to create a login nonce."
 msgstr ""
 
-#: src/includes/class-frontend-login-plus-2fa.php:470
+#: src/includes/class-frontend-login-plus-2fa-legacy.php:468
+#: src/includes/class-frontend-login-plus-2fa.php:469
 msgid "ERROR: Invalid verification code."
 msgstr ""
 
-#: src/includes/class-frontend-login-plus-2fa.php:487
+#: src/includes/class-frontend-login-plus-2fa-legacy.php:485
+#: src/includes/class-frontend-login-plus-2fa.php:486
 msgid "ERROR: Session is invalid or have expired."
 msgstr ""
 
-#: src/includes/class-frontend-login-plus-2fa.php:489
+#: src/includes/class-frontend-login-plus-2fa-legacy.php:487
+#: src/includes/class-frontend-login-plus-2fa.php:488
 msgid "ERROR: Cannot display authentication form."
 msgstr ""
 
-#: src/includes/class-frontend-login-plus-2fa.php:496
+#: src/includes/class-frontend-login-plus-2fa-legacy.php:494
+#: src/includes/class-frontend-login-plus-2fa.php:495
 msgid "Return to login form"
 msgstr ""
 
-#: src/includes/class-frontend-login-plus-2fa.php:498
+#: src/includes/class-frontend-login-plus-2fa-legacy.php:496
+#: src/includes/class-frontend-login-plus-2fa.php:497
 msgid "Go back to login form"
 msgstr ""
 
-#: src/includes/class-frontend-login-plus-2fa.php:589
+#: src/includes/class-frontend-login-plus-2fa-legacy.php:587
+#: src/includes/class-frontend-login-plus-2fa.php:586
 msgid "A new verification code has been sent to your email."
 msgstr ""
 
-#: src/includes/class-frontend-login-plus-2fa.php:630
+#: src/includes/class-frontend-login-plus-2fa-legacy.php:628
+#: src/includes/class-frontend-login-plus-2fa.php:667
 msgid "Or, use a backup code."
 msgstr ""
 
-#: src/includes/class-frontend-login-plus-2fa.php:636
+#: src/includes/class-frontend-login-plus-2fa-legacy.php:634
+#: src/includes/class-frontend-login-plus-2fa.php:673
 msgid "Or, go back to login form."
 msgstr ""
 
-#: src/includes/class-frontend-login-plus-2fa.php:644
+#: src/includes/class-frontend-login-plus-2fa-legacy.php:642
+#: src/includes/class-frontend-login-plus-2fa.php:683
 msgid "Are you lost?"
 msgstr ""
 
 #. translators: %s: site name.
-#: src/includes/class-frontend-login-plus-2fa.php:649
+#: src/includes/class-frontend-login-plus-2fa-legacy.php:647
+#: src/includes/class-frontend-login-plus-2fa.php:688
 msgid "&larr; Back to %s"
 msgstr ""
 
-#: src/includes/uo-toolkit-2fa-functions.php:141
+#: src/includes/uo-toolkit-2fa-functions.php:158
 msgid "Two-Factor authentication"
 msgstr ""
 
-#: src/includes/uo-toolkit-2fa-functions.php:147
-#: src/includes/uo-toolkit-2fa-functions.php:200
+#: src/includes/uo-toolkit-2fa-functions.php:164
+#: src/includes/uo-toolkit-2fa-functions.php:217
 msgid "Uncanny Toolkit integrates with the free WP 2FA plugin to support two factor login authentication."
 msgstr ""
 
 #. translators: %s will be replaced with a "string" - state of the plugin
-#: src/includes/uo-toolkit-2fa-functions.php:156
+#: src/includes/uo-toolkit-2fa-functions.php:173
 msgid "WP 2FA is currently %s."
 msgstr ""
 
-#: src/includes/uo-toolkit-2fa-functions.php:157
+#: src/includes/uo-toolkit-2fa-functions.php:174
 msgid "active"
 msgstr ""
 
 #. translators: %s will be replaced with a "string" - state of the plugin
-#: src/includes/uo-toolkit-2fa-functions.php:162
+#: src/includes/uo-toolkit-2fa-functions.php:179
 msgid "Integration is currently %s. Choose a login page in the Front End Logins settings above to use WP 2FA with the front end login."
 msgstr ""
 
-#: src/includes/uo-toolkit-2fa-functions.php:163
+#: src/includes/uo-toolkit-2fa-functions.php:180
 msgid "inactive"
 msgstr ""
 
-#: src/includes/uo-toolkit-2fa-functions.php:172
+#: src/includes/uo-toolkit-2fa-functions.php:189
 msgid "Go to"
 msgstr ""
 
-#: src/includes/uo-toolkit-2fa-functions.php:176
+#: src/includes/uo-toolkit-2fa-functions.php:193
 msgid "WP-ADMIN > Settings > Two-factor Authentication"
 msgstr ""
 
-#: src/includes/uo-toolkit-2fa-functions.php:177
+#: src/includes/uo-toolkit-2fa-functions.php:194
 msgid "WP 2FA Settings"
 msgstr ""
 
-#: src/includes/uo-toolkit-2fa-functions.php:179
+#: src/includes/uo-toolkit-2fa-functions.php:196
 msgid "to configure 2FA settings."
 msgstr ""
 
 #. translators: %1$s The uninstall text %2$s The WP 2FA plugin label
-#: src/includes/uo-toolkit-2fa-functions.php:187
+#: src/includes/uo-toolkit-2fa-functions.php:204
 msgid "%1$s the %2$s plugin to remove the integration."
 msgstr ""
 
-#: src/includes/uo-toolkit-2fa-functions.php:188
+#: src/includes/uo-toolkit-2fa-functions.php:205
 msgid "Show active plugins"
 msgstr ""
 
-#: src/includes/uo-toolkit-2fa-functions.php:188
+#: src/includes/uo-toolkit-2fa-functions.php:205
 msgid "Uninstall/Disable"
 msgstr ""
 
-#: src/includes/uo-toolkit-2fa-functions.php:189
+#: src/includes/uo-toolkit-2fa-functions.php:206
 msgid "WP 2FA – Two-factor"
 msgstr ""
 
-#: src/includes/uo-toolkit-2fa-functions.php:209
-#: src/includes/uo-toolkit-2fa-functions.php:210
+#: src/includes/uo-toolkit-2fa-functions.php:226
+#: src/includes/uo-toolkit-2fa-functions.php:227
 msgid "WP 2FA"
 msgstr ""
 
-#: src/includes/uo-toolkit-2fa-functions.php:213
+#: src/includes/uo-toolkit-2fa-functions.php:230
 msgid "is a free two-factor authentication plugin for WordPress. WP 2FA is a third-party plugin managed by"
 msgstr ""
 
-#: src/includes/uo-toolkit-2fa-functions.php:215
+#: src/includes/uo-toolkit-2fa-functions.php:232
 msgid "WP White Security"
 msgstr ""
 
-#: src/includes/uo-toolkit-2fa-functions.php:216
+#: src/includes/uo-toolkit-2fa-functions.php:233
 msgid "WP White Security."
 msgstr ""
 

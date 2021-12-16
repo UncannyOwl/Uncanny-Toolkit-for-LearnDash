@@ -214,7 +214,7 @@ class Boot extends Config {
 		$class_to_filename = lcfirst( $class );
 
 		// Split class name on upper case letter eg: myClassName to array( 'my', 'Class', 'Name')
-		$split_class_to_filename = preg_split( '#([A-Z][^A-Z]*)#', $class_to_filename, null, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY );
+		$split_class_to_filename = preg_split( '#([A-Z][^A-Z]*)#', $class_to_filename, 0, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY );
 
 		if ( 1 <= count( $split_class_to_filename ) ) {
 			// Split class name to hyphenated name eg: array( 'my', 'Class', 'Name') to my-Class-Name

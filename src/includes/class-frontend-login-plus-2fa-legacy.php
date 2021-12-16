@@ -3,7 +3,6 @@ namespace uncanny_learndash_toolkit;
 
 use WP2FA\Authenticator\Login as Two_Factor_Core;
 use WP2FA\Authenticator\BackupCodes as BackupCodes;
-use WP2FA\Admin\SettingsPage;
 
 /**
  * This class handles the integration between Uncanny Front-end Login and Two-Factor.
@@ -537,13 +536,15 @@ class Frontend_Login_Plus_2fa {
 	 */
 	protected function login_html( $user, $login_nonce, $redirect_to, $error_msg = '', $provider = null ) {
 
-		if ( ! $provider || ( 'backup_codes' === $provider && ! SettingsPage::are_backup_codes_enabled( $user->roles[0] ) ) ) {
-			$provider = $this->two_factor::get_available_providers_for_user( $user );
+		if ( ! $provider ) {
+			$provider = $this->two_factor->get_available_providers_for_user( $user );
 		}
 
 		$codes_remaining = BackupCodes::codes_remaining_for_user( $user );
+
 		$interim_login = ( isset( $_REQUEST['interim-login'] ) ) ? filter_var( wp_unslash( $_REQUEST['interim-login'] ), FILTER_VALIDATE_BOOLEAN ) : false; //phpcs:ignore
-		$rememberme      = intval( $this->two_factor::rememberme() );
+
+		$rememberme = intval( $this->two_factor::rememberme() );
 
 		if ( ! empty( $error_msg ) ) {
 			?>
@@ -565,80 +566,40 @@ class Frontend_Login_Plus_2fa {
 			action="<?php echo esc_url( $this->two_factor::login_url( array( 'action' => 'validate_2fa' ), 'login_post' ) ); ?>" 
 			method="post" autocomplete="off" >
 
-			<input type="hidden" name="provider"      id="provider"      value="<?php echo esc_attr( $provider ); ?>" />
-			<input type="hidden" name="wp-auth-id"    id="wp-auth-id"    value="<?php echo esc_attr( $user->ID ); ?>" />
-			<input type="hidden" name="wp-auth-nonce" id="wp-auth-nonce" value="<?php echo esc_attr( $login_nonce ); ?>" />
+				<input type="hidden" name="provider"      id="provider"      value="<?php echo esc_attr( $provider ); ?>" />
+				<input type="hidden" name="wp-auth-id"    id="wp-auth-id"    value="<?php echo esc_attr( $user->ID ); ?>" />
+				<input type="hidden" name="wp-auth-nonce" id="wp-auth-nonce" value="<?php echo esc_attr( $login_nonce ); ?>" />
 
-			<?php if ( $interim_login ) : ?>
-				<input type="hidden" name="interim-login" value="1" />
-			<?php else : ?>
-				<input type="hidden" name="redirect_to" value="<?php echo esc_attr( $redirect_to ); ?>" />
-			<?php endif; ?>
+				<?php if ( $interim_login ) : ?>
+					<input type="hidden" name="interim-login" value="1" />
+				<?php else : ?>
+					<input type="hidden" name="redirect_to" value="<?php echo esc_attr( $redirect_to ); ?>" />
+				<?php endif; ?>
 
-			<input type="hidden" name="rememberme" id="rememberme" value="<?php echo esc_attr( $rememberme ); ?>" />
+				<input type="hidden" name="rememberme" id="rememberme" value="<?php echo esc_attr( $rememberme ); ?>" />
 
-			<?php $resend_email = filter_input( INPUT_GET, '2fa-action', FILTER_SANITIZE_STRING ); ?>
+				<?php $resend_email = filter_input( INPUT_GET, '2fa-action', FILTER_SANITIZE_STRING ); ?>
 
-			<?php if ( ! empty( $resend_email ) ) : ?>
-				<div class="ult-notice ult-notice--success" style="margin-top: 20px;">
-					<span class="ult-notice-text">
-						<strong>
-							<?php esc_html_e( 'A new verification code has been sent to your email.', 'uncanny-learndash-toolkit' ); ?>
-						</strong>    
-					</span>
-				</div>
-			<?php endif; ?>
-
-			<?php
-			// Check to see what provider is set and give the relevant authentication page.
-			if ( 'totp' === $provider ) {
-				$this->two_factor::totp_authentication_page( $user );
-			} elseif ( 'email' === $provider ) {
-				$this->two_factor::email_authentication_page( $user );
-			} elseif ( 'backup_codes' === $provider ) {
-				$this->two_factor::backup_codes_authentication_page( $user );
-			} else {
-				do_action( 'wp_2fa_login_form', $user, $provider );
-			}
-			?>
-
-			<?php $submit_button_disabled = apply_filters( 'wp_2fa_login_disable_submit_button', false, $user, $provider ); ?>
-
-			<?php if ( ! $submit_button_disabled ) : ?>
-				<?php do_action( 'wp_2fa_login_before_submit_button', $user, $provider ); ?>
-				<p>
-					<?php
-					if ( function_exists( 'submit_button' ) ) {
-						$button_text = apply_filters( 'wp_2fa_login_button_text', esc_html__( 'Log In', 'wp-2fa' ) );
-						submit_button( $button_text );
-						?>
-						<script type="text/javascript">
-							setTimeout(function () {
-								var d
-								try {
-									d = document.getElementById('authcode')
-									d.value = ''
-									d.focus()
-								} catch (e) {}
-							}, 200)
-						</script>
-					<?php } ?>
-				</p>
+				<?php if ( ! empty( $resend_email ) ) : ?>
+					<div class="ult-notice ult-notice--success" style="margin-top: 20px;">
+						<span class="ult-notice-text">
+							<strong>
+								<?php esc_html_e( 'A new verification code has been sent to your email.', 'uncanny-learndash-toolkit' ); ?>
+							</strong>    
+						</span>
+					</div>
+				<?php endif; ?>
 
 				<?php
-				if ( 'email' === $provider ) :
-					?>
-					<p class="2fa-email-resend">
-						<input type="submit" class="button"
-							name="<?php echo esc_attr( $this->two_factor::INPUT_NAME_RESEND_CODE ); ?>"
-							value="<?php esc_attr_e( 'Resend Code', 'wp-2fa' ); ?>"/>
-					</p>
-					<?php
-				endif;
-			endif; // submit button not disabled
-
-			do_action( 'wp_2fa_login_html_before_end', $user, $provider );
-			?>
+				// Check to see what provider is set and give the relevant authentication page.
+				if ( 'totp' === $provider ) {
+					$this->two_factor::totp_authentication_page( $user );
+				} elseif ( 'email' === $provider ) {
+					$this->two_factor::email_authentication_page( $user );
+				} elseif ( 'backup_codes' === $provider ) {
+					$this->two_factor::backup_codes_authentication_page( $user );
+				}
+				?>
 
 		</form>
 
@@ -646,7 +607,7 @@ class Frontend_Login_Plus_2fa {
 
 		<?php
 
-		if ( 'backup_codes' !== $provider && SettingsPage::are_backup_codes_enabled( $user->roles[0] ) && isset( $codes_remaining ) && $codes_remaining > 0 ) :
+		if ( isset( $codes_remaining ) && $codes_remaining > 0 ) :
 
 			$login_url = $this->two_factor::login_url(
 				array(
@@ -661,13 +622,13 @@ class Frontend_Login_Plus_2fa {
 
 			?>
 
-			<?php if ( 'backup_codes' !== filter_input( INPUT_GET, 'provider' ) ) : ?>
+			<?php if ( "backup_codes" !== filter_input( INPUT_GET, 'provider' ) ): ?>
 				<div class="uo-toolkit-2fa-footer__backup-codes">
 					<a href="<?php echo esc_url( $login_url ); ?>">
 						<?php esc_html_e( 'Or, use a backup code.', 'uncanny-learndash-toolkit' ); ?>
 					</a>
 				</div>
-			<?php else : ?>
+			<?php else: ?>
 				<div class="uo-toolkit-2fa-footer__backup-codes">
 					<a href="<?php echo esc_url( wp_login_url() ); ?>">
 						<?php esc_html_e( 'Or, go back to login form.', 'uncanny-learndash-toolkit' ); ?>
@@ -676,8 +637,6 @@ class Frontend_Login_Plus_2fa {
 			<?php endif; ?>
 
 		<?php endif; ?>
-
-			<?php do_action( 'wp_2fa_login_html_after_backup_providers', $user, $provider, $login_nonce, $redirect_to, $rememberme ); ?>
 
 			<div class="uo-toolkit-2fa-footer__backto-home">
 				<a href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php esc_attr_e( 'Are you lost?', 'uncanny-learndash-toolkit' ); ?>">

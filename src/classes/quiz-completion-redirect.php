@@ -147,7 +147,7 @@ class QuizCompletionRedirect extends Config implements RequiredFunctions {
 		$next_quiz_url = learndash_next_lesson_quiz( true, null, $step_id, null );
 
 		// there's another quiz to do in the step.
-		if ( ! empty( $next_quiz_url ) ) {
+		if ( ! empty( $next_quiz_url ) && wp_http_validate_url( $next_quiz_url ) ) {
 			return $next_quiz_url;
 		}
 
