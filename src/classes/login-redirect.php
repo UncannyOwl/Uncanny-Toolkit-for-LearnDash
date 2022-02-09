@@ -40,8 +40,15 @@ class LoginRedirect extends Config implements RequiredFunctions {
 				$redirect_priority = 999;
 			}
 			
-			add_filter( 'login_redirect', array( __CLASS__, 'login_redirect' ), $redirect_priority, 3 );
-			add_action( 'wp_logout', array( __CLASS__, 'logout_redirect' ), $redirect_priority, 1 );
+			$do_login_redirect = apply_filters( 'uo_do_login_redirect', true );
+			if( $do_login_redirect ){
+				add_filter( 'login_redirect', array( __CLASS__, 'login_redirect' ), $redirect_priority, 3 );
+			}
+
+			$do_logout_redirect = apply_filters( 'uo_do_logout_redirect', true );
+			if( $do_logout_redirect ){
+				add_action( 'wp_logout', array( __CLASS__, 'logout_redirect' ), $redirect_priority, 1 );
+			}
 		}
 
 	}

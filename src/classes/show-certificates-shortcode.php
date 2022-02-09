@@ -61,7 +61,7 @@ class ShowCertificatesShortcode extends Config implements RequiredFunctions {
 		);
 
 	}
-	
+
 	/**
 	 * HTML for modal to create settings
 	 *
@@ -79,7 +79,7 @@ class ShowCertificatesShortcode extends Config implements RequiredFunctions {
 				'option_name' => 'uncanny-showcertificate-show-cert-title',
 			),
 		);
-		
+
 		// Build html
 		$html = self::settings_output(
 			array(
@@ -87,10 +87,10 @@ class ShowCertificatesShortcode extends Config implements RequiredFunctions {
 				'title'   => $class_title,
 				'options' => $options,
 			) );
-		
+
 		return $html;
 	}
-	
+
 	/**
 	 * Does the plugin rely on another function or plugin
 	 *
@@ -137,7 +137,7 @@ class ShowCertificatesShortcode extends Config implements RequiredFunctions {
 		} else {
 			$no_cert_message = esc_html__( 'Complete courses to earn certificates', 'uncanny-learndash-toolkit' );
 		}
-		
+
 		$show_cert_title  = self::get_settings_value( 'uncanny-showcertificate-show-cert-title', __CLASS__ );
 		$certificate_list = '';
 
@@ -163,15 +163,14 @@ class ShowCertificatesShortcode extends Config implements RequiredFunctions {
 				} else {
 					$certificate_title = $course->post_title;
 				}
-				
-				$certificate_link  = learndash_get_course_certificate_link( $course->ID );
+
+				$certificate_link = learndash_get_course_certificate_link( $course->ID );
 
 				if ( $certificate_link && '' !== $certificate_link ) {
-					$certificate_list .= '<a target="_blank" href="' . $certificate_link . '">' . $certificate_title . '</a><br>';
+					$link             = apply_filters( 'uo_show_course_certificate_link', sprintf( '<a target="_blank" href="%s">%s</a>', $certificate_link, $certificate_title ), wp_get_current_user(), $course );
+					$certificate_list .= $link . '<br>';
 				}
 			}
-
-
 		}
 
 		/* GET Certificates for Quizzes*/
@@ -184,11 +183,11 @@ class ShowCertificatesShortcode extends Config implements RequiredFunctions {
 			foreach ( $quiz_attempts as $k => $quiz_attempt ) {
 
 				if ( isset( $quiz_attempt['certificate'] ) ) {
-					$certificateLink     = $quiz_attempt['certificate']['certificateLink'];
+					$certificate_link    = $quiz_attempt['certificate']['certificateLink'];
 					$quiz_title_fallback = ( isset( $quiz_attempt['quiz_title'] ) ) ? $quiz_attempt['quiz_title'] : '';
 					$quiz_title          = ! empty( $quiz_attempt['post']->post_title ) ? $quiz_attempt['post']->post_title : $quiz_title_fallback;
 
-					if ( ! empty( $certificateLink ) ) {
+					if ( ! empty( $certificate_link ) ) {
 
 						$meta               = get_post_meta( $quiz_attempt['post']->ID, '_sfwd-quiz', true );
 						$certificate_id     = $meta['sfwd-quiz_certificate'];
@@ -198,15 +197,15 @@ class ShowCertificatesShortcode extends Config implements RequiredFunctions {
 						} else {
 							$certificate_title = $quiz_title;
 						}
-
-						$certificate_list .= '<a target="_blank" href="' . esc_url( $certificateLink ) . '">' . $certificate_title . '</a><br>';
-
+						$link             = apply_filters( 'uo_show_quiz_certificate_link', sprintf( '<a target="_blank" href="%s">%s</a>', esc_url( $certificate_link ), $certificate_title ), wp_get_current_user(), $quiz_attempt );
+						$certificate_list .= $link . '<br>';
 					}
 				}
 			}
 		}
 
-		$certificate_list = apply_filters( 'certificate_list_shortcode', $certificate_list );
+		$certificate_list = apply_filters_deprecated( 'certificate_list_shortcode', array( $certificate_list ), '3.6.2', 'uo_certificate_list_shortcode' );
+		$certificate_list = apply_filters( 'uo_certificate_list_shortcode', $certificate_list, $courses, $quiz_attempts );
 
 		if ( '' === $certificate_list ) {
 			$certificate_list = $no_cert_message;
@@ -214,10 +213,10 @@ class ShowCertificatesShortcode extends Config implements RequiredFunctions {
 
 		ob_start();
 		?>
-        <div class="<?php echo esc_attr( $class ); ?>">
-            <div class="cert-list-title"><?php echo $title; ?></div>
-            <div class="certificate-list"><?php echo $certificate_list; ?></div>
-        </div>
+		<div class="<?php echo esc_attr( $class ); ?>">
+			<div class="cert-list-title"><?php echo $title; ?></div>
+			<div class="certificate-list"><?php echo $certificate_list; ?></div>
+		</div>
 
 		<?php
 

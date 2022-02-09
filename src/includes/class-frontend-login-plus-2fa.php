@@ -193,6 +193,7 @@ class Frontend_Login_Plus_2fa {
 		$http_args = array(
 			'user'               => $user->ID,
 			'2fa_authentication' => 1,
+			'rememberme'         => isset( $_REQUEST['rememberMe'] ) ? $_REQUEST['rememberMe'] : '',
 			'_wpnonce'           => $nonce,
 			'ukey'               => uniqid(),
 			'redirect_to'        => ! empty( $redirect_from_ajax ) ? $redirect_from_ajax : $this->get_redirect_to(),
@@ -242,6 +243,7 @@ class Frontend_Login_Plus_2fa {
 			$redirect_args = array(
 				'user'               => $user->ID,
 				'2fa_authentication' => 1,
+				'rememberme'         => isset( $_REQUEST['rememberme'] ) ? $_REQUEST['rememberme'] : '',
 				'error'              => '2fa-invalid-user-keys',
 				'ukey'               => uniqid(),
 				'redirect_to'        => $this->get_redirect_to(),
@@ -276,6 +278,7 @@ class Frontend_Login_Plus_2fa {
 			'user'               => $user->ID,
 			'ukey'               => uniqid(),
 			'2fa_authentication' => 1,
+			'rememberme'         => isset( $_REQUEST['rememberme'] ) ? $_REQUEST['rememberme'] : '',
 			'error'              => '2fa-incorrect',
 			'provider'           => $provider,
 			'_wpnonce'           => wp_create_nonce( sprintf( 'uo-toolkit-2fa-user-%d-authentication', $user->ID ) ),
@@ -416,6 +419,7 @@ class Frontend_Login_Plus_2fa {
 			array(
 				'user'               => $user->ID,
 				'2fa_authentication' => 2,
+				'rememberme'         => isset( $_REQUEST['rememberme'] ) ? $_REQUEST['rememberme'] : '',
 				'_wpnonce'           => $nonce,
 				'ukey'               => uniqid(),
 				'redirect_to'        => $redirect_to,

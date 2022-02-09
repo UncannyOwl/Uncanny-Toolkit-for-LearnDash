@@ -244,7 +244,8 @@ class LearnDashResume extends Config implements RequiredFunctions {
 						} else {
 							$permalink = get_permalink( $step_id );
 						}
-
+						$permalink = apply_filters('uo_resume_button_permalink', $permalink, $step_id, $step_course_id );
+						
 						printf(
 							'<a href="%s" title="%s" class="%s"><input type="submit" value="%s" class=""></a>',
 							$permalink,
@@ -391,6 +392,7 @@ class LearnDashResume extends Config implements RequiredFunctions {
 					$permalink = get_permalink( $step_id );
 				}
 
+				$permalink = apply_filters('uo_resume_button_permalink', $permalink, $step_id, $step_course_id );
 				if ( 'yes' === (string) $url ) {
 					return $permalink;
 				}

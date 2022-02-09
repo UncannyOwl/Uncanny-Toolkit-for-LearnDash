@@ -42,7 +42,6 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 	/**
 	 * Initialize frontend actions and filters
-	 *
 	 */
 	public static function run_frontend_hooks() {
 
@@ -317,7 +316,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 		$password_reset_message .= __( 'If you did not request a password reset, you may safely ignore this email.', 'uncanny-learndash-toolkit' ) . "\r\n\r\n";
 
-		$verified_user_body  = __( 'Your account has been approved! ', 'uncanny-learndash-toolkit' );
+		$verified_user_body = __( 'Your account has been approved! ', 'uncanny-learndash-toolkit' );
 		$verified_user_body .= __( 'Please visit %Home Url% to login. ', 'uncanny-learndash-toolkit' );
 
 		// Create options
@@ -946,7 +945,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			$subject = apply_filters( 'uo_verified_email_subject', $subject, $user );
 
 			// Create verified user body
-			$default_body  = __( 'Your account has been approved! ', 'uncanny-learndash-toolkit' ) . "\r\n\n";
+			$default_body = __( 'Your account has been approved! ', 'uncanny-learndash-toolkit' ) . "\r\n\n";
 			$default_body .= sprintf( __( 'Please visit %s to login. ', 'uncanny-learndash-toolkit' ), home_url() ) . " \r\n";
 			/**
 			 * Filters user verification email message.
@@ -1004,7 +1003,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			 */
 			$subject = apply_filters( 'uo_verified_email_subject', $subject, $user );
 
-			$message  = sprintf( __( '%s account has been approved! ', 'uncanny-learndash-toolkit' ), $user->user_email ) . " \r\n\n";
+			$message = sprintf( __( '%s account has been approved! ', 'uncanny-learndash-toolkit' ), $user->user_email ) . " \r\n\n";
 			$message .= sprintf( __( ' Visit %s to view / edit user. ', 'uncanny-learndash-toolkit' ), admin_url( 'user-edit.php?user_id=' . $user->id ) ) . " \r\n";
 
 			/**
@@ -1601,7 +1600,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 					'wp-auth-id'         => $user_id,
 					'_wpnonce'           => wp_create_nonce( sprintf( 'uo-toolkit-2fa-user-%d-authentication', $user_id ) ),
 					'wp-auth-nonce'      => filter_input( INPUT_GET, 'wp-auth-nonce', FILTER_UNSAFE_RAW ),
-					'rememberme'         => filter_input( INPUT_GET, 'rememberme', FILTER_SANITIZE_NUMBER_INT ),
+					'rememberme'         => isset( $_REQUEST['rememberme'] ) ? $_REQUEST['rememberme'] : '',
 					'redirect_to'        => filter_input( INPUT_GET, 'redirect_to', FILTER_UNSAFE_RAW ),
 					'2fa_authentication' => 1, // Pass `2fa_authentication` to show the 2fa form.
 				);
@@ -1973,6 +1972,10 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	 * Redirect from wp-login.php to custom login page if user lost password reCatpcha failed
 	 */
 	public static function lostpassword_post() {
+		
+		if( isset($_POST['action']) && 'send-password-reset' == $_POST['action'] ){
+			return; // bail.
+		}
 
 		$login_page = get_permalink( self::get_login_redirect_page_id() );
 
@@ -2106,6 +2109,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 	/**
 	 * Add reCaptcha to the login form
+	 *
 	 * @return false|string
 	 */
 	public static function add_recaptcha_box() {
@@ -2673,6 +2677,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 		// Allow actions to be perform.
 		do_action( 'uo-login-action-before-json-response', $user );
+
 		self::wp_send_json( $response, $response_code );
 	}
 
