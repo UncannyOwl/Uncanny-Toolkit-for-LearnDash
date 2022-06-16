@@ -31,7 +31,12 @@ class Config {
 	 * @return bool
 	 */
 	public static function is_pro_active() {
-		return is_plugin_active( 'uncanny-toolkit-pro/uncanny-toolkit-pro.php' );
+		include_once ABSPATH . 'wp-admin/includes/plugin.php';
+		if ( function_exists( 'is_plugin_active' ) ) {
+			return is_plugin_active( 'uncanny-toolkit-pro/uncanny-toolkit-pro.php' );
+		}
+
+		return defined( 'UNCANNY_TOOLKIT_PRO_VERSION' );
 	}
 
 	/**

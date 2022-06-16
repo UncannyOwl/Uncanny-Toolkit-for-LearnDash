@@ -138,67 +138,91 @@ class ShowCertificatesShortcode extends Config implements RequiredFunctions {
 			$no_cert_message = esc_html__( 'Complete courses to earn certificates', 'uncanny-learndash-toolkit' );
 		}
 
+		$course_certificates = 'show';
+		if ( isset( $atts['course_certificates'] ) ) {
+			if ( in_array( $atts['course_certificates'], array('show','hide'), true ) ) {
+				$course_certificates = $atts['course_certificates'];
+			}
+		}
+
+		$quiz_certificates = 'show';
+		if ( isset( $atts['quiz_certificates'] ) ) {
+			if ( in_array( $atts['quiz_certificates'], array('show','hide'), true ) ) {
+				$quiz_certificates = $atts['quiz_certificates'];
+			}
+		}
+		 
 		$show_cert_title  = self::get_settings_value( 'uncanny-showcertificate-show-cert-title', __CLASS__ );
 		$certificate_list = '';
+		$courses = array();
+		$quiz_attempts = array();
 
 		/* GET Certificates For Courses*/
-		$args = array(
-			'post_type'      => 'sfwd-courses',
-			'posts_per_page' => - 1,
-			'post_status'    => 'publish',
-			'orderby'        => 'title',
-			'order'          => 'ASC',
-		);
+		if( 'show' === $course_certificates ){
+			$args = array(
+				'post_type'      => 'sfwd-courses',
+				'posts_per_page' => - 1,
+				'post_status'    => 'publish',
+				'orderby'        => 'title',
+				'order'          => 'ASC',
+			);
 
-		$courses = get_posts( $args );
+			$courses = get_posts( $args );
 
-		foreach ( $courses as $course ) {
+			foreach ( $courses as $course ) {
 
-			$certificate_id     = learndash_get_setting( $course->ID, 'certificate' );
-			$certificate_object = get_post( $certificate_id );
+				$certificate_id     = learndash_get_setting( $course->ID, 'certificate' );
+				$certificate_object = get_post( $certificate_id );
 
-			if ( ! empty( $certificate_object ) ) {
-				if ( 'on' === $show_cert_title ) {
-					$certificate_title = $certificate_object->post_title;
-				} else {
-					$certificate_title = $course->post_title;
-				}
+				if ( ! empty( $certificate_object ) ) {
+					if ( 'on' === $show_cert_title ) {
+						$certificate_title = $certificate_object->post_title;
+					} else {
+						$certificate_title = $course->post_title;
+					}
 
-				$certificate_link = learndash_get_course_certificate_link( $course->ID );
+					$certificate_link = learndash_get_course_certificate_link( $course->ID );
 
-				if ( $certificate_link && '' !== $certificate_link ) {
-					$link             = apply_filters( 'uo_show_course_certificate_link', sprintf( '<a target="_blank" href="%s">%s</a>', $certificate_link, $certificate_title ), wp_get_current_user(), $course );
-					$certificate_list .= $link . '<br>';
+					if ( $certificate_link && '' !== $certificate_link ) {
+						$link             = apply_filters( 'uo_show_course_certificate_link', sprintf( '<a target="_blank" href="%s">%s</a>', $certificate_link, $certificate_title ), wp_get_current_user(), $course );
+						$certificate_list .= $link . '<br>';
+					}
 				}
 			}
 		}
 
 		/* GET Certificates for Quizzes*/
-		$quiz_attempts = self::quiz_attempts();
+		if( 'show' === $quiz_certificates ){
+			$quiz_attempts = self::quiz_attempts();
 
-		if ( ! empty( $quiz_attempts ) ) {
+			if ( ! empty( $quiz_attempts ) ) {
 
-			$quiz_attempts = array_reverse( $quiz_attempts );
+				$quiz_attempts = array_reverse( $quiz_attempts );
 
-			foreach ( $quiz_attempts as $k => $quiz_attempt ) {
+				foreach ( $quiz_attempts as $k => $quiz_attempt ) {
 
-				if ( isset( $quiz_attempt['certificate'] ) ) {
-					$certificate_link    = $quiz_attempt['certificate']['certificateLink'];
-					$quiz_title_fallback = ( isset( $quiz_attempt['quiz_title'] ) ) ? $quiz_attempt['quiz_title'] : '';
-					$quiz_title          = ! empty( $quiz_attempt['post']->post_title ) ? $quiz_attempt['post']->post_title : $quiz_title_fallback;
+					if ( isset( $quiz_attempt['certificate'] ) ) {
+						$certificate_link    = $quiz_attempt['certificate']['certificateLink'];
+						$quiz_title_fallback = ( isset( $quiz_attempt['quiz_title'] ) ) ? $quiz_attempt['quiz_title'] : '';
+						$quiz_title          = ! empty( $quiz_attempt['post']->post_title ) ? $quiz_attempt['post']->post_title : $quiz_title_fallback;
 
-					if ( ! empty( $certificate_link ) ) {
+						if ( ! empty( $certificate_link ) ) {
 
-						$meta               = get_post_meta( $quiz_attempt['post']->ID, '_sfwd-quiz', true );
-						$certificate_id     = $meta['sfwd-quiz_certificate'];
-						$certificate_object = get_post( $certificate_id );
-						if ( 'on' === $show_cert_title ) {
-							$certificate_title = $certificate_object->post_title;
-						} else {
-							$certificate_title = $quiz_title;
+							if( isset($quiz_attempt['time']) ){
+								$certificate_link = add_query_arg( array( 'time' => $quiz_attempt['time'] ), $certificate_link );
+							}
+
+							$meta               = get_post_meta( $quiz_attempt['post']->ID, '_sfwd-quiz', true );
+							$certificate_id     = $meta['sfwd-quiz_certificate'];
+							$certificate_object = get_post( $certificate_id );
+							if ( 'on' === $show_cert_title ) {
+								$certificate_title = $certificate_object->post_title;
+							} else {
+								$certificate_title = $quiz_title;
+							}
+							$link             = apply_filters( 'uo_show_quiz_certificate_link', sprintf( '<a target="_blank" href="%s">%s</a>', esc_url( $certificate_link ), $certificate_title ), wp_get_current_user(), $quiz_attempt );
+							$certificate_list .= $link . '<br>';
 						}
-						$link             = apply_filters( 'uo_show_quiz_certificate_link', sprintf( '<a target="_blank" href="%s">%s</a>', esc_url( $certificate_link ), $certificate_title ), wp_get_current_user(), $quiz_attempt );
-						$certificate_list .= $link . '<br>';
 					}
 				}
 			}
@@ -211,16 +235,19 @@ class ShowCertificatesShortcode extends Config implements RequiredFunctions {
 			$certificate_list = $no_cert_message;
 		}
 
-		ob_start();
-		?>
-		<div class="<?php echo esc_attr( $class ); ?>">
-			<div class="cert-list-title"><?php echo $title; ?></div>
-			<div class="certificate-list"><?php echo $certificate_list; ?></div>
-		</div>
+		$shortcode_html = '';
+		if( 'show' === $course_certificates ||  'show' === $quiz_certificates ){
+			ob_start();
+			?>
+			<div class="<?php echo esc_attr( $class ); ?>">
+				<div class="cert-list-title"><?php echo $title; ?></div>
+				<div class="certificate-list"><?php echo $certificate_list; ?></div>
+			</div>
 
-		<?php
+			<?php
 
-		$shortcode_html = ob_get_clean();
+			$shortcode_html = ob_get_clean();
+		}
 
 		return $shortcode_html;
 

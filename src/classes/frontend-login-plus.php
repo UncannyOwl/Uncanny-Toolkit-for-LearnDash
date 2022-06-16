@@ -2809,11 +2809,11 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		$errors = new \WP_Error();
 
 		if ( empty( $_POST['user_login'] ) || ! is_string( $_POST['user_login'] ) ) {
-			$errors->add( 'empty_username', __( '<strong>ERROR</strong>: Enter a username or email address.' ) );
+			$errors->add( 'empty_username', __( '<strong>ERROR</strong>: Enter a username or email address.', 'uncanny-learndash-toolkit'  ) );
 		} elseif ( strpos( $_POST['user_login'], '@' ) ) {
 			$user_data = get_user_by( 'email', trim( wp_unslash( $_POST['user_login'] ) ) );
 			if ( empty( $user_data ) ) {
-				$errors->add( 'invalid_email', __( '<strong>ERROR</strong>: There is no account with that username or email address.' ) );
+				$errors->add( 'invalid_email', __( '<strong>ERROR</strong>: There is no account with that username or email address.', 'uncanny-learndash-toolkit'  ) );
 			}
 		} else {
 			$login     = trim( $_POST['user_login'] );
@@ -2837,7 +2837,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		}
 
 		if ( ! $user_data ) {
-			$errors->add( 'invalidcombo', __( '<strong>ERROR</strong>: There is no account with that username or email address.' ) );
+			$errors->add( 'invalidcombo', __( '<strong>ERROR</strong>: There is no account with that username or email address.', 'uncanny-learndash-toolkit'  ) );
 
 			return $errors;
 		}
@@ -2861,17 +2861,17 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			$site_name = wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
 		}
 
-		$message = __( 'Someone has requested a password reset for the following account:' ) . "\r\n\r\n";
+		$message = __( 'Someone has requested a password reset for the following account:', 'uncanny-learndash-toolkit'  ) . "\r\n\r\n";
 		/* translators: %s: site name */
-		$message .= sprintf( __( 'Site Name: %s' ), $site_name ) . "\r\n\r\n";
+		$message .= sprintf( __( 'Site Name: %s', 'uncanny-learndash-toolkit'  ), $site_name ) . "\r\n\r\n";
 		/* translators: %s: user login */
-		$message .= sprintf( __( 'Username: %s' ), $user_login ) . "\r\n\r\n";
-		$message .= __( 'If this was a mistake, just ignore this email and nothing will happen.' ) . "\r\n\r\n";
-		$message .= __( 'To reset your password, visit the following address:' ) . "\r\n\r\n";
+		$message .= sprintf( __( 'Username: %s', 'uncanny-learndash-toolkit'  ), $user_login ) . "\r\n\r\n";
+		$message .= __( 'If this was a mistake, just ignore this email and nothing will happen.', 'uncanny-learndash-toolkit'  ) . "\r\n\r\n";
+		$message .= __( 'To reset your password, visit the following address:', 'uncanny-learndash-toolkit'  ) . "\r\n\r\n";
 		$message .= '<' . network_site_url( "wp-login.php?action=rp&key=$key&login=" . rawurlencode( $user_login ), 'login' ) . ">\r\n";
 
 		/* translators: Password reset notification email subject. %s: Site title */
-		$title = sprintf( __( '[%s] Password Reset' ), $site_name );
+		$title = sprintf( __( '[%s] Password Reset', 'uncanny-learndash-toolkit'  ), $site_name );
 
 		/**
 		 * Filters the subject of the password reset email.
@@ -2902,7 +2902,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		$message = apply_filters( 'retrieve_password_message', $message, $key, $user_login, $user_data );
 
 		if ( $message && ! wp_mail( $user_email, wp_specialchars_decode( $title ), $message ) ) {
-			wp_die( __( 'The email could not be sent. Possible reason: your host may have disabled the mail() function.' ) );
+			wp_die( __( 'The email could not be sent. Possible reason: your host may have disabled the mail() function.', 'uncanny-learndash-toolkit'  ) );
 		}
 
 		return true;

@@ -189,7 +189,7 @@ function uo_toolkit_2fa_oci_button() {
 					<?php esc_html_e( 'Go to', 'uncanny-learndash-toolkit' ); ?>
 
 					<a target="_blank"
-						href="<?php echo esc_url( admin_url( 'options-general.php?page=wp-2fa-settings' ) ); ?>"
+						href="<?php echo esc_url( admin_url( 'admin.php?page=wp-2fa-policies' ) ); ?>"
 						title="<?php esc_attr_e( 'WP-ADMIN > Settings > Two-factor Authentication', 'uncanny-learndash-toolkit' ); ?>">
 						<?php esc_html_e( 'WP 2FA Settings', 'uncanny-learndash-toolkit' ); ?></a>
 

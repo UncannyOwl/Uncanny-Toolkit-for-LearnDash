@@ -33,7 +33,7 @@ class LoginLogoutMenu extends Config implements RequiredFunctions {
 
 	/*
 	 * Initialize frontend actions and filters
-	 * 
+	 *
 	 * @deprecated v1.3.2 uo_login shortcode
 	 */
 	public static function run_frontend_hooks() {
@@ -53,7 +53,7 @@ class LoginLogoutMenu extends Config implements RequiredFunctions {
 				add_shortcode( 'uo_register', array( __CLASS__, 'register_link' ) );
 
 			}
-			
+
 			if ( class_exists( '\uncanny_learndash_toolkit\FrontendLoginPlus', false ) ) {
 				if ( "" !== self::get_settings_value( 'uo_frontendloginplus_enable_ajax_support', 'FrontendLoginPlus', '' ) ) {
 					self::$login_menu_item_urls[] = '#ult-modal-open----ult-login';
@@ -257,12 +257,8 @@ class LoginLogoutMenu extends Config implements RequiredFunctions {
 					if ( 2 === count( $title ) ) {
 
 						//remove trailing and leading spaces
-						$logged_in_title = ltrim( $title[0] );
-						$logged_in_title = rtrim( $logged_in_title );
-
-						$logged_out_title = ltrim( $title[1] );
-						$logged_out_title = rtrim( $logged_out_title );
-
+						$logged_in_title = isset( $title[0] ) ? sanitize_text_field( $title[0] ) : '';
+						$logged_out_title = isset( $title[1] ) ? sanitize_text_field( $title[1] ) : '';
 					} else {
 						$logged_in_title  = $item->title;
 						$logged_out_title = $item->title;

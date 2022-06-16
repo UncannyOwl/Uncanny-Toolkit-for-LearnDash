@@ -174,6 +174,10 @@ class Frontend_Login_Plus_2fa {
 		// Do check by login.
 		$user = get_user_by( 'login', $user_identity );
 
+		if ( ! $this->two_factor::is_user_using_two_factor( $user->ID ) ) {
+			return $response;
+		}
+
 		// If there is no user with that login. Try email.
 		if ( ! $user && strpos( $user_identity, '@' ) ) {
 			$user = get_user_by( 'email', $user_identity );
@@ -487,7 +491,7 @@ class Frontend_Login_Plus_2fa {
 					<strong>
 						<?php $error_type = filter_input( INPUT_GET, 'error', FILTER_SANITIZE_STRING ); ?>
 						<?php if ( '2fa-invalid-user-keys' === $error_type ) : ?>
-							<?php esc_html_e( 'ERROR: Session is invalid or have expired.', 'uncanny-learndash-toolkit' ); ?>
+							<?php esc_html_e( 'ERROR: Session is invalid or has expired.', 'uncanny-learndash-toolkit' ); ?>
 						<?php else : ?>
 							<?php esc_html_e( 'ERROR: Cannot display authentication form.', 'uncanny-learndash-toolkit' ); ?>
 						<?php endif; ?>

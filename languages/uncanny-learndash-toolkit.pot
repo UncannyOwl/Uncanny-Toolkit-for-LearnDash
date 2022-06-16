@@ -2,16 +2,16 @@
 # This file is distributed under the GPLv3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Uncanny Toolkit for LearnDash 3.6.2\n"
+"Project-Id-Version: Uncanny Toolkit for LearnDash 3.6.3\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/uncanny-learndash-toolkit\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-02-09T18:39:31+00:00\n"
+"POT-Creation-Date: 2022-06-16T14:19:31+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.5.0\n"
+"X-Generator: WP-CLI 2.6.0\n"
 "X-Domain: uncanny-learndash-toolkit\n"
 
 #. Plugin Name of the plugin
@@ -290,7 +290,7 @@ msgid "Uncanny Toolkit for LearnDash Support"
 msgstr ""
 
 #: src/boot.php:86
-#: src/config.php:537
+#: src/config.php:542
 #: src/templates/admin-tabs.php:19
 msgid "Help"
 msgstr ""
@@ -305,7 +305,7 @@ msgid "Dismiss"
 msgstr ""
 
 #: src/boot.php:171
-#: src/config.php:675
+#: src/config.php:680
 msgid "Something went wrong. Please, try again"
 msgstr ""
 
@@ -572,8 +572,8 @@ msgstr ""
 #: src/classes/frontend-login-plus.php:482
 #: src/classes/frontend-login-plus.php:550
 #: src/classes/login-logout-menu.php:150
-#: src/classes/login-logout-menu.php:336
-#: src/classes/login-logout-menu.php:353
+#: src/classes/login-logout-menu.php:332
+#: src/classes/login-logout-menu.php:349
 msgid "Log In"
 msgstr ""
 
@@ -583,7 +583,7 @@ msgstr ""
 
 #: src/classes/frontend-login-plus.php:488
 #: src/classes/login-logout-menu.php:159
-#: src/classes/login-logout-menu.php:377
+#: src/classes/login-logout-menu.php:373
 msgid "Register"
 msgstr ""
 
@@ -869,6 +869,46 @@ msgstr ""
 msgid "Invalid username/email."
 msgstr ""
 
+#: src/classes/frontend-login-plus.php:2812
+msgid "<strong>ERROR</strong>: Enter a username or email address."
+msgstr ""
+
+#: src/classes/frontend-login-plus.php:2816
+#: src/classes/frontend-login-plus.php:2840
+msgid "<strong>ERROR</strong>: There is no account with that username or email address."
+msgstr ""
+
+#: src/classes/frontend-login-plus.php:2864
+msgid "Someone has requested a password reset for the following account:"
+msgstr ""
+
+#. translators: %s: site name
+#: src/classes/frontend-login-plus.php:2866
+msgid "Site Name: %s"
+msgstr ""
+
+#. translators: %s: user login
+#: src/classes/frontend-login-plus.php:2868
+msgid "Username: %s"
+msgstr ""
+
+#: src/classes/frontend-login-plus.php:2869
+msgid "If this was a mistake, just ignore this email and nothing will happen."
+msgstr ""
+
+#: src/classes/frontend-login-plus.php:2870
+msgid "To reset your password, visit the following address:"
+msgstr ""
+
+#. translators: Password reset notification email subject. %s: Site title
+#: src/classes/frontend-login-plus.php:2874
+msgid "[%s] Password Reset"
+msgstr ""
+
+#: src/classes/frontend-login-plus.php:2905
+msgid "The email could not be sent. Possible reason: your host may have disabled the mail() function."
+msgstr ""
+
 #: src/classes/frontend-login-plus.php:2933
 #: src/classes/frontend-login-plus.php:2989
 msgid "Password fields cannot be empty."
@@ -971,8 +1011,8 @@ msgstr ""
 msgid " - Front end login modal"
 msgstr ""
 
-#: src/classes/login-logout-menu.php:353
-#: src/classes/login-logout-menu.php:367
+#: src/classes/login-logout-menu.php:349
+#: src/classes/login-logout-menu.php:363
 msgid "Logout"
 msgstr ""
 
@@ -1161,31 +1201,31 @@ msgstr ""
 msgid "Date Earned"
 msgstr ""
 
-#: src/config.php:546
+#: src/config.php:551
 msgid "Close"
 msgstr ""
 
-#: src/config.php:553
+#: src/config.php:558
 msgid "Save module"
 msgstr ""
 
-#: src/config.php:673
+#: src/config.php:678
 msgid "Settings saved successfully"
 msgstr ""
 
-#: src/config.php:678
+#: src/config.php:683
 msgid "Class for addon is not set"
 msgstr ""
 
-#: src/config.php:681
+#: src/config.php:686
 msgid "You must be an admin to save settings"
 msgstr ""
 
-#: src/config.php:705
+#: src/config.php:710
 msgid "Class for addon is not set."
 msgstr ""
 
-#: src/config.php:708
+#: src/config.php:713
 msgid "You must be an admin to save settings."
 msgstr ""
 
@@ -1193,72 +1233,75 @@ msgstr ""
 #: src/includes/class-frontend-login-plus-2fa-legacy.php:301
 #: src/includes/class-frontend-login-plus-2fa-legacy.php:322
 #: src/includes/class-frontend-login-plus-2fa-legacy.php:341
-#: src/includes/class-frontend-login-plus-2fa.php:292
-#: src/includes/class-frontend-login-plus-2fa.php:302
-#: src/includes/class-frontend-login-plus-2fa.php:323
-#: src/includes/class-frontend-login-plus-2fa.php:342
+#: src/includes/class-frontend-login-plus-2fa.php:296
+#: src/includes/class-frontend-login-plus-2fa.php:306
+#: src/includes/class-frontend-login-plus-2fa.php:327
+#: src/includes/class-frontend-login-plus-2fa.php:346
 msgid "Failed to create a login nonce."
 msgstr ""
 
 #: src/includes/class-frontend-login-plus-2fa-legacy.php:348
-#: src/includes/class-frontend-login-plus-2fa.php:349
+#: src/includes/class-frontend-login-plus-2fa.php:353
 msgid "A new code has been sent."
 msgstr ""
 
 #: src/includes/class-frontend-login-plus-2fa-legacy.php:456
-#: src/includes/class-frontend-login-plus-2fa.php:457
+#: src/includes/class-frontend-login-plus-2fa.php:461
 msgid "ERROR: Failed to create a login nonce."
 msgstr ""
 
 #: src/includes/class-frontend-login-plus-2fa-legacy.php:472
-#: src/includes/class-frontend-login-plus-2fa.php:473
+#: src/includes/class-frontend-login-plus-2fa.php:477
 msgid "ERROR: Invalid verification code."
 msgstr ""
 
 #: src/includes/class-frontend-login-plus-2fa-legacy.php:489
-#: src/includes/class-frontend-login-plus-2fa.php:490
 msgid "ERROR: Session is invalid or have expired."
 msgstr ""
 
 #: src/includes/class-frontend-login-plus-2fa-legacy.php:491
-#: src/includes/class-frontend-login-plus-2fa.php:492
+#: src/includes/class-frontend-login-plus-2fa.php:496
 msgid "ERROR: Cannot display authentication form."
 msgstr ""
 
 #: src/includes/class-frontend-login-plus-2fa-legacy.php:498
-#: src/includes/class-frontend-login-plus-2fa.php:499
+#: src/includes/class-frontend-login-plus-2fa.php:503
 msgid "Return to login form"
 msgstr ""
 
 #: src/includes/class-frontend-login-plus-2fa-legacy.php:500
-#: src/includes/class-frontend-login-plus-2fa.php:501
+#: src/includes/class-frontend-login-plus-2fa.php:505
 msgid "Go back to login form"
 msgstr ""
 
 #: src/includes/class-frontend-login-plus-2fa-legacy.php:591
-#: src/includes/class-frontend-login-plus-2fa.php:590
+#: src/includes/class-frontend-login-plus-2fa.php:594
 msgid "A new verification code has been sent to your email."
 msgstr ""
 
 #: src/includes/class-frontend-login-plus-2fa-legacy.php:632
-#: src/includes/class-frontend-login-plus-2fa.php:671
+#: src/includes/class-frontend-login-plus-2fa.php:675
 msgid "Or, use a backup code."
 msgstr ""
 
 #: src/includes/class-frontend-login-plus-2fa-legacy.php:638
-#: src/includes/class-frontend-login-plus-2fa.php:677
+#: src/includes/class-frontend-login-plus-2fa.php:681
 msgid "Or, go back to login form."
 msgstr ""
 
 #: src/includes/class-frontend-login-plus-2fa-legacy.php:646
-#: src/includes/class-frontend-login-plus-2fa.php:687
+#: src/includes/class-frontend-login-plus-2fa.php:691
 msgid "Are you lost?"
 msgstr ""
 
 #. translators: %s: site name.
 #: src/includes/class-frontend-login-plus-2fa-legacy.php:651
-#: src/includes/class-frontend-login-plus-2fa.php:692
+#: src/includes/class-frontend-login-plus-2fa.php:696
 msgid "&larr; Back to %s"
+msgstr ""
+
+#: src/includes/class-frontend-login-plus-2fa.php:494
+msgid "ERROR: Session is invalid or has expired."
 msgstr ""
 
 #: src/includes/uo-toolkit-2fa-functions.php:158

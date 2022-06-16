@@ -2,9 +2,9 @@
 Contributors: uncannyowl
 Tags: LearnDash, eLearning, LMS, education, learning, courseware
 Requires at least: 5.2
-Tested up to: 5.9
+Tested up to: 6.0
 Requires PHP: 7.0
-Stable tag: 3.6.2
+Stable tag: 3.6.3
 License: This plugin is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or any later version. Uncanny Toolkit for LearnDash is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with Uncanny Toolkit for LearnDash. If not, see https://www.gnu.org/licenses/gpl-3.0.html.
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -97,7 +97,32 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 
 == Changelog ==
 
-= 3.6.2 [2021-02-09] =
+= 3.6.3 [2022-06-16] =
+
+**Added:**
+
+* Show Certificates - New shortcode attributes to show/hide courses/quizzes certificate links #207
+* Front End Login - Password visibility toggle #159
+* Not Enrolled Redirect - Filter `uncanny_toolkit_not_enrolled_redirect_nocache` added to prevent redirect caching with `nocache_headers()` #209
+
+**Updated:** 
+
+* Improved translation support #198
+* Improved PHP 8.1+ compatibility #173
+
+**Fixed:**
+
+* Front End Login - WP2FA settings link broken #217
+* Front End Login - Typo in 2FA error message #190
+* Front End Login - WP2FA - Front-end ajax erroneously invoking 2FA when it's not enabled #215
+* Show Certificates - Quiz certificate link issue missing time argument fixed #200
+ 
+**Internal:** 
+
+* Update `is_pro_active` function #222
+* npm - Remove `sass-svg` & `sassdash` dependencies #213
+
+= 3.6.2 [2022-02-09] =
 
 **Added:**
 
@@ -554,6 +579,3 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 * Public release
 
 == Upgrade Notice ==
-
-= 3.0 =
-**IMPORTANT!** The Front End Login module of the Uncanny LearnDash Toolkit changes significantly in version 3.0. Please re-check your settings and review your login page as a logged out user after updating.

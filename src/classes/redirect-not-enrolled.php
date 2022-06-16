@@ -240,6 +240,11 @@ class RedirectNotEnrolled extends Config implements RequiredFunctions {
 
 		// check user access to course via direct enrollment and via group access. If both fails, redirect
 		if ( ! sfwd_lms_has_access( $post->ID, get_current_user_id() ) && null === learndash_user_group_enrolled_to_course_from( $user->ID, $post->ID, true ) ) {
+
+			if( apply_filters( 'uncanny_toolkit_not_enrolled_redirect_nocache', false, $post->ID, $user->ID ) ){
+				nocache_headers();
+			}
+
 			// redirect them to the default place
 			wp_safe_redirect( $redirect_to );
 			exit;
