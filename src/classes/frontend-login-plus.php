@@ -304,9 +304,6 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	 */
 	public static function get_class_settings( $class_title, $only_options = false ) {
 
-		// Get pages to populate drop down
-		$pages =
-
 		$drop_down = array();
 
 		array_push(
