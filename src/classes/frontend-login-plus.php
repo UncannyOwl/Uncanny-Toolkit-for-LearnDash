@@ -268,6 +268,54 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	}
 
 	/**
+	 * Get all pages for dropdown selector.
+	 *
+	 * This static method supports WPML.
+	 *
+	 * @return array The list of pages.
+	 */
+	public static function get_pages() {
+
+		$pages = array();
+
+		// Get all languages.
+		$languages = (array) apply_filters(
+			'wpml_active_languages',
+			// Gracefully set defaults language based on selected WordPress locale.
+			array(
+				get_locale() => array(
+					'code' => get_locale(),
+				),
+			),
+			array(
+				'skip_missing' => 0,
+			)
+		);
+
+		// Get all pages.
+		foreach ( $languages as $language ) {
+
+			do_action( 'wpml_switch_language', $language['code'] );
+
+			$args = array(
+				'sort_order'  => 'asc',
+				'sort_column' => 'post_title',
+				'post_type'   => 'page',
+				'post_status' => 'publish',
+			);
+
+			$found_pages = get_pages( $args );
+
+			foreach ( $found_pages as $page ) {
+				$pages[] = $page;
+			}
+		}
+
+		return apply_filters( 'uncanny_toolkit_flp_get_pages', $pages );
+
+	}
+
+	/**
 	 * HTML for modal to create settings
 	 *
 	 * @param String
@@ -278,16 +326,10 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	public static function get_class_settings( $class_title, $only_options = false ) {
 
 		// Get pages to populate drop down
-		$args = array(
-			'sort_order'  => 'asc',
-			'sort_column' => 'post_title',
-			'post_type'   => 'page',
-			'post_status' => 'publish',
-		);
-
-		$pages = get_pages( $args );
+		$pages =
 
 		$drop_down = array();
+
 		array_push(
 			$drop_down,
 			array(
@@ -295,6 +337,8 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				'text'  => '- Select Page -',
 			)
 		);
+
+		$pages = self::get_pages();
 
 		foreach ( $pages as $page ) {
 			array_push(
@@ -1972,8 +2016,8 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	 * Redirect from wp-login.php to custom login page if user lost password reCatpcha failed
 	 */
 	public static function lostpassword_post() {
-		
-		if( isset($_POST['action']) && 'send-password-reset' == $_POST['action'] ){
+
+		if ( isset( $_POST['action'] ) && 'send-password-reset' == $_POST['action'] ) {
 			return; // bail.
 		}
 
@@ -2809,11 +2853,11 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		$errors = new \WP_Error();
 
 		if ( empty( $_POST['user_login'] ) || ! is_string( $_POST['user_login'] ) ) {
-			$errors->add( 'empty_username', __( '<strong>ERROR</strong>: Enter a username or email address.', 'uncanny-learndash-toolkit'  ) );
+			$errors->add( 'empty_username', __( '<strong>ERROR</strong>: Enter a username or email address.', 'uncanny-learndash-toolkit' ) );
 		} elseif ( strpos( $_POST['user_login'], '@' ) ) {
 			$user_data = get_user_by( 'email', trim( wp_unslash( $_POST['user_login'] ) ) );
 			if ( empty( $user_data ) ) {
-				$errors->add( 'invalid_email', __( '<strong>ERROR</strong>: There is no account with that username or email address.', 'uncanny-learndash-toolkit'  ) );
+				$errors->add( 'invalid_email', __( '<strong>ERROR</strong>: There is no account with that username or email address.', 'uncanny-learndash-toolkit' ) );
 			}
 		} else {
 			$login     = trim( $_POST['user_login'] );
@@ -2837,7 +2881,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		}
 
 		if ( ! $user_data ) {
-			$errors->add( 'invalidcombo', __( '<strong>ERROR</strong>: There is no account with that username or email address.', 'uncanny-learndash-toolkit'  ) );
+			$errors->add( 'invalidcombo', __( '<strong>ERROR</strong>: There is no account with that username or email address.', 'uncanny-learndash-toolkit' ) );
 
 			return $errors;
 		}
@@ -2861,17 +2905,17 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			$site_name = wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
 		}
 
-		$message = __( 'Someone has requested a password reset for the following account:', 'uncanny-learndash-toolkit'  ) . "\r\n\r\n";
+		$message = __( 'Someone has requested a password reset for the following account:', 'uncanny-learndash-toolkit' ) . "\r\n\r\n";
 		/* translators: %s: site name */
-		$message .= sprintf( __( 'Site Name: %s', 'uncanny-learndash-toolkit'  ), $site_name ) . "\r\n\r\n";
+		$message .= sprintf( __( 'Site Name: %s', 'uncanny-learndash-toolkit' ), $site_name ) . "\r\n\r\n";
 		/* translators: %s: user login */
-		$message .= sprintf( __( 'Username: %s', 'uncanny-learndash-toolkit'  ), $user_login ) . "\r\n\r\n";
-		$message .= __( 'If this was a mistake, just ignore this email and nothing will happen.', 'uncanny-learndash-toolkit'  ) . "\r\n\r\n";
-		$message .= __( 'To reset your password, visit the following address:', 'uncanny-learndash-toolkit'  ) . "\r\n\r\n";
+		$message .= sprintf( __( 'Username: %s', 'uncanny-learndash-toolkit' ), $user_login ) . "\r\n\r\n";
+		$message .= __( 'If this was a mistake, just ignore this email and nothing will happen.', 'uncanny-learndash-toolkit' ) . "\r\n\r\n";
+		$message .= __( 'To reset your password, visit the following address:', 'uncanny-learndash-toolkit' ) . "\r\n\r\n";
 		$message .= '<' . network_site_url( "wp-login.php?action=rp&key=$key&login=" . rawurlencode( $user_login ), 'login' ) . ">\r\n";
 
 		/* translators: Password reset notification email subject. %s: Site title */
-		$title = sprintf( __( '[%s] Password Reset', 'uncanny-learndash-toolkit'  ), $site_name );
+		$title = sprintf( __( '[%s] Password Reset', 'uncanny-learndash-toolkit' ), $site_name );
 
 		/**
 		 * Filters the subject of the password reset email.
@@ -2902,7 +2946,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		$message = apply_filters( 'retrieve_password_message', $message, $key, $user_login, $user_data );
 
 		if ( $message && ! wp_mail( $user_email, wp_specialchars_decode( $title ), $message ) ) {
-			wp_die( __( 'The email could not be sent. Possible reason: your host may have disabled the mail() function.', 'uncanny-learndash-toolkit'  ) );
+			wp_die( __( 'The email could not be sent. Possible reason: your host may have disabled the mail() function.', 'uncanny-learndash-toolkit' ) );
 		}
 
 		return true;
