@@ -268,48 +268,25 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	}
 
 	/**
-	 * Get all pages for dropdown selector.
+	 * Get all pages for `Login Page` dropdown.
 	 *
-	 * This static method supports WPML.
+	 * This static method supports WPML, and any other translation plugins that overwrites get_pages result.
 	 *
 	 * @return array The list of pages.
 	 */
 	public static function get_pages() {
 
-		$pages = array();
+		global $wpdb;
 
-		// Get all languages.
-		$languages = (array) apply_filters(
-			'wpml_active_languages',
-			// Gracefully set defaults language based on selected WordPress locale.
-			array(
-				get_locale() => array(
-					'code' => get_locale(),
-				),
-			),
-			array(
-				'skip_missing' => 0,
+		$pages = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT * FROM $wpdb->posts 
+					WHERE post_type = %s AND post_status = %s
+					ORDER BY post_title ASC",
+				'page',
+				'publish'
 			)
 		);
-
-		// Get all pages.
-		foreach ( $languages as $language ) {
-
-			do_action( 'wpml_switch_language', $language['code'] );
-
-			$args = array(
-				'sort_order'  => 'asc',
-				'sort_column' => 'post_title',
-				'post_type'   => 'page',
-				'post_status' => 'publish',
-			);
-
-			$found_pages = get_pages( $args );
-
-			foreach ( $found_pages as $page ) {
-				$pages[] = $page;
-			}
-		}
 
 		return apply_filters( 'uncanny_toolkit_flp_get_pages', $pages );
 
