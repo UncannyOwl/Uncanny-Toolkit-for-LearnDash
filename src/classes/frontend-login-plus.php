@@ -272,6 +272,8 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	 *
 	 * This static method supports WPML, and any other translation plugins that overwrites get_pages result.
 	 *
+	 * @ticket https://secure.helpscout.net/conversation/2022239531/43912?folderId=6246612
+	 * 
 	 * @return array The list of pages.
 	 */
 	public static function get_pages() {
