@@ -15,6 +15,7 @@ namespace uncanny_learndash_toolkit;
 					 alt="Uncanny Owl">
 			</a>
 		</div>
+		<?php do_action('uncanny_toolkit_dashboard_header_after'); ?>
 	</div>
 
 	<div class="uo-plugins-tabs">

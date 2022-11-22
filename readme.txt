@@ -2,16 +2,16 @@
 Contributors: uncannyowl
 Tags: LearnDash, eLearning, LMS, education, learning, courseware
 Requires at least: 5.2
-Tested up to: 6.0
-Requires PHP: 7.0
-Stable tag: 3.6.3
+Tested up to: 6.1.1
+Requires PHP: 7.2
+Stable tag: 3.6.4
 License: This plugin is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or any later version. Uncanny Toolkit for LearnDash is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with Uncanny Toolkit for LearnDash. If not, see https://www.gnu.org/licenses/gpl-3.0.html.
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
 Extend LearnDash with a variety of useful functions that make it even easier to build great learner experiences with LearnDash.
 
 == Description ==
-**Important: This plugin requires PHP 7.0 or higher and LearnDash 3.3 or higher.**
+**Important: This plugin requires PHP 7.2 or higher and LearnDash 3.6 or higher.**
 
 The Uncanny Toolkit for LearnDash adds 16 modules that every elearning site needs, including a login form, login redirect, resume capabilities and more. Trusted to power over **30,000+** LearnDash sites, it's the easiest way to improve the learning experience for your students. Translation ready and multisite capable!
 
@@ -40,12 +40,14 @@ We welcome contributions to the Uncanny Toolkit! The plugin is managed in a [Bit
 
 **Ready to take your LearnDash site even further?**
 
-The [Pro version of the Uncanny Toolkit](https://www.uncannyowl.com/downloads/uncanny-learndash-toolkit-pro/?utm_medium=ldtoolkitreadme) adds a continuously expanding list of powerful features (27 at last count!) to the Toolkit. These include:
+The [Pro version of the Uncanny Toolkit](https://www.uncannyowl.com/downloads/uncanny-learndash-toolkit-pro/?utm_medium=ldtoolkitreadme) adds a continuously expanding list of powerful features (30 at last count!) to the Toolkit. These include:
 
 * [Autocomplete Lessons & Topics](https://www.uncannyowl.com/knowledge-base/autocomplete-lessons-topics/?utm_medium=ldtoolkitreadme)
 * [Autocomplete Lessons & Topics on Gravity Forms Submission](https://www.uncannyowl.com/knowledge-base/gravity-forms-auto-completes-lessons-topics/?utm_medium=ldtoolkitreadme)
 * [Autocomplete Lessons & Topics on Quiz Results Page](https://www.uncannyowl.com/knowledge-base/autocomplete-lessons-topics-quiz-results-page/?utm_medium=ldtoolkitreadme)
 * [Autocomplete Lessons & Topics when Quiz is Graded](https://www.uncannyowl.com/knowledge-base/autocomplete-lessons-topics-when-quiz-is-graded/?utm_medium=ldtoolkitreadme)
+* [Autocomplete Lessons & Topics on WPForms Submission](https://www.uncannyowl.com/knowledge-base/wpforms-auto-completes-lessons-topics/?utm_medium=ldtoolkitreadme)
+* [Course Dashboard](https://www.uncannyowl.com/knowledge-base/learndash-course-dashboard/?utm_medium=ldtoolkitreadme)
 * [Days Until Course Expiry](https://www.uncannyowl.com/knowledge-base/days-until-course-expiry/?utm_medium=ldtoolkitreadme)
 * [Drip Lessons by LearnDash Group](https://www.uncannyowl.com/knowledge-base/drip-lessons-by-ldgroup/?utm_medium=ldtoolkitreadme)
 * [Duplicate Pages & Posts](https://www.uncannyowl.com/knowledge-base/duplicate-pages-posts/?utm_medium=ldtoolkitreadme)
@@ -53,10 +55,9 @@ The [Pro version of the Uncanny Toolkit](https://www.uncannyowl.com/downloads/un
 * [Enhanced Lesson/Topic Grid](https://www.uncannyowl.com/knowledge-base/enhanced-lessontopic-grid/?utm_medium=ldtoolkitreadme)
 * [Enhanced LearnDash CSV Reports](https://www.uncannyowl.com/knowledge-base/enhanced-learndash-csv-reports/?utm_medium=ldtoolkitreadme)
 * [Import Users](https://www.uncannyowl.com/knowledge-base/import-learndash-users/?utm_medium=ldtoolkitreadme)
-* [Improved Group Leader Interface](https://www.uncannyowl.com/knowledge-base/group-leader-access/?utm_medium=ldtoolkitreadme)
-* [Course Dashboard](https://www.uncannyowl.com/knowledge-base/learndash-course-dashboard/?utm_medium=ldtoolkitreadme)
 * [Certificate Preview](https://www.uncannyowl.com/knowledge-base/certificate-preview/?utm_medium=ldtoolkitreadme)
 * [Email Course Certificates](https://www.uncannyowl.com/knowledge-base/send-course-certificates-email/?utm_medium=ldtoolkitreadme)
+* [Email Group Certificates](https://www.uncannyowl.com/knowledge-base/send-group-certificates-email/?utm_medium=ldtoolkitreadme)
 * [Email Quiz Certificates](https://www.uncannyowl.com/knowledge-base/send-quiz-certificates-by-email/?utm_medium=ldtoolkitreadme)
 * [Group Expiration](https://www.uncannyowl.com/knowledge-base/learndash-group-expiration/?utm_medium=ldtoolkitreadme)
 * [Group Forums with bbPress](https://www.uncannyowl.com/knowledge-base/learndash-group-forums-with-bbpress/?utm_medium=ldtoolkitreadme)
@@ -72,7 +73,7 @@ The [Pro version of the Uncanny Toolkit](https://www.uncannyowl.com/downloads/un
 
 **Uncanny Automator**
 
-If you like the Uncanny Toolkit, you'll love [Uncanny Automator](https://wordpress.org/plugins/uncanny-automator/?utm_medium=ldtoolkitreadme), now FREE! Create better experiences for your users by connecting LearnDash to dozens of other plugins and services or by creating personal learning paths for your learners.
+If you like the Uncanny Toolkit, you'll love [Uncanny Automator](https://wordpress.org/plugins/uncanny-automator/?utm_medium=ldtoolkitreadme)! Our free no-code automation plugin connects LearnDash to over 100 plugins and apps plus other WordPress sites. Build personalized learning with a few clients and connect LearnDash to [Google Sheets](https://automatorplugin.com/integration/google-sheets/?utm_medium=ldtoolkitreadme), [Facebook](https://automatorplugin.com/integration/facebook/?utm_medium=ldtoolkitreadme), [Slack](https://automatorplugin.com/integration/slack/?utm_medium=ldtoolkitreadme) and more. Trusted by over 4,000 LearnDash sites to build powerful learning workflows and automations.
 
 **More LearnDash Plugins!**
 
@@ -86,7 +87,7 @@ Uncanny Owl offers a full suite of [plugins that extend the LearnDash platform](
 Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitter](https://twitter.com/uncannyowl), [Facebook](https://www.facebook.com/UncannyOwl/) and [YouTube](https://www.youtube.com/user/UncannyOwl).
 
 == Installation ==
-1. Ensure that your installation of WordPress is using PHP 7.0 or higher and LearnDash 3.3 or higher.
+1. Ensure that your installation of WordPress is using PHP 7.2 or higher and LearnDash 3.6 or higher.
 2. Upload the contents of the plugin zip file to the `/wp-content/plugins/` directory.
 3. Activate the plugin through the Plugins menu in WordPress.
 
@@ -96,6 +97,39 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 3. LearnDash Resume Button module - works at a global or course level
 
 == Changelog ==
+
+= 3.6.4 [2022-11-22] =
+
+**Added:** 
+
+* Show Certificates & Certificate Widget - Add support for Group Certificates #263
+* Resume module - New attribute `show_name` to display the name of the last LearnDash step in the Enhanced Course Grid module #256
+
+**Updated:**
+
+* Not enrolled Redirect URL - Prevent redirect caching - Utilize existing filter `uncanny_toolkit_not_enrolled_redirect_nocache` #250
+* 2FA - Show loading animation and disable button on submission #234
+* Front End Login - Add "Verify" and "Unverify" to Bulk action menu #194
+* Resume Button - Do not show resume button if the course is completed #261
+
+**Fixed:**
+
+* Front-end login + WPML = get_posts not populating Login page dropdown in module settings #266
+* CSRF Vulnerability #259
+* Misc PHP warnings and validation Fixes #248
+* Frontend Login - Block redirect to external website #243
+* Automator notification - Buttons could not be clicked #239
+* Front End Login - Redirect conflicts between login page and login modal #230
+
+**Internal:**
+
+* Add support for number field in Settings fields #286
+* Try Automator - Branding updates #270
+* Show Automator plugin on Add New Plugin's page #268
+* Add in-plugin notifications #265
+* Pro Upsell Modules - Add "Single Page Courses" #254
+* When activating/deactivating a module, the semi-transparent overlay doesn't match the size of the module outline #184
+* Updated Gutenberg dependencies #288
 
 = 3.6.3 [2022-06-16] =
 

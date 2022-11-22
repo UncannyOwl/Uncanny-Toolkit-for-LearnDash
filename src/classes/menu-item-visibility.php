@@ -219,6 +219,10 @@ class MenuItemVisibility extends Config implements RequiredFunctions {
 	 * @return null
 	 */
 	public static function setup_nav_item( $menu_item ) {
+		
+		if( ! isset( $menu_item->ID ) ){
+			return $menu_item;
+		}
 
 		$roles = get_post_meta( $menu_item->ID, '_nav_menu_role', true );
 

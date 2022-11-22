@@ -184,6 +184,7 @@ class LearnDashResume extends Config implements RequiredFunctions {
 	public static function uo_course_resume( $atts ) {
 		$atts = shortcode_atts( array(
 			'course_id' => '',
+			'show_name' => 'yes',
 		), $atts, 'uo_course_resume' );
 
 		if ( is_user_logged_in() ) {
@@ -260,7 +261,7 @@ class LearnDashResume extends Config implements RequiredFunctions {
 							esc_attr( $resume_link_text )
 						);
 
-						if ( $show_name === 'on' ) {
+						if ( $show_name === 'on' && 'yes' === $atts['show_name'] ) {
 							printf(
 								'<div class="resume-item-name">%s</div>',
 								$title
@@ -336,6 +337,12 @@ class LearnDashResume extends Config implements RequiredFunctions {
 					return '';
 				}
 
+			}
+
+			$ld_course_id = learndash_get_course_id( $step_id );
+			
+			if( learndash_course_completed( $user->ID, $ld_course_id ) ) {
+				return '';
 			}
 
 			$last_know_post_object = get_post( $step_id );

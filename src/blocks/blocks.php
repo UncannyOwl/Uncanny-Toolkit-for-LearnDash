@@ -73,23 +73,22 @@ class Blocks {
 
 			if ( $add_block_scripts ) {
 
-
 				// Enqueue Gutenberg block assets for both frontend + backend
-				add_action( 'enqueue_block_assets', function () {
-					wp_enqueue_style(
-						$this->prefix . '-gutenberg-blocks',
-						plugins_url( 'blocks/dist/blocks.style.build.css', dirname( __FILE__ ) ),
-						[],
-						UNCANNY_TOOLKIT_VERSION
-					);
-				} );
+				// add_action( 'enqueue_block_assets', function () {
+				// 	wp_enqueue_style(
+				// 		$this->prefix . '-gutenberg-blocks',
+				// 		plugins_url( 'blocks/dist/style-index.css', dirname( __FILE__ ) ),
+				// 		array(),
+				// 		UNCANNY_TOOLKIT_VERSION
+				// 	);
+				// } );
 
 				// Enqueue Gutenberg block assets for backend editor
 				add_action( 'enqueue_block_editor_assets', function () {
 					wp_enqueue_script(
 						$this->prefix . '-gutenberg-blocks-editor',
-						plugins_url( 'blocks/dist/blocks.build.js', dirname( __FILE__ ) ),
-						[ 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor' ],
+						plugins_url( 'blocks/dist/index.js', dirname( __FILE__ ) ),
+						array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor' ),
 						UNCANNY_TOOLKIT_VERSION,
 						true
 					);
@@ -117,8 +116,8 @@ class Blocks {
 
 					wp_enqueue_style(
 						$this->prefix . '-gutenberg-blocks-editor',
-						plugins_url( 'blocks/dist/blocks.editor.build.css', dirname( __FILE__ ) ),
-						[ 'wp-edit-blocks' ],
+						plugins_url( 'blocks/dist/index.css', dirname( __FILE__ ) ),
+						array( 'wp-edit-blocks' ),
 						UNCANNY_TOOLKIT_VERSION
 					);
 				} );

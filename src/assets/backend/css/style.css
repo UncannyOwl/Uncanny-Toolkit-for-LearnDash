@@ -865,6 +865,8 @@ html.noscroll .ult-modal {
 		}
 
 			.ult .ult-directory-module-content {
+				position: relative;
+
 				padding: 15px;
 
 				background: #fff;

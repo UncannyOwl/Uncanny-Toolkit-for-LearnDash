@@ -4,6 +4,7 @@ namespace uncanny_learndash_toolkit;
 
 /**
  * Class Boot
+ *
  * @package uncanny_learndash_toolkit
  */
 class Boot extends Config {
@@ -28,8 +29,8 @@ class Boot extends Config {
 
 		spl_autoload_register( array( __CLASS__, 'auto_loader' ) );
 
-		$uncanny_learndash_toolkit->admin_menu        = new AdminMenu;
-		$uncanny_learndash_toolkit->install_automator = new InstallAutomator;
+		$uncanny_learndash_toolkit->admin_menu        = new AdminMenu();
+		$uncanny_learndash_toolkit->install_automator = new InstallAutomator();
 		add_action( 'admin_menu', array( __CLASS__, 'uo_support_menu' ) );
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'uo_admin_support_css' ) );
 		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'uo_frontend_assets' ) );
@@ -38,16 +39,19 @@ class Boot extends Config {
 		add_action( 'wp_ajax_settings_save', array( get_parent_class(), 'ajax_settings_save' ) );
 		add_action( 'wp_ajax_settings_load', array( get_parent_class(), 'ajax_settings_load' ) );
 		add_action( 'admin_init', array( __CLASS__, 'uo_admin_help_process' ) );
-		add_action( 'wp_ajax_activate_deactivate_module', array(
-			get_parent_class(),
-			'ajax_activate_deactivate_module',
-		) );
+		add_action(
+			'wp_ajax_activate_deactivate_module',
+			array(
+				get_parent_class(),
+				'ajax_activate_deactivate_module',
+			)
+		);
 
 		// Class Details:  Add Class to Admin Menu page
 		$classes = self::get_active_classes();
 
 		// Import Gutenberg Blocks
-		require_once( dirname( __FILE__ ) . '/blocks/blocks.php' );
+		require_once dirname( __FILE__ ) . '/blocks/blocks.php';
 		new Blocks( UNCANNY_TOOLKIT_PREFIX, UNCANNY_TOOLKIT_VERSION, $classes );
 
 		if ( $classes ) {
@@ -62,16 +66,19 @@ class Boot extends Config {
 				$class_namespace = explode( '\\', $class );
 
 				if ( class_exists( $class ) && __NAMESPACE__ === $class_namespace[0] ) {
-					new $class;
+					new $class();
 				}
 			}
 		}
 
 		// Import One Click Installer
-		require_once( dirname( __FILE__ ) . '/uncanny-one-click-installer/class-auto-plugin-install.php' );
+		require_once dirname( __FILE__ ) . '/uncanny-one-click-installer/class-auto-plugin-install.php';
 
-		add_action( 'rest_api_init', [ $this, 'uo_register_api' ] );
-		add_action( 'admin_init', [ $this, 'maybe_ask_review' ] );
+		add_action( 'rest_api_init', array( $this, 'uo_register_api' ) );
+		add_action( 'admin_init', array( $this, 'maybe_ask_review' ) );
+
+		// Plugin API override
+		require_once dirname( __FILE__ ) . '/plugin-api-override.php';
 	}
 
 	/**
@@ -85,20 +92,24 @@ class Boot extends Config {
 			__( 'Uncanny Toolkit for LearnDash Support', 'uncanny-learndash-toolkit' ),
 			__( 'Help', 'uncanny-learndash-toolkit' ),
 			'manage_options',
-			'uncanny-toolkit-kb', array(
-			__CLASS__,
-			'uo_support_page',
-		) );
+			'uncanny-toolkit-kb',
+			array(
+				__CLASS__,
+				'uo_support_page',
+			)
+		);
 
 		add_submenu_page(
 			'uncanny-toolkit',
 			__( 'Uncanny Toolkit for LearnDash Support', 'uncanny-learndash-toolkit' ),
 			__( 'LearnDash Plugins', 'uncanny-learndash-toolkit' ),
 			'manage_options',
-			'uncanny-toolkit-plugins', array(
-			__CLASS__,
-			'uo_support_page',
-		) );
+			'uncanny-toolkit-plugins',
+			array(
+				__CLASS__,
+				'uo_support_page',
+			)
+		);
 	}
 
 	/**
@@ -107,7 +118,7 @@ class Boot extends Config {
 	 * @return void
 	 */
 	public static function uo_support_page() {
-		include( 'templates/admin-support.php' );
+		include 'templates/admin-support.php';
 	}
 
 	/**
@@ -154,25 +165,32 @@ class Boot extends Config {
 	 * @return void
 	 */
 	public static function uo_frontend_assets() {
-		wp_enqueue_style( 'uncannyowl-learndash-toolkit-free', plugins_url( 'src/assets/frontend/dist/bundle.min.css', dirname( __FILE__ ) ), [], UNCANNY_TOOLKIT_VERSION );
-		wp_enqueue_script( 'uncannyowl-learndash-toolkit-free', plugins_url( 'src/assets/frontend/dist/bundle.min.js', dirname( __FILE__ ) ), [ 'jquery' ], UNCANNY_TOOLKIT_VERSION );
-		wp_localize_script( 'uncannyowl-learndash-toolkit-free', 'UncannyToolkit', apply_filters( 'uncannyowl-learndash-toolkit-js', [
-			'ajax'   => [
-				'url'   => admin_url( 'admin-ajax.php' ),
-				'nonce' => wp_create_nonce( 'uncannyowl-learndash-toolkit' ),
-			],
-			'integrity' => array(
-				'shouldPreventConcurrentLogin' => self::ld_is_preventing_concurrent_login()
-			),
-			'i18n'   => [
-				'dismiss' => __( 'Dismiss', 'uncanny-learndash-toolkit' ),
-				'preventConcurrentLogin' => __( 'Your account has exceeded maximum concurrent login number.', 'learndash-integrity' ),
-				'error'   => [
-					'generic' => __( 'Something went wrong. Please, try again', 'uncanny-learndash-toolkit' ),
-				],
-			],
-			'modals' => [],
-		] ) );
+		wp_enqueue_style( 'uncannyowl-learndash-toolkit-free', plugins_url( 'src/assets/frontend/dist/bundle.min.css', dirname( __FILE__ ) ), array(), UNCANNY_TOOLKIT_VERSION );
+		wp_enqueue_script( 'uncannyowl-learndash-toolkit-free', plugins_url( 'src/assets/frontend/dist/bundle.min.js', dirname( __FILE__ ) ), array( 'jquery' ), UNCANNY_TOOLKIT_VERSION );
+		wp_localize_script(
+			'uncannyowl-learndash-toolkit-free',
+			'UncannyToolkit',
+			apply_filters(
+				'uncannyowl-learndash-toolkit-js',
+				array(
+					'ajax'      => array(
+						'url'   => admin_url( 'admin-ajax.php' ),
+						'nonce' => wp_create_nonce( 'uncannyowl-learndash-toolkit' ),
+					),
+					'integrity' => array(
+						'shouldPreventConcurrentLogin' => self::ld_is_preventing_concurrent_login(),
+					),
+					'i18n'      => array(
+						'dismiss'                => __( 'Dismiss', 'uncanny-learndash-toolkit' ),
+						'preventConcurrentLogin' => __( 'Your account has exceeded maximum concurrent login number.', 'learndash-integrity' ),
+						'error'                  => array(
+							'generic' => __( 'Something went wrong. Please, try again', 'uncanny-learndash-toolkit' ),
+						),
+					),
+					'modals'    => array(),
+				)
+			)
+		);
 	}
 
 	private static function ld_is_preventing_concurrent_login() {
@@ -181,7 +199,7 @@ class Boot extends Config {
 
 		// Check if it exists and the value if "yes"
 		// Condition from /learndash-integrity/includes/class-prevent-concurrent-login.php:30
-		return isset( $option[ 'prevent_concurrent_login' ] ) && 'yes' == $option[ 'prevent_concurrent_login' ];
+		return isset( $option['prevent_concurrent_login'] ) && 'yes' == $option['prevent_concurrent_login'];
 	}
 
 	/**
@@ -190,7 +208,7 @@ class Boot extends Config {
 	 * @return void
 	 */
 	public static function uo_admin_support_css() {
-		$pages_to_include = [ 'uncanny-toolkit-plugins', 'uncanny-toolkit-kb' ];
+		$pages_to_include = array( 'uncanny-toolkit-plugins', 'uncanny-toolkit-kb' );
 		if ( isset( $_GET['page'] ) && in_array( $_GET['page'], $pages_to_include ) ) {
 			wp_enqueue_style( 'uncannyowl-core', 'https://uncannyowl.com/wp-content/mu-plugins/uncanny-plugins-core/dist/bundle.min.css', array(), UNCANNY_TOOLKIT_VERSION );
 			wp_enqueue_script( 'uncannyowl-core', 'https://uncannyowl.com/wp-content/mu-plugins/uncanny-plugins-core/dist/bundle.min.js', array( 'jquery' ), UNCANNY_TOOLKIT_VERSION );
@@ -242,11 +260,15 @@ class Boot extends Config {
 	 * @since 3.3
 	 */
 	public function uo_register_api() {
-		register_rest_route( UNCANNY_TOOLKIT_REST_API_END_POINT, '/review-banner-visibility/', [
-			'methods'             => 'POST',
-			'callback'            => [ $this, 'save_review_settings' ],
-			'permission_callback' => '__return_true',
-		] );
+		register_rest_route(
+			UNCANNY_TOOLKIT_REST_API_END_POINT,
+			'/review-banner-visibility/',
+			array(
+				'methods'             => 'GET',
+				'callback'            => array( $this, 'save_review_settings' ),
+				'permission_callback' => '__return_true',
+			)
+		);
 	}
 
 
@@ -286,27 +308,64 @@ class Boot extends Config {
 				}
 			}
 
-			add_action( 'admin_notices', function () {
-				// Get data about Toolkit version
-				$is_pro  = defined( 'UNCANNY_TOOLKIT_PRO_VERSION' );
-				$version = $is_pro ? UNCANNY_TOOLKIT_PRO_VERSION : UNCANNY_TOOLKIT_VERSION;
+			add_action(
+				'admin_notices',
+				function () {
+					// Get data about Toolkit version
+					$is_pro  = defined( 'UNCANNY_TOOLKIT_PRO_VERSION' );
+					$version = $is_pro ? UNCANNY_TOOLKIT_PRO_VERSION : UNCANNY_TOOLKIT_VERSION;
 
-				// Send review URL
-				$url_send_review = 'https://wordpress.org/support/plugin/uncanny-learndash-toolkit/reviews/#new-post';
+					// Send review URL
+					$url_send_review = 'https://wordpress.org/support/plugin/uncanny-learndash-toolkit/reviews/#new-post';
 
-				// Send feedback URL
-				if ( $is_pro ) {
-					$url_send_feedback_plugin = 'Uncanny%20LearnDash%20Toolkit%20Pro';
-					$url_send_feedback_source = 'uncanny_learndash_toolkit_pro';
-					$url_send_feedback        = 'https://www.uncannyowl.com/request-plugin-feature/?plugin=' . $url_send_feedback_plugin . '&utm_source=' . $url_send_feedback_source . '&utm_medium=review_banner';
-				} else {
-					$url_send_feedback = 'https://wordpress.org/support/plugin/uncanny-learndash-toolkit/#new-topic-0';
+					// Send feedback URL
+					if ( $is_pro ) {
+						$url_send_feedback_plugin = 'Uncanny%20LearnDash%20Toolkit%20Pro';
+						$url_send_feedback_source = 'uncanny_learndash_toolkit_pro';
+						$url_send_feedback        = 'https://www.uncannyowl.com/request-plugin-feature/?plugin=' . $url_send_feedback_plugin . '&utm_source=' . $url_send_feedback_source . '&utm_medium=review_banner';
+					} else {
+						$url_send_feedback = 'https://wordpress.org/support/plugin/uncanny-learndash-toolkit/#new-topic-0';
+					}
+
+					// Send to WordPress.org to review.
+					$url_send_review = $this->get_review_rest_url( $url_send_review );
+
+					// Send to WordPress.org support forum.
+					$url_send_feedback = $this->get_review_rest_url( $url_send_feedback );
+
+					// Reloads the page via referer with maybe-later.
+					$url_maybe_later = $this->get_review_rest_url( '', 'maybe-later' );
+
+					// Reloads the page via referer with hide-forever
+					$url_hide_forever = $this->get_review_rest_url( '', 'hide-forever' );
+
+					include Config::get_template( 'admin-review-banner.php' );
+
 				}
-
-				include Config::get_template( 'admin-review-banner.php' );
-
-			} );
+			);
 		}
+	}
+
+	/**
+	 * Method get_review_rest_url.
+	 *
+	 * @param string $redirect_url The redirect url.
+	 * @param string $action The action.
+	 * @param string $redirect The redirect url.
+	 *
+	 * @return string The url of the toolkit review-banner-visibility endpoint
+	 */
+	public function get_review_rest_url( $redirect_url = '', $action = 'hide-forever', $redirect = 'yes' ) {
+
+		return add_query_arg(
+			array(
+				'action'       => $action,
+				'redirect'     => $redirect,
+				'redirect_url' => rawurlencode( $redirect_url ),
+			),
+			get_rest_url() . UNCANNY_TOOLKIT_REST_API_END_POINT . '/review-banner-visibility/'
+		);
+
 	}
 
 	/**
@@ -318,15 +377,49 @@ class Boot extends Config {
 	 * @since 2.1.4
 	 */
 	public function save_review_settings( $request ) {
-		// check if its a valid request.
-		$data = $request->get_params();
-		if ( isset( $data['action'] ) && ( 'maybe-later' === $data['action'] || 'hide-forever' === $data['action'] ) ) {
-			update_option( '_uncanny_toolkit_review_reminder', $data['action'] );
+
+		// Check if its a valid request.
+		$action = $request->get_param( 'action' );
+
+		$redirect = $request->get_param( 'redirect' );
+
+		$redirect_url = $request->get_param( 'redirect_url' );
+
+		$visiblity_actions = array( 'maybe-later', 'hide-forever' );
+
+		if ( in_array( $action, $visiblity_actions, true ) ) {
+
+			update_option( '_uncanny_toolkit_review_reminder', $action );
+
 			update_option( '_uncanny_toolkit_review_reminder_date', current_time( 'timestamp' ) );
 
-			return new \WP_REST_Response( [ 'success' => true ], 200 );
+			if ( 'yes' === $redirect ) {
+
+				// Return the refering url if its empty.
+				if ( empty( $redirect_url ) ) {
+
+					$redirect_url = wp_get_referer();
+
+				}
+
+				wp_redirect( $redirect_url ); //phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect
+
+				exit;
+
+			}
+
+			return new \WP_REST_Response(
+				array(
+					'success' => true,
+					'test'    => 1,
+				),
+				200
+			);
+
 		}
 
-		return new \WP_REST_Response( [ 'success' => false ], 200 );
+		return new \WP_REST_Response( array( 'success' => false ), 200 );
+
 	}
+
 }

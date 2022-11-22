@@ -151,7 +151,14 @@ class ShowCertificatesShortcode extends Config implements RequiredFunctions {
 				$quiz_certificates = $atts['quiz_certificates'];
 			}
 		}
-		 
+
+		$group_certificates = 'show';
+		if ( isset( $atts['group_certificates'] ) ) {
+			if ( in_array( $atts['group_certificates'], array('show','hide'), true ) ) {
+				$group_certificates = $atts['group_certificates'];
+			}
+		}
+
 		$show_cert_title  = self::get_settings_value( 'uncanny-showcertificate-show-cert-title', __CLASS__ );
 		$certificate_list = '';
 		$courses = array();
@@ -228,6 +235,41 @@ class ShowCertificatesShortcode extends Config implements RequiredFunctions {
 			}
 		}
 
+		/* GET Certificates for Groups*/
+		if( 'show' === $group_certificates ){
+
+			$args = array(
+				'post_type'      => 'groups',
+				'posts_per_page' => 9999,
+				'post_status'    => 'publish',
+				'orderby'        => 'title',
+				'order'          => 'ASC',
+			);
+
+			$groups = get_posts( $args );
+
+			foreach ( $groups as $group ) {
+
+				$certificate_id     = learndash_get_setting( $group->ID, 'certificate' );
+				$certificate_object = get_post( $certificate_id );
+
+				if ( ! empty( $certificate_object ) ) {
+					if ( 'on' === $show_cert_title ) {
+						$certificate_title = $certificate_object->post_title;
+					} else {
+						$certificate_title = $group->post_title;
+					}
+
+					$certificate_link = learndash_get_group_certificate_link( $group->ID );
+
+					if ( $certificate_link && '' !== $certificate_link ) {
+						$link             = apply_filters( 'uo_show_group_certificate_link', sprintf( '<a target="_blank" href="%s">%s</a>', $certificate_link, $certificate_title ), wp_get_current_user(), $group );
+						$certificate_list .= $link . '<br>';
+					}
+				}
+			}
+		}
+
 		$certificate_list = apply_filters_deprecated( 'certificate_list_shortcode', array( $certificate_list ), '3.6.2', 'uo_certificate_list_shortcode' );
 		$certificate_list = apply_filters( 'uo_certificate_list_shortcode', $certificate_list, $courses, $quiz_attempts );
 
@@ -236,7 +278,7 @@ class ShowCertificatesShortcode extends Config implements RequiredFunctions {
 		}
 
 		$shortcode_html = '';
-		if( 'show' === $course_certificates ||  'show' === $quiz_certificates ){
+		if( 'show' === $course_certificates ||  'show' === $quiz_certificates ||  'show' === $group_certificates ){
 			ob_start();
 			?>
 			<div class="<?php echo esc_attr( $class ); ?>">

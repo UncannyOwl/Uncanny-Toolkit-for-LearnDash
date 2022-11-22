@@ -47,7 +47,7 @@ class LoginRedirect extends Config implements RequiredFunctions {
 
 			$do_logout_redirect = apply_filters( 'uo_do_logout_redirect', true );
 			if( $do_logout_redirect ){
-				add_action( 'wp_logout', array( __CLASS__, 'logout_redirect' ), $redirect_priority, 1 );
+				add_action( 'wp_logout', array( __CLASS__, 'logout_redirect' ), 1, 1 );
 			}
 		}
 
