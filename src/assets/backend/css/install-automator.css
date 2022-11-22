@@ -177,7 +177,7 @@
             border-radius: 12px;
             display: grid;
             grid-template-columns: repeat(11, 1fr);
-            grid-template-rows: 1fr 7fr;
+            grid-template-rows: 1fr 5fr;
             padding: 24px;
             gap: 12px 24px;
             line-height: 2.2em;
@@ -189,22 +189,32 @@
             }
 
             .uo-install-automator__recipes .triggers {
-                grid-column: 1 / 6;
+                grid-column: 1 / 5;
                 grid-row: 2 / last-line;
             }
 
             .uo-install-automator__recipes .actions {
-                grid-column: 6 / 11;
+                grid-column: 5 / 10;
                 grid-row: 2 / last-line;
             }
 
             .uo-install-automator__recipes .robot {
-                grid-column: 11 / 11;
+                grid-column: 10 / 11;
                 grid-row: 2 / last-line;
                 align-self: end;
                 min-width: 80px;
                 justify-content: center;
             }
+
+                .uo-install-automator__recipes .robot img {
+                    width: 220px;
+                }
+
+                @media screen and (max-width: 1366px){
+                    .uo-install-automator__recipes .robot img {
+                        width: 190px;
+                    }
+                }
 
             .external-link img {
                 width: 12px;

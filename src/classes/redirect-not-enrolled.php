@@ -228,6 +228,11 @@ class RedirectNotEnrolled extends Config implements RequiredFunctions {
 
 		//is there a user to check?
 		if ( ! is_user_logged_in() ) {
+
+			if( apply_filters( 'uncanny_toolkit_not_enrolled_redirect_nocache', false, $post->ID, 0 ) ){
+				nocache_headers();
+			}
+
 			wp_safe_redirect( $redirect_to );
 			exit;
 		}

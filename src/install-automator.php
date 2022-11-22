@@ -37,10 +37,10 @@ class InstallAutomator extends Boot {
 		}
 
 		// Get the item text
-		$menu_item_text = apply_filters( 'ult_admin_sidebar_try_automator_text', sprintf( __( 'Try %s!', 'uncanny-learndash-toolkit' ), 'Automator' ) );
+		$menu_item_text = apply_filters( 'ult_admin_sidebar_try_automator_text', sprintf( __( 'Get %s!', 'uncanny-learndash-toolkit' ), 'Automator' ) );
 
 		// Create the link content
-		$menu_item_html = '<span class="ult-sidebar-featured-item">' . apply_filters( 'ult_admin_sidebar_try_automator_inner_html', '<span class="ult-sidebar-featured-item__text">' . $menu_item_text . '</span><span class="ult-sidebar-featured-item__tag">' . __( 'New', 'uncanny-learndash-toolkit' ) . '</span>' ) . '</span>';
+		$menu_item_html = '<span class="ult-sidebar-featured-item">' . apply_filters( 'ult_admin_sidebar_try_automator_inner_html', '<span class="ult-sidebar-featured-item__text">' . $menu_item_text . '</span><span class="ult-sidebar-featured-item__tag">' . __( 'Free', 'uncanny-learndash-toolkit' ) . '</span>' ) . '</span>';
 
 		// Add the subpage menu
 		add_submenu_page(
@@ -93,7 +93,7 @@ class InstallAutomator extends Boot {
 
 				<div class="uo-install-automator__box">
 						<div class="uo-install-automator__logo">
-							<img src="<?php echo esc_url( Config::get_admin_media( 'install-automator/uncanny-automator.svg' ) ); ?>" alt="Uncanny Automator logo" />
+							<img src="<?php echo esc_url( Config::get_admin_media( 'install-automator/uncanny-automator-icon.svg' ) ); ?>" alt="Uncanny Automator logo" />
 						</div>
 						<div class="uo-install-automator__text">
 							<h3><?php esc_html_e( 'Uncanny Automator', 'uncanny-learndash-toolkit' ); ?></h3>
@@ -103,7 +103,8 @@ class InstallAutomator extends Boot {
 								<img src="<?php echo esc_url( Config::get_admin_media( 'install-automator/icon-star-yellow.svg' ) ); ?>" alt="Yellow star" />
 								<img src="<?php echo esc_url( Config::get_admin_media( 'install-automator/icon-star-yellow.svg' ) ); ?>" alt="Yellow star" />
 								<img src="<?php echo esc_url( Config::get_admin_media( 'install-automator/icon-star-yellow.svg' ) ); ?>" alt="Yellow star" />
-								<img src="<?php echo esc_url( Config::get_admin_media( 'install-automator/icon-star-half-yellow.svg' ) ); ?>" alt="Yellow half star" /> 4.7 out of 5 stars</span>
+								<img src="<?php echo esc_url( Config::get_admin_media( 'install-automator/icon-star-yellow.svg' ) ); ?>" alt="Yellow star" />
+							</span>
 						</div>
 						<div class="uo-install-automator__button">
 							<?php echo $one_click_install->button( 'uncanny-automator', admin_url( 'post-new.php?post_type=uo-recipe' ) ); ?>
@@ -240,7 +241,7 @@ class InstallAutomator extends Boot {
 						</script>
 
 						<div class="robot">
-							<span class="robot"><img src="<?php echo esc_url( Config::get_admin_media( 'install-automator/automator-robot.svg' ) ); ?>" alt="External link icon" /></span>
+							<span class="robot"><img src="<?php echo esc_url( Config::get_admin_media( 'install-automator/uncanny-automator-present-pose.svg' ) ); ?>" alt="External link icon" /></span>
 						</div>
 
 					</div>
@@ -253,7 +254,7 @@ class InstallAutomator extends Boot {
 
 					<div class="uo-install-automator__box">
 						<div class="uo-install-automator__logo">
-							<img src="<?php echo esc_url( Config::get_admin_media( 'install-automator/uncanny-automator.svg' ) ); ?>" alt="Uncanny Automator logo" />
+							<img src="<?php echo esc_url( Config::get_admin_media( 'install-automator/uncanny-automator-icon.svg' ) ); ?>" alt="Uncanny Automator logo" />
 						</div>
 						<div class="uo-install-automator__text">
 							<h3><?php esc_html_e( 'Uncanny Automator', 'uncanny-learndash-toolkit' ); ?></h3>
@@ -263,7 +264,8 @@ class InstallAutomator extends Boot {
 								<img src="<?php echo esc_url( Config::get_admin_media( 'install-automator/icon-star-yellow.svg' ) ); ?>" alt="Yellow star" />
 								<img src="<?php echo esc_url( Config::get_admin_media( 'install-automator/icon-star-yellow.svg' ) ); ?>" alt="Yellow star" />
 								<img src="<?php echo esc_url( Config::get_admin_media( 'install-automator/icon-star-yellow.svg' ) ); ?>" alt="Yellow star" />
-								<img src="<?php echo esc_url( Config::get_admin_media( 'install-automator/icon-star-half-yellow.svg' ) ); ?>" alt="Yellow half star" /> 4.7 out of 5 stars</span>
+								<img src="<?php echo esc_url( Config::get_admin_media( 'install-automator/icon-star-yellow.svg' ) ); ?>" alt="Yellow star" />
+							</span>
 						</div>
 						<div class="uo-install-automator__button">
 							<?php echo $one_click_install->button( 'uncanny-automator', admin_url( 'post-new.php?post_type=uo-recipe' ) ); ?>

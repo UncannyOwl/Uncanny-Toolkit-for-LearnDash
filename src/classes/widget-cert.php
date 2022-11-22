@@ -8,6 +8,7 @@ if ( ! defined( 'WPINC' ) ) {
 
 /**
  * Class WidgetCert
+ *
  * @package uncanny_custom_toolkit
  */
 class WidgetCert extends \WP_Widget implements RequiredFunctions {
@@ -49,7 +50,6 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 	 * @param String
 	 *
 	 * @return string Return either false or settings html modal
-	 *
 	 */
 	public static function get_class_settings( $class_title ) {
 		// Create options
@@ -67,7 +67,8 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 				'class'   => __CLASS__,
 				'title'   => $class_title,
 				'options' => $options,
-			) );
+			)
+		);
 
 		return $html;
 	}
@@ -115,7 +116,6 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 	 *
 	 * @return null
 	 * @see WP_Widget::widget()
-	 *
 	 */
 	public function widget( $args, $instance ) {
 
@@ -136,7 +136,7 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 		$post_args = array(
 			'post_type'      => 'sfwd-courses',
 			'posts_per_page' => - 1,
-			'post_status'    => 'publish'
+			'post_status'    => 'publish',
 		);
 
 		echo '<div class="uncanny-cert-widget-list">';
@@ -146,8 +146,7 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 		$courses         = get_posts( $post_args );
 		$show_cert_title = Config::get_settings_value( 'uncanny-widgetcertificate-show-cert-title', __CLASS__ );
 
-		$certificate_list = [];
-
+		$certificate_list = array();
 
 		foreach ( $courses as $course ) {
 
@@ -166,17 +165,18 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 				if ( $certificate_link && '' !== $certificate_link ) {
 
 					$date_earned                     = learndash_user_get_course_completed_date( get_current_user_id(), $course->ID );
-					$certificate_list[ $course->ID ] = [
+					$certificate_list[ $course->ID ] = array(
 						'title'       => $certificate_title,
 						'date_earned' => $date_earned,
-						'link'        => sprintf( '<li><a %s target="_blank" href="%s" title="%s %s" >%s</a></li>',
+						'link'        => sprintf(
+							'<li><a %s target="_blank" href="%s" title="%s %s" >%s</a></li>',
 							'data-date-earned="' . $date_earned . '"',
 							esc_url( $certificate_link ),
 							esc_html__( 'Your certificate for :', 'uncanny-learndash-toolkit' ),
 							$course->post_title,
 							esc_html( $certificate_title )
 						),
-					];
+					);
 				}
 			}
 		}
@@ -206,18 +206,62 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 							$certificate_title = $quiz_title;
 						}
 
-						$certificate_list[ $quiz_attempt['post']->ID ] = [
+						$certificate_list[ $quiz_attempt['post']->ID ] = array(
 							'title'       => $certificate_title,
 							'date_earned' => $date_earned,
-							'link'        => sprintf( '<li><a %s target="_blank" href="%s" title="%s %s" >%s</a></li>',
+							'link'        => sprintf(
+								'<li><a %s target="_blank" href="%s" title="%s %s" >%s</a></li>',
 								'data-date-earned="' . $date_earned . '"',
 								esc_url( $certificateLink ),
 								esc_html__( 'Your certificate for :', 'uncanny-learndash-toolkit' ),
 								$quiz_title,
 								esc_html( $certificate_title )
 							),
-						];
+						);
 					}
+				}
+			}
+		}
+
+		$group_args = array(
+			'post_type'      => 'groups',
+			'posts_per_page' => - 1,
+			'post_status'    => 'publish',
+			'orderby'        => 'title',
+			'order'          => 'ASC',
+		);
+
+		$groups = get_posts( $group_args );
+
+		foreach ( $groups as $group ) {
+
+			$certificate_id     = learndash_get_setting( $group->ID, 'certificate' );
+			$certificate_object = get_post( $certificate_id );
+
+			if ( ! empty( $certificate_object ) ) {
+
+				if ( 'on' === $show_cert_title ) {
+					$certificate_title = $certificate_object->post_title;
+				} else {
+					$certificate_title = $group->post_title;
+				}
+				$certificate_link = learndash_get_group_certificate_link( $group->ID, get_current_user_id() );
+
+				if ( $certificate_link && '' !== $certificate_link ) {
+
+					$date_earned                    = learndash_user_get_course_completed_date( get_current_user_id(), $group->ID );
+					$certificate_list[ $group->ID ] = array(
+						'title'       => $certificate_title,
+						'date_earned' => $date_earned,
+						'link'        => sprintf(
+							'<li><a %s target="_blank" href="%s" title="%s %s" >%s</a></li>',
+							'data-date-earned="' . $date_earned . '"',
+							esc_url( $certificate_link ),
+							esc_html__( 'Your certificate for:', 'uncanny-learndash-toolkit' ),
+							$group->post_title,
+							esc_html( $certificate_title )
+						),
+					);
 				}
 			}
 		}
@@ -235,7 +279,6 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 			}
 		}
 
-
 		echo '</ul>';
 
 		//close .uncanny-cert-widget-list
@@ -250,21 +293,21 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 
 		switch ( self::$order_by ) {
 			case 'title':
-				if ( 'ASC' === self::$order ) {
-					return strcmp( strtolower( $b["title"] ), strtolower( $a["title"] ) );
-				}
 				if ( 'DESC' === self::$order ) {
+					return strcmp( strtolower( $b['title'] ), strtolower( $a['title'] ) );
+				}
+				if ( 'ASC' === self::$order ) {
 					// Default to sort by start date asc
-					return strcmp( strtolower( $a["title"] ), strtolower( $b["title"] ) );
+					return strcmp( strtolower( $a['title'] ), strtolower( $b['title'] ) );
 				}
 				break;
 			case 'date_earned':
 				if ( 'DESC' === self::$order ) {
-					return ( $a["date_earned"] > $b["date_earned"] ) ? - 1 : 1;
+					return ( $a['date_earned'] > $b['date_earned'] ) ? - 1 : 1;
 				}
 				if ( 'ASC' === self::$order ) {
 					// Default to sort by start date asc
-					return ( $a["date_earned"] < $b["date_earned"] ) ? - 1 : 1;
+					return ( $a['date_earned'] < $b['date_earned'] ) ? - 1 : 1;
 				}
 				break;
 		}
@@ -273,10 +316,10 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 	/**
 	 * get array of Quizzes taken
 	 * modified from code in wp-content/plugins/sfwd-lms/course_info_widget.php
+	 *
 	 * @return array
 	 */
-	private
-	static function quiz_attempts() {
+	private static function quiz_attempts() {
 
 		$quiz_attempts = array();
 		$current_user  = wp_get_current_user();
@@ -317,10 +360,8 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 	 *
 	 * @return string|void
 	 * @see WP_Widget::form()
-	 *
 	 */
-	public
-	function form(
+	public function form(
 		$instance
 	) {
 		$title    = ! empty( $instance['title'] ) ? $instance['title'] : esc_html__( 'Your certificates', 'uncanny-learndash-toolkit' );
@@ -328,7 +369,6 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 
 		$order    = ! empty( $instance['order'] ) ? $instance['order'] : 'ASC';
 		$order_by = ! empty( $instance['order_by'] ) ? $instance['order_by'] : 'title';
-
 
 		?>
 		<p>
@@ -391,10 +431,8 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 	 *
 	 * @return array Updated safe values to be saved.
 	 * @see WP_Widget::update()
-	 *
 	 */
-	public
-	function update(
+	public function update(
 		$new_instance, $old_instance
 	) {
 		$instance             = array();

@@ -296,6 +296,7 @@ jQuery( function($){
                     'action': 'activate_deactivate_module',
                     'value':  $toggle.val(),
                     'active': status,
+                    nonce: UncannyToolkitGlobal.ajax.nonce,
                 };
 
                 $.post( ajaxurl, data, function ( response ){
@@ -870,7 +871,9 @@ jQuery( function($){
                 method:   'POST',
                 dataType: 'json',
                 url:      ajaxurl,
-                data:     data,
+                data:     Object.assign( {
+                    nonce: UncannyToolkitGlobal.ajax.nonce
+                }, data ),
 
                 success: function( response ){
                     // Check if onSuccess is defined

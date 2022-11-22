@@ -65,12 +65,12 @@ function uo_get_server_database_version() {
 	}
 	$server_info = '';
 	$db_type     = '';
-	if ( $db_server_info['mysqldb_active'] ) {
+	if ( isset( $db_server_info['mysqldb_active'] ) && $db_server_info['mysqldb_active'] ) {
 		$db_version      = $db_server_info['db_version_found'];
 		$db_type         = __( 'MySQL Version', 'uncanny-learndash-toolkit' );
 		$version_compare = version_compare( $db_version, $db_server_info['mysqldb_version_min'], '>' );
 		$server_info     = uo_item_meets_requirements( $version_compare, $db_version );
-	} elseif ( $db_server_info['mariadb_actve'] ) {
+	} elseif ( isset( $db_server_info['mariadb_actve'] ) && $db_server_info['mariadb_actve'] ) {
 		$db_type         = __( 'MariaDB Version', 'uncanny-learndash-toolkit' );
 		$db_version      = $db_server_info['db_version_found'];
 		$version_compare = version_compare( $db_version, $db_server_info['mariadb_version_min'], '>' );

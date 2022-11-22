@@ -307,6 +307,37 @@ class Config {
 
 									break;
 
+								case 'number':
+									?>
+									<div
+										class="ult-modal-form-row ult-modal__field--text <?php echo $css_class; ?>"
+										data-show-if="<?php echo $show_if; ?>"
+										data-default="<?php echo $default_value; ?>"
+										data-id="<?php echo $option_name; ?>"
+										data-type="text"
+									>
+										<div class="ult-modal-form-row__label">
+											<?php echo $label; ?>
+										</div>
+										<div class="ult-modal-form-row__field">
+											<input type="number" placeholder="<?php echo $placeholder; ?>"
+												   class="ult-modal-form-row__input"
+												   name="<?php echo $option_name; ?>" data-type="number" min="0">
+
+											<?php if ( ! empty( $description ) ) { ?>
+												<div class="ult-modal-form-row__description">
+													<?php echo $description; ?>
+												</div>
+											<?php } ?>
+										</div>
+									</div>
+
+									<?php
+
+									break;
+
+								
+
 								case 'color':
 									?>
 									<div
@@ -581,72 +612,90 @@ class Config {
 	 *
 	 */
 	public static function ajax_activate_deactivate_module() {
+		// Nonce verification
+		if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'uncanny_toolkit' ) ) {
+			echo 'nonce failed';
+			wp_die();
+		}
 		$capability = apply_filters( 'toolkit_settings_module_switch_cap', 'manage_options' );
+		if ( ! current_user_can( $capability ) ) {
+			echo __( 'You must be an admin to save settings', 'uncanny-learndash-toolkit' );
+			wp_die();
+		}
+		if ( ! isset( $_POST['value'] ) ) {
+			echo 'Value field missing.';
+			wp_die();
+		}
+		$value          = stripslashes( $_POST['value'] );
+		$active_classes = get_option( 'uncanny_toolkit_active_classes', 0 );
 
-		if ( current_user_can( $capability ) ) {
-			if ( isset( $_POST['value'] ) ) {
-				$value          = stripslashes( $_POST['value'] );
-				$active_classes = get_option( 'uncanny_toolkit_active_classes', 0 );
+		if ( 0 !== $active_classes ) {
+			if ( ! is_array( $active_classes ) ) {
+				$active_classes = array();
+			}
+			if ( 'active' === $_POST['active'] ) {
+				$new_classes = array_merge( array( $value => $value ), $active_classes );
+			} elseif ( 'inactive' === $_POST['active'] ) {
+				unset( $active_classes[ $value ] );
+				$new_classes = $active_classes;
+			}
+			update_option( 'uncanny_toolkit_active_classes', $new_classes );
+			$response = 'success';
+		} else {
+			$save_settings = add_option( 'uncanny_toolkit_active_classes', array( $value => $value ) );
+			$response      = ( $save_settings ) ? 'success' : 'notsaved';
+		}
 
-				if ( 0 !== $active_classes ) {
-					if ( ! is_array( $active_classes ) ) {
-						$active_classes = array();
-					}
-					if ( 'active' === $_POST['active'] ) {
-						$new_classes = array_merge( array( $value => $value ), $active_classes );
-					} elseif ( 'inactive' === $_POST['active'] ) {
-						unset( $active_classes[ $value ] );
-						$new_classes = $active_classes;
-					}
-					update_option( 'uncanny_toolkit_active_classes', $new_classes );
-					$response = 'success';
-				} else {
-					$save_settings = add_option( 'uncanny_toolkit_active_classes', array( $value => $value ) );
-					$response      = ( $save_settings ) ? 'success' : 'notsaved';
-				}
-
-				// If the uo dashboard module is being turned on then set the default template as 3_0
-				if ( 'uncanny_pro_toolkit\\learnDashMyCourses' === $value ) {
-					if ( 'active' === $_POST['active'] ) {
-						update_option(
-							'uncanny_pro_toolkitlearnDashMyCourses',
-							array(
-								array(
-									'name'  => 'uo_dashboard_template',
-									'value' => '3_0',
-								),
-							),
-							'no'
-						);
-					}
-				}
-
-				// If the frontend login module is being turned on then check if settings are available or not.
-				if ( 'uncanny_learndash_toolkit\FrontendLoginPlus' === $value ) {
-					if ( 'active' === $_POST['active'] ) {
-						$existing_settings = get_option( 'FrontendLoginPlus', '' );
-						if ( empty( $existing_settings ) ) {
-							$default_settings = array(
-								array(
-									'name'  => 'uo_frontendloginplus_enable_ajax_support',
-									'value' => 'on',
-								),
-							);
-							update_option( 'FrontendLoginPlus', $default_settings );
-						}
-					}
-				}
-
-				echo $response;
-				wp_die();
+		// If the uo dashboard module is being turned on then set the default template as 3_0
+		if ( 'uncanny_pro_toolkit\\learnDashMyCourses' === $value ) {
+			if ( 'active' === $_POST['active'] ) {
+				update_option(
+					'uncanny_pro_toolkitlearnDashMyCourses',
+					array(
+						array(
+							'name'  => 'uo_dashboard_template',
+							'value' => '3_0',
+						),
+					),
+					'no'
+				);
 			}
 		}
+
+		// If the frontend login module is being turned on then check if settings are available or not.
+		if ( 'uncanny_learndash_toolkit\FrontendLoginPlus' === $value ) {
+			if ( 'active' === $_POST['active'] ) {
+				$existing_settings = get_option( 'FrontendLoginPlus', '' );
+				if ( empty( $existing_settings ) ) {
+					$default_settings = array(
+						array(
+							'name'  => 'uo_frontendloginplus_enable_ajax_support',
+							'value' => 'on',
+						),
+					);
+					update_option( 'FrontendLoginPlus', $default_settings );
+				}
+			}
+		}
+
+		echo $response; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		wp_die();
 	}
 
 	/**
 	 *
 	 */
 	public static function ajax_settings_save() {
+		// Nonce verification
+		if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'uncanny_toolkit' ) ) {
+			echo wp_json_encode(
+				array(
+					'error'   => true,
+					'message' => 'Nonce verification failed.',
+				)
+			);
+			wp_die();
+		}
 		$response = array(
 			'error'   => true,
 			'message' => '',
@@ -654,36 +703,46 @@ class Config {
 
 		$capability = apply_filters( 'toolkit_settings_save_cap', 'manage_options' );
 
-		if ( current_user_can( $capability ) ) {
+		if ( ! current_user_can( $capability ) ) {
+			echo wp_json_encode(
+				array(
+					'error'   => true,
+					'message' => __( 'You must be an admin to save settings', 'uncanny-learndash-toolkit' ),
+				)
+			);
+			wp_die();
+		}
 
-			if ( isset( $_POST['class'] ) ) {
+		if ( ! isset( $_POST['class'] ) ) {
+			echo wp_json_encode(
+				array(
+					'error'   => true,
+					'message' => __( 'Class for addon is not set', 'uncanny-learndash-toolkit' ),
+				)
+			);
+			wp_die();
+		}
 
-				$class   = sanitize_text_field( $_POST['class'] );
-				$options = ( isset( $_POST['options'] ) ) ? $_POST['options'] : array();
+		$class   = sanitize_text_field( $_POST['class'] );
+		$options = ( isset( $_POST['options'] ) ) ? $_POST['options'] : array();
 
-				// Validate action if any module need some values to set.
-				do_action( 'toolkit_settings_save_validation', $class, $options );
+		// Validate action if any module need some values to set.
+		do_action( 'toolkit_settings_save_validation', $class, $options );
 
-				// Delete option and add option are called instead of update option because
-				// sometimes update value is equal to the existing value and a false
-				// positive is returned
+		// Delete option and add option are called instead of update option because
+		// sometimes update value is equal to the existing value and a false
+		// positive is returned
 
-				delete_option( $class );
+		delete_option( $class );
 
-				$save_settings = add_option( $class, $options );
+		$save_settings = add_option( $class, $options );
 
-				$response['error'] = ! $save_settings;
+		$response['error'] = ! $save_settings;
 
-				if ( $save_settings ) {
-					$response['message'] = __( 'Settings saved successfully', 'uncanny-learndash-toolkit' );
-				} else {
-					$response['message'] = __( 'Something went wrong. Please, try again', 'uncanny-learndash-toolkit' );
-				}
-			} else {
-				$response['message'] = __( 'Class for addon is not set', 'uncanny-learndash-toolkit' );
-			}
+		if ( $save_settings ) {
+			$response['message'] = __( 'Settings saved successfully', 'uncanny-learndash-toolkit' );
 		} else {
-			$response['message'] = __( 'You must be an admin to save settings', 'uncanny-learndash-toolkit' );
+			$response['message'] = __( 'Something went wrong. Please, try again', 'uncanny-learndash-toolkit' );
 		}
 
 		echo wp_json_encode( $response );
@@ -697,6 +756,12 @@ class Config {
 	 *
 	 */
 	public static function ajax_settings_load() {
+		// Nonce verification
+		if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'uncanny_toolkit' ) ) {
+			echo 'Nonce verification failed.';
+			wp_die();
+		}
+
 		$capability = apply_filters( 'toolkit_settings_load_cap', 'manage_options' );
 		if ( current_user_can( $capability ) ) {
 			if ( isset( $_POST['class'] ) ) {

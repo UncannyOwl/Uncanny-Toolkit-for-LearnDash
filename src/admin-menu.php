@@ -6,6 +6,7 @@ use ReflectionClass;
 
 /**
  * Class AdminMenu
+ *
  * @package uncanny_learndash_toolkit
  */
 class AdminMenu extends Boot {
@@ -25,9 +26,15 @@ class AdminMenu extends Boot {
 	public function __construct() {
 		// Setup Theme Options Page Menu in Admin
 		if ( is_admin() ) {
-			add_action( 'admin_menu', array( __CLASS__, 'register_options_menu_page' ) );
-			add_action( 'admin_init', array( __CLASS__, 'register_options_menu_page_settings' ) );
-			add_action( 'admin_enqueue_scripts', array( __CLASS__, 'scripts' ) );
+			add_action( 'admin_menu', array(
+				__CLASS__, 'register_options_menu_page',
+			) );
+			add_action( 'admin_init', array(
+				__CLASS__, 'register_options_menu_page_settings',
+			) );
+			add_action( 'admin_enqueue_scripts', array(
+				__CLASS__, 'scripts',
+			) );
 		}
 
 	}
@@ -78,6 +85,9 @@ class AdminMenu extends Boot {
 				'url'   => esc_url_raw( rest_url() . UNCANNY_TOOLKIT_REST_API_END_POINT ),
 				'nonce' => \wp_create_nonce( 'wp_rest' ),
 			],
+			'ajax' => array(
+				'nonce' => wp_create_nonce( 'uncanny_toolkit' )
+			)
 		] );
 
 		// Target Toolkit pages
@@ -145,10 +155,12 @@ class AdminMenu extends Boot {
 					<span><?php _e( 'by', 'uncanny-learndash-toolkit' ); ?></span>
 					<a href="<?php echo Config::utm_parameters( 'https://uncannyowl.com', 'header', 'logo' ); ?>"
 					   target="_blank" class="uo-plugins-header__logo">
-						<img src="<?php echo esc_url( Config::get_admin_media( 'uncanny-owl-logo.svg' ) ); ?>"
-							 alt="Uncanny Owl">
+						<img
+							src="<?php echo esc_url( Config::get_admin_media( 'uncanny-owl-logo.svg' ) ); ?>"
+							alt="Uncanny Owl">
 					</a>
 				</div>
+				<?php do_action('uncanny_toolkit_dashboard_header_after'); ?>
 			</div>
 
 			<div class="uo-plugins-tabs">
@@ -224,7 +236,8 @@ class AdminMenu extends Boot {
 	}
 
 	/**
-	 * Populates an array of classes in internal and external file in the classes folder
+	 * Populates an array of classes in internal and external file in the
+	 * classes folder
 	 *
 	 * @param array $external_classes
 	 *
@@ -486,6 +499,13 @@ class AdminMenu extends Boot {
 				'category'    => 'learndash',
 			],
 			[
+				'id'          => 'single-page-courses',
+				'title'       => esc_html__( 'Single Page Courses', 'uncanny-learndash-toolkit' ),
+				'description' => esc_html__( 'Create independent course pages that don\'t require lessons or topics.', 'uncanny-learndash-toolkit' ),
+				'kb_link'     => 'https://www.uncannyowl.com/knowledge-base/single-page-courses/',
+				'category'    => 'learndash',
+			],
+			[
 				'id'          => 'email-quiz-certificates',
 				'title'       => esc_html__( 'Email Quiz Certificates', 'uncanny-learndash-toolkit' ),
 				'description' => esc_html__( 'Sends a copy of certificates earned from quiz completion and saves certificates on the server.', 'uncanny-learndash-toolkit' ),
@@ -676,4 +696,5 @@ class AdminMenu extends Boot {
 			self::$modules[] = $module;
 		}
 	}
+
 }

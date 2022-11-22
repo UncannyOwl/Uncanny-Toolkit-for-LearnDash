@@ -9,7 +9,7 @@
  * Domain Path:         /languages
  * License:             GPLv3
  * License URI:         https://www.gnu.org/licenses/gpl-3.0.html
- * Version:             3.6.3
+ * Version:             3.6.4
  * Requires at least:   5.2
  * Requires PHP:        7.0
 */
@@ -22,7 +22,7 @@ if ( ! defined( 'UNCANNY_TOOLKIT_VERSION' ) ) {
 	/**
 	 *
 	 */
-	define( 'UNCANNY_TOOLKIT_VERSION', '3.6.3' );
+	define( 'UNCANNY_TOOLKIT_VERSION', '3.6.4' );
 }
 
 // Define prefix
@@ -116,3 +116,27 @@ include_once( UNCANNY_TOOLKIT_DIR . '/src/boot.php' );
 $boot                            = '\uncanny_learndash_toolkit\Boot';
 $uncanny_learndash_toolkit_class = new $boot;
 
+/**
+ * Load notifications.
+ */
+require_once __DIR__ . '/src/notifications/notifications.php';
+
+if ( class_exists( '\Uncanny_Owl\Notifications' ) ) {
+
+	$notifications = new \Uncanny_Owl\Notifications();
+
+	// On activate, persists/update `uncanny_owl_over_time_toolkit-free`.
+	register_activation_hook(  __FILE__,  function(){
+		update_option('uncanny_owl_over_time_toolkit-free', array( 'installed_date' => time() ), false );
+	});
+
+	// Initiate the Notifications handler, but only load once.
+	if ( false === \Uncanny_Owl\Notifications::$loaded ) {
+
+		$notifications::$loaded = true;
+
+		add_action( 'admin_init', array( $notifications, 'init' ) );
+
+	}
+
+}

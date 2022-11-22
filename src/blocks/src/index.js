@@ -1,3 +1,5 @@
+import './common.scss';
+
 /**
  * Gutenberg Blocks
  *
