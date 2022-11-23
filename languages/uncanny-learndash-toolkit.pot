@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Uncanny Toolkit for LearnDash 3.6.4\n"
+"Project-Id-Version: Uncanny Toolkit for LearnDash 3.6.4.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/uncanny-learndash-toolkit\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-11-22T20:14:00+00:00\n"
+"POT-Creation-Date: 2022-11-23T18:56:17+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.6.0\n"
 "X-Domain: uncanny-learndash-toolkit\n"
@@ -958,18 +958,18 @@ msgid "Show Name of Last Course / Lesson / Topic"
 msgstr ""
 
 #: src/classes/learn-dash-resume.php:225
-#: src/classes/learn-dash-resume.php:380
+#: src/classes/learn-dash-resume.php:382
 msgid "RESUME"
 msgstr ""
 
 #: src/classes/learn-dash-resume.php:234
-#: src/classes/learn-dash-resume.php:389
+#: src/classes/learn-dash-resume.php:391
 msgid "Resume"
 msgstr ""
 
 #: src/classes/learn-dash-resume.php:255
-#: src/classes/learn-dash-resume.php:414
-#: src/classes/learn-dash-resume.php:428
+#: src/classes/learn-dash-resume.php:416
+#: src/classes/learn-dash-resume.php:430
 msgctxt "LMS shortcode Resume link title \"Resume post_type_name: Post_title "
 msgid "Resume %s: %s"
 msgstr ""

@@ -1,16 +1,18 @@
-=== Uncanny Toolkit for LearnDash ===
-Contributors: uncannyowl
-Tags: LearnDash, eLearning, LMS, education, learning, courseware
-Requires at least: 5.2
-Tested up to: 6.1.1
-Requires PHP: 7.2
-Stable tag: 3.6.4.1
-License: This plugin is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or any later version. Uncanny Toolkit for LearnDash is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with Uncanny Toolkit for LearnDash. If not, see https://www.gnu.org/licenses/gpl-3.0.html.
-License URI: https://www.gnu.org/licenses/gpl-3.0.html
+# Uncanny Toolkit for LearnDash
+
+**Contributors:** uncannyowl \
+**Tags:** LearnDash, eLearning, LMS, education, learning, courseware \
+**Requires at least:** 5.2 \
+**Tested up to:** 6.1.1 \
+**Requires PHP:** 7.2 \
+**Stable tag:** 3.6.4.1 \
+**License:** This plugin is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or any later version. Uncanny Toolkit for LearnDash is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with Uncanny Toolkit for LearnDash. If not, see https://www.gnu.org/licenses/gpl-3.0.html. \
+**License URI:** https://www.gnu.org/licenses/gpl-3.0.html
 
 Extend LearnDash with a variety of useful functions that make it even easier to build great learner experiences with LearnDash.
 
-== Description ==
+## Description
+
 **Important: This plugin requires PHP 7.2 or higher and LearnDash 3.6 or higher.**
 
 The Uncanny Toolkit for LearnDash adds 16 modules that every elearning site needs, including a login form, login redirect, resume capabilities and more. Trusted to power over **30,000+** LearnDash sites, it's the easiest way to improve the learning experience for your students. Translation ready and multisite capable!
@@ -86,19 +88,30 @@ Uncanny Owl offers a full suite of [plugins that extend the LearnDash platform](
 
 Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitter](https://twitter.com/uncannyowl), [Facebook](https://www.facebook.com/UncannyOwl/) and [YouTube](https://www.youtube.com/user/UncannyOwl).
 
-== Installation ==
+## Installation
+
 1. Ensure that your installation of WordPress is using PHP 7.2 or higher and LearnDash 3.6 or higher.
 2. Upload the contents of the plugin zip file to the `/wp-content/plugins/` directory.
 3. Activate the plugin through the Plugins menu in WordPress.
 
-== Screenshots ==
-1. 15+ powerful modules
-2. Fully-featured Front End Login module with modal support
-3. LearnDash Resume Button module - works at a global or course level
+## Screenshots
 
-== Changelog ==
+### 1. 15+ powerful modules
 
-= 3.6.4.1 [2022-11-23] =
+![15+ powerful modules](https://ps.w.org/uncanny-learndash-toolkit/assets/screenshot-1.png)
+
+### 2. Fully-featured Front End Login module with modal support
+
+![Fully-featured Front End Login module with modal support](https://ps.w.org/uncanny-learndash-toolkit/assets/screenshot-2.png)
+
+### 3. LearnDash Resume Button module - works at a global or course level
+
+![LearnDash Resume Button module - works at a global or course level](https://ps.w.org/uncanny-learndash-toolkit/assets/screenshot-3.png)
+
+
+## Changelog
+
+### 3.6.4.1 [2022-11-23]
 
 **Fixed:**
 
@@ -109,7 +122,7 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 * Resume button - Added a filter to optionally not show the button if the course is completed 
 	* `apply_filters( 'uo_resume_button_do_not_show_for_completed_course', false, $ld_course_id )` 
 
-= 3.6.4 [2022-11-22] =
+### 3.6.4 [2022-11-22]
 
 **Added:** 
 
@@ -142,7 +155,7 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 * When activating/deactivating a module, the semi-transparent overlay doesn't match the size of the module outline #184
 * Updated Gutenberg dependencies #288
 
-= 3.6.3 [2022-06-16] =
+### 3.6.3 [2022-06-16]
 
 **Added:**
 
@@ -167,7 +180,7 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 * Update `is_pro_active` function #222
 * npm - Remove `sass-svg` & `sassdash` dependencies #213
 
-= 3.6.2 [2022-02-09] =
+### 3.6.2 [2022-02-09]
 
 **Added:**
 
@@ -180,7 +193,7 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 * Front End Login - reCaptcha causing issue with reset password link sent from wp-admin #177
 * Front End Login - "Remember me" checkbox now works with WP 2FA integration enabled #166
 
-= 3.6.1 [2021-12-16] =
+### 3.6.1 [2021-12-16]
 
 **Added:**
 
@@ -192,7 +205,7 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 
 * Quiz completion advances to next step now forwards the user correctly in LearnDash 5.6.0.1 #152
 
-= 3.6 [2021-11-17] =
+### 3.6 [2021-11-17]
 
 **Updated:** 
 
@@ -209,7 +222,7 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 * Front End Login - Fixed compatibility issue with redirect filter in MemberPress #111
 * Learn More buttons exceed box bounds when Toolkit Pro or LearnDash not active #110
 
-= 3.5.2 [2021-08-18] =
+### 3.5.2 [2021-08-18]
 
 **Updated:** 
 
@@ -224,7 +237,7 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 * Front End Login - Unescaped redirect_to parameter causes 403 error on some hosts #94
 * Quiz Completion Advances to Next Step - Redirect erroneously uses $step instead of $step_id resulting in an incorrect redirect in some situations #91
 
-= 3.5.1 [2021-06-09] =
+### 3.5.1 [2021-06-09]
 
 **Fixed:**
 
@@ -232,7 +245,7 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 * Quiz Completion Advances to Next Step -  No longer advances to next lesson/topic if there are still incomplete quizzes in the lesson/topic
 * Login Redirect - No longer redirects admins on login
 
-= 3.5 [2021-05-03] =
+### 3.5 [2021-05-03]
 
 **Added:**
 
@@ -260,13 +273,15 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 * "Upgrade to Pro" to Plugins page #24
 * Code quality #18 #33
 
-= 3.4.3 [2021-03-17] =
+### 3.4.3 [2021-03-17]
+
 **Fixed:**
 
 * Front End Login: Custom reCAPTCHA text set in settings panel now overrides default reCAPTCHA text
 * Topics Autocomplete Lessons: Now only redirects to course level when completing the last topic in the last lesson of a course
 
-= 3.4.2 [2021-02-11] =
+### 3.4.2 [2021-02-11]
+
 **Added:**
 
 * New parameters to settings array to support future functionality
@@ -284,7 +299,8 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 * Disable Emails: PHP notice: Constant DISABLE_EMAILS_OPTIONS already defined
 * Front End Login: Users that become unverified and then are reverified will now receive a notification email
 
-= 3.4.1 [2021-01-04] =
+### 3.4.1 [2021-01-04]
+
 **Added:**
 
 * Front End Login - Option to ignore login redirects when using the modal login
@@ -305,23 +321,27 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 * Front End Login - Unverified users are no longer able to log in
 * Fixed - Log in / log out redirect - Conflict with frontend login module
 
-= 3.4 [2020-11-05] =
+### 3.4 [2020-11-05]
+
 * **New Module:** Quiz completion advances to next step - Automatically advance to the next step when user clicks "Click here to continue" on final quiz page of a lesson/topic
 * Updated: Front End Login - Users created before the module was activated or while the module is not activated are set to "Auto verified" instead of "Not verified"
 * Updated: Front End Login - Update to allow basic auth plugin to work with wp-json routes. _Contributed by asppsa_
 
-= 3.3.4 [2020-09-30] =
+### 3.3.4 [2020-09-30]
+
 * Updated: Menu Item Visibility - Updated nav menu walker function for improved compatibility with newer versions of WordPress
 * Updated: Added permission_callback to all Rest API calls for WordPress v5.5 compatibility
 * Fixed: Front End Login - Redirect attribute now redirects correctly when logging in using modal login form
 * Fixed: Front End Login - PHP notice: Trying to get property 'ID' of non-object on some non-post pages
 
-= 3.3.3 [2020-08-05] =
+### 3.3.3 [2020-08-05]
+
 * Updated: Front End Login - Replaced file_get_contents with wp_remote_post to improve compatibility with some hosts
 * Fixed: Front End Login - Javascript notice - Uncaught TypeError: Cannot read property 'currentPageIsLoginPage' of undefined
 * Fixed: Topics Autocomplete Lessons - When someone other than the user (e.g. an Admin or Group Leader) marks the last topic in a lesson complete for the user the associated lesson is now automatically marked complete
 
-= 3.3.2 [2020-07-27] =
+### 3.3.2 [2020-07-27]
+
 * Updated: Front End Login - Improved compatibility of modal login with server-side caching
 * Updated: Front End Login - Added redirect attribute to uo_login_ui shortcode
 * Updated: Front End Login - Modal Login menu link now reloads the page if clicked while the user is on the login page specified in settings
@@ -329,13 +349,15 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 * Updated: Resume Button - No longer appears on LearnDash post types (Universal resume button only; course-specific resume button will still appear on course pages)
 * Fixed: Not Enrolled Redirect - No longer redirects on the course archive page
 
-= 3.3.1 [2020-06-25] =
+### 3.3.1 [2020-06-25]
+
 * Updated: Menu Item Visibility - Updated to version 1.10.1 by Kathy Darling
 * Fixed: Resume Button - Input type changed back to "submit" from "button"
 * Fixed: Front End Login - Login form showing up twice on login pages created with the Gutenberg editor
 * Fixed: PHP notice $modal_link undefined on modules page
 
-= 3.3 [2020-06-16] =
+### 3.3 [2020-06-16]
+
 * Added: Resume Button - Added shortcode to output a properly formatted link: [uo_learndash_resume_link] or URL [uo_learndash_resume_link url_only="yes"]
 * Added: "Help" button on module settings dialogs
 * Added: Front End Login - New pop-up modal login form
@@ -353,20 +375,23 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 * Fixed: PHP Notice: register_rest_route was called incorrectly in WordPress 5.4.2 and newer
 * Fixed: Blocks now show up in Gutenberg editor
 
-= 3.2.2 [2020-03-19] =
+### 3.2.2 [2020-03-19]
+
 * Updated: Resume button - "RESUME" Button text now localized
 * Fixed: Uncanny Toolkit Pro Gutenberg blocks were unavailable unless at least one module from the Uncanny Toolkit (free version) that contained a Gutenberg block was active
 * Fixed: Front End Login - Admins being redirected to blank wp-login.php page on login on some sites
 * Fixed: Topics Autocomplete Lessons - After completing all topics, lesson no longer autocompleted if it contains an incomplete assignment
 
-= 3.2.1 [2020-02-27] =
+### 3.2.1 [2020-02-27]
+
 * Added: Front End Login - Require strong password option for password reset form (minimum 8 characters including 1 uppercase letter, 1 lowercase letter and 1 number)
 * Updated: Not Enrolled Redirect - Redirect field now accepts shortcodes
 * Updated: Tweaked CSS style for select2 dropdowns in /wp-admin
 * Updated: Front End Login - redirect_to parameter in URL now takes precedence over redirect shortcode attribute and Login/Logout redirects module
 * Fixed: Front End Login - PHP fatal error on some sites when initiating a password reset before LearnDash settings are initialized
 
-= 3.2 [2020-01-02] =
+### 3.2 [2020-01-02]
+
 * Added: New Module: Disable Emails - When active, disables all emails sent via wp_mail function.  Fork of the excellent Disable Emails plugin by webaware
 * Added: Certificate Widget/Show Certificates shortcode - Setting to output Certificate Name instead of Course/Quiz name
 * Added: Certificate Widget  - Sort order options
@@ -382,7 +407,8 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 * Fixed: Redirect if not enrolled - PHP notice: Undefined property
 * Fixed: Updated: Some strings incorrectly using uncanny-toolkit-pro textdomain
 
-= 3.1.4 =
+### 3.1.4
+
 * Added: Front End Login - Added redirect parameter to uo_login shortcode to allow form-specific redirects
 * Updated: Front End Login - Failed login redirect now ignored for REST and AJAX requests
 * Updated: Front End Login - Eliminated 500 error on password reset when other plugins alter email filters
@@ -391,21 +417,25 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 * Fixed: Send Course/Quiz Certificate by Email - Email content loses line breaks on reload
 * Fixed: Clicking the label of "Verify this user and allow them to log in" checkbox no longer toggles the "Rich Editing" checkbox
 
-= 3.1.3 =
+### 3.1.3
+
 * Updated: Restored copyright and GPL license info to User Switching module (thanks @johnbillion!)
 
-= 3.1.2 =
+### 3.1.2
+
 * Updated: Removed PHP_OS_FAMILY constant to avoid false-positives in PHP compatibility checks
 * Fixed: Not Enrolled Redirect - Course settings being reset on save
 * Fixed: Front End Login - Headers already sent error on reset password
 
-= 3.1.1 =
+### 3.1.1
+
 * Added: Course Dashboard (Pro): Logic to select dashboard 3.0 theme when module is activated or LearnDash 3.0 theme is active
 * Updated: Improved radio button behavior in module settings dialogs
 * Fixed: Front End Login - Issue that caused "Headers already sent" warning on some sites
 * Fixed: Hide Admin Bar - Admin bar no longer appears in Elementor editing view
 
-= 3.1 =
+### 3.1
+
 * Added: Automatic template overrides!  Override any file in the /src/templates folder by copying it into /uncanny-toolkit/ in your child theme
 * Added: Front End Login - Option to disable "Remember Me" checkbox
 * Updated: Front End Login - Improved compatibility with other login plugins when reCaptcha is enabled
@@ -415,12 +445,14 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 * Updated: Resume Button - Removed next post prefetch meta tag on courses, lessons, topics and quizzes to prevent Firefox users from being sent to the wrong lesson/topic when resuming
 * Fixed: Required PHP version message now correctly states PHP 5.6 or higher is required
 
-= 3.0.2 =
+### 3.0.2
+
 * Updated: Improved compatibility with Internet Explorer 11
 * Fixed: Front End Login: Forgot password email body field was duplicating content when settings saved on some sites
 * Fixed: Login/Logout Redirect: Resolved conflict with Group Login Redirect module (Toolkit Pro)
 
-= 3.0.1 =
+### 3.0.1
+
 * Added: Front End Login - Added recaptcha support to [uo_login] shortcode
 * Added: Plugin will automatically deactivate and show notice if PHP < 5.6 is detected
 * Updated: Improved scroll handling in module settings dialogs
@@ -430,7 +462,8 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 * Fixed: Z-index issue on select2 elements in /wp-admin
 * Fixed: Missing dependency error: blocks.style.build.css
 
-= 3.0 =
+### 3.0
+
 * **Important**: If you had overridden the Front End Login template file, you will need to update the template override by making a copy of the new file.
 * This release features a completely overhauled Front End Login module, including:
        * A new modern, clean design (selectable from module settings)
@@ -457,7 +490,8 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 * Updated: Reorganized plugin .js and .css files
 * Updated: Learndash Groups in User Profiles - Now uses LearnDash API for querying groups
 
-= 2.5 =
+### 2.5
+
 * Added: Course-specific Resume Button; can be placed on course pages
 * Added: Option to output Resume Button destination below resume button
 * Added: Option to include current page in LearnDash Breadcrumb trail
@@ -469,15 +503,18 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 * Fixed: Notice in Redirect If Not Enrolled Module
 * Fixed: Removed slashes sometimes appended to email body content in Email Course/Quiz Certificate modules
 
-= 2.4.2 =
+### 2.4.2
+
 * Fixed: Certificate widget and shortcode now display LearnDash certificates
 * Fixed: Certificate widget now correctly renders Uncanny Continuing Education certificates
 
-= 2.4.1 =
+### 2.4.1
+
 * Fixed: Resume Button: Fatal error on LearnDash versions < 2.5
 * Fixed: Not Enrolled Redirect: Undefined index notice
 
-= 2.4 =
+### 2.4
+
 * Added: Additional string localizations
 * Added: List view for modules in Toolkit settings
 * Updated: Autocomplete Lessons and Topics: When enabled, a "Done" button is now added to last lesson in a course (returns user to course page)
@@ -486,7 +523,8 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 * Fixed: Breadcrumbs: Topic no longer appears twice in breadcrumbs on topic quizzes
 * Fixed: Certificate Widget: Notice no longer appears when no certificates have been earned
 
-= 2.3 =
+### 2.3
+
 * Added: New Module - Not Enrolled Redirect - Redirect a user to a specified URL if they attempt to access a course in which they are not enrolled
 * Added: Front-End Login - Added label setting for login form (Username, Email, Username or Email, Login)
 * Updated: Front End Login - Cleaned up some error messaging in the user interface
@@ -495,51 +533,62 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 * Updated: Confirmation message when disabling a toolkit module now appears in green instead of red
 * Fixed: JavaScript error on the Toolkit settings page in some environments when debug is enabled.
 
-= 2.2 =
+### 2.2
+
 * New Module: User Switching - enables admins to easily switch to any other user - Based on User Switching by John Blackbourn: https://wordpress.org/plugins/user-switching/
 * Added: Support for LearnDash 2.5
 * Updated: Hide Admin Bar action priority (now 999)
 * Updated: Improved multisite support
 
-= 2.1 =
+### 2.1
+
 * Updated: Certificate widget now recognizes course certificates
 * Fixed: Course complete action was called repeatedly when Topics Autocomplete Lessons module was active
 
-= 2.0.6 =
+### 2.0.6
+
 * Fixed: Single quotes are saved properly in toolkit module settings
 * Fixed: Front end login reset password function on Edge and Safari
 
-= 2.0.5 =
+### 2.0.5
+
 * Fixed: WooCommerce/Third Party plugin notices popping up in Pro Toolkit Ad banner
 * Fixed: Modules not loading because DB updates were not saving slashes on some hosts
 * Fixed: Password reset when WordPress is installed in a subdirectory
 
-= 2.0.4 =
+### 2.0.4
+
 * Fixed: Restored 'Sample Tag' module
 * Fixed: Removed invalid slashes when saving settings
 
-= 2.0.1 =
+### 2.0.1
+
 * Fixed: Flush admin scripts/styles
 
-= 2.0 =
+### 2.0
+
 * Added: Module filtering options in the Toolkit UI
 * Fixed: Minor issue in auto-completion logic when multiple quizzes are assigned to the topic/lesson
 * Fixed: Front End Login now accepts username or email if user approval is turned on
 * Fixed: Minor layout issue in WordPress menu editor when Menu Item Visibility module is enabled
 
-= 1.3.5 =
+### 1.3.5
+
 * Added: Textarea as an option for module settings
 * Added: Priority 11 to menu item visibility filter; will now override common theme menu enhancements like megamenu
 
-= 1.3.4 =
+### 1.3.4
+
 * Removed: Dynamic announcement banner to admin UI
 
-= 1.3.3 =
+### 1.3.3
+
 * Added: Dynamic announcement banner to admin UI
 * Updated: Changed log in link shortcode [uo_login] to [uo_login_link]
 * Fixed: Log in link redirects to login empty
 
-= 1.3.2 =
+### 1.3.2
+
 * Added uo_login_link shortcode to replace deprecated uo_login in Login/Logout Menu
 * Added WordPress 4.6 support
 * Improved design of module settings
@@ -549,10 +598,12 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 * Fixed auto completion of lessons if topics are complete but quiz is not
 * Reworded Front-End Login error label
 
-= 1.3.1 =
+### 1.3.1
+
 * Blocked Pro reminders from appearing on page reloads after dismissal
 
-= 1.3.0 =
+### 1.3.0
+
 * Added logout redirect setting
 * Added color pickers
 * Added links to Pro modules plugin
@@ -562,38 +613,46 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 * Fixed widget certificate link
 * Enhanced security for mark lessons complete
 
-= 1.2.7 =
+### 1.2.7
+
 * Fixed learndash_lesson_completed to allow hooks from BadgeOS and other plugins
 * Fixed Topics Auto Complete Lessons invalid argument for foreach() for non-logged in users
 * Fixed fix notice on 404 pages
 * Fixed do not setup resume button if last page has been deleted
 * Excluded admin users from manual verification script
 
-= 1.2.6 =
+### 1.2.6
+
 * Allowed certificates with the same name
 * Fixed Uncanny Certificate Widget closing </div> tag
 
-= 1.2.5 =
+### 1.2.5
+
 * Fixed course completion date issue with Topics Autocomplete Lessons
 * Added support for alternate course labels (Thanks Eben Hale!)
 
-= 1.2.4 =
+### 1.2.4
+
 * Added PHP/LearnDash/WP version checking
 * Fixed cookies for password reset and registration
 * Updated resume button to match theme button style
 * Fixed verified user email formatting
 
-= 1.2.3 =
+### 1.2.3
+
 * Tested with WordPress 4.5
 * Fixed breadcrumbs function
 
-= 1.2.2 =
+### 1.2.2
+
 * Fixed duplicate breadcrumbs on quiz pages
 
-= 1.2.1 =
+### 1.2.1
+
 * Fixed missing file
 
-= 1.2 =
+### 1.2
+
 * NEW FEATURE: LearnDash Breadcrumbs
 * Fixed course completion time in CSV output
 * Fixed translation text domain
@@ -604,13 +663,15 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 * Added translation support
 * Fixed course completion time in LearnDash CVS Reports
 
-= 1.1 =
+### 1.1
+
 * NEW FEATURE: Log In/Log Out Links
 * Fixed redirect from wp registration page
 * Added registration link to uo_login_ui
 * Added setting to change Resume button text
 
-= 1.0.1 =
+### 1.0.1
+
 * Open Certificate links in new window
 * Fixed blank settings page on older server configuration
 * Fixed auto loading on older server configuration
@@ -620,7 +681,8 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 * Set Addon Option default as Array()
 * Prevented login lockout if login page set incorrectly
 
-= 1.0 =
+### 1.0
+
 * Public release
 
-== Upgrade Notice ==
+## Upgrade Notice

@@ -245,8 +245,8 @@ class LearnDashResume extends Config implements RequiredFunctions {
 						} else {
 							$permalink = get_permalink( $step_id );
 						}
-						$permalink = apply_filters('uo_resume_button_permalink', $permalink, $step_id, $step_course_id );
-						
+						$permalink = apply_filters( 'uo_resume_button_permalink', $permalink, $step_id, $step_course_id );
+
 						printf(
 							'<a href="%s" title="%s" class="%s"><input type="submit" value="%s" class=""></a>',
 							$permalink,
@@ -340,17 +340,19 @@ class LearnDashResume extends Config implements RequiredFunctions {
 			}
 
 			$ld_course_id = learndash_get_course_id( $step_id );
-			
-			if( learndash_course_completed( $user->ID, $ld_course_id ) ) {
-				return '';
+
+			if ( true === apply_filters( 'uo_resume_button_do_not_show_for_completed_course', false, $ld_course_id ) ) {
+				if ( learndash_course_completed( $user->ID, $ld_course_id ) ) {
+					return '';
+				}
 			}
 
 			$last_know_post_object = get_post( $step_id );
-			
+
 			// Check if current step_id is same as current post then no need to show this button.
 			// Someone may use this shortcode on any LearnDash post page which will create a loop.
 			global $post;
-			if( $post->ID == $step_id ) {
+			if ( (int) $post->ID === (int) $step_id ) {
 				$learn_dash_post_types = apply_filters(
 					'last_known_learndash_post_types',
 					array(
@@ -366,8 +368,8 @@ class LearnDashResume extends Config implements RequiredFunctions {
 					return '';
 				}
 			}
-			
-			
+
+
 			// Make sure the post exists and that the user hit a page that was a post
 			// if $last_know_page_id returns '' then get post will return current pages post object
 			// so we need to make sure first that the $last_know_page_id is returning something and
@@ -399,7 +401,7 @@ class LearnDashResume extends Config implements RequiredFunctions {
 					$permalink = get_permalink( $step_id );
 				}
 
-				$permalink = apply_filters('uo_resume_button_permalink', $permalink, $step_id, $step_course_id );
+				$permalink = apply_filters( 'uo_resume_button_permalink', $permalink, $step_id, $step_course_id );
 				if ( 'yes' === (string) $url ) {
 					return $permalink;
 				}
@@ -462,21 +464,21 @@ class LearnDashResume extends Config implements RequiredFunctions {
 			remove_action( 'wp_head', 'adjacent_posts_rel_link_wp_head', 10, 0 );
 		}
 	}
-	
+
 	/**
 	 * Using Pro reset form for resume reset
 	 */
 	public static function reset_resume_data() {
 		if ( isset( $_POST['learndash_reset_course_nonce'] ) && wp_verify_nonce( $_POST['learndash_reset_course_nonce'], 'learndash_reset_course' ) ) {
 			if ( is_user_logged_in() ) {
-				$user = wp_get_current_user();
-				$course_id = intval( $_POST['ld_reset_course_id'] );
+				$user           = wp_get_current_user();
+				$course_id      = intval( $_POST['ld_reset_course_id'] );
 				$last_know_step = get_user_meta( $user->ID, 'learndash_last_known_page', true );
 				if ( false !== strpos( $last_know_step, ',' ) ) {
 					$last_know_step = explode( ',', $last_know_step );
 					$step_id        = $last_know_step[0];
 					$step_course_id = $last_know_step[1];
-					if( $step_course_id == $course_id ) {
+					if ( $step_course_id == $course_id ) {
 						delete_user_meta( $user->ID, 'learndash_last_known_page' );
 						delete_user_meta( $user->ID, 'learndash_last_known_course_' . $step_course_id );
 					}
@@ -484,7 +486,7 @@ class LearnDashResume extends Config implements RequiredFunctions {
 			}
 		}
 	}
-	
+
 	/**
 	 * By using Learndash reset user data from profile.
 	 */
@@ -493,7 +495,7 @@ class LearnDashResume extends Config implements RequiredFunctions {
 		if ( empty( $last_know_step ) ) {
 			return;
 		}
-		
+
 		if ( false !== strpos( $last_know_step, ',' ) ) {
 			$last_know_step = explode( ',', $last_know_step );
 			$step_id        = $last_know_step[0];
@@ -501,9 +503,9 @@ class LearnDashResume extends Config implements RequiredFunctions {
 			delete_user_meta( $user_id, 'learndash_last_known_course_' . $step_course_id );
 		}
 		delete_user_meta( $user_id, 'learndash_last_known_page' );
-		
+
 	}
-	
+
 	/**
 	 * By using Learndash reset user data from profile.
 	 */
@@ -512,8 +514,8 @@ class LearnDashResume extends Config implements RequiredFunctions {
 			if ( ! empty( $args['activity_id'] ) && ! empty( $args['activity_meta'] ) && isset( $args['activity_meta']['steps_completed'] ) && $args['activity_meta']['steps_completed'] == 0 ) {
 				$user_id        = $args['user_id'];
 				$course_id      = $args['course_id'];
-				$last_know_step = get_user_meta( $user_id, 'learndash_last_known_page', TRUE );
-				if ( FALSE !== strpos( $last_know_step, ',' ) ) {
+				$last_know_step = get_user_meta( $user_id, 'learndash_last_known_page', true );
+				if ( false !== strpos( $last_know_step, ',' ) ) {
 					$last_know_step = explode( ',', $last_know_step );
 					$step_id        = $last_know_step[0];
 					$step_course_id = $last_know_step[1];
@@ -525,5 +527,5 @@ class LearnDashResume extends Config implements RequiredFunctions {
 			}
 		}
 	}
-	
+
 }
