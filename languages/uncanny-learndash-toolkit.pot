@@ -1,15 +1,15 @@
-# Copyright (C) 2022 Uncanny Owl
+# Copyright (C) 2023 Uncanny Owl
 # This file is distributed under the GPLv3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Uncanny Toolkit for LearnDash 3.6.4.1\n"
+"Project-Id-Version: Uncanny Toolkit for LearnDash 3.6.4.2\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/uncanny-learndash-toolkit\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-11-23T18:56:17+00:00\n"
+"POT-Creation-Date: 2023-01-26T17:50:48+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.6.0\n"
 "X-Domain: uncanny-learndash-toolkit\n"
@@ -1931,6 +1931,85 @@ msgstr ""
 
 #: src/templates/frontend-login/layout_1-login.php:16
 msgid "Username and/or Password is empty."
+msgstr ""
+
+#: src/uncanny-one-click-installer/class-auto-plugin-install.php:129
+#: src/uncanny-one-click-installer/class-auto-plugin-install.php:172
+msgid "Please reload the page and try again."
+msgstr ""
+
+#: src/uncanny-one-click-installer/class-auto-plugin-install.php:139
+#: src/uncanny-one-click-installer/class-auto-plugin-install.php:156
+msgid "%s is already installed and active."
+msgstr ""
+
+#: src/uncanny-one-click-installer/class-auto-plugin-install.php:339
+#: src/uncanny-one-click-installer/class-auto-plugin-install.php:347
+msgid "Could not install plugin. %s"
+msgstr ""
+
+#: src/uncanny-one-click-installer/class-auto-plugin-install.php:356
+msgid "Could not install plugin. You do not have permission to install plugins."
+msgstr ""
+
+#: src/uncanny-one-click-installer/class-auto-plugin-install.php:365
+msgid "Could not install plugin. You do not have permission to modify files."
+msgstr ""
+
+#: src/uncanny-one-click-installer/class-auto-plugin-install.php:374
+msgid "Could not install plugin. A plugin url was not received. Please Reload the page."
+msgstr ""
+
+#: src/uncanny-one-click-installer/class-auto-plugin-install.php:383
+msgid "Could not install plugin. File system credentials could not be verified. Please Reload the page."
+msgstr ""
+
+#: src/uncanny-one-click-installer/class-auto-plugin-install.php:404
+msgid "Could not install plugin. The installer failed to initialize."
+msgstr ""
+
+#: src/uncanny-one-click-installer/class-auto-plugin-install.php:427
+msgid "Could not install plugin. The download link failed. Please Reload the page."
+msgstr ""
+
+#: src/uncanny-one-click-installer/class-auto-plugin-install.php:439
+msgid "Plugin has installed but failed to activate. Please activate manually on the plugins page."
+msgstr ""
+
+#: src/uncanny-one-click-installer/class-auto-plugin-install.php:447
+msgid "Plugin has activated successfully."
+msgstr ""
+
+#: src/uncanny-one-click-installer/class-auto-plugin-install.php:454
+msgid "Plugin has installed and activated successfully."
+msgstr ""
+
+#: src/uncanny-one-click-installer/class-auto-plugin-install.php:541
+msgid "Add a plugin slug"
+msgstr ""
+
+#: src/uncanny-one-click-installer/class-auto-plugin-install.php:547
+msgid "Plugin not found on wordpress.org"
+msgstr ""
+
+#: src/uncanny-one-click-installer/class-auto-plugin-install.php:554
+msgid "Install Uncanny Automator"
+msgstr ""
+
+#: src/uncanny-one-click-installer/class-auto-plugin-install.php:556
+msgid "Install %s"
+msgstr ""
+
+#: src/uncanny-one-click-installer/class-auto-plugin-install.php:564
+msgid "%s is active"
+msgstr ""
+
+#: src/uncanny-one-click-installer/class-auto-plugin-install.php:569
+msgid "Activate Uncanny Automator"
+msgstr ""
+
+#: src/uncanny-one-click-installer/class-auto-plugin-install.php:571
+msgid "Activate %s"
 msgstr ""
 
 #: uncanny-learndash-toolkit.php:95

@@ -57,13 +57,13 @@ class Auto_Plugin_Install {
 	 *
 	 */
 	function admin_footer_auto_plugin_install() { ?>
-	
 		<script type="text/javascript">
 			function autoPluginInstall(el) {
 
 				let data = {
 					'action': 'auto_plugin_install',
-					'data': el.dataset
+					'data': el.dataset,
+					'nonce': '<?php echo esc_js( wp_create_nonce( 'auto_plugin_install' ) ); ?>'
 				};
 
 				el.disabled = true;
@@ -84,6 +84,9 @@ class Auto_Plugin_Install {
 							location.reload();
 						}
 					}
+				}).fail( function(response){
+					$button.parent().find('.auto-plugin-install-loader').hide();
+					$button.parent().find('.auto-plugin-install-message').text(response.responseText);
 				});
 			}
 		</script> 
@@ -91,9 +94,21 @@ class Auto_Plugin_Install {
 	}
 
 	/**
+	 * Callback method to `wp_ajax_auto_plugin_install`.
 	 *
+	 * @return void
 	 */
 	public function wp_ajax_auto_plugin_install() {
+
+		// Throw forbidden response with 403 as status code if there is no permissions set.
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_die( 'Access to this endpoint is not allowed.', 403 );
+		}
+
+		// Throw unauthorized response with 401 as status code if nonce is not valid.
+		if ( ! wp_verify_nonce( filter_input( INPUT_POST, 'nonce' ), 'auto_plugin_install' ) ) {
+			wp_die( 'Error authenticating request. Invalid nonce.', 401 );
+		}
 
 		$response = (object) array(
 			'success' => null,
@@ -104,15 +119,15 @@ class Auto_Plugin_Install {
 			'data',
 			INPUT_POST,
 			array(
-				'filter' => FILTER_SANITIZE_STRING,
+				'filter' => FILTER_UNSAFE_RAW, // Fixes deprecated 'FILTER_SANITIZE_STRING'
 				'flags'  => FILTER_REQUIRE_ARRAY,
 			)
 		);
 
 		if ( empty( $data['action'] ) || empty( $data['slug'] ) || empty( $data['name'] ) ) {
 			$response->success = false;
-			$response->message = esc_html__( 'Please reload the page and try again.', 'uncanny-one-click-installer' );
-			echo json_encode( $response );
+			$response->message = esc_html__( 'Please reload the page and try again.', 'uncanny-learndash-toolkit' );
+			echo wp_json_encode( $response );
 			wp_die();
 		}
 
@@ -121,15 +136,15 @@ class Auto_Plugin_Install {
 			$plugin_info = $this->get_plugin_info( $data['slug'] );
 			if ( $plugin_info->is_active ) {
 				$response->success = false;
-				$response->message = sprintf( esc_html__( '%s is already installed and active.', 'uncanny-one-click-installer' ), $plugin_info->name );
+				$response->message = sprintf( esc_html__( '%s is already installed and active.', 'uncanny-learndash-toolkit' ), $plugin_info->name );
 				$response->data    = $plugin_info;
-				echo json_encode( $response );
+				echo wp_json_encode( $response );
 				wp_die();
 			} elseif ( $plugin_info->is_installed ) {
 				$action = 'activate';
 			} else {
 				$installation = $this->install( $plugin_info->download_link );
-				echo json_encode( $installation );
+				echo wp_json_encode( $installation );
 				wp_die();
 			}
 		}
@@ -138,24 +153,24 @@ class Auto_Plugin_Install {
 			$plugin_info = $this->get_plugin_info( $data['slug'] );
 			if ( $plugin_info->is_active ) {
 				$response->success = false;
-				$response->message = sprintf( esc_html__( '%s is already installed and active.', 'uncanny-one-click-installer' ), $plugin_info->name );
+				$response->message = sprintf( esc_html__( '%s is already installed and active.', 'uncanny-learndash-toolkit' ), $plugin_info->name );
 				$response->data    = $plugin_info;
-				echo json_encode( $response );
+				echo wp_json_encode( $response );
 				wp_die();
 			} elseif ( false === $plugin_info->is_installed && false === $plugin_info->is_active ) {
 				$installation = $this->install( $plugin_info->download_link );
-				echo json_encode( $installation );
+				echo wp_json_encode( $installation );
 				wp_die();
 			} else {
 				$installation = $this->install( $plugin_info->download_link, true, $plugin_info->plugin_basename );
-				echo json_encode( $installation );
+				echo wp_json_encode( $installation );
 				wp_die();
 			}
 		}
 
 		$response->success = false;
-		$response->message = esc_html__( 'Please reload the page and try again.', 'uncanny-one-click-installer' );
-		echo json_encode( $response );
+		$response->message = esc_html__( 'Please reload the page and try again.', 'uncanny-learndash-toolkit' );
+		echo wp_json_encode( $response );
 		wp_die();
 	}
 
@@ -262,8 +277,8 @@ class Auto_Plugin_Install {
 		if ( isset( $plugin_info->no_update ) ) {
 			foreach ( $plugin_info->no_update as $plugin ) {
 				$all_plugins[] = (object) array(
-					'slug'   => $plugin->slug,
-					'plugin' => $plugin->plugin,
+					'slug'   => isset( $plugin->slug ) ? $plugin->slug : '',
+					'plugin' => isset( $plugin->plugin ) ? $plugin->plugin : '',
 				);
 			}
 		}
@@ -271,8 +286,8 @@ class Auto_Plugin_Install {
 		if ( isset( $plugin_info->response ) ) {
 			foreach ( $plugin_info->response as $plugin ) {
 				$all_plugins[] = (object) array(
-					'slug'   => $plugin->slug,
-					'plugin' => $plugin->plugin,
+					'slug'   => isset( $plugin->slug ) ? $plugin->slug : '',
+					'plugin' => isset( $plugin->plugin ) ? $plugin->plugin : '',
 				);
 			}
 		}
@@ -287,7 +302,7 @@ class Auto_Plugin_Install {
 				$plugin_path       = WP_PLUGIN_DIR . DIRECTORY_SEPARATOR . $plugin->plugin;
 				if ( file_exists( $plugin_path ) ) {
 					$is_plugin->installed       = true;
-					$is_plugin->plugin_basename = $plugin->plugin;
+					$is_plugin->plugin_basename = isset( $plugin->plugin ) ? $plugin->plugin : '';
 				} else {
 					$is_plugin->active = false;
 				}
@@ -321,7 +336,7 @@ class Auto_Plugin_Install {
 		if ( false === $require_upgrader->success ) {
 			$process->success = false;
 			$process->code    = 'required_files_not_found';
-			$process->message = sprintf( esc_html__( 'Could not install plugin. %s', 'uncanny-one-click-installer' ), $require_upgrader->message );
+			$process->message = sprintf( esc_html__( 'Could not install plugin. %s', 'uncanny-learndash-toolkit' ), $require_upgrader->message );
 
 			return $process;
 		}
@@ -329,7 +344,7 @@ class Auto_Plugin_Install {
 		if ( false === $require_skin->success ) {
 			$process->success = false;
 			$process->code    = 'required_files_not_found';
-			$process->message = sprintf( esc_html__( 'Could not install plugin. %s', 'uncanny-one-click-installer' ), $require_skin->message );
+			$process->message = sprintf( esc_html__( 'Could not install plugin. %s', 'uncanny-learndash-toolkit' ), $require_skin->message );
 
 			return $process;
 		}
@@ -338,7 +353,7 @@ class Auto_Plugin_Install {
 		if ( ! current_user_can( 'install_plugins' ) ) {
 			$process->success = false;
 			$process->code    = 'permissions_install_plugins';
-			$process->message = esc_html__( 'Could not install plugin. You do not have permission to install plugins.', 'uncanny-one-click-installer' );
+			$process->message = esc_html__( 'Could not install plugin. You do not have permission to install plugins.', 'uncanny-learndash-toolkit' );
 
 			return $process;
 		}
@@ -347,7 +362,7 @@ class Auto_Plugin_Install {
 		if ( ! wp_is_file_mod_allowed( __NAMESPACE__ . '_auto_plugin_install_can_install' ) ) {
 			$process->success = false;
 			$process->code    = 'permissions_file_mod_allowed';
-			$process->message = esc_html__( 'Could not install plugin. You do not have permission to modify files.', 'uncanny-one-click-installer' );
+			$process->message = esc_html__( 'Could not install plugin. You do not have permission to modify files.', 'uncanny-learndash-toolkit' );
 
 			return $process;
 		}
@@ -356,7 +371,7 @@ class Auto_Plugin_Install {
 		if ( empty( $plugin_download_link ) ) {
 			$process->success = false;
 			$process->code    = 'empty_$plugin_download_link';
-			$process->message = esc_html__( 'Could not install plugin. A plugin url was not received. Please Reload the page.', 'uncanny-one-click-installer' );
+			$process->message = esc_html__( 'Could not install plugin. A plugin url was not received. Please Reload the page.', 'uncanny-learndash-toolkit' );
 
 			return $process;
 		}
@@ -365,7 +380,7 @@ class Auto_Plugin_Install {
 		if ( false === $this->has_credentials() ) {
 			$process->success = false;
 			$process->code    = 'not_has_credentials';
-			$process->message = esc_html__( 'Could not install plugin. File system credentials could not be verified. Please Reload the page.', 'uncanny-one-click-installer' );
+			$process->message = esc_html__( 'Could not install plugin. File system credentials could not be verified. Please Reload the page.', 'uncanny-learndash-toolkit' );
 
 			return $process;
 		}
@@ -386,7 +401,7 @@ class Auto_Plugin_Install {
 			if ( ! method_exists( $installer, 'install' ) ) {
 				$process->success = false;
 				$process->code    = 'not_method_exits_install';
-				$process->message = esc_html__( 'Could not install plugin. The installer failed to initialize.', 'uncanny-one-click-installer' );
+				$process->message = esc_html__( 'Could not install plugin. The installer failed to initialize.', 'uncanny-learndash-toolkit' );
 
 				return $process;
 			}
@@ -409,7 +424,7 @@ class Auto_Plugin_Install {
 				 */
 				$process->success = false;
 				$process->code    = 'no_plugin_info';
-				$process->message = esc_html__( 'Could not install plugin. The download link failed. Please Reload the page.', 'uncanny-one-click-installer' );
+				$process->message = esc_html__( 'Could not install plugin. The download link failed. Please Reload the page.', 'uncanny-learndash-toolkit' );
 
 				return $process;
 			}
@@ -421,7 +436,7 @@ class Auto_Plugin_Install {
 		if ( is_wp_error( $activated ) ) {
 			$process->success = false;
 			$process->code    = 'not_activated';
-			$process->message = esc_html__( 'Plugin has installed but failed to activate. Please activate manually on the plugins page.', 'uncanny-one-click-installer' );
+			$process->message = esc_html__( 'Plugin has installed but failed to activate. Please activate manually on the plugins page.', 'uncanny-learndash-toolkit' );
 
 			return $process;
 		}
@@ -429,14 +444,14 @@ class Auto_Plugin_Install {
 		if ( false !== $activate_only ) {
 			$process->success = true;
 			$process->code    = 'activated';
-			$process->message = esc_html__( 'Plugin has activated successfully.', 'uncanny-one-click-installer' );
+			$process->message = esc_html__( 'Plugin has activated successfully.', 'uncanny-learndash-toolkit' );
 
 			return $process;
 		}
 
 		$process->success = true;
 		$process->code    = 'activated_installed';
-		$process->message = esc_html__( 'Plugin has installed and activated successfully.', 'uncanny-one-click-installer' );
+		$process->message = esc_html__( 'Plugin has installed and activated successfully.', 'uncanny-learndash-toolkit' );
 
 		return $process;
 	}
@@ -523,22 +538,22 @@ class Auto_Plugin_Install {
 		}
 
 		if ( empty( $plugin_slug ) ) {
-			return esc_html__( 'Add a plugin slug', 'uncanny-one-click-installer' );
+			return esc_html__( 'Add a plugin slug', 'uncanny-learndash-toolkit' );
 		}
 
 		$plugin_info = $this->get_plugin_info( $plugin_slug );
 
 		if ( false === $plugin_info ) {
-			return esc_html__( 'Plugin not found on wordpress.org', 'uncanny-one-click-installer' );
+			return esc_html__( 'Plugin not found on wordpress.org', 'uncanny-learndash-toolkit' );
 		}
 
 		$action   = esc_attr( 'install' );
 		$disabled = '';
 
 		if ( 'uncanny-automator' === (string) $plugin_slug ) {
-			$button_text = esc_html__( 'Install Uncanny Automator', 'uncanny-one-click-installer' );
+			$button_text = esc_html__( 'Install Uncanny Automator', 'uncanny-learndash-toolkit' );
 		} else {
-			$button_text = sprintf( esc_html__( 'Install %s', 'uncanny-one-click-installer' ), $plugin_info->name );
+			$button_text = sprintf( esc_html__( 'Install %s', 'uncanny-learndash-toolkit' ), $plugin_info->name );
 		}
 
 		$button_text = apply_filters( 'uncanny_one_click_install_plugin_initial_text', $button_text, $plugin_info );
@@ -546,14 +561,14 @@ class Auto_Plugin_Install {
 		if ( $plugin_info->is_active ) {
 			$action      = esc_attr( '' );
 			$disabled    = esc_attr( 'disabled="disabled"' );
-			$button_text = sprintf( esc_html__( '%s is active', 'uncanny-one-click-installer' ), $plugin_info->name );
+			$button_text = sprintf( esc_html__( '%s is active', 'uncanny-learndash-toolkit' ), $plugin_info->name );
 			$button_text = apply_filters( 'uncanny_one_click_install_plugin_active_text', $button_text, $plugin_info );
 		} elseif ( $plugin_info->is_installed ) {
 			$action = esc_attr( 'activate' );
 			if ( 'uncanny-automator' === (string) $plugin_slug ) {
-				$button_text = esc_html__( 'Activate Uncanny Automator', 'uncanny-one-click-installer' );
+				$button_text = esc_html__( 'Activate Uncanny Automator', 'uncanny-learndash-toolkit' );
 			} else {
-				$button_text = sprintf( esc_html__( 'Activate %s', 'uncanny-one-click-installer' ), $plugin_info->name );
+				$button_text = sprintf( esc_html__( 'Activate %s', 'uncanny-learndash-toolkit' ), $plugin_info->name );
 			}
 			$button_text = apply_filters( 'uncanny_one_click_install_plugin_installed_text', $button_text, $plugin_info );
 		}
@@ -595,25 +610,25 @@ class Auto_Plugin_Install {
 		</style>
 
 		<div class="auto-plugin-install">
-			<?php 
+			<?php
 				$button_class = apply_filters(
 					'uncanny_one_click_install_button_class',
 					array(
 						'uoc-generate-button',
-						'auto-plugin-install-button'
+						'auto-plugin-install-button',
 					),
 					$plugin_info
 				);
-				$button_class = implode(' ', $button_class );
+				$button_class = implode( ' ', $button_class );
 			?>
 			<button class="<?php echo esc_attr( $button_class ); ?>"
 					onclick="autoPluginInstall(this)"
-					data-action="<?php echo $action; ?>"
-					data-slug="<?php echo $plugin_slug; ?>"
-					data-name="<?php echo $plugin_info->name; ?>"
-					data-redirect="<?php echo $redirect; ?>"
-				<?php echo $disabled; ?>>
-				<?php echo $button_text; ?>
+					data-action="<?php echo esc_attr( $action ); ?>"
+					data-slug="<?php echo esc_attr( $plugin_slug ); ?>"
+					data-name="<?php echo esc_attr( $plugin_info->name ); ?>"
+					data-redirect="<?php echo esc_attr( $redirect ); ?>"
+				<?php echo esc_html( $disabled ); ?>>
+				<?php echo esc_html( $button_text ); ?>
 				<div class="auto-plugin-install-loader"></div>
 			</button>
 			<p class="auto-plugin-install-message"></p>
