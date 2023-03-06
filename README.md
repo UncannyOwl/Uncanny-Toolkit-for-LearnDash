@@ -5,7 +5,7 @@
 **Requires at least:** 5.2 \
 **Tested up to:** 6.1.1 \
 **Requires PHP:** 7.2 \
-**Stable tag:** 3.6.4.2 \
+**Stable tag:** 3.6.4.3 \
 **License:** This plugin is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or any later version. Uncanny Toolkit for LearnDash is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with Uncanny Toolkit for LearnDash. If not, see https://www.gnu.org/licenses/gpl-3.0.html. \
 **License URI:** https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -111,11 +111,32 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 
 ## Changelog
 
+### 3.6.4.3 [2023-03-06]
+
+**Updated:**
+
+* Log In/Log Out Links - Attributes `log_in_text` and `log_out_text` added to change the text of the anchor #301
+* Front End Login & WP2FA - Added support for v2.4+ #206
+
+**Fixed:**
+
+* Front End Login & WP2FA - PHP Error with v2.4+ #206
+* Front End Login - Persist action `lostpassword` redirecting from wp-login.php #317
+* Log In/Log Out Links - Fixed PHP Notice #320
+* Breadcrumbs - Topic omitted from breadcrumb trail when quiz is embedded at topic level #294
+* PHP Error on LearnDash's third party Add-Ons page in a specific situation #313
+
+**Internal:**
+
+* Notices showing on Get Automator page #295
+* Renamed "Get Automator" to "Automation" #307
+* Automation - Update strings for improved translation support #282
+
 ### 3.6.4.2 [2023-01-26]
 
 **Fixed:**
 
-* Fix vulnerability CVE-2023-23714 in 1-click installer #309
+* CVE-2023-23714 security fix in 1-click installer in a specific situation #309
 
 ### 3.6.4.1 [2022-11-23]
 

@@ -3,6 +3,9 @@ namespace uncanny_learndash_toolkit;
 
 use WP2FA\Authenticator\Login as Two_Factor_Core;
 use WP2FA\Authenticator\BackupCodes as BackupCodes;
+use WP2FA\Admin\Helpers\User_Helper;
+use \WP2FA\Authenticator\Authentication as Authentication;
+use WP2FA\Admin\Controllers\Settings;
 use WP2FA\Admin\SettingsPage;
 
 /**
@@ -14,7 +17,6 @@ use WP2FA\Admin\SettingsPage;
  */
 class Frontend_Login_Plus_2fa {
 
-
 	/**
 	 * The login page.
 	 *
@@ -22,15 +24,12 @@ class Frontend_Login_Plus_2fa {
 	 */
 	private $login_uri = '';
 
-
 	/**
 	 * The two factor instance.
 	 *
 	 * @var $two_factor The instance of \Two_Factor_Core.
 	 */
 	private $two_factor = '';
-
-	private $two_factor_class_name = '';
 
 	/**
 	 * Our class construct. Set-up Two-factor object and register the actions.
@@ -61,9 +60,13 @@ class Frontend_Login_Plus_2fa {
 	public function register_actions() {
 
 		if ( ! did_action( 'uo_toolkit_two_factor_started' ) ) {
+
 			// Set-up the action hooks.
 			add_action( 'init', array( $this, 'setup' ) );
+
+			// Additional action hook for identifying two_factor startup.
 			do_action( 'uo_toolkit_two_factor_started' );
+
 		}
 
 		return true;
@@ -91,35 +94,33 @@ class Frontend_Login_Plus_2fa {
 	 */
 	public function setup() {
 
-		// Check to see if front-end login is enabled.
-		// Must have a login page for our integration to work.
+		// Fetches the login_page. This integration requires a login page to work.
 		$login_page = FrontendLoginPlus::get_settings_value( 'login_page', 'FrontendLoginPlus', '' );
 
-		if ( $this->frontend_login_enabled() && ! empty( $login_page ) ) {
-
-			$this->login_uri = get_permalink( FrontendLoginPlus::get_login_redirect_page_id() );
-
-			$wp2fa = \WP2FA\WP2FA::get_instance();
-
-			remove_action( 'wp_login', array( $wp2fa->login, 'wp_login' ), 20, 2 );
-			remove_action( 'login_form_validate_2fa', array( $wp2fa->login, 'login_form_validate_2fa' ) );
-
-			if ( ! wp_doing_ajax() ) {
-
-				add_action( 'wp_login', array( $this, 'wp_login' ), 10, 2 );
-				add_action( 'login_form_validate_2fa', array( $this, 'login_form_validate_2fa' ), 10, 2 );
-			}
-
-			add_filter( 'uo-login-action-response', array( $this, 'uo_login_action_response' ), 99, 1 );
-			add_action( 'uo-login-action-before-json-response', array( $this, 'uo_login_action_before_json_response' ), 99, 1 );
-
-			add_filter( 'uo-redirect-login-page', array( $this, 'uo_redirect_login_page' ), 99, 1 );
-
-			add_action( 'wp_logout', array( $this, 'uo_clear_cookie_logout' ) );
-
+		// Early bail frontend login is disabled or if login page is empty.
+		if ( ! $this->frontend_login_enabled() || empty( $login_page ) ) {
+			return true;
 		}
 
-		return true;
+		$this->login_uri = get_permalink( FrontendLoginPlus::get_login_redirect_page_id() );
+
+		// Resolve conflict with Toolkit's redirects.
+		remove_action( 'wp_login', array( '\WP2FA\Authenticator\Login', 'wp_login' ), 20, 2 );
+		// Resolve conflict with Toolkit's redirect when 2fa is validating 2fa code.
+		remove_action( 'wp_loaded', array( '\WP2FA\Authenticator\Login', 'login_form_validate_2fa' ) );
+		// Resolve conflict with Toolkit's redirect when 2fa is validating 2fa code.
+		remove_action( 'login_form_validate_2fa', array( '\WP2FA\Authenticator\Login', 'login_form_validate_2fa' ) );
+
+		if ( ! wp_doing_ajax() ) {
+			add_action( 'wp_login', array( $this, 'wp_login' ), 20, 2 );
+			add_action( 'login_form_validate_2fa', array( $this, 'login_form_validate_2fa' ) );
+		}
+
+		// Resolve conflict with Toolkit's ajax form with WP2FA login.
+		add_filter( 'uo-login-action-response', array( $this, 'uo_login_action_response' ), 99, 1 );
+		add_action( 'uo-login-action-before-json-response', array( $this, 'uo_login_action_before_json_response' ), 99, 1 );
+		add_filter( 'uo-redirect-login-page', array( $this, 'uo_redirect_login_page' ), 99, 1 );
+		add_action( 'wp_logout', array( $this, 'uo_clear_cookie_logout' ) );
 
 	}
 
@@ -169,7 +170,7 @@ class Frontend_Login_Plus_2fa {
 	 */
 	public function uo_login_action_response( $response ) {
 
-		$user_identity = filter_input( INPUT_POST, 'email', FILTER_SANITIZE_STRING );
+		$user_identity = filter_input( INPUT_POST, 'email', FILTER_UNSAFE_RAW );
 
 		// Do check by login.
 		$user = get_user_by( 'login', $user_identity );
@@ -192,12 +193,12 @@ class Frontend_Login_Plus_2fa {
 
 		wp_clear_auth_cookie();
 
-		$redirect_from_ajax = filter_input( INPUT_POST, 'redirectTo', FILTER_SANITIZE_STRING );
+		$redirect_from_ajax = filter_input( INPUT_POST, 'redirectTo', FILTER_UNSAFE_RAW );
 
 		$http_args = array(
 			'user'               => $user->ID,
 			'2fa_authentication' => 1,
-			'rememberme'         => isset( $_REQUEST['rememberMe'] ) ? $_REQUEST['rememberMe'] : '',
+			'rememberme'         => isset( $_REQUEST['rememberMe'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['rememberMe'] ) ) : '', // phpcs:ignore
 			'_wpnonce'           => $nonce,
 			'ukey'               => uniqid(),
 			'redirect_to'        => ! empty( $redirect_from_ajax ) ? $redirect_from_ajax : $this->get_redirect_to(),
@@ -207,7 +208,7 @@ class Frontend_Login_Plus_2fa {
 			$http_args,
 			$this->login_uri
 		);
-
+		
 		$response['redirectTo'] = $two_factor_login_form_url;
 
 		return $response;
@@ -222,12 +223,13 @@ class Frontend_Login_Plus_2fa {
 	public function login_form_validate_2fa() {
 
 		// The nonces are processed via `verify_login_nonce`.
-		if ( ! isset( $_POST['wp-auth-id'], $_POST['wp-auth-nonce'] ) ) { //phpcs:ignore
+		if ( ! isset( $_POST['wp-auth-id'], $_POST['wp-auth-nonce'] ) ) {
 			return;
 		}
 
-		$auth_id = (int) $_POST['wp-auth-id']; //phpcs:ignore
-		$user    = get_userdata( $auth_id );
+		$auth_id = (int) sanitize_text_field( wp_unslash( $_POST['wp-auth-id'] ) );
+
+		$user = get_userdata( $auth_id );
 
 		// Destroy the cookie.
 		$this->delete_form_cookie();
@@ -266,8 +268,15 @@ class Frontend_Login_Plus_2fa {
 
 		}
 
-		if ( isset( $_POST['provider'] ) ) { //phpcs:ignore
-			$provider  = sanitize_textarea_field( wp_unslash( $_POST['provider'] ) ); //phpcs:ignore
+		if ( isset( $_POST['provider'] ) ) { // phpcs:ignore
+			$provider  = sanitize_textarea_field( wp_unslash( $_POST['provider'] ) ); // phpcs:ignore
+		}
+
+		if ( ! Settings::is_provider_enabled_for_role( User_Helper::get_user_role( $user ), $provider ) ) {
+			wp_die( __( '<p> <strong>WP-2FA</strong>: Please contact the administrator for further assistance!</p>', 'wp-2fa' ) . esc_html__( 'Invalid provider.', 'wp-2fa' ) ); // phpcs:ignore
+		}
+
+		if ( ! empty( $provider ) ) { //phpcs:ignore
 			$providers = $this->two_factor::get_available_providers_for_user( $user );
 			if ( isset( $providers[ $provider ] ) ) {
 				$provider = $providers[ $provider ];
@@ -282,7 +291,7 @@ class Frontend_Login_Plus_2fa {
 			'user'               => $user->ID,
 			'ukey'               => uniqid(),
 			'2fa_authentication' => 1,
-			'rememberme'         => isset( $_REQUEST['rememberme'] ) ? $_REQUEST['rememberme'] : '',
+			'rememberme'         => isset( $_REQUEST['rememberme'] ) ? $_REQUEST['rememberme'] : '', // phpcs:ignore
 			'error'              => '2fa-incorrect',
 			'provider'           => $provider,
 			'_wpnonce'           => wp_create_nonce( sprintf( 'uo-toolkit-2fa-user-%d-authentication', $user->ID ) ),
@@ -306,6 +315,13 @@ class Frontend_Login_Plus_2fa {
 				wp_die( esc_html__( 'Failed to create a login nonce.', 'uncanny-learndash-toolkit' ) );
 			}
 
+			if ( Authentication::check_number_of_attempts( $user ) ) {
+				$this->login_html( $user, $login_nonce['key'], esc_url_raw( wp_unslash( $_REQUEST['redirect_to'] ) ), esc_html__( 'ERROR: Invalid verification code.', 'wp-2fa' ), $provider ); // phpcs:ignore
+			} else {
+				Authentication::get_login_attempts_instance()->clear_login_attempts( $user );
+				wp_safe_redirect( wp_login_url() );
+			}
+
 			$redirect_args['w2-2fa-key'] = $login_nonce['key'];
 
 			wp_safe_redirect(
@@ -321,10 +337,18 @@ class Frontend_Login_Plus_2fa {
 		// Backup Codes.
 		if ( 'backup_codes' === $provider && true !== $this->two_factor::validate_backup_codes( $user ) ) {
 
+			do_action( 'wp_login_failed', $user->user_login );
+
 			$login_nonce = $this->two_factor::create_login_nonce( $user->ID );
 
 			if ( ! $login_nonce ) {
 				wp_die( esc_html__( 'Failed to create a login nonce.', 'uncanny-learndash-toolkit' ) );
+			}
+
+			if ( Backup_Codes::check_number_of_attempts( $user ) ) {
+				$this->login_html( $user, $login_nonce['key'], esc_url_raw( wp_unslash( $_REQUEST['redirect_to'] ) ), esc_html__( 'ERROR: Invalid backup code.', 'wp-2fa' ), $provider ); // phpcs:ignore
+			} else {
+				Backup_Codes::get_login_attempts_instance()->clear_login_attempts( $user );
 			}
 
 			wp_safe_redirect(
@@ -351,6 +375,13 @@ class Frontend_Login_Plus_2fa {
 				$redirect_args['w2-2fa-key'] = $login_nonce['key'];
 				$redirect_args['2fa-action'] = 'wp-2fa-email-code-resend';
 				$redirect_args['error']      = esc_html__( 'A new code has been sent.', 'uncanny-learndash-toolkit' );
+			} else {
+				if ( Authentication::check_number_of_attempts( $user ) ) {
+					$this->login_html( $user, $login_nonce['key'], esc_url_raw( wp_unslash( $_REQUEST['redirect_to'] ) ), esc_html__( 'ERROR: Invalid verification code.', 'wp-2fa' ), $provider ); // phpcs:ignore
+				} else {
+					Authentication::get_login_attempts_instance()->clear_login_attempts( $user );
+					wp_safe_redirect( wp_login_url() );
+				}
 			}
 
 			wp_safe_redirect(
@@ -362,6 +393,8 @@ class Frontend_Login_Plus_2fa {
 
 			exit;
 		}
+
+		do_action( WP_2FA_PREFIX . 'validate_login_form', $user, $provider );
 
 		$this->two_factor::delete_login_nonce( $user->ID );
 
@@ -403,6 +436,10 @@ class Frontend_Login_Plus_2fa {
 	 */
 	public function wp_login( $user_login, $user ) {
 
+		if ( 'validate_2fa' === sanitize_text_field( wp_unslash( $_REQUEST['action'] ) ) ) {
+			return;
+		}
+
 		if ( ! $this->two_factor::is_user_using_two_factor( $user->ID ) ) {
 			return;
 		}
@@ -433,7 +470,7 @@ class Frontend_Login_Plus_2fa {
 
 		wp_safe_redirect( $redirect );
 
-		die;
+		exit;
 
 	}
 
@@ -469,17 +506,17 @@ class Frontend_Login_Plus_2fa {
 		$redirect_to = isset( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : ''; // phpcs:ignore
 
 		$wp_auth_id = filter_input( INPUT_GET, 'wp-auth-id', FILTER_SANITIZE_NUMBER_INT );
-		$nonce      = filter_input( INPUT_GET, 'wp-auth-nonce', FILTER_SANITIZE_STRING );
-		$provider   = filter_input( INPUT_GET, 'provider', FILTER_SANITIZE_STRING );
-		$error      = filter_input( INPUT_GET, 'error', FILTER_SANITIZE_STRING );
+		$nonce      = filter_input( INPUT_GET, 'wp-auth-nonce', FILTER_UNSAFE_RAW );
+		$provider   = filter_input( INPUT_GET, 'provider', FILTER_UNSAFE_RAW );
+		$error      = filter_input( INPUT_GET, 'error', FILTER_UNSAFE_RAW );
 
 		if ( ! empty( $error ) && '2fa-incorrect' === $error ) {
 			$error_message = esc_html__( 'ERROR: Invalid verification code.', 'uncanny-learndash-toolkit' );
 		}
 
-		$nonce = filter_input( INPUT_GET, '_wpnonce', FILTER_SANITIZE_STRING );
+		$nonce = filter_input( INPUT_GET, '_wpnonce', FILTER_UNSAFE_RAW );
 
-		$form_cookie = filter_input( INPUT_COOKIE, 'uo-toolkit-guard', FILTER_SANITIZE_STRING );
+		$form_cookie = filter_input( INPUT_COOKIE, 'uo-toolkit-guard', FILTER_UNSAFE_RAW );
 
 		// Verify the cookie.
 		if ( $this->verify_cookie( $nonce, $form_cookie ) ) {
@@ -489,7 +526,7 @@ class Frontend_Login_Plus_2fa {
 			<div class="ult-notice ult-notice--error two-factor-error-notice">
 				<span class="ult-notice-text">
 					<strong>
-						<?php $error_type = filter_input( INPUT_GET, 'error', FILTER_SANITIZE_STRING ); ?>
+						<?php $error_type = filter_input( INPUT_GET, 'error', FILTER_UNSAFE_RAW ); ?>
 						<?php if ( '2fa-invalid-user-keys' === $error_type ) : ?>
 							<?php esc_html_e( 'ERROR: Session is invalid or has expired.', 'uncanny-learndash-toolkit' ); ?>
 						<?php else : ?>
@@ -585,7 +622,7 @@ class Frontend_Login_Plus_2fa {
 
 			<input type="hidden" name="rememberme" id="rememberme" value="<?php echo esc_attr( $rememberme ); ?>" />
 
-			<?php $resend_email = filter_input( INPUT_GET, '2fa-action', FILTER_SANITIZE_STRING ); ?>
+			<?php $resend_email = filter_input( INPUT_GET, '2fa-action', FILTER_UNSAFE_RAW ); ?>
 
 			<?php if ( ! empty( $resend_email ) ) : ?>
 				<div class="ult-notice ult-notice--success" style="margin-top: 20px;">

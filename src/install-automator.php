@@ -4,6 +4,7 @@ namespace uncanny_learndash_toolkit;
 
 /**
  * Class AdminMenu
+ *
  * @package uncanny_learndash_toolkit
  */
 class InstallAutomator extends Boot {
@@ -37,10 +38,10 @@ class InstallAutomator extends Boot {
 		}
 
 		// Get the item text
-		$menu_item_text = apply_filters( 'ult_admin_sidebar_try_automator_text', sprintf( __( 'Get %s!', 'uncanny-learndash-toolkit' ), 'Automator' ) );
+		$menu_item_text = apply_filters( 'ult_admin_sidebar_try_automator_text', __( 'Automation', 'uncanny-learndash-toolkit' ) );
 
 		// Create the link content
-		$menu_item_html = '<span class="ult-sidebar-featured-item">' . apply_filters( 'ult_admin_sidebar_try_automator_inner_html', '<span class="ult-sidebar-featured-item__text">' . $menu_item_text . '</span><span class="ult-sidebar-featured-item__tag">' . __( 'Free', 'uncanny-learndash-toolkit' ) . '</span>' ) . '</span>';
+		$menu_item_html = '<span class="ult-sidebar-featured-item">' . apply_filters( 'ult_admin_sidebar_try_automator_inner_html', '<span class="ult-sidebar-featured-item__text">' . $menu_item_text . '</span>' ) . '</span>';
 
 		// Add the subpage menu
 		add_submenu_page(
@@ -50,7 +51,7 @@ class InstallAutomator extends Boot {
 			'manage_options',
 			'install-automator',
 			array( $this, 'install_automator_page' ),
-			99
+			1
 		);
 
 	}
@@ -120,6 +121,21 @@ class InstallAutomator extends Boot {
 				<p><?php esc_html_e( 'Here are a few examples:', 'uncanny-learndash-toolkit' ); ?></p>
 					<ul class="uo-install-automator__examples">
 						<li>
+							<?php
+							echo wp_kses(
+								sprintf(
+									__(
+										'When a user completes a course and fills out an evaluation form, add a row with the form entries to a %1$sGoogle Sheet%2$s and add the user to alumni %1$sBuddyBoss%2$s and %1$sLearnDash%2$s groups.',
+										'uncanny-learndash-toolkit'
+									),
+									'<strong>',
+									'</strong>',
+								),
+								array(
+									'strong' => array(),
+								)
+							);
+							?>
 							<?php esc_html_e( 'When a user completes a course and fills out an evaluation form, add a row with the form entries to a', 'uncanny-learndash-toolkit' ); ?>
 							<strong><?php esc_html_e( 'Google Sheet', 'uncanny-learndash-toolkit' ); ?></strong>
 							<?php esc_html_e( 'and add the user to alumni', 'uncanny-learndash-toolkit' ); ?>
@@ -139,11 +155,21 @@ class InstallAutomator extends Boot {
 
 						</li>
 						<li>
-							<?php esc_html_e( 'When a new blog post is published, automatically post it to ', 'uncanny-learndash-toolkit' ); ?>
-							<strong><?php esc_html_e( 'Twitter', 'uncanny-learndash-toolkit' ); ?></strong>
-							<?php esc_html_e( 'and email the post to a', 'uncanny-learndash-toolkit' ); ?>
-							<strong><?php esc_html_e( 'MailChimp', 'uncanny-learndash-toolkit' ); ?></strong>
-							<?php esc_html_e( 'list.', 'uncanny-learndash-toolkit' ); ?>
+							<?php
+							echo wp_kses(
+								sprintf(
+									__(
+										'When a new blog post is published, automatically post it to %1$sTwitter%2$s and email the post to a %1$sMailChimp%2$s list.',
+										'uncanny-learndash-toolkit'
+									),
+									'<strong>',
+									'</strong>',
+								),
+								array(
+									'strong' => array(),
+								)
+							);
+							?>
 							<div class="uo-install-automator__requirements">
 								<label><?php esc_html_e( 'Requires', 'uncanny-learndash-toolkit' ); ?></label>
 								<ul>
@@ -154,14 +180,21 @@ class InstallAutomator extends Boot {
 
 						</li>
 						<li>
-							<?php esc_html_e( 'When a user purchases a product, register them for a live event in ', 'uncanny-learndash-toolkit' ); ?>
-							<strong><?php esc_html_e( 'Events Calendar', 'uncanny-learndash-toolkit' ); ?></strong>
-							<?php esc_html_e( 'add them to a', 'uncanny-learndash-toolkit' ); ?>
-							<strong><?php esc_html_e( 'LearnDash', 'uncanny-learndash-toolkit' ); ?></strong>
-							<?php esc_html_e( 'group and send a', 'uncanny-learndash-toolkit' ); ?>
-							<strong><?php esc_html_e( 'WooCommerce', 'uncanny-learndash-toolkit' ); ?></strong>
-							<?php esc_html_e( 'coupon code for their next order.', 'uncanny-learndash-toolkit' ); ?>
-
+							<?php
+								echo wp_kses(
+									sprintf(
+										__(
+											'When a user purchases a product, register them for a live event in %1$sEvents Calendar%2$s add them to a %1$sLearnDash%2$s group and send a %1$sWooCommerce%2$s coupon code for their next order.',
+											'uncanny-learndash-toolkit'
+										),
+										'<strong>',
+										'</strong>',
+									),
+									array(
+										'strong' => array(),
+									)
+								);
+							?>
 							<div class="uo-install-automator__requirements">
 								<label><?php esc_html_e( 'Requires', 'uncanny-learndash-toolkit' ); ?></label>
 								<ul>
@@ -172,9 +205,21 @@ class InstallAutomator extends Boot {
 							</div>
 						</li>
 						<li>
-							<?php esc_html_e( 'When a user clicks a button, register them for a', 'uncanny-learndash-toolkit' ); ?>
-							<strong><?php esc_html_e( 'Zoom', 'uncanny-learndash-toolkit' ); ?></strong>
-							<?php esc_html_e( 'webinar, reset their progress in one course and enroll them in another course.', 'uncanny-learndash-toolkit' ); ?>
+							<?php
+							echo wp_kses(
+								sprintf(
+									__(
+										'When a user clicks a button, register them for a %1$sZoom%2$s webinar, reset their progress in one course and enroll them in another course.',
+										'uncanny-learndash-toolkit'
+									),
+									'<strong>',
+									'</strong>',
+								),
+								array(
+									'strong' => array(),
+								)
+							);
+							?>
 							<div class="uo-install-automator__requirements">
 								<label><?php esc_html_e( 'Requires', 'uncanny-learndash-toolkit' ); ?></label>
 								<ul>
@@ -185,10 +230,10 @@ class InstallAutomator extends Boot {
 					</ul>
 				<?php
 				$utm = '?utm_source=';
-				if( defined ( 'UNCANNY_TOOLKIT_PRO_PATH') ) {
-					$utm.= 'uncanny_toolkit_pro';
-				}else{
-					$utm.= 'uncanny_toolkit_free';
+				if ( defined( 'UNCANNY_TOOLKIT_PRO_PATH' ) ) {
+					$utm .= 'uncanny_toolkit_pro';
+				} else {
+					$utm .= 'uncanny_toolkit_free';
 				}
 				$utm .= '&utm_medium=try_automator&utm_content=all_of_the_most_popular_plugins';
 				?>
@@ -268,7 +313,7 @@ class InstallAutomator extends Boot {
 							</span>
 						</div>
 						<div class="uo-install-automator__button">
-							<?php echo $one_click_install->button( 'uncanny-automator', admin_url( 'post-new.php?post_type=uo-recipe' ) ); ?>
+							<?php echo $one_click_install->button( 'uncanny-automator', esc_url( admin_url( 'post-new.php?post_type=uo-recipe' ) ) ); ?>
 						</div>
 					</div>
 

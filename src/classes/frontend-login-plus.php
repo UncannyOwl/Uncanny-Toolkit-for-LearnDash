@@ -2103,6 +2103,10 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 			}
 
+			if ( 'lostpassword' === $http_request_action ) {
+				$login_page = add_query_arg( array( 'action' => $http_request_action ), $login_page );
+			}
+
 			// Allow modifications.
 			$login_page = apply_filters( 'uo-redirect-login-page', $login_page );
 
@@ -3123,7 +3127,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		$response['success'] = true;
 
 		$requested_redirect_to = isset( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : '';
-
+	
 		// Decide if there will be a redirect
 		$redirect_ignored = Config::get_settings_value( 'uo_frontend_login_modal_ignore_redirect', 'FrontendLoginPlus', false );
 
@@ -3166,12 +3170,12 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			if ( false === self::validate_redirect_url( $url ) ) {
 				return add_query_arg(
 					array( 'forbidden' => 'redirect_not_allowed' ),
-					esc_url( site_url() )
+					esc_url_raw( site_url() )
 				);
 			}
 		}
 
-		return esc_url( $url );
+		return esc_url_raw( $url );
 	}
 
 	/**

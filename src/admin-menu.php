@@ -478,6 +478,13 @@ class AdminMenu extends Boot {
 
 		$pro_modules = [
 			[
+				'id'          => 'download-certificates-in-bulk',
+				'title'       => esc_html__( 'Download certificates in bulk', 'uncanny-learndash-toolkit' ),
+				'description' => esc_html__( 'Generate certificate PDF files for a group, course or quiz and download them in bulk as a Group Leader or administrator.', 'uncanny-learndash-toolkit' ),
+				'kb_link'     => 'https://www.uncannyowl.com/knowledge-base/download-certificates-in-bulk/',
+				'category'    => 'learndash',
+			],
+			[
 				'id'          => 'days-until-course-expiry',
 				'title'       => esc_html__( 'Days Until Course Expiry', 'uncanny-learndash-toolkit' ),
 				'description' => esc_html__( 'Use this shortcode to display the number of days until the learner\'s access expires for the current course. This is a useful shortcode to include on course pages.', 'uncanny-learndash-toolkit' ),

@@ -71,11 +71,29 @@ class Plugin_API_Override {
 			return $result;
 		}
 
-		if ( isset( $result->plugins ) && is_array( $result->plugins ) ) {
+		if ( isset( $result->plugins ) && is_array( $result->plugins ) && false === self::maybe_validate_if_automator_already_exists( $result->plugins ) ) {
+			$plugin_info = json_decode( wp_json_encode( $plugin_info ), true );
 			array_unshift( $result->plugins, $plugin_info );
 		}
 
 		return $result;
+	}
+
+	/**
+	 * @param $plugin_results
+	 *
+	 * @return bool
+	 */
+	public static function maybe_validate_if_automator_already_exists( $plugin_results ) {
+		if ( empty( $plugin_results ) ) {
+			return false;
+		}
+		$plugin_lists = array_column( $plugin_results, 'slug' );
+		if ( in_array( (string) self::$plugin_slug, $plugin_lists, true ) ) {
+			return true;
+		}
+
+		return false;
 	}
 }
 

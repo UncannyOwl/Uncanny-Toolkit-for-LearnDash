@@ -57,6 +57,7 @@ class Auto_Plugin_Install {
 	 *
 	 */
 	function admin_footer_auto_plugin_install() { ?>
+	
 		<script type="text/javascript">
 			function autoPluginInstall(el) {
 
@@ -89,7 +90,7 @@ class Auto_Plugin_Install {
 					$button.parent().find('.auto-plugin-install-message').text(response.responseText);
 				});
 			}
-		</script> 
+		</script>
 		<?php
 	}
 
@@ -277,8 +278,8 @@ class Auto_Plugin_Install {
 		if ( isset( $plugin_info->no_update ) ) {
 			foreach ( $plugin_info->no_update as $plugin ) {
 				$all_plugins[] = (object) array(
-					'slug'   => isset( $plugin->slug ) ? $plugin->slug : '',
-					'plugin' => isset( $plugin->plugin ) ? $plugin->plugin : '',
+					'slug'   => ( isset( $plugin->slug ) ) ? $plugin->slug : '',
+					'plugin' => ( isset( $plugin->plugin ) ) ? $plugin->plugin : '',
 				);
 			}
 		}
@@ -286,8 +287,8 @@ class Auto_Plugin_Install {
 		if ( isset( $plugin_info->response ) ) {
 			foreach ( $plugin_info->response as $plugin ) {
 				$all_plugins[] = (object) array(
-					'slug'   => isset( $plugin->slug ) ? $plugin->slug : '',
-					'plugin' => isset( $plugin->plugin ) ? $plugin->plugin : '',
+					'slug'   => ( isset( $plugin->slug ) ) ? $plugin->slug : '',
+					'plugin' => ( isset( $plugin->plugin ) ) ? $plugin->plugin : '',
 				);
 			}
 		}
@@ -302,7 +303,7 @@ class Auto_Plugin_Install {
 				$plugin_path       = WP_PLUGIN_DIR . DIRECTORY_SEPARATOR . $plugin->plugin;
 				if ( file_exists( $plugin_path ) ) {
 					$is_plugin->installed       = true;
-					$is_plugin->plugin_basename = isset( $plugin->plugin ) ? $plugin->plugin : '';
+					$is_plugin->plugin_basename = ( isset( $plugin->plugin ) ) ? $plugin->plugin : '';
 				} else {
 					$is_plugin->active = false;
 				}

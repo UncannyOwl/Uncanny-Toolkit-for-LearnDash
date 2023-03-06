@@ -313,6 +313,9 @@ class LoginLogoutMenu extends Config implements RequiredFunctions {
 
 	public static function filter_wp_nav_menu_objects( $sorted_menu_items ) {
 		foreach ( $sorted_menu_items as $k => $item ) {
+			if ( ! isset(  $item->url ) ) {
+				continue;
+			}
 			if ( '#uo_remove_item' == $item->url ) {
 				unset( $sorted_menu_items[ $k ] );
 			}
@@ -337,7 +340,9 @@ class LoginLogoutMenu extends Config implements RequiredFunctions {
 	public static function loginout_link( $atts, $content = null ) {
 		$atts = shortcode_atts( array(
 			"edit_tag" => "",
-			"redirect" => esc_url( $_SERVER['REQUEST_URI'] )
+			"redirect" => esc_url( $_SERVER['REQUEST_URI'] ),
+			"log_in_text"  => esc_html__( 'Log In', 'uncanny-learndash-toolkit' ),
+			"log_out_text" => esc_html__( 'Logout', 'uncanny-learndash-toolkit' )
 		), $atts, 'loginout' );
 
 		$edit_tag = strip_tags( $atts['edit_tag'] );
@@ -346,7 +351,7 @@ class LoginLogoutMenu extends Config implements RequiredFunctions {
 			$content = explode( '|', $content );
 			$content = is_user_logged_in() ? $content[1] : $content[0];
 		} else {
-			$content = is_user_logged_in() ? __( 'Logout', 'uncanny-learndash-toolkit' ) : __( 'Log In', 'uncanny-learndash-toolkit' );
+			$content = is_user_logged_in() ? $atts[ 'log_out_text' ] : $atts[ 'log_in_text' ];
 		}
 
 		return '<a href="' . esc_url( $href ) . '"' . $atts['edit_tag'] . '>' . $content . '</a>';

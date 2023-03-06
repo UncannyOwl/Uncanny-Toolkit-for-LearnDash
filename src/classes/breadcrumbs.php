@@ -289,6 +289,18 @@ class Breadcrumbs extends Config implements RequiredFunctions {
 
 				if ( 'sfwd-topic' === get_post_type( $topic_id ) ) {
 					$lesson_id = learndash_get_lesson_id( $topic_id, $course_id ); // Getting Parent Lesson ID
+				} else {
+					// detect topic id & grab lesson id
+					$parent_ids = learndash_course_get_all_parent_step_ids( $course_id, $post_id );
+					if ( ! empty( $parent_ids ) ) {
+						foreach ( $parent_ids as $parent_id ) {
+							if ( get_post_type( $parent_id ) === learndash_get_post_type_slug( 'topic' ) ) {
+								$topic_id = $parent_id;
+								$lesson_id = learndash_get_lesson_id( $topic_id, $course_id ); // Getting Parent Lesson ID
+								break;
+							}
+						}
+					}
 				}
 
 				$trail[] = self::uo_build_anchor_links( get_permalink( $course_id ), get_the_title( $course_id ), 'quizs-course-link' ); // Getting Lesson's Course Link
