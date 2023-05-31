@@ -9,7 +9,7 @@
  * Domain Path:         /languages
  * License:             GPLv3
  * License URI:         https://www.gnu.org/licenses/gpl-3.0.html
- * Version:             3.6.4.3
+ * Version:             3.6.4.4
  * Requires at least:   5.2
  * Requires PHP:        7.0
 */
@@ -22,7 +22,7 @@ if ( ! defined( 'UNCANNY_TOOLKIT_VERSION' ) ) {
 	/**
 	 *
 	 */
-	define( 'UNCANNY_TOOLKIT_VERSION', '3.6.4.3' );
+	define( 'UNCANNY_TOOLKIT_VERSION', '3.6.4.4' );
 }
 
 // Define prefix
@@ -102,19 +102,19 @@ function uo_upgrade_to_pro_link( $links ) {
 add_filter( 'plugin_action_links_' . $uncanny_learndash_toolkit_plugin_basename, 'uo_upgrade_to_pro_link', 99 );
 
 // Load breadcrumb front-end plugin function
-include_once( UNCANNY_TOOLKIT_DIR . '/src/includes/uncanny-breadcrumbs-function.php' );
+require_once UNCANNY_TOOLKIT_DIR . '/src/includes/uncanny-breadcrumbs-function.php';
 
 // Plugins Configurations File
-include_once( UNCANNY_TOOLKIT_DIR . '/src/config.php' );
+require_once UNCANNY_TOOLKIT_DIR . '/src/config.php';
 
 // Include the two factor functions.
-include_once( UNCANNY_TOOLKIT_DIR . '/src/includes/uo-toolkit-2fa-functions.php' );
+require_once UNCANNY_TOOLKIT_DIR . '/src/includes/uo-toolkit-2fa-functions.php';
 
 // Load all plugin classes(functionality)
-include_once( UNCANNY_TOOLKIT_DIR . '/src/boot.php' );
+require_once UNCANNY_TOOLKIT_DIR . '/src/boot.php';
 
 $boot                            = '\uncanny_learndash_toolkit\Boot';
-$uncanny_learndash_toolkit_class = new $boot;
+$uncanny_learndash_toolkit_class = new $boot();
 
 /**
  * Load notifications.
@@ -126,9 +126,12 @@ if ( class_exists( '\Uncanny_Owl\Notifications' ) ) {
 	$notifications = new \Uncanny_Owl\Notifications();
 
 	// On activate, persists/update `uncanny_owl_over_time_toolkit-free`.
-	register_activation_hook(  __FILE__,  function(){
-		update_option('uncanny_owl_over_time_toolkit-free', array( 'installed_date' => time() ), false );
-	});
+	register_activation_hook(
+		__FILE__,
+		function() {
+			update_option( 'uncanny_owl_over_time_toolkit-free', array( 'installed_date' => time() ), false );
+		}
+	);
 
 	// Initiate the Notifications handler, but only load once.
 	if ( false === \Uncanny_Owl\Notifications::$loaded ) {
@@ -138,5 +141,8 @@ if ( class_exists( '\Uncanny_Owl\Notifications' ) ) {
 		add_action( 'admin_init', array( $notifications, 'init' ) );
 
 	}
-
 }
+/**
+ * Load Uncanny Owl Assets.
+ */
+require_once __DIR__ . '/src/learndash-plugins-page/learndash-plugins-page.php';

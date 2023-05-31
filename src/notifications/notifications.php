@@ -4,6 +4,7 @@
  *
  * @version 1.0.0
  */
+
 namespace Uncanny_Owl;
 
 /**
@@ -169,7 +170,7 @@ if ( ! class_exists( 'Uncanny_Owl\Notifications' ) ) {
 			$current_page_requested = filter_input( INPUT_GET, 'page' );
 
 			return $this->is_current_page_matches_given_pattern( $current_page_requested ) // ReGex matching.
-			|| $this->is_current_page_learndash_toplevel(); // Manually show to specified learndash pages.
+			       || $this->is_current_page_learndash_toplevel(); // Manually show to specified learndash pages.
 
 		}
 
@@ -220,16 +221,18 @@ if ( ! class_exists( 'Uncanny_Owl\Notifications' ) ) {
 		 *
 		 * @param string $page The page to match.
 		 *
+		 * @return boolean True if current page matches the given pattern. Otherwise, false.
 		 * @see $this->get_patterns.
 		 *
-		 * @return boolean True if current page matches the given pattern. Otherwise, false.
 		 */
 		public function is_current_page_matches_given_pattern( $page = '' ) {
 
 			$has_matching_pattern = false;
 
 			foreach ( $this->get_patterns() as $pattern ) {
-
+				if ( null === $page ) {
+					continue;
+				}
 				preg_match( $pattern, $page, $matches );
 
 				if ( ! empty( $matches ) ) {
@@ -251,13 +254,15 @@ if ( ! class_exists( 'Uncanny_Owl\Notifications' ) ) {
 		public function is_current_page_learndash_toplevel() {
 
 			$pattern = '/((learndash(\-|\_)?(lms)?(\-|\_)?(.+)?)|(ld\-exam)|(group_admin_page)|(sfwd\-)?(courses|lessons|topics|topic|quizzes|quiz|essays|groups|assignment|certificate|certificates)?(\-options)?)/';
+			if ( filter_has_var( INPUT_GET, 'page' ) && filter_has_var( INPUT_GET, 'post_type' ) ) {
+				preg_match( $pattern, filter_input( INPUT_GET, 'page' ), $pages );
 
-			preg_match( $pattern, filter_input( INPUT_GET, 'page' ), $pages );
+				preg_match( $pattern, filter_input( INPUT_GET, 'post_type' ), $post_types );
 
-			preg_match( $pattern, filter_input( INPUT_GET, 'post_type' ), $post_types );
+				return ! empty( $pages[1] ) || ! empty( $post_types[1] );
+			}
 
-			return ! empty( $pages[1] ) || ! empty( $post_types[1] );
-
+			return false;
 		}
 
 		/**
@@ -429,7 +434,7 @@ if ( ! class_exists( 'Uncanny_Owl\Notifications' ) ) {
 						! empty( $over_time['installed_date'] ) &&
 						! empty( $loaded_notification['start'] ) &&
 						$over_time['installed_date'] > strtotime( $loaded_notification['start'] )
-						) {
+					) {
 						unset( $data[ $index ] );
 					}
 				}
@@ -459,9 +464,9 @@ if ( ! class_exists( 'Uncanny_Owl\Notifications' ) ) {
 			foreach ( $notifications as $key => $notification ) {
 
 				if (
-				( ! empty( $notification['start'] ) && time() < strtotime( $notification['start'] ) ) ||
-				( ! empty( $notification['end'] ) && time() > strtotime( $notification['end'] ) ) ||
-				( ! empty( $notification['type'] ) && ! array_intersect( $this->license_types, $notification['type'] ) )
+					( ! empty( $notification['start'] ) && time() < strtotime( $notification['start'] ) ) ||
+					( ! empty( $notification['end'] ) && time() > strtotime( $notification['end'] ) ) ||
+					( ! empty( $notification['type'] ) && ! array_intersect( $this->license_types, $notification['type'] ) )
 				) {
 					unset( $notifications[ $key ] );
 				}
@@ -685,7 +690,8 @@ if ( ! class_exists( 'Uncanny_Owl\Notifications' ) ) {
 					'update'    => time(),
 					'feed'      => $feed,
 					'events'    => $option['events'],
-					'dismissed' => array_slice( $option['dismissed'], 0, 30 ), // Limit dismissed notifications to last 30.
+					'dismissed' => array_slice( $option['dismissed'], 0, 30 ),
+					// Limit dismissed notifications to last 30.
 				),
 				false
 			);

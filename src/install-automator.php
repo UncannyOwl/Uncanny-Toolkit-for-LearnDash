@@ -67,6 +67,11 @@ class InstallAutomator extends Boot {
 
 		// Target Uncanny Automator installation page
 		if ( strpos( $hook, 'install-automator' ) ) {
+
+			// Remove all notices
+			remove_all_actions( 'user_admin_notices' );
+			remove_all_actions( 'admin_notices' );
+
 			wp_enqueue_style( 'install-automator', Config::get_admin_css( 'install-automator.css' ), array(), UNCANNY_TOOLKIT_VERSION );
 			wp_enqueue_style( 'google-fonts-css', 'https://fonts.googleapis.com/css?family=Nunito%3A700%2C800&#038', array(), UNCANNY_TOOLKIT_VERSION );
 
@@ -129,7 +134,7 @@ class InstallAutomator extends Boot {
 										'uncanny-learndash-toolkit'
 									),
 									'<strong>',
-									'</strong>',
+									'</strong>'
 								),
 								array(
 									'strong' => array(),
@@ -163,7 +168,7 @@ class InstallAutomator extends Boot {
 										'uncanny-learndash-toolkit'
 									),
 									'<strong>',
-									'</strong>',
+									'</strong>'
 								),
 								array(
 									'strong' => array(),
@@ -188,7 +193,7 @@ class InstallAutomator extends Boot {
 											'uncanny-learndash-toolkit'
 										),
 										'<strong>',
-										'</strong>',
+										'</strong>'
 									),
 									array(
 										'strong' => array(),
@@ -213,7 +218,7 @@ class InstallAutomator extends Boot {
 										'uncanny-learndash-toolkit'
 									),
 									'<strong>',
-									'</strong>',
+									'</strong>'
 								),
 								array(
 									'strong' => array(),

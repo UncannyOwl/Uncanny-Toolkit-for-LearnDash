@@ -2197,15 +2197,19 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 		$login_page = get_permalink( self::get_login_redirect_page_id() );
 
+		$query_args = array(
+			'login'       => 'failed',
+		);
+
 		// Append redirect_to parameters.
-		$redirect_to = filter_var( $_REQUEST['redirect_to'], FILTER_UNSAFE_RAW );
+		if( isset($_REQUEST['redirect_to']) && ! empty( $_REQUEST['redirect_to'] ) ) {
+			$redirect_to = filter_var( $_REQUEST['redirect_to'], FILTER_UNSAFE_RAW );
+			$query_args['redirect_to'] = urlencode( $redirect_to );
+		}
 
 		// Construct the new url.
 		$redirect_url = add_query_arg(
-			array(
-				'login'       => 'failed',
-				'redirect_to' => urlencode( $redirect_to ),
-			),
+			$query_args,
 			$login_page
 		);
 

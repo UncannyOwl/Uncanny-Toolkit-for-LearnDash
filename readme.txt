@@ -1,17 +1,17 @@
 === Uncanny Toolkit for LearnDash ===
 Contributors: uncannyowl
 Tags: LearnDash, eLearning, LMS, education, learning, courseware
-Requires at least: 5.2
-Tested up to: 6.1.1
-Requires PHP: 7.2
-Stable tag: 3.6.4.3
+Requires at least: 5.3
+Tested up to: 6.2.2
+Requires PHP: 7.4
+Stable tag: 3.6.4.4
 License: This plugin is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or any later version. Uncanny Toolkit for LearnDash is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with Uncanny Toolkit for LearnDash. If not, see https://www.gnu.org/licenses/gpl-3.0.html.
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
 Extend LearnDash with a variety of useful functions that make it even easier to build great learner experiences with LearnDash.
 
 == Description ==
-**Important: This plugin requires PHP 7.2 or higher and LearnDash 3.6 or higher.**
+**Important: This plugin requires PHP 7.4 or higher and LearnDash 4.2 or higher.**
 
 The Uncanny Toolkit for LearnDash adds 16 modules that every elearning site needs, including a login form, login redirect, resume capabilities and more. Trusted to power over **30,000+** LearnDash sites, it's the easiest way to improve the learning experience for your students. Translation ready and multisite capable!
 
@@ -97,6 +97,21 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 3. LearnDash Resume Button module - works at a global or course level
 
 == Changelog ==
+
+= 3.6.4.4 [2023-05-31] =
+
+**Updated:**
+
+* Allow review requests to be dismissed even if REST API blocked #334
+* Load static assets from inside the plugin #335
+* Suppress admin notices on Automation page #308
+
+**Fixed:**
+
+* Install Automator - PHP Error in a specific situation #337
+* Front End Login - PHP warning for `redirect_to` param #328
+* Vulnerability - Update `redirect_url` param for `review-banner-visibility` endpoint to use `wp_safe_redirect` #331
+* Vulnerability - Fix `permissions_callback` for `review-banner-visibility` endpoint #330
 
 = 3.6.4.3 [2023-03-06] =
 

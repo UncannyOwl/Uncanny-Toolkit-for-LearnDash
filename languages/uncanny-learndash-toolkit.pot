@@ -2,16 +2,16 @@
 # This file is distributed under the GPLv3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Uncanny Toolkit for LearnDash 3.6.4.3\n"
+"Project-Id-Version: Uncanny Toolkit for LearnDash 3.6.4.4\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/uncanny-learndash-toolkit\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-03-06T19:12:03+00:00\n"
+"POT-Creation-Date: 2023-05-30T21:11:42+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.6.0\n"
+"X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: uncanny-learndash-toolkit\n"
 
 #. Plugin Name of the plugin
@@ -636,8 +636,8 @@ msgid "Invalid Credentials Message"
 msgstr ""
 
 #: src/classes/frontend-login-plus.php:945
-#: src/classes/frontend-login-plus.php:2985
-#: src/classes/frontend-login-plus.php:3109
+#: src/classes/frontend-login-plus.php:2989
+#: src/classes/frontend-login-plus.php:3113
 #: src/templates/frontend-login/layout_1-login.php:13
 msgid "Invalid username and/or password."
 msgstr ""
@@ -871,73 +871,73 @@ msgstr ""
 msgid "We haven't verified this account."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:2676
+#: src/classes/frontend-login-plus.php:2680
 msgid "Note: This page has been set as the login page for this site. The form below has been added for your convenience. To hide this message, add the shortcode [uo_login_ui] or the Front End Login Gutenberg block to this page."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:2833
+#: src/classes/frontend-login-plus.php:2837
 msgid "<strong>ERROR</strong>: Password fields cannot be empty."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:2836
+#: src/classes/frontend-login-plus.php:2840
 msgid "<strong>ERROR</strong>: Passwords do not match."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:2843
+#: src/classes/frontend-login-plus.php:2847
 msgid "<strong>ERROR</strong>: Please enter a password of minimum 8 characters including at least 1 uppercase letter, 1 lowercase letter and 1 number."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:3094
+#: src/classes/frontend-login-plus.php:3098
 #: src/templates/frontend-login/layout_1-login.php:23
 msgid "This account is not verified."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:3217
+#: src/classes/frontend-login-plus.php:3221
 msgid "Invalid username/email."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:3335
+#: src/classes/frontend-login-plus.php:3339
 msgid "<strong>ERROR</strong>: Enter a username or email address."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:3339
-#: src/classes/frontend-login-plus.php:3363
+#: src/classes/frontend-login-plus.php:3343
+#: src/classes/frontend-login-plus.php:3367
 msgid "<strong>ERROR</strong>: There is no account with that username or email address."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:3387
+#: src/classes/frontend-login-plus.php:3391
 msgid "Someone has requested a password reset for the following account:"
 msgstr ""
 
 #. translators: %s: site name
-#: src/classes/frontend-login-plus.php:3389
+#: src/classes/frontend-login-plus.php:3393
 msgid "Site Name: %s"
 msgstr ""
 
 #. translators: %s: user login
-#: src/classes/frontend-login-plus.php:3391
+#: src/classes/frontend-login-plus.php:3395
 msgid "Username: %s"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:3392
+#: src/classes/frontend-login-plus.php:3396
 msgid "If this was a mistake, just ignore this email and nothing will happen."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:3393
+#: src/classes/frontend-login-plus.php:3397
 msgid "To reset your password, visit the following address:"
 msgstr ""
 
 #. translators: Password reset notification email subject. %s: Site title
-#: src/classes/frontend-login-plus.php:3397
+#: src/classes/frontend-login-plus.php:3401
 msgid "[%s] Password Reset"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:3428
+#: src/classes/frontend-login-plus.php:3432
 msgid "The email could not be sent. Possible reason: your host may have disabled the mail() function."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:3456
-#: src/classes/frontend-login-plus.php:3512
+#: src/classes/frontend-login-plus.php:3460
+#: src/classes/frontend-login-plus.php:3516
 msgid "Password fields cannot be empty."
 msgstr ""
 
@@ -1433,191 +1433,191 @@ msgstr ""
 msgid "Automation"
 msgstr ""
 
-#: src/install-automator.php:90
+#: src/install-automator.php:95
 msgid "Take your site to the next level with Uncanny Automator"
 msgstr ""
 
-#: src/install-automator.php:92
+#: src/install-automator.php:97
 msgid "Finding Uncanny Toolkit useful for your LearnDash site?"
 msgstr ""
 
-#: src/install-automator.php:93
+#: src/install-automator.php:98
 msgid "You'll love"
 msgstr ""
 
-#: src/install-automator.php:93
-#: src/install-automator.php:100
-#: src/install-automator.php:242
-#: src/install-automator.php:305
+#: src/install-automator.php:98
+#: src/install-automator.php:105
+#: src/install-automator.php:247
+#: src/install-automator.php:310
 msgid "Uncanny Automator"
 msgstr ""
 
-#: src/install-automator.php:93
+#: src/install-automator.php:98
 msgid "Best of all,"
 msgstr ""
 
-#: src/install-automator.php:93
+#: src/install-automator.php:98
 msgid "it's free!"
 msgstr ""
 
-#: src/install-automator.php:101
-#: src/install-automator.php:306
+#: src/install-automator.php:106
+#: src/install-automator.php:311
 msgid "By the creators of Uncanny Toolkit"
 msgstr ""
 
-#: src/install-automator.php:117
+#: src/install-automator.php:122
 msgid "How it works"
 msgstr ""
 
-#: src/install-automator.php:119
+#: src/install-automator.php:124
 msgid "Use Uncanny Automator to get your favourite plugins and apps talking to each other —"
 msgstr ""
 
-#: src/install-automator.php:120
+#: src/install-automator.php:125
 msgid "without hiring a developer to write custom code."
 msgstr ""
 
-#: src/install-automator.php:121
+#: src/install-automator.php:126
 msgid "Here are a few examples:"
 msgstr ""
 
-#: src/install-automator.php:127
+#: src/install-automator.php:132
 msgid "When a user completes a course and fills out an evaluation form, add a row with the form entries to a %1$sGoogle Sheet%2$s and add the user to alumni %1$sBuddyBoss%2$s and %1$sLearnDash%2$s groups."
 msgstr ""
 
-#: src/install-automator.php:139
+#: src/install-automator.php:144
 msgid "When a user completes a course and fills out an evaluation form, add a row with the form entries to a"
 msgstr ""
 
-#: src/install-automator.php:140
+#: src/install-automator.php:145
 msgid "Google Sheet"
 msgstr ""
 
-#: src/install-automator.php:141
+#: src/install-automator.php:146
 msgid "and add the user to alumni"
 msgstr ""
 
-#: src/install-automator.php:142
+#: src/install-automator.php:147
 msgid "BuddyBoss"
 msgstr ""
 
-#: src/install-automator.php:143
+#: src/install-automator.php:148
 msgid "and"
 msgstr ""
 
-#: src/install-automator.php:144
+#: src/install-automator.php:149
 #: src/templates/admin-modules.php:135
 msgid "LearnDash"
 msgstr ""
 
-#: src/install-automator.php:145
+#: src/install-automator.php:150
 msgid " groups."
 msgstr ""
 
-#: src/install-automator.php:148
-#: src/install-automator.php:174
-#: src/install-automator.php:199
-#: src/install-automator.php:224
+#: src/install-automator.php:153
+#: src/install-automator.php:179
+#: src/install-automator.php:204
+#: src/install-automator.php:229
 msgid "Requires"
 msgstr ""
 
-#: src/install-automator.php:161
+#: src/install-automator.php:166
 msgid "When a new blog post is published, automatically post it to %1$sTwitter%2$s and email the post to a %1$sMailChimp%2$s list."
 msgstr ""
 
-#: src/install-automator.php:186
+#: src/install-automator.php:191
 msgid "When a user purchases a product, register them for a live event in %1$sEvents Calendar%2$s add them to a %1$sLearnDash%2$s group and send a %1$sWooCommerce%2$s coupon code for their next order."
 msgstr ""
 
-#: src/install-automator.php:211
+#: src/install-automator.php:216
 msgid "When a user clicks a button, register them for a %1$sZoom%2$s webinar, reset their progress in one course and enroll them in another course."
 msgstr ""
 
-#: src/install-automator.php:242
+#: src/install-automator.php:247
 msgid "supports"
 msgstr ""
 
-#: src/install-automator.php:242
+#: src/install-automator.php:247
 msgid "all of the most popular WordPress plugins"
 msgstr ""
 
-#: src/install-automator.php:242
+#: src/install-automator.php:247
 msgid "and we're adding new integrations all the time. The possibilities are limitless."
 msgstr ""
 
-#: src/install-automator.php:246
+#: src/install-automator.php:251
 msgid "Choose any combination of triggers"
 msgstr ""
 
-#: src/install-automator.php:250
+#: src/install-automator.php:255
 msgid "Users complete a lesson"
 msgstr ""
 
-#: src/install-automator.php:251
+#: src/install-automator.php:256
 msgid "Users are added to a group"
 msgstr ""
 
-#: src/install-automator.php:252
+#: src/install-automator.php:257
 msgid "Users fill out a form"
 msgstr ""
 
-#: src/install-automator.php:253
+#: src/install-automator.php:258
 msgid "Users register for an event"
 msgstr ""
 
-#: src/install-automator.php:254
+#: src/install-automator.php:259
 msgid "Users buy a product"
 msgstr ""
 
-#: src/install-automator.php:255
+#: src/install-automator.php:260
 msgid "Users complete a course"
 msgstr ""
 
-#: src/install-automator.php:256
+#: src/install-automator.php:261
 msgid "Users fail a quiz"
 msgstr ""
 
-#: src/install-automator.php:264
+#: src/install-automator.php:269
 msgid "...to initiate any combination of actions"
 msgstr ""
 
-#: src/install-automator.php:268
+#: src/install-automator.php:273
 msgid "Add users to a group"
 msgstr ""
 
-#: src/install-automator.php:269
+#: src/install-automator.php:274
 msgid "Send an email"
 msgstr ""
 
-#: src/install-automator.php:270
+#: src/install-automator.php:275
 msgid "Mark a lesson complete"
 msgstr ""
 
-#: src/install-automator.php:271
+#: src/install-automator.php:276
 msgid "Unlock a new course"
 msgstr ""
 
-#: src/install-automator.php:272
+#: src/install-automator.php:277
 msgid "Reset course progress"
 msgstr ""
 
-#: src/install-automator.php:273
+#: src/install-automator.php:278
 msgid "Trigger a Zapier webhook"
 msgstr ""
 
-#: src/install-automator.php:274
+#: src/install-automator.php:279
 msgid "Add a tag in Infusionsoft"
 msgstr ""
 
-#: src/install-automator.php:295
+#: src/install-automator.php:300
 msgid "Build better experiences for your users while saving money on custom development. And save"
 msgstr ""
 
-#: src/install-automator.php:296
+#: src/install-automator.php:301
 msgid "your"
 msgstr ""
 
-#: src/install-automator.php:297
+#: src/install-automator.php:302
 msgid "time by automating routine tasks — all with no code."
 msgstr ""
 

@@ -32,7 +32,6 @@ class Boot extends Config {
 		$uncanny_learndash_toolkit->admin_menu        = new AdminMenu();
 		$uncanny_learndash_toolkit->install_automator = new InstallAutomator();
 		add_action( 'admin_menu', array( __CLASS__, 'uo_support_menu' ) );
-		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'uo_admin_support_css' ) );
 		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'uo_frontend_assets' ) );
 		// Add admin menu ajax class to load and save settings
 		// parent class is Config
@@ -74,8 +73,9 @@ class Boot extends Config {
 		// Import One Click Installer
 		require_once dirname( __FILE__ ) . '/uncanny-one-click-installer/class-auto-plugin-install.php';
 
-		add_action( 'rest_api_init', array( $this, 'uo_register_api' ) );
+		//add_action( 'rest_api_init', array( $this, 'uo_register_api' ) );
 		add_action( 'admin_init', array( $this, 'maybe_ask_review' ) );
+		add_action( 'admin_init', array( $this, 'maybe_save_review_without_rest' ) );
 
 		// Plugin API override
 		require_once dirname( __FILE__ ) . '/plugin-api-override.php';
@@ -193,6 +193,9 @@ class Boot extends Config {
 		);
 	}
 
+	/**
+	 * @return bool
+	 */
 	private static function ld_is_preventing_concurrent_login() {
 		// Get option
 		$option = get_option( 'learndash_settings_ld_integrity' );
@@ -200,19 +203,6 @@ class Boot extends Config {
 		// Check if it exists and the value if "yes"
 		// Condition from /learndash-integrity/includes/class-prevent-concurrent-login.php:30
 		return isset( $option['prevent_concurrent_login'] ) && 'yes' == $option['prevent_concurrent_login'];
-	}
-
-	/**
-	 * uo_admin_support_css
-	 *
-	 * @return void
-	 */
-	public static function uo_admin_support_css() {
-		$pages_to_include = array( 'uncanny-toolkit-plugins', 'uncanny-toolkit-kb' );
-		if ( isset( $_GET['page'] ) && in_array( $_GET['page'], $pages_to_include ) ) {
-			wp_enqueue_style( 'uncannyowl-core', 'https://uncannyowl.com/wp-content/mu-plugins/uncanny-plugins-core/dist/bundle.min.css', array(), UNCANNY_TOOLKIT_VERSION );
-			wp_enqueue_script( 'uncannyowl-core', 'https://uncannyowl.com/wp-content/mu-plugins/uncanny-plugins-core/dist/bundle.min.js', array( 'jquery' ), UNCANNY_TOOLKIT_VERSION );
-		}
 	}
 
 	/**
@@ -258,6 +248,7 @@ class Boot extends Config {
 	 * Register rest api calls for misc tasks.
 	 *
 	 * @since 3.3
+	 * @deprecated
 	 */
 	public function uo_register_api() {
 		register_rest_route(
@@ -266,11 +257,20 @@ class Boot extends Config {
 			array(
 				'methods'             => 'GET',
 				'callback'            => array( $this, 'save_review_settings' ),
-				'permission_callback' => '__return_true',
+				'permission_callback' => array( $this, 'check_user_permission' ),
 			)
 		);
 	}
 
+	/**
+	 * Check current user permission.
+	 *
+	 * @since 3.6
+	 * @deprecated
+	 */
+	public function check_user_permission() {
+		return current_user_can( 'manage_options' );
+	}
 
 	/**
 	 * Admin notice for review this plugin.
@@ -363,7 +363,7 @@ class Boot extends Config {
 				'redirect'     => $redirect,
 				'redirect_url' => rawurlencode( $redirect_url ),
 			),
-			get_rest_url() . UNCANNY_TOOLKIT_REST_API_END_POINT . '/review-banner-visibility/'
+			admin_url( 'admin.php' )
 		);
 
 	}
@@ -375,6 +375,7 @@ class Boot extends Config {
 	 *
 	 * @return object
 	 * @since 2.1.4
+	 * @depecated
 	 */
 	public function save_review_settings( $request ) {
 
@@ -402,7 +403,7 @@ class Boot extends Config {
 
 				}
 
-				wp_redirect( $redirect_url ); //phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect
+				wp_safe_redirect( esc_url( $redirect_url ) ); //phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect
 
 				exit;
 
@@ -422,4 +423,45 @@ class Boot extends Config {
 
 	}
 
+	/**
+	 * @return void
+	 */
+	public function maybe_save_review_without_rest() {
+		if ( ! filter_has_var( INPUT_GET, 'action' ) ) {
+			return;
+		}
+		$action            = filter_input( INPUT_GET, 'action' );
+		$visiblity_actions = array( 'maybe-later', 'hide-forever' );
+		if ( ! in_array( $action, $visiblity_actions, true ) ) {
+			return;
+		}
+
+		$redirect = filter_input( INPUT_GET, 'redirect' );
+
+		$redirect_url = filter_input( INPUT_GET, 'redirect_url' );
+
+
+		update_option( '_uncanny_toolkit_review_reminder', $action );
+
+		update_option( '_uncanny_toolkit_review_reminder_date', current_time( 'timestamp' ) );
+
+		if ( 'yes' === $redirect ) {
+
+			// Return the refering url if its empty.
+			if ( empty( $redirect_url ) ) {
+
+				$redirect_url = wp_get_referer();
+
+			}
+
+			wp_safe_redirect( esc_url( $redirect_url ) ); //phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect
+
+			exit;
+
+		}
+		//default
+		wp_safe_redirect( admin_url( 'admin.php?page=uncanny-toolkit' ) ); //phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect
+
+		exit;
+	}
 }
