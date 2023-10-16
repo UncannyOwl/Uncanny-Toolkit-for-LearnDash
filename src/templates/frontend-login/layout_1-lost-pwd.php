@@ -56,7 +56,10 @@ $login_page_url  = get_permalink( $login_page );
 					<?php do_action( 'uo_forgot_before_description' ); ?>
 
 	                <div class="ult-form__description">
-						<?php echo $innerText[ 'Password-Recovery-Desc' ]; ?>
+						<?php 
+						if ( ! isset( $forgot_password_response ) ) {
+							echo $innerText[ 'Password-Recovery-Desc' ]; 
+						} ?>
 	                </div>
 					
 					<?php do_action( 'uo_forgot_before_form' ); ?>

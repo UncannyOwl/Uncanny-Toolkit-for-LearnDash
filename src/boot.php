@@ -430,6 +430,9 @@ class Boot extends Config {
 		if ( ! filter_has_var( INPUT_GET, 'action' ) ) {
 			return;
 		}
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
 		$action            = filter_input( INPUT_GET, 'action' );
 		$visiblity_actions = array( 'maybe-later', 'hide-forever' );
 		if ( ! in_array( $action, $visiblity_actions, true ) ) {

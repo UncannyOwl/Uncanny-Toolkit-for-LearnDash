@@ -2,16 +2,16 @@
 # This file is distributed under the GPLv3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Uncanny Toolkit for LearnDash 3.6.4.4\n"
+"Project-Id-Version: Uncanny Toolkit for LearnDash 3.6.4.5\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/uncanny-learndash-toolkit\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-05-30T21:11:42+00:00\n"
+"POT-Creation-Date: 2023-10-16T14:59:42+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.7.1\n"
+"X-Generator: WP-CLI 2.8.1\n"
 "X-Domain: uncanny-learndash-toolkit\n"
 
 #. Plugin Name of the plugin
@@ -1265,86 +1265,102 @@ msgstr ""
 #: src/includes/class-frontend-login-plus-2fa-2-3.php:310
 #: src/includes/class-frontend-login-plus-2fa-2-3.php:331
 #: src/includes/class-frontend-login-plus-2fa-2-3.php:350
+#: src/includes/class-frontend-login-plus-2fa-2-4.php:305
+#: src/includes/class-frontend-login-plus-2fa-2-4.php:315
+#: src/includes/class-frontend-login-plus-2fa-2-4.php:345
+#: src/includes/class-frontend-login-plus-2fa-2-4.php:370
 #: src/includes/class-frontend-login-plus-2fa-legacy.php:295
 #: src/includes/class-frontend-login-plus-2fa-legacy.php:305
 #: src/includes/class-frontend-login-plus-2fa-legacy.php:326
 #: src/includes/class-frontend-login-plus-2fa-legacy.php:345
 #: src/includes/class-frontend-login-plus-2fa.php:305
 #: src/includes/class-frontend-login-plus-2fa.php:315
-#: src/includes/class-frontend-login-plus-2fa.php:345
-#: src/includes/class-frontend-login-plus-2fa.php:370
+#: src/includes/class-frontend-login-plus-2fa.php:344
+#: src/includes/class-frontend-login-plus-2fa.php:369
 msgid "Failed to create a login nonce."
 msgstr ""
 
 #: src/includes/class-frontend-login-plus-2fa-2-3.php:357
+#: src/includes/class-frontend-login-plus-2fa-2-4.php:377
 #: src/includes/class-frontend-login-plus-2fa-legacy.php:352
-#: src/includes/class-frontend-login-plus-2fa.php:377
+#: src/includes/class-frontend-login-plus-2fa.php:376
 msgid "A new code has been sent."
 msgstr ""
 
 #: src/includes/class-frontend-login-plus-2fa-2-3.php:465
+#: src/includes/class-frontend-login-plus-2fa-2-4.php:498
 #: src/includes/class-frontend-login-plus-2fa-legacy.php:460
-#: src/includes/class-frontend-login-plus-2fa.php:498
+#: src/includes/class-frontend-login-plus-2fa.php:497
 msgid "ERROR: Failed to create a login nonce."
 msgstr ""
 
 #: src/includes/class-frontend-login-plus-2fa-2-3.php:481
+#: src/includes/class-frontend-login-plus-2fa-2-4.php:514
 #: src/includes/class-frontend-login-plus-2fa-legacy.php:476
-#: src/includes/class-frontend-login-plus-2fa.php:514
+#: src/includes/class-frontend-login-plus-2fa.php:513
 msgid "ERROR: Invalid verification code."
 msgstr ""
 
 #: src/includes/class-frontend-login-plus-2fa-2-3.php:498
-#: src/includes/class-frontend-login-plus-2fa.php:531
+#: src/includes/class-frontend-login-plus-2fa-2-4.php:531
+#: src/includes/class-frontend-login-plus-2fa.php:530
 msgid "ERROR: Session is invalid or has expired."
 msgstr ""
 
 #: src/includes/class-frontend-login-plus-2fa-2-3.php:500
+#: src/includes/class-frontend-login-plus-2fa-2-4.php:533
 #: src/includes/class-frontend-login-plus-2fa-legacy.php:495
-#: src/includes/class-frontend-login-plus-2fa.php:533
+#: src/includes/class-frontend-login-plus-2fa.php:532
 msgid "ERROR: Cannot display authentication form."
 msgstr ""
 
 #: src/includes/class-frontend-login-plus-2fa-2-3.php:507
+#: src/includes/class-frontend-login-plus-2fa-2-4.php:540
 #: src/includes/class-frontend-login-plus-2fa-legacy.php:502
-#: src/includes/class-frontend-login-plus-2fa.php:540
+#: src/includes/class-frontend-login-plus-2fa.php:539
 msgid "Return to login form"
 msgstr ""
 
 #: src/includes/class-frontend-login-plus-2fa-2-3.php:509
+#: src/includes/class-frontend-login-plus-2fa-2-4.php:542
 #: src/includes/class-frontend-login-plus-2fa-legacy.php:504
-#: src/includes/class-frontend-login-plus-2fa.php:542
+#: src/includes/class-frontend-login-plus-2fa.php:541
 msgid "Go back to login form"
 msgstr ""
 
 #: src/includes/class-frontend-login-plus-2fa-2-3.php:598
+#: src/includes/class-frontend-login-plus-2fa-2-4.php:631
 #: src/includes/class-frontend-login-plus-2fa-legacy.php:595
-#: src/includes/class-frontend-login-plus-2fa.php:631
+#: src/includes/class-frontend-login-plus-2fa.php:630
 msgid "A new verification code has been sent to your email."
 msgstr ""
 
 #: src/includes/class-frontend-login-plus-2fa-2-3.php:679
+#: src/includes/class-frontend-login-plus-2fa-2-4.php:712
 #: src/includes/class-frontend-login-plus-2fa-legacy.php:636
-#: src/includes/class-frontend-login-plus-2fa.php:712
+#: src/includes/class-frontend-login-plus-2fa.php:711
 msgid "Or, use a backup code."
 msgstr ""
 
 #: src/includes/class-frontend-login-plus-2fa-2-3.php:685
+#: src/includes/class-frontend-login-plus-2fa-2-4.php:718
 #: src/includes/class-frontend-login-plus-2fa-legacy.php:642
-#: src/includes/class-frontend-login-plus-2fa.php:718
+#: src/includes/class-frontend-login-plus-2fa.php:717
 msgid "Or, go back to login form."
 msgstr ""
 
 #: src/includes/class-frontend-login-plus-2fa-2-3.php:695
+#: src/includes/class-frontend-login-plus-2fa-2-4.php:728
 #: src/includes/class-frontend-login-plus-2fa-legacy.php:650
-#: src/includes/class-frontend-login-plus-2fa.php:728
+#: src/includes/class-frontend-login-plus-2fa.php:727
 msgid "Are you lost?"
 msgstr ""
 
 #. translators: %s: site name.
 #: src/includes/class-frontend-login-plus-2fa-2-3.php:700
+#: src/includes/class-frontend-login-plus-2fa-2-4.php:733
 #: src/includes/class-frontend-login-plus-2fa-legacy.php:655
-#: src/includes/class-frontend-login-plus-2fa.php:733
+#: src/includes/class-frontend-login-plus-2fa.php:732
 msgid "&larr; Back to %s"
 msgstr ""
 
@@ -1352,80 +1368,80 @@ msgstr ""
 msgid "ERROR: Session is invalid or have expired."
 msgstr ""
 
-#: src/includes/uo-toolkit-2fa-functions.php:163
+#: src/includes/uo-toolkit-2fa-functions.php:167
 msgid "Two-Factor authentication"
 msgstr ""
 
-#: src/includes/uo-toolkit-2fa-functions.php:169
-#: src/includes/uo-toolkit-2fa-functions.php:222
+#: src/includes/uo-toolkit-2fa-functions.php:173
+#: src/includes/uo-toolkit-2fa-functions.php:226
 msgid "Uncanny Toolkit integrates with the free WP 2FA plugin to support two factor login authentication."
 msgstr ""
 
 #. translators: %s will be replaced with a "string" - state of the plugin
-#: src/includes/uo-toolkit-2fa-functions.php:178
+#: src/includes/uo-toolkit-2fa-functions.php:182
 msgid "WP 2FA is currently %s."
 msgstr ""
 
-#: src/includes/uo-toolkit-2fa-functions.php:179
+#: src/includes/uo-toolkit-2fa-functions.php:183
 msgid "active"
 msgstr ""
 
 #. translators: %s will be replaced with a "string" - state of the plugin
-#: src/includes/uo-toolkit-2fa-functions.php:184
+#: src/includes/uo-toolkit-2fa-functions.php:188
 msgid "Integration is currently %s. Choose a login page in the Front End Logins settings above to use WP 2FA with the front end login."
 msgstr ""
 
-#: src/includes/uo-toolkit-2fa-functions.php:185
+#: src/includes/uo-toolkit-2fa-functions.php:189
 msgid "inactive"
 msgstr ""
 
-#: src/includes/uo-toolkit-2fa-functions.php:194
+#: src/includes/uo-toolkit-2fa-functions.php:198
 msgid "Go to"
 msgstr ""
 
-#: src/includes/uo-toolkit-2fa-functions.php:198
+#: src/includes/uo-toolkit-2fa-functions.php:202
 msgid "WP-ADMIN > Settings > Two-factor Authentication"
 msgstr ""
 
-#: src/includes/uo-toolkit-2fa-functions.php:199
+#: src/includes/uo-toolkit-2fa-functions.php:203
 msgid "WP 2FA Settings"
 msgstr ""
 
-#: src/includes/uo-toolkit-2fa-functions.php:201
+#: src/includes/uo-toolkit-2fa-functions.php:205
 msgid "to configure 2FA settings."
 msgstr ""
 
 #. translators: %1$s The uninstall text %2$s The WP 2FA plugin label
-#: src/includes/uo-toolkit-2fa-functions.php:209
+#: src/includes/uo-toolkit-2fa-functions.php:213
 msgid "%1$s the %2$s plugin to remove the integration."
 msgstr ""
 
-#: src/includes/uo-toolkit-2fa-functions.php:210
+#: src/includes/uo-toolkit-2fa-functions.php:214
 msgid "Show active plugins"
 msgstr ""
 
-#: src/includes/uo-toolkit-2fa-functions.php:210
+#: src/includes/uo-toolkit-2fa-functions.php:214
 msgid "Uninstall/Disable"
 msgstr ""
 
-#: src/includes/uo-toolkit-2fa-functions.php:211
+#: src/includes/uo-toolkit-2fa-functions.php:215
 msgid "WP 2FA – Two-factor"
 msgstr ""
 
-#: src/includes/uo-toolkit-2fa-functions.php:231
-#: src/includes/uo-toolkit-2fa-functions.php:232
+#: src/includes/uo-toolkit-2fa-functions.php:235
+#: src/includes/uo-toolkit-2fa-functions.php:236
 msgid "WP 2FA"
 msgstr ""
 
-#: src/includes/uo-toolkit-2fa-functions.php:235
+#: src/includes/uo-toolkit-2fa-functions.php:239
 msgid "is a free two-factor authentication plugin for WordPress. WP 2FA is a third-party plugin managed by"
 msgstr ""
 
-#: src/includes/uo-toolkit-2fa-functions.php:237
+#: src/includes/uo-toolkit-2fa-functions.php:241
 msgid "WP White Security"
 msgstr ""
 
-#: src/includes/uo-toolkit-2fa-functions.php:238
+#: src/includes/uo-toolkit-2fa-functions.php:242
 msgid "WP White Security."
 msgstr ""
 
@@ -1447,8 +1463,8 @@ msgstr ""
 
 #: src/install-automator.php:98
 #: src/install-automator.php:105
-#: src/install-automator.php:247
-#: src/install-automator.php:310
+#: src/install-automator.php:239
+#: src/install-automator.php:302
 msgid "Uncanny Automator"
 msgstr ""
 
@@ -1461,7 +1477,7 @@ msgid "it's free!"
 msgstr ""
 
 #: src/install-automator.php:106
-#: src/install-automator.php:311
+#: src/install-automator.php:303
 msgid "By the creators of Uncanny Toolkit"
 msgstr ""
 
@@ -1485,139 +1501,110 @@ msgstr ""
 msgid "When a user completes a course and fills out an evaluation form, add a row with the form entries to a %1$sGoogle Sheet%2$s and add the user to alumni %1$sBuddyBoss%2$s and %1$sLearnDash%2$s groups."
 msgstr ""
 
-#: src/install-automator.php:144
-msgid "When a user completes a course and fills out an evaluation form, add a row with the form entries to a"
-msgstr ""
-
 #: src/install-automator.php:145
-msgid "Google Sheet"
-msgstr ""
-
-#: src/install-automator.php:146
-msgid "and add the user to alumni"
-msgstr ""
-
-#: src/install-automator.php:147
-msgid "BuddyBoss"
-msgstr ""
-
-#: src/install-automator.php:148
-msgid "and"
-msgstr ""
-
-#: src/install-automator.php:149
-#: src/templates/admin-modules.php:135
-msgid "LearnDash"
-msgstr ""
-
-#: src/install-automator.php:150
-msgid " groups."
-msgstr ""
-
-#: src/install-automator.php:153
-#: src/install-automator.php:179
-#: src/install-automator.php:204
-#: src/install-automator.php:229
+#: src/install-automator.php:171
+#: src/install-automator.php:196
+#: src/install-automator.php:221
 msgid "Requires"
 msgstr ""
 
-#: src/install-automator.php:166
+#: src/install-automator.php:158
 msgid "When a new blog post is published, automatically post it to %1$sTwitter%2$s and email the post to a %1$sMailChimp%2$s list."
 msgstr ""
 
-#: src/install-automator.php:191
+#: src/install-automator.php:183
 msgid "When a user purchases a product, register them for a live event in %1$sEvents Calendar%2$s add them to a %1$sLearnDash%2$s group and send a %1$sWooCommerce%2$s coupon code for their next order."
 msgstr ""
 
-#: src/install-automator.php:216
+#: src/install-automator.php:208
 msgid "When a user clicks a button, register them for a %1$sZoom%2$s webinar, reset their progress in one course and enroll them in another course."
 msgstr ""
 
-#: src/install-automator.php:247
+#: src/install-automator.php:239
 msgid "supports"
 msgstr ""
 
-#: src/install-automator.php:247
+#: src/install-automator.php:239
 msgid "all of the most popular WordPress plugins"
 msgstr ""
 
-#: src/install-automator.php:247
+#: src/install-automator.php:239
 msgid "and we're adding new integrations all the time. The possibilities are limitless."
 msgstr ""
 
-#: src/install-automator.php:251
+#: src/install-automator.php:243
 msgid "Choose any combination of triggers"
 msgstr ""
 
-#: src/install-automator.php:255
+#: src/install-automator.php:247
 msgid "Users complete a lesson"
 msgstr ""
 
-#: src/install-automator.php:256
+#: src/install-automator.php:248
 msgid "Users are added to a group"
 msgstr ""
 
-#: src/install-automator.php:257
+#: src/install-automator.php:249
 msgid "Users fill out a form"
 msgstr ""
 
-#: src/install-automator.php:258
+#: src/install-automator.php:250
 msgid "Users register for an event"
 msgstr ""
 
-#: src/install-automator.php:259
+#: src/install-automator.php:251
 msgid "Users buy a product"
 msgstr ""
 
-#: src/install-automator.php:260
+#: src/install-automator.php:252
 msgid "Users complete a course"
 msgstr ""
 
-#: src/install-automator.php:261
+#: src/install-automator.php:253
 msgid "Users fail a quiz"
 msgstr ""
 
-#: src/install-automator.php:269
+#: src/install-automator.php:261
 msgid "...to initiate any combination of actions"
 msgstr ""
 
-#: src/install-automator.php:273
+#: src/install-automator.php:265
 msgid "Add users to a group"
 msgstr ""
 
-#: src/install-automator.php:274
+#: src/install-automator.php:266
 msgid "Send an email"
 msgstr ""
 
-#: src/install-automator.php:275
+#: src/install-automator.php:267
 msgid "Mark a lesson complete"
 msgstr ""
 
-#: src/install-automator.php:276
+#: src/install-automator.php:268
 msgid "Unlock a new course"
 msgstr ""
 
-#: src/install-automator.php:277
+#: src/install-automator.php:269
 msgid "Reset course progress"
 msgstr ""
 
-#: src/install-automator.php:278
+#: src/install-automator.php:270
 msgid "Trigger a Zapier webhook"
 msgstr ""
 
-#: src/install-automator.php:279
+#: src/install-automator.php:271
 msgid "Add a tag in Infusionsoft"
 msgstr ""
 
-#: src/install-automator.php:300
+#: src/install-automator.php:292
 msgid "Build better experiences for your users while saving money on custom development. And save"
 msgstr ""
 
-#: src/install-automator.php:301
+#: src/install-automator.php:293
 msgid "your"
 msgstr ""
 
-#: src/install-automator.php:302
+#: src/install-automator.php:294
 msgid "time by automating routine tasks — all with no code."
 msgstr ""
 
@@ -1691,6 +1678,10 @@ msgstr ""
 
 #: src/templates/admin-modules.php:132
 msgid "All categories"
+msgstr ""
+
+#: src/templates/admin-modules.php:135
+msgid "LearnDash"
 msgstr ""
 
 #: src/templates/admin-modules.php:138

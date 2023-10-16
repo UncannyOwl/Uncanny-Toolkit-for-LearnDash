@@ -47,6 +47,10 @@ function uo_toolkit_2fa_load_dependencies() {
 			$module = UNCANNY_TOOLKIT_DIR . '/src/includes/class-frontend-login-plus-2fa-2-3.php';
 		}
 
+		if ( version_compare( $wp2fa_version, '2.5', '<' ) ) {
+			$module = UNCANNY_TOOLKIT_DIR . '/src/includes/class-frontend-login-plus-2fa-2-4.php';
+		}
+
 		// Load front-end login 2fa.
 		require_once $module;
 

@@ -141,14 +141,6 @@ class InstallAutomator extends Boot {
 								)
 							);
 							?>
-							<?php esc_html_e( 'When a user completes a course and fills out an evaluation form, add a row with the form entries to a', 'uncanny-learndash-toolkit' ); ?>
-							<strong><?php esc_html_e( 'Google Sheet', 'uncanny-learndash-toolkit' ); ?></strong>
-							<?php esc_html_e( 'and add the user to alumni', 'uncanny-learndash-toolkit' ); ?>
-							<strong><?php esc_html_e( 'BuddyBoss', 'uncanny-learndash-toolkit' ); ?></strong>
-							<?php esc_html_e( 'and', 'uncanny-learndash-toolkit' ); ?>
-							<strong><?php esc_html_e( 'LearnDash', 'uncanny-learndash-toolkit' ); ?></strong>
-							<?php esc_html_e( ' groups.', 'uncanny-learndash-toolkit' ); ?>
-
 							<div class="uo-install-automator__requirements">
 								<label><?php esc_html_e( 'Requires', 'uncanny-learndash-toolkit' ); ?></label>
 								<ul>

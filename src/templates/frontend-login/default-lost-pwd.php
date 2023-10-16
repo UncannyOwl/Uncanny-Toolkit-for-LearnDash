@@ -2,9 +2,9 @@
 namespace uncanny_learndash_toolkit;
 ?>
 <h2><?php echo $innerText['Password-Recovery-Title']; ?></h2>
-<p><?php echo $innerText[ 'Password-Recovery-Desc' ]; ?></p>
-	
-	<?php
+<?php if ( ! isset( $forgot_password_response ) ) { ?>
+        <p><?php echo $innerText[ 'Password-Recovery-Desc' ]; ?></p>
+<?php } 
 
 /**
  * If the user submitted the form and the response was

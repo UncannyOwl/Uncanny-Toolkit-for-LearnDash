@@ -2,11 +2,11 @@
 namespace uncanny_learndash_toolkit;
 
 use WP2FA\Authenticator\Login as Two_Factor_Core;
-use WP2FA\Methods\Backup_Codes;
+use WP2FA\Authenticator\BackupCodes as BackupCodes;
 use WP2FA\Admin\Helpers\User_Helper;
-use WP2FA\Authenticator\Authentication as Authentication;
+use \WP2FA\Authenticator\Authentication as Authentication;
 use WP2FA\Admin\Controllers\Settings;
-use WP2FA\Admin\Settings_Page as SettingsPage;
+use WP2FA\Admin\SettingsPage;
 
 /**
  * This class handles the integration between Uncanny Front-end Login and Two-Factor.
@@ -147,7 +147,7 @@ class Frontend_Login_Plus_2fa {
 	public function uo_login_action_before_json_response( $user ) {
 
 		// Skip if user has not enabled 2factor in his/her profile.
-		if ( ! User_Helper::is_user_using_two_factor( $user->ID ) ) {
+		if ( ! $this->two_factor::is_user_using_two_factor( $user->ID ) ) {
 			return;
 		}
 
@@ -175,7 +175,7 @@ class Frontend_Login_Plus_2fa {
 		// Do check by login.
 		$user = get_user_by( 'login', $user_identity );
 
-		if ( ! User_Helper::is_user_using_two_factor( $user->ID ) ) {
+		if ( ! $this->two_factor::is_user_using_two_factor( $user->ID ) ) {
 			return $response;
 		}
 
@@ -277,7 +277,7 @@ class Frontend_Login_Plus_2fa {
 		}
 
 		if ( ! empty( $provider ) ) { //phpcs:ignore
-			$providers = User_Helper::get_enabled_method_for_user( $user );
+			$providers = $this->two_factor::get_available_providers_for_user( $user );
 			if ( isset( $providers[ $provider ] ) ) {
 				$provider = $providers[ $provider ];
 			} elseif ( isset( $provider ) ) {
@@ -318,9 +318,10 @@ class Frontend_Login_Plus_2fa {
 			if ( Authentication::check_number_of_attempts( $user ) ) {
 				$this->login_html( $user, $login_nonce['key'], esc_url_raw( wp_unslash( $_REQUEST['redirect_to'] ) ), esc_html__( 'ERROR: Invalid verification code.', 'wp-2fa' ), $provider ); // phpcs:ignore
 			} else {
-				Authentication::clear_login_attempts( $user );
+				Authentication::get_login_attempts_instance()->clear_login_attempts( $user );
 				wp_safe_redirect( wp_login_url() );
 			}
+
 			$redirect_args['w2-2fa-key'] = $login_nonce['key'];
 
 			wp_safe_redirect(
@@ -347,7 +348,7 @@ class Frontend_Login_Plus_2fa {
 			if ( Backup_Codes::check_number_of_attempts( $user ) ) {
 				$this->login_html( $user, $login_nonce['key'], esc_url_raw( wp_unslash( $_REQUEST['redirect_to'] ) ), esc_html__( 'ERROR: Invalid backup code.', 'wp-2fa' ), $provider ); // phpcs:ignore
 			} else {
-				Backup_Codes::clear_login_attempts( $user );
+				Backup_Codes::get_login_attempts_instance()->clear_login_attempts( $user );
 			}
 
 			wp_safe_redirect(
@@ -378,7 +379,7 @@ class Frontend_Login_Plus_2fa {
 				if ( Authentication::check_number_of_attempts( $user ) ) {
 					$this->login_html( $user, $login_nonce['key'], esc_url_raw( wp_unslash( $_REQUEST['redirect_to'] ) ), esc_html__( 'ERROR: Invalid verification code.', 'wp-2fa' ), $provider ); // phpcs:ignore
 				} else {
-					Authentication::clear_login_attempts( $user );
+					Authentication::get_login_attempts_instance()->clear_login_attempts( $user );
 					wp_safe_redirect( wp_login_url() );
 				}
 			}
@@ -439,7 +440,7 @@ class Frontend_Login_Plus_2fa {
 			return;
 		}
 
-		if ( ! User_Helper::is_user_using_two_factor( $user->ID ) ) {
+		if ( ! $this->two_factor::is_user_using_two_factor( $user->ID ) ) {
 			return;
 		}
 
@@ -582,10 +583,10 @@ class Frontend_Login_Plus_2fa {
 	protected function login_html( $user, $login_nonce, $redirect_to, $error_msg = '', $provider = null ) {
 
 		if ( ! $provider || ( 'backup_codes' === $provider && ! SettingsPage::are_backup_codes_enabled( $user->roles[0] ) ) ) {
-			$provider = User_Helper::get_enabled_method_for_user( $user );
+			$provider = $this->two_factor::get_available_providers_for_user( $user );
 		}
 
-		$codes_remaining = Backup_Codes::codes_remaining_for_user( $user );
+		$codes_remaining = BackupCodes::codes_remaining_for_user( $user );
 		$interim_login = ( isset( $_REQUEST['interim-login'] ) ) ? filter_var( wp_unslash( $_REQUEST['interim-login'] ), FILTER_VALIDATE_BOOLEAN ) : false; //phpcs:ignore
 		$rememberme      = intval( $this->two_factor::rememberme() );
 
