@@ -1,10 +1,6 @@
 const { __ } = wp.i18n;
 
 const {
-	assign
-} = lodash;
-
-const {
 	addFilter
 } = wp.hooks;
 
