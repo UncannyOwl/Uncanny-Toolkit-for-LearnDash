@@ -9,8 +9,8 @@
  * Domain Path:         /languages
  * License:             GPLv3
  * License URI:         https://www.gnu.org/licenses/gpl-3.0.html
- * Version:             3.6.4.6
- * Requires at least:   5.3
+ * Version:             3.6.4.7
+ * Requires at least:   5.4
  * Requires PHP:        7.4
 */
 
@@ -22,7 +22,7 @@ if ( ! defined( 'UNCANNY_TOOLKIT_VERSION' ) ) {
 	/**
 	 *
 	 */
-	define( 'UNCANNY_TOOLKIT_VERSION', '3.6.4.6' );
+	define( 'UNCANNY_TOOLKIT_VERSION', '3.6.4.7' );
 }
 
 // Define prefix

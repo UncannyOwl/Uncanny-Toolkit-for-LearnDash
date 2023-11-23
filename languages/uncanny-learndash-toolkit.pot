@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Uncanny Toolkit for LearnDash 3.6.4.6\n"
+"Project-Id-Version: Uncanny Toolkit for LearnDash 3.6.4.7\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/uncanny-learndash-toolkit\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-11-09T16:07:31+00:00\n"
+"POT-Creation-Date: 2023-11-23T17:06:54+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.9.0\n"
 "X-Domain: uncanny-learndash-toolkit\n"
@@ -300,28 +300,28 @@ msgstr ""
 msgid "Please contact your hosting company to update to php version 5.3+ and enable spl extensions."
 msgstr ""
 
-#: src/boot.php:92
-#: src/boot.php:104
+#: src/boot.php:89
+#: src/boot.php:101
 msgid "Uncanny Toolkit for LearnDash Support"
 msgstr ""
 
-#: src/boot.php:93
+#: src/boot.php:90
 #: src/config.php:573
 #: src/templates/admin-tabs.php:19
 msgid "Help"
 msgstr ""
 
-#: src/boot.php:105
+#: src/boot.php:102
 #: src/templates/admin-tabs.php:23
 msgid "LearnDash Plugins"
 msgstr ""
 
-#: src/boot.php:184
+#: src/boot.php:181
 #: src/notifications/views/banner.php:47
 msgid "Dismiss"
 msgstr ""
 
-#: src/boot.php:187
+#: src/boot.php:184
 #: src/config.php:745
 msgid "Something went wrong. Please, try again"
 msgstr ""
