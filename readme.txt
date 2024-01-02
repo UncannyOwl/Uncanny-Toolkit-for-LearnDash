@@ -98,7 +98,7 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 
 == Changelog ==
 
-= 3.6.4.8 [2023-01-02] =
+= 3.6.4.8 [2024-01-02] =
 
 **Fixed:**
 
