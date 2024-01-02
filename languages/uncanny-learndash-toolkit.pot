@@ -1,15 +1,15 @@
-# Copyright (C) 2023 Uncanny Owl
+# Copyright (C) 2024 Uncanny Owl
 # This file is distributed under the GPLv3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Uncanny Toolkit for LearnDash 3.6.4.7\n"
+"Project-Id-Version: Uncanny Toolkit for LearnDash 3.6.4.8\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/uncanny-learndash-toolkit\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-11-23T17:06:54+00:00\n"
+"POT-Creation-Date: 2024-01-02T21:00:38+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.9.0\n"
 "X-Domain: uncanny-learndash-toolkit\n"
@@ -1269,98 +1269,114 @@ msgstr ""
 #: src/includes/class-frontend-login-plus-2fa-2-4.php:315
 #: src/includes/class-frontend-login-plus-2fa-2-4.php:345
 #: src/includes/class-frontend-login-plus-2fa-2-4.php:370
+#: src/includes/class-frontend-login-plus-2fa-2-5.php:305
+#: src/includes/class-frontend-login-plus-2fa-2-5.php:315
+#: src/includes/class-frontend-login-plus-2fa-2-5.php:344
+#: src/includes/class-frontend-login-plus-2fa-2-5.php:369
 #: src/includes/class-frontend-login-plus-2fa-legacy.php:295
 #: src/includes/class-frontend-login-plus-2fa-legacy.php:305
 #: src/includes/class-frontend-login-plus-2fa-legacy.php:326
 #: src/includes/class-frontend-login-plus-2fa-legacy.php:345
-#: src/includes/class-frontend-login-plus-2fa.php:305
-#: src/includes/class-frontend-login-plus-2fa.php:315
-#: src/includes/class-frontend-login-plus-2fa.php:344
-#: src/includes/class-frontend-login-plus-2fa.php:369
+#: src/includes/class-frontend-login-plus-2fa.php:339
+#: src/includes/class-frontend-login-plus-2fa.php:349
+#: src/includes/class-frontend-login-plus-2fa.php:382
+#: src/includes/class-frontend-login-plus-2fa.php:411
 msgid "Failed to create a login nonce."
 msgstr ""
 
 #: src/includes/class-frontend-login-plus-2fa-2-3.php:357
 #: src/includes/class-frontend-login-plus-2fa-2-4.php:377
+#: src/includes/class-frontend-login-plus-2fa-2-5.php:376
 #: src/includes/class-frontend-login-plus-2fa-legacy.php:352
-#: src/includes/class-frontend-login-plus-2fa.php:376
+#: src/includes/class-frontend-login-plus-2fa.php:418
 msgid "A new code has been sent."
 msgstr ""
 
 #: src/includes/class-frontend-login-plus-2fa-2-3.php:465
 #: src/includes/class-frontend-login-plus-2fa-2-4.php:498
+#: src/includes/class-frontend-login-plus-2fa-2-5.php:497
 #: src/includes/class-frontend-login-plus-2fa-legacy.php:460
-#: src/includes/class-frontend-login-plus-2fa.php:497
+#: src/includes/class-frontend-login-plus-2fa.php:554
 msgid "ERROR: Failed to create a login nonce."
 msgstr ""
 
 #: src/includes/class-frontend-login-plus-2fa-2-3.php:481
 #: src/includes/class-frontend-login-plus-2fa-2-4.php:514
+#: src/includes/class-frontend-login-plus-2fa-2-5.php:513
 #: src/includes/class-frontend-login-plus-2fa-legacy.php:476
-#: src/includes/class-frontend-login-plus-2fa.php:513
+#: src/includes/class-frontend-login-plus-2fa.php:570
 msgid "ERROR: Invalid verification code."
 msgstr ""
 
 #: src/includes/class-frontend-login-plus-2fa-2-3.php:498
 #: src/includes/class-frontend-login-plus-2fa-2-4.php:531
-#: src/includes/class-frontend-login-plus-2fa.php:530
+#: src/includes/class-frontend-login-plus-2fa-2-5.php:530
+#: src/includes/class-frontend-login-plus-2fa.php:591
 msgid "ERROR: Session is invalid or has expired."
 msgstr ""
 
 #: src/includes/class-frontend-login-plus-2fa-2-3.php:500
 #: src/includes/class-frontend-login-plus-2fa-2-4.php:533
+#: src/includes/class-frontend-login-plus-2fa-2-5.php:532
 #: src/includes/class-frontend-login-plus-2fa-legacy.php:495
-#: src/includes/class-frontend-login-plus-2fa.php:532
+#: src/includes/class-frontend-login-plus-2fa.php:593
 msgid "ERROR: Cannot display authentication form."
 msgstr ""
 
 #: src/includes/class-frontend-login-plus-2fa-2-3.php:507
 #: src/includes/class-frontend-login-plus-2fa-2-4.php:540
+#: src/includes/class-frontend-login-plus-2fa-2-5.php:539
 #: src/includes/class-frontend-login-plus-2fa-legacy.php:502
-#: src/includes/class-frontend-login-plus-2fa.php:539
+#: src/includes/class-frontend-login-plus-2fa.php:600
 msgid "Return to login form"
 msgstr ""
 
 #: src/includes/class-frontend-login-plus-2fa-2-3.php:509
 #: src/includes/class-frontend-login-plus-2fa-2-4.php:542
+#: src/includes/class-frontend-login-plus-2fa-2-5.php:541
 #: src/includes/class-frontend-login-plus-2fa-legacy.php:504
-#: src/includes/class-frontend-login-plus-2fa.php:541
+#: src/includes/class-frontend-login-plus-2fa.php:602
 msgid "Go back to login form"
 msgstr ""
 
 #: src/includes/class-frontend-login-plus-2fa-2-3.php:598
 #: src/includes/class-frontend-login-plus-2fa-2-4.php:631
+#: src/includes/class-frontend-login-plus-2fa-2-5.php:630
 #: src/includes/class-frontend-login-plus-2fa-legacy.php:595
-#: src/includes/class-frontend-login-plus-2fa.php:630
+#: src/includes/class-frontend-login-plus-2fa.php:691
 msgid "A new verification code has been sent to your email."
 msgstr ""
 
 #: src/includes/class-frontend-login-plus-2fa-2-3.php:679
 #: src/includes/class-frontend-login-plus-2fa-2-4.php:712
+#: src/includes/class-frontend-login-plus-2fa-2-5.php:711
 #: src/includes/class-frontend-login-plus-2fa-legacy.php:636
-#: src/includes/class-frontend-login-plus-2fa.php:711
+#: src/includes/class-frontend-login-plus-2fa.php:772
 msgid "Or, use a backup code."
 msgstr ""
 
 #: src/includes/class-frontend-login-plus-2fa-2-3.php:685
 #: src/includes/class-frontend-login-plus-2fa-2-4.php:718
+#: src/includes/class-frontend-login-plus-2fa-2-5.php:717
 #: src/includes/class-frontend-login-plus-2fa-legacy.php:642
-#: src/includes/class-frontend-login-plus-2fa.php:717
+#: src/includes/class-frontend-login-plus-2fa.php:778
 msgid "Or, go back to login form."
 msgstr ""
 
 #: src/includes/class-frontend-login-plus-2fa-2-3.php:695
 #: src/includes/class-frontend-login-plus-2fa-2-4.php:728
+#: src/includes/class-frontend-login-plus-2fa-2-5.php:727
 #: src/includes/class-frontend-login-plus-2fa-legacy.php:650
-#: src/includes/class-frontend-login-plus-2fa.php:727
+#: src/includes/class-frontend-login-plus-2fa.php:788
 msgid "Are you lost?"
 msgstr ""
 
 #. translators: %s: site name.
 #: src/includes/class-frontend-login-plus-2fa-2-3.php:700
 #: src/includes/class-frontend-login-plus-2fa-2-4.php:733
+#: src/includes/class-frontend-login-plus-2fa-2-5.php:732
 #: src/includes/class-frontend-login-plus-2fa-legacy.php:655
-#: src/includes/class-frontend-login-plus-2fa.php:732
+#: src/includes/class-frontend-login-plus-2fa.php:793
 msgid "&larr; Back to %s"
 msgstr ""
 
@@ -1368,80 +1384,80 @@ msgstr ""
 msgid "ERROR: Session is invalid or have expired."
 msgstr ""
 
-#: src/includes/uo-toolkit-2fa-functions.php:167
+#: src/includes/uo-toolkit-2fa-functions.php:171
 msgid "Two-Factor authentication"
 msgstr ""
 
-#: src/includes/uo-toolkit-2fa-functions.php:173
-#: src/includes/uo-toolkit-2fa-functions.php:226
+#: src/includes/uo-toolkit-2fa-functions.php:177
+#: src/includes/uo-toolkit-2fa-functions.php:230
 msgid "Uncanny Toolkit integrates with the free WP 2FA plugin to support two factor login authentication."
 msgstr ""
 
 #. translators: %s will be replaced with a "string" - state of the plugin
-#: src/includes/uo-toolkit-2fa-functions.php:182
+#: src/includes/uo-toolkit-2fa-functions.php:186
 msgid "WP 2FA is currently %s."
 msgstr ""
 
-#: src/includes/uo-toolkit-2fa-functions.php:183
+#: src/includes/uo-toolkit-2fa-functions.php:187
 msgid "active"
 msgstr ""
 
 #. translators: %s will be replaced with a "string" - state of the plugin
-#: src/includes/uo-toolkit-2fa-functions.php:188
+#: src/includes/uo-toolkit-2fa-functions.php:192
 msgid "Integration is currently %s. Choose a login page in the Front End Logins settings above to use WP 2FA with the front end login."
 msgstr ""
 
-#: src/includes/uo-toolkit-2fa-functions.php:189
+#: src/includes/uo-toolkit-2fa-functions.php:193
 msgid "inactive"
 msgstr ""
 
-#: src/includes/uo-toolkit-2fa-functions.php:198
+#: src/includes/uo-toolkit-2fa-functions.php:202
 msgid "Go to"
 msgstr ""
 
-#: src/includes/uo-toolkit-2fa-functions.php:202
+#: src/includes/uo-toolkit-2fa-functions.php:206
 msgid "WP-ADMIN > Settings > Two-factor Authentication"
 msgstr ""
 
-#: src/includes/uo-toolkit-2fa-functions.php:203
+#: src/includes/uo-toolkit-2fa-functions.php:207
 msgid "WP 2FA Settings"
 msgstr ""
 
-#: src/includes/uo-toolkit-2fa-functions.php:205
+#: src/includes/uo-toolkit-2fa-functions.php:209
 msgid "to configure 2FA settings."
 msgstr ""
 
 #. translators: %1$s The uninstall text %2$s The WP 2FA plugin label
-#: src/includes/uo-toolkit-2fa-functions.php:213
+#: src/includes/uo-toolkit-2fa-functions.php:217
 msgid "%1$s the %2$s plugin to remove the integration."
 msgstr ""
 
-#: src/includes/uo-toolkit-2fa-functions.php:214
+#: src/includes/uo-toolkit-2fa-functions.php:218
 msgid "Show active plugins"
 msgstr ""
 
-#: src/includes/uo-toolkit-2fa-functions.php:214
+#: src/includes/uo-toolkit-2fa-functions.php:218
 msgid "Uninstall/Disable"
 msgstr ""
 
-#: src/includes/uo-toolkit-2fa-functions.php:215
+#: src/includes/uo-toolkit-2fa-functions.php:219
 msgid "WP 2FA – Two-factor"
 msgstr ""
 
-#: src/includes/uo-toolkit-2fa-functions.php:235
-#: src/includes/uo-toolkit-2fa-functions.php:236
+#: src/includes/uo-toolkit-2fa-functions.php:239
+#: src/includes/uo-toolkit-2fa-functions.php:240
 msgid "WP 2FA"
 msgstr ""
 
-#: src/includes/uo-toolkit-2fa-functions.php:239
+#: src/includes/uo-toolkit-2fa-functions.php:243
 msgid "is a free two-factor authentication plugin for WordPress. WP 2FA is a third-party plugin managed by"
 msgstr ""
 
-#: src/includes/uo-toolkit-2fa-functions.php:241
+#: src/includes/uo-toolkit-2fa-functions.php:245
 msgid "WP White Security"
 msgstr ""
 
-#: src/includes/uo-toolkit-2fa-functions.php:242
+#: src/includes/uo-toolkit-2fa-functions.php:246
 msgid "WP White Security."
 msgstr ""
 

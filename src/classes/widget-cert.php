@@ -119,7 +119,7 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 	 */
 	public function widget( $args, $instance ) {
 
-		if ( ! is_user_logged_in() ) {
+		if ( ! is_user_logged_in() || true !== self::dependants_exist() ) {
 			return '';
 		}
 

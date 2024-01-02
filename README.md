@@ -3,9 +3,9 @@
 **Contributors:** uncannyowl \
 **Tags:** LearnDash, eLearning, LMS, education, learning, courseware \
 **Requires at least:** 5.4 \
-**Tested up to:** 6.4.1 \
+**Tested up to:** 6.4.2 \
 **Requires PHP:** 7.4 \
-**Stable tag:** 3.6.4.7 \
+**Stable tag:** 3.6.4.2 \
 **License:** This plugin is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or any later version. Uncanny Toolkit for LearnDash is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with Uncanny Toolkit for LearnDash. If not, see https://www.gnu.org/licenses/gpl-3.0.html. \
 **License URI:** https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -110,6 +110,13 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 
 
 ## Changelog
+
+### 3.6.4.8 [2023-01-02]
+
+**Fixed:**
+
+* Certificate Widget - Throws PHP Error when LearnDash is not active #369
+* WP2FA - 2.6 PHP Error issues #368
 
 ### 3.6.4.7 [2023-11-23]
 
