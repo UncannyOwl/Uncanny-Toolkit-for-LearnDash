@@ -36,7 +36,7 @@ The Uncanny Toolkit for LearnDash adds the following features to your LearnDash 
 * **[LearnDash Groups in User Profiles](https://www.uncannyowl.com/knowledge-base/learndash-groups-user-profiles/?utm_medium=ldtoolkitreadme)**: Easily identify LearnDash Group membership from user profile pages.
 * **[Disable Emails](https://www.uncannyowl.com/knowledge-base/disable-emails/?utm_medium=ldtoolkitreadme)**: Easily disable all outgoing emails when troubleshooting issues.
 
-We welcome contributions to the Uncanny Toolkit! The plugin is managed in a [Bitbucket Repository](https://bitbucket.org/uncannyowl/uncanny-learndash-toolkit).
+We welcome contributions to the Uncanny Toolkit! The plugin is managed in a [GitHub Repository](https://github.com/UncannyOwl/Uncanny-Toolkit-for-LearnDash).
 
 **Ready to take your LearnDash site even further?**
 
