@@ -9,6 +9,8 @@ namespace uncanny_learndash_toolkit;
  */
 class Boot extends Config {
 
+	static $upgrade_pro_link = 'https://www.uncannyowl.com/downloads/uncanny-learndash-toolkit-pro/?utm_source=uncanny_toolkit&utm_medium=plugins_page&utm_content=update_to_pro';
+
 	/**
 	 * class constructor
 	 */
@@ -45,6 +47,10 @@ class Boot extends Config {
 				'ajax_activate_deactivate_module',
 			)
 		);
+
+		add_action( 'admin_menu', array( $this, 'pro_upsell_menu' ) );
+		add_action( 'admin_head', array( $this, 'adjust_pro_menu_item' ) );
+		add_action( 'admin_head', array( $this, 'admin_menu_styles' ) );
 
 		// Class Details:  Add Class to Admin Menu page
 		$classes = self::get_active_classes();
@@ -107,6 +113,71 @@ class Boot extends Config {
 				'uo_support_page',
 			)
 		);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function pro_upsell_menu() {
+		if ( defined( 'UNCANNY_TOOLKIT_PRO_VERSION' ) ) {
+			return;
+		}
+
+		global $submenu;
+		$url = 'https://www.uncannyowl.com/downloads/uncanny-learndash-toolkit-pro/?utm_source=uncanny_toolkit&utm_medium=plugins_page&utm_content=update_to_pro';
+
+		$submenu[ 'uncanny-toolkit' ][ 'uncanny-toolkit-pro-upgrade' ] = array(
+			esc_attr__( 'Upgrade to Pro', 'uncanny-learndash-toolkit' ), 
+			'manage_options',
+			$url,
+			'uncanny-toolkit-pro-upgrade'
+		);
+	}
+
+	/**
+	 * Make changes to the PRO menu item.
+	 */
+	public function adjust_pro_menu_item() {
+
+		global $submenu;
+
+		// Bail if plugin menu is not registered.
+		if ( ! isset( $submenu[ 'uncanny-toolkit' ] ) ) {
+			return;
+		}
+
+		$upgrade_link_position = key(
+			array_filter(
+				$submenu[ 'uncanny-toolkit' ],
+				function( $item ) {
+					return strpos( $item[3], 'uncanny-toolkit-pro-upgrade' ) !== false;
+				}
+			)
+		);
+
+		// Bail if "Upgrade to Pro" menu item is not registered.
+		if ( $upgrade_link_position === null ) {
+			return;
+		}
+
+		// Add the PRO badge to the menu item.
+		// phpcs:disable WordPress.WP.GlobalVariablesOverride.Prohibited
+		if ( isset( $submenu[ 'uncanny-toolkit' ][ $upgrade_link_position ][4] ) ) {
+			$submenu[ 'uncanny-toolkit' ][ $upgrade_link_position ][4] .= ' ult-sidebar-upgrade-pro';
+		} else {
+			$submenu[ 'uncanny-toolkit' ][ $upgrade_link_position ][] = 'ult-sidebar-upgrade-pro';
+		}
+		// phpcs:enable WordPress.WP.GlobalVariablesOverride.Prohibited
+	}
+
+	/**
+	 * Output inline styles for the admin menu.
+	 */
+	public function admin_menu_styles() {
+		$styles = 'a.ult-sidebar-upgrade-pro { background-color: #00a32a !important; color: #fff !important; font-weight: 600 !important; }';
+
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		printf( '<style>%s</style>', $styles );
 	}
 
 	/**

@@ -9,7 +9,7 @@
  * Domain Path:         /languages
  * License:             GPLv3
  * License URI:         https://www.gnu.org/licenses/gpl-3.0.html
- * Version:             3.6.4.8
+ * Version:             3.7
  * Requires at least:   5.4
  * Requires PHP:        7.4
 */
@@ -22,7 +22,7 @@ if ( ! defined( 'UNCANNY_TOOLKIT_VERSION' ) ) {
 	/**
 	 *
 	 */
-	define( 'UNCANNY_TOOLKIT_VERSION', '3.6.4.8' );
+	define( 'UNCANNY_TOOLKIT_VERSION', '3.7' );
 }
 
 // Define prefix
@@ -92,7 +92,8 @@ add_filter( 'plugin_action_links_' . $uncanny_learndash_toolkit_plugin_basename,
  */
 function uo_upgrade_to_pro_link( $links ) {
 	if ( ! defined( 'UNCANNY_TOOLKIT_PRO_PATH' ) ) {
-		$settings_link = sprintf( '<a href="%s" target="_blank" style="font-weight: bold;">%s</a>', 'https://www.uncannyowl.com/downloads/uncanny-learndash-toolkit-pro/?utm_source=uncanny_toolkit&utm_medium=plugins_page&utm_content=update_to_pro', __( 'Upgrade to Pro', 'uncanny-learndash-toolkit' ) );
+		$settings_link = sprintf( '<a href="%s" target="_blank" style="color: rgb(0, 163, 42); font-weight: 700;">%s</a>', 'https://www.uncannyowl.com/downloads/uncanny-learndash-toolkit-pro/?utm_source=uncanny_toolkit&utm_medium=plugins_page&utm_content=update_to_pro', __( 'Upgrade to Pro', 'uncanny-learndash-toolkit' ) );
+
 		array_unshift( $links, $settings_link );
 	}
 

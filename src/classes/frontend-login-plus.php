@@ -2,6 +2,8 @@
 
 namespace uncanny_learndash_toolkit;
 
+use UncannyOwl\Toolkit\FrontendLogin\Turnstile_Support;
+
 if ( ! defined( 'WPINC' ) ) {
 	die;
 }
@@ -607,7 +609,8 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 						'maybe_add_ui_shortcode',
 					)
 				);
-				// Add lost password link to login form
+
+				// Add google recaptcha.
 				add_action(
 					'login_form_middle',
 					array(
@@ -615,6 +618,9 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 						'add_recaptcha_box',
 					)
 				);
+
+				self::turnstile_initialize();
+
 			}
 
 			/* Remove LearnDash interruption in login form while this module active */
@@ -625,6 +631,20 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			add_shortcode( 'uo_login', array( __CLASS__, 'uo_login_form' ) );
 
 		}
+
+	}
+
+	/**
+	 * Initializes turnstile support.
+	 *
+	 * @return void
+	 */
+	public static function turnstile_initialize() {
+
+		// Adds Turnstile support into front-end login.
+		require_once trailingslashit( UNCANNY_TOOLKIT_DIR ) . 'src/classes/frontend-login/turnstile-support.php';
+
+		Turnstile_Support::register_hooks();
 
 	}
 
@@ -694,7 +714,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	 * Prevents WPML or any other translation plugins from filtering the pages result for dropdown.
 	 *
 	 * @ticket https://secure.helpscout.net/conversation/2022239531/43912?folderId=6246612
-	 * 
+	 *
 	 * @return array The list of pages.
 	 */
 	public static function get_pages() {
@@ -703,7 +723,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 		$pages = $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT * FROM $wpdb->posts 
+				"SELECT * FROM $wpdb->posts
 					WHERE post_type = %s AND post_status = %s
 					ORDER BY post_title ASC",
 				'page',
@@ -1029,6 +1049,42 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				'placeholder' => esc_html__( 'There was an error validating the form. Please contact the site administrator.', 'uncanny-learndash-toolkit' ),
 				'option_name' => 'uo_frontend_login_recaptchafailed_error',
 			),
+			// Turnstile settings.
+			array(
+				'type'       => 'html',
+				'inner_html' => '<h2>' . esc_html__( 'Cloudflare Turnstile Settings', 'uncanny-learndash-toolkit' ) . '</h2>',
+			),
+			array(
+				'type'        => 'text',
+				'label'       => esc_html__( 'Site Key', 'uncanny-learndash-toolkit' ),
+				'placeholder' => '',
+				'option_name' => 'uo_frontend_login_turnstile_recaptcha_key',
+			),
+			array(
+				'type'        => 'text',
+				'label'       => esc_html__( 'Secret Key', 'uncanny-learndash-toolkit' ),
+				'placeholder' => '',
+				'option_name' => 'uo_frontend_login_turnstile_recaptcha_secret',
+			),
+			array(
+				'type'        => 'text',
+				'label'       => esc_html__( 'Turnstile Not Checked Message', 'uncanny-learndash-toolkit' ),
+				'placeholder' => esc_html__( 'Verify you are human.', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_frontend_login_turnstile_recaptcha_empty_error',
+			),
+			array(
+				'type'        => 'text',
+				'label'       => esc_html__( 'Turnstile Error Message', 'uncanny-learndash-toolkit' ),
+				'placeholder' => esc_html__( 'There was an error validating the form. Please contact the site administrator.', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_frontend_login_turnstile_error_message',
+			),
+			array(
+				'type'        => 'text',
+				'label'       => esc_html__( 'Turnstile Render Error Message', 'uncanny-learndash-toolkit' ),
+				'placeholder' => esc_html__( 'An error has occurred while displaying Turnstile. Please contact the site administrator.', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_frontend_login_turnstile_render_error_message',
+			),
+			// Turnstile settings end.
 			array(
 				'type'       => 'html',
 				'inner_html' => '<h2>' . esc_html__( 'Forgot Password Form', 'uncanny-learndash-toolkit' ) . '</h2>',
@@ -1872,10 +1928,13 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				break;
 		}
 
-		return array(
-			'error'   => '',
+		$default = array(
+			'error'   => $login,
 			'warning' => $message_warning,
 		);
+
+		return apply_filters( 'uo_toolkit_frontend_login_error_messages', $default, $login );
+
 	}
 
 	/**
@@ -2198,12 +2257,12 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		$login_page = get_permalink( self::get_login_redirect_page_id() );
 
 		$query_args = array(
-			'login'       => 'failed',
+			'login' => 'failed',
 		);
 
 		// Append redirect_to parameters.
-		if( isset($_REQUEST['redirect_to']) && ! empty( $_REQUEST['redirect_to'] ) ) {
-			$redirect_to = filter_var( $_REQUEST['redirect_to'], FILTER_UNSAFE_RAW );
+		if ( isset( $_REQUEST['redirect_to'] ) && ! empty( $_REQUEST['redirect_to'] ) ) {
+			$redirect_to               = filter_var( $_REQUEST['redirect_to'], FILTER_UNSAFE_RAW );
 			$query_args['redirect_to'] = urlencode( $redirect_to );
 		}
 
@@ -2442,8 +2501,8 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				wp_safe_redirect(
 					add_query_arg(
 						array(
-							'action'  => 'forgot',
-							'success' => 'recaptchafailed',
+							'action' => 'forgot',
+						//	'success' => 'recaptchafailed',
 						),
 						$login_page
 					)
@@ -2568,6 +2627,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	 * @return false|string
 	 */
 	public static function add_recaptcha_box() {
+
 		$recaptcha_key         = self::get_catpcha_key();
 		$recaptcha_secrete_key = self::get_captcha_secret();
 
@@ -2671,11 +2731,12 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		$settings = get_option( 'FrontendLoginPlus', array() );
 
 		foreach ( $settings as $setting ) {
-
 			if ( 'login_page' === $setting['name'] && '0' !== $setting['value'] ) {
 				$login_page_id = $setting['value'];
 				if ( $post instanceof \WP_Post && $post->ID === (int) $login_page_id ) {
-					if ( ! has_shortcode( $post->post_content, 'uo_login_ui' ) && ! has_block( 'uncanny-toolkit/frontend-login', $post->post_content ) ) {
+					$should_validate = apply_filters( 'uo_frontend_login_modal_page_lockout_detection', true, $post );
+					$should_validate = filter_var( strtolower( $should_validate ), FILTER_VALIDATE_BOOLEAN );
+					if ( $should_validate && ! has_shortcode( $post->post_content, 'uo_login_ui' ) && ! has_block( 'uncanny-toolkit/frontend-login', $post->post_content ) ) {
 						echo '<div id="ult-login-no-setup-notice"><strong>';
 						_e( 'Note: This page has been set as the login page for this site. The form below has been added for your convenience. To hide this message, add the shortcode [uo_login_ui] or the Front End Login Gutenberg block to this page.', 'uncanny-learndash-toolkit' );
 						echo '</strong></div>';
@@ -3102,6 +3163,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			}
 
 			// At this point, either manual verification is disabled or the user has already been verified.
+			do_action( 'uo_toolkit_frontend_login_user_verified_before_signon', $response );
 
 			// Try logging in the user.
 			$user = wp_signon( $credential, $secure_cookie );
@@ -3131,12 +3193,12 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		$response['success'] = true;
 
 		$requested_redirect_to = isset( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : '';
-	
+
 		// Decide if there will be a redirect
 		$redirect_ignored = Config::get_settings_value( 'uo_frontend_login_modal_ignore_redirect', 'FrontendLoginPlus', false );
 
 		$redirect_ignored = apply_filters( 'uo_frontend_login_modal_ignore_redirect', $redirect_ignored, $redirect_to, $requested_redirect_to, $user );
-		$uo_login_modal = false;
+		$uo_login_modal   = false;
 		if ( isset( $_REQUEST['uo_is_login_modal'] ) && 1 === (int) $_REQUEST['uo_is_login_modal'] ) {
 			$uo_login_modal = true;
 		}
@@ -3205,6 +3267,8 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	public static function uo_lostPass_action() {
 		$response      = array();
 		$response_code = 200;
+
+		do_action( 'uo_toolkit_frontend_login_lost_password_before' );
 
 		// Validate ajax call here.
 		/*
@@ -3711,7 +3775,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		$is_included_ult_login = true;
 
 		ob_start();
-		add_filter( 'login_form_bottom', array( __CLASS__, 'uo_login_modal_hidden_field' ), 20, 2 );	
+		add_filter( 'login_form_bottom', array( __CLASS__, 'uo_login_modal_hidden_field' ), 20, 2 );
 		include Config::get_template( 'frontend-login/login-modal.php' );
 		remove_filter( 'login_form_bottom', array( __CLASS__, 'uo_login_modal_hidden_field' ), 20 );
 		$uo_login_model_html = ob_get_clean();
@@ -3752,8 +3816,8 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 	}
 
-	public static function uo_login_modal_hidden_field($str, $args){
-		$str .= '<input type="hidden" name="uo_is_login_modal" value="1" />'; 
+	public static function uo_login_modal_hidden_field( $str, $args ) {
+		$str .= '<input type="hidden" name="uo_is_login_modal" value="1" />';
 		return $str;
 	}
 

@@ -4,7 +4,10 @@ namespace uncanny_learndash_toolkit;
 
 ?>
 	<section class="uo_loginForm">
-
+		<script>
+			<?php $json_data = wp_json_encode( apply_filters( 'uo_toolkit_frontend_login_form_data', array() ) ); ?>
+			let UOToolkitFrontEndLoginFormData = JSON.parse('<?php echo $json_data; ?>');
+		</script>
 		<?php
 		/*
 		 * before_uo_login_ui hook
@@ -41,12 +44,12 @@ namespace uncanny_learndash_toolkit;
 
 		} elseif ( $lost_password ) {
 			//If User is requesting a lost password, show form!
-			include( Config::get_template( apply_filters( 'uo-front-login-lost-pwd-template', 'frontend-login/' . $template_to_load . '-lost-pwd.php', $template_to_load ) ) );
+			include Config::get_template( apply_filters( 'uo-front-login-lost-pwd-template', 'frontend-login/' . $template_to_load . '-lost-pwd.php', $template_to_load ) );
 		} elseif ( $reset_password_sent ) {
-			$forgot_password_response = (object) [
+			$forgot_password_response = (object) array(
 				'error'   => true,
 				'message' => '',
-			];
+			);
 
 			//When Lost Password Form is submitted, show status!
 			if ( true === $reset_password_sent_success ) {
@@ -57,18 +60,20 @@ namespace uncanny_learndash_toolkit;
 					$forgot_password_response->message = $innerText['recaptchaempty'];
 				} elseif ( 'recaptchafailed' === $reset_password_sent_success ) {
 					$forgot_password_response->message = $innerText['recaptchafailed'];
-				} elseif ( 'invalidcredentials' === $reset_password_sent_success )  {
+				} elseif ( 'invalidcredentials' === $reset_password_sent_success ) {
 					$forgot_password_response->message = $innerText['Failed-Pass-Creds'];
 				} else {
 					$forgot_password_response->message = $innerText['Failed-Send-Email'];
 				}
 			}
 
-			include( Config::get_template( apply_filters( 'uo-front-login-lost-pwd-template', 'frontend-login/' . $template_to_load . '-lost-pwd.php', $template_to_load ) ) );
+			$forgot_password_response->message = apply_filters( 'uo_toolkit_reset_password_errors', $forgot_password_response->message );
+
+			include Config::get_template( apply_filters( 'uo-front-login-lost-pwd-template', 'frontend-login/' . $template_to_load . '-lost-pwd.php', $template_to_load ) );
 		} elseif ( $register ) {
 			//If registration is open and user is on register page!
 			if ( $register_show ) {
-				include( Config::get_template( apply_filters( 'uo-front-login-register-template', 'frontend-login/' . $template_to_load . '-register.php', $template_to_load ) ) );
+				include Config::get_template( apply_filters( 'uo-front-login-register-template', 'frontend-login/' . $template_to_load . '-register.php', $template_to_load ) );
 			}
 		} elseif ( $reset_password ) {
 			//When user clicks reset password link in email!
@@ -78,7 +83,7 @@ namespace uncanny_learndash_toolkit;
 				$rp_cookie = 'wp-resetpass-' . COOKIEHASH;
 				$value     = sprintf( '%s:%s', wp_unslash( $_GET['login'] ), wp_unslash( $_GET['key'] ) );
 				//setcookie( $rp_cookie, $value, 0, '/' . get_post_field( 'post_name', $login_page ), COOKIE_DOMAIN, is_ssl(), true );
-				include( Config::get_template( apply_filters( 'uo-front-login-reset-template', 'frontend-login/' . $template_to_load . '-reset-pwd.php', $template_to_load ) ) );
+				include Config::get_template( apply_filters( 'uo-front-login-reset-template', 'frontend-login/' . $template_to_load . '-reset-pwd.php', $template_to_load ) );
 			} else {
 				?>
 
@@ -100,14 +105,14 @@ namespace uncanny_learndash_toolkit;
 				} elseif ( 'expiredkey' === $_GET['issue'] ) {
 					$error = sprintf( '<p>%s</p>', $innerText['Expired-Reset-Key'] );
 				}
-				
+
 				echo $error;
-				
+
 			} else {
 				$rp_cookie = 'wp-resetpass-' . COOKIEHASH;
 				if ( isset( $_COOKIE[ $rp_cookie ] ) && 0 < strpos( $_COOKIE[ $rp_cookie ], ':' ) ) {
 					list( $rp_login, $rp_key ) = explode( ':', wp_unslash( $_COOKIE[ $rp_cookie ] ), 2 );
-					$user = check_password_reset_key( $rp_key, $rp_login );
+					$user                      = check_password_reset_key( $rp_key, $rp_login );
 					//var_dump($user);
 					if ( isset( $_POST['pass1'] ) && ! hash_equals( $rp_key, $_POST['rp_key'] ) ) {
 						$user = false;
@@ -115,25 +120,25 @@ namespace uncanny_learndash_toolkit;
 				} else {
 					$user = false;
 				}
-				
+
 				$errors = new \WP_Error();
-				
+
 				$_password_strength = Config::get_settings_value( 'uo_frontendloginplus_reset_password_strength', 'FrontendLoginPlus' );
-				
+
 				if ( isset( $_POST['pass1'] ) && $_password_strength === 'on' ) {
-					$password_ok = self::slt_fsp_password_strength($_POST['pass1'],$user->user_login);
-					if( $password_ok < 3 ){
+					$password_ok = self::slt_fsp_password_strength( $_POST['pass1'], $user->user_login );
+					if ( $password_ok < 3 ) {
 						$error     = $innerText['Password-Not-Strong'];
 						$rp_key    = $_POST['rp_key'];
 						$rp_login  = $_POST['rp_login'];
 						$rp_cookie = 'wp-resetpass-' . COOKIEHASH;
 						$value     = sprintf( '%s:%s', wp_unslash( $rp_key ), wp_unslash( $rp_login ) );
 						//setcookie( $rp_cookie, $value, 0, '/' . get_post_field( 'post_name', $login_page ), COOKIE_DOMAIN, is_ssl(), true );
-						
-						include( Config::get_template( apply_filters( 'uo-front-login-reset-template', 'frontend-login/' . $template_to_load . '-reset-pwd.php', $template_to_load ) ) );
+
+						include Config::get_template( apply_filters( 'uo-front-login-reset-template', 'frontend-login/' . $template_to_load . '-reset-pwd.php', $template_to_load ) );
 					}
 				}
-				
+
 				if ( isset( $_POST['pass1'] ) && $_POST['pass1'] != $_POST['pass2'] ) {
 
 					$error     = $innerText['Password-Not-Match'];
@@ -143,15 +148,15 @@ namespace uncanny_learndash_toolkit;
 					$value     = sprintf( '%s:%s', wp_unslash( $rp_key ), wp_unslash( $rp_login ) );
 					//setcookie( $rp_cookie, $value, 0, '/' . get_post_field( 'post_name', $login_page ), COOKIE_DOMAIN, is_ssl(), true );
 
-					include( Config::get_template( apply_filters( 'uo-front-login-reset-template', 'frontend-login/' . $template_to_load . '-reset-pwd.php', $template_to_load ) ) );
+					include Config::get_template( apply_filters( 'uo-front-login-reset-template', 'frontend-login/' . $template_to_load . '-reset-pwd.php', $template_to_load ) );
 				}
 			}
 		} else {
-            if ( isset( $_GET['action'] ) && 'reset' === $_GET['action'] ) {
-                $reset_password_sucess = $innerText['Reset-Success'];
-            }
+			if ( isset( $_GET['action'] ) && 'reset' === $_GET['action'] ) {
+				$reset_password_sucess = $innerText['Reset-Success'];
+			}
 			//Nothing, default, show login form!
-			include( Config::get_template( apply_filters( 'uo-front-login-login-template', 'frontend-login/' . $template_to_load . '-login.php', $template_to_load ) ) );
+			include Config::get_template( apply_filters( 'uo-front-login-login-template', 'frontend-login/' . $template_to_load . '-login.php', $template_to_load ) );
 		}
 
 		do_action( 'after_uo_login_ui', $lost_password, $reset_password_sent, $reset_password_sent_success, $register, $reset_password, $validate_password_reset );

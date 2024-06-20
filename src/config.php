@@ -336,8 +336,6 @@ class Config {
 
 									break;
 
-								
-
 								case 'color':
 									?>
 									<div
@@ -793,6 +791,13 @@ class Config {
 	 */
 	public static function get_settings_value( $key, $class, $default = '', $class_settings = array() ) {
 
+		$args = array(
+			'key'            => $key,
+			'class'          => $class,
+			'default'        => $default,
+			'class_settings' => $class_settings,
+		);
+
 		// get module settings key
 		$class = str_replace( __NAMESPACE__, '', stripslashes( $class ) );
 
@@ -817,15 +822,19 @@ class Config {
 			foreach ( $options as $option ) {
 				if ( in_array( $key, $option, true ) ) {
 					if ( '' !== $default && '' === trim( $option['value'] ) ) {
-						return $default;
+						return apply_filters( 'uo_toolkit_settings_config_value', $default, $key, $args );
 					}
 
-					return stripslashes( $option['value'] );
+					$value = stripslashes( $option['value'] );
+
+					return apply_filters( 'uo_toolkit_settings_config_value', $value, $key, $args );
+
 				}
 			}
 		}
 
-		return $default;
+		return apply_filters( 'uo_toolkit_settings_config_value', $default, $key, $args );
+
 	}
 
 
