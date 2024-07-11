@@ -84,106 +84,110 @@ if ( ! defined( 'UNCANNY_TOOLKIT_PRO_VERSION' ) ) {
 ?>
 
 <script>
-    <?php
-    $js_modules = [];
+	<?php
+	$js_modules = [];
 
-    foreach ( $modules as $module ) {
-        $js_modules[] = [
-            'id'          => $module[ 'id' ],
-            'title'       => $module[ 'title' ],
-            'description' => $module[ 'description' ],
-        ];
-    }
-    ?>
-    var ultModules = <?php echo json_encode( $js_modules ); ?>;
+	foreach ( $modules as $module ) {
+		$js_modules[] = [
+			'id'          => $module['id'],
+			'title'       => $module['title'],
+			'description' => $module['description'],
+		];
+	}
+	?>
+	var ultModules = <?php echo json_encode( $js_modules ); ?>;
 </script>
 
 <div class="container">
 
-    <div class="ult">
+	<div class="ult">
 
-        <div class="ult-directory">
+		<div class="ult-directory">
 
-            <div class="ult-directory-actions">
+			<?php do_action( 'ult_before_directory_actions', $modules ); ?>
 
-                <div class="ult-directory-filters">
-                    <div class="ult-directory-filter ult-directory-filter--version">
-                        <div class="ult-form-element">
-                            <div class="ult-form-element__field">
-                                <select name="version" data-name="version" class="ult-form-element__select">
-                                    <option value="">
+			<div class="ult-directory-actions">
+
+				<div class="ult-directory-filters">
+					<div class="ult-directory-filter ult-directory-filter--version">
+						<div class="ult-form-element">
+							<div class="ult-form-element__field">
+								<select name="version" data-name="version" class="ult-form-element__select">
+									<option value="">
 										<?php _e( 'All versions', 'uncanny-learndash-toolkit' ) ?>
-                                    </option>
-                                    <option value="free">
+									</option>
+									<option value="free">
 										<?php _e( 'Free only', 'uncanny-learndash-toolkit' ) ?>
-                                    </option>
-                                    <option value="pro">
+									</option>
+									<option value="pro">
 										<?php _e( 'Pro only', 'uncanny-learndash-toolkit' ) ?>
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="ult-directory-filter ult-directory-filter--categories">
-                        <div class="ult-form-element">
-                            <div class="ult-form-element__field">
-                                <select name="category" data-name="category" class="ult-form-element__select">
-                                    <option value="">
+									</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="ult-directory-filter ult-directory-filter--categories">
+						<div class="ult-form-element">
+							<div class="ult-form-element__field">
+								<select name="category" data-name="category" class="ult-form-element__select">
+									<option value="">
 										<?php _e( 'All categories', 'uncanny-learndash-toolkit' ) ?>
-                                    </option>
-                                    <option value="learndash">
+									</option>
+									<option value="learndash">
 										<?php _e( 'LearnDash', 'uncanny-learndash-toolkit' ) ?>
-                                    </option>
-                                    <option value="wordpress">
+									</option>
+									<option value="wordpress">
 										<?php _e( 'General WordPress', 'uncanny-learndash-toolkit' ) ?>
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="ult-directory-filter ult-directory-filter--statuses">
-                        <div class="ult-form-element">
-                            <div class="ult-form-element__field">
-                                <select name="status" data-name="status" class="ult-form-element__select">
-                                    <option value="">
+									</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="ult-directory-filter ult-directory-filter--statuses">
+						<div class="ult-form-element">
+							<div class="ult-form-element__field">
+								<select name="status" data-name="status" class="ult-form-element__select">
+									<option value="">
 										<?php _e( 'All statuses', 'uncanny-learndash-toolkit' ) ?>
-                                    </option>
-                                    <option value="active">
+									</option>
+									<option value="active">
 										<?php _e( 'Active', 'uncanny-learndash-toolkit' ) ?>
-                                    </option>
-                                    <option value="inactive">
+									</option>
+									<option value="inactive">
 										<?php _e( 'Inactive', 'uncanny-learndash-toolkit' ) ?>
-                                    </option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+									</option>
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
 
-                <div class="ult-directory-search">
-                    <div class="ult-form-element">
-                        <div class="ult-form-element__field">
-                            <input type="text" id="ult-directory-search-input"
-                                   class="ult-directory-search-input ult-form-element__text"
-                                   placeholder="<?php _e( 'Search modules by title, description or keywords', 'uncanny-learndash-toolkit' ) ?>">
-                        </div>
-                    </div>
-                </div>
+				<div class="ult-directory-search">
+					<div class="ult-form-element">
+						<div class="ult-form-element__field">
+							<input type="text" id="ult-directory-search-input"
+								   class="ult-directory-search-input ult-form-element__text"
+								   placeholder="<?php _e( 'Search modules by title, description or keywords', 'uncanny-learndash-toolkit' ) ?>">
+						</div>
+					</div>
+				</div>
 
-                <div class="ult-directory-layout">
-                    <div id="ult-directory-layout-toggle">
-                        <div class="ult-directory-layout-item" data-view="grid">
-                            <span class="ult-icon ult-icon--th"></span>
-                        </div>
-                        <div class="ult-directory-layout-item" data-view="table">
-                            <span class="ult-icon ult-icon--th-list"></span>
-                        </div>
-                    </div>
-                </div>
+				<div class="ult-directory-layout">
+					<div id="ult-directory-layout-toggle">
+						<div class="ult-directory-layout-item" data-view="grid">
+							<span class="ult-icon ult-icon--th"></span>
+						</div>
+						<div class="ult-directory-layout-item" data-view="table">
+							<span class="ult-icon ult-icon--th-list"></span>
+						</div>
+					</div>
+				</div>
 
-            </div>
+			</div>
 
-            <div class="ult-directory-modules">
+			<?php do_action( 'ult_before_directory_modules', $modules ); ?>
+
+			<div class="ult-directory-modules">
 
 				<?php
 				foreach ( $modules as $module ) {
@@ -200,91 +204,92 @@ if ( ! defined( 'UNCANNY_TOOLKIT_PRO_VERSION' ) ) {
 
 					?>
 
-                    <div class="ult-directory-module <?php echo implode( ' ', $css_classes ); ?>"
-                         data-id="<?php echo isset( $module['id'] ) ? $module['id'] : md5( time() ); ?>"
-                         data-version="<?php echo isset( $module['version'] ) ? $module['version'] : 'free'; ?>"
-                         data-status="<?php echo isset( $module['is_active'] ) && $module['is_active'] ? 'active' : 'inactive'; ?>"
-                         data-category='<?php echo isset( $module['category'] ) ? json_encode( $module['category'] ) : json_encode( array() ); ?>'
-                    >
+					<div class="ult-directory-module <?php echo implode( ' ', $css_classes ); ?>"
+						 data-id="<?php echo isset( $module['id'] ) ? $module['id'] : md5( time() ); ?>"
+						 data-version="<?php echo isset( $module['version'] ) ? $module['version'] : 'free'; ?>"
+						 data-status="<?php echo isset( $module['is_active'] ) && $module['is_active'] ? 'active' : 'inactive'; ?>"
+						 data-category='<?php echo isset( $module['category'] ) ? json_encode( $module['category'] ) : json_encode( array() ); ?>'
+					>
 
-                        <div class="ult-directory-module-content">
+						<div class="ult-directory-module-content">
 							<?php if ( ! empty( $module['cant_use_notice'] ) ) { ?>
 
-                                <div class="ult-directory-module-notice">
-                                    <div class="ult-directory-module-notice__icon">
-                                        <span class="ult-icon ult-icon--lock-alt"></span> 
-                                    </div>
-                                    <div class="ult-directory-module-notice__text">
-                                        <?php echo $module['cant_use_notice']; ?>
-                                    </div>
-                                </div>
+								<div class="ult-directory-module-notice">
+									<div class="ult-directory-module-notice__icon">
+										<span class="ult-icon ult-icon--lock-alt"></span>
+									</div>
+									<div class="ult-directory-module-notice__text">
+										<?php echo $module['cant_use_notice']; ?>
+									</div>
+								</div>
 
 							<?php } ?>
 
-                            <div class="ult-directory-module-header">
-                                <div class="ult-directory-module-header-left">
-                                    <div class="ult-directory-module__title">
+							<div class="ult-directory-module-header">
+								<div class="ult-directory-module-header-left">
+									<div class="ult-directory-module__title">
 										<?php echo $module['title']; ?>
-                                    </div>
+									</div>
 
 									<?php if ( isset( $module['version'] ) && 'pro' === $module['version'] ) { ?>
 
-                                        <?php
+										<?php
 
-                                        // Get the link
-                                        // Check if the module ID is defined
-                                        if ( ! empty( $module[ 'utm_id' ] ) ){
-                                            $get_toolkit_pro_link = Config::utm_parameters( $config[ 'get_toolkit_pro' ], 'modules', 'pro_badge_on_title-' . $module[ 'utm_id' ] );
-                                        }
-                                        else {
-                                            $get_toolkit_pro_link = Config::utm_parameters( $config[ 'get_toolkit_pro' ], 'modules', 'pro_badge_on_title' );
-                                        }
+										// Get the link
+										// Check if the module ID is defined
+										if ( ! empty( $module['utm_id'] ) ) {
+											$get_toolkit_pro_link = Config::utm_parameters( $config['get_toolkit_pro'], 'modules', 'pro_badge_on_title-' . $module['utm_id'] );
+										} else {
+											$get_toolkit_pro_link = Config::utm_parameters( $config['get_toolkit_pro'], 'modules', 'pro_badge_on_title' );
+										}
 
-                                        ?>
+										?>
 
-                                        <a href="<?php echo $get_toolkit_pro_link; ?>" target="_blank"
-                                           class="ult-directory-module__pro-label">
-                                            <?php _e( 'Pro', 'uncanny-learndash-toolkit' ); ?>
-                                        </a>
+										<a href="<?php echo $get_toolkit_pro_link; ?>" target="_blank"
+										   class="ult-directory-module__pro-label">
+											<?php _e( 'Pro', 'uncanny-learndash-toolkit' ); ?>
+										</a>
 
 									<?php } ?>
-                                </div>
+								</div>
 
 								<?php if ( isset( $module['can_use'] ) && $module['can_use'] ) { ?>
 
-                                    <div class="ult-directory-module__status">
+									<div class="ult-directory-module__status">
 
-                                        <div class="ult-form-element">
-                                            <div class="ult-form-checkbox ult-form-checkbox--toggle ult-form-checkbox--toggle-gutenberg">
-                                                <label class="ult-form-checkbox__container">
-                                                    <input type="checkbox"
-                                                           class="ult-directory-module__status-toggle ult-checkbox--hidden ult-checkbox--primary"
-                                                           value="<?php echo $module['class_name']; ?>"
+										<div class="ult-form-element">
+											<div
+												class="ult-form-checkbox ult-form-checkbox--toggle ult-form-checkbox--toggle-gutenberg">
+												<label class="ult-form-checkbox__container">
+													<input type="checkbox"
+														   class="ult-directory-module__status-toggle ult-checkbox--hidden ult-checkbox--primary"
+														   value="<?php echo $module['class_name']; ?>"
 														<?php echo $module['is_active'] ? 'checked="checked"' : ''; ?>
-                                                    />
-                                                    <div class="ult-checkbox--show"></div>
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
+													/>
+													<div class="ult-checkbox--show"></div>
+												</label>
+											</div>
+										</div>
+									</div>
 
 								<?php } ?>
-                            </div>
+							</div>
 
-                            <div class="ult-directory-module__description">
+							<div class="ult-directory-module__description">
 								<?php echo $module['description']; ?>
-                            </div>
+							</div>
 
-                            <div class="ult-directory-module-actions">
+							<div class="ult-directory-module-actions">
 
 								<?php if ( isset( $module['can_use'] ) && $module['can_use'] ) { ?>
 
 									<?php if ( false !== $module['has_settings'] ) { ?>
 
-                                        <div class="ult-directory-module-settings ult-directory-module-settings--modal ult-directory-module__btn ult-btn ult-btn--primary"
-                                             data-settings="<?php echo $module['settings_id']; ?>">
+										<div
+											class="ult-directory-module-settings ult-directory-module-settings--modal ult-directory-module__btn ult-btn ult-btn--primary"
+											data-settings="<?php echo $module['settings_id']; ?>">
 											<?php _e( 'Settings', 'uncanny-learndash-toolkit' ); ?>
-                                        </div>
+										</div>
 
 									<?php } ?>
 
@@ -293,34 +298,35 @@ if ( ! defined( 'UNCANNY_TOOLKIT_PRO_VERSION' ) ) {
 								// Check if it has a KB article
 								if ( ! empty( $module['kb_link'] ) ) {
 
-                                    // Get the link
-                                    // Check if the module ID is defined
-                                    if ( ! empty( $module[ 'utm_id' ] ) ){
-                                        $module_kb_link = Config::utm_parameters( $module[ 'kb_link' ], 'modules', 'learn_more-' . $module[ 'utm_id' ] );
-                                    }
-                                    else {
-                                        $module_kb_link = Config::utm_parameters( $module[ 'kb_link' ], 'modules', 'learn_more' );
-                                    }
+									// Get the link
+									// Check if the module ID is defined
+									if ( ! empty( $module['utm_id'] ) ) {
+										$module_kb_link = Config::utm_parameters( $module['kb_link'], 'modules', 'learn_more-' . $module['utm_id'] );
+									} else {
+										$module_kb_link = Config::utm_parameters( $module['kb_link'], 'modules', 'learn_more' );
+									}
 
 									// Add the link
 									?>
 
-                                    <a href="<?php echo $module_kb_link; ?>" target="_blank"
-                                       class="ult-directory-module-settings ult-directory-module-settings--kb-link ult-directory-module__btn ult-btn ult-btn--secondary">
+									<a href="<?php echo $module_kb_link; ?>" target="_blank"
+									   class="ult-directory-module-settings ult-directory-module-settings--kb-link ult-directory-module__btn ult-btn ult-btn--secondary">
 										<?php _e( 'Learn More', 'uncanny-learndash-toolkit' ); ?>
-                                    </a>
+									</a>
 
 								<?php } ?>
 
-                            </div>
-                        </div>
+							</div>
+						</div>
 
-                    </div>
+					</div>
 
 				<?php } ?>
 
-            </div>
+			</div>
 
-        </div>
+			<?php do_action( 'ult_after_directory_modules', $modules ); ?>
 
-    </div>
+		</div>
+
+	</div>

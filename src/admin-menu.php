@@ -35,6 +35,14 @@ class AdminMenu extends Boot {
 			add_action( 'admin_enqueue_scripts', array(
 				__CLASS__, 'scripts',
 			) );
+
+			// Filter notifications
+			add_action( 'admin_head', array( 
+				__CLASS__, 'maybe_filter_non_toolkit_admin_notices' 
+			), PHP_INT_MAX );
+			add_action( 'admin_print_scripts', array( 
+				__CLASS__, 'maybe_filter_non_toolkit_admin_notices' 
+			), PHP_INT_MAX );
 		}
 
 	}
@@ -702,6 +710,92 @@ class AdminMenu extends Boot {
 
 			self::$modules[] = $module;
 		}
+	}
+
+	/**
+	 * Maybe apply notification filters to Toolkit pages.
+	 * 
+	 * @return void
+	 */
+	public static function maybe_filter_non_toolkit_admin_notices() {
+		
+		$toolkit_pages = array(
+			'uncanny-toolkit',
+			'uncanny-toolkit-kb',
+			'uncanny-toolkit-plugins',
+			'uncanny-toolkit-license',
+			'learndash-toolkit-import-user', // Module : Bulk Import Users
+			'uo-my-courses', // Module : Improved Group Leader Interface
+		);
+
+		// Bail if we're not on a Toolkit screen.
+		if ( empty( $_REQUEST['page'] ) || ! in_array( strtolower( $_REQUEST['page'] ), $toolkit_pages, true ) ) {
+			return;
+		}
+
+		// Run filter on all admin notices.
+		self::filter_non_toolkit_admin_notices( 'user_admin_notices' );
+		self::filter_non_toolkit_admin_notices( 'admin_notices' );
+		self::filter_non_toolkit_admin_notices( 'all_admin_notices' );
+	}
+
+	/**
+	 * Filter out non-Toolkit admin notices.
+	 * 
+	 * @param string $notice_type The type of notice to filter.
+	 * 
+	 * @return void
+	 */
+	public static function filter_non_toolkit_admin_notices( $notice_type ) {
+
+		global $wp_filter;
+
+		if ( empty( $wp_filter[ $notice_type ] ) ) {
+			return;
+		}
+
+		if ( ! is_array( $wp_filter[ $notice_type ]->callbacks ) ) {
+			return;
+		}
+
+		// All Toolkit lowercased namespaces.
+		$allowed_sources = array(
+			'uncanny_learndash_toolkit',
+			'uncanny_pro_toolkit',
+			'uncanny_custom_toolkit',
+			'uncanny_owl'
+		);
+
+		foreach ( $wp_filter[ $notice_type ]->callbacks as $priority => $hooks ) {
+			foreach ( $hooks as $name => $arr ) {
+				if ( is_object( $arr['function'] ) && $arr['function'] instanceof \Closure ) {
+					unset( $wp_filter[ $notice_type ]->callbacks[ $priority ][ $name ] );
+					continue;
+				}
+
+				// Determine the source of the notice
+                $source = '';
+				if ( isset( $arr['function'] ) && is_array( $arr['function'] ) && ! empty( $arr['function'][0] ) && is_object( $arr['function'][0] ) ) {
+                    $source = strtolower( get_class( $arr['function'][0] ) );
+                } elseif ( ! empty( $name ) ) {
+                    $source = strtolower( $name );
+                }
+
+				// Remove the notice if its source is not in the list of allowed sources
+                $allowed = false;
+                foreach ( $allowed_sources as $allowed_source ) {
+                    if ( strpos( $source, $allowed_source ) !== false) {
+                        $allowed = true;
+                        break;
+                    }
+                }
+
+                if ( ! $allowed ) {
+                    unset( $wp_filter[ $notice_type ]->callbacks[ $priority ][ $name ] );
+                }
+			}
+		}
+
 	}
 
 }

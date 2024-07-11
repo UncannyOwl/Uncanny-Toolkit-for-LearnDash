@@ -22,41 +22,22 @@ if ( isset( $_GET['page'] ) ) {
 				   class="nav-tab <?php echo 'uncanny-toolkit-plugins' === $active_tab ? 'nav-tab-active' : ''; ?>">
 					<?php _e( 'LearnDash Plugins', 'uncanny-learndash-toolkit' ) ?>
 				</a>
-				<?php if ( Boot::is_pro_active() ) { ?>
-
-					<?php
-					if ( defined( 'UNCANNY_TOOLKIT_PRO_VERSION' ) ) {
-						$compare_version = version_compare( UNCANNY_TOOLKIT_PRO_VERSION, '3.0' );
-
-						if ( 0 > $compare_version ) {
-							?>
-							<a href="<?php echo admin_url( 'admin.php?page=uncanny-pro-license-activation' ) ?>"
-							   class="nav-tab <?php echo 'uncanny-toolkit-license' === $active_tab ? 'nav-tab-active' : ''; ?>">
-								<?php _e( 'License Activation', 'uncanny-learndash-toolkit' ) ?>
-							</a>
-							<?php
-						}else{
-							?>
-							<a href="<?php echo admin_url( 'admin.php?page=uncanny-toolkit-license' ) ?>"
-							   class="nav-tab <?php echo 'uncanny-toolkit-license' === $active_tab ? 'nav-tab-active' : ''; ?>">
-								<?php _e( 'License Activation', 'uncanny-learndash-toolkit' ) ?>
-							</a>
-							<?php
-						}
-
-					}
-				}
-				?>
 			</div>
 
 			<div class="ult-admin-nav-social-icons">
-				<a href="<?php echo Config::utm_parameters( 'https://www.facebook.com/UncannyOwl/', 'header', 'social_link' ); ?>" target="_blank" class="ult-admin-nav-social-icon ult-admin-nav-social-icon--facebook" ult-tooltip-admin="<?php _e( 'Follow us on Facebook', 'uncanny-learndash-toolkit' ); ?>">
+				<a href="<?php echo Config::utm_parameters( 'https://www.facebook.com/UncannyOwl/', 'header', 'social_link' ); ?>"
+				   target="_blank" class="ult-admin-nav-social-icon ult-admin-nav-social-icon--facebook"
+				   ult-tooltip-admin="<?php _e( 'Follow us on Facebook', 'uncanny-learndash-toolkit' ); ?>">
 					<span class="ult-icon ult-icon-facebook"></span>
 				</a>
-				<a href="<?php echo Config::utm_parameters( 'https://twitter.com/UncannyOwl', 'header', 'social_link' ); ?>" target="_blank" class="ult-admin-nav-social-icon ult-admin-nav-social-icon--twitter" ult-tooltip-admin="<?php _e( 'Follow us on Twitter', 'uncanny-learndash-toolkit' ); ?>">
+				<a href="<?php echo Config::utm_parameters( 'https://twitter.com/UncannyOwl', 'header', 'social_link' ); ?>"
+				   target="_blank" class="ult-admin-nav-social-icon ult-admin-nav-social-icon--twitter"
+				   ult-tooltip-admin="<?php _e( 'Follow us on Twitter', 'uncanny-learndash-toolkit' ); ?>">
 					<span class="ult-icon ult-icon-twitter"></span>
 				</a>
-				<a href="<?php echo Config::utm_parameters( 'https://www.linkedin.com/company/uncannyowl', 'header', 'social_link' ); ?>" target="_blank" class="ult-admin-nav-social-icon ult-admin-nav-social-icon--linkedin" ult-tooltip-admin="<?php _e( 'Follow us on LinkedIn', 'uncanny-learndash-toolkit' ); ?>">
+				<a href="<?php echo Config::utm_parameters( 'https://www.linkedin.com/company/uncannyowl', 'header', 'social_link' ); ?>"
+				   target="_blank" class="ult-admin-nav-social-icon ult-admin-nav-social-icon--linkedin"
+				   ult-tooltip-admin="<?php _e( 'Follow us on LinkedIn', 'uncanny-learndash-toolkit' ); ?>">
 					<span class="ult-icon ult-icon-linkedin"></span>
 				</a>
 			</div>
