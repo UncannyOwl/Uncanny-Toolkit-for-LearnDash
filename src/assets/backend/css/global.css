@@ -56,7 +56,7 @@
  */
 
 [ult-tooltip-admin] {
-	position: relative; 
+	position: relative;
 }
 
 	[ult-tooltip-admin]::before,
@@ -207,7 +207,7 @@
 	box-shadow: none;
 	background: none;
 
-	display: block !important;
+	/* display: block !important; */ /* hide notices on certain pages for layout reasons */
 }
 
 	.nav-tab-wrapper + #ult-review-banner {

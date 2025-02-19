@@ -37,13 +37,13 @@ class Boot extends Config {
 		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'uo_frontend_assets' ) );
 		// Add admin menu ajax class to load and save settings
 		// parent class is Config
-		add_action( 'wp_ajax_settings_save', array( get_parent_class(), 'ajax_settings_save' ) );
-		add_action( 'wp_ajax_settings_load', array( get_parent_class(), 'ajax_settings_load' ) );
+		add_action( 'wp_ajax_settings_save', array( get_parent_class( static::class ), 'ajax_settings_save' ) );
+		add_action( 'wp_ajax_settings_load', array( get_parent_class( static::class ), 'ajax_settings_load' ) );
 		add_action( 'admin_init', array( __CLASS__, 'uo_admin_help_process' ) );
 		add_action(
 			'wp_ajax_activate_deactivate_module',
 			array(
-				get_parent_class(),
+				get_parent_class( static::class ),
 				'ajax_activate_deactivate_module',
 			)
 		);
@@ -126,11 +126,11 @@ class Boot extends Config {
 		global $submenu;
 		$url = 'https://www.uncannyowl.com/downloads/uncanny-learndash-toolkit-pro/?utm_source=uncanny_toolkit&utm_medium=plugins_page&utm_content=update_to_pro';
 
-		$submenu[ 'uncanny-toolkit' ][ 'uncanny-toolkit-pro-upgrade' ] = array(
-			esc_attr__( 'Upgrade to Pro', 'uncanny-learndash-toolkit' ), 
+		$submenu['uncanny-toolkit']['uncanny-toolkit-pro-upgrade'] = array(
+			esc_attr__( 'Upgrade to Pro', 'uncanny-learndash-toolkit' ),
 			'manage_options',
 			$url,
-			'uncanny-toolkit-pro-upgrade'
+			'uncanny-toolkit-pro-upgrade',
 		);
 	}
 
@@ -142,13 +142,13 @@ class Boot extends Config {
 		global $submenu;
 
 		// Bail if plugin menu is not registered.
-		if ( ! isset( $submenu[ 'uncanny-toolkit' ] ) ) {
+		if ( ! isset( $submenu['uncanny-toolkit'] ) ) {
 			return;
 		}
 
 		$upgrade_link_position = key(
 			array_filter(
-				$submenu[ 'uncanny-toolkit' ],
+				$submenu['uncanny-toolkit'],
 				function( $item ) {
 					return strpos( $item[3], 'uncanny-toolkit-pro-upgrade' ) !== false;
 				}
@@ -162,10 +162,10 @@ class Boot extends Config {
 
 		// Add the PRO badge to the menu item.
 		// phpcs:disable WordPress.WP.GlobalVariablesOverride.Prohibited
-		if ( isset( $submenu[ 'uncanny-toolkit' ][ $upgrade_link_position ][4] ) ) {
-			$submenu[ 'uncanny-toolkit' ][ $upgrade_link_position ][4] .= ' ult-sidebar-upgrade-pro';
+		if ( isset( $submenu['uncanny-toolkit'][ $upgrade_link_position ][4] ) ) {
+			$submenu['uncanny-toolkit'][ $upgrade_link_position ][4] .= ' ult-sidebar-upgrade-pro';
 		} else {
-			$submenu[ 'uncanny-toolkit' ][ $upgrade_link_position ][] = 'ult-sidebar-upgrade-pro';
+			$submenu['uncanny-toolkit'][ $upgrade_link_position ][] = 'ult-sidebar-upgrade-pro';
 		}
 		// phpcs:enable WordPress.WP.GlobalVariablesOverride.Prohibited
 	}
@@ -510,7 +510,6 @@ class Boot extends Config {
 		$redirect = filter_input( INPUT_GET, 'redirect' );
 
 		$redirect_url = filter_input( INPUT_GET, 'redirect_url' );
-
 
 		update_option( '_uncanny_toolkit_review_reminder', $action );
 

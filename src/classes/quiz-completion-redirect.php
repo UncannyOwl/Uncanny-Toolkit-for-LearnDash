@@ -36,7 +36,7 @@ class QuizCompletionRedirect extends Config implements RequiredFunctions {
 			return;
 		}
 
-		add_filter( 'learndash_completion_redirect', array( __CLASS__, 'redirect_url' ), 99, 2 );
+		add_filter( 'learndash_course_step_completion_url', array( __CLASS__, 'redirect_url' ), 99, 3 );
 
 	}
 
@@ -90,10 +90,11 @@ class QuizCompletionRedirect extends Config implements RequiredFunctions {
 	 *
 	 * @param string $default_url Default redirection URL.
 	 * @param int    $quiz_id ID of the quiz.
+	 * @param int    $course_id ID of the course.
 	 *
 	 * @return string
 	 */
-	public static function redirect_url( $default_url, $quiz_id ) {
+	public static function redirect_url( $default_url, $quiz_id, $course_id ) {
 		$quiz_redirect = filter_input( INPUT_GET, 'quiz_redirect', FILTER_VALIDATE_BOOLEAN );
 
 		// don't meddle if this is not a quiz redirection.
