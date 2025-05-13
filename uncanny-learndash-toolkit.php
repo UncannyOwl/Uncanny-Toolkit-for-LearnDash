@@ -9,7 +9,7 @@
  * Domain Path:         /languages
  * License:             GPLv3
  * License URI:         https://www.gnu.org/licenses/gpl-3.0.html
- * Version:             3.7.0.2
+ * Version:             3.7.0.3
  * Requires at least:   5.4
  * Requires PHP:        7.4
 */
@@ -22,7 +22,7 @@ if ( ! defined( 'UNCANNY_TOOLKIT_VERSION' ) ) {
 	/**
 	 *
 	 */
-	define( 'UNCANNY_TOOLKIT_VERSION', '3.7.0.2' );
+	define( 'UNCANNY_TOOLKIT_VERSION', '3.7.0.3' );
 }
 
 // Define prefix
@@ -57,8 +57,21 @@ if ( ! defined( 'UNCANNY_TOOLKIT_DIR' ) ) {
 	define( 'UNCANNY_TOOLKIT_DIR', dirname( __FILE__ ) );
 }
 
+if ( ! defined( 'UNCANNY_API_URL' ) ) {
+	/**
+	 *
+	 */
+	define( 'UNCANNY_API_URL', 'https://api.uncannyowl.com/toolkit/' );
+}
+
+if ( ! defined( 'UNCANNY_API_KEY' ) ) {
+	/**
+	 *
+	 */
+	define( 'UNCANNY_API_KEY', '84g23FAwZpWeeBMfreU9' );
+}
 // Allow Translations to be loaded
-add_action( 'plugins_loaded', 'uncanny_learndash_toolkit_text_domain' );
+add_action( 'init', 'uncanny_learndash_toolkit_text_domain' );
 
 /**
  *

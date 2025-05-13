@@ -91,21 +91,25 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 	/**
 	 * class constructor
 	 */
-	public function __construct() {
+	public function __construct( $name = '', $description = '' ) {
 
 		// load the cert widget
 		add_action( 'widgets_init', array( __CLASS__, 'register_cert_widget' ) );
 
-		parent::__construct(
-			'uncanny_lms_cert_list', // Base ID
-			esc_html__( 'Certificates - Uncanny Toolkit', 'uncanny-learndash-toolkit' ), // Name
-			array( 'description' => esc_html__( 'Adds a new certificate widget that outputs links to all LearnDash certificates earned by the user.', 'text_domain' ) ) // Args
-		);
+		if( ! empty( $name ) && ! empty( $description ) ) {
+			parent::__construct(
+				'uncanny_lms_cert_list',
+				$name,
+				array( 'description' => $description )
+			);
+		}
+		
 	}
 
 	// register LMS cert widget
 	public static function register_cert_widget() {
-		register_widget( __NAMESPACE__ . '\WidgetCert' );
+		$widget_instance = new WidgetCert( esc_html__( 'Certificates - Uncanny Toolkit', 'uncanny-learndash-toolkit' ), esc_html__( 'Adds a new certificate widget that outputs links to all LearnDash certificates earned by the user.', 'uncanny-learndash-toolkit' ) );
+		register_widget( $widget_instance );
 	}
 
 	/**
@@ -266,15 +270,18 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 			}
 		}
 
-		$certificate_list = apply_filters( 'certificate_list_widget', $certificate_list );
+		$filtered_certificate_list = apply_filters( 'certificate_list_widget', $certificate_list );
+		if( ! is_array( $filtered_certificate_list ) ) {
+			$filtered_certificate_list = $certificate_list; // Make sure to fallback to original list.
+		}
 
-		if ( empty( $certificate_list ) ) {
+		if ( empty( $filtered_certificate_list )  ) {
 			printf( '<p>%s</p>', esc_html( $instance['no_certs'] ) );
 		} else {
 			// sort by name
-			usort( $certificate_list, array( __CLASS__, 'cmp' ) );
+			usort( $filtered_certificate_list, array( __CLASS__, 'cmp' ) );
 
-			foreach ( $certificate_list as $certificate ) {
+			foreach ( $filtered_certificate_list as $certificate ) {
 				echo $certificate['link'];
 			}
 		}

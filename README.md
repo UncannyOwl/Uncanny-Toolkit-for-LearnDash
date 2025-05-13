@@ -3,9 +3,9 @@
 **Contributors:** uncannyowl \
 **Tags:** LearnDash, eLearning, LMS, education, learning, courseware \
 **Requires at least:** 5.4 \
-**Tested up to:** 6.7.2 \
+**Tested up to:** 6.7.1 \
 **Requires PHP:** 7.4 \
-**Stable tag:** 3.7.0.2 \
+**Stable tag:** 3.7.0.3 \
 **License:** This plugin is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or any later version. Uncanny Toolkit for LearnDash is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with Uncanny Toolkit for LearnDash. If not, see https://www.gnu.org/licenses/gpl-3.0.html. \
 **License URI:** https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -117,17 +117,17 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 
 ## Changelog
 
-### 3.7.0.2 [2025-02-19]
+### 3.7.0.2 [2025-01-29]
 
 **Fixed:**
 
-* PHP 8.x+ notices #393
-* Log In/Log Out Links - Security fixes #405
+* PHP 8.x+ notices #393
+* Log In/Log Out Links - Security fixes #405
 
 **Internal:** 
 
-Quiz completion advances to next step - Replaced Deprecated WP filter 'learndash_completion_redirect'  #395
-WP-Admin - Removed display - block !important from review request notices #342
+Quiz completion advances to next step - Replaced Deprecated WP filter 'learndash_completion_redirect'  #395
+WP-Admin - Removed display - block !important from review request notices #342
 
 ### 3.7.0.1 [2024-07-11]
 

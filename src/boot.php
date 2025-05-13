@@ -82,6 +82,9 @@ class Boot extends Config {
 		//add_action( 'rest_api_init', array( $this, 'uo_register_api' ) );
 		add_action( 'admin_init', array( $this, 'maybe_ask_review' ) );
 		add_action( 'admin_init', array( $this, 'maybe_save_review_without_rest' ) );
+
+		require_once UNCANNY_TOOLKIT_DIR . '/src/reports/loader.php';
+
 	}
 
 	/**

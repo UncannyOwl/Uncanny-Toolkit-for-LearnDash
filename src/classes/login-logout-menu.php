@@ -122,8 +122,10 @@ class LoginLogoutMenu extends Config implements RequiredFunctions {
 		return false;
 	}
 
-	/*
-	 * Add new meta box to admin menus setup page
+	/**
+	 * Adds the admin nav menu metabox
+	 *
+	 * @since 1.3.2
 	 */
 	public static function add_admin_nav_menus_metabox() {
 		add_meta_box( 'uncanny_menu_links', esc_html__( 'Uncanny Menu Links', 'uncanny-learndash-toolkit' ), array(
@@ -132,10 +134,12 @@ class LoginLogoutMenu extends Config implements RequiredFunctions {
 		), 'nav-menus', 'side', 'default' );
 	}
 
-	/*
-	 * Create new meta box on the admin nav menus setup page
-	 * @param Object $object
+	/**
+	 * Creates the admin nav menu metabox
 	 *
+	 * @since 1.3.2
+	 *
+	 * @param object $object The nav menu object
 	 */
 	public static function create_admin_nav_menu_metabox( $object ) {
 		global $nav_menu_selected_id;
@@ -206,11 +210,13 @@ class LoginLogoutMenu extends Config implements RequiredFunctions {
 		<?php
 	}
 
-	/*
-	 * Change the labels of the added menu items
-	 * @param Array $menu_item
+	/**
+	 * Updates menu item labels in admin
 	 *
-	 * @return Array $menu_item
+	 * @since 1.3.2
+	 *
+	 * @param object $menu_item The menu item object
+	 * @return object Modified menu item object
 	 */
 	public static function update_menu_item_labels( $menu_item ) {
 
@@ -243,6 +249,14 @@ class LoginLogoutMenu extends Config implements RequiredFunctions {
 		return $menu_item;
 	}
 
+	/**
+	 * Overrides the default nav menu item setup
+	 *
+	 * @since 1.3.2
+	 *
+	 * @param object $item The menu item object
+	 * @return object Modified menu item object
+	 */
 	public static function override_setup_nav_menu_item( $item ) {
 
 		// Only do this when we are on the frontend and only if its a Uncanny Link
@@ -311,6 +325,14 @@ class LoginLogoutMenu extends Config implements RequiredFunctions {
 		return $item;
 	}
 
+	/**
+	 * Filters nav menu objects to remove certain items
+	 *
+	 * @since 1.3.2
+	 *
+	 * @param array $sorted_menu_items Array of menu items
+	 * @return array Filtered array of menu items
+	 */
 	public static function filter_wp_nav_menu_objects( $sorted_menu_items ) {
 		foreach ( $sorted_menu_items as $k => $item ) {
 			if ( ! isset(  $item->url ) ) {
@@ -324,6 +346,15 @@ class LoginLogoutMenu extends Config implements RequiredFunctions {
 		return $sorted_menu_items;
 	}
 
+	/**
+	 * Creates a login link shortcode
+	 *
+	 * @since 1.3.2
+	 *
+	 * @param array  $atts    Shortcode attributes
+	 * @param string $content Shortcode content
+	 * @return string HTML for login link
+	 */
 	public static function login_link( $atts, $content = null ) {
 		$atts = shortcode_atts( array(
 			"edit_tag" => "",
@@ -333,9 +364,18 @@ class LoginLogoutMenu extends Config implements RequiredFunctions {
 		$href     = wp_login_url( /*$atts['redirect']*/ );
 		$content  = $content != '' ? $content : esc_html__( 'Log In', 'uncanny-learndash-toolkit' );
 
-		return '<a href="' . esc_url( $href ) . '" ' . esc_attr($atts['edit_tag']) . '>' . $content . '</a>';
+		return '<a href="' . esc_url( $href ) . '" ' . self::sanitize_edit_tag($atts['edit_tag']) . '>' . $content . '</a>';
 	}
 
+	/**
+	 * Creates a login/logout toggle link shortcode
+	 *
+	 * @since 1.3.2
+	 *
+	 * @param array  $atts    Shortcode attributes
+	 * @param string $content Shortcode content
+	 * @return string HTML for login/logout toggle link
+	 */
 	public static function loginout_link( $atts, $content = null ) {
 		$atts = shortcode_atts( array(
 			"edit_tag" => "",
@@ -352,9 +392,18 @@ class LoginLogoutMenu extends Config implements RequiredFunctions {
 			$content = is_user_logged_in() ? $atts[ 'log_out_text' ] : $atts[ 'log_in_text' ];
 		}
 
-		return '<a href="' . esc_url( $href ) . '" ' . esc_attr($atts['edit_tag']) . '>' . wp_kses_post($content) . '</a>';
+		return '<a href="' . esc_url( $href ) . '" ' . self::sanitize_edit_tag($atts['edit_tag']) . '>' . wp_kses_post($content) . '</a>';
 	}
 
+	/**
+	 * Creates a logout link shortcode
+	 *
+	 * @since 1.3.2
+	 *
+	 * @param array  $atts    Shortcode attributes
+	 * @param string $content Shortcode content
+	 * @return string HTML for logout link
+	 */
 	public static function logout_link( $atts, $content = null ) {
 		$atts = shortcode_atts( array(
 			"edit_tag" => "",
@@ -364,9 +413,18 @@ class LoginLogoutMenu extends Config implements RequiredFunctions {
 		$href     = wp_logout_url( /*$atts['redirect']*/ );
 		$content  = $content != '' ? $content : esc_html__( 'Logout', 'uncanny-learndash-toolkit' );
 
-		return '<a href="' . esc_url( $href ) . '" ' . esc_attr($atts['edit_tag']) . '>' . wp_kses_post($content) . '</a>';
+		return '<a href="' . esc_url( $href ) . '" ' . self::sanitize_edit_tag($atts['edit_tag']) . '>' . wp_kses_post($content) . '</a>';
 	}
 
+	/**
+	 * Creates a registration link shortcode
+	 *
+	 * @since 1.3.2
+	 *
+	 * @param array  $atts    Shortcode attributes
+	 * @param string $content Shortcode content
+	 * @return string HTML for registration link
+	 */
 	public static function register_link( $atts, $content = null ) {
 		if ( is_user_logged_in() ) {
 			return '';
@@ -376,5 +434,81 @@ class LoginLogoutMenu extends Config implements RequiredFunctions {
 		$link    = '<a href="' . esc_url($href) . '">' . wp_kses_post($content) . '</a>';
 
 		return $link;
+	}
+
+	/**
+	 * Sanitizes HTML attributes for login/logout links
+	 *
+	 * @since 1.3.2
+	 *
+	 * @param string $tag_value The HTML attributes to sanitize
+	 * @return string Sanitized HTML attributes
+	 */
+	private static function sanitize_edit_tag( $tag_value ) {
+		// Define allowed HTML attributes for links
+		$allowed_attributes = array(
+			'class'    => true,
+			'id'       => true,
+			'title'    => true,
+			'rel'      => true,
+			'target'   => true,
+			'data-*'   => true,
+		);
+
+		// Sanitize the input string
+		$tag_value = wp_kses_no_null( $tag_value );
+		$tag_value = preg_replace( '/[\x00-\x1F\x7F]/', '', $tag_value );
+
+		// Remove event handlers and disallowed attributes
+		$edit_tag = '';
+		$edit_tag_parts = explode( ' ', $tag_value );
+		
+		foreach ( $edit_tag_parts as $part ) {
+			$part = trim( $part );
+			
+			// Skip empty parts
+			if ( empty( $part ) ) {
+				continue;
+			}
+
+			// Skip event handlers and javascript: URLs
+			if ( strpos( $part, 'on' ) === 0 || 
+				 strpos( $part, 'javascript:' ) === 0 || 
+				 strpos( $part, 'data:' ) === 0 ) {
+				continue;
+			}
+
+			// Handle attributes with values
+			if ( strpos( $part, '=' ) !== false ) {
+				list( $attribute, $value ) = explode( '=', $part, 2 );
+				$attribute = strtolower( trim( $attribute ) );
+				$value = trim( $value, '"\'' );
+
+				// Additional security checks for data attributes
+				if ( strpos( $attribute, 'data-' ) === 0 ) {
+					// Only allow alphanumeric characters, hyphens, and underscores in data attribute names
+					if ( ! preg_match( '/^data-[a-z0-9-_]+$/', $attribute ) ) {
+						continue;
+					}
+					// Sanitize data attribute values
+					$value = wp_kses_no_null( $value );
+					$value = preg_replace( '/[\x00-\x1F\x7F]/', '', $value );
+				}
+
+				// Check if attribute is allowed
+				if ( isset( $allowed_attributes[ $attribute ] ) || 
+					( strpos( $attribute, 'data-' ) === 0 && isset( $allowed_attributes['data-*'] ) ) ) {
+					$edit_tag .= ' ' . $attribute . '="' . esc_attr( $value ) . '"';
+				}
+			} else {
+				// Handle boolean attributes
+				$attribute = strtolower( trim( $part ) );
+				if ( isset( $allowed_attributes[ $attribute ] ) ) {
+					$edit_tag .= ' ' . $attribute;
+				}
+			}
+		}
+
+		return $edit_tag;
 	}
 }

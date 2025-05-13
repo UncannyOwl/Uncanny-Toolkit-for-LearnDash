@@ -20,6 +20,9 @@ class AdminMenu extends Boot {
 	 */
 	public static $modules = [];
 
+	public static $classes_available = [];
+	public static $active_classes = [];
+
 	/**
 	 * class constructor
 	 */
@@ -120,11 +123,7 @@ class AdminMenu extends Boot {
 
 	}
 
-	/**
-	 *
-	 */
-	public static function options_menu_page_output() {
-
+	public static function get_modules() {
 		// Scan plugins directory for custom plugin
 		$uo_custom_classes['path']      = self::check_for_other_uo_plugin_classes( 'custom' );
 		$uo_custom_classes['namespace'] = 'uncanny_custom_toolkit';
@@ -140,7 +139,7 @@ class AdminMenu extends Boot {
 		}
 
 		// Get Available Classes from UO-Public
-		$classes_available = self::get_available_classes(
+		self::$classes_available = self::get_available_classes(
 			array(
 				$uo_custom_classes,
 				$uo_pro_classes,
@@ -148,9 +147,19 @@ class AdminMenu extends Boot {
 		);
 
 		// Get an array of options from the database
-		$active_classes = Config::get_active_classes();
+		self::$active_classes = Config::get_active_classes();
 
-		self::create_modules( $classes_available, $active_classes );
+		self::create_modules( self::$classes_available, self::$active_classes );
+
+		return self::$modules;
+	}
+
+	/**
+	 *
+	 */
+	public static function options_menu_page_output() {
+
+		$modules = self::get_modules();
 
 		?>
 
@@ -178,7 +187,7 @@ class AdminMenu extends Boot {
 			<?php include( Config::get_template( 'admin-modules.php' ) ) ?>
 		</div>
 
-		<?php self::create_features( $classes_available, $active_classes );
+		<?php self::create_features();
 
 	}
 
@@ -331,7 +340,10 @@ class AdminMenu extends Boot {
 	 * @param $classes_available
 	 * @param $active_classes
 	 */
-	public static function create_features( $classes_available, $active_classes ) {
+	public static function create_features() {
+
+		$classes_available = self::$classes_available;
+		$active_classes = self::$active_classes;
 
 		$active_classes = Config::stripslashes_deep( $active_classes );
 		$modal_html     = '';
