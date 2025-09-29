@@ -2,16 +2,16 @@
 # This file is distributed under the GPLv3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Uncanny Toolkit for LearnDash 3.7.0.3\n"
+"Project-Id-Version: Uncanny Toolkit for LearnDash 3.7.0.4\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/uncanny-learndash-toolkit\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-05-13T17:46:54+00:00\n"
+"POT-Creation-Date: 2025-09-29T17:08:27+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.11.0\n"
+"X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: uncanny-learndash-toolkit\n"
 
 #. Plugin Name of the plugin
@@ -889,18 +889,22 @@ msgstr ""
 
 #: src/classes/frontend-login-plus.php:1425
 #: src/classes/frontend-login-plus.php:1494
+#, php-format
 msgid "%s - Account Verified"
 msgstr ""
 
 #: src/classes/frontend-login-plus.php:1447
+#, php-format
 msgid "Please visit %s to login. "
 msgstr ""
 
 #: src/classes/frontend-login-plus.php:1504
+#, php-format
 msgid "%s account has been approved! "
 msgstr ""
 
 #: src/classes/frontend-login-plus.php:1505
+#, php-format
 msgid " Visit %s to view / edit user. "
 msgstr ""
 
@@ -948,11 +952,13 @@ msgstr ""
 
 #. translators: %s: site name
 #: src/classes/frontend-login-plus.php:3457
+#, php-format
 msgid "Site Name: %s"
 msgstr ""
 
 #. translators: %s: user login
 #: src/classes/frontend-login-plus.php:3459
+#, php-format
 msgid "Username: %s"
 msgstr ""
 
@@ -966,6 +972,7 @@ msgstr ""
 
 #. translators: Password reset notification email subject. %s: Site title
 #: src/classes/frontend-login-plus.php:3465
+#, php-format
 msgid "[%s] Password Reset"
 msgstr ""
 
@@ -1015,6 +1022,7 @@ msgstr ""
 #: src/classes/learn-dash-resume.php:255
 #: src/classes/learn-dash-resume.php:416
 #: src/classes/learn-dash-resume.php:430
+#, php-format
 msgctxt "LMS shortcode Resume link title \"Resume post_type_name: Post_title "
 msgid "Resume %s: %s"
 msgstr ""
@@ -1418,6 +1426,7 @@ msgstr ""
 #: src/includes/class-frontend-login-plus-2fa-2-5.php:732
 #: src/includes/class-frontend-login-plus-2fa-legacy.php:655
 #: src/includes/class-frontend-login-plus-2fa.php:793
+#, php-format
 msgid "&larr; Back to %s"
 msgstr ""
 
@@ -1436,6 +1445,7 @@ msgstr ""
 
 #. translators: %s will be replaced with a "string" - state of the plugin
 #: src/includes/uo-toolkit-2fa-functions.php:186
+#, php-format
 msgid "WP 2FA is currently %s."
 msgstr ""
 
@@ -1445,6 +1455,7 @@ msgstr ""
 
 #. translators: %s will be replaced with a "string" - state of the plugin
 #: src/includes/uo-toolkit-2fa-functions.php:192
+#, php-format
 msgid "Integration is currently %s. Choose a login page in the Front End Logins settings above to use WP 2FA with the front end login."
 msgstr ""
 
@@ -1470,6 +1481,7 @@ msgstr ""
 
 #. translators: %1$s The uninstall text %2$s The WP 2FA plugin label
 #: src/includes/uo-toolkit-2fa-functions.php:217
+#, php-format
 msgid "%1$s the %2$s plugin to remove the integration."
 msgstr ""
 
@@ -1555,6 +1567,7 @@ msgid "Here are a few examples:"
 msgstr ""
 
 #: src/install-automator.php:132
+#, php-format
 msgid "When a user completes a course and fills out an evaluation form, add a row with the form entries to a %1$sGoogle Sheet%2$s and add the user to alumni %1$sBuddyBoss%2$s and %1$sLearnDash%2$s groups."
 msgstr ""
 
@@ -1566,14 +1579,17 @@ msgid "Requires"
 msgstr ""
 
 #: src/install-automator.php:158
+#, php-format
 msgid "When a new blog post is published, automatically post it to %1$sTwitter%2$s and email the post to a %1$sMailChimp%2$s list."
 msgstr ""
 
 #: src/install-automator.php:183
+#, php-format
 msgid "When a user purchases a product, register them for a live event in %1$sEvents Calendar%2$s add them to a %1$sLearnDash%2$s group and send a %1$sWooCommerce%2$s coupon code for their next order."
 msgstr ""
 
 #: src/install-automator.php:208
+#, php-format
 msgid "When a user clicks a button, register them for a %1$sZoom%2$s webinar, reset their progress in one course and enroll them in another course."
 msgstr ""
 
@@ -1674,6 +1690,7 @@ msgid "Help us improve the Uncanny Toolkit by sharing usage statistics"
 msgstr ""
 
 #: src/templates/admin-help.php:25
+#, php-format
 msgid "Please <a href=\"%s\">activate a valid license key</a> to submit a support ticket."
 msgstr ""
 
@@ -1779,6 +1796,7 @@ msgstr ""
 
 #. translators: 1. Trademarked term
 #: src/templates/admin-review-banner.php:8
+#, php-format
 msgctxt "Reviews banner"
 msgid "Has the %1$s been useful for your site?"
 msgstr ""
@@ -1813,6 +1831,7 @@ msgstr ""
 
 #. translators: Some error message.
 #: src/templates/admin-showcase.php:33
+#, php-format
 msgid "An error occurred: %s"
 msgstr ""
 
@@ -1966,11 +1985,13 @@ msgstr ""
 
 #: src/uncanny-one-click-installer/class-auto-plugin-install.php:140
 #: src/uncanny-one-click-installer/class-auto-plugin-install.php:157
+#, php-format
 msgid "%s is already installed and active."
 msgstr ""
 
 #: src/uncanny-one-click-installer/class-auto-plugin-install.php:340
 #: src/uncanny-one-click-installer/class-auto-plugin-install.php:348
+#, php-format
 msgid "Could not install plugin. %s"
 msgstr ""
 
@@ -2023,10 +2044,12 @@ msgid "Install Uncanny Automator"
 msgstr ""
 
 #: src/uncanny-one-click-installer/class-auto-plugin-install.php:557
+#, php-format
 msgid "Install %s"
 msgstr ""
 
 #: src/uncanny-one-click-installer/class-auto-plugin-install.php:565
+#, php-format
 msgid "%s is active"
 msgstr ""
 
@@ -2035,5 +2058,6 @@ msgid "Activate Uncanny Automator"
 msgstr ""
 
 #: src/uncanny-one-click-installer/class-auto-plugin-install.php:572
+#, php-format
 msgid "Activate %s"
 msgstr ""

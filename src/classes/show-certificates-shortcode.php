@@ -188,10 +188,10 @@ class ShowCertificatesShortcode extends Config implements RequiredFunctions {
 						$certificate_title = $course->post_title;
 					}
 
-					$certificate_link = learndash_get_course_certificate_link( $course->ID );
+					$certificate_link = esc_url( learndash_get_course_certificate_link( $course->ID ) );
 
 					if ( $certificate_link && '' !== $certificate_link ) {
-						$link             = apply_filters( 'uo_show_course_certificate_link', sprintf( '<a target="_blank" href="%s">%s</a>', $certificate_link, $certificate_title ), wp_get_current_user(), $course );
+						$link             = apply_filters( 'uo_show_course_certificate_link', sprintf( '<a target="_blank" href="%s">%s</a>', $certificate_link, esc_html( $certificate_title ) ), wp_get_current_user(), $course );
 						$certificate_list .= $link . '<br>';
 					}
 				}
@@ -227,7 +227,7 @@ class ShowCertificatesShortcode extends Config implements RequiredFunctions {
 							} else {
 								$certificate_title = $quiz_title;
 							}
-							$link             = apply_filters( 'uo_show_quiz_certificate_link', sprintf( '<a target="_blank" href="%s">%s</a>', esc_url( $certificate_link ), $certificate_title ), wp_get_current_user(), $quiz_attempt );
+							$link             = apply_filters( 'uo_show_quiz_certificate_link', sprintf( '<a target="_blank" href="%s">%s</a>', esc_url( $certificate_link ), esc_html( $certificate_title ) ), wp_get_current_user(), $quiz_attempt );
 							$certificate_list .= $link . '<br>';
 						}
 					}
@@ -260,10 +260,10 @@ class ShowCertificatesShortcode extends Config implements RequiredFunctions {
 						$certificate_title = $group->post_title;
 					}
 
-					$certificate_link = learndash_get_group_certificate_link( $group->ID );
+					$certificate_link = esc_url( learndash_get_group_certificate_link( $group->ID ) );
 
 					if ( $certificate_link && '' !== $certificate_link ) {
-						$link             = apply_filters( 'uo_show_group_certificate_link', sprintf( '<a target="_blank" href="%s">%s</a>', $certificate_link, $certificate_title ), wp_get_current_user(), $group );
+						$link             = apply_filters( 'uo_show_group_certificate_link', sprintf( '<a target="_blank" href="%s">%s</a>', $certificate_link, esc_html( $certificate_title ) ), wp_get_current_user(), $group );
 						$certificate_list .= $link . '<br>';
 					}
 				}
@@ -274,7 +274,7 @@ class ShowCertificatesShortcode extends Config implements RequiredFunctions {
 		$certificate_list = apply_filters( 'uo_certificate_list_shortcode', $certificate_list, $courses, $quiz_attempts );
 
 		if ( '' === $certificate_list ) {
-			$certificate_list = $no_cert_message;
+			$certificate_list = wp_kses_post( $no_cert_message );
 		}
 
 		$shortcode_html = '';
@@ -282,8 +282,8 @@ class ShowCertificatesShortcode extends Config implements RequiredFunctions {
 			ob_start();
 			?>
 			<div class="<?php echo esc_attr( $class ); ?>">
-				<div class="cert-list-title"><?php echo $title; ?></div>
-				<div class="certificate-list"><?php echo $certificate_list; ?></div>
+				<div class="cert-list-title"><?php echo esc_html( $title ); ?></div>
+				<div class="certificate-list"><?php echo wp_kses_post( $certificate_list ); ?></div>
 			</div>
 
 			<?php

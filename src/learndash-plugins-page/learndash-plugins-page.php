@@ -53,7 +53,7 @@ if ( ! class_exists( 'Uncanny_Owl\LearnDash_Plugins_Page' ) ) {
 				'uncannyowl-core',
 				$this->get_asset( '/dist/index.css' ),
 				array(),
-				'1.0.0',
+				'2.0.0',
 				false
 			);
 
@@ -61,7 +61,7 @@ if ( ! class_exists( 'Uncanny_Owl\LearnDash_Plugins_Page' ) ) {
 				'uncannyowl-core',
 				$this->get_asset( '/dist/index.js' ),
 				array(),
-				'1.0.0',
+				'2.0.0',
 				false
 			);
 
