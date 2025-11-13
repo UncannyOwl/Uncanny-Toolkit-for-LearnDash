@@ -41,6 +41,7 @@ if ( 'on' !== $show_description ) { ?>
 if ( uo_toolkit_2fa_form_exists() ) {
 	uo_toolkit_2fa_render_authentication_form();
 } else {
+	do_action( 'login_form' );
 	wp_login_form( $login_form_args );
 }
 

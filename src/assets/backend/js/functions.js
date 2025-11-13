@@ -65,10 +65,10 @@ jQuery( function($){
             // Show or hide loading animation
             changeLoadingStatus: function( $module, enable ){
                 if ( enable ){
-                    $module.addClass( 'ult-directory-module--loading' );
+                    $module.addClass( 'ult-directory-module--loading uncannyowl-loading uncannyowl-loading--large' );
                 }
                 else {
-                    $module.removeClass( 'ult-directory-module--loading' );
+                    $module.removeClass( 'ult-directory-module--loading uncannyowl-loading uncannyowl-loading--large' );
                 }
             }
         },
@@ -254,13 +254,15 @@ jQuery( function($){
 
         StatusToggle: {
             $elements: {},
+            requestQueue: [],
+            isProcessing: false,
 
             init: function ( ULT_Modules ){
                 // Create reference of main object
                 this.ULT_Modules = ULT_Modules;
 
-                // Get elements
-                this.$elements.toggles = $( '.ult .ult-directory-module__status-toggle' );
+                // Get elements - updated for uncannyowl-toggle structure
+                this.$elements.toggles = $( '.ult .uncannyowl-toggle .ult-directory-module__status-toggle' );
 
                 // Bind Toggle
                 this.bindToggles();
@@ -270,50 +272,100 @@ jQuery( function($){
                 // Reference
                 let _this = this;
 
-                // Bind changes
+                // Bind changes to checkbox
                 this.$elements.toggles.on( 'change', function (){
                     // Get parent module
                     let $toggle = $( this ),
-                        $module = $toggle.closest( '.ult-directory-module' );
+                        $module = $toggle.closest( '.ult-directory-module' ),
+                        moduleValue = $toggle.val();
 
-                    // Change status
-                    _this.changeStatus( $toggle, $module );
+                    // Check if this module is already queued
+                    if ( _this.isModuleQueued( moduleValue ) ) {
+                        return;
+                    }
+
+                    // Queue the status change
+                    _this.queueStatusChange( $toggle, $module );
+                });
+
+                // Also bind click to slider to trigger checkbox change
+                $( '.ult .uncannyowl-toggle-slider' ).on( 'click', function(){
+                    // Find the associated checkbox
+                    let $checkbox = $( this ).siblings( 'input[type="checkbox"]' );
+                    
+                    if ( $checkbox.length ) {
+                        // Toggle the checkbox
+                        $checkbox.prop( 'checked', !$checkbox.prop( 'checked' ) ).trigger( 'change' );
+                    }
                 });
             },
 
-            changeStatus: function( $toggle, $module ){
+            isModuleQueued: function( moduleValue ) {
+                return this.requestQueue.some( request => request.value === moduleValue );
+            },
+
+            queueStatusChange: function( $toggle, $module ) {
                 // Get data
                 let shouldActive = $toggle.is( ':checked' ),
-                    status = shouldActive ? 'active' : 'inactive';
+                    status = shouldActive ? 'active' : 'inactive',
+                    moduleValue = $toggle.val();
 
+                // Add to queue
+                this.requestQueue.push({
+                    $toggle: $toggle,
+                    $module: $module,
+                    value: moduleValue,
+                    status: status,
+                    shouldActive: shouldActive
+                });
+
+                // Show loading immediately
+                this.ULT_Modules.Modules.changeLoadingStatus( $module, true );
+
+                // Process queue
+                this.processQueue();
+            },
+
+            processQueue: function() {
+                if ( this.isProcessing || 0 === this.requestQueue.length ) {
+                    return;
+                }
+
+                this.isProcessing = true;
+                let request = this.requestQueue.shift();
+                this.changeStatus( request );
+            },
+
+            changeStatus: function( request ){
                 // Reference
                 let _this = this;
 
-                // Show loading animation
-                this.ULT_Modules.Modules.changeLoadingStatus( $module, true );
-
                 var data = {
                     'action': 'activate_deactivate_module',
-                    'value':  $toggle.val(),
-                    'active': status,
+                    'value':  request.value,
+                    'active': request.status,
                     nonce: UncannyToolkitGlobal.ajax.nonce,
                 };
 
                 $.post( ajaxurl, data, function ( response ){
                     if ( 'success' === response.trim() ){
                         // If it's correct then change data attribute value
-                        $module.data( 'status', status );
+                        request.$module.data( 'status', request.status );
                     }
                     else {
                         // Revert change
-                        $toggle.prop( 'checked', ! shouldActive );
+                        request.$toggle.prop( 'checked', ! request.shouldActive );
                     }
 
                     //Stop loading animation
-                    _this.ULT_Modules.Modules.changeLoadingStatus( $module, false );
+                    _this.ULT_Modules.Modules.changeLoadingStatus( request.$module, false );
 
                     // Filter values
                     _this.ULT_Modules.Modules.filter();
+
+                    // Mark as not processing and process next in queue
+                    _this.isProcessing = false;
+                    _this.processQueue();
                 });
             }
         },
@@ -349,13 +401,13 @@ jQuery( function($){
                 });
 
                 // Remove selected class from all toggles
-                this.$elements.toggles.removeClass( 'ult-directory-layout-item--active' );
+                this.$elements.toggles.removeClass( 'uncannyowl-bg-yellow uncannyowl-text-primary' );
 
                 // Add correct class
                 this.$elements.directory.addClass( `ult-directory--${localStorage.ultView}` );
 
                 // Add class to the clicked one
-                this.findToggle( localStorage.ultView ).addClass( 'ult-directory-layout-item--active' );
+                this.findToggle( localStorage.ultView ).addClass( 'uncannyowl-bg-yellow uncannyowl-text-primary' );
 
                 // Filter and refresh UI
                 this.ULT_Modules.Modules.filter();
@@ -462,7 +514,7 @@ jQuery( function($){
                     let formData = this.getFormData( $elements.form );
 
                     // Add loading class to submit button
-                    $elements.submitButton.addClass( 'ult-modal-action__btn--loading' );
+                    $elements.submitButton.addClass( 'uncannyowl-btn--loading' );
 
                     // Hide the notices
                     this.hideNotice( $modal );
@@ -474,7 +526,7 @@ jQuery( function($){
                             options: formData
                         }, ( response, data ) => {
                             // Remove loading animation from submit button
-                            $elements.submitButton.removeClass( 'ult-modal-action__btn--loading' );
+                            $elements.submitButton.removeClass( 'uncannyowl-btn--loading' );
 
                             // Success
                             if ( ! response.error ){
@@ -488,7 +540,7 @@ jQuery( function($){
                         },
                         ( response, data ) => {
                             // Remove loading animation from submit button
-                            $elements.submitButton.removeClass( 'ult-modal-action__btn--loading' );
+                            $elements.submitButton.removeClass( 'uncannyowl-btn--loading' );
                         });
 
                     // Just trying to prevent the form again
@@ -549,6 +601,13 @@ jQuery( function($){
 
                 // Add classes based on the message type
                 $notice.addClass( `ult-modal-notice ult-modal-notice--${type}` );
+                
+                // Add design system classes for success and error notices
+                if ( type === 'success' ) {
+                    $notice.addClass( 'uncannyowl-alert uncannyowl-alert-success' );
+                } else if ( type === 'error' ) {
+                    $notice.addClass( 'uncannyowl-alert uncannyowl-alert-error' );
+                }
 
                 // Show notice
                 $notice.slideDown( 150 );
@@ -577,7 +636,7 @@ jQuery( function($){
                 // Show modal
                 $modal.fadeIn( 150, () => {
                     // Add class to know
-                    $modal.addClass( 'ult-modal--visible' );
+                    $modal.addClass( 'ult-modal--visible active ' );
                 });
 
                 // Show loading animation
@@ -621,7 +680,7 @@ jQuery( function($){
                 // Hide the modal
                 $modal.fadeOut( 150, () => {
                     // Remove visibility class to the modal
-                    $modal.removeClass( 'ult-modal--visible' );
+                    $modal.removeClass( 'ult-modal--visible active' );
                 });
             },
 
@@ -823,11 +882,11 @@ jQuery( function($){
 
                             // Check if it should show the field
                             if ( shouldShow ){
-                                field.$fieldRow.removeClass( 'ult-modal-form-row--hide' );
+                                field.$fieldRow.removeClass( 'row-hide' );
                             }
                             else {
                                 // Hide it
-                                field.$fieldRow.addClass( 'ult-modal-form-row--hide' );
+                                field.$fieldRow.addClass( 'row-hide' );
                             }
                         });
                     }, 20 ));
@@ -856,6 +915,9 @@ jQuery( function($){
                 $( '.ult-modal-form-row__select' ).select2({
                     theme: 'ult-select2'
                 });
+                // $( '.ult-modal-form-row__select:not([data-no-select2="true"])' ).select2({
+                //     theme: 'ult-select2'
+                // });
             },
         },
 

@@ -65,19 +65,18 @@ class ToolkitReportSetting {
 
 		<div class="ult-reporting-setting">
 			<div class="ult-form-element">
-				<div
-					class="ult-form-checkbox ult-form-checkbox--toggle ult-form-checkbox--toggle-gutenberg">
-					<label class="ult-form-checkbox__container">
-						
-						<input type="checkbox"
-								class="ult-directory-module__status-toggle ult-checkbox--hidden ult-checkbox--primary"
-								value="1"
+				<div class="uncannyowl-toggle">
+					<input type="checkbox"
+							class="ult-directory-module__status-toggle"
+							value="1"
 							<?php echo self::get_reporting_setting() ? 'checked="checked"' : ''; ?>
-						/>
-						<div class="ult-checkbox--show"></div>
-						<div><?php echo esc_html__('Help us improve the Uncanny Toolkit by sharing usage statistics', 'uncanny-learndash-toolkit' ); ?></div>
-
-					</label>
+							aria-describedby="ult-reporting-help-text"
+					/>
+					<div class="uncannyowl-toggle-slider"></div>
+				</div>
+				<div class="ult-reporting-text">
+					<span><?php echo esc_html__('Help us improve the Uncanny Toolkit by sharing usage statistics', 'uncanny-learndash-toolkit' ); ?></span>
+					<small id="ult-reporting-help-text" class="ult-reporting-description"><?php echo esc_html__('Anonymous usage data helps us understand how the plugin is used and improve future versions.', 'uncanny-learndash-toolkit' ); ?></small>
 				</div>
 			</div>
 		</div>
@@ -92,18 +91,7 @@ class ToolkitReportSetting {
 	 * @return void
 	 */
 	public function output_css() {
-		?>
-		<style>
-			.ult-reporting-setting {
-				margin-top: 10px;
-				display: block;
-				height: 40px;
-			}
-			.ult .ult-reporting-setting .ult-form-checkbox.ult-form-checkbox--toggle .ult-form-checkbox__container {
-				padding-left: 40px;
-			}
-		</style>
-		<?php
+		// Styles moved to main CSS file
 	}
 	
 	/**
@@ -115,7 +103,7 @@ class ToolkitReportSetting {
 		?>
 		<script>
 			jQuery(document).ready(function($) {
-				$('.ult-reporting-setting .ult-form-checkbox input').on('change', function() {
+				$('.ult-reporting-setting .ult-directory-module__status-toggle').on('change', function() {
 					var value = $(this).is(':checked');
 					//Send an ajax request to save the setting
 					jQuery.ajax({

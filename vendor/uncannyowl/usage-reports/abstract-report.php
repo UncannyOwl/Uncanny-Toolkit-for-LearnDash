@@ -1,6 +1,6 @@
 <?php
 
-namespace Uncanny_Owl\Usage_Reports;
+namespace UncannyOwl\Toolkit\UsageReports;
 
 /**
  * Report

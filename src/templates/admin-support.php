@@ -3,34 +3,19 @@ namespace uncanny_learndash_toolkit;
 
 ?>
 
-<div class="wrap">
-	<div class="uo-plugins-header">
-		<div class="uo-plugins-header__title">
-			Uncanny Toolkit for LearnDash
-		</div>
-		<div class="uo-plugins-header__author">
-			<span><?php _e( 'by', 'uncanny-learndash-toolkit' ); ?></span>
-			<a href="https://uncannyowl.com" target="_blank" class="uo-plugins-header__logo">
-				<img src="<?php echo esc_url( Config::get_admin_media( 'uncanny-owl-logo.svg' ) ); ?>"
-					 alt="Uncanny Owl">
-			</a>
-		</div>
-		<?php do_action('uncanny_toolkit_dashboard_header_after'); ?>
-	</div>
-
-	<div class="uo-plugins-tabs">
-		<?php include( Config::get_template( 'admin-tabs.php' ) ); ?>
-
-		<?php
-
-		$active_tab = 'uncanny-toolkit-plugins';
-
-		if ( isset( $_GET['page'] ) ) {
-			$active_tab = $_GET['page'];
-		}
-
-		?>
-	</div>
+<div class="wrap uncannyowl-default-design">
+	<?php
+	// Add admin header and tabs.
+	$active_tab = 'uncanny-toolkit-plugins';
+	if ( isset( $_GET['page'] ) ) {
+		$active_tab = $_GET['page'];
+	}
+	
+	$tab_active = $active_tab;
+	require Config::get_template( 'admin-header.php' );
+	?>
+	
+	<?php do_action('uncanny_toolkit_dashboard_header_after'); ?>
 
 	<?php
 

@@ -166,7 +166,7 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 							add_action(
 								'shutdown',
 								function () {
-									learndash_get_next_lesson_redirect( self::$lesson_redirection );
+									self::learndash_get_next_lesson_redirect( self::$lesson_redirection );
 								}
 							);
 
@@ -419,5 +419,103 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 		}
 
 		return true;
+	}
+
+    /**
+     * Redirects the user to the next lesson.
+     *
+     * @global WP_Post $post Global post object.
+     *
+     * @param WP_Post|null $post Optional. The `WP_Post` object. Defaults to global post object. Default null.
+     *
+     * @return string Returns empty string if the next lesson's redirect link empty.
+     */
+	protected static function learndash_get_next_lesson_redirect( $post = null ) {
+		
+		if ( empty( $post->ID ) ) {
+			global $post;
+		}
+
+		$next = learndash_next_post_link( '', true, $post );
+
+		if ( ! empty( $next ) ) {
+			$link = $next;
+		} else {
+			if ( 'sfwd-topic' === $post->post_type ) {
+				if ( \LearnDash_Settings_Section::get_section_setting( 'LearnDash_Settings_Courses_Builder', 'shared_steps' ) == 'yes' ) {
+					$course_id = learndash_get_course_id( $post->ID );
+					$lesson_id = learndash_course_get_single_parent_step( $course_id, $post->ID );
+				} else {
+					$lesson_id = learndash_get_setting( $post, 'lesson' );
+				}
+				$link = get_permalink( $lesson_id );
+			} else {
+				$course_id = learndash_get_course_id( $post );
+				$link      = self::learndash_next_global_quiz( true, null, $course_id );
+			}
+		}
+
+		if ( ! empty( $link ) ) {
+
+			/** This filter is documented in includes/course/ld-course-progress.php */
+			$link = apply_filters( 'learndash_completion_redirect', $link, $post->ID );
+			if ( ! empty( $link ) ) {
+				learndash_safe_redirect( $link );
+			}
+		}
+
+		return '';
+	}
+
+    /**
+     * Gets the next quiz for a course.
+     *
+     * @param boolean  $url     Optional. Whether to return URL for the next quiz. Default true.
+     * @param int|null $user_id Optional. User ID.  Defaults to the current logged-in user. Default null.
+     * @param int|null $id      Optional. The ID of the resource. Default null.
+     * @param array    $exclude Optional. An array of quiz IDs to exclude. Default empty array.
+     *
+     * @return int|string The ID or the URL of the quiz.
+     */
+    protected static function learndash_next_global_quiz( $url = true, $user_id = null, $id = null, $exclude = [] ) {
+		
+		if ( empty( $id ) ) {
+			$id = learndash_get_course_id();
+		}
+
+		if ( empty( $user_id ) ) {
+			$current_user = wp_get_current_user();
+			$user_id      = $current_user->ID;
+		}
+
+		$quizzes = learndash_get_global_quiz_list( $id );
+		$return  = get_permalink( $id );
+
+		if ( ! empty( $quizzes ) ) {
+			foreach ( $quizzes as $quiz ) {
+				if ( ! in_array( $quiz->ID, $exclude, true ) && learndash_is_quiz_notcomplete( $user_id, [ $quiz->ID => 1 ], false, $id ) && learndash_can_attempt_again( $user_id, $quiz->ID ) ) {
+					if ( $url ) {
+						return get_permalink( $quiz->ID );
+					} else {
+						return $quiz->ID;
+					}
+				}
+			}
+		}
+
+		// Good to know:
+		// Filter name `learndash_course_completion_url` does not seem correct in the context of this function.
+		// But it will stay here for backward compatibility.
+		// It is moved to the correct place in version TBD together with parameters updating.
+
+		/** This filter is documented in includes/course/ld-course-functions.php */
+		$return = apply_filters(
+			'learndash_course_completion_url',
+			Cast::to_string( $return ),
+			Cast::to_int( $id ),
+			0
+		);
+
+		return $return;
 	}
 }

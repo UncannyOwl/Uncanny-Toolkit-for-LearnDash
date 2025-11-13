@@ -2,11 +2,11 @@
 namespace uncanny_learndash_toolkit;
 
 use WP2FA\Authenticator\Login as Two_Factor_Core;
-use WP2FA\Authenticator\BackupCodes as BackupCodes;
+use WP2FA\Methods\Backup_Codes;
 use WP2FA\Admin\Helpers\User_Helper;
-use \WP2FA\Authenticator\Authentication as Authentication;
+use WP2FA\Authenticator\Authentication;
 use WP2FA\Admin\Controllers\Settings;
-use WP2FA\Admin\SettingsPage;
+use WP2FA\Admin\Settings_Page as SettingsPage;
 
 /**
  * This class handles the integration between Uncanny Front-end Login and Two-Factor.
@@ -49,7 +49,6 @@ class Frontend_Login_Plus_2fa {
 		$this->register_actions();
 
 		return true;
-
 	}
 
 	/**
@@ -70,7 +69,6 @@ class Frontend_Login_Plus_2fa {
 		}
 
 		return true;
-
 	}
 
 	/**
@@ -84,7 +82,6 @@ class Frontend_Login_Plus_2fa {
 			'uncanny_learndash_toolkit\FrontendLoginPlus',
 			Config::get_active_classes()
 		);
-
 	}
 
 	/**
@@ -121,7 +118,6 @@ class Frontend_Login_Plus_2fa {
 		add_action( 'uo-login-action-before-json-response', array( $this, 'uo_login_action_before_json_response' ), 99, 1 );
 		add_filter( 'uo-redirect-login-page', array( $this, 'uo_redirect_login_page' ), 99, 1 );
 		add_action( 'wp_logout', array( $this, 'uo_clear_cookie_logout' ) );
-
 	}
 
 	/**
@@ -134,7 +130,6 @@ class Frontend_Login_Plus_2fa {
 	public function uo_redirect_login_page( $login_uri ) {
 
 		return $this->login_uri;
-
 	}
 
 	/**
@@ -147,7 +142,7 @@ class Frontend_Login_Plus_2fa {
 	public function uo_login_action_before_json_response( $user ) {
 
 		// Skip if user has not enabled 2factor in his/her profile.
-		if ( ! $this->two_factor::is_user_using_two_factor( $user->ID ) ) {
+		if ( ! User_Helper::is_user_using_two_factor( $user->ID ) ) {
 			return;
 		}
 
@@ -158,7 +153,6 @@ class Frontend_Login_Plus_2fa {
 		wp_clear_auth_cookie();
 
 		return true;
-
 	}
 
 	/**
@@ -175,7 +169,7 @@ class Frontend_Login_Plus_2fa {
 		// Do check by login.
 		$user = get_user_by( 'login', $user_identity );
 
-		if ( ! $this->two_factor::is_user_using_two_factor( $user->ID ) ) {
+		if ( ! User_Helper::is_user_using_two_factor( $user->ID ) ) {
 			return $response;
 		}
 
@@ -212,7 +206,6 @@ class Frontend_Login_Plus_2fa {
 		$response['redirectTo'] = $two_factor_login_form_url;
 
 		return $response;
-
 	}
 
 	/**
@@ -277,7 +270,7 @@ class Frontend_Login_Plus_2fa {
 		}
 
 		if ( ! empty( $provider ) ) { //phpcs:ignore
-			$providers = $this->two_factor::get_available_providers_for_user( $user );
+			$providers = User_Helper::get_enabled_method_for_user( $user );
 			if ( isset( $providers[ $provider ] ) ) {
 				$provider = $providers[ $provider ];
 			} elseif ( isset( $provider ) ) {
@@ -318,10 +311,9 @@ class Frontend_Login_Plus_2fa {
 			if ( Authentication::check_number_of_attempts( $user ) ) {
 				$this->login_html( $user, $login_nonce['key'], esc_url_raw( wp_unslash( $_REQUEST['redirect_to'] ) ), esc_html__( 'ERROR: Invalid verification code.', 'wp-2fa' ), $provider ); // phpcs:ignore
 			} else {
-				Authentication::get_login_attempts_instance()->clear_login_attempts( $user );
+				Authentication::clear_login_attempts( $user );
 				wp_safe_redirect( wp_login_url() );
 			}
-
 			$redirect_args['w2-2fa-key'] = $login_nonce['key'];
 
 			wp_safe_redirect(
@@ -348,7 +340,7 @@ class Frontend_Login_Plus_2fa {
 			if ( Backup_Codes::check_number_of_attempts( $user ) ) {
 				$this->login_html( $user, $login_nonce['key'], esc_url_raw( wp_unslash( $_REQUEST['redirect_to'] ) ), esc_html__( 'ERROR: Invalid backup code.', 'wp-2fa' ), $provider ); // phpcs:ignore
 			} else {
-				Backup_Codes::get_login_attempts_instance()->clear_login_attempts( $user );
+				Backup_Codes::clear_login_attempts( $user );
 			}
 
 			wp_safe_redirect(
@@ -375,13 +367,11 @@ class Frontend_Login_Plus_2fa {
 				$redirect_args['w2-2fa-key'] = $login_nonce['key'];
 				$redirect_args['2fa-action'] = 'wp-2fa-email-code-resend';
 				$redirect_args['error']      = esc_html__( 'A new code has been sent.', 'uncanny-learndash-toolkit' );
-			} else {
-				if ( Authentication::check_number_of_attempts( $user ) ) {
+			} elseif ( Authentication::check_number_of_attempts( $user ) ) {
 					$this->login_html( $user, $login_nonce['key'], esc_url_raw( wp_unslash( $_REQUEST['redirect_to'] ) ), esc_html__( 'ERROR: Invalid verification code.', 'wp-2fa' ), $provider ); // phpcs:ignore
-				} else {
-					Authentication::get_login_attempts_instance()->clear_login_attempts( $user );
-					wp_safe_redirect( wp_login_url() );
-				}
+			} else {
+				Authentication::clear_login_attempts( $user );
+				wp_safe_redirect( wp_login_url() );
 			}
 
 			wp_safe_redirect(
@@ -423,7 +413,6 @@ class Frontend_Login_Plus_2fa {
 		wp_safe_redirect( $redirect_to );
 
 		exit;
-
 	}
 
 	/**
@@ -440,7 +429,7 @@ class Frontend_Login_Plus_2fa {
 			return;
 		}
 
-		if ( ! $this->two_factor::is_user_using_two_factor( $user->ID ) ) {
+		if ( ! User_Helper::is_user_using_two_factor( $user->ID ) ) {
 			return;
 		}
 
@@ -471,7 +460,6 @@ class Frontend_Login_Plus_2fa {
 		wp_safe_redirect( $redirect );
 
 		exit;
-
 	}
 
 	/**
@@ -545,7 +533,6 @@ class Frontend_Login_Plus_2fa {
 
 			<?php
 		}
-
 	}
 
 	/**
@@ -566,7 +553,6 @@ class Frontend_Login_Plus_2fa {
 
 		// Show the 2factor login for the user.
 		$this->show_two_factor_login( $user );
-
 	}
 
 	/**
@@ -583,10 +569,10 @@ class Frontend_Login_Plus_2fa {
 	protected function login_html( $user, $login_nonce, $redirect_to, $error_msg = '', $provider = null ) {
 
 		if ( ! $provider || ( 'backup_codes' === $provider && ! SettingsPage::are_backup_codes_enabled( $user->roles[0] ) ) ) {
-			$provider = $this->two_factor::get_available_providers_for_user( $user );
+			$provider = User_Helper::get_enabled_method_for_user( $user );
 		}
 
-		$codes_remaining = BackupCodes::codes_remaining_for_user( $user );
+		$codes_remaining = Backup_Codes::codes_remaining_for_user( $user );
 		$interim_login = ( isset( $_REQUEST['interim-login'] ) ) ? filter_var( wp_unslash( $_REQUEST['interim-login'] ), FILTER_VALIDATE_BOOLEAN ) : false; //phpcs:ignore
 		$rememberme      = intval( $this->two_factor::rememberme() );
 
@@ -758,7 +744,6 @@ class Frontend_Login_Plus_2fa {
 		setcookie( 'uo-toolkit-guard', $cookie_value, 0, COOKIEPATH, COOKIE_DOMAIN );
 
 		return true;
-
 	}
 
 	/**
@@ -772,7 +757,6 @@ class Frontend_Login_Plus_2fa {
 		setcookie( 'uo-toolkit-guard', '', time() - 3600, COOKIEPATH, COOKIE_DOMAIN );
 
 		return true;
-
 	}
 
 	/**
@@ -796,7 +780,6 @@ class Frontend_Login_Plus_2fa {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -817,7 +800,6 @@ class Frontend_Login_Plus_2fa {
 		}
 
 		return $redirect_to;
-
 	}
 
 	/**
@@ -828,5 +810,4 @@ class Frontend_Login_Plus_2fa {
 	public function uo_clear_cookie_logout() {
 		$this->delete_form_cookie();
 	}
-
 }

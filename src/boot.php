@@ -177,7 +177,7 @@ class Boot extends Config {
 	 * Output inline styles for the admin menu.
 	 */
 	public function admin_menu_styles() {
-		$styles = 'a.ult-sidebar-upgrade-pro { background-color: #00a32a !important; color: #fff !important; font-weight: 600 !important; }';
+		$styles = 'a.ult-sidebar-upgrade-pro { background-color: #1E9515 !important; color: #fff !important; font-weight: 600 !important; }';
 
 		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		printf( '<style>%s</style>', $styles );

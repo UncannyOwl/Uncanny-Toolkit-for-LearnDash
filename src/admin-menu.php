@@ -62,10 +62,8 @@ class AdminMenu extends Boot {
 		$function   = array( __CLASS__, 'options_menu_page_output' );
 
 		// Menu Icon blends into sidebar when the default admin color scheme is used
-		//$admin_color_scheme = get_user_meta( get_current_user_id(), 'admin_color', true );
-		$icon_url = 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c3ZnIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDU4MSA2NDAiIHZlcnNpb249IjEuMSIgdmlld0JveD0iMCAwIDU4MSA2NDAiIHhtbDpzcGFjZT0icHJlc2VydmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0ibTUyNi40IDM0LjFjMC42IDUgMSAxMC4xIDEuMyAxNS4xIDAuNSAxMC4zIDEuMiAyMC42IDAuOCAzMC45LTAuNSAxMS41LTEgMjMtMi4xIDM0LjQtMi42IDI2LjctNy44IDUzLjMtMTYuNSA3OC43LTcuMyAyMS4zLTE3LjEgNDEuOC0yOS45IDYwLjQtMTIgMTcuNS0yNi44IDMzLTQzLjggNDUuOS0xNy4yIDEzLTM2LjcgMjMtNTcuMSAyOS45LTI1LjEgOC41LTUxLjUgMTIuNy03Ny45IDEzLjggNzAuMyAyNS4zIDEwNi45IDEwMi44IDgxLjYgMTczLjEtMTguOSA1Mi42LTY4LjEgODguMS0xMjQgODkuNWgtNi4xYy0xMS4xLTAuMi0yMi4xLTEuOC0zMi45LTQuNy0yOS40LTcuOS01NS45LTI2LjMtNzMuNy01MC45LTI5LjItNDAuMi0zNC4xLTkzLjEtMTIuNi0xMzgtMjUgMjUuMS00NC41IDU1LjMtNTkuMSA4Ny40LTguOCAxOS43LTE2LjEgNDAuMS0yMC44IDYxLjEtMS4yLTE0LjMtMS4yLTI4LjYtMC42LTQyLjkgMS4zLTI2LjYgNS4xLTUzLjIgMTIuMi03OC45IDUuOC0yMS4yIDEzLjktNDEuOCAyNC43LTYwLjlzMjQuNC0zNi42IDQwLjYtNTEuM2MxNy4zLTE1LjcgMzcuMy0yOC4xIDU5LjEtMzYuOCAyNC41LTkuOSA1MC42LTE1LjIgNzYuOC0xNy4yIDEzLjMtMS4xIDI2LjctMC44IDQwLjEtMi4zIDI0LjUtMi40IDQ4LjgtOC40IDcxLjMtMTguMyAyMS05LjIgNDAuNC0yMS44IDU3LjUtMzcuMiAxNi41LTE0LjkgMzAuOC0zMi4xIDQyLjgtNTAuOCAxMy0yMC4yIDIzLjQtNDIuMSAzMS42LTY0LjcgNy42LTIxLjEgMTMuNC00Mi45IDE2LjctNjUuM3ptLTI3OS40IDMyOS41Yy0xOC42IDEuOC0zNi4yIDguOC01MC45IDIwLjQtMTcuMSAxMy40LTI5LjggMzIuMi0zNi4yIDUyLjktNy40IDIzLjktNi44IDQ5LjUgMS43IDczIDcuMSAxOS42IDE5LjkgMzcuMiAzNi44IDQ5LjYgMTQuMSAxMC41IDMwLjkgMTYuOSA0OC40IDE4LjZzMzUuMi0xLjYgNTEtOS40YzEzLjUtNi43IDI1LjQtMTYuMyAzNC44LTI4LjEgMTAuNi0xMy40IDE3LjktMjkgMjEuNS00NS43IDQuOC0yMi40IDIuOC00NS43LTUuOC02Ni45LTguMS0yMC0yMi4yLTM3LjYtNDAuMy00OS4zLTE4LTExLjctMzkuNS0xNy02MS0xNS4xeiIgZmlsbD0iIzgyODc4QyIvPjxwYXRoIGQ9Im0yNDIuNiA0MDIuNmM2LjItMS4zIDEyLjYtMS44IDE4LjktMS41LTExLjQgMTEuNC0xMi4yIDI5LjctMS44IDQyIDExLjIgMTMuMyAzMS4xIDE1LjEgNDQuNCAzLjkgNS4zLTQuNCA4LjktMTAuNCAxMC41LTE3LjEgMTIuNCAxNi44IDE2LjYgMzkuNCAxMSA1OS41LTUgMTguNS0xOCAzNC42LTM1IDQzLjUtMzQuNSAxOC4yLTc3LjMgNS4xLTk1LjUtMjkuNS0xLTItMi00LTIuOS02LjEtOC4xLTE5LjYtNi41LTQzIDQuMi02MS4zIDEwLTE3IDI2LjgtMjkuMiA0Ni4yLTMzLjR6IiBmaWxsPSIjODI4NzhDIi8+PC9zdmc+';
-
-		$position = 81; // 81 - Above Settings Menu
+		$icon_url = self::get_svg_data_uri();
+		$position = 48;
 		add_menu_page( $page_title, $menu_title, $capability, $menu_slug, null, $icon_url, $position );
 
 		add_submenu_page( $menu_slug, __( 'Modules', 'uncanny-learndash-toolkit' ), __( 'Modules', 'uncanny-learndash-toolkit' ), 'manage_options', $menu_slug, $function );
@@ -103,6 +101,9 @@ class AdminMenu extends Boot {
 
 		// Target Toolkit pages
 		if ( strpos( $hook, 'uncanny-toolkit' ) || strpos( $hook, 'uncanny-toolkit-kb' ) || strpos( $hook, 'uncanny-toolkit-plugins' ) || strpos( $hook, 'uncanny-toolkit-license' ) ) {
+			wp_enqueue_style( 'uncannyowl-asset', UNCANNY_OWL_ASSETS_STATIC_URL . '/css/main.css', array(), UNCANNY_TOOLKIT_VERSION );
+			wp_enqueue_script( 'uncannyowl-asset', UNCANNY_OWL_ASSETS_STATIC_URL . '/js/main.js', array(), UNCANNY_TOOLKIT_VERSION, array( 'in_footer' => true ) );
+			
 			// Main CSS file
 			wp_enqueue_style( 'ult-admin', Config::get_admin_css( 'style.css' ), array(), UNCANNY_TOOLKIT_VERSION );
 
@@ -119,6 +120,9 @@ class AdminMenu extends Boot {
 			wp_enqueue_script( 'ult-select2', Config::get_vendor( 'select2/js/select2.min.js' ), array( 'jquery' ), UNCANNY_TOOLKIT_VERSION, true );
 			wp_enqueue_style( 'wp-color-picker' );
 			wp_enqueue_script( 'wp-color-picker' );
+
+			// Hide screen options on Toolkit pages
+			add_filter( 'screen_options_show_screen', '__return_false' );
 		}
 
 	}
@@ -163,26 +167,14 @@ class AdminMenu extends Boot {
 
 		?>
 
-		<div class="wrap">
-			<div class="uo-plugins-header">
-				<div class="uo-plugins-header__title">
-					Uncanny Toolkit for LearnDash
-				</div>
-				<div class="uo-plugins-header__author">
-					<span><?php _e( 'by', 'uncanny-learndash-toolkit' ); ?></span>
-					<a href="<?php echo Config::utm_parameters( 'https://uncannyowl.com', 'header', 'logo' ); ?>"
-					   target="_blank" class="uo-plugins-header__logo">
-						<img
-							src="<?php echo esc_url( Config::get_admin_media( 'uncanny-owl-logo.svg' ) ); ?>"
-							alt="Uncanny Owl">
-					</a>
-				</div>
-				<?php do_action('uncanny_toolkit_dashboard_header_after'); ?>
-			</div>
-
-			<div class="uo-plugins-tabs">
-				<?php include( Config::get_template( 'admin-tabs.php' ) ) ?>
-			</div>
+		<div class="wrap uncannyowl-default-design">
+			<?php
+			// Add admin header and tabs.
+			$tab_active = 'uncanny-toolkit';
+			require Config::get_template( 'admin-header.php' );
+			?>
+			
+			<?php do_action('uncanny_toolkit_dashboard_header_after'); ?>
 
 			<?php include( Config::get_template( 'admin-modules.php' ) ) ?>
 		</div>
@@ -749,6 +741,9 @@ class AdminMenu extends Boot {
 		self::filter_non_toolkit_admin_notices( 'user_admin_notices' );
 		self::filter_non_toolkit_admin_notices( 'admin_notices' );
 		self::filter_non_toolkit_admin_notices( 'all_admin_notices' );
+
+		// Remove Automator Pro licensing notices
+		self::remove_automator_pro_licensing_notices();
 	}
 
 	/**
@@ -810,4 +805,72 @@ class AdminMenu extends Boot {
 
 	}
 
+	/**
+	 * Fetch Uncanny Owl SVG icon and convert to data URI
+	 *
+	 * @param int $timeout Request timeout in seconds (default: 5)
+	 *
+	 * @return string Data URI string or empty string on failure
+	 */
+	public static function get_svg_data_uri( $timeout = 5 ) {
+		// Build the SVG URL using the static assets URL
+		if ( ! defined( 'UNCANNY_OWL_ASSETS_STATIC_URL' ) ) {
+			return '';
+		}
+
+		$svg_url = UNCANNY_OWL_ASSETS_STATIC_URL . '/img/uncannyowl-eye-mono.svg';
+
+		// Determine if we should verify SSL based on filter or constant
+		$sslverify = self::should_verify_ssl();
+
+		$svg_content = wp_remote_get(
+			$svg_url,
+			array(
+				'timeout'   => $timeout,
+				'sslverify' => $sslverify,
+			)
+		);
+
+		if ( is_wp_error( $svg_content ) ) {
+			return '';
+		}
+
+		$svg_body = wp_remote_retrieve_body( $svg_content );
+		if ( empty( $svg_body ) ) {
+			return '';
+		}
+
+		return 'data:image/svg+xml;base64,' . base64_encode( $svg_body );
+	}
+
+	/**
+	 * Determine if SSL should be verified based on filter or constant
+	 *
+	 * @return bool True to verify SSL, false to skip verification
+	 */
+	public static function should_verify_ssl() {
+		// Allow filtering via WordPress filter (universal across all plugins)
+		$sslverify = apply_filters( 'uncanny_owl_disable_ssl_verify', null );
+		if ( null !== $sslverify ) {
+			return ! $sslverify; // Filter returns true to disable, so invert
+		}
+
+		// Check if explicitly disabled via wp-config.php constant (universal across all plugins)
+		if ( defined( 'UNCANNY_OWL_DISABLE_SSL_VERIFY' ) && true === \UNCANNY_OWL_DISABLE_SSL_VERIFY ) {
+			return false;
+		}
+
+		// Default to verifying SSL for production environments
+		return true;
+	}
+
+	/**
+	 * Remove all automator_show_internal_admin_notice actions.
+	 * 
+	 * @return void
+	 */
+	public static function remove_automator_pro_licensing_notices() {
+		// Simply remove all actions from this hook
+		remove_all_actions( 'automator_show_internal_admin_notice' );
+	}
 }

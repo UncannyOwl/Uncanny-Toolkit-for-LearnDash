@@ -2,14 +2,11 @@
 
 namespace uncanny_learndash_toolkit;
 
-use Uncanny_Owl\Usage_Reports\Report;
-use Uncanny_Owl\Usage_Reports\Reporting_Schedule;
+use UncannyOwl\Toolkit\UsageReports\Report;
 
 if ( ! defined( 'WPINC' ) ) {
 	die;
 }
-
-require_once UNCANNY_TOOLKIT_DIR . '/src/reports/module/abstract-report.php';
 
 /**
  * ToolkitReport

@@ -2,7 +2,7 @@
 /**
  * Uncanny_Owl\LearnDash_Plugins_Page
  *
- * @version 1.0.0
+ * @version 3.0.0
  */
 
 namespace Uncanny_Owl;
@@ -15,12 +15,16 @@ if ( ! class_exists( 'Uncanny_Owl\LearnDash_Plugins_Page' ) ) {
 	 * LearnDash_Plugins_Page
 	 */
 	class LearnDash_Plugins_Page {
+
+		private $assets_url = 'https://static.uncannyowl.com/help-plugins-page';
+
 		/**
 		 * Initialize class.
 		 *
 		 * @since 1.0.0
 		 */
 		public function init() {
+
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
 		}
 
@@ -50,18 +54,18 @@ if ( ! class_exists( 'Uncanny_Owl\LearnDash_Plugins_Page' ) ) {
 				return;
 			}
 			wp_enqueue_style(
-				'uncannyowl-core',
-				$this->get_asset( '/dist/index.css' ),
+				'uncannyowl-help-plugins-page',
+				$this->assets_url . '/index.css',
 				array(),
-				'2.0.0',
+				'3.0.0',
 				false
 			);
 
 			wp_enqueue_script(
-				'uncannyowl-core',
-				$this->get_asset( '/dist/index.js' ),
+				'uncannyowl-help-plugins-page',
+				$this->assets_url . '/index.js',
 				array(),
-				'2.0.0',
+				'3.0.0',
 				false
 			);
 

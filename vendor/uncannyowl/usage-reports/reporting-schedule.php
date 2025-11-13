@@ -1,6 +1,6 @@
 <?php
 
-namespace Uncanny_Owl\Usage_Reports;
+namespace UncannyOwl\Toolkit\UsageReports;
 
 /**
  * Class Usage_Reports.
@@ -15,17 +15,17 @@ class Reporting_Schedule {
 	/**
 	 * @var string
 	 */
-	private static $plugin_slug;
+	private $plugin_slug;
 
 	/**
 	 * @var bool
 	 */
-	private static $reporting_enabled;
+	private $reporting_enabled;
 
 	/**
 	 * @var string
 	 */
-	private static $shedule_name;
+	private $shedule_name;
 
 	/**
 	 * @var
@@ -45,12 +45,12 @@ class Reporting_Schedule {
     /**
      * @var Report
      */
-    public static $report_object;
+    public $report_object;
 
 	/**
 	 * @var bool
 	 */
-	public static $test_mode;
+	public $test_mode;
 
 	/**
 	 * __construct
@@ -59,11 +59,11 @@ class Reporting_Schedule {
 	 */
 	public function __construct( $plugin_slug, $reporting_enabled, $report_object, $test_mode = false ) {
 
-		self::$test_mode = $test_mode;
-		self::$reporting_enabled = $reporting_enabled;
-        self::$report_object = $report_object;
-        self::$plugin_slug = $this->generate_slug( $plugin_slug );
-        self::$shedule_name = self::$plugin_slug . '_reporting';
+		$this->test_mode = $test_mode;
+		$this->reporting_enabled = $reporting_enabled;
+        $this->report_object = $report_object;
+        $this->plugin_slug = $this->generate_slug( $plugin_slug );
+        $this->shedule_name = $this->plugin_slug . '_reporting';
 		$this->register_hooks();
 	}
     
@@ -75,7 +75,7 @@ class Reporting_Schedule {
     public function register_hooks() {
 
 		add_action( 'init', array( $this, 'maybe_schedule_report' ) );
-        add_action( self::$shedule_name, array( $this, 'maybe_send_report' ) );
+        add_action( $this->shedule_name, array( $this, 'maybe_send_report' ) );
     }
     
     /**
@@ -102,10 +102,9 @@ class Reporting_Schedule {
 	 * @return void
 	 */
 	public function maybe_schedule_report() {
-
 		// If reporting is disabled, unschedule the report.
-		if ( ! self::$reporting_enabled ) {
-	
+		if ( ! $this->reporting_enabled ) {
+
 			$this->unschedule_report();
 
 			return;
@@ -123,7 +122,7 @@ class Reporting_Schedule {
 	public function schedule_report() {
 
         // If already scheduled, bail.
-		if ( wp_next_scheduled( self::$shedule_name ) ) {
+		if ( wp_next_scheduled( $this->shedule_name ) ) {
             return;
         }
 
@@ -131,12 +130,12 @@ class Reporting_Schedule {
 		$first_report_timestamp = $this->get_random_timestamp();
 		$reporting_interval = 'weekly';
 
-		if ( self::$test_mode ) {
+		if ( $this->test_mode ) {
 			$first_report_timestamp = time() + 60;
 			$reporting_interval = 'hourly';
 		}
-        
-		wp_schedule_event( $first_report_timestamp, $reporting_interval, self::$shedule_name );
+
+		wp_schedule_event( $first_report_timestamp, $reporting_interval, $this->shedule_name );
 	}
 
 	/**
@@ -146,13 +145,13 @@ class Reporting_Schedule {
 	 */
 	public function unschedule_report() {
 
-		$timestamp = wp_next_scheduled( self::$shedule_name );
+		$timestamp = wp_next_scheduled( $this->shedule_name );
 
 		if ( false === $timestamp ) {
 			return;
 		}
 
-		wp_unschedule_event( $timestamp, self::$shedule_name );
+		wp_unschedule_event( $timestamp, $this->shedule_name );
 	}
 
 	/**
@@ -177,7 +176,7 @@ class Reporting_Schedule {
 	 */
 	public function maybe_send_report() {
 
-		if ( ! self::$reporting_enabled ) {
+		if ( ! $this->reporting_enabled ) {
 			return false;
 		}
 
@@ -203,6 +202,6 @@ class Reporting_Schedule {
 	 * @return void
 	 */
 	public function send_report() {
-        self::$report_object->send();
+        $this->report_object->send();
 	}
 }

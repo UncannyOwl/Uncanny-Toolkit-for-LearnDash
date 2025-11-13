@@ -411,7 +411,8 @@ class user_switching {
 			}
 
 			?>
-			<div id="user_switching" class="updated notice notice-success is-dismissible">
+			<div id="user_switching" class="updated uncannyowl-alert uncannyowl-alert-success uncannyowl-alert--dismissible">
+				<button  type="button" class="uncannyowl-alert-close" aria-label="Close alert">&times;</button>
 				<?php
 				if ( $lang_attr ) {
 					printf(
@@ -472,8 +473,9 @@ class user_switching {
 			}
 		} elseif ( isset( $_GET['user_switched'] ) ) {
 			?>
-			<div id="user_switching" class="updated notice notice-success is-dismissible">
-				<p>
+			<div id="user_switching" class="updated uncannyowl-alert uncannyowl-alert-success uncannyowl-alert--dismissible">
+				<button  type="button" class="uncannyowl-alert-close" aria-label="Close alert">&times;</button>
+				 
 				<?php
 				if ( isset( $_GET['switched_back'] ) ) {
 					echo esc_html( self::switched_back_message( $user ) );
@@ -481,7 +483,7 @@ class user_switching {
 					echo esc_html( self::switched_to_message( $user ) );
 				}
 				?>
-				</p>
+				 
 			</div>
 			<?php
 		}
