@@ -156,6 +156,11 @@ final class Turnstile_Support {
 			return $user;
 		}
 
+		// Don't redirect during Google OAuth callback
+		if ( isset( $_REQUEST['code'] ) && isset( $_REQUEST['state'] ) ) {
+			return $user;
+		}
+
 		$turnstile_token = filter_input( INPUT_POST, 'cf-turnstile-response' );
 
 		// Disable for ajax requests.

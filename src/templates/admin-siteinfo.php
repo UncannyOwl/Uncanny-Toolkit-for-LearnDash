@@ -311,59 +311,59 @@ $tables[] = $table_php_settings;
 
 ?>
 
-<div class="uo-core">
-	<div class="uo-core-siteinfo">
+ 
+	<div class="section">
 		<?php
 
 		foreach ( $tables as $table ) {
 			?>
+	        <div class="uncannyowl-admin-section">
+				<div class="uncannyowl-admin-header">
+					<h3 class="uncannyowl-admin-title"><?php echo $table->title; ?></h3>
+			    </div>	
+			 
+			    <div class="uncannyowl-admin-block pt-0 pl-0 pr-0">
+					<div class="uncannyowl-table-container mb-0 mt-0">
+						<table class="wp-list-table">
+							<thead>
+							<tr>
+								<?php $i = 0;
+								foreach ( $table->heading as $heading ) { ?>
 
-			<div class="uo-core-siteinfo__title">
-				<h3><?php echo $table->title; ?></h3>
-			</div>
+									<th class="uncannyowl-text-left">
+										<?php echo $heading; ?>
+									</th>
 
-			<div class="uo-core-siteinfo__table">
-				<table
-					style="border-collapse: collapse; font-size: 13px; text-align: left; width: 100%;box-sizing: border-box; font-family: -apple-system,system-ui,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif;">
-					<thead style="border-collapse: collapse; font-size: 13px; text-align: left;">
-					<tr>
-						<?php $i = 0;
-						foreach ( $table->heading as $heading ) { ?>
+								<?php } ?>
+							</tr>
+							</thead>
+							<tbody>
 
-							<th style="border: 1px solid #d9d9d9; padding: 4px 15px;">
-								<?php echo $heading; ?>
-							</th>
+							<?php foreach ( $table->rows as $row ) { ?>
 
-						<?php } ?>
-					</tr>
-					</thead>
-					<tbody>
+								<tr>
 
-					<?php foreach ( $table->rows as $row ) { ?>
+									<?php $i = 0;
+									foreach ( $row as $cell ) { ?>
 
-						<tr style="border-collapse: collapse; font-size: 13px; text-align: left;">
+										<td style=" <?php echo 0 === $i % 2 ? ' width: 300px;' : ''; $i ++; ?>">
+											<?php echo $cell; ?>
+										</td>
 
-							<?php $i = 0;
-							foreach ( $row as $cell ) { ?>
+									<?php } ?>
 
-								<td style="border: 1px solid #d9d9d9; padding: 4px 15px; <?php echo 0 === $i % 2 ? ' width: 300px;' : '';
-								$i ++; ?>">
-									<?php echo $cell; ?>
-								</td>
+								</tr>
 
 							<?php } ?>
 
-						</tr>
-
-					<?php } ?>
-
-					</tbody>
-				</table>
+							</tbody>
+						</table>
+					</div>
+				</div>
 			</div>
-
 			<?php
 		}
 
 		?>
 	</div>
-</div>
+ 

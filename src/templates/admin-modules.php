@@ -106,7 +106,7 @@ if ( ! defined( 'UNCANNY_TOOLKIT_PRO_VERSION' ) ) {
 
 			<?php do_action( 'ult_before_directory_actions', $modules ); ?>
 
-			<div class="ult-directory-actions">
+			<div class="ult-directory-actions uncannyowl-bg-lighter">
 
 				<div class="ult-directory-filters">
 					<div class="ult-directory-filter ult-directory-filter--version">
@@ -172,7 +172,7 @@ if ( ! defined( 'UNCANNY_TOOLKIT_PRO_VERSION' ) ) {
 					</div>
 				</div>
 
-				<div class="ult-directory-layout">
+				<!-- <div class="ult-directory-layout">
 					<div id="ult-directory-layout-toggle">
 						<div class="ult-directory-layout-item" data-view="grid">
 							<span class="ult-icon ult-icon--th"></span>
@@ -181,7 +181,7 @@ if ( ! defined( 'UNCANNY_TOOLKIT_PRO_VERSION' ) ) {
 							<span class="ult-icon ult-icon--th-list"></span>
 						</div>
 					</div>
-				</div>
+				</div> -->
 
 			</div>
 
@@ -211,23 +211,28 @@ if ( ! defined( 'UNCANNY_TOOLKIT_PRO_VERSION' ) ) {
 						 data-category='<?php echo isset( $module['category'] ) ? json_encode( $module['category'] ) : json_encode( array() ); ?>'
 					>
 
-						<div class="ult-directory-module-content">
+						<div class="uncannyowl-bg-lighter ult-directory-module-content<?php echo ( isset( $module['version'] ) && 'pro' === $module['version'] ) ? ' ' : ''; ?>">
 							<?php if ( ! empty( $module['cant_use_notice'] ) ) { ?>
 
-								<div class="ult-directory-module-notice">
+								<div class="ult-directory-module-notice uncannyowl-bg-light-red uncannyowl-border-error-b-xxs">
 									<div class="ult-directory-module-notice__icon">
 										<span class="ult-icon ult-icon--lock-alt"></span>
 									</div>
 									<div class="ult-directory-module-notice__text">
-										<?php echo $module['cant_use_notice']; ?>
+										<?php echo wp_kses_post( $module['cant_use_notice'] ); ?>
 									</div>
 								</div>
 
 							<?php } ?>
 
+							<?php 
+								$cant_use_notice = sanitize_text_field( $module['cant_use_notice'] );
+								$cant_use_notice = str_replace( 'Buy it here', '', $cant_use_notice );
+
+							?>
 							<div class="ult-directory-module-header">
 								<div class="ult-directory-module-header-left">
-									<div class="ult-directory-module__title">
+									<div class="ult-directory-module__title" <?php if ( ! empty( $module['cant_use_notice'] ) ) { ?>data-tooltip="<?php echo $cant_use_notice; ?>"<?php } ?>>
 										<?php echo $module['title']; ?>
 									</div>
 
@@ -245,10 +250,11 @@ if ( ! defined( 'UNCANNY_TOOLKIT_PRO_VERSION' ) ) {
 
 										?>
 
-										<a href="<?php echo $get_toolkit_pro_link; ?>" target="_blank"
-										   class="ult-directory-module__pro-label">
-											<?php _e( 'Pro', 'uncanny-learndash-toolkit' ); ?>
-										</a>
+										<div class="ult-directory-module__pro-label uncannyowl-bg-primary">
+											<a href="<?php echo $get_toolkit_pro_link; ?>" target="_blank">
+												<!-- <span class="ult-directory-module__pro-text"><?php _e( 'PRO', 'uncanny-learndash-toolkit' ); ?></span> -->
+											</a>
+										</div>
 
 									<?php } ?>
 								</div>
@@ -257,18 +263,13 @@ if ( ! defined( 'UNCANNY_TOOLKIT_PRO_VERSION' ) ) {
 
 									<div class="ult-directory-module__status">
 
-										<div class="ult-form-element">
-											<div
-												class="ult-form-checkbox ult-form-checkbox--toggle ult-form-checkbox--toggle-gutenberg">
-												<label class="ult-form-checkbox__container">
-													<input type="checkbox"
-														   class="ult-directory-module__status-toggle ult-checkbox--hidden ult-checkbox--primary"
-														   value="<?php echo $module['class_name']; ?>"
-														<?php echo $module['is_active'] ? 'checked="checked"' : ''; ?>
-													/>
-													<div class="ult-checkbox--show"></div>
-												</label>
-											</div>
+										<div class="uncannyowl-toggle">
+											<input type="checkbox"
+												   class="ult-directory-module__status-toggle"
+												   value="<?php echo $module['class_name']; ?>"
+												<?php echo $module['is_active'] ? 'checked="checked"' : ''; ?>
+											/>
+											<div class="uncannyowl-toggle-slider"></div>
 										</div>
 									</div>
 
@@ -280,21 +281,7 @@ if ( ! defined( 'UNCANNY_TOOLKIT_PRO_VERSION' ) ) {
 							</div>
 
 							<div class="ult-directory-module-actions">
-
-								<?php if ( isset( $module['can_use'] ) && $module['can_use'] ) { ?>
-
-									<?php if ( false !== $module['has_settings'] ) { ?>
-
-										<div
-											class="ult-directory-module-settings ult-directory-module-settings--modal ult-directory-module__btn ult-btn ult-btn--primary"
-											data-settings="<?php echo $module['settings_id']; ?>">
-											<?php _e( 'Settings', 'uncanny-learndash-toolkit' ); ?>
-										</div>
-
-									<?php } ?>
-
-								<?php }
-
+							<?php
 								// Check if it has a KB article
 								if ( ! empty( $module['kb_link'] ) ) {
 
@@ -310,11 +297,26 @@ if ( ! defined( 'UNCANNY_TOOLKIT_PRO_VERSION' ) ) {
 									?>
 
 									<a href="<?php echo $module_kb_link; ?>" target="_blank"
-									   class="ult-directory-module-settings ult-directory-module-settings--kb-link ult-directory-module__btn ult-btn ult-btn--secondary">
+									   class="ult-directory-module-settings ult-directory-module-settings--kb-link ult-directory-module__btn uncannyowl-btn uncannyowl-btn--secondary uncannyowl-btn--sm">
 										<?php _e( 'Learn More', 'uncanny-learndash-toolkit' ); ?>
 									</a>
 
 								<?php } ?>
+
+								<?php if ( isset( $module['can_use'] ) && $module['can_use'] ) { ?>
+
+									<?php if ( false !== $module['has_settings'] ) { ?>
+
+										<div
+											class="ult-directory-module-settings ult-directory-module-settings--modal ult-directory-module__btn uncannyowl-btn uncannyowl-btn--primary uncannyowl-btn--sm"
+											data-settings="<?php echo $module['settings_id']; ?>">
+											<?php _e( 'Settings', 'uncanny-learndash-toolkit' ); ?>
+										</div>
+
+									<?php } ?>
+
+								<?php } ?>
+
 
 							</div>
 						</div>

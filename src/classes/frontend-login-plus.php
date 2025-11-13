@@ -276,6 +276,16 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				2
 			);
 
+			// Enqueue color overrides for Modern UI
+			add_action(
+				'wp_head',
+				array(
+					__CLASS__,
+					'enqueue_modern_ui_colors',
+				),
+				20
+			);
+
 			if ( 'yes' === $enable_ajax_support ) {
 
 				// override menu login item
@@ -801,6 +811,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				'type'        => 'select',
 				'label'       => esc_html__( 'Select Template', 'uncanny-learndash-toolkit' ),
 				'select_name' => 'uo_frontend_login_template',
+				'id'          => 'uo_frontend_login_template',
 				'options'     => array(
 					array(
 						'value' => 'default',
@@ -810,7 +821,51 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 						'value' => 'layout_1',
 						'text'  => __( 'Boxed with shadow', 'uncanny-learndash-toolkit' ),
 					),
+					array(
+						'value' => 'modern_ui',
+						'text'  => __( 'Modern', 'uncanny-learndash-toolkit' ),
+					),
 				),
+			),
+			array(
+				'type'        => 'color',
+				'label'       => esc_html__( 'Primary Color', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_frontend_login_primary_color',
+				'default'     => '#000000',
+				'description' => esc_html__( 'Controls the main color for titles, buttons and links', 'uncanny-learndash-toolkit' ),
+				'show_if' => array(
+							'uo_frontend_login_template' => 'modern_ui',
+						), 
+			),
+			array(
+				'type'        => 'color',
+				'label'       => esc_html__( 'Text Color', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_frontend_login_text_color',
+				'default'     => '#000000',
+				'description' => esc_html__( 'Controls the color of labels, descriptions, and general text', 'uncanny-learndash-toolkit' ),
+				'show_if' => array(
+					'uo_frontend_login_template' => 'modern_ui',
+				), 
+			),
+			array(
+				'type'        => 'color',
+				'label'       => esc_html__( 'Background Color', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_frontend_login_background_color',
+				'default'     => '#ffffff',
+				'description' => esc_html__( 'Controls the form container background', 'uncanny-learndash-toolkit' ),
+				'show_if' => array(
+					'uo_frontend_login_template' => 'modern_ui',
+				), 
+			),
+			array(
+				'type'        => 'color',
+				'label'       => esc_html__( 'Border Color', 'uncanny-learndash-toolkit' ),
+				'option_name' => 'uo_frontend_login_border_color',
+				'default'     => '#000000',
+				'description' => esc_html__( 'Controls the color of the form container border', 'uncanny-learndash-toolkit' ),
+				'show_if' => array(
+							'uo_frontend_login_template' => 'modern_ui',
+						), 
 			),
 			array(
 				'type'        => 'select',
@@ -843,7 +898,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				'inner_html' => '<strong>' .
 								esc_html__( 'Available variables for subject', 'uncanny-learndash-toolkit' ) .
 								'</strong><br /><ul><li><strong>%Site Name%</strong> &mdash; ' .
-								esc_html__( 'Prints Site\'s Name', 'uncanny-learndash-toolkit' ) .
+								esc_html__( "Prints Site's Name", 'uncanny-learndash-toolkit' ) .
 								'</li></ul>',
 			),
 			array(
@@ -858,13 +913,13 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 								esc_html__( 'Available variables for email body', 'uncanny-learndash-toolkit' ) .
 								'</strong><br />' .
 								'<ul><li><strong>%Display Name%</strong> &mdash; ' .
-								esc_html__( 'Prints User\'s Display Name', 'uncanny-learndash-toolkit' ) .
+								esc_html__( "Prints User's Display Name", 'uncanny-learndash-toolkit' ) .
 								'</li><li><strong>%First Name%</strong> &mdash; '
-								. esc_html__( 'Prints User\'s First Name', 'uncanny-learndash-toolkit' ) .
+								. esc_html__( "Prints User's First Name", 'uncanny-learndash-toolkit' ) .
 								'</li><li><strong>%Last Name%</strong> &mdash; '
-								. esc_html__( 'Prints User\'s Last Name', 'uncanny-learndash-toolkit' ) .
+								. esc_html__( "Prints User's Last Name", 'uncanny-learndash-toolkit' ) .
 								'</li><li><strong>%Home Url%</strong> &mdash; '
-								. esc_html__( 'Prints Site\'s Home URL', 'uncanny-learndash-toolkit' ) .
+								. esc_html__( "Prints Site's Home URL", 'uncanny-learndash-toolkit' ) .
 								'</li></ul>',
 			),
 			// Will implement in later version
@@ -1098,7 +1153,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			array(
 				'type'        => 'text',
 				'label'       => esc_html__( 'Description', 'uncanny-learndash-toolkit' ),
-				'placeholder' => esc_html__( 'Enter your email address or username and we’ll send you instructions to reset your password.', 'uncanny-learndash-toolkit' ),
+				'placeholder' => esc_html__( "Enter your email address or username and we'll send you instructions to reset your password.", 'uncanny-learndash-toolkit' ),
 				'option_name' => 'uo_login_forgot_pass_desc',
 			),
 			array(
@@ -1159,7 +1214,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				'inner_html' => '<strong>' .
 								esc_html__( 'Available variables for email body', 'uncanny-learndash-toolkit' ) .
 								'</strong><br /><ul><li><strong>%User Login%</strong> &mdash; ' .
-								esc_html__( 'Prints User\'s Login', 'uncanny-learndash-toolkit' ) .
+								esc_html__( "Prints User's Login", 'uncanny-learndash-toolkit' ) .
 								'</li><li><strong>%Reset Link%</strong> &mdash; '
 								. esc_html__( 'Prints Password Reset Link', 'uncanny-learndash-toolkit' ) .
 								'</li></ul>',
@@ -2062,6 +2117,11 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			return;
 		}
 
+		// Don't redirect during Google OAuth callback
+		if ( isset( $_REQUEST['code'] ) && isset( $_REQUEST['state'] ) ) {
+			return;
+		}
+
 		$registering = false;
 
 		if ( isset( $http_get_action ) ) {
@@ -2294,6 +2354,10 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		if ( strpos( $_SERVER['REQUEST_URI'], '/wp-json/' ) !== false ) {
 			return $user;
 		}
+		// Don't redirect during Google OAuth callback
+		if ( isset( $_REQUEST['code'] ) && isset( $_REQUEST['state'] ) ) {
+			return $user;
+		}
 
 		$login_page = get_permalink( self::get_login_redirect_page_id() );
 		if ( ! $login_page ) {
@@ -2327,6 +2391,11 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		}
 		// Redundant check for REST because in some cases REST_REQUEST constant does not work.
 		if ( strpos( $_SERVER['REQUEST_URI'], '/wp-json/' ) !== false ) {
+			return $user;
+		}
+
+		// Don't redirect during Google OAuth callback
+		if ( isset( $_REQUEST['code'] ) && isset( $_REQUEST['state'] ) ) {
 			return $user;
 		}
 
@@ -2835,12 +2904,139 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	 * @return string|string[]
 	 */
 	public static function set_ult_login_theme( $current_theme ) {
+		$template = Config::get_settings_value( 'uo_frontend_login_template', 'FrontendLoginPlus', 'default' );
 
-		if ( 'layout_1' === Config::get_settings_value( 'uo_frontend_login_template', 'FrontendLoginPlus', 'default' ) ) {
+		if ( 'layout_1' === $template ) {
 			$current_theme = str_replace( 'default', 'layout_1', $current_theme );
+			
+			return $current_theme;
+		}
+
+		// Check if it's a modern UI theme
+		if ( strpos( $template, 'modern_ui' ) !== false ) {
+			// Extract the template type from the current theme (e.g., 'login', 'lost-pwd', 'reset-pwd')
+			$basename = basename( $current_theme ); // e.g., 'default-lost-pwd.php'
+			$template_type = preg_replace( '/^[^-]+-/', '', $basename ); // Remove prefix like 'default-'
+			
+			// Map to the correct modern UI template
+			$current_theme = "frontend-login/modern_ui-" . $template_type;
+		
+			return $current_theme;
 		}
 
 		return $current_theme;
+	}
+
+	/**
+	 * Helper to check if Modern UI is selected
+	 */
+	public static function is_modern_ui() {
+		$template = Config::get_settings_value( 'uo_frontend_login_template', 'FrontendLoginPlus', 'default' );
+		return 'modern_ui' === $template;
+	}
+
+	/**
+	 * Enqueue inline CSS for color customization when Modern UI is selected
+	 */
+	public static function enqueue_modern_ui_colors() {
+		// Only add colors if Modern UI is selected
+		if ( ! self::is_modern_ui() ) {
+			return;
+		}
+
+		// Get color settings
+		$primary_color = self::get_settings_value( 'uo_frontend_login_primary_color', __CLASS__, '' );
+		$text_color = self::get_settings_value( 'uo_frontend_login_text_color', __CLASS__, '' );
+		$background_color = self::get_settings_value( 'uo_frontend_login_background_color', __CLASS__, '' );
+		$border_color = self::get_settings_value( 'uo_frontend_login_border_color', __CLASS__, '' );
+
+		// Check if all colors are #000000 (cleared state) and override with proper defaults
+		if ( '#000000' === $primary_color && '#000000' === $text_color && '#000000' === $background_color && '#000000' === $border_color ) {
+			$primary_color = '#000000';
+			$text_color = '#000000';
+			$background_color = '#ffffff';
+			$border_color = '#000000';
+		} else {
+			// Apply defaults when values are empty
+			if ( empty( $primary_color ) ) {
+				$primary_color = '#000000';
+			}
+			if ( empty( $text_color ) ) {
+				$text_color = '#000000';
+			}
+			if ( empty( $background_color ) ) {
+				$background_color = '#ffffff';
+			}
+			if ( empty( $border_color ) ) {
+				$border_color = '#000000';
+			}
+		}
+
+		// Build CSS variables array
+		$css_vars = array();
+
+		$css_vars[] = "--modern-primary: {$primary_color} !important";
+		// Generate darker shade for primary color hover states
+		$primary_dark = self::darken_color( $primary_color, 20 );
+		$css_vars[] = "--modern-primary-dark: {$primary_dark} !important";
+
+		$css_vars[] = "--modern-text-primary: {$text_color} !important";
+
+		$css_vars[] = "--modern-surface: {$background_color} !important";
+
+		$css_vars[] = "--modern-border: {$border_color} !important";
+
+		$css = "
+		<style id='uo-modern-ui-color-overrides'>
+		.uo-modern-ui {
+			" . implode( ";\n\t\t\t", $css_vars ) . ";
+		}
+		</style>";
+
+		echo $css;
+	}
+
+	/**
+	 * Darken a hex color by a percentage
+	 * 
+	 * @param string $hex_color The hex color to darken
+	 * @param int $percent The percentage to darken (0-100)
+	 * @return string The darkened hex color
+	 */
+	private static function darken_color( $hex_color, $percent ) {
+		// Remove # if present
+		$hex_color = ltrim( $hex_color, '#' );
+		
+		// Convert to RGB
+		$r = hexdec( substr( $hex_color, 0, 2 ) );
+		$g = hexdec( substr( $hex_color, 2, 2 ) );
+		$b = hexdec( substr( $hex_color, 4, 2 ) );
+		
+		// Darken by percentage
+		$r = max( 0, $r - ( $r * $percent / 100 ) );
+		$g = max( 0, $g - ( $g * $percent / 100 ) );
+		$b = max( 0, $b - ( $b * $percent / 100 ) );
+		
+		// Convert back to hex
+		$r = str_pad( dechex( round( $r ) ), 2, '0', STR_PAD_LEFT );
+		$g = str_pad( dechex( round( $g ) ), 2, '0', STR_PAD_LEFT );
+		$b = str_pad( dechex( round( $b ) ), 2, '0', STR_PAD_LEFT );
+		
+		return '#' . $r . $g . $b;
+	}
+
+	/**
+	 * Get the specific modern UI theme
+	 */
+	public static function get_modern_ui_theme() {
+		$template = Config::get_settings_value( 'uo_frontend_login_template', 'FrontendLoginPlus', 'default' );
+		
+		// Map template values to CSS classes
+		$theme_map = [
+			'modern_ui' => 'uo-modern-ui',
+		];
+		
+		return isset( $theme_map[ $template ] ) ? $theme_map[ $template ] : 'uo-modern-ui';
 	}
 
 	/**
@@ -3165,9 +3361,9 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			// At this point, either manual verification is disabled or the user has already been verified.
 			do_action( 'uo_toolkit_frontend_login_user_verified_before_signon', $response );
 
+			// Allow plugins to override the signon process.
 			// Try logging in the user.
 			$user = wp_signon( $credential, $secure_cookie );
-
 			if ( is_wp_error( $user ) ) {
 				if ( ! empty( $user->get_error_message() ) ) {
 					$response['message'] = $user->get_error_message();
@@ -3209,6 +3405,8 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		} else {
 			$response['redirectTo'] = apply_filters( 'login_redirect', $redirect_to, $requested_redirect_to, $user );
 		}
+
+		$response['user_id'] = $user->ID ?? null;
 
 		// Allow modifications.
 		$response = apply_filters( 'uo-login-action-response', $response );
@@ -3493,7 +3691,10 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		$message = apply_filters( 'retrieve_password_message', $message, $key, $user_login, $user_data );
 
 		if ( $message && ! wp_mail( $user_email, wp_specialchars_decode( $title ), $message ) ) {
-			wp_die( __( 'The email could not be sent. Possible reason: your host may have disabled the mail() function.', 'uncanny-learndash-toolkit' ) );
+			// Return error object instead of sending JSON directly
+			$errors = new \WP_Error();
+			$errors->add( 'email_failed', __( 'The email could not be sent. Possible reason: your host may have disabled the mail() function.', 'uncanny-learndash-toolkit' ) );
+			return $errors;
 		}
 
 		return true;

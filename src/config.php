@@ -226,18 +226,20 @@ class Config {
 
 		?>
 
-		<div class="ult-modal" data-settings="<?php echo $modal_id; ?>">
-			<div class="ult-modal-box">
-				<div class="ult-modal__header">
-					<div class="ult-modal-title">
-						<div class="ult-modal-title__icon"></div>
-						<div class="ult-modal-title__text">
+		<div class="ult-modal uncannyowl-modal-overlay" data-settings="<?php echo $modal_id; ?>">
+			<div class="ult-modal-box uncannyowl-modal-content  uncannyowl-modal-centered uncannyowl-modal-width-sm">
+			  
+				<div class="uncannyowl-modal-header">
+					<div class="uncannyowl-modal-title">
+						<div class="uncannyowl-modal-title-icon uncannyowl-bg-yellow"></div>
+						<div class="uncannyowl-modal-title-text ml-sm">
 							<?php echo $title; ?>
 						</div>
 					</div>
+					<button class="uncannyowl-modal-close ult-modal-action__btn-cancel-js" data-action="cancel">×</button>
 				</div>
-				<form method="POST" class="ult-modal-form ult-modal-form-js">
-					<div class="ult-modal-options">
+				<form method="POST" class="uncannyowl-form ult-modal-form uncannyowl-modal-form ult-modal-form-js ">
+					<div class="ult-modal-options uncannyowl-modal-body">
 						<?php
 
 						// Create options
@@ -253,7 +255,7 @@ class Config {
 							// If it has a "show if" defined, hide it
 							$css_class = isset( $content['class'] ) ? $content['class'] : '';
 							if ( ! empty( $show_if ) ) {
-								$css_class = $css_class . ' ult-modal-form-row--hide';
+								$css_class = $css_class . ' row-hide';
 							}
 
 							$placeholder     = isset( $content['placeholder'] ) ? $content['placeholder'] : '';
@@ -265,33 +267,43 @@ class Config {
 							$content_options = isset( $content['options'] ) ? $content['options'] : array();
 							$radio_name      = isset( $content['radio_name'] ) ? $content['radio_name'] : '';
 							$radio_options   = isset( $content['radios'] ) ? $content['radios'] : array();
+							// Generate unique field ID using option name and modal class for uniqueness
+							$field_id = isset( $content['id'] ) ? $content['id'] : $option_name . '-' . substr( md5( $class . $option_name ), 0, 8 );
 
 							switch ( $content['type'] ) {
 								case 'html':
 									?>
 									<div
-										class="ult-modal-form-row ult-modal-form-row--html <?php echo $css_class; ?>"
+										id="<?php echo esc_attr( $field_id ); ?>"
+										class="uncannyowl-form-field pb-sm pt-sm mb-0 ult-modal-form-row uncannyowl-form-html <?php echo $css_class; ?>"
 										data-show-if="<?php echo $show_if; ?>"
 										data-type="html"
 									>
 										<?php echo $inner_html; ?>
 									</div>
+ 
 									<?php
 									break;
 								case 'text':
 									?>
 									<div
-										class="ult-modal-form-row ult-modal__field--text <?php echo $css_class; ?>"
+										id="<?php echo esc_attr( $field_id ); ?>"
+										class="uncannyowl-form-field mb-0 pb-sm pt-sm ult-modal-form-row ult-modal__field--text <?php echo $css_class; ?>"
 										data-show-if="<?php echo $show_if; ?>"
 										data-default="<?php echo $default_value; ?>"
 										data-id="<?php echo $option_name; ?>"
 										data-type="text"
 									>
-										<div class="ult-modal-form-row__label">
-											<?php echo $label; ?>
-										</div>
+
+										 
+										<?php if ( isset( $label ) && trim( wp_strip_all_tags( $label ) ) !== '' ) : ?>
+											<div class="ult-modal-form-row__label uncannyowl-form-section-label">
+												<?php echo wp_kses_post( $label ); ?>
+											</div>
+										<?php endif; ?>
+
 										<div class="ult-modal-form-row__field">
-											<input type="text" placeholder="<?php echo $placeholder; ?>"
+											<input type="text" class="uncannyowl-input" placeholder="<?php echo $placeholder; ?>"
 												   class="ult-modal-form-row__input"
 												   name="<?php echo $option_name; ?>" data-type="text">
 
@@ -310,13 +322,14 @@ class Config {
 								case 'number':
 									?>
 									<div
-										class="ult-modal-form-row ult-modal__field--text <?php echo $css_class; ?>"
+										id="<?php echo esc_attr( $field_id ); ?>"
+										class="uncannyowl-form-field pb-sm pt-sm mb-0  ult-modal-form-row ult-modal__field--text <?php echo $css_class; ?>"
 										data-show-if="<?php echo $show_if; ?>"
 										data-default="<?php echo $default_value; ?>"
 										data-id="<?php echo $option_name; ?>"
 										data-type="text"
 									>
-										<div class="ult-modal-form-row__label">
+										<div class="ult-modal-form-row__label uncannyowl-form-section-label">
 											<?php echo $label; ?>
 										</div>
 										<div class="ult-modal-form-row__field">
@@ -339,13 +352,14 @@ class Config {
 								case 'color':
 									?>
 									<div
-										class="ult-modal-form-row ult-modal__field--color <?php echo $css_class; ?>"
+										id="<?php echo esc_attr( $field_id ); ?>"
+										class="uncannyowl-form-field pb-sm pt-sm mb-sm ult-modal-form-row ult-modal__field--color <?php echo $css_class; ?>"
 										data-show-if="<?php echo $show_if; ?>"
 										data-default="<?php echo $default_value; ?>"
 										data-type="color"
 										data-id="<?php echo $option_name; ?>"
 									>
-										<div class="ult-modal-form-row__label">
+										<div class="ult-modal-form-row__label uncannyowl-form-section-label mb-xs">
 											<?php echo $label; ?>
 										</div>
 										<div class="ult-modal-form-row__field">
@@ -366,100 +380,73 @@ class Config {
 									<?php
 									break;
 								case 'textarea':
-									//Fallback method for old toolkit
-									if ( version_compare( UNCANNY_TOOLKIT_VERSION, '2.4' ) >= 0 ) {
-										// TinyMCE.
+									// TinyMCE editor
+									$tinymce_content = self::get_settings_value( $option_name, $class );
 
-										$tinymce_content = self::get_settings_value( $option_name, $class );
-
-										if ( empty( $tinymce_content ) ) {
-											$tinymce_content = $placeholder;
-										}
-
-										$tinymce_content = stripslashes( $tinymce_content );
-
-										?>
-
-										<div
-											class="ult-modal-form-row ult-modal__field--tinymce <?php echo $css_class; ?>"
-											data-show-if="<?php echo $show_if; ?>"
-											data-default="<?php echo $default_value; ?>"
-											data-type="textarea"
-											data-id="<?php echo $option_name; ?>"
-										>
-											<div class="ult-modal-form-row__label">
-												<?php echo $label; ?>
-											</div>
-											<div class="ult-modal-form-row__field">
-												<?php
-
-												echo wp_editor(
-													$tinymce_content,
-													$option_name,
-													array(
-														'editor_class'  => 'ult-tinymce',
-														'media_buttons' => false,
-														'editor_height' => 275,
-													)
-												);
-												?>
-
-												<?php if ( ! empty( $description ) ) { ?>
-													<div class="ult-modal-form-row__description">
-														<?php echo $description; ?>
-													</div>
-												<?php } ?>
-											</div>
-										</div>
-
-										<?php
-									} else {
-										?>
-										<div
-											class="ult-modal-form-row ult-modal__field--textarea <?php echo $css_class; ?>"
-											data-show-if="<?php echo $show_if; ?>"
-											data-default="<?php echo $default_value; ?>"
-											data-type="textarea"
-											data-id="<?php echo $option_name; ?>"
-										>
-											<div class="ult-modal-form-row__label">
-												<?php echo $label; ?>
-											</div>
-											<div class="ult-modal-form-row__field">
-												<textarea
-													class="ult-modal-form-row__textarea"
-													name="<?php echo $option_name; ?>"
-													placeholder="<?php echo $placeholder; ?>"
-													type="textarea"></textarea>
-
-												<?php if ( ! empty( $description ) ) { ?>
-													<div class="ult-modal-form-row__description">
-														<?php echo $description; ?>
-													</div>
-												<?php } ?>
-											</div>
-										</div>
-
-										<?php
+									if ( empty( $tinymce_content ) ) {
+										$tinymce_content = $placeholder;
 									}
+
+									$tinymce_content = stripslashes( $tinymce_content );
+
+									?>
+
+									<div
+										id="<?php echo esc_attr( $field_id ); ?>"
+										class="uncannyowl-form-field  mb-0 pt-sm pb-sm ult-modal-form-row ult-modal__field--tinymce <?php echo $css_class; ?>"
+										data-show-if="<?php echo $show_if; ?>"
+										data-default="<?php echo $default_value; ?>"
+										data-type="textarea"
+										data-id="<?php echo $option_name; ?>"
+									>
+										<div class="ult-modal-form-row__label uncannyowl-form-section-label">
+											<?php echo $label; ?>
+										</div>
+										<div class="ult-modal-form-row__field">
+											<?php
+
+											echo wp_editor(
+												$tinymce_content,
+												$option_name,
+												array(
+													'editor_class'  => 'ult-tinymce',
+													'media_buttons' => false,
+													'editor_height' => 275,
+													'quicktags'     => true,
+													'tinymce'       => true,
+												)
+											);
+											?>
+
+											<?php if ( ! empty( $description ) ) { ?>
+												<div class="ult-modal-form-row__description">
+													<?php echo $description; ?>
+												</div>
+											<?php } ?>
+										</div>
+									</div>
+
+									<?php
 
 									break;
 								case 'checkbox':
 									?>
 									<div
-										class="ult-modal-form-row ult-modal__field--checkbox <?php echo $css_class; ?>"
+										id="<?php echo esc_attr( $field_id ); ?>"
+										class="uncannyowl-form-field pb-sm pt-sm mb-0 ult-modal-form-row ult-modal__field--checkbox <?php echo $css_class; ?>"
 										data-show-if="<?php echo $show_if; ?>"
 										data-default="<?php echo $default_value; ?>"
 										data-type="checkbox"
 										data-id="<?php echo $option_name; ?>"
 									>
-										<div class="ult-modal-form-row__field">
-											<label>
-												<input type="checkbox" name="<?php echo $option_name; ?>"
-													   class="ult-modal-form-row__checkbox" data-type="checkbox">
-												<?php echo $label; ?>
-											</label>
-
+										<div class="ult-modal-form-row__field  mb-0  p-0">
+											<div class="uncannyowl-checkbox mb-0">
+												<label class="uncannyowl-checkbox-label mb-0">
+													<input type="checkbox" name="<?php echo $option_name; ?>"
+														class="ult-modal-form-row__checkbox " data-type="checkbox">
+													<?php echo $label; ?>
+												</label>
+											</div> 
 											<?php if ( ! empty( $description ) ) { ?>
 												<div class="ult-modal-form-row__description">
 													<?php echo $description; ?>
@@ -473,13 +460,14 @@ class Config {
 								case 'radio';
 									?>
 									<div
-										class="ult-modal-form-row ult-modal__field--radio <?php echo $css_class; ?>"
+										id="<?php echo esc_attr( $field_id ); ?>"
+										class="uncannyowl-form-field mb-0 pb-sm pt-sm ult-modal-form-row <?php echo $css_class; ?>"
 										data-show-if="<?php echo $show_if; ?>"
 										data-default="<?php echo $default_value; ?>"
 										data-type="radio"
 										data-id="<?php echo $radio_name; ?>"
 									>
-										<div class="ult-modal-form-row__label">
+										<div class="uncannyowl-form-section-label ult-modal-form-row__label ">
 											<?php echo $label; ?>
 										</div>
 										<div class="ult-modal-form-row__field">
@@ -492,12 +480,11 @@ class Config {
 												foreach ( $radio_options as $radio ) {
 													?>
 
-													<label class="ult-modal-form-row__radio-label">
+													<label class="ult-modal-form-row__radio-label uncannyowl-radio">
 														<input type="radio" name="<?php echo $radio_name; ?>"
-															   value="<?php echo $radio['value']; ?>" data-type="radio">
-														<span>
-														<?php echo $radio['text']; ?>
-													</span>
+															   value="<?php echo $radio['value']; ?>" data-type="radio"> 
+														<span class="uncannyowl-radio-label"> <?php echo $radio['text']; ?>
+														</span>
 													</label>
 
 													<?php
@@ -520,18 +507,19 @@ class Config {
 								case 'select':
 									?>
 									<div
-										class="ult-modal-form-row ult-modal__field--select <?php echo $css_class; ?>"
+										id="<?php echo esc_attr( $field_id ); ?>"
+										class="uncannyowl-form-field pb-sm pt-sm mb-0 ult-modal-form-row ult-modal__field--select <?php echo $css_class; ?>"
 										data-show-if="<?php echo $show_if; ?>"
 										data-default="<?php echo $default_value; ?>"
 										data-type="select"
 										data-id="<?php echo $select_name; ?>"
 									>
-										<div class="ult-modal-form-row__label">
+										<div class="ult-modal-form-row__label uncannyowl-form-section-label">
 											<?php echo $label; ?>
 										</div>
 										<div class="ult-modal-form-row__field">
 											<select class="ult-modal-form-row__select"
-													name="<?php echo $select_name; ?>" data-type="select">
+													name="<?php echo $select_name; ?>" data-type="select"  data-no-select2="true">
 												<?php
 												if ( ! empty( $content_options ) ) {
 													foreach ( $content_options as $option ) {
@@ -561,39 +549,24 @@ class Config {
 
 						?>
 					</div>
-					<div class="ult-modal-footer">
-						<div class="ult-modal-notice"></div>
-						<div class="ult-modal-actions">
-							<div class="ult-modal-actions__left">
-								<div class="ult-modal-action">
-									<a target="_blank"
-									   class="ult-modal-action__btn ult-modal-action__btn--secondary ult-modal-action__btn-help-js">
-										<?php _e( 'Help', 'uncanny-learndash-toolkit' ); ?>
-									</a>
-								</div>
+					<div class="uncannyowl-modal-footer">
+						<div class="uncannyowl-modal-notice ult-modal-notice"></div>
+						<div class="uncannyowl-modal-actions">
+							<div class="action-left">
+								<a target="_blank"
+									class="uncannyowl-btn uncannyowl-btn--secondary uncannyowl-btn--sm ult-modal-action__btn-help-js">
+									<?php _e( 'Help', 'uncanny-learndash-toolkit' ); ?>
+								</a>
 							</div>
-							<div class="ult-modal-actions__right">
-								<div class="ult-modal-action">
-									<div
-										class="ult-modal-action__btn ult-modal-action__btn--secondary ult-modal-action__btn-cancel-js"
-										data-action="cancel">
-										<?php _e( 'Close', 'uncanny-learndash-toolkit' ); ?>
-									</div>
-								</div>
-								<div class="ult-modal-action">
-									<button
-										class="ult-modal-action__btn ult-modal-action__btn--primary ult-modal-action__btn-submit-js"
-										type="submit">
-										<?php _e( 'Save module', 'uncanny-learndash-toolkit' ); ?>
-									</button>
-								</div>
+							<div class="action-right">
+								<button type="button" class="uncannyowl-btn uncannyowl-btn--secondary ult-modal-action__btn-cancel-js" data-action="cancel"><?php _e( 'Close', 'uncanny-learndash-toolkit' ); ?></button>
+								<button type="submit" class="uncannyowl-btn uncannyowl-btn--primary ult-modal-action__btn-submit-js"><?php _e( 'Save module', 'uncanny-learndash-toolkit' ); ?></button>
 							</div>
 						</div>
-					</div>
+					</div> 
 				</form>
 			</div>
-		</div>
-
+		</div> 
 
 		<?php
 

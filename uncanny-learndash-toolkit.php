@@ -9,8 +9,8 @@
  * Domain Path:         /languages
  * License:             GPLv3
  * License URI:         https://www.gnu.org/licenses/gpl-3.0.html
- * Version:             3.7.0.4
- * Requires at least:   5.4
+ * Version:             3.8.0
+ * Requires at least:   5.8
  * Requires PHP:        7.4
 */
 
@@ -22,7 +22,7 @@ if ( ! defined( 'UNCANNY_TOOLKIT_VERSION' ) ) {
 	/**
 	 *
 	 */
-	define( 'UNCANNY_TOOLKIT_VERSION', '3.7.0.4' );
+	define( 'UNCANNY_TOOLKIT_VERSION', '3.8.0' );
 }
 
 // Define prefix
@@ -62,6 +62,13 @@ if ( ! defined( 'UNCANNY_API_URL' ) ) {
 	 *
 	 */
 	define( 'UNCANNY_API_URL', 'https://api.uncannyowl.com/toolkit/' );
+}
+
+if ( ! defined( 'UNCANNY_OWL_ASSETS_STATIC_URL' ) ) {
+	/**
+	 *
+	 */
+	define( 'UNCANNY_OWL_ASSETS_STATIC_URL', 'https://static.uncannyowl.com' );
 }
 
 if ( ! defined( 'UNCANNY_API_KEY' ) ) {
