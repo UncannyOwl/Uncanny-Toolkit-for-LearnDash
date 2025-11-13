@@ -1,0 +1,11 @@
+{
+  "name": "uncannyowl/usage-reports",
+  "description": "Shared Usage Reports library for Uncanny plugins.",
+  "type": "library",
+  "require": {},
+  "scripts": {
+    "scope": [
+      "php-scoper add-prefix --config=scoper.inc.php --output-dir=scoped --force"
+    ]
+  }
+} 

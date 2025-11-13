@@ -1,0 +1,37 @@
+{
+    "packages": [
+        {
+            "name": "uncannyowl/usage-reports",
+            "version": "dev-master",
+            "version_normalized": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:UncannyOwl/Usage-Reports.git",
+                "reference": "427347f8cb432a2b227910230a7db206fd01c539"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/UncannyOwl/Usage-Reports/zipball/427347f8cb432a2b227910230a7db206fd01c539",
+                "reference": "427347f8cb432a2b227910230a7db206fd01c539",
+                "shasum": ""
+            },
+            "time": "2025-07-21T20:05:36+00:00",
+            "default-branch": true,
+            "type": "library",
+            "installation-source": "source",
+            "scripts": {
+                "scope": [
+                    "php-scoper add-prefix --config=scoper.inc.php --output-dir=scoped --force"
+                ]
+            },
+            "description": "Shared Usage Reports library for Uncanny plugins.",
+            "support": {
+                "source": "https://github.com/UncannyOwl/Usage-Reports/tree/master",
+                "issues": "https://github.com/UncannyOwl/Usage-Reports/issues"
+            },
+            "install-path": "../uncannyowl/usage-reports"
+        }
+    ],
+    "dev": false,
+    "dev-package-names": []
+}
