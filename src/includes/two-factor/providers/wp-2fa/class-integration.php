@@ -118,6 +118,12 @@ class Integration {
 	 * @return void
 	 */
 	private function setup_hooks() {
+
+		// Only enable if front.end login module is active.
+		if ( false === \uncanny_learndash_toolkit\Config::is_toolkit_module_active( 'uncanny_learndash_toolkit\FrontendLoginPlus' ) ) {
+			return;
+		}
+
 		$this->hook_manager->remove_wp2fa_hooks_once();
 		$this->hook_manager->register_toolkit_2fa_hooks_once();
 		$this->hook_manager->register_2fa_form_handlers();
