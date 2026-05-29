@@ -31,7 +31,7 @@ if ( isset( $_GET['2fa_error'] ) ) { // phpcs:ignore WordPress.Security.NonceVer
 			
 			<div class="ult-two-factor-body">
 				<!-- Primary Method Form -->
-				<div id="ult-two-factor-primary-method">
+				<div id="ult-2fa-primary-method">
 					<form method="post" class="ult-two-factor-form">
 						<div class="ult-two-factor-row">
 							<div class="ult-two-factor-field">

@@ -113,7 +113,7 @@ class Authentication_Handler {
 			return;
 		}
 
-		// Validate via REST API.
+		// Validate the 2FA code.
 		$result = Helper::validate_2fa_token( $user_id, $code );
 
 		if ( is_wp_error( $result ) ) {
@@ -152,17 +152,7 @@ class Authentication_Handler {
 			return;
 		}
 
-		// For backup codes, we need to use the backup_codes endpoint.
-		$endpoint = 'wp-2fa-methods/v1/login/' . $user_id . '/' . $code . '/backup_codes';
-		$response = wp_remote_get( get_rest_url( null, $endpoint ) );
-
-		if ( is_wp_error( $response ) ) {
-			$this->redirect_manager->redirect_with_error( $response->get_error_message() );
-			return;
-		}
-
-		$body   = wp_remote_retrieve_body( $response );
-		$result = json_decode( $body, true );
+		$result = Helper::validate_2fa_token( $user_id, $code, 'backup_codes' );
 
 		// Early exit for failed validation.
 		if ( ! isset( $result['status'] ) || ! $result['status'] ) {

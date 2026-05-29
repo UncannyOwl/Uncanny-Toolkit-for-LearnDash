@@ -36,8 +36,6 @@ class Form_Renderer {
 			),
 			'params'         => array(
 				'user_id'        => $user_id,
-				'endpoint'       => Helper::get_2fa_endpoint( $user_id ),
-				'rest_url'       => Helper::get_2fa_rest_url_template( $user_id ),
 				'requires_token' => true,
 				'nonce'          => $challenge_data['nonce'],
 			),

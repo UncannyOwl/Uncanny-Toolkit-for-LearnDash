@@ -65,91 +65,61 @@ class Helper {
 	}
 
 	/**
-	 * Gets the 2FA endpoint URL.
-	 *
-	 * @param int    $user_id The user ID.
-	 * @param string $token The token (optional).
-	 * @param bool   $remember_device Whether to remember device.
-	 * @return string The endpoint URL.
-	 */
-	public static function get_2fa_endpoint( $user_id, $token = '', $remember_device = false ) {
-		$method = self::get_user_2fa_method( $user_id );
-
-		$endpoint = 'wp-2fa-methods/v1/login/' . $user_id;
-
-		if ( ! empty( $token ) ) {
-			$endpoint .= '/' . $token;
-		}
-
-		if ( ! empty( $method ) && 'unknown' !== $method ) {
-			$endpoint .= '/' . $method;
-		}
-
-		if ( $remember_device ) {
-			$endpoint .= '/true';
-		}
-
-		return $endpoint;
-	}
-
-	/**
-	 * Validates a 2FA token via the REST API.
+	 * Validates a 2FA token by invoking WP 2FA's internal filter directly.
 	 *
 	 * @param int    $user_id The user ID.
 	 * @param string $token The token to validate.
-	 * @param string $provider The provider (optional).
-	 * @param bool   $remember_device Whether to remember device.
-	 * @return array|WP_Error The validation result.
+	 * @param string $provider The 2FA method ('totp', 'email', 'backup_codes'). Auto-resolved from user meta if empty.
+	 * @return array The validation result with 'status' (bool) and 'message' (string) keys.
 	 */
-	public static function validate_2fa_token( $user_id, $token, $provider = '', $remember_device = false ) {
-		$endpoint = self::get_2fa_endpoint( $user_id, $token, $remember_device );
-
-		$response = wp_remote_get( get_rest_url( null, $endpoint ) );
-
-		if ( is_wp_error( $response ) ) {
-			return $response;
+	public static function validate_2fa_token( $user_id, $token, $provider = '' ) {
+		if ( empty( $provider ) ) {
+			$provider = self::get_user_2fa_method( $user_id );
 		}
 
-		$body = wp_remote_retrieve_body( $response );
-		$data = json_decode( $body, true );
-
-		return $data;
-	}
-
-	/**
-	 * Gets the full REST API URL for 2FA validation.
-	 *
-	 * @param int    $user_id The user ID.
-	 * @param string $token The token to validate.
-	 * @param bool   $remember_device Whether to remember device.
-	 * @return string The full REST API URL.
-	 */
-	public static function get_2fa_rest_url( $user_id, $token = '', $remember_device = false ) {
-		$endpoint = self::get_2fa_endpoint( $user_id, $token, $remember_device );
-		return get_rest_url( null, $endpoint );
-	}
-
-	/**
-	 * Gets the REST API URL template for 2FA validation (with {token} placeholder).
-	 *
-	 * @param int  $user_id The user ID.
-	 * @param bool $remember_device Whether to remember device.
-	 * @return string The REST API URL template.
-	 */
-	public static function get_2fa_rest_url_template( $user_id, $remember_device = false ) {
-		$method = self::get_user_2fa_method( $user_id );
-
-		$endpoint = 'wp-2fa-methods/v1/login/' . $user_id . '/{token}';
-
-		if ( ! empty( $method ) && 'unknown' !== $method ) {
-			$endpoint .= '/' . $method;
+		// Prime WP 2FA's user context before validating.
+		//
+		// WP 2FA resolves the TOTP secret through User_Helper::get_user(), which ignores
+		// any argument and returns the static current/primed user. Because the front-end
+		// login flow destroys the session before the 2FA challenge, no current user exists
+		// during code submission. Without priming, WP 2FA reads the secret for user 0 and
+		// every code is rejected. Setting the user explicitly makes validation independent
+		// of WP 2FA's internal side-effect ordering.
+		if ( class_exists( '\WP2FA\Admin\Helpers\User_Helper' )
+			&& method_exists( '\WP2FA\Admin\Helpers\User_Helper', 'set_user' ) ) {
+			\WP2FA\Admin\Helpers\User_Helper::set_user( (int) $user_id );
 		}
 
-		if ( $remember_device ) {
-			$endpoint .= '/true';
+		$response = apply_filters( 'wp_2fa_validate_login_api', array( 'valid' => false ), $user_id, $token, $provider );
+
+		if ( ! empty( $response['valid'] ) ) {
+			// Clean up the login nonce on success, replicating what the REST handler did.
+			if ( class_exists( '\WP2FA\Authenticator\Login' )
+				&& method_exists( '\WP2FA\Authenticator\Login', 'delete_login_nonce' ) ) {
+				\WP2FA\Authenticator\Login::delete_login_nonce( $user_id );
+			}
+
+			return array(
+				'status'  => true,
+				'message' => __( 'Authentication successful.', 'uncanny-learndash-toolkit' ),
+			);
 		}
 
-		return get_rest_url( null, $endpoint );
+		// Extract error message from the response if available.
+		$error_message = __( 'Invalid code. Please try again.', 'uncanny-learndash-toolkit' );
+
+		// WP 2FA callbacks return errors keyed by method name, e.g. ['totp' => ['error' => '...']].
+		foreach ( array( 'totp', 'email', 'backup_codes' ) as $method_key ) {
+			if ( isset( $response[ $method_key ]['error'] ) ) {
+				$error_message = $response[ $method_key ]['error'];
+				break;
+			}
+		}
+
+		return array(
+			'status'  => false,
+			'message' => $error_message,
+		);
 	}
 
 	/**

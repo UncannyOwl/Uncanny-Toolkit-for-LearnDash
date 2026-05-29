@@ -1,15 +1,15 @@
-# Copyright (C) 2025 Uncanny Owl
+# Copyright (C) 2026 Uncanny Owl
 # This file is distributed under the GPLv3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Uncanny Toolkit for LearnDash 3.8.0.2\n"
+"Project-Id-Version: Uncanny Toolkit for LearnDash 3.8.0.3\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/uncanny-learndash-toolkit\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-12-05T13:45:17+00:00\n"
+"POT-Creation-Date: 2026-05-29T19:34:43+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: uncanny-learndash-toolkit\n"
@@ -1362,7 +1362,8 @@ msgid "Please enter a valid 6-digit code."
 msgstr ""
 
 #: src/includes/two-factor/providers/wp-2fa/class-authentication-handler.php:126
-#: src/includes/two-factor/providers/wp-2fa/class-form-renderer.php:86
+#: src/includes/two-factor/providers/wp-2fa/class-form-renderer.php:84
+#: src/includes/two-factor/providers/wp-2fa/class-helper.php:109
 #: src/includes/two-factor/providers/wp-2fa/class-integration.php:289
 msgid "Invalid code. Please try again."
 msgstr ""
@@ -1375,69 +1376,69 @@ msgstr ""
 msgid "Please enter a valid backup code."
 msgstr ""
 
-#: src/includes/two-factor/providers/wp-2fa/class-authentication-handler.php:169
+#: src/includes/two-factor/providers/wp-2fa/class-authentication-handler.php:159
 msgid "Invalid backup code. Please try again."
 msgstr ""
 
-#: src/includes/two-factor/providers/wp-2fa/class-authentication-handler.php:203
+#: src/includes/two-factor/providers/wp-2fa/class-authentication-handler.php:193
 msgid "Authentication error. Please try logging in again."
 msgstr ""
 
-#: src/includes/two-factor/providers/wp-2fa/class-form-renderer.php:61
+#: src/includes/two-factor/providers/wp-2fa/class-form-renderer.php:59
 msgid "2FA form template not found."
 msgstr ""
 
-#: src/includes/two-factor/providers/wp-2fa/class-form-renderer.php:77
+#: src/includes/two-factor/providers/wp-2fa/class-form-renderer.php:75
 #: src/includes/two-factor/providers/wp-2fa/class-integration.php:280
 msgid "Two-Factor Authentication"
 msgstr ""
 
-#: src/includes/two-factor/providers/wp-2fa/class-form-renderer.php:78
+#: src/includes/two-factor/providers/wp-2fa/class-form-renderer.php:76
 #: src/includes/two-factor/providers/wp-2fa/class-integration.php:281
 msgid "Enter code"
 msgstr ""
 
-#: src/includes/two-factor/providers/wp-2fa/class-form-renderer.php:79
+#: src/includes/two-factor/providers/wp-2fa/class-form-renderer.php:77
 #: src/includes/two-factor/providers/wp-2fa/class-integration.php:282
 msgid "6-digit code"
 msgstr ""
 
-#: src/includes/two-factor/providers/wp-2fa/class-form-renderer.php:80
+#: src/includes/two-factor/providers/wp-2fa/class-form-renderer.php:78
 #: src/includes/two-factor/providers/wp-2fa/class-integration.php:283
 msgid "Verify Code"
 msgstr ""
 
-#: src/includes/two-factor/providers/wp-2fa/class-form-renderer.php:81
+#: src/includes/two-factor/providers/wp-2fa/class-form-renderer.php:79
 #: src/includes/two-factor/providers/wp-2fa/class-integration.php:284
 msgid "Backup Code"
 msgstr ""
 
-#: src/includes/two-factor/providers/wp-2fa/class-form-renderer.php:82
+#: src/includes/two-factor/providers/wp-2fa/class-form-renderer.php:80
 #: src/includes/two-factor/providers/wp-2fa/class-integration.php:285
 msgid "Enter backup code"
 msgstr ""
 
-#: src/includes/two-factor/providers/wp-2fa/class-form-renderer.php:83
+#: src/includes/two-factor/providers/wp-2fa/class-form-renderer.php:81
 #: src/includes/two-factor/providers/wp-2fa/class-integration.php:286
 msgid "Use Backup Code"
 msgstr ""
 
-#: src/includes/two-factor/providers/wp-2fa/class-form-renderer.php:84
+#: src/includes/two-factor/providers/wp-2fa/class-form-renderer.php:82
 #: src/includes/two-factor/providers/wp-2fa/class-integration.php:287
 msgid "Use Primary Method"
 msgstr ""
 
-#: src/includes/two-factor/providers/wp-2fa/class-form-renderer.php:85
+#: src/includes/two-factor/providers/wp-2fa/class-form-renderer.php:83
 #: src/includes/two-factor/providers/wp-2fa/class-integration.php:288
 msgid "Go Back"
 msgstr ""
 
-#: src/includes/two-factor/providers/wp-2fa/class-form-renderer.php:87
+#: src/includes/two-factor/providers/wp-2fa/class-form-renderer.php:85
 #: src/includes/two-factor/providers/wp-2fa/class-integration.php:290
 msgid "A system error occurred. Please refresh the page and try again."
 msgstr ""
 
-#: src/includes/two-factor/providers/wp-2fa/class-form-renderer.php:88
+#: src/includes/two-factor/providers/wp-2fa/class-form-renderer.php:86
 #: src/includes/two-factor/providers/wp-2fa/class-integration.php:291
 msgid "Verifying..."
 msgstr ""
@@ -1449,6 +1450,10 @@ msgstr ""
 
 #: src/includes/two-factor/providers/wp-2fa/class-form-submission-handler.php:95
 msgid "Invalid action. Please try again."
+msgstr ""
+
+#: src/includes/two-factor/providers/wp-2fa/class-helper.php:104
+msgid "Authentication successful."
 msgstr ""
 
 #: src/includes/two-factor/providers/wp-2fa/class-integration.php:233

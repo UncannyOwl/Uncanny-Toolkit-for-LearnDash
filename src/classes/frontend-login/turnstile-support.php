@@ -224,20 +224,7 @@ final class Turnstile_Support {
 	 */
 	private static function construct_redirect_url( $url = '', $login_query_param_value = '', $key = '' ) {
 
-		// Parse the URL
-		$url_components = wp_parse_url( $url );
-
-		// Parse the query string into an array
-		parse_str( $url_components['query'], $query_params );
-
-		// Modify the value of the 'login' parameter
-		$query_params[ $key ] = $login_query_param_value;
-
-		// Rebuild the query string from the modified array
-		$new_query_string = http_build_query( $query_params );
-
-		// Reconstruct the URL with the modified query string
-		return $url_components['scheme'] . '://' . $url_components['host'] . $url_components['path'] . '?' . $new_query_string;
+		return add_query_arg( $key, $login_query_param_value, $url );
 
 	}
 
