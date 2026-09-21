@@ -1,0 +1,15 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "uncanny-toolkit/frontend-login",
+  "version": "2.0.0",
+  "title": "Front End Login",
+  "category": "uncanny-learndash-toolkit",
+  "textdomain": "uncanny-learndash-toolkit",
+  "description": "Displays the Uncanny Toolkit front end login form.",
+  "supports": { "html": false },
+  "attributes": {},
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "render": "file:./render.php"
+}

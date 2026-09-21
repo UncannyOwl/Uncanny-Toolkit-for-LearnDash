@@ -44,92 +44,93 @@ class Blocks {
 		$this->version        = $version;
 		$this->active_classes = $active_classes;
 
-		$add_block_scripts = false;
+		// Gutenberg required.
+		if ( ! function_exists( 'register_block_type' ) ) {
+			return;
+		}
 
-		// Check if Gutenberg exists
-		if ( function_exists( 'register_block_type' ) ) {
+		$has_active_blocks = (
+			isset( $active_classes['uncanny_learndash_toolkit\Breadcrumbs'] ) ||
+			isset( $active_classes['uncanny_learndash_toolkit\LearnDashResume'] ) ||
+			isset( $active_classes['uncanny_learndash_toolkit\FrontendLoginPlus'] )
+		);
 
-			if (
-				isset( $active_classes['uncanny_learndash_toolkit\Breadcrumbs'] ) ||
-				isset( $active_classes['uncanny_learndash_toolkit\LearnDashResume'] ) ||
-				isset( $active_classes['uncanny_learndash_toolkit\FrontendLoginPlus'] )
-			) {
-				$add_block_scripts = true;
-			}
-			// Register Blocks
-			add_action( 'init', function () {
+		if ( ! $has_active_blocks ) {
+			// Still register the block category filter even if no blocks are active.
+			$this->add_block_category_filter();
+			return;
+		}
+
+		// Register blocks from their block.json metadata (apiVersion 3, dynamic render).
+		// Each block is only registered when its feature class is active.
+		add_action(
+			'init',
+			function () {
 				if ( isset( $this->active_classes['uncanny_learndash_toolkit\Breadcrumbs'] ) ) {
-					require_once( dirname( __FILE__ ) . '/src/toolkit-breadcrumbs/block.php' );
+					register_block_type( __DIR__ . '/dist/toolkit-breadcrumbs' );
 				}
 
 				if ( isset( $this->active_classes['uncanny_learndash_toolkit\LearnDashResume'] ) ) {
-					require_once( dirname( __FILE__ ) . '/src/toolkit-resume-button/block.php' );
+					register_block_type( __DIR__ . '/dist/toolkit-resume-button' );
 				}
 
 				if ( isset( $this->active_classes['uncanny_learndash_toolkit\FrontendLoginPlus'] ) ) {
-					require_once( dirname( __FILE__ ) . '/src/toolkit-frontend-login/block.php' );
+					register_block_type( __DIR__ . '/dist/toolkit-frontend-login' );
 				}
-			} );
+			}
+		);
 
-			if ( $add_block_scripts ) {
+		// Output the ultGutenbergModules inline JS variable so the legacy
+		// utilities.js moduleIsActive() helper (if still referenced) keeps working.
+		// Attached to 'wp-blocks' which is always enqueued when blocks are present.
+		add_action(
+			'enqueue_block_editor_assets',
+			function () {
+				// Get only the Free toolkit blocks that are active.
+				$free_blocks = array_values(
+					array_map(
+						function ( $block ) {
+							return str_replace( 'uncanny_learndash_toolkit\\', '', $block );
+						},
+						array_filter(
+							$this->active_classes,
+							function ( $block ) {
+								return strpos( $block, 'uncanny_learndash_toolkit\\' ) !== false;
+							}
+						)
+					)
+				);
 
-				// Enqueue Gutenberg block assets for both frontend + backend
-				// add_action( 'enqueue_block_assets', function () {
-				// 	wp_enqueue_style(
-				// 		$this->prefix . '-gutenberg-blocks',
-				// 		plugins_url( 'blocks/dist/style-index.css', dirname( __FILE__ ) ),
-				// 		array(),
-				// 		UNCANNY_TOOLKIT_VERSION
-				// 	);
-				// } );
+				wp_add_inline_script(
+					'wp-blocks',
+					'var ultGutenbergModules = ' . wp_json_encode( $free_blocks ) . ';',
+					'before'
+				);
 
-				// Enqueue Gutenberg block assets for backend editor
-				add_action( 'enqueue_block_editor_assets', function () {
-					wp_enqueue_script(
-						$this->prefix . '-gutenberg-blocks-editor',
-						plugins_url( 'blocks/dist/index.js', dirname( __FILE__ ) ),
-						array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor' ),
-						UNCANNY_TOOLKIT_VERSION,
-						true
-					);
-
-					// Get only the Free blocks
-					$free_blocks = array_values( array_map( function ( $block ) {
-						// Remove the prefix
-						return str_replace( 'uncanny_learndash_toolkit\\', '', $block );
-					}, array_filter( $this->active_classes, function ( $block ) {
-						// Filter only Pro blocks
-						return strpos( $block, 'uncanny_learndash_toolkit\\' ) !== false;
-					} ) ) );
-
-					wp_add_inline_script( $this->prefix . '-gutenberg-blocks-editor', 'var ultGutenbergModules = ' . json_encode( $free_blocks ), 'before' );
-
-					// Add support for Uncanny Toolkit Pro for LearnDash > 3.4.3
-					if ( defined( 'UNCANNY_TOOLKIT_PRO_VERSION' ) ) {
-						if ( version_compare( UNCANNY_TOOLKIT_PRO_VERSION, '3.4.3', '<' ) ) {
-							// Add a variable with the old data
-							wp_localize_script( $this->prefix . '-gutenberg-blocks-editor', 'ultpModules', array(
-								'active' => $this->active_classes,
-							) );
-						}
+				// Add support for Uncanny Toolkit Pro for LearnDash > 3.4.3
+				if ( defined( 'UNCANNY_TOOLKIT_PRO_VERSION' ) ) {
+					if ( version_compare( UNCANNY_TOOLKIT_PRO_VERSION, '3.4.3', '<' ) ) {
+						wp_add_inline_script(
+							'wp-blocks',
+							'var ultpModules = ' . wp_json_encode( array( 'active' => $this->active_classes ) ) . ';',
+							'before'
+						);
 					}
+				}
+			}
+		);
 
-					wp_enqueue_style(
-						$this->prefix . '-gutenberg-blocks-editor',
-						plugins_url( 'blocks/dist/index.css', dirname( __FILE__ ) ),
-						array( 'wp-edit-blocks' ),
-						UNCANNY_TOOLKIT_VERSION
-					);
-				} );
-			}
-			if ( version_compare( get_bloginfo( 'version' ), '5.8', '<' ) ) {
-				// Legacy filter
-				// Create custom block category
-				add_filter( 'block_categories', array( $this, 'block_categories' ), 10, 2 );
-			} else {
-				// Create custom block category
-				add_filter( 'block_categories_all', array( $this, 'block_categories' ), 10, 2 );
-			}
+		$this->add_block_category_filter();
+	}
+
+	/**
+	 * Register the block category filter.
+	 */
+	private function add_block_category_filter() {
+		if ( version_compare( get_bloginfo( 'version' ), '5.8', '<' ) ) {
+			add_filter( 'block_categories', array( $this, 'block_categories' ), 10, 2 );
+		} else {
+			add_filter( 'block_categories_all', array( $this, 'block_categories' ), 10, 2 );
 		}
 	}
 

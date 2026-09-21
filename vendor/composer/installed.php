@@ -3,7 +3,7 @@
         'name' => 'uncannyowl/uncanny-learndash-toolkit',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => '6f4d211440b847f8788060f68e54dfe9b724d329',
+        'reference' => '45d68ccfc239b674e7134e628f6a141ba27f9d89',
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'uncannyowl/uncanny-learndash-toolkit' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => '6f4d211440b847f8788060f68e54dfe9b724d329',
+            'reference' => '45d68ccfc239b674e7134e628f6a141ba27f9d89',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

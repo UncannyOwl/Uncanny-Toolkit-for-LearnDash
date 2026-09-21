@@ -106,6 +106,17 @@ class Form_Submission_Handler {
 	}
 
 	/**
+	 * Prevents browsers and intermediary caches from storing a 2FA challenge.
+	 *
+	 * @return void
+	 */
+	public function send_no_cache_headers() {
+		if ( $this->should_display_2fa_form() ) {
+			nocache_headers();
+		}
+	}
+
+	/**
 	 * Validates the 2FA challenge using secure cookie.
 	 *
 	 * @return array|false Array with user_id and method, or false if invalid.
@@ -157,6 +168,11 @@ class Form_Submission_Handler {
 	 * @return bool True if valid.
 	 */
 	private function validate_2fa_nonce( $user_id, $nonce ) {
+		// Let WP 2FA validate the nonce's key, action and expiration when supported.
+		if ( method_exists( '\\WP2FA\\Authenticator\\Login', 'verify_login_nonce' ) ) {
+			return \WP2FA\Authenticator\Login::verify_login_nonce( $user_id, $nonce );
+		}
+
 		// Get stored nonce from user meta.
 		$stored_nonce_data = get_user_meta( $user_id, \WP2FA\Authenticator\Login::USER_META_NONCE_KEY, true );
 

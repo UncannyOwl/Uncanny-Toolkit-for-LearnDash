@@ -1,10 +1,10 @@
 === Uncanny Toolkit for LearnDash ===
 Contributors: uncannyowl
 Tags: LearnDash, eLearning, LMS, education, learning, courseware
-Requires at least: 5.8
-Tested up to: 7.0
+Requires at least: 6.3
+Tested up to: 7.1.1
 Requires PHP: 7.4
-Stable tag: 3.8.0.3
+Stable tag: 3.8.1
 License: This plugin is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or any later version. Uncanny Toolkit for LearnDash is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with Uncanny Toolkit for LearnDash. If not, see https://www.gnu.org/licenses/gpl-3.0.html.
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -103,6 +103,23 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 3. LearnDash Resume Button module - works at a global or course level
 
 == Changelog ==
+
+= 3.8.1 [2026-09-21] =
+
+**New Feature:**
+
+* Front End Login - WordPress Two-Factor plugin compatibility #502
+
+**Updated:**
+
+* Blocks - Breadcrumbs, Front End Login and Resume Button blocks updated to the latest WordPress block standards for improved compatibility with the block editor #490
+
+**Fixed:**
+
+* Front End Login - Cloudflare Turnstile not reset on retry #503
+* Front End Login - Password reset cookie scoped to the login page breaks AJAX reset #540
+* Front End Login - Password reset link truncated in HTML emails #539
+* Front End Login - WP 2FA challenge served from cache / stale challenge reused #538
 
 = 3.8.0.2 [2026-05-29] =
 
