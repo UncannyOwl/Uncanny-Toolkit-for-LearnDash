@@ -23,10 +23,12 @@ class Redirect_Manager {
 		// Get the login page URL from settings.
 		$login_page_url = $this->get_login_page_url();
 
-		// Add only the 2FA challenge flag (no sensitive data).
+		// Use a unique URL for each challenge so a cached response from another
+		// request cannot replace the user's 2FA form.
 		$redirect_url = add_query_arg(
 			array(
 				'2fa_challenge' => '1',
+				'2fa_request'   => wp_generate_password( 20, false, false ),
 			),
 			$login_page_url
 		);
@@ -61,6 +63,7 @@ class Redirect_Manager {
 			array(
 				'2fa_challenge',
 				'2fa_error',
+				'2fa_request',
 			),
 			$login_page_url
 		);
@@ -104,11 +107,12 @@ class Redirect_Manager {
 		// Get the login page URL from settings.
 		$login_page_url = $this->get_login_page_url();
 
-		// Build redirect URL with error (cookie contains the auth data).
+		// Build a unique redirect URL with the error (cookie contains the auth data).
 		$redirect_url = add_query_arg(
 			array(
 				'2fa_challenge' => '1',
 				'2fa_error'     => rawurlencode( $error_message ),
+				'2fa_request'   => wp_generate_password( 20, false, false ),
 			),
 			$login_page_url
 		);

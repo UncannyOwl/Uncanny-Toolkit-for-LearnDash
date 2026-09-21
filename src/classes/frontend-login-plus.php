@@ -780,9 +780,15 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		$password_reset_message = __( 'Someone requested a password reset for the user %User Login%.', 'uncanny-learndash-toolkit' ) . "\r\n\r\n";
 
 		if ( 'text/html' == apply_filters( 'wp_mail_content_type', 'text/html' ) ) {
-			$password_reset_message .= __( 'If you want to reset your password, click the link below. %Reset Link%', 'uncanny-learndash-toolkit' ) . "\r\n\r\n";
+			// HTML emails must wrap the link in an anchor. A bare URL is auto-linked by the
+			// mail client and gets truncated at the ~76 char line wrap, dropping the trailing
+			// &login= param (worse with email-as-username) and breaking the reset. The URL is
+			// used as both the href and the visible text so the email looks identical to before,
+			// only now it is an explicit anchor. Both %Reset Link% tokens are esc_url()'d on
+			// substitution (see custom_retrieve_password_message).
+			$password_reset_message .= __( "If you want to reset your password, click the link below. <a href='%Reset Link%'>%Reset Link%</a>", 'uncanny-learndash-toolkit' ) . "\r\n\r\n";
 		} else {
-			$password_reset_message .= __( "If you want to reset your password, click the link below. <a href='%Reset Link%'>Reset Password' )</a>", 'uncanny-learndash-toolkit' ) . "\r\n";
+			$password_reset_message .= __( 'If you want to reset your password, click the link below. %Reset Link%', 'uncanny-learndash-toolkit' ) . "\r\n\r\n";
 		}
 
 		$password_reset_message .= __( 'If you did not request a password reset, you may safely ignore this email.', 'uncanny-learndash-toolkit' ) . "\r\n\r\n";
@@ -1655,7 +1661,10 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 								}
 							}
 
-							setcookie( $rp_cookie, $value, time() + 3600, '/' . get_post_field( 'post_name', $login_page_id ), COOKIE_DOMAIN, is_ssl(), true );
+							// Scope to '/' (not the login page slug): the AJAX reset posts to
+							// /wp-admin/admin-ajax.php and reads only this cookie. A cookie scoped to
+							// '/login' is never sent there, so the reset fails. Matches maybe_set_cookies().
+							setcookie( $rp_cookie, $value, time() + 3600, '/', COOKIE_DOMAIN, is_ssl(), true );
 						}
 					}
 				}
@@ -2758,7 +2767,16 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		);
 		$custom_message = nl2br( $custom_message );
 		$custom_message = str_ireplace( '%User Login%', $user_login, $custom_message );
-		$custom_message = str_ireplace( '%Reset Link%', $reset_link, $custom_message );
+
+		// Keep custom anchors intact, but wrap legacy bare placeholders so existing saved
+		// templates also avoid mail-client URL truncation.
+		if ( preg_match( '/href\s*=\s*([\'\"])%Reset Link%\1/i', $custom_message ) ) {
+			$reset_link_markup = esc_url( $reset_link );
+		} else {
+			$reset_link_markup = sprintf( '<a href="%1$s">%2$s</a>', esc_url( $reset_link ), esc_html( $reset_link ) );
+		}
+
+		$custom_message = str_ireplace( '%Reset Link%', $reset_link_markup, $custom_message );
 
 		return $custom_message;
 	}

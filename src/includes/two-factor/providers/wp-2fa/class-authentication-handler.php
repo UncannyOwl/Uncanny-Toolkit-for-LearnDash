@@ -180,6 +180,15 @@ class Authentication_Handler {
 	}
 
 	/**
+	 * Clears an incomplete 2FA challenge.
+	 *
+	 * @return void
+	 */
+	public function clear_2fa_cookie() {
+		$this->cookie_manager->clear_2fa_cookie();
+	}
+
+	/**
 	 * Handles successful 2FA authentication.
 	 *
 	 * @param int   $user_id The user ID.

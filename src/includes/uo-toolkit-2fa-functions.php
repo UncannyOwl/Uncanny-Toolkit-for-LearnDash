@@ -80,6 +80,13 @@ function uo_toolkit_2fa_init() {
 
 	$integration = false;
 
+	// Native WordPress "Two Factor" plugin. Only used when WP 2FA (Melapress) is
+	// not active, since that integration owns the flow when present.
+	if ( ! class_exists( '\WP2FA\Authenticator\Login' ) && class_exists( '\Two_Factor_Core' ) ) {
+		require_once UNCANNY_TOOLKIT_DIR . '/src/includes/two-factor/providers/core/class-integration.php';
+		return new \uncanny_learndash_toolkit\Includes\Two_Factor\Providers\Core\Integration();
+	}
+
 	// Load the dependencies.
 	$dependencies = uo_toolkit_2fa_load_dependencies();
 
@@ -325,7 +332,7 @@ function uo_toolkit_2fa_render_authentication_form() {
 				echo '<span class="ult-notice-text">' . esc_html__( 'Invalid or expired 2FA challenge.', 'uncanny-learndash-toolkit' ) . '</span>';
 				
 				// Get the login page URL (clean, without 2FA params)
-				$login_url = remove_query_arg( array( '2fa_challenge', '2fa_error' ) );
+				$login_url = remove_query_arg( array( '2fa_challenge', '2fa_error', '2fa_request' ) );
 				echo '<div class="ult-notice-actions" style="margin-top: 10px;">';
 				echo '<a href="' . esc_url( $login_url ) . '" class="ult-form__link button">';
 				echo esc_html__( 'Back to Login', 'uncanny-learndash-toolkit' );
@@ -376,6 +383,8 @@ function uo_toolkit_uncanny_one_click_install_button_class( $classes, $plugin_in
 	if ( 'wp-2fa' === $plugin_info->slug ) {
 		$classes[] = 'ult-modal-action__btn--secondary';
 		$classes[] = 'ult-modal-action__btn';
+		$classes[] = 'uncannyowl-btn';
+		$classes[] = 'uncannyowl-btn--secondary';
 	}
 	return $classes;
 }

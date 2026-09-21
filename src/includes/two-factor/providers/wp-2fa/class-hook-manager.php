@@ -89,6 +89,12 @@ class Hook_Manager {
 	public function register_2fa_form_handlers() {
 		// Handle traditional form submissions for 2FA.
 		add_action( 'init', array( $this->form_handler, 'handle_2fa_form_submission' ) );
+
+		// A 2FA challenge is private, request-specific content and must never be cached.
+		add_action( 'send_headers', array( $this->form_handler, 'send_no_cache_headers' ) );
+
+		// Do not carry an abandoned 2FA challenge into a later login attempt.
+		add_action( 'wp_logout', array( $this->auth_handler, 'clear_2fa_cookie' ) );
 	}
 
 	/**

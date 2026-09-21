@@ -1,0 +1,22 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "uncanny-toolkit/resume-button",
+  "version": "2.0.0",
+  "title": "Resume Button",
+  "category": "uncanny-learndash-toolkit",
+  "textdomain": "uncanny-learndash-toolkit",
+  "description": "Displays a button that enables users to resume their learning in LearnDash courses.",
+  "supports": {
+    "html": false
+  },
+  "attributes": {
+    "courseId": {
+      "type": "string",
+      "default": ""
+    }
+  },
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "render": "file:./render.php"
+}
