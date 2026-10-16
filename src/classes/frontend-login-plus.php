@@ -114,21 +114,8 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	 */
 	public function uo_fl_users_bulk_actions_multisite_update( $redirect_url, $action, $user_ids ) {
 
-		if ( $action === 'uo_verified' ) {
-			foreach ( $user_ids as $user_id ) {
-				update_user_meta( $user_id, 'uo_is_verified', 1 );
-			}
-			$redirect_url = add_query_arg( 'activate-user', count( $user_ids ), $redirect_url );
-		}
-
-		if ( $action === 'uo_not_verified' ) {
-			foreach ( $user_ids as $user_id ) {
-				update_user_meta( $user_id, 'uo_is_verified', 0 );
-			}
-			$redirect_url = add_query_arg( 'activate-user', count( $user_ids ), $redirect_url );
-		}
-
-		return $redirect_url;
+		// The network Users screen lists every user on the network.
+		return $this->update_verification_status( $redirect_url, $action, $user_ids, false );
 	}
 
 
@@ -136,11 +123,18 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	 *
 	 * This method is used add two new status in user bulk actions.
 	 *
+	 * The verification flag is a single network-wide user meta value, so on multisite
+	 * only users who may edit other network users (super admins) are offered the actions.
+	 *
 	 * @param $actions
 	 *
 	 * @return mixed
 	 */
 	public function uo_fl_users_bulk_actions_add( $actions ) {
+
+		if ( ! current_user_can( is_multisite() ? 'manage_network_users' : 'edit_users' ) ) {
+			return $actions;
+		}
 
 		$actions['uo_verified']     = esc_html__( 'Verified', 'uncanny-learndash-toolkit' );
 		$actions['uo_not_verified'] = esc_html__( 'Not Verified', 'uncanny-learndash-toolkit' );
@@ -162,21 +156,68 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	 */
 	public function uo_fl_users_bulk_actions_update( $redirect_url, $action, $user_ids ) {
 
-		if ( $action === 'uo_verified' ) {
-			foreach ( $user_ids as $user_id ) {
-				update_user_meta( $user_id, 'uo_is_verified', 1 );
-			}
-			$redirect_url = add_query_arg( 'activate-user', count( $user_ids ), $redirect_url );
+		// A site's Users screen may only act on the members of that site.
+		return $this->update_verification_status( $redirect_url, $action, $user_ids, true );
+	}
+
+	/**
+	 * Apply a verification status to the targeted users the current user may edit.
+	 *
+	 * The bulk-users nonce only proves the request came from the Users screen; it says
+	 * nothing about which user IDs were submitted, so every target is authorized here.
+	 *
+	 * @param string $redirect_url          Where the bulk action redirects to.
+	 * @param string $action                The bulk action being handled.
+	 * @param array  $user_ids              The submitted user IDs.
+	 * @param bool   $limit_to_current_site Only touch members of the current site (multisite).
+	 *
+	 * @return string The redirect URL, carrying the number of users actually updated.
+	 */
+	private function update_verification_status( $redirect_url, $action, $user_ids, $limit_to_current_site ) {
+
+		$statuses = array(
+			'uo_verified'     => 1,
+			'uo_not_verified' => 0,
+		);
+
+		if ( ! isset( $statuses[ $action ] ) ) {
+			return $redirect_url;
 		}
 
-		if ( $action === 'uo_not_verified' ) {
-			foreach ( $user_ids as $user_id ) {
-				update_user_meta( $user_id, 'uo_is_verified', 0 );
+		$updated = 0;
+
+		foreach ( array_map( 'absint', (array) $user_ids ) as $user_id ) {
+			if ( ! $this->can_update_verification( $user_id, $limit_to_current_site ) ) {
+				continue;
 			}
-			$redirect_url = add_query_arg( 'activate-user', count( $user_ids ), $redirect_url );
+
+			update_user_meta( $user_id, self::$user_meta_key_col, $statuses[ $action ] );
+			++$updated;
 		}
 
-		return $redirect_url;
+		return add_query_arg( 'activate-user', $updated, $redirect_url );
+	}
+
+	/**
+	 * Whether the current user may change the verification status of a user.
+	 *
+	 * @param int  $user_id               The targeted user.
+	 * @param bool $limit_to_current_site Require the target to be a member of the current site (multisite).
+	 *
+	 * @return bool
+	 */
+	private function can_update_verification( $user_id, $limit_to_current_site ) {
+
+		// `edit_user` is granted for IDs that do not exist, so confirm the user is real first.
+		if ( false === get_userdata( $user_id ) || ! current_user_can( 'edit_user', $user_id ) ) {
+			return false;
+		}
+
+		if ( $limit_to_current_site && is_multisite() ) {
+			return is_user_member_of_blog( $user_id, get_current_blog_id() );
+		}
+
+		return true;
 	}
 
 	/**
@@ -358,6 +399,20 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 					array(
 						__CLASS__,
 						'uo_reset_password_action',
+					)
+				);
+				add_action(
+					'wp_ajax_ult-refresh-nonce',
+					array(
+						__CLASS__,
+						'uo_refresh_nonce_action',
+					)
+				);
+				add_action(
+					'wp_ajax_nopriv_ult-refresh-nonce',
+					array(
+						__CLASS__,
+						'uo_refresh_nonce_action',
 					)
 				);
 			}
@@ -1664,7 +1719,18 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 							// Scope to '/' (not the login page slug): the AJAX reset posts to
 							// /wp-admin/admin-ajax.php and reads only this cookie. A cookie scoped to
 							// '/login' is never sent there, so the reset fails. Matches maybe_set_cookies().
-							setcookie( $rp_cookie, $value, time() + 3600, '/', COOKIE_DOMAIN, is_ssl(), true );
+							setcookie(
+								$rp_cookie,
+								$value,
+								array(
+									'expires'  => time() + 3600,
+									'path'     => '/',
+									'domain'   => COOKIE_DOMAIN,
+									'secure'   => is_ssl(),
+									'httponly' => true,
+									'samesite' => 'Lax',
+								)
+							);
 						}
 					}
 				}
@@ -1717,7 +1783,18 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 									}
 								}
 							}
-							setcookie( $rp_cookie, $value, 0, '/', COOKIE_DOMAIN, is_ssl(), true );
+							setcookie(
+								$rp_cookie,
+								$value,
+								array(
+									'expires'  => 0,
+									'path'     => '/',
+									'domain'   => COOKIE_DOMAIN,
+									'secure'   => is_ssl(),
+									'httponly' => true,
+									'samesite' => 'Lax',
+								)
+							);
 						}
 					}
 				}
@@ -3240,6 +3317,110 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	}
 
 	/**
+	 * Fail closed unless the AJAX request carries a valid toolkit nonce.
+	 *
+	 * The nonce is printed into the page markup, so a cached page can outlive it. The
+	 * `invalid_nonce` code lets the front-end fetch a fresh one and retry once.
+	 *
+	 * @since 3.8.2
+	 */
+	private static function require_valid_ajax_nonce() {
+
+		$nonce = isset( $_POST['nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : '';
+
+		if ( false !== wp_verify_nonce( $nonce, 'uncannyowl-learndash-toolkit' ) ) {
+			return;
+		}
+
+		self::wp_send_json(
+			array(
+				'success' => false,
+				'code'    => 'invalid_nonce',
+				'message' => esc_html__( 'Something went wrong. Please, try again', 'uncanny-learndash-toolkit' ),
+			),
+			200
+		);
+	}
+
+	/**
+	 * Hand out a fresh toolkit nonce to a page whose copy of it has expired.
+	 *
+	 * @since 3.8.2
+	 */
+	public static function uo_refresh_nonce_action() {
+
+		nocache_headers();
+
+		self::wp_send_json(
+			array(
+				'success' => true,
+				'nonce'   => wp_create_nonce( 'uncannyowl-learndash-toolkit' ),
+			),
+			200
+		);
+	}
+
+	/**
+	 * The nonce action that authorizes completing the pending password reset.
+	 *
+	 * It embeds the reset cookie's `login:key` pair, which only the person who followed the
+	 * emailed link holds. Anyone can read the site-wide nonce off the login page, but nobody
+	 * can mint this one for somebody else's reset.
+	 *
+	 * @since 3.8.2
+	 *
+	 * @return string Empty when this browser has no pending reset.
+	 */
+	private static function get_reset_password_nonce_action() {
+
+		$rp_cookie = 'wp-resetpass-' . COOKIEHASH;
+
+		if ( empty( $_COOKIE[ $rp_cookie ] ) || ! is_string( $_COOKIE[ $rp_cookie ] ) ) {
+			return '';
+		}
+
+		return 'uo-reset-password|' . wp_unslash( $_COOKIE[ $rp_cookie ] );
+	}
+
+	/**
+	 * The token the reset-password form posts back to prove it belongs to the pending reset.
+	 *
+	 * @since 3.8.2
+	 *
+	 * @return string Empty when this browser has no pending reset.
+	 */
+	public static function get_reset_password_nonce() {
+
+		$action = self::get_reset_password_nonce_action();
+
+		return '' === $action ? '' : wp_create_nonce( $action );
+	}
+
+	/**
+	 * Fail closed unless the request carries the token bound to the pending password reset.
+	 *
+	 * @since 3.8.2
+	 */
+	private static function require_valid_reset_password_nonce() {
+
+		$action = self::get_reset_password_nonce_action();
+		$nonce  = isset( $_POST['reset_nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['reset_nonce'] ) ) : '';
+
+		if ( '' !== $action && false !== wp_verify_nonce( $nonce, $action ) ) {
+			return;
+		}
+
+		self::wp_send_json(
+			array(
+				'success' => false,
+				'code'    => 'invalid_reset_token',
+				'message' => self::get_settings_value( 'uo_frontend_login_invalidresetkey_error', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) ),
+			),
+			200
+		);
+	}
+
+	/**
 	 * Ajax action for login call
 	 *
 	 * @since   3.3
@@ -3250,13 +3431,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		$response_code = 200;
 		$secure_cookie = '';
 
-		/* Validate ajax call here.
-			if( ! check_ajax_referer('uncannyowl-learndash-toolkit','nonce') ) {
-				$response['success'] = false;
-				$response['message'] = esc_html__( 'Something went wrong. Please, try again', 'uncanny-learndash-toolkit' );
-				self::wp_send_json( $response, $response_code );
-			}
-		*/
+		self::require_valid_ajax_nonce();
 
 		// Validate input then.
 		if ( ! isset( $_POST['email'] ) || ! isset( $_POST['password'] ) || empty( $_POST['email'] ) || empty( $_POST['password'] ) ) {
@@ -3484,16 +3659,9 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		$response      = array();
 		$response_code = 200;
 
-		do_action( 'uo_toolkit_frontend_login_lost_password_before' );
+		self::require_valid_ajax_nonce();
 
-		// Validate ajax call here.
-		/*
-		if( ! check_ajax_referer('uncannyowl-learndash-toolkit','nonce') ) {
-			$response['success'] = false;
-			$response['message'] = esc_html__( 'Something went wrong. Please, try again', 'uncanny-learndash-toolkit' );
-			self::wp_send_json( $response, $response_code );
-		}
-		*/
+		do_action( 'uo_toolkit_frontend_login_lost_password_before' );
 
 		// validate inputs.
 		if ( ! isset( $_POST['email'] ) || empty( $_POST['email'] ) ) {
@@ -3728,14 +3896,9 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		$response      = array();
 		$response_code = 200;
 
-		// Validate ajax call here.
-		/*
-		if( ! check_ajax_referer('uncannyowl-learndash-toolkit','nonce') ) {
-			$response['success'] = false;
-			$response['message'] = esc_html__( 'Something went wrong. Please, try again', 'uncanny-learndash-toolkit' );
-			self::wp_send_json( $response, $response_code );
-		}
-		*/
+		// The reset is authorized by a token bound to this browser's reset cookie, not by the
+		// site-wide nonce: that one is public, so anyone could mint it for a forged request.
+		self::require_valid_reset_password_nonce();
 
 		// validate inputs.
 		if ( ! isset( $_POST['password'] ) || empty( $_POST['password'] ) || ! isset( $_POST['passwordRepeat'] ) || empty( $_POST['passwordRepeat'] ) ) {
@@ -3848,6 +4011,13 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	public static function uo_ajax_login_js( $js_data ) {
 		global $post;
 
+		$reset_password_nonce = self::get_reset_password_nonce();
+
+		// The token is bound to one person's pending reset, so a shared cache must never store this page.
+		if ( '' !== $reset_password_nonce && ! defined( 'DONOTCACHEPAGE' ) ) {
+			define( 'DONOTCACHEPAGE', true );
+		}
+
 		// Add the default data
 		$js_data['frontendLogin'] = array(
 			'hasAjaxEnabled'         => false,
@@ -3859,6 +4029,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			'i18n'                   => array(
 				'checkReCaptcha' => self::get_settings_value( 'uo_frontend_login_recaptchaempty_error', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) ),
 			),
+			'resetPasswordNonce'     => $reset_password_nonce,
 		);
 
 		// Check if the current page is the Login page

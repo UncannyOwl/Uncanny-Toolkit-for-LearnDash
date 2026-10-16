@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv3.
 msgid ""
 msgstr ""
-"Project-Id-Version: Uncanny Toolkit for LearnDash 3.8.1\n"
+"Project-Id-Version: Uncanny Toolkit for LearnDash 3.8.2\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/uncanny-learndash-toolkit\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-09-21T20:22:51+00:00\n"
+"POT-Creation-Date: 2026-10-16T15:01:47+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: uncanny-learndash-toolkit\n"
@@ -331,6 +331,7 @@ msgid "Dismiss"
 msgstr ""
 
 #: src/boot.php:258
+#: src/classes/frontend-login-plus.php:3339
 #: src/config.php:716
 msgid "Something went wrong. Please, try again"
 msgstr ""
@@ -405,623 +406,623 @@ msgstr ""
 msgid "Unverify"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:145
-#: src/classes/frontend-login-plus.php:1367
+#: src/classes/frontend-login-plus.php:139
+#: src/classes/frontend-login-plus.php:1422
 msgid "Verified"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:146
-#: src/classes/frontend-login-plus.php:1371
+#: src/classes/frontend-login-plus.php:140
+#: src/classes/frontend-login-plus.php:1426
 msgid "Not Verified"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:675
+#: src/classes/frontend-login-plus.php:730
 #: src/blocks/src/toolkit-frontend-login/index.js:17
 msgid "Front End Login"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:677
+#: src/classes/frontend-login-plus.php:732
 msgid "Adds a custom login form and can optionally force users to be verified by an admin before they can sign in."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:780
+#: src/classes/frontend-login-plus.php:835
 msgid "Someone requested a password reset for the user %User Login%."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:789
+#: src/classes/frontend-login-plus.php:844
 msgid "If you want to reset your password, click the link below. <a href='%Reset Link%'>%Reset Link%</a>"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:791
+#: src/classes/frontend-login-plus.php:846
 msgid "If you want to reset your password, click the link below. %Reset Link%"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:794
+#: src/classes/frontend-login-plus.php:849
 msgid "If you did not request a password reset, you may safely ignore this email."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:796
-#: src/classes/frontend-login-plus.php:1507
+#: src/classes/frontend-login-plus.php:851
+#: src/classes/frontend-login-plus.php:1562
 msgid "Your account has been approved! "
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:797
+#: src/classes/frontend-login-plus.php:852
 msgid "Please visit %Home Url% to login. "
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:803
+#: src/classes/frontend-login-plus.php:858
 msgid "General"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:813
+#: src/classes/frontend-login-plus.php:868
 msgid "Enable AJAX"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:818
+#: src/classes/frontend-login-plus.php:873
 msgid "Select Template"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:824
+#: src/classes/frontend-login-plus.php:879
 msgid "Default"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:828
+#: src/classes/frontend-login-plus.php:883
 msgid "Boxed with shadow"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:832
+#: src/classes/frontend-login-plus.php:887
 msgid "Modern"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:838
+#: src/classes/frontend-login-plus.php:893
 msgid "Primary Color"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:841
+#: src/classes/frontend-login-plus.php:896
 msgid "Controls the main color for titles, buttons and links"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:848
+#: src/classes/frontend-login-plus.php:903
 msgid "Text Color"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:851
+#: src/classes/frontend-login-plus.php:906
 msgid "Controls the color of labels, descriptions, and general text"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:858
+#: src/classes/frontend-login-plus.php:913
 msgid "Background Color"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:861
+#: src/classes/frontend-login-plus.php:916
 msgid "Controls the form container background"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:868
+#: src/classes/frontend-login-plus.php:923
 msgid "Border Color"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:871
+#: src/classes/frontend-login-plus.php:926
 msgid "Controls the color of the form container border"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:878
+#: src/classes/frontend-login-plus.php:933
 #: src/classes/sample.php:286
 msgid "Login Page"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:884
+#: src/classes/frontend-login-plus.php:939
 msgid "Manual User Verification"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:889
+#: src/classes/frontend-login-plus.php:944
 msgid "User Verified Email"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:893
+#: src/classes/frontend-login-plus.php:948
 msgid "Disable User Verification Email"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:898
+#: src/classes/frontend-login-plus.php:953
 msgid "%Site Name% - Account Verified"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:899
-#: src/classes/frontend-login-plus.php:1209
+#: src/classes/frontend-login-plus.php:954
+#: src/classes/frontend-login-plus.php:1264
 #: src/templates/admin-help.php:121
 msgid "Subject"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:905
+#: src/classes/frontend-login-plus.php:960
 msgid "Available variables for subject"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:907
+#: src/classes/frontend-login-plus.php:962
 msgid "Prints Site's Name"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:913
-#: src/classes/frontend-login-plus.php:1215
+#: src/classes/frontend-login-plus.php:968
+#: src/classes/frontend-login-plus.php:1270
 msgid "Body"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:919
-#: src/classes/frontend-login-plus.php:1221
+#: src/classes/frontend-login-plus.php:974
+#: src/classes/frontend-login-plus.php:1276
 msgid "Available variables for email body"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:922
+#: src/classes/frontend-login-plus.php:977
 msgid "Prints User's Display Name"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:924
+#: src/classes/frontend-login-plus.php:979
 msgid "Prints User's First Name"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:926
+#: src/classes/frontend-login-plus.php:981
 msgid "Prints User's Last Name"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:928
+#: src/classes/frontend-login-plus.php:983
 msgid "Prints Site's Home URL"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:939
+#: src/classes/frontend-login-plus.php:994
 msgid "Login Form"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:943
-#: src/classes/frontend-login-plus.php:1155
-#: src/classes/frontend-login-plus.php:1240
+#: src/classes/frontend-login-plus.php:998
+#: src/classes/frontend-login-plus.php:1210
+#: src/classes/frontend-login-plus.php:1295
 #: src/classes/widget-cert.php:419
 msgid "Title"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:944
+#: src/classes/frontend-login-plus.php:999
 msgid "Login"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:949
+#: src/classes/frontend-login-plus.php:1004
 msgid "Hide the Title"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:955
-#: src/classes/frontend-login-plus.php:1161
-#: src/classes/frontend-login-plus.php:1246
+#: src/classes/frontend-login-plus.php:1010
+#: src/classes/frontend-login-plus.php:1216
+#: src/classes/frontend-login-plus.php:1301
 msgid "Description"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:956
+#: src/classes/frontend-login-plus.php:1011
 msgid "Log in below to access your courses."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:962
+#: src/classes/frontend-login-plus.php:1017
 msgid "Hide the Description"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:968
+#: src/classes/frontend-login-plus.php:1023
 msgid "Login Field Label"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:969
-#: src/classes/frontend-login-plus.php:1168
+#: src/classes/frontend-login-plus.php:1024
+#: src/classes/frontend-login-plus.php:1223
 msgid "Username or Email Address"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:974
-#: src/classes/frontend-login-plus.php:1252
+#: src/classes/frontend-login-plus.php:1029
+#: src/classes/frontend-login-plus.php:1307
 msgid "Password Field Label"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:975
+#: src/classes/frontend-login-plus.php:1030
 msgid "Password"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:980
+#: src/classes/frontend-login-plus.php:1035
 msgid "Disable Remember Me Checkbox"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:985
+#: src/classes/frontend-login-plus.php:1040
 msgid "Remember Me Checkbox Label"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:986
+#: src/classes/frontend-login-plus.php:1041
 msgid "Remember Me"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:991
+#: src/classes/frontend-login-plus.php:1046
 msgid "Return to login link"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:992
+#: src/classes/frontend-login-plus.php:1047
 msgid "Return to login"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:997
+#: src/classes/frontend-login-plus.php:1052
 msgid "Forgot Password Link Text"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:998
+#: src/classes/frontend-login-plus.php:1053
 msgid "Forgot Password?"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1003
-#: src/classes/frontend-login-plus.php:1173
-#: src/classes/frontend-login-plus.php:1271
+#: src/classes/frontend-login-plus.php:1058
+#: src/classes/frontend-login-plus.php:1228
+#: src/classes/frontend-login-plus.php:1326
 msgid "Button Label"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1004
-#: src/classes/frontend-login-plus.php:1072
+#: src/classes/frontend-login-plus.php:1059
+#: src/classes/frontend-login-plus.php:1127
 #: src/classes/login-logout-menu.php:154
 #: src/classes/login-logout-menu.php:365
 #: src/classes/login-logout-menu.php:383
 msgid "Log In"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1009
+#: src/classes/frontend-login-plus.php:1064
 msgid "Register Link Text"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1010
+#: src/classes/frontend-login-plus.php:1065
 #: src/classes/login-logout-menu.php:163
 #: src/classes/login-logout-menu.php:433
 msgid "Register"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1015
+#: src/classes/frontend-login-plus.php:1070
 msgid "Register Link"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1020
+#: src/classes/frontend-login-plus.php:1075
 msgid "Show Register Link"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1025
-#: src/classes/frontend-login-plus.php:1186
+#: src/classes/frontend-login-plus.php:1080
+#: src/classes/frontend-login-plus.php:1241
 msgid "Invalid Credentials Message"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1026
-#: src/classes/frontend-login-plus.php:3264
-#: src/classes/frontend-login-plus.php:3389
+#: src/classes/frontend-login-plus.php:1081
+#: src/classes/frontend-login-plus.php:3439
+#: src/classes/frontend-login-plus.php:3564
 #: src/templates/frontend-login/layout_1-login.php:13
 #: src/templates/frontend-login/modern_ui-login.php:13
 msgid "Invalid username and/or password."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1038
+#: src/classes/frontend-login-plus.php:1093
 msgid "Account Not Verified Message"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1039
+#: src/classes/frontend-login-plus.php:1094
 msgid "Your account is not yet verified."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1044
+#: src/classes/frontend-login-plus.php:1099
 msgid "Logged out message"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1045
+#: src/classes/frontend-login-plus.php:1100
 #: src/templates/frontend-login/layout_1-login.php:20
 #: src/templates/frontend-login/modern_ui-login.php:20
 msgid "You are logged out."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1050
+#: src/classes/frontend-login-plus.php:1105
 msgid "Log Out Link Text"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1051
+#: src/classes/frontend-login-plus.php:1106
 #: src/classes/login-logout-menu.php:157
 msgid "Log Out"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1056
+#: src/classes/frontend-login-plus.php:1111
 msgid "Hide All For Logged In Users"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1061
+#: src/classes/frontend-login-plus.php:1116
 msgid "Message For Logged In Users"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1062
+#: src/classes/frontend-login-plus.php:1117
 msgid "You are logged in."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1067
+#: src/classes/frontend-login-plus.php:1122
 msgid "Modal Login"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1071
+#: src/classes/frontend-login-plus.php:1126
 msgid "Modal Login Button Label [uo_login_modal]"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1077
+#: src/classes/frontend-login-plus.php:1132
 msgid "Don't dim the background when the modal is open"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1082
+#: src/classes/frontend-login-plus.php:1137
 msgid "Ignore Login redirect for Modal Login"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1087
+#: src/classes/frontend-login-plus.php:1142
 msgid "Google reCAPTCHA Settings"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1091
-#: src/classes/frontend-login-plus.php:1120
+#: src/classes/frontend-login-plus.php:1146
+#: src/classes/frontend-login-plus.php:1175
 msgid "Site Key"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1097
-#: src/classes/frontend-login-plus.php:1126
+#: src/classes/frontend-login-plus.php:1152
+#: src/classes/frontend-login-plus.php:1181
 msgid "Secret Key"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1103
+#: src/classes/frontend-login-plus.php:1158
 msgid "reCAPTCHA Not Checked Message"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1104
+#: src/classes/frontend-login-plus.php:1159
 msgid "Please verify that you are not a robot."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1109
+#: src/classes/frontend-login-plus.php:1164
 msgid "reCAPTCHA Error Message"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1110
-#: src/classes/frontend-login-plus.php:1139
+#: src/classes/frontend-login-plus.php:1165
+#: src/classes/frontend-login-plus.php:1194
 msgid "There was an error validating the form. Please contact the site administrator."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1116
+#: src/classes/frontend-login-plus.php:1171
 msgid "Cloudflare Turnstile Settings"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1132
+#: src/classes/frontend-login-plus.php:1187
 msgid "Turnstile Not Checked Message"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1133
+#: src/classes/frontend-login-plus.php:1188
 msgid "Verify you are human."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1138
+#: src/classes/frontend-login-plus.php:1193
 msgid "Turnstile Error Message"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1144
+#: src/classes/frontend-login-plus.php:1199
 msgid "Turnstile Render Error Message"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1145
+#: src/classes/frontend-login-plus.php:1200
 msgid "An error has occurred while displaying Turnstile. Please contact the site administrator."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1151
+#: src/classes/frontend-login-plus.php:1206
 msgid "Forgot Password Form"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1156
+#: src/classes/frontend-login-plus.php:1211
 msgid "Forgot Password"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1162
+#: src/classes/frontend-login-plus.php:1217
 msgid "Enter your email address or username and we'll send you instructions to reset your password."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1167
+#: src/classes/frontend-login-plus.php:1222
 msgid "Field Label"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1174
+#: src/classes/frontend-login-plus.php:1229
 msgid "Recover Account"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1187
+#: src/classes/frontend-login-plus.php:1242
 msgid "That is not a registered username or email address."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1192
+#: src/classes/frontend-login-plus.php:1247
 msgid "Email Failed Message"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1193
+#: src/classes/frontend-login-plus.php:1248
 msgid "Password reset email failed to send."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1198
+#: src/classes/frontend-login-plus.php:1253
 msgid "Email Success Message"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1199
+#: src/classes/frontend-login-plus.php:1254
 msgid "Check your email for a password reset link."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1204
+#: src/classes/frontend-login-plus.php:1259
 msgid "Forgot Password Email"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1208
+#: src/classes/frontend-login-plus.php:1263
 msgid "Password Reset"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1223
+#: src/classes/frontend-login-plus.php:1278
 msgid "Prints User's Login"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1225
+#: src/classes/frontend-login-plus.php:1280
 msgid "Prints Password Reset Link"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1230
+#: src/classes/frontend-login-plus.php:1285
 msgid "Reset Password Form"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1234
+#: src/classes/frontend-login-plus.php:1289
 msgid "Require strong password"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1236
+#: src/classes/frontend-login-plus.php:1291
 msgid "(Minimum 8 characters with 1 uppercase, 1 lowercase, 1 number)"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1241
-#: src/classes/frontend-login-plus.php:1272
+#: src/classes/frontend-login-plus.php:1296
+#: src/classes/frontend-login-plus.php:1327
 msgid "Reset Password"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1247
+#: src/classes/frontend-login-plus.php:1302
 msgid "Enter a new password below."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1253
+#: src/classes/frontend-login-plus.php:1308
 msgid "New Password"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1258
+#: src/classes/frontend-login-plus.php:1313
 msgid "Confirm Password Field Label"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1259
+#: src/classes/frontend-login-plus.php:1314
 msgid "Confirm New Password"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1277
+#: src/classes/frontend-login-plus.php:1332
 msgid "Passwords Do Not Match Message"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1278
+#: src/classes/frontend-login-plus.php:1333
 msgid "The passwords you entered do not match."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1283
+#: src/classes/frontend-login-plus.php:1338
 msgid "Passwords strength is not strong"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1284
+#: src/classes/frontend-login-plus.php:1339
 msgid "The passwords you entered is not strong."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1296
+#: src/classes/frontend-login-plus.php:1351
 msgid "Invalid Reset Link Message"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1297
+#: src/classes/frontend-login-plus.php:1352
 msgid "Invalid password reset link."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1302
+#: src/classes/frontend-login-plus.php:1357
 msgid "Password Reset Successful Message"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1303
+#: src/classes/frontend-login-plus.php:1358
 msgid "Your password was successfully reset. Please log in."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1364
-#: src/classes/frontend-login-plus.php:1375
+#: src/classes/frontend-login-plus.php:1419
+#: src/classes/frontend-login-plus.php:1430
 msgid "Auto Verified"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1486
-#: src/classes/frontend-login-plus.php:1555
+#: src/classes/frontend-login-plus.php:1541
+#: src/classes/frontend-login-plus.php:1610
 #, php-format
 msgid "%s - Account Verified"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1508
+#: src/classes/frontend-login-plus.php:1563
 #, php-format
 msgid "Please visit %s to login. "
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1565
+#: src/classes/frontend-login-plus.php:1620
 #, php-format
 msgid "%s account has been approved! "
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1566
+#: src/classes/frontend-login-plus.php:1621
 #, php-format
 msgid " Visit %s to view / edit user. "
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:1608
+#: src/classes/frontend-login-plus.php:1663
 msgid "We haven't verified this account."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:2828
+#: src/classes/frontend-login-plus.php:2905
 msgid "Note: This page has been set as the login page for this site. The form below has been added for your convenience. To hide this message, add the shortcode [uo_login_ui] or the Front End Login Gutenberg block to this page."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:3112
+#: src/classes/frontend-login-plus.php:3189
 msgid "<strong>ERROR</strong>: Password fields cannot be empty."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:3115
+#: src/classes/frontend-login-plus.php:3192
 msgid "<strong>ERROR</strong>: Passwords do not match."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:3122
+#: src/classes/frontend-login-plus.php:3199
 msgid "<strong>ERROR</strong>: Please enter a password of minimum 8 characters including at least 1 uppercase letter, 1 lowercase letter and 1 number."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:3373
+#: src/classes/frontend-login-plus.php:3548
 #: src/templates/frontend-login/layout_1-login.php:23
 #: src/templates/frontend-login/modern_ui-login.php:23
 msgid "This account is not verified."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:3501
+#: src/classes/frontend-login-plus.php:3669
 msgid "Invalid username/email."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:3619
+#: src/classes/frontend-login-plus.php:3787
 msgid "<strong>ERROR</strong>: Enter a username or email address."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:3623
-#: src/classes/frontend-login-plus.php:3647
+#: src/classes/frontend-login-plus.php:3791
+#: src/classes/frontend-login-plus.php:3815
 msgid "<strong>ERROR</strong>: There is no account with that username or email address."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:3671
+#: src/classes/frontend-login-plus.php:3839
 msgid "Someone has requested a password reset for the following account:"
 msgstr ""
 
 #. translators: %s: site name
-#: src/classes/frontend-login-plus.php:3673
+#: src/classes/frontend-login-plus.php:3841
 #, php-format
 msgid "Site Name: %s"
 msgstr ""
 
 #. translators: %s: user login
-#: src/classes/frontend-login-plus.php:3675
+#: src/classes/frontend-login-plus.php:3843
 #, php-format
 msgid "Username: %s"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:3676
+#: src/classes/frontend-login-plus.php:3844
 msgid "If this was a mistake, just ignore this email and nothing will happen."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:3677
+#: src/classes/frontend-login-plus.php:3845
 msgid "To reset your password, visit the following address:"
 msgstr ""
 
 #. translators: Password reset notification email subject. %s: Site title
-#: src/classes/frontend-login-plus.php:3681
+#: src/classes/frontend-login-plus.php:3849
 #, php-format
 msgid "[%s] Password Reset"
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:3714
+#: src/classes/frontend-login-plus.php:3882
 msgid "The email could not be sent. Possible reason: your host may have disabled the mail() function."
 msgstr ""
 
-#: src/classes/frontend-login-plus.php:3743
-#: src/classes/frontend-login-plus.php:3799
+#: src/classes/frontend-login-plus.php:3906
+#: src/classes/frontend-login-plus.php:3962
 msgid "Password fields cannot be empty."
 msgstr ""
 
@@ -1361,114 +1362,112 @@ msgid "Redirecting to two-factor authentication…"
 msgstr ""
 
 #: src/includes/two-factor/providers/wp-2fa/class-authentication-handler.php:74
-#: src/includes/two-factor/providers/wp-2fa/class-authentication-handler.php:86
 msgid "Authentication failed. Please try again."
 msgstr ""
 
-#: src/includes/two-factor/providers/wp-2fa/class-authentication-handler.php:104
+#: src/includes/two-factor/providers/wp-2fa/class-authentication-handler.php:98
 msgid "Please enter your authentication code."
 msgstr ""
 
-#: src/includes/two-factor/providers/wp-2fa/class-authentication-handler.php:112
+#: src/includes/two-factor/providers/wp-2fa/class-authentication-handler.php:106
 msgid "Please enter a valid 6-digit code."
 msgstr ""
 
-#: src/includes/two-factor/providers/wp-2fa/class-authentication-handler.php:126
-#: src/includes/two-factor/providers/wp-2fa/class-form-renderer.php:84
-#: src/includes/two-factor/providers/wp-2fa/class-helper.php:109
-#: src/includes/two-factor/providers/wp-2fa/class-integration.php:289
+#: src/includes/two-factor/providers/wp-2fa/class-authentication-handler.php:120
+#: src/includes/two-factor/providers/wp-2fa/class-form-renderer.php:85
+#: src/includes/two-factor/providers/wp-2fa/class-helper.php:136
+#: src/includes/two-factor/providers/wp-2fa/class-integration.php:281
 msgid "Invalid code. Please try again."
 msgstr ""
 
-#: src/includes/two-factor/providers/wp-2fa/class-authentication-handler.php:143
+#: src/includes/two-factor/providers/wp-2fa/class-authentication-handler.php:138
 msgid "Please enter your backup code."
 msgstr ""
 
-#: src/includes/two-factor/providers/wp-2fa/class-authentication-handler.php:151
+#: src/includes/two-factor/providers/wp-2fa/class-authentication-handler.php:146
 msgid "Please enter a valid backup code."
 msgstr ""
 
-#: src/includes/two-factor/providers/wp-2fa/class-authentication-handler.php:159
+#: src/includes/two-factor/providers/wp-2fa/class-authentication-handler.php:154
 msgid "Invalid backup code. Please try again."
 msgstr ""
 
-#: src/includes/two-factor/providers/wp-2fa/class-authentication-handler.php:202
+#: src/includes/two-factor/providers/wp-2fa/class-authentication-handler.php:191
 msgid "Authentication error. Please try logging in again."
 msgstr ""
 
-#: src/includes/two-factor/providers/wp-2fa/class-form-renderer.php:59
+#: src/includes/two-factor/providers/wp-2fa/class-form-renderer.php:60
 msgid "2FA form template not found."
 msgstr ""
 
-#: src/includes/two-factor/providers/wp-2fa/class-form-renderer.php:75
-#: src/includes/two-factor/providers/wp-2fa/class-integration.php:280
+#: src/includes/two-factor/providers/wp-2fa/class-form-renderer.php:76
+#: src/includes/two-factor/providers/wp-2fa/class-integration.php:272
 msgid "Two-Factor Authentication"
 msgstr ""
 
-#: src/includes/two-factor/providers/wp-2fa/class-form-renderer.php:76
-#: src/includes/two-factor/providers/wp-2fa/class-integration.php:281
+#: src/includes/two-factor/providers/wp-2fa/class-form-renderer.php:77
+#: src/includes/two-factor/providers/wp-2fa/class-integration.php:273
 msgid "Enter code"
 msgstr ""
 
-#: src/includes/two-factor/providers/wp-2fa/class-form-renderer.php:77
-#: src/includes/two-factor/providers/wp-2fa/class-integration.php:282
+#: src/includes/two-factor/providers/wp-2fa/class-form-renderer.php:78
+#: src/includes/two-factor/providers/wp-2fa/class-integration.php:274
 msgid "6-digit code"
 msgstr ""
 
-#: src/includes/two-factor/providers/wp-2fa/class-form-renderer.php:78
-#: src/includes/two-factor/providers/wp-2fa/class-integration.php:283
+#: src/includes/two-factor/providers/wp-2fa/class-form-renderer.php:79
+#: src/includes/two-factor/providers/wp-2fa/class-integration.php:275
 msgid "Verify Code"
 msgstr ""
 
-#: src/includes/two-factor/providers/wp-2fa/class-form-renderer.php:79
-#: src/includes/two-factor/providers/wp-2fa/class-integration.php:284
+#: src/includes/two-factor/providers/wp-2fa/class-form-renderer.php:80
+#: src/includes/two-factor/providers/wp-2fa/class-integration.php:276
 msgid "Backup Code"
 msgstr ""
 
-#: src/includes/two-factor/providers/wp-2fa/class-form-renderer.php:80
-#: src/includes/two-factor/providers/wp-2fa/class-integration.php:285
+#: src/includes/two-factor/providers/wp-2fa/class-form-renderer.php:81
+#: src/includes/two-factor/providers/wp-2fa/class-integration.php:277
 msgid "Enter backup code"
 msgstr ""
 
-#: src/includes/two-factor/providers/wp-2fa/class-form-renderer.php:81
-#: src/includes/two-factor/providers/wp-2fa/class-integration.php:286
+#: src/includes/two-factor/providers/wp-2fa/class-form-renderer.php:82
+#: src/includes/two-factor/providers/wp-2fa/class-integration.php:278
 msgid "Use Backup Code"
 msgstr ""
 
-#: src/includes/two-factor/providers/wp-2fa/class-form-renderer.php:82
-#: src/includes/two-factor/providers/wp-2fa/class-integration.php:287
+#: src/includes/two-factor/providers/wp-2fa/class-form-renderer.php:83
+#: src/includes/two-factor/providers/wp-2fa/class-integration.php:279
 msgid "Use Primary Method"
 msgstr ""
 
-#: src/includes/two-factor/providers/wp-2fa/class-form-renderer.php:83
-#: src/includes/two-factor/providers/wp-2fa/class-integration.php:288
+#: src/includes/two-factor/providers/wp-2fa/class-form-renderer.php:84
+#: src/includes/two-factor/providers/wp-2fa/class-integration.php:280
 msgid "Go Back"
 msgstr ""
 
-#: src/includes/two-factor/providers/wp-2fa/class-form-renderer.php:85
-#: src/includes/two-factor/providers/wp-2fa/class-integration.php:290
+#: src/includes/two-factor/providers/wp-2fa/class-form-renderer.php:86
+#: src/includes/two-factor/providers/wp-2fa/class-integration.php:282
 msgid "A system error occurred. Please refresh the page and try again."
 msgstr ""
 
-#: src/includes/two-factor/providers/wp-2fa/class-form-renderer.php:86
-#: src/includes/two-factor/providers/wp-2fa/class-integration.php:291
+#: src/includes/two-factor/providers/wp-2fa/class-form-renderer.php:87
+#: src/includes/two-factor/providers/wp-2fa/class-integration.php:283
 msgid "Verifying..."
 msgstr ""
 
-#: src/includes/two-factor/providers/wp-2fa/class-form-submission-handler.php:75
-#: src/includes/two-factor/providers/wp-2fa/class-form-submission-handler.php:83
+#: src/includes/two-factor/providers/wp-2fa/class-form-submission-handler.php:78
 msgid "Security check failed or expired. Please try logging in again."
 msgstr ""
 
-#: src/includes/two-factor/providers/wp-2fa/class-form-submission-handler.php:95
+#: src/includes/two-factor/providers/wp-2fa/class-form-submission-handler.php:90
 msgid "Invalid action. Please try again."
 msgstr ""
 
-#: src/includes/two-factor/providers/wp-2fa/class-helper.php:104
+#: src/includes/two-factor/providers/wp-2fa/class-helper.php:131
 msgid "Authentication successful."
 msgstr ""
 
-#: src/includes/two-factor/providers/wp-2fa/class-integration.php:233
+#: src/includes/two-factor/providers/wp-2fa/class-integration.php:225
 msgid "Redirecting to two-factor authentication..."
 msgstr ""
 

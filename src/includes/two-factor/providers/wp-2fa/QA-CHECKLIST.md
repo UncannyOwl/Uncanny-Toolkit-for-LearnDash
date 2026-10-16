@@ -33,12 +33,14 @@
 - [ ] Focus moves to appropriate input field when toggling
 
 ### Security & Edge Cases
-- [ ] Direct access to `?2fa_challenge=1` without valid cookie shows error
-- [ ] 2FA cookie expires after 15 minutes (shows "Invalid or expired" error)
-- [ ] "Go Back" button clears cookie and returns to login
+- [ ] Direct access to `?2fa_challenge=1` without a valid `2fa_request` token shows error
+- [ ] A tampered `2fa_request` token (changed user ID or nonce) shows error
+- [ ] Challenge expires after 15 minutes (shows "Invalid or expired" error)
+- [ ] Challenge works on a host whose page cache strips the Cookie header from front-end requests
+- [ ] "Go Back" button returns to login and the abandoned challenge URL stops working
 - [ ] Multiple browser tabs don't interfere with each other
 - [ ] Incognito/private browsing works correctly
-- [ ] No sensitive data exposed in URL parameters
+- [ ] The challenge response sends `Referrer-Policy: no-referrer` and no-cache headers
 
 ### Error Handling
 - [ ] Invalid/expired challenge shows "Invalid or expired 2FA challenge" with "Back to Login" link

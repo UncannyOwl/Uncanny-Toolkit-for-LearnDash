@@ -17,18 +17,20 @@ class Redirect_Manager {
 	/**
 	 * Builds the redirect URL for 2FA challenge.
 	 *
+	 * The token makes the URL unique per login, so a cached response from another request
+	 * cannot replace the user's 2FA form, and it carries the pending login to the challenge page.
+	 *
+	 * @param string $token The challenge token (see Challenge_Token::build()).
 	 * @return string The redirect URL.
 	 */
-	public function build_2fa_redirect_url() {
+	public function build_2fa_redirect_url( $token ) {
 		// Get the login page URL from settings.
 		$login_page_url = $this->get_login_page_url();
 
-		// Use a unique URL for each challenge so a cached response from another
-		// request cannot replace the user's 2FA form.
 		$redirect_url = add_query_arg(
 			array(
-				'2fa_challenge' => '1',
-				'2fa_request'   => wp_generate_password( 20, false, false ),
+				'2fa_challenge'        => '1',
+				Challenge_Token::PARAM => $token,
 			),
 			$login_page_url
 		);
@@ -63,7 +65,7 @@ class Redirect_Manager {
 			array(
 				'2fa_challenge',
 				'2fa_error',
-				'2fa_request',
+				Challenge_Token::PARAM,
 			),
 			$login_page_url
 		);
@@ -101,18 +103,19 @@ class Redirect_Manager {
 	 * Redirects back to 2FA form with error message.
 	 *
 	 * @param string $error_message The error message.
+	 * @param string $token         The challenge token of the login being retried.
 	 * @return void
 	 */
-	public function redirect_with_error( $error_message ) {
+	public function redirect_with_error( $error_message, $token ) {
 		// Get the login page URL from settings.
 		$login_page_url = $this->get_login_page_url();
 
-		// Build a unique redirect URL with the error (cookie contains the auth data).
+		// Build the redirect URL with the error; the token keeps the same login transaction.
 		$redirect_url = add_query_arg(
 			array(
-				'2fa_challenge' => '1',
-				'2fa_error'     => rawurlencode( $error_message ),
-				'2fa_request'   => wp_generate_password( 20, false, false ),
+				'2fa_challenge'        => '1',
+				'2fa_error'            => rawurlencode( $error_message ),
+				Challenge_Token::PARAM => $token,
 			),
 			$login_page_url
 		);

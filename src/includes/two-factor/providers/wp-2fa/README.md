@@ -4,7 +4,7 @@ This document explains how the Uncanny Toolkit's frontend login integrates with 
 
 ## Overview
 
-The integration intercepts login attempts, validates credentials, then redirects users to a unified 2FA challenge page using secure cookies instead of URL parameters. It works with both AJAX and traditional forms.
+The integration intercepts login attempts, validates credentials, then redirects users to a unified 2FA challenge page that carries the pending login in a signed token (not a cookie, see "Challenge Token" below). It works with both AJAX and traditional forms.
 
 ## 1. How the Integration Works
 
@@ -39,33 +39,39 @@ Create login nonce (WP 2FA)
        ↓
 Send email OTP (if email 2FA)
        ↓
-Create secure cookie
+Build signed challenge token
        ↓
-Redirect to ?2fa_challenge=1
+Redirect to ?2fa_challenge=1&2fa_request={token}
        ↓
-Validate cookie & render 2FA form
+Validate token & render 2FA form
        ↓
 Process 2FA code via REST API
        ↓
 Complete login & redirect
 ```
 
-### Cookie Security
+### Challenge Token
 
-Instead of exposing sensitive data in URLs, we use HMAC-signed cookies:
+The challenge page is a front-end page viewed by a logged-out visitor. Page caches and reverse proxies
+(Varnish, host-level caches) routinely strip the `Cookie` header from exactly those requests, so a cookie
+cannot carry the hand-off from the AJAX login to the challenge page. The token travels in the URL
+(`2fa_request`) and in a hidden field of every challenge form instead:
 
 ```php
-// Cookie contains:
-{
-    "user_id": 123,
-    "nonce": "abc123...",
-    "timestamp": 1640995200,
-    "user_agent_hash": "sha256_hash"
-}
-
-// Signed with WordPress salt
-$signature = hash_hmac('sha256', $payload, wp_salt('auth'));
+// <user id>.<WP 2FA login nonce>.<signature>
+$payload   = $user_id . '.' . $nonce;
+$signature = hash_hmac( 'sha256', $payload, wp_salt( 'auth' ) );
 ```
+
+- The token is the WP 2FA login transaction. WP 2FA stores the nonce, expires it (15 minutes), revokes it
+  on a password change, deletes it when the second factor passes, and locks the second factor after
+  repeated failures.
+- Holding the token does not log anyone in; a valid second factor is still required.
+- The signature is verified before the nonce reaches WP 2FA. WP 2FA releases before 4.2.0 delete the stored
+  nonce when a submitted one does not match, so an unsigned token would let anyone cancel another user's
+  pending login.
+- The challenge response sends `nocache_headers()` and `Referrer-Policy: no-referrer` so the URL is neither
+  cached nor leaked to other sites.
 
 ### REST API Integration
 
@@ -89,10 +95,9 @@ Think of it like a restaurant with multiple entrances but one kitchen:
 - Decides if 2FA is needed
 - Handles successful 2FA completion
 
-**`Cookie_Manager` (The Security Guard)**
-- Creates tamper-proof cookies
-- Validates cookies are legitimate
-- Clears cookies when done
+**`Challenge_Token` (The Security Guard)**
+- Builds the signed token that carries a pending login
+- Resolves and verifies the token on every challenge request (GET) and form submission (POST)
 
 **`Form_Renderer` (The Waiter)**
 - Shows the 2FA form to users
@@ -116,7 +121,7 @@ Think of it like a restaurant with multiple entrances but one kitchen:
 wp-2fa/
 ├── class-integration.php          # Main orchestrator
 ├── class-authentication-handler.php  # Login interception
-├── class-cookie-manager.php       # Secure cookie handling
+├── class-challenge-token.php      # Signed token carrying the pending login
 ├── class-form-renderer.php        # 2FA form display
 ├── class-form-submission-handler.php # Form processing
 ├── class-redirect-manager.php     # URL management
@@ -135,16 +140,15 @@ wp-2fa/
 - All code tested on PHP 7.0
 
 ### Security Measures
-1. **HMAC Cookie Signing** - Prevents tampering
-2. **Browser Fingerprinting** - Prevents cookie theft
-3. **Time-based Expiry** - 15-minute cookie lifetime
-4. **Nonce Validation** - WordPress security tokens
-5. **No URL Parameters** - Sensitive data never in URLs
+1. **HMAC Token Signing** - Prevents tampering and forged tokens
+2. **WP 2FA Login Nonce** - Expiry, revocation and single use are WP 2FA's own
+3. **Second Factor Required** - The token alone never logs anyone in
+4. **No Cache, No Referer** - The challenge URL is never cached or leaked
 
 ### Error Handling
-- Invalid cookies redirect to login with error message
+- Invalid or expired tokens show "Invalid or expired 2FA challenge" with a link back to login
 - Failed 2FA codes show user-friendly errors
-- Expired sessions clear automatically
+- Expired login nonces are rejected by WP 2FA
 - "Go Back" button always available
 
 ### Form Types Supported
@@ -157,9 +161,9 @@ wp-2fa/
 ### Common Issues
 
 **"Invalid or expired 2FA challenge"**
-- Check cookie creation in browser dev tools
-- Verify nonce matches in user meta
-- Ensure cookie hasn't expired (15 min limit)
+- Check the URL still carries `2fa_request` (a redirect or cache rule may be dropping the query string)
+- Verify the login nonce is still stored in user meta (WP 2FA expires it after 15 minutes)
+- Confirm the token's signature key (`wp_salt( 'auth' )`) did not change between the login and the challenge
 
 **White screen after code submission**
 - Check PHP error logs
@@ -178,9 +182,9 @@ wp-2fa/
 $method = Helper::get_user_2fa_method($user_id);
 error_log("User $user_id 2FA method: " . $method);
 
-// Validate cookie contents
-$cookie_data = $cookie_manager->validate_secure_2fa_cookie();
-error_log("Cookie data: " . print_r($cookie_data, true));
+// Resolve the challenge token of the current request
+$challenge = ( new Challenge_Token() )->resolve();
+error_log("Challenge: " . print_r($challenge, true));
 
 // Test REST API directly
 $result = Helper::validate_2fa_token($user_id, $code);
@@ -219,7 +223,7 @@ The `legacy/` folder contains old implementations for different WP 2FA versions.
 
 ### When WordPress Updates
 - Test hook priorities haven't changed
-- Verify cookie security functions work
+- Verify `wp_salt( 'auth' )` is stable (token signing depends on it)
 - Check session management compatibility
 
 ### Code Quality

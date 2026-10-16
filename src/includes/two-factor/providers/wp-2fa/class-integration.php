@@ -22,11 +22,11 @@ defined( 'ABSPATH' ) || exit;
 class Integration {
 
 	/**
-	 * Cookie manager instance.
+	 * Challenge token instance.
 	 *
-	 * @var Cookie_Manager
+	 * @var Challenge_Token
 	 */
-	private $cookie_manager;
+	private $challenge_token;
 
 	/**
 	 * Redirect manager instance.
@@ -85,7 +85,7 @@ class Integration {
 		require_once UNCANNY_TOOLKIT_DIR . '/src/includes/two-factor/providers/wp-2fa/html/class-html-helper.php';
 
 		// Load new component classes.
-		require_once UNCANNY_TOOLKIT_DIR . '/src/includes/two-factor/providers/wp-2fa/class-cookie-manager.php';
+		require_once UNCANNY_TOOLKIT_DIR . '/src/includes/two-factor/providers/wp-2fa/class-challenge-token.php';
 		require_once UNCANNY_TOOLKIT_DIR . '/src/includes/two-factor/providers/wp-2fa/class-redirect-manager.php';
 		require_once UNCANNY_TOOLKIT_DIR . '/src/includes/two-factor/providers/wp-2fa/class-form-renderer.php';
 		require_once UNCANNY_TOOLKIT_DIR . '/src/includes/two-factor/providers/wp-2fa/class-authentication-handler.php';
@@ -100,13 +100,13 @@ class Integration {
 	 */
 	private function initialize_components() {
 		// Initialize core components.
-		$this->cookie_manager   = new Cookie_Manager();
+		$this->challenge_token  = new Challenge_Token();
 		$this->redirect_manager = new Redirect_Manager();
 		$this->form_renderer    = new Form_Renderer();
 
 		// Initialize handlers with dependencies.
-		$this->auth_handler = new Authentication_Handler( $this->cookie_manager, $this->redirect_manager );
-		$this->form_handler = new Form_Submission_Handler( $this->cookie_manager, $this->auth_handler, $this->form_renderer );
+		$this->auth_handler = new Authentication_Handler( $this->challenge_token, $this->redirect_manager );
+		$this->form_handler = new Form_Submission_Handler( $this->challenge_token, $this->auth_handler, $this->form_renderer );
 
 		// Initialize hook manager.
 		$this->hook_manager = new Hook_Manager( $this->auth_handler, $this->form_handler, $this );
@@ -139,9 +139,9 @@ class Integration {
 	}
 
 	/**
-	 * Validates the 2FA challenge using secure cookie.
+	 * Validates the 2FA challenge carried by the request token.
 	 *
-	 * @return array|false Array with user_id and method, or false if invalid.
+	 * @return array|false Array with user_id, method, nonce and token, or false if invalid.
 	 */
 	public function validate_2fa_challenge() {
 		return $this->form_handler->validate_2fa_challenge();
@@ -215,18 +215,10 @@ class Integration {
 			Helper::send_email_otp( $user_id );
 		}
 
-		// Create secure 2FA cookie (same as traditional flow).
-		$cookie_manager = new Cookie_Manager();
-		$cookie_set     = $cookie_manager->create_secure_2fa_cookie( $user_id, $login_nonce['key'] );
-
-		if ( ! $cookie_set ) {
-
-			return $response;
-		}
-
-		// Build redirect URL to 2FA challenge (same as traditional flow).
+		// Build redirect URL to 2FA challenge (same as traditional flow). The token carries the
+		// pending login; a cookie cannot, because page caches strip it from the challenge request.
 		$redirect_manager = new Redirect_Manager();
-		$redirect_url     = $redirect_manager->build_2fa_redirect_url();
+		$redirect_url     = $redirect_manager->build_2fa_redirect_url( $this->challenge_token->build( $user_id, $login_nonce['key'] ) );
 
 		// Convert successful login into redirect response.
 		$response['success']                   = false; // Prevent normal login success.

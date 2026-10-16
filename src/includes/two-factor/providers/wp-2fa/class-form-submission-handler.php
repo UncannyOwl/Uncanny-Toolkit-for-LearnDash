@@ -17,11 +17,11 @@ defined( 'ABSPATH' ) || exit;
 class Form_Submission_Handler {
 
 	/**
-	 * Cookie manager instance.
+	 * Challenge token instance.
 	 *
-	 * @var Cookie_Manager
+	 * @var Challenge_Token
 	 */
-	private $cookie_manager;
+	private $challenge_token;
 
 	/**
 	 * Authentication handler instance.
@@ -40,14 +40,14 @@ class Form_Submission_Handler {
 	/**
 	 * Constructor.
 	 *
-	 * @param Cookie_Manager         $cookie_manager Cookie manager instance.
+	 * @param Challenge_Token        $challenge_token Challenge token instance.
 	 * @param Authentication_Handler $auth_handler Authentication handler instance.
 	 * @param Form_Renderer          $form_renderer Form renderer instance.
 	 */
-	public function __construct( Cookie_Manager $cookie_manager, Authentication_Handler $auth_handler, Form_Renderer $form_renderer ) {
-		$this->cookie_manager = $cookie_manager;
-		$this->auth_handler   = $auth_handler;
-		$this->form_renderer  = $form_renderer;
+	public function __construct( Challenge_Token $challenge_token, Authentication_Handler $auth_handler, Form_Renderer $form_renderer ) {
+		$this->challenge_token = $challenge_token;
+		$this->auth_handler    = $auth_handler;
+		$this->form_renderer   = $form_renderer;
 	}
 
 	/**
@@ -63,33 +63,28 @@ class Form_Submission_Handler {
 
 		$action = sanitize_text_field( wp_unslash( $_POST['2fa_action'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
 
-		// Handle go_back without cookie validation (user is abandoning 2FA).
+		// Resolve the pending login. The token is signed, so a forged one never reaches WP 2FA.
+		$challenge = $this->challenge_token->resolve();
+		$verified  = $challenge && $this->validate_2fa_nonce( $challenge['user_id'], $challenge['nonce'] );
+
+		// Handle go_back without requiring a valid challenge (user is abandoning 2FA).
 		if ( 'go_back' === $action ) {
-			$this->auth_handler->handle_2fa_go_back();
+			$this->auth_handler->handle_2fa_go_back( $verified ? $challenge : false );
 			return;
 		}
 
-		// For other actions, validate and decode the secure cookie.
-		$cookie_data = $this->cookie_manager->validate_secure_2fa_cookie();
-		if ( ! $cookie_data ) {
-			wp_die( esc_html__( 'Security check failed or expired. Please try logging in again.', 'uncanny-learndash-toolkit' ) );
-		}
-
-		$user_id = intval( $cookie_data['user_id'] );
-		$nonce   = $cookie_data['nonce'];
-
-		// Validate nonce.
-		if ( ! $this->validate_2fa_nonce( $user_id, $nonce ) ) {
+		// For other actions, the challenge must be valid.
+		if ( ! $verified ) {
 			wp_die( esc_html__( 'Security check failed or expired. Please try logging in again.', 'uncanny-learndash-toolkit' ) );
 		}
 
 		// Handle different 2FA actions.
 		switch ( $action ) {
 			case 'verify_primary':
-				$this->auth_handler->handle_primary_code_submission( $user_id );
+				$this->auth_handler->handle_primary_code_submission( $challenge['user_id'], $challenge['token'] );
 				break;
 			case 'verify_backup':
-				$this->auth_handler->handle_backup_code_submission( $user_id );
+				$this->auth_handler->handle_backup_code_submission( $challenge['user_id'], $challenge['token'] );
 				break;
 			default:
 				wp_die( esc_html__( 'Invalid action. Please try again.', 'uncanny-learndash-toolkit' ) );
@@ -106,20 +101,24 @@ class Form_Submission_Handler {
 	}
 
 	/**
-	 * Prevents browsers and intermediary caches from storing a 2FA challenge.
+	 * Keeps a 2FA challenge out of caches and out of Referer headers.
+	 *
+	 * The challenge URL carries the pending login, so it must not be stored by browsers or
+	 * intermediary caches, and must not leak to other sites through the Referer header.
 	 *
 	 * @return void
 	 */
-	public function send_no_cache_headers() {
+	public function send_challenge_headers() {
 		if ( $this->should_display_2fa_form() ) {
 			nocache_headers();
+			header( 'Referrer-Policy: no-referrer' );
 		}
 	}
 
 	/**
-	 * Validates the 2FA challenge using secure cookie.
+	 * Validates the 2FA challenge carried by the request token.
 	 *
-	 * @return array|false Array with user_id and method, or false if invalid.
+	 * @return array|false Array with user_id, method, nonce and token, or false if invalid.
 	 */
 	public function validate_2fa_challenge() {
 		// Check required parameters.
@@ -127,14 +126,14 @@ class Form_Submission_Handler {
 			return false;
 		}
 
-		// Validate and decode the secure cookie.
-		$cookie_data = $this->cookie_manager->validate_secure_2fa_cookie();
-		if ( ! $cookie_data ) {
+		// Resolve the signed token.
+		$challenge = $this->challenge_token->resolve();
+		if ( ! $challenge ) {
 			return false;
 		}
 
-		$user_id = intval( $cookie_data['user_id'] );
-		$nonce   = $cookie_data['nonce'];
+		$user_id = $challenge['user_id'];
+		$nonce   = $challenge['nonce'];
 
 		// Validate user exists.
 		$user = get_user_by( 'id', $user_id );
@@ -157,6 +156,7 @@ class Form_Submission_Handler {
 			'user_id' => $user_id,
 			'method'  => $enabled_method,
 			'nonce'   => $nonce,
+			'token'   => $challenge['token'],
 		);
 	}
 

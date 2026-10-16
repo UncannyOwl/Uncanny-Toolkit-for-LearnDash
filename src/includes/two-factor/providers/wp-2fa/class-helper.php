@@ -58,10 +58,37 @@ class Helper {
 		// Fallback to standard email method.
 		if ( class_exists( '\WP2FA\Admin\Setup_Wizard' )
 			&& method_exists( '\WP2FA\Admin\Setup_Wizard', 'send_authentication_setup_email' ) ) {
-			return \WP2FA\Admin\Setup_Wizard::send_authentication_setup_email( $user_id );
+			return self::without_ajax_context(
+				static function () use ( $user_id ) {
+					return \WP2FA\Admin\Setup_Wizard::send_authentication_setup_email( $user_id );
+				}
+			);
 		}
 
 		return false;
+	}
+
+	/**
+	 * Runs a callback while wp_doing_ajax() reports false.
+	 *
+	 * Since 4.2.0, WP 2FA's Setup_Wizard::send_authentication_setup_email() treats every
+	 * admin-ajax request as its own "send setup email" AJAX handler: it requires a
+	 * 'wp-2fa-send-setup-email' nonce (wp_send_json_error() and die otherwise) and discards the
+	 * user ID it was given. The toolkit sends the login code from inside its own `ult-login`
+	 * admin-ajax request, where that handler must not engage, so the call is made as WP 2FA
+	 * makes it on a native login: a regular, non-AJAX request for the given user.
+	 *
+	 * @param callable $callback The callback to run.
+	 * @return mixed The callback's return value.
+	 */
+	private static function without_ajax_context( callable $callback ) {
+		add_filter( 'wp_doing_ajax', '__return_false', PHP_INT_MAX );
+
+		try {
+			return $callback();
+		} finally {
+			remove_filter( 'wp_doing_ajax', '__return_false', PHP_INT_MAX );
+		}
 	}
 
 	/**
@@ -175,6 +202,27 @@ class Helper {
 		update_user_meta( $user_id, \WP2FA\Authenticator\Login::USER_META_NONCE_KEY, $nonce );
 
 		return $nonce;
+	}
+
+	/**
+	 * Deletes a pending login nonce.
+	 *
+	 * @param int    $user_id The user ID.
+	 * @param string $nonce   The login nonce to revoke. WP 2FA 4.2.0+ removes only that login transaction;
+	 *                        older releases hold one nonce per user and remove it.
+	 * @return void
+	 */
+	public static function delete_login_nonce( $user_id, $nonce = '' ) {
+		if ( ! class_exists( '\WP2FA\Authenticator\Login' ) ) {
+			return;
+		}
+
+		if ( method_exists( '\WP2FA\Authenticator\Login', 'delete_login_nonce' ) ) {
+			\WP2FA\Authenticator\Login::delete_login_nonce( $user_id, $nonce );
+			return;
+		}
+
+		delete_user_meta( $user_id, \WP2FA\Authenticator\Login::USER_META_NONCE_KEY );
 	}
 
 	/**

@@ -2,9 +2,9 @@
 Contributors: uncannyowl
 Tags: LearnDash, eLearning, LMS, education, learning, courseware
 Requires at least: 6.3
-Tested up to: 7.1.1
+Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 3.8.1
+Stable tag: 3.8.2
 License: This plugin is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or any later version. Uncanny Toolkit for LearnDash is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with Uncanny Toolkit for LearnDash. If not, see https://www.gnu.org/licenses/gpl-3.0.html.
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -103,6 +103,15 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 3. LearnDash Resume Button module - works at a global or course level
 
 == Changelog ==
+
+= 3.8.2 [2026-10-16] =
+
+**Fixed:**
+
+* Front End Login - Strengthened password reset security by requiring a valid reset session and token, preventing cross-site requests from changing passwords during an active reset process #557
+* Front End Login - Prevented Turnstile from blocking logins through WooCommerce checkout and other login forms #549
+* Front End Login - Resolved WP 2FA login failures caused by page caching and email verification codes #555
+* Manual User Verification - Restricted bulk user verification to super admins on multisite networks while preserving single-site administrator access #560
 
 = 3.8.1 [2026-09-21] =
 

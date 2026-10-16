@@ -38,6 +38,7 @@ class Form_Renderer {
 				'user_id'        => $user_id,
 				'requires_token' => true,
 				'nonce'          => $challenge_data['nonce'],
+				'token'          => $challenge_data['token'],
 			),
 			'instructions'   => HTML_Helper::get_instructions_text( $method ),
 			'strings'        => $this->get_2fa_strings(),

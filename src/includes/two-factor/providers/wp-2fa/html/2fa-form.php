@@ -60,6 +60,7 @@ if ( isset( $_GET['2fa_error'] ) ) { // phpcs:ignore WordPress.Security.NonceVer
 						
 						<!-- Hidden fields for form submission -->
 						<input type="hidden" name="2fa_action" value="verify_primary">
+							<input type="hidden" name="2fa_request" value="<?php echo esc_attr( $form_data['params']['token'] ); ?>">
 						
 						<div class="ult-form__validation">
 							<div class="ult-notice-text" role="alert" aria-live="polite"></div>
@@ -95,6 +96,7 @@ if ( isset( $_GET['2fa_error'] ) ) { // phpcs:ignore WordPress.Security.NonceVer
 						
 						<!-- Hidden fields for form submission -->
 						<input type="hidden" name="2fa_action" value="verify_backup">
+							<input type="hidden" name="2fa_request" value="<?php echo esc_attr( $form_data['params']['token'] ); ?>">
 						
 						<div class="ult-form__validation">
 							<div class="ult-notice-text" role="alert" aria-live="polite"></div>
@@ -116,6 +118,7 @@ if ( isset( $_GET['2fa_error'] ) ) { // phpcs:ignore WordPress.Security.NonceVer
 				<?php endif; ?>
 				<form method="post" style="display: inline;">
 					<input type="hidden" name="2fa_action" value="go_back">
+					<input type="hidden" name="2fa_request" value="<?php echo esc_attr( $form_data['params']['token'] ); ?>">
 					<button type="submit" class="ult-form__link button" id="ult-2fa-back">
 						<?php echo esc_html( $form_data['strings']['goBack'] ); ?>
 					</button>

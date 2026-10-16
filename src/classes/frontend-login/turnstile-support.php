@@ -16,6 +16,13 @@ use WP_Error;
 final class Turnstile_Support {
 
 	/**
+	 * Hidden field posted by forms that render the Turnstile widget.
+	 *
+	 * @var string
+	 */
+	const FORM_MARKER = 'uo_turnstile_form';
+
+	/**
 	 * Register the hooks required for Turnstile support.
 	 *
 	 * @return true
@@ -152,7 +159,7 @@ final class Turnstile_Support {
 	 */
 	public static function non_ajax_login_verify_token( $user, $username, $password ) {
 
-		if ( ! self::turnstile_is_active() ) {
+		if ( ! self::should_verify_non_ajax_request() ) {
 			return $user;
 		}
 
@@ -162,11 +169,6 @@ final class Turnstile_Support {
 		}
 
 		$turnstile_token = filter_input( INPUT_POST, 'cf-turnstile-response' );
-
-		// Disable for ajax requests.
-		if ( wp_doing_ajax() ) {
-			return $user;
-		}
 
 		try {
 			self::validate_token( $turnstile_token );
@@ -189,17 +191,11 @@ final class Turnstile_Support {
 	 */
 	public static function non_ajax_lost_password_verify_token( $errors ) {
 
+		if ( ! self::should_verify_non_ajax_request() ) {
+			return;
+		}
+
 		$turnstile_token = filter_input( INPUT_POST, 'cf-turnstile-response' );
-
-		// Bail if turnstile is not active.
-		if ( ! self::turnstile_is_active() ) {
-			return;
-		}
-
-		// Disable for ajax requests.
-		if ( wp_doing_ajax() ) {
-			return;
-		}
 
 		try {
 			self::validate_token( $turnstile_token );
@@ -211,6 +207,24 @@ final class Turnstile_Support {
 			exit;
 		}
 
+	}
+
+	/**
+	 * Whether non-AJAX Turnstile verification should run for this request.
+	 *
+	 * Only forms that render the Turnstile widget (via recaptcha_element()) post the
+	 * marker field, so other login flows (WooCommerce, Elementor, wp-login.php, etc.)
+	 * are not blocked.
+	 *
+	 * @return bool
+	 */
+	private static function should_verify_non_ajax_request() {
+
+		if ( ! self::turnstile_is_active() || wp_doing_ajax() ) {
+			return false;
+		}
+
+		return isset( $_POST[ self::FORM_MARKER ] ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
 	}
 
 	/**
@@ -363,6 +377,9 @@ final class Turnstile_Support {
 		);
 
 		include Frontend_Login_Plus::get_template( '/frontend-login/cloudflare-turnstile/recaptcha-frontend.php' );
+
+		// Marks the form as Turnstile-protected for non-AJAX verification.
+		echo '<input type="hidden" name="' . esc_attr( self::FORM_MARKER ) . '" value="1" />';
 
 		return ob_get_clean() . $content;
 	}
