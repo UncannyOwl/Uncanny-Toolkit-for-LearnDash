@@ -94,7 +94,7 @@ class LearndashGroupUserProfile extends Config implements RequiredFunctions {
 		// If the user is part of at least one group... lets create the LearnDash Group Section
 		if ( ! empty( $groups ) ) {
 			// Happy Filtering!
-			$section_title = apply_filters( 'learndash_users_groups_profile_title', $section_title );
+			$section_title = apply_filters( 'learndash_users_groups_profile_title', $section_title ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code).
 
 			// Loop through all the user's group ids and collect the title and link
 			$list_groups = '';
@@ -120,7 +120,7 @@ class LearndashGroupUserProfile extends Config implements RequiredFunctions {
                     </th>
                     <td>
                         <ol>
-							<?php echo $list_groups; ?>
+							<?php echo $list_groups; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- List markup built above; every dynamic part escaped with esc_url()/esc_html(). ?>
                         </ol>
                     </td>
                 </tr>

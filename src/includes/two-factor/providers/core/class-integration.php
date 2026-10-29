@@ -204,12 +204,10 @@ class Integration {
 			$this->bail_to_login();
 		}
 
-		// phpcs:disable WordPress.Security.NonceVerification.Missing -- Two Factor verifies the login nonce below.
-		$uid         = isset( $_REQUEST['wp-auth-id'] ) ? (int) $_REQUEST['wp-auth-id'] : 0;
-		$nonce       = isset( $_REQUEST['wp-auth-nonce'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['wp-auth-nonce'] ) ) : '';
-		$provider    = isset( $_REQUEST['provider'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['provider'] ) ) : '';
-		$redirect_to = isset( $_REQUEST['redirect_to'] ) ? esc_url_raw( wp_unslash( $_REQUEST['redirect_to'] ) ) : admin_url();
-		// phpcs:enable WordPress.Security.NonceVerification.Missing
+		$uid         = isset( $_REQUEST['wp-auth-id'] ) ? (int) $_REQUEST['wp-auth-id'] : 0; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Two Factor verifies the wp-auth-nonce login nonce in validate_login_form_2fa() before these values are used.
+		$nonce       = isset( $_REQUEST['wp-auth-nonce'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['wp-auth-nonce'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Two Factor verifies the wp-auth-nonce login nonce in validate_login_form_2fa() before these values are used.
+		$provider    = isset( $_REQUEST['provider'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['provider'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Two Factor verifies the wp-auth-nonce login nonce in validate_login_form_2fa() before these values are used.
+		$redirect_to = isset( $_REQUEST['redirect_to'] ) ? esc_url_raw( wp_unslash( $_REQUEST['redirect_to'] ) ) : admin_url(); // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Two Factor verifies the wp-auth-nonce login nonce in validate_login_form_2fa() before these values are used.
 
 		$user = $uid ? get_user_by( 'id', $uid ) : false;
 		if ( ! $user ) {
@@ -292,13 +290,11 @@ class Integration {
 	private function get_attempted_user() {
 
 		$username = '';
-		// phpcs:disable WordPress.Security.NonceVerification.Missing -- Runs after authentication; only identifies the user.
-		if ( isset( $_POST['email'] ) ) {
-			$username = sanitize_user( wp_unslash( $_POST['email'] ) );
-		} elseif ( isset( $_POST['log'] ) ) {
-			$username = sanitize_user( wp_unslash( $_POST['log'] ) );
+		if ( isset( $_POST['email'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing -- AJAX login nonce verified by uo_login_action() before this filter fires.
+			$username = sanitize_user( wp_unslash( $_POST['email'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing -- AJAX login nonce verified by uo_login_action() before this filter fires.
+		} elseif ( isset( $_POST['log'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing -- AJAX login nonce verified by uo_login_action() before this filter fires.
+			$username = sanitize_user( wp_unslash( $_POST['log'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing -- AJAX login nonce verified by uo_login_action() before this filter fires.
 		}
-		// phpcs:enable WordPress.Security.NonceVerification.Missing
 
 		if ( empty( $username ) ) {
 			return false;

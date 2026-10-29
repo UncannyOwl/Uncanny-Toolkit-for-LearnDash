@@ -226,14 +226,14 @@ class Config {
 
 		?>
 
-		<div class="ult-modal uncannyowl-modal-overlay" data-settings="<?php echo $modal_id; ?>">
+		<div class="ult-modal uncannyowl-modal-overlay" data-settings="<?php echo esc_attr( $modal_id ); ?>">
 			<div class="ult-modal-box uncannyowl-modal-content  uncannyowl-modal-centered uncannyowl-modal-width-sm">
 			  
 				<div class="uncannyowl-modal-header">
 					<div class="uncannyowl-modal-title">
 						<div class="uncannyowl-modal-title-icon uncannyowl-bg-yellow"></div>
 						<div class="uncannyowl-modal-title-text ml-sm">
-							<?php echo $title; ?>
+							<?php echo wp_kses_post( $title ); ?>
 						</div>
 					</div>
 					<button class="uncannyowl-modal-close ult-modal-action__btn-cancel-js" data-action="cancel">×</button>
@@ -247,7 +247,7 @@ class Config {
 
 							// Show if
 							$show_if = isset( $content['show_if'] ) && is_array( $content['show_if'] ) ? $content['show_if'] : '';
-							$show_if = is_array( $show_if ) ? esc_attr( wp_json_encode( $show_if ) ) : '';
+							$show_if = is_array( $show_if ) ? wp_json_encode( $show_if ) : '';
 
 							// Default value
 							$default_value = isset( $content['default'] ) ? $content['default'] : '';
@@ -275,11 +275,11 @@ class Config {
 									?>
 									<div
 										id="<?php echo esc_attr( $field_id ); ?>"
-										class="uncannyowl-form-field pb-sm pt-sm mb-0 ult-modal-form-row uncannyowl-form-html <?php echo $css_class; ?>"
-										data-show-if="<?php echo $show_if; ?>"
+										class="uncannyowl-form-field pb-sm pt-sm mb-0 ult-modal-form-row uncannyowl-form-html <?php echo esc_attr( $css_class ); ?>"
+										data-show-if="<?php echo esc_attr( $show_if ); ?>"
 										data-type="html"
 									>
-										<?php echo $inner_html; ?>
+										<?php echo $inner_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Settings markup from each module's get_details() (e.g. FrontendLoginPlus, uo_toolkit_2fa_oci_button()); dynamic parts escaped there, and wp_kses_post() would strip its <button>/<style>. ?>
 									</div>
  
 									<?php
@@ -288,10 +288,10 @@ class Config {
 									?>
 									<div
 										id="<?php echo esc_attr( $field_id ); ?>"
-										class="uncannyowl-form-field mb-0 pb-sm pt-sm ult-modal-form-row ult-modal__field--text <?php echo $css_class; ?>"
-										data-show-if="<?php echo $show_if; ?>"
-										data-default="<?php echo $default_value; ?>"
-										data-id="<?php echo $option_name; ?>"
+										class="uncannyowl-form-field mb-0 pb-sm pt-sm ult-modal-form-row ult-modal__field--text <?php echo esc_attr( $css_class ); ?>"
+										data-show-if="<?php echo esc_attr( $show_if ); ?>"
+										data-default="<?php echo esc_attr( $default_value ); ?>"
+										data-id="<?php echo esc_attr( $option_name ); ?>"
 										data-type="text"
 									>
 
@@ -303,13 +303,13 @@ class Config {
 										<?php endif; ?>
 
 										<div class="ult-modal-form-row__field">
-											<input type="text" class="uncannyowl-input" placeholder="<?php echo $placeholder; ?>"
+											<input type="text" class="uncannyowl-input" placeholder="<?php echo esc_attr( $placeholder ); ?>"
 												   class="ult-modal-form-row__input"
-												   name="<?php echo $option_name; ?>" data-type="text">
+												   name="<?php echo esc_attr( $option_name ); ?>" data-type="text">
 
 											<?php if ( ! empty( $description ) ) { ?>
 												<div class="ult-modal-form-row__description">
-													<?php echo $description; ?>
+													<?php echo wp_kses_post( $description ); ?>
 												</div>
 											<?php } ?>
 										</div>
@@ -323,23 +323,23 @@ class Config {
 									?>
 									<div
 										id="<?php echo esc_attr( $field_id ); ?>"
-										class="uncannyowl-form-field pb-sm pt-sm mb-0  ult-modal-form-row ult-modal__field--text <?php echo $css_class; ?>"
-										data-show-if="<?php echo $show_if; ?>"
-										data-default="<?php echo $default_value; ?>"
-										data-id="<?php echo $option_name; ?>"
+										class="uncannyowl-form-field pb-sm pt-sm mb-0  ult-modal-form-row ult-modal__field--text <?php echo esc_attr( $css_class ); ?>"
+										data-show-if="<?php echo esc_attr( $show_if ); ?>"
+										data-default="<?php echo esc_attr( $default_value ); ?>"
+										data-id="<?php echo esc_attr( $option_name ); ?>"
 										data-type="text"
 									>
 										<div class="ult-modal-form-row__label uncannyowl-form-section-label">
-											<?php echo $label; ?>
+											<?php echo wp_kses_post( $label ); ?>
 										</div>
 										<div class="ult-modal-form-row__field">
-											<input type="number" placeholder="<?php echo $placeholder; ?>"
+											<input type="number" placeholder="<?php echo esc_attr( $placeholder ); ?>"
 												   class="ult-modal-form-row__input"
-												   name="<?php echo $option_name; ?>" data-type="number" min="0">
+												   name="<?php echo esc_attr( $option_name ); ?>" data-type="number" min="0">
 
 											<?php if ( ! empty( $description ) ) { ?>
 												<div class="ult-modal-form-row__description">
-													<?php echo $description; ?>
+													<?php echo wp_kses_post( $description ); ?>
 												</div>
 											<?php } ?>
 										</div>
@@ -353,26 +353,26 @@ class Config {
 									?>
 									<div
 										id="<?php echo esc_attr( $field_id ); ?>"
-										class="uncannyowl-form-field pb-sm pt-sm mb-sm ult-modal-form-row ult-modal__field--color <?php echo $css_class; ?>"
-										data-show-if="<?php echo $show_if; ?>"
-										data-default="<?php echo $default_value; ?>"
+										class="uncannyowl-form-field pb-sm pt-sm mb-sm ult-modal-form-row ult-modal__field--color <?php echo esc_attr( $css_class ); ?>"
+										data-show-if="<?php echo esc_attr( $show_if ); ?>"
+										data-default="<?php echo esc_attr( $default_value ); ?>"
 										data-type="color"
-										data-id="<?php echo $option_name; ?>"
+										data-id="<?php echo esc_attr( $option_name ); ?>"
 									>
 										<div class="ult-modal-form-row__label uncannyowl-form-section-label mb-xs">
-											<?php echo $label; ?>
+											<?php echo wp_kses_post( $label ); ?>
 										</div>
 										<div class="ult-modal-form-row__field">
 											<input type="color"
-												   placeholder="<?php echo $placeholder; ?>"
+												   placeholder="<?php echo esc_attr( $placeholder ); ?>"
 												   class="ult-modal-form-row__color uo-color-picker"
-												   name="<?php echo $option_name; ?>"
+												   name="<?php echo esc_attr( $option_name ); ?>"
 												   data-type="color"
 											>
 
 											<?php if ( ! empty( $description ) ) { ?>
 												<div class="ult-modal-form-row__description">
-													<?php echo $description; ?>
+													<?php echo wp_kses_post( $description ); ?>
 												</div>
 											<?php } ?>
 										</div>
@@ -393,19 +393,19 @@ class Config {
 
 									<div
 										id="<?php echo esc_attr( $field_id ); ?>"
-										class="uncannyowl-form-field  mb-0 pt-sm pb-sm ult-modal-form-row ult-modal__field--tinymce <?php echo $css_class; ?>"
-										data-show-if="<?php echo $show_if; ?>"
-										data-default="<?php echo $default_value; ?>"
+										class="uncannyowl-form-field  mb-0 pt-sm pb-sm ult-modal-form-row ult-modal__field--tinymce <?php echo esc_attr( $css_class ); ?>"
+										data-show-if="<?php echo esc_attr( $show_if ); ?>"
+										data-default="<?php echo esc_attr( $default_value ); ?>"
 										data-type="textarea"
-										data-id="<?php echo $option_name; ?>"
+										data-id="<?php echo esc_attr( $option_name ); ?>"
 									>
 										<div class="ult-modal-form-row__label uncannyowl-form-section-label">
-											<?php echo $label; ?>
+											<?php echo wp_kses_post( $label ); ?>
 										</div>
 										<div class="ult-modal-form-row__field">
 											<?php
 
-											echo wp_editor(
+											wp_editor(
 												$tinymce_content,
 												$option_name,
 												array(
@@ -420,7 +420,7 @@ class Config {
 
 											<?php if ( ! empty( $description ) ) { ?>
 												<div class="ult-modal-form-row__description">
-													<?php echo $description; ?>
+													<?php echo wp_kses_post( $description ); ?>
 												</div>
 											<?php } ?>
 										</div>
@@ -433,23 +433,23 @@ class Config {
 									?>
 									<div
 										id="<?php echo esc_attr( $field_id ); ?>"
-										class="uncannyowl-form-field pb-sm pt-sm mb-0 ult-modal-form-row ult-modal__field--checkbox <?php echo $css_class; ?>"
-										data-show-if="<?php echo $show_if; ?>"
-										data-default="<?php echo $default_value; ?>"
+										class="uncannyowl-form-field pb-sm pt-sm mb-0 ult-modal-form-row ult-modal__field--checkbox <?php echo esc_attr( $css_class ); ?>"
+										data-show-if="<?php echo esc_attr( $show_if ); ?>"
+										data-default="<?php echo esc_attr( $default_value ); ?>"
 										data-type="checkbox"
-										data-id="<?php echo $option_name; ?>"
+										data-id="<?php echo esc_attr( $option_name ); ?>"
 									>
 										<div class="ult-modal-form-row__field  mb-0  p-0">
 											<div class="uncannyowl-checkbox mb-0">
 												<label class="uncannyowl-checkbox-label mb-0">
-													<input type="checkbox" name="<?php echo $option_name; ?>"
+													<input type="checkbox" name="<?php echo esc_attr( $option_name ); ?>"
 														class="ult-modal-form-row__checkbox " data-type="checkbox">
-													<?php echo $label; ?>
+													<?php echo wp_kses_post( $label ); ?>
 												</label>
 											</div> 
 											<?php if ( ! empty( $description ) ) { ?>
 												<div class="ult-modal-form-row__description">
-													<?php echo $description; ?>
+													<?php echo wp_kses_post( $description ); ?>
 												</div>
 											<?php } ?>
 										</div>
@@ -461,14 +461,14 @@ class Config {
 									?>
 									<div
 										id="<?php echo esc_attr( $field_id ); ?>"
-										class="uncannyowl-form-field mb-0 pb-sm pt-sm ult-modal-form-row <?php echo $css_class; ?>"
-										data-show-if="<?php echo $show_if; ?>"
-										data-default="<?php echo $default_value; ?>"
+										class="uncannyowl-form-field mb-0 pb-sm pt-sm ult-modal-form-row <?php echo esc_attr( $css_class ); ?>"
+										data-show-if="<?php echo esc_attr( $show_if ); ?>"
+										data-default="<?php echo esc_attr( $default_value ); ?>"
 										data-type="radio"
-										data-id="<?php echo $radio_name; ?>"
+										data-id="<?php echo esc_attr( $radio_name ); ?>"
 									>
 										<div class="uncannyowl-form-section-label ult-modal-form-row__label ">
-											<?php echo $label; ?>
+											<?php echo wp_kses_post( $label ); ?>
 										</div>
 										<div class="ult-modal-form-row__field">
 											<?php
@@ -481,9 +481,9 @@ class Config {
 													?>
 
 													<label class="ult-modal-form-row__radio-label uncannyowl-radio">
-														<input type="radio" name="<?php echo $radio_name; ?>"
-															   value="<?php echo $radio['value']; ?>" data-type="radio"> 
-														<span class="uncannyowl-radio-label"> <?php echo $radio['text']; ?>
+														<input type="radio" name="<?php echo esc_attr( $radio_name ); ?>"
+															   value="<?php echo esc_attr( $radio['value'] ); ?>" data-type="radio"> 
+														<span class="uncannyowl-radio-label"> <?php echo wp_kses_post( $radio['text'] ); ?>
 														</span>
 													</label>
 
@@ -495,7 +495,7 @@ class Config {
 
 											<?php if ( ! empty( $description ) ) { ?>
 												<div class="ult-modal-form-row__description">
-													<?php echo $description; ?>
+													<?php echo wp_kses_post( $description ); ?>
 												</div>
 											<?php } ?>
 										</div>
@@ -508,24 +508,24 @@ class Config {
 									?>
 									<div
 										id="<?php echo esc_attr( $field_id ); ?>"
-										class="uncannyowl-form-field pb-sm pt-sm mb-0 ult-modal-form-row ult-modal__field--select <?php echo $css_class; ?>"
-										data-show-if="<?php echo $show_if; ?>"
-										data-default="<?php echo $default_value; ?>"
+										class="uncannyowl-form-field pb-sm pt-sm mb-0 ult-modal-form-row ult-modal__field--select <?php echo esc_attr( $css_class ); ?>"
+										data-show-if="<?php echo esc_attr( $show_if ); ?>"
+										data-default="<?php echo esc_attr( $default_value ); ?>"
 										data-type="select"
-										data-id="<?php echo $select_name; ?>"
+										data-id="<?php echo esc_attr( $select_name ); ?>"
 									>
 										<div class="ult-modal-form-row__label uncannyowl-form-section-label">
-											<?php echo $label; ?>
+											<?php echo wp_kses_post( $label ); ?>
 										</div>
 										<div class="ult-modal-form-row__field">
 											<select class="ult-modal-form-row__select"
-													name="<?php echo $select_name; ?>" data-type="select"  data-no-select2="true">
+													name="<?php echo esc_attr( $select_name ); ?>" data-type="select"  data-no-select2="true">
 												<?php
 												if ( ! empty( $content_options ) ) {
 													foreach ( $content_options as $option ) {
 														?>
-														<option value="<?php echo $option['value']; ?>">
-															<?php echo $option['text']; ?>
+														<option value="<?php echo esc_attr( $option['value'] ); ?>">
+															<?php echo esc_html( $option['text'] ); ?>
 														</option>
 														<?php
 													}
@@ -535,7 +535,7 @@ class Config {
 
 											<?php if ( ! empty( $description ) ) { ?>
 												<div class="ult-modal-form-row__description">
-													<?php echo $description; ?>
+													<?php echo wp_kses_post( $description ); ?>
 												</div>
 											<?php } ?>
 										</div>
@@ -555,12 +555,12 @@ class Config {
 							<div class="action-left">
 								<a target="_blank"
 									class="uncannyowl-btn uncannyowl-btn--secondary uncannyowl-btn--sm ult-modal-action__btn-help-js">
-									<?php _e( 'Help', 'uncanny-learndash-toolkit' ); ?>
+									<?php esc_html_e( 'Help', 'uncanny-learndash-toolkit' ); ?>
 								</a>
 							</div>
 							<div class="action-right">
-								<button type="button" class="uncannyowl-btn uncannyowl-btn--secondary ult-modal-action__btn-cancel-js" data-action="cancel"><?php _e( 'Close', 'uncanny-learndash-toolkit' ); ?></button>
-								<button type="submit" class="uncannyowl-btn uncannyowl-btn--primary ult-modal-action__btn-submit-js"><?php _e( 'Save module', 'uncanny-learndash-toolkit' ); ?></button>
+								<button type="button" class="uncannyowl-btn uncannyowl-btn--secondary ult-modal-action__btn-cancel-js" data-action="cancel"><?php esc_html_e( 'Close', 'uncanny-learndash-toolkit' ); ?></button>
+								<button type="submit" class="uncannyowl-btn uncannyowl-btn--primary ult-modal-action__btn-submit-js"><?php esc_html_e( 'Save module', 'uncanny-learndash-toolkit' ); ?></button>
 							</div>
 						</div>
 					</div> 
@@ -584,29 +584,34 @@ class Config {
 	 */
 	public static function ajax_activate_deactivate_module() {
 		// Nonce verification
-		if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'uncanny_toolkit' ) ) {
+		if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'uncanny_toolkit' ) ) {
 			echo 'nonce failed';
 			wp_die();
 		}
-		$capability = apply_filters( 'toolkit_settings_module_switch_cap', 'manage_options' );
+		$capability = apply_filters( 'toolkit_settings_module_switch_cap', 'manage_options' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code).
 		if ( ! current_user_can( $capability ) ) {
-			echo __( 'You must be an admin to save settings', 'uncanny-learndash-toolkit' );
+			echo esc_html__( 'You must be an admin to save settings', 'uncanny-learndash-toolkit' );
 			wp_die();
 		}
 		if ( ! isset( $_POST['value'] ) ) {
 			echo 'Value field missing.';
 			wp_die();
 		}
-		$value          = stripslashes( $_POST['value'] );
+		$active = isset( $_POST['active'] ) ? sanitize_key( wp_unslash( $_POST['active'] ) ) : '';
+		if ( ! in_array( $active, array( 'active', 'inactive' ), true ) ) {
+			echo 'Invalid active value.';
+			wp_die();
+		}
+		$value          = sanitize_text_field( wp_unslash( $_POST['value'] ) );
 		$active_classes = get_option( 'uncanny_toolkit_active_classes', 0 );
 
 		if ( 0 !== $active_classes ) {
 			if ( ! is_array( $active_classes ) ) {
 				$active_classes = array();
 			}
-			if ( 'active' === $_POST['active'] ) {
+			if ( 'active' === $active ) {
 				$new_classes = array_merge( array( $value => $value ), $active_classes );
-			} elseif ( 'inactive' === $_POST['active'] ) {
+			} elseif ( 'inactive' === $active ) {
 				unset( $active_classes[ $value ] );
 				$new_classes = $active_classes;
 			}
@@ -619,7 +624,7 @@ class Config {
 
 		// If the uo dashboard module is being turned on then set the default template as 3_0
 		if ( 'uncanny_pro_toolkit\\learnDashMyCourses' === $value ) {
-			if ( 'active' === $_POST['active'] ) {
+			if ( 'active' === $active ) {
 				update_option(
 					'uncanny_pro_toolkitlearnDashMyCourses',
 					array(
@@ -635,7 +640,7 @@ class Config {
 
 		// If the frontend login module is being turned on then check if settings are available or not.
 		if ( 'uncanny_learndash_toolkit\FrontendLoginPlus' === $value ) {
-			if ( 'active' === $_POST['active'] ) {
+			if ( 'active' === $active ) {
 				$existing_settings = get_option( 'FrontendLoginPlus', '' );
 				if ( empty( $existing_settings ) ) {
 					$default_settings = array(
@@ -649,7 +654,7 @@ class Config {
 			}
 		}
 
-		echo $response; //phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo esc_html( $response );
 		wp_die();
 	}
 
@@ -658,7 +663,7 @@ class Config {
 	 */
 	public static function ajax_settings_save() {
 		// Nonce verification
-		if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'uncanny_toolkit' ) ) {
+		if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'uncanny_toolkit' ) ) {
 			echo wp_json_encode(
 				array(
 					'error'   => true,
@@ -672,7 +677,7 @@ class Config {
 			'message' => '',
 		);
 
-		$capability = apply_filters( 'toolkit_settings_save_cap', 'manage_options' );
+		$capability = apply_filters( 'toolkit_settings_save_cap', 'manage_options' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code).
 
 		if ( ! current_user_can( $capability ) ) {
 			echo wp_json_encode(
@@ -694,11 +699,11 @@ class Config {
 			wp_die();
 		}
 
-		$class   = sanitize_text_field( $_POST['class'] );
-		$options = ( isset( $_POST['options'] ) ) ? $_POST['options'] : array();
+		$class   = sanitize_text_field( wp_unslash( $_POST['class'] ) );
+		$options = ( isset( $_POST['options'] ) ) ? $_POST['options'] : array(); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Module settings (incl. admin-authored HTML) are stored as posted and unslashed on read in get_settings_value()/ajax_settings_load(); nonce and capability checked above.
 
 		// Validate action if any module need some values to set.
-		do_action( 'toolkit_settings_save_validation', $class, $options );
+		do_action( 'toolkit_settings_save_validation', $class, $options ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code).
 
 		// Delete option and add option are called instead of update option because
 		// sometimes update value is equal to the existing value and a false
@@ -728,27 +733,26 @@ class Config {
 	 */
 	public static function ajax_settings_load() {
 		// Nonce verification
-		if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'uncanny_toolkit' ) ) {
+		if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'uncanny_toolkit' ) ) {
 			echo 'Nonce verification failed.';
 			wp_die();
 		}
 
-		$capability = apply_filters( 'toolkit_settings_load_cap', 'manage_options' );
+		$capability = apply_filters( 'toolkit_settings_load_cap', 'manage_options' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code).
 		if ( current_user_can( $capability ) ) {
 			if ( isset( $_POST['class'] ) ) {
-				$class    = sanitize_text_field( $_POST['class'] );
+				$class    = sanitize_text_field( wp_unslash( $_POST['class'] ) );
 				$settings = get_option( $class, array() );
 				foreach ( $settings as &$setting ) {
 					$setting['value'] = stripslashes( $setting['value'] );
 				}
-				$response = wp_json_encode( $settings );
+				echo wp_json_encode( $settings );
 			} else {
-				$response = __( 'Class for addon is not set.', 'uncanny-learndash-toolkit' );
+				echo esc_html__( 'Class for addon is not set.', 'uncanny-learndash-toolkit' );
 			}
 		} else {
-			$response = __( 'You must be an admin to save settings.', 'uncanny-learndash-toolkit' );
+			echo esc_html__( 'You must be an admin to save settings.', 'uncanny-learndash-toolkit' );
 		}
-		echo $response;
 
 		wp_die();
 
@@ -795,18 +799,18 @@ class Config {
 			foreach ( $options as $option ) {
 				if ( in_array( $key, $option, true ) ) {
 					if ( '' !== $default && '' === trim( $option['value'] ) ) {
-						return apply_filters( 'uo_toolkit_settings_config_value', $default, $key, $args );
+						return apply_filters( 'uo_toolkit_settings_config_value', $default, $key, $args ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code).
 					}
 
 					$value = stripslashes( $option['value'] );
 
-					return apply_filters( 'uo_toolkit_settings_config_value', $value, $key, $args );
+					return apply_filters( 'uo_toolkit_settings_config_value', $value, $key, $args ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code).
 
 				}
 			}
 		}
 
-		return apply_filters( 'uo_toolkit_settings_config_value', $default, $key, $args );
+		return apply_filters( 'uo_toolkit_settings_config_value', $default, $key, $args ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code).
 
 	}
 
@@ -817,13 +821,13 @@ class Config {
 	 * @param string $file_name
 	 */
 	public static function trace_logs( $trace = '', $trace_name = '', $file_name = 'logs' ) {
-		$timestamp   = date( 'F d, Y H:i:s', current_time( 'timestamp' ) );
+		$timestamp   = gmdate( 'F d, Y H:i:s', current_time( 'timestamp' ) );
 		$boundary    = "\n===========================<<<< {$timestamp} >>>>===========================\n";
 		$log_type    = "*******************************[[[[[[[[[[ {$trace_name} ]]]]]]]]]]*******************************\n";
 		$log_end     = "\n===========================<<<< TRACE END >>>>===========================\n\n";
-		$final_trace = print_r( $trace, true );
+		$final_trace = print_r( $trace, true ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r -- Opt-in debug helper; only runs when a developer calls Config::trace_logs().
 		$file        = WP_CONTENT_DIR . '/uo-' . $file_name . '.log';
-		error_log( $boundary . $log_type . $final_trace . $log_end, 3, $file ); // phpcs:ignore
+		error_log( $boundary . $log_type . $final_trace . $log_end, 3, $file ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log -- Opt-in debug helper; only runs when a developer calls Config::trace_logs().
 	}
 
 	/**
@@ -845,7 +849,7 @@ class Config {
 
 		try {
 			// Parse the URL
-			$url_parts = parse_url( $url );
+			$url_parts = wp_parse_url( $url );
 
 			// If URL doesn't have a query string.
 			if ( isset( $url_parts['query'] ) ) {

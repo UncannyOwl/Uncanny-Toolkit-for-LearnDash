@@ -29,8 +29,8 @@ class Auto_Plugin_Install {
 	 */
 	public static function set_time_limit( $limit = 0 ) {
 
-		if ( function_exists( 'set_time_limit' ) && false === strpos( ini_get( 'disable_functions' ), 'set_time_limit' ) && ! ini_get( 'safe_mode' ) ) { // phpcs:ignore PHPCompatibility.IniDirectives.RemovedIniDirectives.safe_modeDeprecatedRemoved
-			@set_time_limit( $limit ); // @codingStandardsIgnoreLine
+		if ( function_exists( 'set_time_limit' ) && false === strpos( ini_get( 'disable_functions' ), 'set_time_limit' ) ) {
+			@set_time_limit( $limit ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged, Squiz.PHP.DiscouragedFunctions.Discouraged -- Raises the time limit for download/unzip like core's upgrader; only called when set_time_limit() is available, so a failure is harmless.
 		}
 
 	}
@@ -137,6 +137,7 @@ class Auto_Plugin_Install {
 			$plugin_info = $this->get_plugin_info( $data['slug'] );
 			if ( $plugin_info->is_active ) {
 				$response->success = false;
+				/* translators: %s: Plugin name. */
 				$response->message = sprintf( esc_html__( '%s is already installed and active.', 'uncanny-learndash-toolkit' ), $plugin_info->name );
 				$response->data    = $plugin_info;
 				echo wp_json_encode( $response );
@@ -154,6 +155,7 @@ class Auto_Plugin_Install {
 			$plugin_info = $this->get_plugin_info( $data['slug'] );
 			if ( $plugin_info->is_active ) {
 				$response->success = false;
+				/* translators: %s: Plugin name. */
 				$response->message = sprintf( esc_html__( '%s is already installed and active.', 'uncanny-learndash-toolkit' ), $plugin_info->name );
 				$response->data    = $plugin_info;
 				echo wp_json_encode( $response );
@@ -337,6 +339,7 @@ class Auto_Plugin_Install {
 		if ( false === $require_upgrader->success ) {
 			$process->success = false;
 			$process->code    = 'required_files_not_found';
+			/* translators: %s: Error message. */
 			$process->message = sprintf( esc_html__( 'Could not install plugin. %s', 'uncanny-learndash-toolkit' ), $require_upgrader->message );
 
 			return $process;
@@ -345,6 +348,7 @@ class Auto_Plugin_Install {
 		if ( false === $require_skin->success ) {
 			$process->success = false;
 			$process->code    = 'required_files_not_found';
+			/* translators: %s: Error message. */
 			$process->message = sprintf( esc_html__( 'Could not install plugin. %s', 'uncanny-learndash-toolkit' ), $require_skin->message );
 
 			return $process;
@@ -474,14 +478,14 @@ class Auto_Plugin_Install {
 		);
 		if ( false === $file_name ) {
 			$file->success = false;
-			$file->message = __( 'Auto_Plugin_Install::file_require_once() was called <strong>incorrectly</strong>. $file_name was not passed.' );
+			$file->message = __( 'Auto_Plugin_Install::file_require_once() was called <strong>incorrectly</strong>. $file_name was not passed.', 'uncanny-learndash-toolkit' );
 
 			return $file;
 		}
 
 		if ( false === $sub_directory ) {
 			$file->success = false;
-			$file->message = __( 'Auto_Plugin_Install::file_require_once() was called <strong>incorrectly</strong>. Directory was not passed.' );
+			$file->message = __( 'Auto_Plugin_Install::file_require_once() was called <strong>incorrectly</strong>. Directory was not passed.', 'uncanny-learndash-toolkit' );
 
 			return $file;
 		}
@@ -495,7 +499,8 @@ class Auto_Plugin_Install {
 		if ( ! file_exists( $asset_uri ) ) {
 			$file->success = false;
 			$file->message = sprintf(
-				__( 'Auto_Plugin_Install::file_require_once() did not find <strong>file not found</strong>. %1$s' ),
+				/* translators: %1$s: File path. */
+				__( 'Auto_Plugin_Install::file_require_once() did not find <strong>file not found</strong>. %1$s', 'uncanny-learndash-toolkit' ),
 				$asset_uri
 			);
 
@@ -554,6 +559,7 @@ class Auto_Plugin_Install {
 		if ( 'uncanny-automator' === (string) $plugin_slug ) {
 			$button_text = esc_html__( 'Install Uncanny Automator', 'uncanny-learndash-toolkit' );
 		} else {
+			/* translators: %s: Plugin name. */
 			$button_text = sprintf( esc_html__( 'Install %s', 'uncanny-learndash-toolkit' ), $plugin_info->name );
 		}
 
@@ -562,6 +568,7 @@ class Auto_Plugin_Install {
 		if ( $plugin_info->is_active ) {
 			$action      = esc_attr( '' );
 			$disabled    = esc_attr( 'disabled="disabled"' );
+			/* translators: %s: Plugin name. */
 			$button_text = sprintf( esc_html__( '%s is active', 'uncanny-learndash-toolkit' ), $plugin_info->name );
 			$button_text = apply_filters( 'uncanny_one_click_install_plugin_active_text', $button_text, $plugin_info );
 		} elseif ( $plugin_info->is_installed ) {
@@ -569,6 +576,7 @@ class Auto_Plugin_Install {
 			if ( 'uncanny-automator' === (string) $plugin_slug ) {
 				$button_text = esc_html__( 'Activate Uncanny Automator', 'uncanny-learndash-toolkit' );
 			} else {
+				/* translators: %s: Plugin name. */
 				$button_text = sprintf( esc_html__( 'Activate %s', 'uncanny-learndash-toolkit' ), $plugin_info->name );
 			}
 			$button_text = apply_filters( 'uncanny_one_click_install_plugin_installed_text', $button_text, $plugin_info );

@@ -57,11 +57,11 @@ class Form_Submission_Handler {
 	 */
 	public function handle_2fa_form_submission() {
 		// Only process POST requests with 2FA action.
-		if ( ! isset( $_POST['2fa_action'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
+		if ( ! isset( $_POST['2fa_action'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Selects the form action; the signed challenge token and login nonce are verified below before any state-changing action.
 			return;
 		}
 
-		$action = sanitize_text_field( wp_unslash( $_POST['2fa_action'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
+		$action = sanitize_text_field( wp_unslash( $_POST['2fa_action'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Selects the form action; the signed challenge token and login nonce are verified below before any state-changing action.
 
 		// Resolve the pending login. The token is signed, so a forged one never reaches WP 2FA.
 		$challenge = $this->challenge_token->resolve();
@@ -81,10 +81,10 @@ class Form_Submission_Handler {
 		// Handle different 2FA actions.
 		switch ( $action ) {
 			case 'verify_primary':
-				$this->auth_handler->handle_primary_code_submission( $challenge['user_id'], $challenge['token'] );
+				$this->auth_handler->handle_primary_code_submission( $challenge['user_id'], $challenge['token'], $challenge['nonce'] );
 				break;
 			case 'verify_backup':
-				$this->auth_handler->handle_backup_code_submission( $challenge['user_id'], $challenge['token'] );
+				$this->auth_handler->handle_backup_code_submission( $challenge['user_id'], $challenge['token'], $challenge['nonce'] );
 				break;
 			default:
 				wp_die( esc_html__( 'Invalid action. Please try again.', 'uncanny-learndash-toolkit' ) );
@@ -97,7 +97,7 @@ class Form_Submission_Handler {
 	 * @return bool True if 2FA form should be displayed.
 	 */
 	public function should_display_2fa_form() {
-		return isset( $_GET['2fa_challenge'] ) && '1' === $_GET['2fa_challenge']; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		return isset( $_GET['2fa_challenge'] ) && '1' === $_GET['2fa_challenge']; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Display flag only; validate_2fa_challenge() verifies the signed token and login nonce before the challenge form renders.
 	}
 
 	/**

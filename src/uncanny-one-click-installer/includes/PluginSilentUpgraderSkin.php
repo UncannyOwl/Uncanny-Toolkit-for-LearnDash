@@ -4,6 +4,10 @@ namespace uncanny_one_click_installer;
 
 use WP_Upgrader_Skin;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /** \WP_Upgrader_Skin class */
 require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader-skin.php';
 

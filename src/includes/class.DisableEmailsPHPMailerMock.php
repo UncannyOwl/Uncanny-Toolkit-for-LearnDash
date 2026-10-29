@@ -105,7 +105,7 @@ class DisableEmailsPHPMailerMock {
 
 		// get the site domain and get rid of www.
 		if ( isset( $_SERVER['SERVER_NAME'] ) ) {
-			$sitename = strtolower( $_SERVER['SERVER_NAME'] );
+			$sitename = strtolower( sanitize_text_field( wp_unslash( $_SERVER['SERVER_NAME'] ) ) );
 			if ( substr( $sitename, 0, 4 ) === 'www.' ) {
 				$sitename = substr( $sitename, 4 );
 			}
@@ -120,6 +120,7 @@ class DisableEmailsPHPMailerMock {
 
 		// let hookers change the function arguments if settings allow
 		if ( $plugin->options['wp_mail'] ) {
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Core WordPress hook fired intentionally so other plugins can hook into this mail.
 			extract( apply_filters( 'wp_mail', compact( 'to', 'subject', 'message', 'headers', 'attachments' ) ), EXTR_IF_EXISTS );
 		}
 
@@ -184,18 +185,23 @@ class DisableEmailsPHPMailerMock {
 
 
 		if ( $plugin->options['wp_mail_from'] ) {
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Core WordPress hook fired intentionally so other plugins can hook into this mail.
 			$this->phpmailer->From = apply_filters( 'wp_mail_from', $this->phpmailer->From );
 		}
 		if ( $plugin->options['wp_mail_from_name'] ) {
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Core WordPress hook fired intentionally so other plugins can hook into this mail.
 			$this->phpmailer->FromName = apply_filters( 'wp_mail_from_name', $this->phpmailer->FromName );
 		}
 		if ( $plugin->options['wp_mail_content_type'] ) {
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Core WordPress hook fired intentionally so other plugins can hook into this mail.
 			$this->phpmailer->ContentType = apply_filters( 'wp_mail_content_type', $this->phpmailer->ContentType );
 		}
 		if ( $plugin->options['wp_mail_charset'] ) {
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Core WordPress hook fired intentionally so other plugins can hook into this mail.
 			$this->phpmailer->CharSet = apply_filters( 'wp_mail_charset', $this->phpmailer->CharSet );
 		}
 		if ( $plugin->options['phpmailer_init'] ) {
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Core WordPress hook fired intentionally so other plugins can hook into this mail.
 			do_action( 'phpmailer_init', $this->phpmailer );
 		}
 

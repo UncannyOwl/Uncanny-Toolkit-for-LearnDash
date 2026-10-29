@@ -1,14 +1,19 @@
 <?php
 namespace uncanny_learndash_toolkit;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Template included inside Boot::uo_support_page(); variables are local to that method.
+
 ?>
 
 <div class="wrap uncannyowl-default-design">
 	<?php
 	// Add admin header and tabs.
 	$active_tab = 'uncanny-toolkit-plugins';
-	if ( isset( $_GET['page'] ) ) {
-		$active_tab = $_GET['page'];
+	if ( isset( $_GET['page'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only display parameter; no state change.
+		$active_tab = sanitize_text_field( wp_unslash( $_GET['page'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only display parameter; no state change.
 	}
 	
 	$tab_active = $active_tab;
@@ -22,25 +27,27 @@ namespace uncanny_learndash_toolkit;
 	if ( 'uncanny-toolkit-plugins' === $active_tab ) {
 		include( 'admin-showcase.php' );
 	} elseif ( 'uncanny-toolkit-kb' === $active_tab ) {
-		if ( isset( $_GET['submit-a-ticket'] ) || isset( $_GET['amp;submit-a-ticket'] ) ) {
+		if ( isset( $_GET['submit-a-ticket'] ) || isset( $_GET['amp;submit-a-ticket'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only display parameter; no state change.
 			include( 'admin-help.php' );
 		} else {
 			include( 'admin-kb.php' );
 
 			if ( Boot::is_pro_active() ) {
 
+				// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code).
 				$show_support_link = apply_filters( 'uo_show_support_link_toolkit_pro', true );
 
 				if ( $show_support_link ) {
 					?>
 					<p class="uo-get-help">
-						<a href="<?php echo admin_url( 'admin.php?page=uncanny-toolkit-kb&submit-a-ticket=1' ); ?>"><?php _e( 'I can\'t find the answer to my question.', 'uncanny-learndash-toolkit' ) ?></a>
+						<a href="<?php echo esc_url( admin_url( 'admin.php?page=uncanny-toolkit-kb&submit-a-ticket=1' ) ); ?>"><?php esc_html_e( 'I can\'t find the answer to my question.', 'uncanny-learndash-toolkit' ) ?></a>
 					</p>
 
 					<?php
 				}
 			} else {
 
+					// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code).
 					$show_support_link = apply_filters( 'uo_show_support_link_toolkit_free', true );
 
 					if ( $show_support_link ) {
@@ -48,7 +55,7 @@ namespace uncanny_learndash_toolkit;
 
 						<p class="uo-get-help">
 							<a href="https://wordpress.org/support/plugin/uncanny-learndash-toolkit"
-							   target="_blank"><?php _e( 'I can\'t find the answer to my question.', 'uncanny-learndash-toolkit' ) ?></a>
+							   target="_blank"><?php esc_html_e( 'I can\'t find the answer to my question.', 'uncanny-learndash-toolkit' ) ?></a>
 						</p>
 
 						<?php

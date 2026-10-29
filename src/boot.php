@@ -26,7 +26,7 @@ class Boot extends Config {
 		// Plugin will not activate if SPL extension is not enabled by throwing error
 		if ( ! extension_loaded( 'SPL' ) ) {
 			$spl_error = esc_html__( 'Please contact your hosting company to update to php version 5.3+ and enable spl extensions.', 'uncanny-learndash-toolkit' );
-			trigger_error( $spl_error, E_USER_ERROR );
+			trigger_error( esc_html( $spl_error ), E_USER_ERROR ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_trigger_error -- Intentional fatal error: the plugin cannot run without the SPL extension.
 		}
 
 		spl_autoload_register( array( __CLASS__, 'auto_loader' ) );
@@ -164,13 +164,11 @@ class Boot extends Config {
 		}
 
 		// Add the PRO badge to the menu item.
-		// phpcs:disable WordPress.WP.GlobalVariablesOverride.Prohibited
 		if ( isset( $submenu['uncanny-toolkit'][ $upgrade_link_position ][4] ) ) {
-			$submenu['uncanny-toolkit'][ $upgrade_link_position ][4] .= ' ult-sidebar-upgrade-pro';
+			$submenu['uncanny-toolkit'][ $upgrade_link_position ][4] .= ' ult-sidebar-upgrade-pro'; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Only adds a CSS class to this plugin's own "Upgrade to Pro" submenu item.
 		} else {
-			$submenu['uncanny-toolkit'][ $upgrade_link_position ][] = 'ult-sidebar-upgrade-pro';
+			$submenu['uncanny-toolkit'][ $upgrade_link_position ][] = 'ult-sidebar-upgrade-pro'; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Only adds a CSS class to this plugin's own "Upgrade to Pro" submenu item.
 		}
-		// phpcs:enable WordPress.WP.GlobalVariablesOverride.Prohibited
 	}
 
 	/**
@@ -179,7 +177,7 @@ class Boot extends Config {
 	public function admin_menu_styles() {
 		$styles = 'a.ult-sidebar-upgrade-pro { background-color: #1E9515 !important; color: #fff !important; font-weight: 600 !important; }';
 
-		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Static CSS string defined above; no dynamic data.
 		printf( '<style>%s</style>', $styles );
 	}
 
@@ -199,12 +197,16 @@ class Boot extends Config {
 	 */
 	public static function uo_admin_help_process() {
 		if ( isset( $_POST['is_uncanny_help'] ) && check_admin_referer( 'uncanny0w1', 'is_uncanny_help' ) ) {
-			$name        = sanitize_text_field( $_POST['fullname'] );
-			$email       = sanitize_email( $_POST['email'] );
-			$website     = esc_url_raw( $_POST['website'] );
-			$license_key = sanitize_text_field( $_POST['license_key'] );
-			$message     = sanitize_textarea_field( $_POST['message'] );
-			$siteinfo    = stripslashes( $_POST['siteinfo'] );
+			// Same capability as the Help page (Boot::uo_support_menu()).
+			if ( ! current_user_can( 'manage_options' ) ) {
+				wp_die( esc_html__( 'Sorry, you are not allowed to do that.', 'uncanny-learndash-toolkit' ), 403 );
+			}
+			$name        = isset( $_POST['fullname'] ) ? sanitize_text_field( wp_unslash( $_POST['fullname'] ) ) : '';
+			$email       = isset( $_POST['email'] ) ? sanitize_email( wp_unslash( $_POST['email'] ) ) : '';
+			$website     = isset( $_POST['website'] ) ? esc_url_raw( wp_unslash( $_POST['website'] ) ) : '';
+			$license_key = isset( $_POST['license_key'] ) ? sanitize_text_field( wp_unslash( $_POST['license_key'] ) ) : '';
+			$message     = isset( $_POST['message'] ) ? sanitize_textarea_field( wp_unslash( $_POST['message'] ) ) : '';
+			$siteinfo    = isset( $_POST['siteinfo'] ) ? wp_unslash( $_POST['siteinfo'] ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Site-info HTML built by templates/admin-siteinfo.php and sent as-is in the support email; nonce and manage_options checked above.
 			$message     = '<h3>Message:</h3><br/>' . wpautop( $message );
 			if ( isset( $_POST['website'] ) && ! empty( sanitize_text_field( $website ) ) ) {
 				$message .= '<hr /><strong>Website:</strong> ' . $website;
@@ -212,18 +214,18 @@ class Boot extends Config {
 			if ( isset( $_POST['license_key'] ) && ! empty( sanitize_text_field( $license_key ) ) ) {
 				$message .= '<hr /><strong>License:</strong> <a href="https://www.uncannyowl.com/wp-admin/edit.php?post_type=download&page=edd-licenses&s=' . $license_key . '" target="_blank">' . $license_key . '</a>';
 			}
-			if ( isset( $_POST['site-data'] ) && 'yes' === sanitize_text_field( $_POST['site-data'] ) ) {
+			if ( isset( $_POST['site-data'] ) && 'yes' === sanitize_text_field( wp_unslash( $_POST['site-data'] ) ) ) {
 				$message = "$message<hr /><h3>User Site Information:</h3><br />{$siteinfo}";
 			}
 
 			$to        = 'support.41077.bb1dda3d33afb598@helpscout.net';
-			$subject   = sanitize_text_field( $_POST['subject'] );
+			$subject   = isset( $_POST['subject'] ) ? sanitize_text_field( wp_unslash( $_POST['subject'] ) ) : '';
 			$headers   = array( 'Content-Type: text/html; charset=UTF-8' );
 			$headers[] = 'From: ' . $name . ' <' . $email . '>';
 			$headers[] = 'Reply-To:' . $name . ' <' . $email . '>';
 			wp_mail( $to, $subject, $message, $headers );
 			if ( isset( $_POST['page'] ) && isset( $_POST['tab'] ) ) {
-				$url = admin_url( 'admin.php' ) . '?page=' . esc_html( $_POST['page'] ) . '&tab=' . esc_html( $_POST['tab'] ) . '&sent=1&wpnonce=' . wp_create_nonce();
+				$url = admin_url( 'admin.php' ) . '?page=' . esc_html( sanitize_text_field( wp_unslash( $_POST['page'] ) ) ) . '&tab=' . esc_html( sanitize_text_field( wp_unslash( $_POST['tab'] ) ) ) . '&sent=1&wpnonce=' . wp_create_nonce();
 				wp_safe_redirect( $url );
 				exit;
 			}
@@ -253,7 +255,7 @@ class Boot extends Config {
 					),
 					'i18n'      => array(
 						'dismiss'                => __( 'Dismiss', 'uncanny-learndash-toolkit' ),
-						'preventConcurrentLogin' => __( 'Your account has exceeded maximum concurrent login number.', 'learndash-integrity' ),
+						'preventConcurrentLogin' => __( 'Your account has exceeded maximum concurrent login number.', 'uncanny-learndash-toolkit' ),
 						'error'                  => array(
 							'generic' => __( 'Something went wrong. Please, try again', 'uncanny-learndash-toolkit' ),
 						),
@@ -474,7 +476,7 @@ class Boot extends Config {
 
 				}
 
-				wp_safe_redirect( esc_url( $redirect_url ) ); //phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect
+				wp_safe_redirect( esc_url( $redirect_url ) );
 
 				exit;
 
@@ -527,13 +529,13 @@ class Boot extends Config {
 
 			}
 
-			wp_safe_redirect( esc_url( $redirect_url ) ); //phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect
+			wp_safe_redirect( esc_url( $redirect_url ) );
 
 			exit;
 
 		}
 		//default
-		wp_safe_redirect( admin_url( 'admin.php?page=uncanny-toolkit' ) ); //phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect
+		wp_safe_redirect( admin_url( 'admin.php?page=uncanny-toolkit' ) );
 
 		exit;
 	}

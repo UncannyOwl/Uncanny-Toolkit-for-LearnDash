@@ -74,8 +74,11 @@ class Hook_Manager {
 			add_filter( 'uo_toolkit_frontend_login_allow_signon', '__return_false' );
 			add_action( 'uo-login-action-response', array( $this->integration, 'add_2fa_response_data' ) );
 
-			// Universal login interception for traditional forms.
-			add_filter( 'wp_authenticate_user', array( $this->auth_handler, 'intercept_login_attempt' ), 10, 2 );
+			// Non-AJAX login interception. Runs at the very end of the authenticate filter,
+			// after core has verified the password (and after FrontendLoginPlus's own
+			// verification gate at priority 40), so a challenge is only ever issued for a
+			// request that has already presented valid credentials for a verified account.
+			add_filter( 'authenticate', array( $this->auth_handler, 'intercept_login_attempt' ), PHP_INT_MAX, 3 );
 
 			Session_Manager::add_registered_hook( 'toolkit_2fa_registered' );
 		}

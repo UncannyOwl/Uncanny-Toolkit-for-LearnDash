@@ -21,11 +21,14 @@ if ( ! function_exists( 'wp_new_user_notification' ) ) {
 			// we want to reverse this for the plain text arena of emails.
 			$blogname = wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
 
-			$message  = sprintf( __( 'Usernametest: %s' ), $user_login ) . "\r\n";
-			$message .= sprintf( __( 'Password: %s' ), $plaintext_pass ) . "\r\n";
+			/* translators: %s: User login name. */
+			$message  = sprintf( __( 'Usernametest: %s', 'default' ), $user_login ) . "\r\n"; // phpcs:ignore WordPress.WP.I18n.TextDomainMismatch -- Legacy wp_new_user_notification() string; default domain keeps existing translations applying.
+			/* translators: %s: User password. */
+			$message .= sprintf( __( 'Password: %s', 'default' ), $plaintext_pass ) . "\r\n"; // phpcs:ignore WordPress.WP.I18n.TextDomainMismatch -- Legacy wp_new_user_notification() string; default domain keeps existing translations applying.
 			$message .= wp_login_url() . "\r\n";
 
-			wp_mail( $user_email, sprintf( __( '[%s] Your username and password' ), $blogname ), $message );
+			/* translators: %s: Site title. */
+			wp_mail( $user_email, sprintf( __( '[%s] Your username and password', 'default' ), $blogname ), $message ); // phpcs:ignore WordPress.WP.I18n.TextDomainMismatch -- Legacy wp_new_user_notification() string; default domain keeps existing translations applying.
 		}
 	} else {
 		// This definition is for WP versions after 4.3.
@@ -53,12 +56,15 @@ if ( ! function_exists( 'wp_new_user_notification' ) ) {
 
 			$login_page = get_permalink( \uncanny_learndash_toolkit\FrontendLoginPlus::get_login_redirect_page_id() );
 
-			$message = sprintf( __( 'Username: %s' ), $user->user_login ) . "\r\n\r\n";
-			$message .= sprintf( __( 'password: %s' ), $password ) . "\r\n\r\n";
-			$message .= __( 'You account has been created. Log in link is:' ) . "\r\n\r\n";
+			/* translators: %s: User login name. */
+			$message = sprintf( __( 'Username: %s', 'default' ), $user->user_login ) . "\r\n\r\n"; // phpcs:ignore WordPress.WP.I18n.TextDomainMismatch -- Core string translated by WordPress.
+			/* translators: %s: User password. */
+			$message .= sprintf( __( 'password: %s', 'default' ), $password ) . "\r\n\r\n"; // phpcs:ignore WordPress.WP.I18n.TextDomainMismatch -- Legacy wp_new_user_notification() string; default domain keeps existing translations applying.
+			$message .= __( 'You account has been created. Log in link is:', 'default' ) . "\r\n\r\n"; // phpcs:ignore WordPress.WP.I18n.TextDomainMismatch -- Legacy wp_new_user_notification() string; default domain keeps existing translations applying.
 			$message .= $login_page . "\r\n";
 
-			wp_mail( $user->user_email, sprintf( __( '[%s] Your username and password info' ), $blogname ), $message );
+			/* translators: %s: Site title. */
+			wp_mail( $user->user_email, sprintf( __( '[%s] Your username and password info', 'default' ), $blogname ), $message ); // phpcs:ignore WordPress.WP.I18n.TextDomainMismatch -- Legacy wp_new_user_notification() string; default domain keeps existing translations applying.
 		}
 	}
 }

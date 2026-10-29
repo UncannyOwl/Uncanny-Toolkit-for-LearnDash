@@ -9,7 +9,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 <div id="uo-toolkit-turnstile-recaptcha" class="ult-form__row ult-form__row--recaptcha"></div>
 
-<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onloadTurnstileCallback" defer></script>
+<?php
+// No query args: optimiser plugins strip them. The inline script below waits for window.turnstile instead of using ?onload=.
+wp_enqueue_script(
+	'uo-toolkit-cloudflare-turnstile',
+	'https://challenges.cloudflare.com/turnstile/v0/api.js', // phpcs:ignore PluginCheck.CodeAnalysis.EnqueuedResourceOffloading.OffloadedContent -- Cloudflare Turnstile must be loaded from challenges.cloudflare.com; self-hosting is not supported.
+	array(),
+	null, // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion -- Remote Cloudflare script; no ver query arg is added to the third-party URL.
+	array(
+		'in_footer' => true,
+		'strategy'  => 'defer',
+	)
+);
+?>
 
 <script>
 	window.onloadTurnstileCallback = function () {
@@ -52,4 +64,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 			});
 		});
 	};
+
+	// api.js is deferred in the footer, so poll for window.turnstile (up to ~20s) instead of relying on ?onload=.
+	if ( ! window.uoToolkitTurnstileWaiting ) {
+		window.uoToolkitTurnstileWaiting = true;
+		( function waitForTurnstile( attempts ) {
+			if ( window.turnstile ) {
+				window.onloadTurnstileCallback();
+			} else if ( attempts > 0 ) {
+				setTimeout( function () { waitForTurnstile( attempts - 1 ); }, 100 );
+			}
+		} )( 200 );
+	}
 </script>

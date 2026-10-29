@@ -1,4 +1,4 @@
-<?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName
+<?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName -- File name is mapped from the class name by the plugin's autoloader (boot.php).
 
 /**
  * Contains Topics Autocomplete Lesson Module
@@ -137,17 +137,17 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 					// Adding Lesson completed dummy filter so that BadgeOS ( or any other plugin ) hooking in to
 					// learndash_lesson_completed can run here.
 					add_filter( 'learndash_lesson_completed', array( __CLASS__, 'learndash_lesson_completed_filter' ) );
-					if ( ( isset( $_POST['post'] ) && absint( $_POST['post'] ) ) && isset( $_POST['uploadfile'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
-						$post = get_post( absint( $_POST['post'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
+					if ( ( isset( $_POST['post'] ) && absint( $_POST['post'] ) ) && isset( $_POST['uploadfile'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Request data read while handling learndash_topic_completed, which LearnDash and other code also fire programmatically; this callback verifies no nonce of its own.
+						$post = get_post( absint( $_POST['post'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Request data read while handling learndash_topic_completed, which LearnDash and other code also fire programmatically; this callback verifies no nonce of its own.
 						$assignments_exist_fn = function_exists( 'learndash_lesson_hasassignments' ) ? 'learndash_lesson_hasassignments' : 'lesson_hasassignments';
 						if ( $assignments_exist_fn( $post ) ) {
-							learndash_approve_assignment( $user_id, absint( $_POST['post'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
+							learndash_approve_assignment( $user_id, absint( $_POST['post'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Request data read while handling learndash_topic_completed, which LearnDash and other code also fire programmatically; this callback verifies no nonce of its own.
 						}
 					}
 
 					// only redirect if lesson does not have auto-complete on.
 					if ( self::maybe_redirect( $data['lesson'] ) ) {
-						if ( ! is_admin() && ! isset( $_REQUEST['doing_rest'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+						if ( ! is_admin() && ! isset( $_REQUEST['doing_rest'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only request flag; no state change.
 							$next_lesson = learndash_next_post_link( '', true, $data['lesson'] );
 
 							// The do_action topic completed runs before the activity log is updated.
@@ -189,7 +189,7 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 
 						// only redirect if lesson does not have auto-complete on.
 						if ( self::maybe_redirect( $data['lesson'] ) ) {
-							if ( ! is_admin() && ! isset( $_REQUEST['doing_rest'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+							if ( ! is_admin() && ! isset( $_REQUEST['doing_rest'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only request flag; no state change.
 								// The do_action topic completed runs before the activity log is updated.
 								self::$quiz_redirection = $quiz_id;
 								// Do the redirect on shutdown so all processes can complete.
@@ -458,7 +458,7 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 		if ( ! empty( $link ) ) {
 
 			/** This filter is documented in includes/course/ld-course-progress.php */
-			$link = apply_filters( 'learndash_completion_redirect', $link, $post->ID );
+			$link = apply_filters( 'learndash_completion_redirect', $link, $post->ID ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- LearnDash hook fired intentionally for compatibility with that plugin.
 			if ( ! empty( $link ) ) {
 				learndash_safe_redirect( $link );
 			}
@@ -510,7 +510,7 @@ class MarkLessonsComplete extends Config implements RequiredFunctions {
 
 		/** This filter is documented in includes/course/ld-course-functions.php */
 		$return = apply_filters(
-			'learndash_course_completion_url',
+			'learndash_course_completion_url', // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- LearnDash hook fired intentionally for compatibility with that plugin.
 			Cast::to_string( $return ),
 			Cast::to_int( $id ),
 			0

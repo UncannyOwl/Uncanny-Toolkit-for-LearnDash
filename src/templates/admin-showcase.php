@@ -7,14 +7,20 @@
 
 namespace uncanny_learndash_toolkit;
 
-$product_id = defined( 'UNCANNY_TOOLKIT_PRO_VERSION' ) ? 1377 : 1;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Template included inside Boot::uo_support_page(); variables are local to that method.
+
+$showcase_allowed_html = include __DIR__ . '/admin-remote-markup-kses.php';
+$product_id            = defined( 'UNCANNY_TOOLKIT_PRO_VERSION' ) ? 1377 : 1;
 $json = wp_remote_get( 'https://www.uncannyowl.com/wp-json/uncanny-rest-api/v1/download/' . $product_id );
 
 if ( ! is_wp_error( $json ) ) {
 	if ( 200 === wp_remote_retrieve_response_code( $json ) ) {
 		$data = json_decode( $json['body'], true );
 		if ( $data ) {
-			echo $data;
+			echo wp_kses( $data, $showcase_allowed_html );
 		}
 	}
 }

@@ -358,7 +358,7 @@ class LoginLogoutMenu extends Config implements RequiredFunctions {
 	public static function login_link( $atts, $content = null ) {
 		$atts = shortcode_atts( array(
 			"edit_tag" => "",
-			"redirect" => esc_url( $_SERVER['REQUEST_URI'] )
+			"redirect" => isset( $_SERVER['REQUEST_URI'] ) ? esc_url( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '', // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Escaped with esc_url(); only the default of the shortcode's redirect attribute.
 		), $atts, 'login' );
 
 		$href     = wp_login_url( /*$atts['redirect']*/ );
@@ -379,7 +379,7 @@ class LoginLogoutMenu extends Config implements RequiredFunctions {
 	public static function loginout_link( $atts, $content = null ) {
 		$atts = shortcode_atts( array(
 			"edit_tag" => "",
-			"redirect" => esc_url( $_SERVER['REQUEST_URI'] ),
+			"redirect" => isset( $_SERVER['REQUEST_URI'] ) ? esc_url( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '', // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Escaped with esc_url(); only the default of the shortcode's redirect attribute.
 			"log_in_text"  => esc_html__( 'Log In', 'uncanny-learndash-toolkit' ),
 			"log_out_text" => esc_html__( 'Logout', 'uncanny-learndash-toolkit' )
 		), $atts, 'loginout' );
@@ -407,7 +407,7 @@ class LoginLogoutMenu extends Config implements RequiredFunctions {
 	public static function logout_link( $atts, $content = null ) {
 		$atts = shortcode_atts( array(
 			"edit_tag" => "",
-			"redirect" => esc_url( $_SERVER['REQUEST_URI'] )
+			"redirect" => isset( $_SERVER['REQUEST_URI'] ) ? esc_url( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '', // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Escaped with esc_url(); only the default of the shortcode's redirect attribute.
 		), $atts, 'logout' );
 
 		$href     = wp_logout_url( /*$atts['redirect']*/ );

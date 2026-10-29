@@ -105,9 +105,16 @@ class RedirectNotEnrolled extends Config implements RequiredFunctions {
 		global $post;
 
 		if ( self::$settings_metabox_key === $settings_metabox_key ) {
-			// - Update the post's metadata. Nonce already verified by LearnDash
-			if ( isset( $_POST['learndash-course-display-content-settings'] ) && isset( $_POST['learndash-course-display-content-settings']['uo_redirect'] ) ) {
-				$redirect_url = sanitize_text_field( $_POST['learndash-course-display-content-settings']['uo_redirect'] ); //phpcs:ignore WordPress.CSRF.NonceVerification.NoNonceVerification
+			// Verify the metabox nonce and the user's capability here instead of relying on the
+			// caller, before anything is written.
+			$nonce = isset( $_POST['learndash-course-display-content-settings']['nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['learndash-course-display-content-settings']['nonce'] ) ) : '';
+
+			if ( ! wp_verify_nonce( $nonce, self::$settings_metabox_key ) || ! $post instanceof \WP_Post || ! current_user_can( 'edit_post', $post->ID ) ) {
+				return $settings_field_updates;
+			}
+
+			if ( isset( $_POST['learndash-course-display-content-settings']['uo_redirect'] ) ) {
+				$redirect_url = sanitize_text_field( $_POST['learndash-course-display-content-settings']['uo_redirect'] ); //phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- Passed on exactly as submitted (after sanitize_text_field()), unchanged from the existing behaviour; the nonce and capability are verified above.
 				learndash_update_setting( $post, 'uo_redirect', $redirect_url );
 			}
 		}

@@ -1,5 +1,11 @@
 <?php
 namespace uncanny_learndash_toolkit;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Template included inside FrontendLoginPlus::uo_login_ui(); variables are local to that method.
+
 if ( '' !== trim( $recaptcha_key ) && '' !== trim( $recaptcha_secrete_key ) ) {
 	$has_recaptcha =true;
 }else{
@@ -26,7 +32,7 @@ if ( $has_errors ){
 
 ?>
 
-<?php do_action( 'uo_reset_before_container' ); ?>
+<?php do_action( 'uo_reset_before_container' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code). ?>
 
 <?php 
 // Enqueue color overrides for Modern UI
@@ -35,24 +41,24 @@ if ( FrontendLoginPlus::is_modern_ui() ) {
 }
 ?>
 		
-<div id="ult-reset-password"<?php echo FrontendLoginPlus::is_modern_ui() ? ' class="' . FrontendLoginPlus::get_modern_ui_theme() . '"' : ''; ?>>
+<div id="ult-reset-password"<?php echo FrontendLoginPlus::is_modern_ui() ? ' class="' . esc_attr( FrontendLoginPlus::get_modern_ui_theme() ) . '"' : ''; ?>>
 	<div class="ult-box">
 
 		<div class="ult-form__content">
 
-			<?php do_action( 'uo_reset_before_title' ); ?>
+			<?php do_action( 'uo_reset_before_title' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code). ?>
 
 			<div class="ult-form__title">
-				<?php echo $innerText[ 'Reset-Password-Title' ]; ?>
+				<?php echo wp_kses_post( $innerText['Reset-Password-Title'] ); ?>
 			</div>
 
-			<?php do_action( 'uo_reset_before_description' ); ?>
+			<?php do_action( 'uo_reset_before_description' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code). ?>
 
 			<div class="ult-form__description">
-				<?php echo $innerText[ 'Reset-Password-Desc' ]; ?>
+				<?php echo wp_kses_post( $innerText['Reset-Password-Desc'] ); ?>
 			</div>
 
-			<?php do_action( 'uo_reset_before_form' ); ?>
+			<?php do_action( 'uo_reset_before_form' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code). ?>
 
 			<div class="ult-form__container">
 
@@ -62,17 +68,17 @@ if ( FrontendLoginPlus::is_modern_ui() ) {
 
 					<input type="hidden" name="rp_key" value="<?php echo esc_attr( $rp_key ); ?>"/>
 
-					<?php do_action( 'uo_reset_before_password' ); ?>
+					<?php do_action( 'uo_reset_before_password' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code). ?>
 
 					<div class="ult-form__row ult-form__row--password">
 						<div class="ult-form-field__header">
 							<div class="ult-form-field__label-container">
 								<label for="ult-reset-new-password" class="ult-form-field__label">
-									<?php echo $innerText[ 'New-Password' ]; ?>
+									<?php echo wp_kses_post( $innerText['New-Password'] ); ?>
 								</label>
 							</div>
 							<div class="ult-form-field__actions">
-								<?php do_action( 'uo_reset_password_actions' ); ?>
+								<?php do_action( 'uo_reset_password_actions' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code). ?>
 							</div>
 						</div>
 
@@ -81,17 +87,17 @@ if ( FrontendLoginPlus::is_modern_ui() ) {
 						</div>
 					</div>
 
-					<?php do_action( 'uo_reset_before_confirm_password' ); ?>
+					<?php do_action( 'uo_reset_before_confirm_password' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code). ?>
 
 					<div class="ult-form__row ult-form__row--confirm-password">
 						<div class="ult-form-field__header">
 							<div class="ult-form-field__label-container">
 								<label for="ult-reset-confirm-password" class="ult-form-field__label">
-									<?php echo $innerText[ 'Confirm-Password' ]; ?>
+									<?php echo wp_kses_post( $innerText['Confirm-Password'] ); ?>
 								</label>
 							</div>
 							<div class="ult-form-field__actions">
-								<?php do_action( 'uo_reset_confirm_password_actions' ); ?>
+								<?php do_action( 'uo_reset_confirm_password_actions' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code). ?>
 							</div>
 						</div>
 
@@ -100,37 +106,37 @@ if ( FrontendLoginPlus::is_modern_ui() ) {
 						</div>
 					</div>
 
-					<?php do_action( 'uo_reset_before_captcha' ); ?>
+					<?php do_action( 'uo_reset_before_captcha' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code). ?>
 
 					<?php if ( $has_recaptcha ){ ?>
 
                         <div class="ult-form__row ult-form__row--recaptcha">
-                            <div class="ult-form-recaptcha" data-sitekey="<?php echo $recaptcha_key; ?>" data-callback="UncannyToolkitFrontendLoginReCaptchaCorrect"></div>
+                            <div class="ult-form-recaptcha" data-sitekey="<?php echo esc_attr( $recaptcha_key ); ?>" data-callback="UncannyToolkitFrontendLoginReCaptchaCorrect"></div>
                         </div>
 					
 					<?php } ?>
 
-					<?php do_action( 'uo_reset_before_error' ); ?>
+					<?php do_action( 'uo_reset_before_error' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code). ?>
 
-					<div class="ult-form__validation <?php echo implode( ' ', $notice_css_classes ); ?>">
+					<div class="ult-form__validation <?php echo esc_attr( implode( ' ', $notice_css_classes ) ); ?>">
 						<div class="ult-notice ult-notice--error">
-							<?php do_action( 'uo_reset_before_error_message' ); ?>
+							<?php do_action( 'uo_reset_before_error_message' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code). ?>
 
-							<span class="ult-notice-text"><?php echo $error; ?></span>
+							<span class="ult-notice-text"><?php echo wp_kses_post( isset( $error ) ? $error : '' ); ?></span>
 
-							<?php do_action( 'uo_reset_after_error_message' ); ?>
+							<?php do_action( 'uo_reset_after_error_message' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code). ?>
 						</div>
 					</div>
 
-					<?php do_action( 'uo_reset_before_submit' ); ?>
+					<?php do_action( 'uo_reset_before_submit' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code). ?>
 
 					<div class="ult-form__row ult-form__row--submit">
 						<button type="submit" id="ult-reset-password-submit-btn" class="ult-form__submit-btn">
-							<?php echo $innerText['Reset-Password-Button']; ?>
+							<?php echo wp_kses_post( $innerText['Reset-Password-Button'] ); ?>
 						</button>
 					</div>
 
-					<?php do_action( 'uo_reset_after_submit' ); ?>
+					<?php do_action( 'uo_reset_after_submit' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code). ?>
 				</form>
 
 			</div>
@@ -138,17 +144,17 @@ if ( FrontendLoginPlus::is_modern_ui() ) {
 		</div>
 
 		<div class="ult-form__footer">
-			<?php do_action( 'uo_forgot_before_login' ); ?>
+			<?php do_action( 'uo_forgot_before_login' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code). ?>
 
 			<div class="ult-form-footer__login">
-				<a id="ult-form-footer-login" href="<?php echo $login_page_url; ?>">
-					<?php echo $innerText[ 'Log-in-instead' ]; ?>
+				<a id="ult-form-footer-login" href="<?php echo esc_url( $login_page_url ); ?>">
+					<?php echo wp_kses_post( $innerText['Log-in-instead'] ); ?>
 				</a>
 			</div>
 		</div>
 
-		<?php do_action( 'uo_reset_after_form' ); ?>
+		<?php do_action( 'uo_reset_after_form' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code). ?>
 	</div>
 </div>
 
-<?php do_action( 'uo_reset_after_container' ); ?>
+<?php do_action( 'uo_reset_after_container' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code). ?>

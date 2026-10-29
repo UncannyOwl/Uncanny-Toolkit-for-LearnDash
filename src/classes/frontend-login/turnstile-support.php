@@ -117,7 +117,7 @@ final class Turnstile_Support {
 		} catch ( Exception $e ) {
 
 			if ( ! wp_doing_ajax() ) {
-				throw new Error( $e->getMessage(), $e->getCode() );
+				throw new Error( wp_kses_post( $e->getMessage() ), (int) $e->getCode() );
 			}
 
 			Frontend_Login_Plus::wp_send_json(
@@ -164,7 +164,7 @@ final class Turnstile_Support {
 		}
 
 		// Don't redirect during Google OAuth callback
-		if ( isset( $_REQUEST['code'] ) && isset( $_REQUEST['state'] ) ) {
+		if ( isset( $_REQUEST['code'] ) && isset( $_REQUEST['state'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only check that skips Google OAuth callbacks; no state change.
 			return $user;
 		}
 
@@ -224,7 +224,7 @@ final class Turnstile_Support {
 			return false;
 		}
 
-		return isset( $_POST[ self::FORM_MARKER ] ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
+		return isset( $_POST[ self::FORM_MARKER ] ); // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Front-end login/lost-password forms have no nonce, like core's wp-login.php; this only checks for the Turnstile marker field.
 	}
 
 	/**
@@ -252,13 +252,13 @@ final class Turnstile_Support {
 	 */
 	public static function validate_token( $token ) {
 
-		$token = apply_filters( 'uo_toolkit_frontend_login_turnstile_validate_token_value', $token );
+		$token = apply_filters( 'uo_toolkit_frontend_login_turnstile_validate_token_value', $token ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code).
 
 		if ( empty( $token ) || 'false' === $token ) { // Token is getting cast as string.
-			throw new Exception( self::get_error_message_unchecked(), 400 );
+			throw new Exception( wp_kses_post( self::get_error_message_unchecked() ), 400 );
 		}
 
-		$url = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
+		$url = 'https://challenges.cloudflare.com/turnstile/v0/siteverify'; // phpcs:ignore PluginCheck.CodeAnalysis.Offloading.OffloadedContent -- Server-side Turnstile siteverify API call, not an offloaded asset.
 
 		// Data to be sent
 		$data = array(
@@ -277,7 +277,7 @@ final class Turnstile_Support {
 		// Check for errors
 		if ( is_wp_error( $response ) ) {
 			// Throw 422 errors for WordPress specific errors.
-			throw new Exception( $response->get_error_message(), 422 );
+			throw new Exception( esc_html( $response->get_error_message() ), 422 );
 		}
 
 		// Success.
@@ -289,7 +289,7 @@ final class Turnstile_Support {
 		}
 
 		// Throw 400 error message if nothing else.
-		throw new Exception( self::get_error_message(), 400 );
+		throw new Exception( wp_kses_post( self::get_error_message() ), 400 );
 
 	}
 
@@ -336,7 +336,7 @@ final class Turnstile_Support {
 		}
 
 		// Dont escape.
-		echo self::recaptcha_element(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo self::recaptcha_element(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Markup from the cloudflare-turnstile/recaptcha-frontend.php template (escaped there) plus a static hidden field.
 	}
 
 	/**
@@ -348,8 +348,8 @@ final class Turnstile_Support {
 	 */
 	public static function lost_password_recaptcha_errors( $error ) {
 
-		$is_lost_password_form = isset( $_GET['action'] ) && 'forgot' === $_GET['action']; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		$is_recaptcha_error    = isset( $_GET['success'] ) && 'turnstile_recaptcha_error' === $_GET['success']; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$is_lost_password_form = isset( $_GET['action'] ) && 'forgot' === $_GET['action']; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only display parameter; no state change.
+		$is_recaptcha_error    = isset( $_GET['success'] ) && 'turnstile_recaptcha_error' === $_GET['success']; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only display parameter; no state change.
 
 		if ( $is_lost_password_form && $is_recaptcha_error ) {
 			return self::get_error_message();
@@ -393,7 +393,7 @@ final class Turnstile_Support {
 
 		$key = Config::get_settings_value( 'uo_frontend_login_turnstile_recaptcha_key', 'FrontendLoginPlus' );
 
-		return apply_filters( 'uo_toolkit_frontend_login_turnstile_key', $key );
+		return apply_filters( 'uo_toolkit_frontend_login_turnstile_key', $key ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code).
 	}
 
 	/**
@@ -405,7 +405,7 @@ final class Turnstile_Support {
 
 		$secret = Config::get_settings_value( 'uo_frontend_login_turnstile_recaptcha_secret', 'FrontendLoginPlus' );
 
-		return apply_filters( 'uo_toolkit_frontend_login_turnstile_secret', $secret );
+		return apply_filters( 'uo_toolkit_frontend_login_turnstile_secret', $secret ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code).
 
 	}
 
@@ -419,10 +419,10 @@ final class Turnstile_Support {
 		$error_message = Config::get_settings_value( 'uo_frontend_login_turnstile_error_message', 'FrontendLoginPlus' );
 
 		if ( empty( $error_message ) ) {
-			$error_message = __( 'There was an error validating the form . Please contact the site administrator.', 'FrontendLoginPlus' );
+			$error_message = __( 'There was an error validating the form . Please contact the site administrator.', 'uncanny-learndash-toolkit' );
 		}
 
-		return apply_filters( 'uo_toolkit_frontend_login_turnstile_error_message', $error_message );
+		return apply_filters( 'uo_toolkit_frontend_login_turnstile_error_message', $error_message ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code).
 
 	}
 
@@ -436,10 +436,10 @@ final class Turnstile_Support {
 		$error_message = Config::get_settings_value( 'uo_frontend_login_turnstile_error_message', 'FrontendLoginPlus' );
 
 		if ( empty( $error_message ) ) {
-			$error_message = __( 'An error has occurred while displaying reCaptcha. Please contact the site administrator.', 'FrontendLoginPlus' );
+			$error_message = __( 'An error has occurred while displaying reCaptcha. Please contact the site administrator.', 'uncanny-learndash-toolkit' );
 		}
 
-		return apply_filters( 'uo_toolkit_frontend_login_turnstile_render_error_message', $error_message );
+		return apply_filters( 'uo_toolkit_frontend_login_turnstile_render_error_message', $error_message ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code).
 
 	}
 
@@ -453,10 +453,10 @@ final class Turnstile_Support {
 		$error_message = Config::get_settings_value( 'uo_frontend_login_turnstile_recaptcha_empty_error', 'FrontendLoginPlus' );
 
 		if ( empty( $error_message ) ) {
-			$error_message = __( 'Please verify that you are not a robot.', 'FrontendLoginPlus' );
+			$error_message = __( 'Please verify that you are not a robot.', 'uncanny-learndash-toolkit' );
 		}
 
-		return apply_filters( 'uo_toolkit_frontend_login_turnstile_error_message_unchecked', $error_message );
+		return apply_filters( 'uo_toolkit_frontend_login_turnstile_error_message_unchecked', $error_message ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code).
 
 	}
 
@@ -469,7 +469,7 @@ final class Turnstile_Support {
 
 		$is_active = ! empty( self::get_site_key() ) && ! empty( self::get_site_secret() );
 
-		return apply_filters( 'uo_toolkit_frontend_login_turnstile_is_active', $is_active );
+		return apply_filters( 'uo_toolkit_frontend_login_turnstile_is_active', $is_active ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code).
 
 	}
 }

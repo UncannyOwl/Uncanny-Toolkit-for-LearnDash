@@ -1,4 +1,4 @@
-<?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName
+<?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName -- File name is mapped from the class name by the plugin's autoloader (boot.php).
 
 /**
  * Contains Quiz Completion Redirection Module

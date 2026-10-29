@@ -155,8 +155,8 @@ class Redirect_Manager {
 		}
 
 		// Fallback to $_REQUEST redirect_to (from login form).
-		if ( isset( $_REQUEST['redirect_to'] ) && ! empty( $_REQUEST['redirect_to'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-			return sanitize_url( wp_unslash( $_REQUEST['redirect_to'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		if ( isset( $_REQUEST['redirect_to'] ) && ! empty( $_REQUEST['redirect_to'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reached only from the 2FA form POST after the signed token and login nonce are verified; wp_validate_redirect() and wp_safe_redirect() run on use.
+			return sanitize_url( wp_unslash( $_REQUEST['redirect_to'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Reached only from the 2FA form POST after the signed token and login nonce are verified; wp_validate_redirect() and wp_safe_redirect() run on use.
 		}
 
 		// Final fallback to admin dashboard.

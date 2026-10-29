@@ -1,12 +1,16 @@
 <?php
 /* This function is only going to be used in templates instead of shortcode.  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * @param bool $echo
  *
  * @return string
  */
-function uo_breadcrumbs( $echo = true ) {
+function uo_breadcrumbs( $echo = true ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Public template function kept for backward compatibility (called from theme templates).
 	$uo_active_classes = get_option( 'uncanny_toolkit_active_classes', 0 );
 	if ( 0 !== $uo_active_classes ) {
 		if ( ! key_exists( 'uncanny_learndash_toolkit\Breadcrumbs', $uo_active_classes ) ) {

@@ -731,7 +731,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		$kb_link           = 'https://www.uncannyowl.com/knowledge-base/front-end-login/';
 		$class_description = esc_html__( 'Adds a custom login form and can optionally force users to be verified by an admin before they can sign in.', 'uncanny-learndash-toolkit' );
 		$class_icon        = '<i class="uo_icon_fa fa fa-sign-in"></i>';
-		$category          = 'wordpress'; // phpcs:ignore
+		$category          = 'wordpress'; // phpcs:ignore WordPress.WP.CapitalPDangit.MisspelledInText -- Module category slug, not prose.
 		$type              = 'free';
 
 		return array(
@@ -786,7 +786,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 		global $wpdb;
 
-		$pages = $wpdb->get_results(
+		$pages = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Login Page dropdown reads pages directly so translation plugins (WPML) cannot filter the list; admin-only, needs live data.
 			$wpdb->prepare(
 				"SELECT * FROM $wpdb->posts
 					WHERE post_type = %s AND post_status = %s
@@ -834,7 +834,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 		$password_reset_message = __( 'Someone requested a password reset for the user %User Login%.', 'uncanny-learndash-toolkit' ) . "\r\n\r\n";
 
-		if ( 'text/html' == apply_filters( 'wp_mail_content_type', 'text/html' ) ) {
+		if ( 'text/html' == apply_filters( 'wp_mail_content_type', 'text/html' ) ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Core WordPress hook fired intentionally so other plugins can hook into this mail.
 			// HTML emails must wrap the link in an anchor. A bare URL is auto-linked by the
 			// mail client and gets truncated at the ~76 char line wrap, dropping the trailing
 			// &login= param (worse with email-as-username) and breaking the reset. The URL is
@@ -849,13 +849,14 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		$password_reset_message .= __( 'If you did not request a password reset, you may safely ignore this email.', 'uncanny-learndash-toolkit' ) . "\r\n\r\n";
 
 		$verified_user_body = __( 'Your account has been approved! ', 'uncanny-learndash-toolkit' );
+		/* translators: %Home Url% is a merge tag replaced with the site URL; keep it untranslated. */
 		$verified_user_body .= __( 'Please visit %Home Url% to login. ', 'uncanny-learndash-toolkit' );
 
 		// Create options
 		$options = array(
 			array(
 				'type'       => 'html',
-				'inner_html' => '<h2>' . __( 'General', 'uncanny-learndash-toolkit' ) . '</h2>',
+				'inner_html' => '<h2>' . esc_html__( 'General', 'uncanny-learndash-toolkit' ) . '</h2>',
 			),
 			/* Override LD login modal. commenting it for next release.
 			, array(
@@ -991,7 +992,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			),*/
 			array(
 				'type'       => 'html',
-				'inner_html' => '<h2>' . __( 'Login Form', 'uncanny-learndash-toolkit' ) . '</h2>',
+				'inner_html' => '<h2>' . esc_html__( 'Login Form', 'uncanny-learndash-toolkit' ) . '</h2>',
 			),
 			array(
 				'type'        => 'text',
@@ -1119,7 +1120,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			),
 			array(
 				'type'       => 'html',
-				'inner_html' => '<h2>' . __( 'Modal Login', 'uncanny-learndash-toolkit' ) . '</h2>',
+				'inner_html' => '<h2>' . esc_html__( 'Modal Login', 'uncanny-learndash-toolkit' ) . '</h2>',
 			),
 			array(
 				'type'        => 'text',
@@ -1392,7 +1393,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	 * @return mixed
 	 */
 	public static function add_meta_column( $columns ) {
-		$columns['uo_column'] = apply_filters( 'uo_user_column_title', self::$column_title );
+		$columns['uo_column'] = apply_filters( 'uo_user_column_title', self::$column_title ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code).
 
 		return $columns;
 	}
@@ -1416,18 +1417,18 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 		if ( 'uo_column' === $column_name ) {
 
-			$message = __( 'Auto Verified', 'uncanny-learndash-toolkit' );
+			$message = esc_html__( 'Auto Verified', 'uncanny-learndash-toolkit' );
 
 			if ( '1' === $user_verified_value ) {
-				$message = '<span style="color:green;">' . __( 'Verified', 'uncanny-learndash-toolkit' ) . '</span>';
+				$message = '<span style="color:green;">' . esc_html__( 'Verified', 'uncanny-learndash-toolkit' ) . '</span>';
 			}
 
 			if ( '0' === $user_verified_value ) {
-				$message = '<span style="color:green;">' . __( 'Not Verified', 'uncanny-learndash-toolkit' ) . '</span>';
+				$message = '<span style="color:green;">' . esc_html__( 'Not Verified', 'uncanny-learndash-toolkit' ) . '</span>';
 			}
 
 			if ( user_can( $user_id, 'activate_plugins' ) ) {
-				$message = '<span style="color:green;">' . __( 'Auto Verified', 'uncanny-learndash-toolkit' ) . '</span>';
+				$message = '<span style="color:green;">' . esc_html__( 'Auto Verified', 'uncanny-learndash-toolkit' ) . '</span>';
 			}
 
 			return $message;
@@ -1519,7 +1520,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			 *
 			 * @since 3.4.1
 			 */
-			do_action( 'uo_user_verified', $user_id, $verifier_id = get_current_user_id() );
+			do_action( 'uo_user_verified', $user_id, $verifier_id = get_current_user_id() ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code).
 		}
 
 		$verified            = get_user_meta( $user_id, 'uo_is_verified', true );
@@ -1538,12 +1539,12 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			$blog_name   = get_option( 'blogname' );
 
 			// Create verified user subject
+			/* translators: %s: Site name. */
 			$default_subject = sprintf( __( '%s - Account Verified', 'uncanny-learndash-toolkit' ), $blog_name );
 
 			$subject = self::get_settings_value(
 				'uo_frontend_verified_email_subject',
 				__CLASS__,
-				/* translators: %s: site name */
 				$default_subject,
 				self::get_class_settings( '', true )
 			);
@@ -1556,10 +1557,11 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			 * @param string $subject The email subject.
 			 * @param \WP_User $user The verified user.
 			 */
-			$subject = apply_filters( 'uo_verified_email_subject', $subject, $user );
+			$subject = apply_filters( 'uo_verified_email_subject', $subject, $user ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code).
 
 			// Create verified user body
 			$default_body = __( 'Your account has been approved! ', 'uncanny-learndash-toolkit' ) . "\r\n\n";
+			/* translators: %s: Site home URL. */
 			$default_body .= sprintf( __( 'Please visit %s to login. ', 'uncanny-learndash-toolkit' ), home_url() ) . " \r\n";
 			/**
 			 * Filters user verification email message.
@@ -1580,7 +1582,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			$body = str_ireplace( '%Last Name%', $user->last_name, $body );
 			$body = str_ireplace( '%Home URL%', home_url(), $body );
 
-			$body = apply_filters( 'uo_verified_email_message', $body, $user );
+			$body = apply_filters( 'uo_verified_email_message', $body, $user ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code).
 
 			// Send verified user email
 			$to        = $user->user_email;
@@ -1592,7 +1594,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			 * @param array $headers The email headers.
 			 * @param \WP_User $user The verified user.
 			 */
-			$headers = apply_filters( 'uo_verified_email_headers', $headers, $user );
+			$headers = apply_filters( 'uo_verified_email_headers', $headers, $user ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code).
 			$mailed  = wp_mail( $to, $subject, $body, $headers );
 			// after wp_mail successful
 			$from      = $blog_name . ' <' . $admin_email . '>';
@@ -1603,10 +1605,11 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			 * @param array $headers The email headers.
 			 * @param \WP_User $user The verified user.
 			 */
-			$headers = apply_filters( 'uo_verified_email_headers', $headers, $user );
+			$headers = apply_filters( 'uo_verified_email_headers', $headers, $user ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code).
 
 			$to = $admin_email;
 
+			/* translators: %s: Site name. */
 			$subject = sprintf( __( '%s - Account Verified', 'uncanny-learndash-toolkit' ), $blog_name );
 
 			/**
@@ -1615,9 +1618,11 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			 * @param array $headers The email headers.
 			 * @param \WP_User $user The verified user.
 			 */
-			$subject = apply_filters( 'uo_verified_email_subject', $subject, $user );
+			$subject = apply_filters( 'uo_verified_email_subject', $subject, $user ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code).
 
+			/* translators: %s: User email address. */
 			$message = sprintf( __( '%s account has been approved! ', 'uncanny-learndash-toolkit' ), $user->user_email ) . " \r\n\n";
+			/* translators: %s: URL of the user's edit screen. */
 			$message .= sprintf( __( ' Visit %s to view / edit user. ', 'uncanny-learndash-toolkit' ), admin_url( 'user-edit.php?user_id=' . $user->id ) ) . " \r\n";
 
 			/**
@@ -1626,7 +1631,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			 * @param array $message The email message.
 			 * @param \WP_User $user The verified user.
 			 */
-			$message = apply_filters( 'uo_verified_email_message', $message, $user );
+			$message = apply_filters( 'uo_verified_email_message', $message, $user ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code).
 
 			$admin_mailed = wp_mail( $to, $subject, $message, $headers );
 
@@ -1643,7 +1648,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				 *
 				 * @since 3.4.1
 				 */
-				do_action( 'uo_user_verification_emails_sent', $user_id, $verifier_id = get_current_user_id() );
+				do_action( 'uo_user_verification_emails_sent', $user_id, $verifier_id = get_current_user_id() ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code).
 			}
 		}
 
@@ -1659,8 +1664,8 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	 */
 	public function user_login_message( $message ) {
 		// Show the error message if it seems to be a disabled user
-		if ( isset( $_GET['unverified'] ) && 1 === $_GET['unverified'] ) {
-			$message = '<div id="login_error">' . apply_filters( 'uo_unverified_users_notice', esc_html__( "We haven't verified this account.", 'uncanny-learndash-toolkit' ) ) . '</div>';
+		if ( isset( $_GET['unverified'] ) && 1 === $_GET['unverified'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only display parameter; no state change.
+			$message = '<div id="login_error">' . apply_filters( 'uo_unverified_users_notice', esc_html__( "We haven't verified this account.", 'uncanny-learndash-toolkit' ) ) . '</div>'; // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code).
 		}
 
 		return $message;
@@ -1682,15 +1687,15 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			if ( $current_post_id === $login_page_id ) {
 
 				/* Set Reset Password Cookie */
-				if ( isset( $_GET['action'] ) ) {
-					if ( 'rp' === $_GET['action'] ) {
+				if ( isset( $_GET['action'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Core password-reset email link has no nonce (as in wp-login.php); login and key are validated by check_password_reset_key().
+					if ( 'rp' === $_GET['action'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Core password-reset email link has no nonce (as in wp-login.php); login and key are validated by check_password_reset_key().
 
-						if ( isset( $_GET['key'] ) && isset( $_GET['login'] ) ) {
+						if ( isset( $_GET['key'] ) && isset( $_GET['login'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Core password-reset email link has no nonce (as in wp-login.php); login and key are validated by check_password_reset_key().
 
 							$rp_cookie = 'wp-resetpass-' . COOKIEHASH;
-							$value     = sprintf( '%s:%s', wp_unslash( $_GET['login'] ), wp_unslash( $_GET['key'] ) );
+							$value     = sprintf( '%s:%s', wp_unslash( $_GET['login'] ), wp_unslash( $_GET['key'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Core password-reset email link has no nonce (as in wp-login.php); login and key are validated by check_password_reset_key().
 
-							$user = check_password_reset_key( wp_unslash( $_GET['key'] ), wp_unslash( $_GET['login'] ) );
+							$user = check_password_reset_key( wp_unslash( $_GET['key'] ), wp_unslash( $_GET['login'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Core password-reset email link has no nonce (as in wp-login.php); login and key are validated by check_password_reset_key().
 							if ( is_wp_error( $user ) ) {
 								// Key is not valid
 								$login_page = get_permalink( self::get_login_redirect_page_id() );
@@ -1731,6 +1736,11 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 									'samesite' => 'Lax',
 								)
 							);
+
+							// The browser only sends the new cookie from the next request, but this page
+							// load builds the reset token from it. Without this the first visit from the
+							// email gets an empty (or stale) token and the AJAX reset is rejected.
+							$_COOKIE[ $rp_cookie ] = wp_slash( $value );
 						}
 					}
 				}
@@ -1754,14 +1764,14 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			if ( $current_post_id === $login_page_id ) {
 
 				/* Set Reset Password Cookie */
-				if ( isset( $_GET['action'] ) ) {
-					if ( 'rp' === $_GET['action'] ) {
+				if ( isset( $_GET['action'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Core password-reset email link has no nonce (as in wp-login.php); login and key are validated by check_password_reset_key().
+					if ( 'rp' === $_GET['action'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Core password-reset email link has no nonce (as in wp-login.php); login and key are validated by check_password_reset_key().
 
-						if ( isset( $_GET['key'] ) && isset( $_GET['login'] ) ) {
+						if ( isset( $_GET['key'] ) && isset( $_GET['login'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Core password-reset email link has no nonce (as in wp-login.php); login and key are validated by check_password_reset_key().
 
 							$rp_cookie = 'wp-resetpass-' . COOKIEHASH;
-							$value     = sprintf( '%s:%s', wp_unslash( $_GET['login'] ), wp_unslash( $_GET['key'] ) );
-							$user      = check_password_reset_key( wp_unslash( $_GET['key'] ), wp_unslash( $_GET['login'] ) );
+							$value     = sprintf( '%s:%s', wp_unslash( $_GET['login'] ), wp_unslash( $_GET['key'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Core password-reset email link has no nonce (as in wp-login.php); login and key are validated by check_password_reset_key().
+							$user      = check_password_reset_key( wp_unslash( $_GET['key'] ), wp_unslash( $_GET['login'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Core password-reset email link has no nonce (as in wp-login.php); login and key are validated by check_password_reset_key().
 							if ( is_wp_error( $user ) ) {
 								// Key is not valid
 								$login_page     = self::get_login_redirect_page_id();
@@ -1795,6 +1805,9 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 									'samesite' => 'Lax',
 								)
 							);
+
+							// Same as set_cookies(): the reset token on this page is built from this cookie.
+							$_COOKIE[ $rp_cookie ] = wp_slash( $value );
 						}
 					}
 				}
@@ -1862,8 +1875,8 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			?>
 			<script type='text/javascript'>
 				jQuery(document).ready(function () {
-					jQuery('#user_login').attr('placeholder', '<?php echo $username_label; ?>')
-					jQuery('#user_pass').attr('placeholder', '<?php echo $password_label; ?>')
+					jQuery('#user_login').attr('placeholder', <?php echo wp_json_encode( $username_label ); ?>)
+					jQuery('#user_pass').attr('placeholder', <?php echo wp_json_encode( $password_label ); ?>)
 				})
 			</script>
 			<?php
@@ -1872,8 +1885,8 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		}
 
 		// Override if redirect_to already set in login request.
-		if ( isset( $_REQUEST['redirect_to'] ) && ! empty( $_REQUEST['redirect_to'] ) ) {
-			$redirect = $_REQUEST['redirect_to'];
+		if ( isset( $_REQUEST['redirect_to'] ) && ! empty( $_REQUEST['redirect_to'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Login redirect target kept raw like core's wp-login.php; wp_login_form() escapes it with esc_url().
+			$redirect = wp_unslash( $_REQUEST['redirect_to'] ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Login redirect target kept raw like core's wp-login.php; wp_login_form() escapes it with esc_url().
 		}
 		//Add an additional query variable for login redirect module. It'll override [uo_login redirect]
 		if ( ! empty( $redirect ) ) {
@@ -1899,7 +1912,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			'value_remember' => true,
 		);
 
-		$login_form_args = apply_filters( 'uo_frontend_login_args', $login_form_args );
+		$login_form_args = apply_filters( 'uo_frontend_login_args', $login_form_args ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code).
 
 		return wp_login_form( $login_form_args );
 	}
@@ -1928,7 +1941,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			'uo_login_ui'
 		);
 		global $uo_login_ui_attribute;
-		$uo_login_ui_attribute = $attribute;
+		$uo_login_ui_attribute = $attribute; // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Public global kept for backward compatibility.
 
 		$hide_logged_in_ui = self::get_settings_value( 'hide_logged_in_ui', __CLASS__ );
 
@@ -1953,15 +1966,15 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		$message_warning = '';
 
 		global $user_login;
-		$login = ( isset( $_GET['login'] ) ) ? $_GET['login'] : 'not-set';
+		$login = ( isset( $_GET['login'] ) ) ? sanitize_text_field( wp_unslash( $_GET['login'] ) ) : 'not-set'; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only display parameter; no state change.
 
 		/* Registration */
 		$register = false;
 
 		/* Lost Password */
 		$lost_password = false;
-		if ( isset( $_GET['action'] ) ) {
-			if ( 'lostpassword' === $_GET['action'] ) {
+		if ( isset( $_GET['action'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only display parameter; no state change.
+			if ( 'lostpassword' === $_GET['action'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only display parameter; no state change.
 				$lost_password = true;
 			}
 		}
@@ -1969,16 +1982,16 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		/* Sending Reset Password Link */
 		$reset_password_sent         = false;
 		$reset_password_sent_success = false;
-		if ( isset( $_GET['action'] ) ) {
-			if ( 'forgot' === $_GET['action'] ) {
+		if ( isset( $_GET['action'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only display parameter; no state change.
+			if ( 'forgot' === $_GET['action'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only display parameter; no state change.
 				$reset_password_sent = true;
-				if ( '1' === $_GET['success'] ) {
+				if ( isset( $_GET['success'] ) && '1' === $_GET['success'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only display parameter; no state change.
 					$reset_password_sent_success = true;
-				} elseif ( 'recaptchaempty' === $_GET['success'] ) {
+				} elseif ( isset( $_GET['success'] ) && 'recaptchaempty' === $_GET['success'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only display parameter; no state change.
 					$reset_password_sent_success = 'recaptchaempty';
-				} elseif ( 'recaptchafailed' === $_GET['success'] ) {
+				} elseif ( isset( $_GET['success'] ) && 'recaptchafailed' === $_GET['success'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only display parameter; no state change.
 					$reset_password_sent_success = 'recaptchafailed';
-				} elseif ( 'invalidcredentials' === $_GET['success'] ) {
+				} elseif ( isset( $_GET['success'] ) && 'invalidcredentials' === $_GET['success'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only display parameter; no state change.
 					$reset_password_sent_success = 'invalidcredentials';
 				}
 			}
@@ -1986,16 +1999,16 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 		/* Reset Password */
 		$reset_password = false;
-		if ( isset( $_GET['action'] ) ) {
-			if ( 'rp' === $_GET['action'] ) {
+		if ( isset( $_GET['action'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only display parameter; no state change.
+			if ( 'rp' === $_GET['action'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only display parameter; no state change.
 				$reset_password = true;
 			}
 		}
 
 		/* Validate Reset Password Information */
 		$validate_password_reset = false;
-		if ( isset( $_GET['action'] ) ) {
-			if ( 'validatepasswordreset' === $_GET['action'] ) {
+		if ( isset( $_GET['action'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only display parameter; no state change.
+			if ( 'validatepasswordreset' === $_GET['action'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only display parameter; no state change.
 				$validate_password_reset = true;
 			}
 		}
@@ -2014,20 +2027,20 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			}
 		}
 
-		if ( isset( $_GET['exceed_max_concurrent_login'] ) ) {
-			self::$login_error = __( 'Your account has exceeded maximum concurrent login number.', 'learndash-integrity' );
+		if ( isset( $_GET['exceed_max_concurrent_login'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only display parameter; no state change.
+			self::$login_error = __( 'Your account has exceeded maximum concurrent login number.', 'learndash-integrity' ); // phpcs:ignore WordPress.WP.I18n.TextDomainMismatch -- String owned by LearnDash Integrity.
 		}
-		self::$login_error = apply_filters( 'uo_frontend_login_error', self::$login_error, $login, '', $message_warning );
+		self::$login_error = apply_filters( 'uo_frontend_login_error', self::$login_error, $login, '', $message_warning ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code).
 
 		// Prevent errors, some templates are using the following template
 		$login_error = self::$login_error;
 
-		$innerText = apply_filters( 'uo-login-inner-text', self::fetch_inner_text(), $login );
+		$innerText = apply_filters( 'uo-login-inner-text', self::fetch_inner_text(), $login ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code).
 
-		$default_css = apply_filters( 'uo-login-default-css', '<style>.login-msg{color:red;} .login-msg.loggedout{color:green;}#loginform label[for="user_login"],#loginform label[for="user_pass"] {display: block;}</style>' );
+		$default_css = apply_filters( 'uo-login-default-css', '<style>.login-msg{color:red;} .login-msg.loggedout{color:green;}#loginform label[for="user_login"],#loginform label[for="user_pass"] {display: block;}</style>' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code).
 
 		//Introducing different templates!
-		$template_to_load = apply_filters( 'uo-login-template', Config::get_settings_value( 'uo_frontend_login_template', 'FrontendLoginPlus', 'default' ) );
+		$template_to_load = apply_filters( 'uo-login-template', Config::get_settings_value( 'uo_frontend_login_template', 'FrontendLoginPlus', 'default' ) ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code).
 
 		//Render Template
 		ob_start();
@@ -2074,7 +2087,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			'warning' => $message_warning,
 		);
 
-		return apply_filters( 'uo_toolkit_frontend_login_error_messages', $default, $login );
+		return apply_filters( 'uo_toolkit_frontend_login_error_messages', $default, $login ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code).
 
 	}
 
@@ -2089,7 +2102,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		$disable_remember = self::get_settings_value( 'uo_frontendloginplus_disable_rememberme', __CLASS__ );
 		$label_remember   = self::get_settings_value( 'uo_frontend_login_rememberme_label', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
 		$label_log_in     = self::get_settings_value( 'uo_frontend_login_button_label', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
-		$redirect_to      = isset( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : home_url( '/wp-admin/' );
+		$redirect_to      = isset( $_REQUEST['redirect_to'] ) ? wp_unslash( $_REQUEST['redirect_to'] ) : home_url( '/wp-admin/' ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Login redirect target kept raw like core's wp-login.php; wp_login_form() escapes it with esc_url().
 
 		if ( isset( $uo_login_ui_attribute ) && isset( $uo_login_ui_attribute['redirect'] ) && ! empty( $uo_login_ui_attribute['redirect'] ) ) {
 			$redirect_to = $uo_login_ui_attribute['redirect'];
@@ -2186,14 +2199,14 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 		$login_page = get_permalink( self::get_login_redirect_page_id() );
 
-		$page_viewed = $_SERVER['REQUEST_URI'];
+		$page_viewed = isset( $_SERVER['REQUEST_URI'] ) ? esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
 
 		// This is the request action which holds the param 'action' for POST or GET request.
 		$http_request_action = '';
 
 		// Cannot use filter input for $_REQUEST yet.
-		if ( isset( $_REQUEST['action'] ) ) {
-			$http_request_action = $_REQUEST['action'];
+		if ( isset( $_REQUEST['action'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only request flag; no state change.
+			$http_request_action = sanitize_text_field( wp_unslash( $_REQUEST['action'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only request flag; no state change.
 		}
 
 		// GET exclusive 'action'.
@@ -2204,7 +2217,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		}
 
 		// Don't redirect during Google OAuth callback
-		if ( isset( $_REQUEST['code'] ) && isset( $_REQUEST['state'] ) ) {
+		if ( isset( $_REQUEST['code'] ) && isset( $_REQUEST['state'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only check that skips Google OAuth callbacks; no state change.
 			return;
 		}
 
@@ -2231,7 +2244,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				return;
 			}
 
-			if ( 'backup_2fa' === $_GET['action'] ) {
+			if ( 'backup_2fa' === $http_get_action ) {
 
 				$user_id = filter_input( INPUT_GET, 'wp-auth-id', FILTER_SANITIZE_NUMBER_INT );
 
@@ -2247,7 +2260,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 					'wp-auth-id'         => $user_id,
 					'_wpnonce'           => wp_create_nonce( sprintf( 'uo-toolkit-2fa-user-%d-authentication', $user_id ) ),
 					'wp-auth-nonce'      => filter_input( INPUT_GET, 'wp-auth-nonce', FILTER_UNSAFE_RAW ),
-					'rememberme'         => isset( $_REQUEST['rememberme'] ) ? $_REQUEST['rememberme'] : '',
+					'rememberme'         => isset( $_REQUEST['rememberme'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['rememberme'] ) ) : '', // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only parameter passed through to the login page URL; no state change.
 					'redirect_to'        => filter_input( INPUT_GET, 'redirect_to', FILTER_UNSAFE_RAW ),
 					'2fa_authentication' => 1,
 					// Pass `2fa_authentication` to show the 2fa form.
@@ -2269,7 +2282,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		}
 
 		// When the user is wp-login.php and server request method is get and is not registering.
-		if ( false !== strpos( $page_viewed, 'wp-login.php' ) && 'GET' === $_SERVER['REQUEST_METHOD'] && ! $registering ) {
+		if ( false !== strpos( $page_viewed, 'wp-login.php' ) && isset( $_SERVER['REQUEST_METHOD'] ) && 'GET' === $_SERVER['REQUEST_METHOD'] && ! $registering ) {
 
 			// Ignore redirect if action is logout.
 			if ( 'logout' === $http_request_action ) {
@@ -2294,17 +2307,17 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			}
 
 			// Accept 'redirect_to' REQUEST parameter which redirects the user to the value of the parameter.
-			if ( isset( $_REQUEST['redirect_to'] ) ) {
+			if ( isset( $_REQUEST['redirect_to'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Redirect target kept raw like core's wp-login.php; wp_safe_redirect() validates it.
 
 				if ( is_user_logged_in() ) {
-					$redirect_to = $_REQUEST['redirect_to'];
-					$redirect    = apply_filters( 'login_redirect', $_REQUEST['redirect_to'], $redirect_to, wp_get_current_user() );
+					$redirect_to = wp_unslash( $_REQUEST['redirect_to'] ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Redirect target kept raw like core's wp-login.php; wp_safe_redirect() validates it.
+					$redirect    = apply_filters( 'login_redirect', wp_unslash( $_REQUEST['redirect_to'] ), $redirect_to, wp_get_current_user() ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound, WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Core login_redirect hook fired intentionally so other plugins can hook into this redirect; target kept raw like core's wp-login.php and validated by wp_safe_redirect().
 					// Change the redirect from `301` to `302` to prevent aggressive caching of browser.
 					wp_safe_redirect( $redirect, 302 );
 					exit;
 				}
 
-				$login_page = add_query_arg( array( 'redirect_to' => $_REQUEST['redirect_to'] ), $login_page );
+				$login_page = add_query_arg( array( 'redirect_to' => wp_unslash( $_REQUEST['redirect_to'] ) ), $login_page ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Redirect target kept raw like core's wp-login.php; wp_safe_redirect() validates it.
 
 			}
 
@@ -2313,7 +2326,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			}
 
 			// Allow modifications.
-			$login_page = apply_filters( 'uo-redirect-login-page', $login_page );
+			$login_page = apply_filters( 'uo-redirect-login-page', $login_page ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code).
 
 			// Change the redirect from `301` to `302` to prevent aggressive caching of browser.
 			wp_safe_redirect( $login_page, 302 );
@@ -2334,7 +2347,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		$query           = array();
 		$query['action'] = 'register';
 
-		if ( isset( $_GET['checkemail'] ) && 'registered' === $_GET['checkemail'] ) {
+		if ( isset( $_GET['checkemail'] ) && 'registered' === $_GET['checkemail'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only request flag; no state change.
 			$query['registered'] = 'success';
 		}
 
@@ -2392,7 +2405,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			return;
 		}
 		// Redundant check for REST because in some cases REST_REQUEST constant does not work.
-		if ( strpos( $_SERVER['REQUEST_URI'], '/wp-json/' ) !== false ) {
+		if ( isset( $_SERVER['REQUEST_URI'] ) && strpos( esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ), '/wp-json/' ) !== false ) {
 			return;
 		}
 		// Check for AJAX requests
@@ -2407,8 +2420,8 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		);
 
 		// Append redirect_to parameters.
-		if ( isset( $_REQUEST['redirect_to'] ) && ! empty( $_REQUEST['redirect_to'] ) ) {
-			$redirect_to               = filter_var( $_REQUEST['redirect_to'], FILTER_UNSAFE_RAW );
+		if ( isset( $_REQUEST['redirect_to'] ) && ! empty( $_REQUEST['redirect_to'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Redirect target kept raw like core's wp-login.php; wp_safe_redirect() validates it.
+			$redirect_to               = filter_var( wp_unslash( $_REQUEST['redirect_to'] ), FILTER_UNSAFE_RAW ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Redirect target kept raw like core's wp-login.php; wp_safe_redirect() validates it.
 			$query_args['redirect_to'] = urlencode( $redirect_to );
 		}
 
@@ -2437,11 +2450,11 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			return $user;
 		}
 		// Redundant check for REST because in some cases REST_REQUEST constant does not work.
-		if ( strpos( $_SERVER['REQUEST_URI'], '/wp-json/' ) !== false ) {
+		if ( isset( $_SERVER['REQUEST_URI'] ) && strpos( esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ), '/wp-json/' ) !== false ) {
 			return $user;
 		}
 		// Don't redirect during Google OAuth callback
-		if ( isset( $_REQUEST['code'] ) && isset( $_REQUEST['state'] ) ) {
+		if ( isset( $_REQUEST['code'] ) && isset( $_REQUEST['state'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only check that skips Google OAuth callbacks; no state change.
 			return $user;
 		}
 
@@ -2471,19 +2484,6 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	 * Redirect to custom login page if username or password is empty
 	 */
 	public static function verify_username_password_40( $user, $username, $password ) {
-		// Check for REST requests.
-		if ( defined( 'REST_REQUEST' ) && REST_REQUEST ) {
-			return $user;
-		}
-		// Redundant check for REST because in some cases REST_REQUEST constant does not work.
-		if ( strpos( $_SERVER['REQUEST_URI'], '/wp-json/' ) !== false ) {
-			return $user;
-		}
-
-		// Don't redirect during Google OAuth callback
-		if ( isset( $_REQUEST['code'] ) && isset( $_REQUEST['state'] ) ) {
-			return $user;
-		}
 
 		$uo_manual_verification = 'no';
 
@@ -2499,14 +2499,32 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			}
 		}
 
+		// Contexts where this filter must not redirect: the REST API and the Google OAuth callback.
+		$request_uri = isset( $_SERVER['REQUEST_URI'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
+		$is_rest     = ( defined( 'REST_REQUEST' ) && REST_REQUEST ) || false !== strpos( $request_uri, '/wp-json/' );
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Presence check only; the OAuth provider owns these params.
+		$is_oauth_callback = isset( $_REQUEST['code'] ) && isset( $_REQUEST['state'] );
+
+		// Enforce the verification gate before those early returns, so neither path can
+		// authenticate an unverified account. There is no front-end form to redirect to in
+		// those contexts, so block with a WP_Error, which wp_signon() and the REST auth stack
+		// both honour. is_user_unverified() treats admins as verified.
+		if ( 'yes' === $uo_manual_verification && $user instanceof \WP_User && self::is_user_unverified( $user ) && ( $is_rest || $is_oauth_callback ) ) {
+			return new \WP_Error( 'uo_not_verified', Config::get_settings_value( 'uo_frontend_login_notverified_error', 'FrontendLoginPlus', esc_html__( 'This account is not verified.', 'uncanny-learndash-toolkit' ) ) );
+		}
+
+		if ( $is_rest || $is_oauth_callback ) {
+			return $user;
+		}
+
 		$login_page = get_permalink( self::get_login_redirect_page_id() );
 		if ( ! $login_page ) {
 			return $user;
 		}
-		if ( isset( $_GET['redirect_to'] ) ) {
-			$login_page = add_query_arg( array( 'redirect_to' => $_GET['redirect_to'] ), $login_page );
+		if ( isset( $_GET['redirect_to'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Redirect target kept raw like core's wp-login.php; wp_safe_redirect() validates it.
+			$login_page = add_query_arg( array( 'redirect_to' => wp_unslash( $_GET['redirect_to'] ) ), $login_page ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Redirect target kept raw like core's wp-login.php; wp_safe_redirect() validates it.
 		}
-		if ( isset( $_GET['redirect_to'] ) && false !== strpos( $_GET['redirect_to'], 'wp-admin' ) ) {
+		if ( isset( $_GET['redirect_to'] ) && false !== strpos( wp_unslash( $_GET['redirect_to'] ), 'wp-admin' ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Redirect target kept raw like core's wp-login.php; wp_safe_redirect() validates it.
 			wp_safe_redirect( add_query_arg( array( 'ojs' => 'wp-admin' ), $login_page ), 301 );
 			exit;
 		}
@@ -2515,15 +2533,8 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 			if ( ( $user ) && ( is_a( $user, 'WP_User' ) ) ) {
 
-				$user_verified_value = get_user_meta( $user->ID, self::$user_meta_key_col, true );
-
-				// bypass admins
-				if ( user_can( $user->ID, 'activate_plugins' ) ) {
-					$user_verified_value = '1';
-				}
-
-				// Is the use logging in disabled?
-				if ( '0' === $user_verified_value ) {
+				// Is the user logging in disabled? is_user_unverified() treats admins as verified.
+				if ( self::is_user_unverified( $user ) ) {
 					wp_destroy_current_session();
 					wp_clear_auth_cookie();
 					wp_safe_redirect( add_query_arg( array( 'login' => 'notverified' ), $login_page ) );
@@ -2537,7 +2548,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		}
 
 		$registering = false;
-		if ( isset( $_GET['checkemail'] ) && 'registered' === $_GET['checkemail'] ) {
+		if ( isset( $_GET['checkemail'] ) && 'registered' === $_GET['checkemail'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only request flag; no state change.
 			$registering = true;
 		}
 
@@ -2566,13 +2577,13 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			// check if recaptcha is setup
 			if ( ! empty( trim( $recaptcha_key ) ) && ! empty( trim( $recaptcha_secrete_key ) ) && ( self::get_login_redirect_page_id() === $referer_id || $is_short_code_page ) ) {
 
-				if ( ! isset( $_POST['g-recaptcha-response'] ) ) {
+				if ( ! isset( $_POST['g-recaptcha-response'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Front-end login form has no nonce, like core's wp-login.php (nonces break cached login pages); the reCAPTCHA token is verified with Google.
 					wp_safe_redirect( add_query_arg( array( 'login' => 'recaptchafailed' ), $login_page ) );
 					exit;
 				}
 
 				// make sure its filled
-				$recaptcha_response = sanitize_text_field( $_POST['g-recaptcha-response'] );
+				$recaptcha_response = sanitize_text_field( wp_unslash( $_POST['g-recaptcha-response'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Front-end login form has no nonce, like core's wp-login.php (nonces break cached login pages); the reCAPTCHA token is verified with Google.
 
 				if ( empty( trim( $recaptcha_response ) ) ) {
 					wp_safe_redirect( add_query_arg( array( 'login' => 'recaptchaempty' ), $login_page ) );
@@ -2593,7 +2604,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		 * Check if redirect_to is set in GET/POST then set it to top priority
 		 */
 
-		if ( isset( $_REQUEST['redirect_to'] ) && ! empty( $_REQUEST['redirect_to'] ) && $_REQUEST['redirect_to'] != home_url( '/wp-admin/' ) ) {
+		if ( isset( $_REQUEST['redirect_to'] ) && ! empty( $_REQUEST['redirect_to'] ) && $_REQUEST['redirect_to'] != home_url( '/wp-admin/' ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Redirect target kept raw like core's wp-login.php; wp_safe_redirect() validates it.
 			// checking if login redirect priority is set.
 
 			$settings = get_option( 'LoginRedirect', array() );
@@ -2612,7 +2623,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			add_filter(
 				'login_redirect',
 				function ( $redirect_to, $request, $user ) {
-					return $_REQUEST['redirect_to'];
+					return isset( $_REQUEST['redirect_to'] ) ? wp_unslash( $_REQUEST['redirect_to'] ) : $redirect_to; // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Redirect target kept raw like core's wp-login.php; wp_safe_redirect() validates it.
 				},
 				$redirect_priority,
 				3
@@ -2642,7 +2653,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	 */
 	public static function lostpassword_post() {
 
-		if ( isset( $_POST['action'] ) && 'send-password-reset' == $_POST['action'] ) {
+		if ( isset( $_POST['action'] ) && 'send-password-reset' == $_POST['action'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Core lost-password form has no nonce, like wp-login.php.
 			return; // bail.
 		}
 
@@ -2652,7 +2663,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		$recaptcha_secrete_key = self::get_captcha_secret();
 
 		if ( '' !== trim( $recaptcha_key ) && '' !== trim( $recaptcha_secrete_key ) ) {
-			if ( ! isset( $_POST['g-recaptcha-response'] ) ) {
+			if ( ! isset( $_POST['g-recaptcha-response'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Core lost-password form has no nonce, like wp-login.php.
 				wp_safe_redirect(
 					add_query_arg(
 						array(
@@ -2665,7 +2676,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				exit;
 			}
 			// make sure its filled
-			$recaptcha_response = sanitize_text_field( $_POST['g-recaptcha-response'] );
+			$recaptcha_response = sanitize_text_field( wp_unslash( $_POST['g-recaptcha-response'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Core lost-password form has no nonce, like wp-login.php.
 
 			if ( empty( trim( $recaptcha_response ) ) ) {
 				wp_safe_redirect(
@@ -2704,11 +2715,11 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	public static function redirect_lost_password( $lostpassword_redirect ) {
 
 		$valid_credentials = false;
-		if ( isset( $_POST['user_login'] ) && ! empty( $_POST['user_login'] ) ) {
-			if ( email_exists( $_POST['user_login'] ) ) {
+		if ( isset( $_POST['user_login'] ) && ! empty( $_POST['user_login'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Core lost-password form has no nonce, like wp-login.php.
+			if ( email_exists( sanitize_email( wp_unslash( $_POST['user_login'] ) ) ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Core lost-password form has no nonce, like wp-login.php.
 				$valid_credentials = true;
 			}
-			if ( username_exists( $_POST['user_login'] ) ) {
+			if ( username_exists( sanitize_user( wp_unslash( $_POST['user_login'] ) ) ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Core lost-password form has no nonce, like wp-login.php.
 				$valid_credentials = true;
 			}
 		}
@@ -2898,11 +2909,11 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			if ( 'login_page' === $setting['name'] && '0' !== $setting['value'] ) {
 				$login_page_id = $setting['value'];
 				if ( $post instanceof \WP_Post && $post->ID === (int) $login_page_id ) {
-					$should_validate = apply_filters( 'uo_frontend_login_modal_page_lockout_detection', true, $post );
+					$should_validate = apply_filters( 'uo_frontend_login_modal_page_lockout_detection', true, $post ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code).
 					$should_validate = filter_var( strtolower( $should_validate ), FILTER_VALIDATE_BOOLEAN );
 					if ( $should_validate && ! has_shortcode( $post->post_content, 'uo_login_ui' ) && ! has_block( 'uncanny-toolkit/frontend-login', $post->post_content ) ) {
 						echo '<div id="ult-login-no-setup-notice"><strong>';
-						_e( 'Note: This page has been set as the login page for this site. The form below has been added for your convenience. To hide this message, add the shortcode [uo_login_ui] or the Front End Login Gutenberg block to this page.', 'uncanny-learndash-toolkit' );
+						esc_html_e( 'Note: This page has been set as the login page for this site. The form below has been added for your convenience. To hide this message, add the shortcode [uo_login_ui] or the Front End Login Gutenberg block to this page.', 'uncanny-learndash-toolkit' );
 						echo '</strong></div>';
 						echo do_shortcode( '[uo_login_ui]' );
 					}
@@ -2950,7 +2961,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		}
 
 		// Parse the URL
-		$parsed_url = parse_url( $url );
+		$parsed_url = wp_parse_url( $url );
 
 		// Determine the path
 		$path = '';
@@ -3039,11 +3050,11 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			return;
 		}
 
-		// Get color settings
-		$primary_color = self::get_settings_value( 'uo_frontend_login_primary_color', __CLASS__, '' );
-		$text_color = self::get_settings_value( 'uo_frontend_login_text_color', __CLASS__, '' );
-		$background_color = self::get_settings_value( 'uo_frontend_login_background_color', __CLASS__, '' );
-		$border_color = self::get_settings_value( 'uo_frontend_login_border_color', __CLASS__, '' );
+		// Get color settings (saved from <input type="color">, so always hex; anything else falls back to the default).
+		$primary_color = (string) sanitize_hex_color( self::get_settings_value( 'uo_frontend_login_primary_color', __CLASS__, '' ) );
+		$text_color = (string) sanitize_hex_color( self::get_settings_value( 'uo_frontend_login_text_color', __CLASS__, '' ) );
+		$background_color = (string) sanitize_hex_color( self::get_settings_value( 'uo_frontend_login_background_color', __CLASS__, '' ) );
+		$border_color = (string) sanitize_hex_color( self::get_settings_value( 'uo_frontend_login_border_color', __CLASS__, '' ) );
 
 		// Check if all colors are #000000 (cleared state) and override with proper defaults
 		if ( '#000000' === $primary_color && '#000000' === $text_color && '#000000' === $background_color && '#000000' === $border_color ) {
@@ -3088,7 +3099,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		}
 		</style>";
 
-		echo $css;
+		echo $css; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Inline CSS built above; every color passed through sanitize_hex_color() or darken_color().
 	}
 
 	/**
@@ -3152,23 +3163,31 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		}
 		/* Validate Reset Password Information */
 		$validate_password_reset = false;
-		if ( isset( $_GET['action'] ) ) {
-			if ( 'validatepasswordreset' === (string) esc_html( $_GET['action'] ) ) {
+		if ( isset( $_GET['action'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only request flag; no state change.
+			if ( 'validatepasswordreset' === $_GET['action'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only request flag; no state change.
 				$validate_password_reset = true;
 			}
 		}
 
 		if ( $validate_password_reset ) {
-			if ( ! isset( $_GET['issue'] ) ) {
+			if ( ! isset( $_GET['issue'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only request flag; no state change.
 				$rp_cookie = 'wp-resetpass-' . COOKIEHASH;
-				if ( isset( $_COOKIE[ $rp_cookie ] ) && 0 < strpos( $_COOKIE[ $rp_cookie ], ':' ) ) {
+				if ( isset( $_COOKIE[ $rp_cookie ] ) && 0 < strpos( $_COOKIE[ $rp_cookie ], ':' ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- Mirrors core wp-login.php; the reset cookie is validated by check_password_reset_key().
 
-					list( $rp_login, $rp_key ) = explode( ':', wp_unslash( $_COOKIE[ $rp_cookie ] ), 2 );
+					list( $rp_login, $rp_key ) = explode( ':', wp_unslash( $_COOKIE[ $rp_cookie ] ), 2 ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Mirrors core wp-login.php; the reset cookie is validated by check_password_reset_key().
 
 					$user = check_password_reset_key( $rp_key, $rp_login );
 
+					// Like wp-login.php: a posted new password must come with the reset key from the form.
+					if ( isset( $_POST['pass1'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Presence check only; the reset key comparison below is the check.
+						$posted_rp_key = isset( $_POST['rp_key'] ) ? sanitize_text_field( wp_unslash( $_POST['rp_key'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing -- The reset key is the credential here: it must equal the key in the reset cookie, which is what wp-login.php checks instead of a nonce.
+
+						if ( '' === $posted_rp_key || ! hash_equals( $rp_key, $posted_rp_key ) ) {
+							$user = new \WP_Error( 'invalid_key' );
+						}
+					}
 				} else {
-					$user = new \WP_Error( 'invalid_key', __( 'Invalid key.' ) );
+					$user = new \WP_Error( 'invalid_key', __( 'Invalid key.' ) ); // phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- Core string, translated by WordPress.
 				}
 
 				// Password reset cookie was not set OR password rest key check failed
@@ -3184,17 +3203,17 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 				$errors = new \WP_Error();
 
-				if ( ! isset( $_POST['pass1'] ) || ! isset( $_POST['pass2'] ) ) {
+				if ( ! isset( $_POST['pass1'] ) || ! isset( $_POST['pass2'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Front-end reset-password form carries no nonce; the reset is authorised by the reset key cookie checked above, and a posted pass1 must also carry the matching rp_key (compared above), as in wp-login.php.
 
 					$errors->add( 'pass', __( '<strong>ERROR</strong>: Password fields cannot be empty.', 'uncanny-learndash-toolkit' ) );
 
-				} elseif ( $_POST['pass1'] !== $_POST['pass2'] ) {
+				} elseif ( $_POST['pass1'] !== $_POST['pass2'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Front-end reset-password form carries no nonce; the reset is authorised by the reset key cookie checked above, and a posted pass1 must also carry the matching rp_key (compared above), as in wp-login.php.
 					$errors->add( 'pass', __( '<strong>ERROR</strong>: Passwords do not match.', 'uncanny-learndash-toolkit' ) );
 				} else {
 					$_password_strength = self::get_settings_value( 'uo_frontendloginplus_reset_password_strength', __CLASS__ );
 
 					if ( $_password_strength === 'on' ) {
-						$password_ok = self::slt_fsp_password_strength( $_POST['pass1'], $user->user_login );
+						$password_ok = self::slt_fsp_password_strength( $_POST['pass1'], $user->user_login ); // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- Password used raw, as core does (never sanitized); the request is authorised by the reset key cookie checked above, not a nonce.
 						if ( $password_ok < 3 ) {
 							$errors->add( 'pass', __( '<strong>ERROR</strong>: Please enter a password of minimum 8 characters including at least 1 uppercase letter, 1 lowercase letter and 1 number.', 'uncanny-learndash-toolkit' ) );
 						}
@@ -3202,7 +3221,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				}
 
 				if ( ! $errors->has_errors() ) {
-					reset_password( $user, $_POST['pass1'] );
+					reset_password( $user, $_POST['pass1'] ); // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- Password used raw, as core does (never sanitized); the request is authorised by the reset key cookie checked above, not a nonce.
 					wp_safe_redirect( $login_page_url . 'action=reset&success=true' );
 					die();
 				}
@@ -3313,7 +3332,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		$output = ob_get_clean();
 
 		// Add output to the current content, but at the bottom
-		echo $output;
+		echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Static markup buffered above; contains no dynamic data.
 	}
 
 	/**
@@ -3379,7 +3398,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			return '';
 		}
 
-		return 'uo-reset-password|' . wp_unslash( $_COOKIE[ $rp_cookie ] );
+		return 'uo-reset-password|' . wp_unslash( $_COOKIE[ $rp_cookie ] ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Used only inside a nonce action string; never output or stored.
 	}
 
 	/**
@@ -3421,6 +3440,45 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	}
 
 	/**
+	 * Whether manual verification blocks this user from logging in.
+	 *
+	 * Admins are treated as verified. Public so the 2FA adapters can enforce the
+	 * same gate before logging a user in after a passed challenge.
+	 *
+	 * @param \WP_User $user The user.
+	 *
+	 * @return bool
+	 */
+	public static function is_user_unverified( $user ) {
+		if ( user_can( $user->ID, 'activate_plugins' ) ) {
+			return false;
+		}
+
+		return '0' === get_user_meta( $user->ID, self::$user_meta_key_col, true );
+	}
+
+	/**
+	 * Blocks unverified users inside the AJAX login's authenticate pipeline.
+	 *
+	 * Runs last, on the user the authenticate filters actually resolved, so it
+	 * can't disagree with wp_signon() about which account is logging in.
+	 *
+	 * @param \WP_User|\WP_Error|null $user The user resolved so far.
+	 *
+	 * @return \WP_User|\WP_Error|null
+	 */
+	public static function block_unverified_ajax_login( $user ) {
+		if ( $user instanceof \WP_User && self::is_user_unverified( $user ) ) {
+			return new \WP_Error(
+				'uo_not_verified',
+				Config::get_settings_value( 'uo_frontend_login_notverified_error', 'FrontendLoginPlus', esc_html__( 'This account is not verified.', 'uncanny-learndash-toolkit' ) )
+			);
+		}
+
+		return $user;
+	}
+
+	/**
 	 * Ajax action for login call
 	 *
 	 * @since   3.3
@@ -3434,16 +3492,21 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		self::require_valid_ajax_nonce();
 
 		// Validate input then.
-		if ( ! isset( $_POST['email'] ) || ! isset( $_POST['password'] ) || empty( $_POST['email'] ) || empty( $_POST['password'] ) ) {
+		if ( ! isset( $_POST['email'] ) || ! isset( $_POST['password'] ) || empty( $_POST['email'] ) || empty( $_POST['password'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified in self::require_valid_ajax_nonce() above.
 			$response['success'] = false;
 			$response['message'] = Config::get_settings_value( 'uo_frontend_login_failed_error', 'FrontendLoginPlus', esc_html__( 'Invalid username and/or password.', 'uncanny-learndash-toolkit' ) );
 			self::wp_send_json( $response, $response_code );
 		}
 
+		// Pass the login to wp_signon() unslashed, as wp-login.php does, and look users up
+		// by the same sanitized value wp_authenticate() derives from it.
+		$user_login      = wp_unslash( $_POST['email'] ); // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Unslashed only, as wp-login.php does; sanitize_user() runs on the next line and wp_signon() sanitizes it itself. Nonce verified in self::require_valid_ajax_nonce() above.
+		$sanitized_login = sanitize_user( $user_login );
+
 		// Internal note: This conditional isn't doing anything except increasing the cyclomatic complexity. Please consider removing.
 		if ( ! isset( $response['success'] ) ) {
-			if ( ! empty( $_POST['email'] ) && ! force_ssl_admin() ) {
-				$user_name = sanitize_user( $_POST['email'] );
+			if ( ! empty( $_POST['email'] ) && ! force_ssl_admin() ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified in self::require_valid_ajax_nonce() above.
+				$user_name = $sanitized_login;
 				$user      = get_user_by( 'login', $user_name );
 
 				if ( ! $user && strpos( $user_name, '@' ) ) {
@@ -3465,14 +3528,14 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 				// check if recaptcha is setup
 				if ( '' !== trim( $recaptcha_key ) && '' !== trim( $recaptcha_secrete_key ) ) {
-					if ( ! isset( $_POST['g-recaptcha-response'] ) ) {
+					if ( ! isset( $_POST['g-recaptcha-response'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified in self::require_valid_ajax_nonce() above.
 						$response['success'] = false;
 						$response['message'] = self::get_settings_value( 'uo_frontend_login_recaptchafailed_error', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
 						self::wp_send_json( $response, $response_code );
 					}
 
 					// make sure its filled
-					$recaptcha_response = sanitize_text_field( $_POST['g-recaptcha-response'] );
+					$recaptcha_response = sanitize_text_field( wp_unslash( $_POST['g-recaptcha-response'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified in self::require_valid_ajax_nonce() above.
 
 					if ( empty( trim( $recaptcha_response ) ) ) {
 						$response['success'] = false;
@@ -3491,8 +3554,8 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				}
 			}
 			$credential = array(
-				'user_login'    => $_POST['email'],
-				'user_password' => $_POST['password'],
+				'user_login'    => $user_login,
+				'user_password' => $_POST['password'], // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- Password passed to wp_signon() raw, as core does (never sanitized); nonce verified in self::require_valid_ajax_nonce() above.
 			);
 			// Removing our old authentication filter here.
 			remove_filter(
@@ -3523,40 +3586,34 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			// If manual verification is on.
 			if ( 'yes' === $uo_manual_verification ) {
 
-				// Check if there's a user with the supplied email.
-				$potential_user = get_user_by( 'email', $credential['user_login'] );
+				// Resolve the account the way wp_authenticate() will: username first, then email.
+				$potential_user = get_user_by( 'login', $sanitized_login );
 
-				// If not, also check if there's a user with the username.
-				$potential_user = $potential_user ? $potential_user : get_user_by( 'login', $credential['user_login'] );
-
-				// If there is a valid user with the suppied email/ username.
-				if ( ( $potential_user ) && ( is_a( $potential_user, 'WP_User' ) ) ) {
-
-					// Check if they are already verified.
-					$user_verified_value = get_user_meta( $potential_user->ID, self::$user_meta_key_col, true );
-
-					// Set Admins as verified by default.
-					if ( user_can( $potential_user->ID, 'activate_plugins' ) ) {
-						$user_verified_value = '1';
-					}
-
-					// If the user hasn't been verified yet.
-					if ( '0' === $user_verified_value ) {
-
-						// return a response indicating unverified status.
-						$response['success'] = false;
-						$response['message'] = Config::get_settings_value( 'uo_frontend_login_notverified_error', 'FrontendLoginPlus', esc_html__( 'This account is not verified.', 'uncanny-learndash-toolkit' ) );
-						self::wp_send_json( $response, $response_code );
-					}
+				if ( ! $potential_user && is_email( $sanitized_login ) ) {
+					$potential_user = get_user_by( 'email', $sanitized_login );
 				}
+
+				// If the user hasn't been verified yet, return a response indicating unverified status.
+				if ( $potential_user instanceof \WP_User && self::is_user_unverified( $potential_user ) ) {
+					$response['success'] = false;
+					$response['message'] = Config::get_settings_value( 'uo_frontend_login_notverified_error', 'FrontendLoginPlus', esc_html__( 'This account is not verified.', 'uncanny-learndash-toolkit' ) );
+					self::wp_send_json( $response, $response_code );
+				}
+
+				// The lookup above can't see how other authenticate callbacks resolve the
+				// login, so enforce verification on the user wp_signon() actually resolves too.
+				add_filter( 'authenticate', array( __CLASS__, 'block_unverified_ajax_login' ), PHP_INT_MAX );
 			}
 
 			// At this point, either manual verification is disabled or the user has already been verified.
-			do_action( 'uo_toolkit_frontend_login_user_verified_before_signon', $response );
+			do_action( 'uo_toolkit_frontend_login_user_verified_before_signon', $response ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code).
 
 			// Allow plugins to override the signon process.
 			// Try logging in the user.
 			$user = wp_signon( $credential, $secure_cookie );
+
+			remove_filter( 'authenticate', array( __CLASS__, 'block_unverified_ajax_login' ), PHP_INT_MAX );
+
 			if ( is_wp_error( $user ) ) {
 				if ( ! empty( $user->get_error_message() ) ) {
 					$response['message'] = $user->get_error_message();
@@ -3569,8 +3626,8 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		}
 
 		// Decide the redirection it will only happen when user on login page
-		if ( isset( $_REQUEST['redirectTo'] ) ) {
-			$redirect_to = $_REQUEST['redirectTo'];
+		if ( isset( $_REQUEST['redirectTo'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce verified in self::require_valid_ajax_nonce() above.
+			$redirect_to = wp_unslash( $_REQUEST['redirectTo'] ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Nonce verified in self::require_valid_ajax_nonce() above; sanitized by self::sanitize_redirect_url() before it is returned.
 			// Redirect to HTTPS if user wants SSL.
 			if ( $secure_cookie && false !== strpos( $redirect_to, 'wp-admin' ) ) {
 				$redirect_to = preg_replace( '|^http://|', 'https://', $redirect_to );
@@ -3581,31 +3638,31 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 		$response['success'] = true;
 
-		$requested_redirect_to = isset( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : '';
+		$requested_redirect_to = isset( $_REQUEST['redirect_to'] ) ? wp_unslash( $_REQUEST['redirect_to'] ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Nonce verified in self::require_valid_ajax_nonce() above; passed raw to the login_redirect filter, as core does.
 
 		// Decide if there will be a redirect
 		$redirect_ignored = Config::get_settings_value( 'uo_frontend_login_modal_ignore_redirect', 'FrontendLoginPlus', false );
 
-		$redirect_ignored = apply_filters( 'uo_frontend_login_modal_ignore_redirect', $redirect_ignored, $redirect_to, $requested_redirect_to, $user );
+		$redirect_ignored = apply_filters( 'uo_frontend_login_modal_ignore_redirect', $redirect_ignored, $redirect_to, $requested_redirect_to, $user ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code).
 		$uo_login_modal   = false;
-		if ( isset( $_REQUEST['uo_is_login_modal'] ) && 1 === (int) $_REQUEST['uo_is_login_modal'] ) {
+		if ( isset( $_REQUEST['uo_is_login_modal'] ) && 1 === (int) $_REQUEST['uo_is_login_modal'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce verified in self::require_valid_ajax_nonce() above.
 			$uo_login_modal = true;
 		}
 
 		if ( 'on' === $redirect_ignored && true === $uo_login_modal ) {
 			$response['ignoredRedirectTo'] = true;
-			$response['message']           = __( 'You are now logged in' );
+			$response['message']           = __( 'You are now logged in', 'uncanny-learndash-toolkit' );
 		} else {
-			$response['redirectTo'] = apply_filters( 'login_redirect', $redirect_to, $requested_redirect_to, $user );
+			$response['redirectTo'] = apply_filters( 'login_redirect', $redirect_to, $requested_redirect_to, $user ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Core WordPress hook fired intentionally so other plugins can hook into this login redirect.
 		}
 
 		$response['user_id'] = $user->ID ?? null;
 
 		// Allow modifications.
-		$response = apply_filters( 'uo-login-action-response', $response );
+		$response = apply_filters( 'uo-login-action-response', $response ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code).
 
 		// Allow actions to be perform.
-		do_action( 'uo-login-action-before-json-response', $user );
+		do_action( 'uo-login-action-before-json-response', $user ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code).
 
 		// Disable external websites redirect.
 		$response['redirectTo'] = self::sanitize_redirect_url( $response['redirectTo'] );
@@ -3644,7 +3701,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	 */
 	public static function validate_redirect_url( $url = '' ) {
 
-		$is_internal = parse_url( get_site_url(), PHP_URL_HOST ) === parse_url( $url, PHP_URL_HOST );
+		$is_internal = wp_parse_url( get_site_url(), PHP_URL_HOST ) === wp_parse_url( $url, PHP_URL_HOST );
 
 		return $is_internal || empty( $url );
 
@@ -3661,10 +3718,10 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 		self::require_valid_ajax_nonce();
 
-		do_action( 'uo_toolkit_frontend_login_lost_password_before' );
+		do_action( 'uo_toolkit_frontend_login_lost_password_before' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code).
 
 		// validate inputs.
-		if ( ! isset( $_POST['email'] ) || empty( $_POST['email'] ) ) {
+		if ( ! isset( $_POST['email'] ) || empty( $_POST['email'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified in self::require_valid_ajax_nonce() above.
 			$response['success'] = false;
 			$response['message'] = Config::get_settings_value( 'uo_login_forgot_pass_invalid_creds', 'FrontendLoginPlus', esc_html__( 'Invalid username/email.', 'uncanny-learndash-toolkit' ) );
 			self::wp_send_json( $response, $response_code );
@@ -3675,14 +3732,14 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		// check if recaptcha is setup
 		if ( '' !== trim( $recaptcha_key ) && '' !== trim( $recaptcha_secrete_key ) ) {
 
-			if ( ! isset( $_POST['g-recaptcha-response'] ) ) {
+			if ( ! isset( $_POST['g-recaptcha-response'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified in self::require_valid_ajax_nonce() above.
 				$response['success'] = false;
 				$response['message'] = self::get_settings_value( 'uo_frontend_login_recaptchafailed_error', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
 				self::wp_send_json( $response, $response_code );
 			}
 
 			// make sure its filled
-			$recaptcha_response = sanitize_text_field( $_POST['g-recaptcha-response'] );
+			$recaptcha_response = sanitize_text_field( wp_unslash( $_POST['g-recaptcha-response'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified in self::require_valid_ajax_nonce() above.
 
 			if ( empty( trim( $recaptcha_response ) ) ) {
 				$response['success'] = false;
@@ -3699,7 +3756,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				self::wp_send_json( $response, $response_code );
 			}
 		}
-		$_POST['user_login'] = $_POST['email'];
+		$_POST['user_login'] = $_POST['email']; // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- Nonce verified in self::require_valid_ajax_nonce() above; copied raw for retrieve_password(), which mirrors core.
 		// remove old validation
 		remove_action(
 			'lostpassword_post',
@@ -3712,13 +3769,13 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 		if ( ! is_wp_error( $errors ) ) {
 			$response['success'] = true;
-			$template_to_load    = apply_filters( 'uo-login-template', Config::get_settings_value( 'uo_frontend_login_template', 'FrontendLoginPlus', 'default' ) );
+			$template_to_load    = apply_filters( 'uo-login-template', Config::get_settings_value( 'uo_frontend_login_template', 'FrontendLoginPlus', 'default' ) ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code).
 			if ( 'default' === $template_to_load ) {
 				$response['message'] = self::get_settings_value( 'uo_frontend_login_successsendemail', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
 				ob_start();
 				?>
 				<p>
-					<?php echo $response['message']; ?>
+					<?php echo wp_kses_post( $response['message'] ); ?>
 				</p>
 				<?php
 
@@ -3727,23 +3784,23 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				$response['message'] = self::get_settings_value( 'uo_frontend_login_successsendemail', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
 				ob_start();
 				?>
-				<?php do_action( 'uo_forgot_before_title' ); ?>
+				<?php do_action( 'uo_forgot_before_title' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code). ?>
 
 				<div class="ult-form__title">
-					<?php echo self::get_settings_value( 'uo_login_forgot_pass_title', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) ); ?>
+					<?php echo wp_kses_post( self::get_settings_value( 'uo_login_forgot_pass_title', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) ) ); ?>
 				</div>
 
-				<?php do_action( 'uo_forgot_before_success' ); ?>
+				<?php do_action( 'uo_forgot_before_success' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code). ?>
 
 				<div class="ult-form__row ult-form__row--validation">
 					<div class="ult-notice ult-notice--success">
-						<?php do_action( 'uo_forgot_before_success_message' ); ?>
-						<?php echo $response['message']; ?>
-						<?php do_action( 'uo_forgot_after_success_message' ); ?>
+						<?php do_action( 'uo_forgot_before_success_message' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code). ?>
+						<?php echo wp_kses_post( $response['message'] ); ?>
+						<?php do_action( 'uo_forgot_after_success_message' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code). ?>
 					</div>
 				</div>
 
-				<?php do_action( 'uo_forgot_after_success' ); ?>
+				<?php do_action( 'uo_forgot_after_success' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code). ?>
 				<?php
 
 				$response['message'] = ob_get_clean();
@@ -3783,15 +3840,15 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 	private static function retrieve_password() {
 		$errors = new \WP_Error();
 
-		if ( empty( $_POST['user_login'] ) || ! is_string( $_POST['user_login'] ) ) {
+		if ( empty( $_POST['user_login'] ) || ! is_string( $_POST['user_login'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Copy of core retrieve_password(); nonce verified by the caller uo_lostPass_action(), and get_user_by() sanitizes the lookup.
 			$errors->add( 'empty_username', __( '<strong>ERROR</strong>: Enter a username or email address.', 'uncanny-learndash-toolkit' ) );
-		} elseif ( strpos( $_POST['user_login'], '@' ) ) {
-			$user_data = get_user_by( 'email', trim( wp_unslash( $_POST['user_login'] ) ) );
+		} elseif ( strpos( $_POST['user_login'], '@' ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- Copy of core retrieve_password(); nonce verified by the caller uo_lostPass_action(), and get_user_by() sanitizes the lookup.
+			$user_data = get_user_by( 'email', trim( wp_unslash( $_POST['user_login'] ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Copy of core retrieve_password(); nonce verified by the caller uo_lostPass_action(), and get_user_by() sanitizes the lookup.
 			if ( empty( $user_data ) ) {
 				$errors->add( 'invalid_email', __( '<strong>ERROR</strong>: There is no account with that username or email address.', 'uncanny-learndash-toolkit' ) );
 			}
 		} else {
-			$login     = trim( $_POST['user_login'] );
+			$login     = trim( $_POST['user_login'] ); // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- Copy of core retrieve_password(); nonce verified by the caller uo_lostPass_action(), and get_user_by() sanitizes the lookup.
 			$user_data = get_user_by( 'login', $login );
 		}
 
@@ -3805,7 +3862,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		 *
 		 * @since 2.1.0
 		 */
-		do_action( 'lostpassword_post', $errors );
+		do_action( 'lostpassword_post', $errors ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Core WordPress hook fired intentionally so other plugins can hook into this lost-password request.
 
 		if ( $errors->has_errors() ) {
 			return $errors;
@@ -3859,7 +3916,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		 *
 		 * @since 2.8.0
 		 */
-		$title = apply_filters( 'retrieve_password_title', $title, $user_login, $user_data );
+		$title = apply_filters( 'retrieve_password_title', $title, $user_login, $user_data ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Core WordPress hook fired intentionally so other plugins can hook into this password reset email.
 
 		/**
 		 * Filters the message body of the password reset mail.
@@ -3874,7 +3931,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		 * @since 2.8.0
 		 * @since 4.1.0 Added `$user_login` and `$user_data` parameters.
 		 */
-		$message = apply_filters( 'retrieve_password_message', $message, $key, $user_login, $user_data );
+		$message = apply_filters( 'retrieve_password_message', $message, $key, $user_login, $user_data ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Core WordPress hook fired intentionally so other plugins can hook into this password reset email.
 
 		if ( $message && ! wp_mail( $user_email, wp_specialchars_decode( $title ), $message ) ) {
 			// Return error object instead of sending JSON directly
@@ -3901,7 +3958,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		self::require_valid_reset_password_nonce();
 
 		// validate inputs.
-		if ( ! isset( $_POST['password'] ) || empty( $_POST['password'] ) || ! isset( $_POST['passwordRepeat'] ) || empty( $_POST['passwordRepeat'] ) ) {
+		if ( ! isset( $_POST['password'] ) || empty( $_POST['password'] ) || ! isset( $_POST['passwordRepeat'] ) || empty( $_POST['passwordRepeat'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified in self::require_valid_reset_password_nonce() above.
 			$response['success'] = false;
 			$response['message'] = esc_html__( 'Password fields cannot be empty.', 'uncanny-learndash-toolkit' );
 			self::wp_send_json( $response, $response_code );
@@ -3913,14 +3970,14 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		// check if recaptcha is setup
 		if ( '' !== trim( $recaptcha_key ) && '' !== trim( $recaptcha_secrete_key ) ) {
 
-			if ( ! isset( $_POST['g-recaptcha-response'] ) ) {
+			if ( ! isset( $_POST['g-recaptcha-response'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified in self::require_valid_reset_password_nonce() above.
 				$response['success'] = false;
 				$response['message'] = self::get_settings_value( 'uo_frontend_login_recaptchafailed_error', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
 				self::wp_send_json( $response, $response_code );
 			}
 
 			// make sure its filled
-			$recaptcha_response = sanitize_text_field( $_POST['g-recaptcha-response'] );
+			$recaptcha_response = sanitize_text_field( wp_unslash( $_POST['g-recaptcha-response'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified in self::require_valid_reset_password_nonce() above.
 
 			if ( empty( trim( $recaptcha_response ) ) ) {
 				$response['success'] = false;
@@ -3939,14 +3996,14 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		}
 
 		$rp_cookie = 'wp-resetpass-' . COOKIEHASH;
-		if ( isset( $_COOKIE[ $rp_cookie ] ) && 0 < strpos( $_COOKIE[ $rp_cookie ], ':' ) ) {
+		if ( isset( $_COOKIE[ $rp_cookie ] ) && 0 < strpos( $_COOKIE[ $rp_cookie ], ':' ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- Mirrors core wp-login.php; the reset cookie is validated by check_password_reset_key().
 
-			list( $rp_login, $rp_key ) = explode( ':', wp_unslash( $_COOKIE[ $rp_cookie ] ), 2 );
+			list( $rp_login, $rp_key ) = explode( ':', wp_unslash( $_COOKIE[ $rp_cookie ] ), 2 ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Mirrors core wp-login.php; the reset cookie is validated by check_password_reset_key().
 
 			$user = check_password_reset_key( $rp_key, $rp_login );
 
 		} else {
-			$user = new \WP_Error( 'invalid_key', __( 'Invalid key.' ) );
+			$user = new \WP_Error( 'invalid_key', __( 'Invalid key.' ) ); // phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- Core string, translated by WordPress.
 		}
 
 		// Password reset cookie was not set OR password rest key check failed
@@ -3956,13 +4013,13 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			self::wp_send_json( $response, $response_code );
 		}
 
-		if ( ! isset( $_POST['password'] ) || ! isset( $_POST['passwordRepeat'] ) ) {
+		if ( ! isset( $_POST['password'] ) || ! isset( $_POST['passwordRepeat'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified in self::require_valid_reset_password_nonce() above.
 
 			$response['success'] = false;
 			$response['message'] = esc_html__( 'Password fields cannot be empty.', 'uncanny-learndash-toolkit' );
 			self::wp_send_json( $response, $response_code );
 
-		} elseif ( $_POST['password'] !== $_POST['passwordRepeat'] ) {
+		} elseif ( $_POST['password'] !== $_POST['passwordRepeat'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified in self::require_valid_reset_password_nonce() above.
 			$response['success'] = false;
 			$response['message'] = self::get_settings_value( 'uo_frontend_login_passwordnotmatch_error', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
 			self::wp_send_json( $response, $response_code );
@@ -3972,7 +4029,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		$_password_strength = self::get_settings_value( 'uo_frontendloginplus_reset_password_strength', __CLASS__ );
 
 		if ( $_password_strength === 'on' ) {
-			$password_ok = self::slt_fsp_password_strength( $_POST['password'], $user->user_login );
+			$password_ok = self::slt_fsp_password_strength( $_POST['password'], $user->user_login ); // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- Password used raw, as core does (never sanitized); nonce verified in self::require_valid_reset_password_nonce() above.
 			if ( $password_ok < 3 ) {
 				$response['success'] = false;
 				$response['message'] = self::get_settings_value( 'uo_frontend_login_passwordstrength_error', __CLASS__, 'Please enter a password of minimum 8 characters including at least 1 uppercase letter, 1 lowercase letter and 1 number.', self::get_class_settings( '', true ) );
@@ -3981,21 +4038,21 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		}
 
 		// Finally reset Password
-		reset_password( $user, $_POST['password'] );
+		reset_password( $user, $_POST['password'] ); // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- Password used raw, as core does (never sanitized); nonce verified in self::require_valid_reset_password_nonce() above.
 		$response['success'] = true;
 		$response['message'] = self::get_settings_value( 'uo_frontend_login_reset_successful', __CLASS__, '%placeholder%', self::get_class_settings( '', true ) );
 
 		ob_start();
 
-		do_action( 'uo_login_before_reset_success' );
+		do_action( 'uo_login_before_reset_success' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code).
 		?>
 
 		<div class="ult-notice ult-notice--success">
-			<?php do_action( 'uo_login_before_reset_success_message' ); ?>
+			<?php do_action( 'uo_login_before_reset_success_message' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code). ?>
 
-			<?php echo $response['message']; ?>
+			<?php echo wp_kses_post( $response['message'] ); ?>
 
-			<?php do_action( 'uo_login_before_reset_success_message' ); ?>
+			<?php do_action( 'uo_login_before_reset_success_message' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code). ?>
 		</div>
 		<?php
 		$response['message'] = ob_get_clean();
@@ -4015,7 +4072,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 		// The token is bound to one person's pending reset, so a shared cache must never store this page.
 		if ( '' !== $reset_password_nonce && ! defined( 'DONOTCACHEPAGE' ) ) {
-			define( 'DONOTCACHEPAGE', true );
+			define( 'DONOTCACHEPAGE', true ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound -- Core/cache-plugin convention constant; must keep this exact name.
 		}
 
 		// Add the default data
@@ -4100,11 +4157,18 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 
 			</script>
 
-			<script
-				src="https://www.google.com/recaptcha/api.js?onload=UncannyToolkitFrontendLoginReCaptchaInit&render=explicit"
-				async defer></script>
-
 			<?php
+			// Runs on wp_print_scripts (head), so the footer still prints this; the callbacks above are defined first.
+			wp_enqueue_script(
+				'uncannyowl-learndash-toolkit-recaptcha',
+				'https://www.google.com/recaptcha/api.js?onload=UncannyToolkitFrontendLoginReCaptchaInit&render=explicit',
+				array(),
+				null, // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion -- Google's api.js is unversioned; a ?ver= query would be meaningless.
+				array(
+					'in_footer' => true,
+					'strategy'  => 'defer',
+				)
+			);
 		}
 	}
 
@@ -4136,7 +4200,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 			}*/
 			if ( ( strpos( $menu_item->url, '#ult-modal-open' ) !== false ) ) {
 				if ( ! isset( $post->ID ) || $post->ID !== self::get_login_redirect_page_id() ) {
-					if ( apply_filters( 'uo_login_menu_item_process', true, $menu_item, $menu_args ) ) {
+					if ( apply_filters( 'uo_login_menu_item_process', true, $menu_item, $menu_args ) ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code).
 						add_action(
 							'wp_footer',
 							array(
@@ -4162,7 +4226,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		if ( true === $is_included_ult_login ) {
 			return false;
 		}
-		$is_included_ult_login = true;
+		$is_included_ult_login = true; // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Public global kept for backward compatibility.
 
 		ob_start();
 		add_filter( 'login_form_bottom', array( __CLASS__, 'uo_login_modal_hidden_field' ), 20, 2 );
@@ -4170,7 +4234,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		remove_filter( 'login_form_bottom', array( __CLASS__, 'uo_login_modal_hidden_field' ), 20 );
 		$uo_login_model_html = ob_get_clean();
 		if ( ( isset( $uo_login_model_html ) ) && ( ! empty( $uo_login_model_html ) ) ) {
-			echo $uo_login_model_html;
+			echo $uo_login_model_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Output of the frontend-login/login-modal.php template buffered above; escaped in the template.
 		}
 	}
 
@@ -4193,9 +4257,9 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 		if ( ! is_user_logged_in() ) {
 			ob_start();
 			?>
-			<a href="<?php echo $login_page; ?>"
+			<a href="<?php echo esc_url( $login_page ); ?>"
 			   class="ult-modal-open ult-login-modal-open" data-id="ult-login">
-				<?php echo $uo_frontend_login_modal_button_title_label; ?>
+				<?php echo wp_kses_post( $uo_frontend_login_modal_button_title_label ); ?>
 			</a>
 			<?php
 			self::load_login_modal();
@@ -4223,7 +4287,7 @@ class FrontendLoginPlus extends Config implements RequiredFunctions {
 				'body' => array(
 					'secret'   => $recaptcha_secrete_key,
 					'response' => $recaptcha_response,
-					'remoteip' => $_SERVER['REMOTE_ADDR'],
+					'remoteip' => isset( $_SERVER['REMOTE_ADDR'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) ) : null,
 				),
 			)
 		);

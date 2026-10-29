@@ -171,7 +171,7 @@ class Breadcrumbs extends Config implements RequiredFunctions {
 		$get_dashboard_link       = self::get_settings_value( 'uncanny-breadcrumbs-dashboard-link', __CLASS__ );
 		$get_dashboard_separator  = self::get_settings_value( 'uncanny-breadcrumbs-dashboard-separator', __CLASS__ );
 		$get_include_current_page = self::get_settings_value( 'uncanny-breadcrumbs-include-current-page', __CLASS__ );
-		$course_archive_link      = self::uo_build_anchor_links( get_post_type_archive_link( 'sfwd-courses' ), esc_html__( $course_label, 'uncanny-learndash-toolkit' ), 'course-archive-link' );
+		$course_archive_link      = self::uo_build_anchor_links( get_post_type_archive_link( 'sfwd-courses' ), esc_html( $course_label ), 'course-archive-link' );
 		//$course_archive_link     = self::uo_build_anchor_links( get_post_type_archive_link( 'sfwd-courses' ), esc_html__( 'Courses', 'uncanny-learndash-toolkit' ) );
 
 		if ( strlen( trim( $get_dashboard_text ) ) ) {
@@ -363,7 +363,7 @@ class Breadcrumbs extends Config implements RequiredFunctions {
 					$trail[] = get_the_author(); // If its Author's Archives
 				}
 			} elseif ( is_post_type_archive( 'sfwd-courses' ) ) {
-				$trail[] = esc_html__( $course_label, 'uncanny-learndash-toolkit' );
+				$trail[] = esc_html( $course_label );
 			} elseif ( is_post_type_archive( 'product' ) ) {
 				$trail[] = esc_html__( 'Shop', 'uncanny-learndash-toolkit' );
 			}
@@ -413,7 +413,7 @@ class Breadcrumbs extends Config implements RequiredFunctions {
 			esc_html( $title )
 		);
 
-		return apply_filters( 'uo_build_anchor_links', $link, $permalink, $title, $type );
+		return apply_filters( 'uo_build_anchor_links', $link, $permalink, $title, $type ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code).
 
 	}
 

@@ -18,7 +18,7 @@
             "time": "2025-07-21T20:05:36+00:00",
             "default-branch": true,
             "type": "library",
-            "installation-source": "source",
+            "installation-source": "dist",
             "scripts": {
                 "scope": [
                     "php-scoper add-prefix --config=scoper.inc.php --output-dir=scoped --force"

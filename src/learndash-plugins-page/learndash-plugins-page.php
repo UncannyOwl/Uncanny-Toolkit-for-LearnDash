@@ -7,6 +7,10 @@
 
 namespace Uncanny_Owl;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Allow class overwrite.
  */
