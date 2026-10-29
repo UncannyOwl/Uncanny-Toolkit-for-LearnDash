@@ -7,6 +7,10 @@ use WP_Error;
 use WP_Upgrader;
 use WP_Filesystem_Base;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /** \WP_Upgrader class */
 require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
 
@@ -105,7 +109,7 @@ class PluginSilentUpgrader extends Plugin_Upgrader {
 		 * @since 4.3.0
 		 *
 		 */
-		$options = apply_filters( 'upgrader_package_options', $options );
+		$options = apply_filters( 'upgrader_package_options', $options ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Core WordPress hook fired intentionally so other plugins can hook into this upgrade.
 
 		if ( ! $options['is_multi'] ) {
 			// call $this->header separately if running multiple times.
@@ -237,7 +241,7 @@ class PluginSilentUpgrader extends Plugin_Upgrader {
 			 * @since 3.6.0
 			 * @since 3.7.0 Added to WP_Upgrader::run().
 			 */
-			do_action( 'upgrader_process_complete', $this, $options['hook_extra'] );
+			do_action( 'upgrader_process_complete', $this, $options['hook_extra'] ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Core WordPress hook fired intentionally so other plugins can hook into this upgrade.
 
 			$this->skin->footer();
 		}
@@ -273,7 +277,7 @@ class PluginSilentUpgrader extends Plugin_Upgrader {
 		 * @since 5.5.0 Added the `$hook_extra` parameter.
 		 *
 		 */
-		$reply = apply_filters( 'upgrader_pre_download', false, $package, $this, $hook_extra );
+		$reply = apply_filters( 'upgrader_pre_download', false, $package, $this, $hook_extra ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Core WordPress hook fired intentionally so other plugins can hook into this upgrade.
 		if ( false !== $reply ) {
 			return $reply;
 		}
@@ -331,11 +335,11 @@ class PluginSilentUpgrader extends Plugin_Upgrader {
 		}
 
 		// Unzip package to working directory.
-		$result = unzip_file( $package, $working_dir );
+		$result = unzip_file( $package, $working_dir ); // phpcs:ignore PluginCheck.CodeAnalysis.WriteFile.PluginDirectoryWrite -- Unzips into core's wp-content/upgrade/ working folder (as WP_Upgrader::unpack_package() does), not into the plugin folder.
 
 		// Once extracted, delete the package if required.
 		if ( $delete_package ) {
-			unlink( $package );
+			wp_delete_file( $package );
 		}
 
 		if ( is_wp_error( $result ) ) {
@@ -421,7 +425,7 @@ class PluginSilentUpgrader extends Plugin_Upgrader {
 		 * @since 2.8.0
 		 *
 		 */
-		$res = apply_filters( 'upgrader_pre_install', true, $args['hook_extra'] );
+		$res = apply_filters( 'upgrader_pre_install', true, $args['hook_extra'] ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Core WordPress hook fired intentionally so other plugins can hook into this upgrade.
 
 		if ( is_wp_error( $res ) ) {
 			return $res;
@@ -456,7 +460,7 @@ class PluginSilentUpgrader extends Plugin_Upgrader {
 		 * @since 4.4.0 The $hook_extra parameter became available.
 		 *
 		 */
-		$source = apply_filters( 'upgrader_source_selection', $source, $remote_source, $this, $args['hook_extra'] );
+		$source = apply_filters( 'upgrader_source_selection', $source, $remote_source, $this, $args['hook_extra'] ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Core WordPress hook fired intentionally so other plugins can hook into this upgrade.
 
 		if ( is_wp_error( $source ) ) {
 			return $source;
@@ -501,7 +505,7 @@ class PluginSilentUpgrader extends Plugin_Upgrader {
 			 * @since 2.8.0
 			 *
 			 */
-			$removed = apply_filters( 'upgrader_clear_destination', $removed, $local_destination, $remote_destination, $args['hook_extra'] );
+			$removed = apply_filters( 'upgrader_clear_destination', $removed, $local_destination, $remote_destination, $args['hook_extra'] ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Core WordPress hook fired intentionally so other plugins can hook into this upgrade.
 
 			if ( is_wp_error( $removed ) ) {
 				return $removed;
@@ -556,7 +560,7 @@ class PluginSilentUpgrader extends Plugin_Upgrader {
 		 * @since 2.8.0
 		 *
 		 */
-		$res = apply_filters( 'upgrader_post_install', true, $args['hook_extra'], $this->result );
+		$res = apply_filters( 'upgrader_post_install', true, $args['hook_extra'], $this->result ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Core WordPress hook fired intentionally so other plugins can hook into this upgrade.
 
 		if ( is_wp_error( $res ) ) {
 			$this->result = $res;
@@ -607,7 +611,7 @@ class PluginSilentUpgrader extends Plugin_Upgrader {
 
 		$result = parent::install( $package, $args );
 		if ( true === $result ) {
-			do_action( 'auto_plugin_install-plugin_installed', $package, __NAMESPACE__ );
+			do_action( 'auto_plugin_install-plugin_installed', $package, __NAMESPACE__ ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public one-click installer hook (listed in hook-docs) kept for backward compatibility.
 		}
 
 		return $result;

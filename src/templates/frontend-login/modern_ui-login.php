@@ -2,11 +2,16 @@
 
 namespace uncanny_learndash_toolkit;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Template included inside FrontendLoginPlus::uo_login_ui(); variables are local to that method.
+
 /**
  * Get required data to render the login form
  */
 
-$login = ( isset( $_GET['login'] ) ) ? $_GET['login'] : 'not-set';
+$login = ( isset( $_GET['login'] ) ) ? sanitize_text_field( wp_unslash( $_GET['login'] ) ) : 'not-set'; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only display parameter; no state change.
 
 switch ( $login ){
 	case 'failed':
@@ -42,6 +47,7 @@ if ( $message_warning ){
 	$login_error = $message_warning;
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code).
 $login_error = apply_filters( 'uo_frontend_login_error', $login_error, $login, '', $message_warning );
 
 $login = (object) [
@@ -72,6 +78,7 @@ $login = (object) [
  * the FrontendLoginPlus class: src/classes/frontend-login-plus.php
  */
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code).
 $login_form_args = apply_filters( 'uo_frontend_login_args', array_merge( FrontendLoginPlus::fetch_login_form_args(), [
 	'form_id'     => 'ult-login-form',
 	'id_username' => 'ult-login-email',
@@ -115,17 +122,18 @@ add_filter( 'login_form_middle', function( $content ){
 	ob_start();
 
 	// Do uo_login_before_validation
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code).
 	do_action( 'uo_login_before_validation' );
 
 	?>
 
-	<div class="ult-form__validation <?php echo implode( ' ', $css_classes ); ?>">
+	<div class="ult-form__validation <?php echo esc_attr( implode( ' ', $css_classes ) ); ?>">
 		<div class="ult-notice ult-notice--error">
-			<?php do_action( 'uo_login_before_validation_message' ); ?>
+			<?php do_action( 'uo_login_before_validation_message' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code). ?>
 
-			<span class="ult-notice-text"><?php echo $error; ?></span>
+			<span class="ult-notice-text"><?php echo wp_kses_post( $error ); ?></span>
 
-			<?php do_action( 'uo_login_after_validation_message' ); ?>
+			<?php do_action( 'uo_login_after_validation_message' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code). ?>
 		</div>
 	</div>
 
@@ -142,7 +150,7 @@ add_filter( 'login_form_middle', function( $content ){
 
 ?>
 
-<?php do_action( 'uo_login_before_container' ); ?>
+<?php do_action( 'uo_login_before_container' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code). ?>
 
 <?php 
 // Enqueue color overrides for Modern UI
@@ -151,7 +159,7 @@ if ( FrontendLoginPlus::is_modern_ui() ) {
 }
 ?>
 
-<div id="ult-login"<?php echo FrontendLoginPlus::is_modern_ui() ? ' class="' . FrontendLoginPlus::get_modern_ui_theme() . '"' : ''; ?>>
+<div id="ult-login"<?php echo FrontendLoginPlus::is_modern_ui() ? ' class="' . esc_attr( FrontendLoginPlus::get_modern_ui_theme() ) . '"' : ''; ?>>
 
 	<div class="ult-box">
 
@@ -159,39 +167,39 @@ if ( FrontendLoginPlus::is_modern_ui() ) {
 			
 			<?php if ( isset( $reset_password_sucess ) && ! empty( $reset_password_sucess ) ){ ?>
 
-				<?php do_action( 'uo_login_before_reset_success' ); ?>
+				<?php do_action( 'uo_login_before_reset_success' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code). ?>
 
 				<div class="ult-notice ult-notice--success">
-					<?php do_action( 'uo_login_before_reset_success_message' ); ?>
+					<?php do_action( 'uo_login_before_reset_success_message' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code). ?>
 
-					<?php echo $reset_password_sucess; ?>
+					<?php echo wp_kses_post( $reset_password_sucess ); ?>
 
-					<?php do_action( 'uo_login_before_reset_success_message' ); ?>
+					<?php do_action( 'uo_login_before_reset_success_message' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code). ?>
 				</div>
 
 			<?php } ?>
 
-			<?php do_action( 'uo_login_before_title' ); ?>
+			<?php do_action( 'uo_login_before_title' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code). ?>
 
 			<?php if ( $login->config->show_title ){ ?>
 
 				<div class="ult-form__title">
-					<?php echo $login->strings->title; ?>
+					<?php echo wp_kses_post( $login->strings->title ); ?>
 				</div>
 
 			<?php } ?>
 
-			<?php do_action( 'uo_login_before_description' ); ?>
+			<?php do_action( 'uo_login_before_description' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code). ?>
 
 			<?php if ( $login->config->show_description ){ ?>
 
 				<div class="ult-form__description">
-					<?php echo $login->strings->description; ?>
+					<?php echo wp_kses_post( $login->strings->description ); ?>
 				</div>
 
 			<?php } ?>
 
-			<?php do_action( 'uo_login_before_form' ); ?>
+			<?php do_action( 'uo_login_before_form' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code). ?>
 
 			<div class="ult-form__container">
 
@@ -199,6 +207,7 @@ if ( FrontendLoginPlus::is_modern_ui() ) {
 					if ( uo_toolkit_2fa_form_exists() ) {
 						uo_toolkit_2fa_render_authentication_form();
 					} else {
+						// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Core WordPress hook fired intentionally so other plugins can hook into this login form.
 						do_action( 'login_form' );
 						wp_login_form( $login_form_args );
 					}
@@ -206,35 +215,35 @@ if ( FrontendLoginPlus::is_modern_ui() ) {
 
 			</div>
 
-			<?php do_action( 'uo_login_before_footer' ); ?>
+			<?php do_action( 'uo_login_before_footer' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code). ?>
 
 		</div>
 
 		<div class="ult-form__footer">
 
-			<?php do_action( 'uo_login_before_forgot_password' ); ?>
+			<?php do_action( 'uo_login_before_forgot_password' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code). ?>
 
 			<div class="ult-form-footer__forgot-password">
-				<a id="ult-form-footer-forgot-password" href="<?php echo $login->urls->forgot_password; ?>">
-					<?php echo $login->strings->forgot_password; ?>
+				<a id="ult-form-footer-forgot-password" href="<?php echo esc_url( $login->urls->forgot_password ); ?>">
+					<?php echo wp_kses_post( $login->strings->forgot_password ); ?>
 				</a>
 			</div>
 
 			<?php if ( $login->config->can_register ){ ?>
 
-				<?php do_action( 'uo_login_before_register' ); ?>
+				<?php do_action( 'uo_login_before_register' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code). ?>
 
 				<div class="ult-form-footer__signup">
-					<a href="<?php echo $login->urls->register; ?>"><?php echo $login->strings->register; ?></a>
+					<a href="<?php echo esc_url( $login->urls->register ); ?>"><?php echo wp_kses_post( $login->strings->register ); ?></a>
 				</div>
 
-				<?php do_action( 'uo_login_after_register' ); ?>
+				<?php do_action( 'uo_login_after_register' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code). ?>
 
 			<?php } ?>
 
 		</div>
 
-		<?php do_action( 'uo_login_after_footer' ); ?>
+		<?php do_action( 'uo_login_after_footer' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code). ?>
 
 	</div>
 
@@ -247,4 +256,4 @@ if ( FrontendLoginPlus::is_modern_ui() ) {
 	})
 </script>
 
-<?php do_action( 'uo_login_after_container' ); ?>
+<?php do_action( 'uo_login_after_container' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code). ?>

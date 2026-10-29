@@ -7,12 +7,16 @@
  * Plugin URI:          https://www.uncannyowl.com/uncanny-learndash-toolkit/
  * Text Domain:         uncanny-learndash-toolkit
  * Domain Path:         /languages
- * License:             GPLv3
- * License URI:         https://www.gnu.org/licenses/gpl-3.0.html
- * Version:             3.8.2
+ * License:             GPLv2 or later
+ * License URI:         https://www.gnu.org/licenses/gpl-2.0.html
+ * Version:             3.8.3
  * Requires at least:   6.3
  * Requires PHP:        7.4
 */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 // All Class instance are store in Global Variable $uncanny_learndash_toolkit
 global $uncanny_learndash_toolkit;
@@ -22,7 +26,7 @@ if ( ! defined( 'UNCANNY_TOOLKIT_VERSION' ) ) {
 	/**
 	 *
 	 */
-	define( 'UNCANNY_TOOLKIT_VERSION', '3.8.2' );
+	define( 'UNCANNY_TOOLKIT_VERSION', '3.8.3' );
 }
 
 // Define prefix
@@ -84,6 +88,7 @@ add_action( 'init', 'uncanny_learndash_toolkit_text_domain' );
  *
  */
 function uncanny_learndash_toolkit_text_domain() {
+	// phpcs:ignore PluginCheck.CodeAnalysis.DiscouragedFunctions.load_plugin_textdomainFound -- Loads the translations bundled in /languages, which WordPress does not load on its own.
 	load_plugin_textdomain( 'uncanny-learndash-toolkit', false, basename( UNCANNY_TOOLKIT_FILE ) . '/languages/' );
 }
 
@@ -96,7 +101,7 @@ $uncanny_learndash_toolkit_plugin_basename = plugin_basename( UNCANNY_TOOLKIT_FI
  *
  * @return mixed
  */
-function uo_settings_link( $links ) {
+function uo_settings_link( $links ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Public function kept for backward compatibility.
 	$settings_link = sprintf( '<a href="%s">%s</a>', admin_url( 'admin.php?page=uncanny-toolkit' ), __( 'Modules', 'uncanny-learndash-toolkit' ) );
 	array_unshift( $links, $settings_link );
 
@@ -110,7 +115,7 @@ add_filter( 'plugin_action_links_' . $uncanny_learndash_toolkit_plugin_basename,
  *
  * @return mixed
  */
-function uo_upgrade_to_pro_link( $links ) {
+function uo_upgrade_to_pro_link( $links ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Public function kept for backward compatibility.
 	if ( ! defined( 'UNCANNY_TOOLKIT_PRO_PATH' ) ) {
 		$settings_link = sprintf( '<a href="%s" target="_blank" style="color: rgb(0, 163, 42); font-weight: 700;">%s</a>', 'https://www.uncannyowl.com/downloads/uncanny-learndash-toolkit-pro/?utm_source=uncanny_toolkit&utm_medium=plugins_page&utm_content=update_to_pro', __( 'Upgrade to Pro', 'uncanny-learndash-toolkit' ) );
 
@@ -134,8 +139,7 @@ require_once UNCANNY_TOOLKIT_DIR . '/src/includes/uo-toolkit-2fa-functions.php';
 // Load all plugin classes(functionality)
 require_once UNCANNY_TOOLKIT_DIR . '/src/boot.php';
 
-$boot                            = '\uncanny_learndash_toolkit\Boot';
-$uncanny_learndash_toolkit_class = new $boot();
+$uncanny_learndash_toolkit_class = new \uncanny_learndash_toolkit\Boot();
 
 /**
  * Load notifications.
@@ -144,7 +148,7 @@ require_once __DIR__ . '/src/notifications/notifications.php';
 
 if ( class_exists( '\Uncanny_Owl\Notifications' ) ) {
 
-	$notifications = new \Uncanny_Owl\Notifications();
+	$uncanny_learndash_toolkit_notifications = new \Uncanny_Owl\Notifications();
 
 	// On activate, persists/update `uncanny_owl_over_time_toolkit-free`.
 	register_activation_hook(
@@ -157,9 +161,9 @@ if ( class_exists( '\Uncanny_Owl\Notifications' ) ) {
 	// Initiate the Notifications handler, but only load once.
 	if ( false === \Uncanny_Owl\Notifications::$loaded ) {
 
-		$notifications::$loaded = true;
+		\Uncanny_Owl\Notifications::$loaded = true; // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Static property of the Notifications class, not a global variable.
 
-		add_action( 'admin_init', array( $notifications, 'init' ) );
+		add_action( 'admin_init', array( $uncanny_learndash_toolkit_notifications, 'init' ) );
 
 	}
 }

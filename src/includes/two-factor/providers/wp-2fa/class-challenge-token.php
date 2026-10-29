@@ -83,12 +83,12 @@ class Challenge_Token {
 	 */
 	private function get_request_token() {
 		// The login nonce inside the token is verified by WP 2FA, so there is no WordPress nonce to check here.
-		if ( isset( $_POST[ self::PARAM ] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
-			return sanitize_text_field( wp_unslash( $_POST[ self::PARAM ] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
+		if ( isset( $_POST[ self::PARAM ] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Signed challenge token: resolve() verifies its HMAC, and the login nonce it carries is verified before any code is accepted.
+			return sanitize_text_field( wp_unslash( $_POST[ self::PARAM ] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Signed challenge token: resolve() verifies its HMAC, and the login nonce it carries is verified before any code is accepted.
 		}
 
-		if ( isset( $_GET[ self::PARAM ] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-			return sanitize_text_field( wp_unslash( $_GET[ self::PARAM ] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		if ( isset( $_GET[ self::PARAM ] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Signed challenge token: resolve() verifies its HMAC, and the login nonce it carries is verified before any code is accepted.
+			return sanitize_text_field( wp_unslash( $_GET[ self::PARAM ] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Signed challenge token: resolve() verifies its HMAC, and the login nonce it carries is verified before any code is accepted.
 		}
 
 		return '';

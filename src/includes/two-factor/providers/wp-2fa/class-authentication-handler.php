@@ -48,14 +48,19 @@ class Authentication_Handler {
 	 * @param string             $password The user's password (unused).
 	 * @return \WP_User|\WP_Error The user object or error.
 	 */
-	public function intercept_login_attempt( $user, $password ) {
-		// Skip if this is an error or AJAX request.
-		if ( is_wp_error( $user ) || wp_doing_ajax() ) {
+	public function intercept_login_attempt( $user, $username = '', $password = '' ) {
+		// This runs on the authenticate filter at PHP_INT_MAX. Act only when core has
+		// resolved a real user, i.e. the password has already been verified; a null or
+		// WP_Error result (no/failed login) passes straight through.
+		if ( ! $user instanceof \WP_User ) {
 			return $user;
 		}
 
-		// Skip if we're already in a 2FA challenge.
-		if ( isset( $_GET['2fa_challenge'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		// The toolkit AJAX login (ult-login) carries out its own 2FA hand-off in
+		// add_2fa_response_data(); skip that one request so the challenge isn't issued
+		// twice. Any other AJAX login still gets intercepted here.
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Identifies the ult-login request, whose handler verifies the AJAX nonce and runs its own 2FA hand-off in add_2fa_response_data().
+		if ( wp_doing_ajax() && isset( $_POST['action'] ) && 'ult-login' === sanitize_key( wp_unslash( $_POST['action'] ) ) ) {
 			return $user;
 		}
 
@@ -64,6 +69,18 @@ class Authentication_Handler {
 
 		if ( empty( $enabled_method ) || 'unknown' === $enabled_method ) {
 			return $user; // No 2FA required.
+		}
+
+		// Non-interactive auth (REST, XML-RPC, and the Application Passwords flow that runs
+		// under them) cannot complete a browser challenge, so this must not destroy the
+		// user's sessions and emit a 302 the client can't follow. Refuse password auth for a
+		// 2FA account over those transports instead; Application Passwords authenticate on
+		// their own filter and never reach this point.
+		if ( ( defined( 'REST_REQUEST' ) && REST_REQUEST ) || ( defined( 'XMLRPC_REQUEST' ) && XMLRPC_REQUEST ) ) {
+			return new \WP_Error(
+				'uo_2fa_required',
+				__( 'Two-factor authentication is required. Please sign in through the website.', 'uncanny-learndash-toolkit' )
+			);
 		}
 
 		// Destroy current session and create login nonce.
@@ -91,15 +108,16 @@ class Authentication_Handler {
 	 *
 	 * @param int    $user_id The user ID.
 	 * @param string $token   The challenge token of the login being completed.
+	 * @param string $nonce   The login nonce carried by that token.
 	 * @return void
 	 */
-	public function handle_primary_code_submission( $user_id, $token ) {
-		if ( ! isset( $_POST['authcode'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
+	public function handle_primary_code_submission( $user_id, $token, $nonce = '' ) {
+		if ( ! isset( $_POST['authcode'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reached only after the form handler verifies the signed challenge token and the WP 2FA login nonce.
 			$this->redirect_manager->redirect_with_error( __( 'Please enter your authentication code.', 'uncanny-learndash-toolkit' ), $token );
 			return;
 		}
 
-		$code = sanitize_text_field( wp_unslash( $_POST['authcode'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
+		$code = sanitize_text_field( wp_unslash( $_POST['authcode'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reached only after the form handler verifies the signed challenge token and the WP 2FA login nonce.
 
 		// Validate code format.
 		if ( ! preg_match( '/^\d{6}$/', $code ) ) {
@@ -107,23 +125,7 @@ class Authentication_Handler {
 			return;
 		}
 
-		// Validate the 2FA code.
-		$result = Helper::validate_2fa_token( $user_id, $code );
-
-		if ( is_wp_error( $result ) ) {
-			$this->redirect_manager->redirect_with_error( $result->get_error_message(), $token );
-			return;
-		}
-
-		// Early exit for failed validation.
-		if ( ! isset( $result['status'] ) || ! $result['status'] ) {
-			$error_message = isset( $result['message'] ) ? $result['message'] : __( 'Invalid code. Please try again.', 'uncanny-learndash-toolkit' );
-			$this->redirect_manager->redirect_with_error( $error_message, $token );
-			return;
-		}
-
-		// Success - handle authentication.
-		$this->handle_successful_2fa( $user_id, $result );
+		$this->complete_login( $user_id, $code, '', $token, $nonce );
 	}
 
 	/**
@@ -131,15 +133,16 @@ class Authentication_Handler {
 	 *
 	 * @param int    $user_id The user ID.
 	 * @param string $token   The challenge token of the login being completed.
+	 * @param string $nonce   The login nonce carried by that token.
 	 * @return void
 	 */
-	public function handle_backup_code_submission( $user_id, $token ) {
-		if ( ! isset( $_POST['backupcode'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
+	public function handle_backup_code_submission( $user_id, $token, $nonce = '' ) {
+		if ( ! isset( $_POST['backupcode'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reached only after the form handler verifies the signed challenge token and the WP 2FA login nonce.
 			$this->redirect_manager->redirect_with_error( __( 'Please enter your backup code.', 'uncanny-learndash-toolkit' ), $token );
 			return;
 		}
 
-		$code = sanitize_text_field( wp_unslash( $_POST['backupcode'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
+		$code = sanitize_text_field( wp_unslash( $_POST['backupcode'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Reached only after the form handler verifies the signed challenge token and the WP 2FA login nonce.
 
 		// Validate backup code format.
 		if ( empty( $code ) || ! preg_match( '/^[a-zA-Z0-9]+$/', $code ) ) {
@@ -147,16 +150,77 @@ class Authentication_Handler {
 			return;
 		}
 
-		$result = Helper::validate_2fa_token( $user_id, $code, 'backup_codes' );
+		$this->complete_login( $user_id, $code, 'backup_codes', $token, $nonce );
+	}
 
-		// Early exit for failed validation.
-		if ( ! isset( $result['status'] ) || ! $result['status'] ) {
-			$error_message = isset( $result['message'] ) ? $result['message'] : __( 'Invalid backup code. Please try again.', 'uncanny-learndash-toolkit' );
+	/**
+	 * Validate a submitted code under WP 2FA's rate limit, then log in on success.
+	 *
+	 * Mirrors WP 2FA's own REST controller: reserve an attempt before validating, count
+	 * failures, and end the challenge once this sign-in's attempts are spent or the account
+	 * is locked. The login nonce is consumed exactly once, so the challenge can't be replayed
+	 * and the user's other pending logins are left intact.
+	 *
+	 * @param int    $user_id  The user resolved from the signed challenge token.
+	 * @param string $code     The submitted code.
+	 * @param string $provider '' for the primary method, 'backup_codes' for a backup code.
+	 * @param string $token    The signed challenge token (for error redirects).
+	 * @param string $nonce    The login nonce carried by the challenge token.
+	 * @return void
+	 */
+	private function complete_login( $user_id, $code, $provider, $token, $nonce ) {
+		$user = get_user_by( 'id', $user_id );
+		if ( ! $user ) {
+			$this->redirect_manager->redirect_with_error( __( 'Authentication error. Please try logging in again.', 'uncanny-learndash-toolkit' ), $token );
+			return;
+		}
+
+		// A login transaction must carry a nonce; without one there is nothing to consume
+		// and no way to make the challenge single-use, so refuse rather than fail open.
+		if ( '' === $nonce ) {
+			wp_safe_redirect( $this->redirect_manager->get_login_page_url() );
+			exit;
+		}
+
+		// Enforce WP 2FA's lockout before spending this attempt.
+		if ( Helper::second_factor_locked( $user ) || ! Helper::reserve_second_factor_attempt( $user ) ) {
+			Helper::consume_login_nonce( $user_id, $nonce );
+			wp_safe_redirect( $this->redirect_manager->get_login_page_url() );
+			exit;
+		}
+
+		$result = Helper::validate_2fa_token( $user_id, $code, $provider );
+
+		// Failed validation: count the attempt; end the challenge once attempts run out.
+		if ( is_wp_error( $result ) || empty( $result['status'] ) ) {
+			Helper::increase_login_attempts( $user );
+			$spent = ! Helper::attempts_remaining( $user );
+
+			if ( Helper::second_factor_locked( $user ) || $spent ) {
+				// Reset only the per-sign-in counter; the lockout window must survive so it
+				// accumulates across challenges (the fallback limiter holds the lock here).
+				Helper::reset_session_counter_on_lockout( $user );
+				Helper::consume_login_nonce( $user_id, $nonce );
+				wp_safe_redirect( $this->redirect_manager->get_login_page_url() );
+				exit;
+			}
+
+			if ( is_wp_error( $result ) ) {
+				$error_message = $result->get_error_message();
+			} else {
+				$error_message = isset( $result['message'] ) ? $result['message'] : __( 'Invalid code. Please try again.', 'uncanny-learndash-toolkit' );
+			}
 			$this->redirect_manager->redirect_with_error( $error_message, $token );
 			return;
 		}
 
-		// Success - handle authentication.
+		// Success: spend this login's nonce (single-use) before issuing the session.
+		if ( ! Helper::consume_login_nonce( $user_id, $nonce ) ) {
+			$this->redirect_manager->redirect_with_error( __( 'Security check failed or expired. Please try logging in again.', 'uncanny-learndash-toolkit' ), $token );
+			return;
+		}
+
+		Helper::clear_login_attempts( $user );
 		$this->handle_successful_2fa( $user_id, $result );
 	}
 
@@ -191,13 +255,20 @@ class Authentication_Handler {
 			wp_die( esc_html__( 'Authentication error. Please try logging in again.', 'uncanny-learndash-toolkit' ) );
 		}
 
+		// Verification gate: a passed code must not log in an account the site hasn't verified.
+		if ( class_exists( '\uncanny_learndash_toolkit\FrontendLoginPlus' )
+			&& \uncanny_learndash_toolkit\FrontendLoginPlus::is_user_unverified( $user ) ) {
+			wp_safe_redirect( add_query_arg( 'login', 'notverified', $this->redirect_manager->get_login_page_url() ) );
+			exit;
+		}
+
 		// Actually log the user in.
 		wp_clear_auth_cookie();
 		wp_set_current_user( $user_id );
 		wp_set_auth_cookie( $user_id );
 
 		// Trigger login action for other plugins.
-		do_action( 'wp_login', $user->user_login, $user );
+		do_action( 'wp_login', $user->user_login, $user ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Core WordPress hook fired intentionally so other plugins can hook into this login.
 
 		// Redirect to success page.
 		$this->redirect_manager->redirect_to_success( $result );

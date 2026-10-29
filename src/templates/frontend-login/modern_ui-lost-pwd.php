@@ -1,6 +1,11 @@
 <?php
 namespace uncanny_learndash_toolkit;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Template included inside FrontendLoginPlus::uo_login_ui(); variables are local to that method.
+
 if ( '' !== trim( $recaptcha_key ) && '' !== trim( $recaptcha_secrete_key ) ) {
 	$has_recaptcha = true;
 } else {
@@ -12,7 +17,7 @@ $login_page_url = get_permalink( $login_page );
 
 ?>
 	
-	<?php do_action( 'uo_forgot_before_container' ); ?>
+	<?php do_action( 'uo_forgot_before_container' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code). ?>
 
 	<?php 
 	// Enqueue color overrides for Modern UI
@@ -21,7 +26,7 @@ $login_page_url = get_permalink( $login_page );
 	}
 	?>
 
-	<div id="ult-forgot-password"<?php echo FrontendLoginPlus::is_modern_ui() ? ' class="' . FrontendLoginPlus::get_modern_ui_theme() . '"' : ''; ?>>
+	<div id="ult-forgot-password"<?php echo FrontendLoginPlus::is_modern_ui() ? ' class="' . esc_attr( FrontendLoginPlus::get_modern_ui_theme() ) . '"' : ''; ?>>
 		<div class="ult-box">
 
 			<div class="ult-form__content">
@@ -36,61 +41,61 @@ $login_page_url = get_permalink( $login_page );
 				if ( isset( $forgot_password_response ) && ! $forgot_password_response->error ) {
 					?>
 					
-					<?php do_action( 'uo_forgot_before_title' ); ?>
+					<?php do_action( 'uo_forgot_before_title' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code). ?>
 
 					<div class="ult-form__title">
-						<?php echo $innerText['Password-Recovery-Title']; ?>
+						<?php echo wp_kses_post( $innerText['Password-Recovery-Title'] ); ?>
 					</div>
 					
-					<?php do_action( 'uo_forgot_before_success' ); ?>
+					<?php do_action( 'uo_forgot_before_success' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code). ?>
 
 					<div class="ult-form__row ult-form__row--validation">
 						<div class="ult-notice ult-notice--success">
-							<?php do_action( 'uo_forgot_before_success_message' ); ?>
-							<?php echo $forgot_password_response->message; ?>
-							<?php do_action( 'uo_forgot_after_success_message' ); ?>
+							<?php do_action( 'uo_forgot_before_success_message' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code). ?>
+							<?php echo wp_kses_post( $forgot_password_response->message ); ?>
+							<?php do_action( 'uo_forgot_after_success_message' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code). ?>
 						</div>
 					</div>
 					
-					<?php do_action( 'uo_forgot_after_success' ); ?>
+					<?php do_action( 'uo_forgot_after_success' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code). ?>
 				
 				<?php } else { ?>
 					
-					<?php do_action( 'uo_forgot_before_title' ); ?>
+					<?php do_action( 'uo_forgot_before_title' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code). ?>
 
 					<div class="ult-form__title">
-						<?php echo $innerText['Password-Recovery-Title']; ?>
+						<?php echo wp_kses_post( $innerText['Password-Recovery-Title'] ); ?>
 					</div>
 					
-					<?php do_action( 'uo_forgot_before_description' ); ?>
+					<?php do_action( 'uo_forgot_before_description' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code). ?>
 
 					<div class="ult-form__description">
 						<?php
 						if ( ! isset( $forgot_password_response ) ) {
-							echo $innerText['Password-Recovery-Desc'];
+							echo wp_kses_post( $innerText['Password-Recovery-Desc'] );
 						}
 						?>
 					</div>
 					
-					<?php do_action( 'uo_forgot_before_form' ); ?>
+					<?php do_action( 'uo_forgot_before_form' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code). ?>
 
 					<div class="ult-form__container">
 
-						<form id="ult-forgot-password-form" name="lostpasswordform" action="<?php echo site_url( 'wp-login.php?action=lostpassword', 'login_post' ); ?>" method="POST">
+						<form id="ult-forgot-password-form" name="lostpasswordform" action="<?php echo esc_url( site_url( 'wp-login.php?action=lostpassword', 'login_post' ) ); ?>" method="POST">
 
-							<input type="hidden" name="redirect_to" value="<?php echo $login_page_url . ( strpos( $login_page_url, '?' ) ? '&' : '?' ); ?>action=forgot&success=1">
+							<input type="hidden" name="redirect_to" value="<?php echo esc_url( $login_page_url . ( strpos( $login_page_url, '?' ) ? '&' : '?' ) ); ?>action=forgot&success=1">
 							
-							<?php do_action( 'uo_forgot_before_email' ); ?>
+							<?php do_action( 'uo_forgot_before_email' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code). ?>
 
 							<div class="ult-form__row ult-form__row--email">
 								<div class="ult-form-field__header">
 									<div class="ult-form-field__label-container">
 										<label for="ult-forgot-email" class="ult-form-field__label">
-											<?php echo $innerText['Password-Recovery-Label']; ?>
+											<?php echo wp_kses_post( $innerText['Password-Recovery-Label'] ); ?>
 										</label>
 									</div>
 									<div class="ult-form-field__actions">
-										<?php do_action( 'uo_forgot_email_actions' ); ?>
+										<?php do_action( 'uo_forgot_email_actions' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code). ?>
 									</div>
 								</div>
 
@@ -99,12 +104,12 @@ $login_page_url = get_permalink( $login_page );
 								</div>
 							</div>
 							
-							<?php do_action( 'uo_forgot_before_captcha' ); ?>
+							<?php do_action( 'uo_forgot_before_captcha' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code). ?>
 							
 							<?php if ( $has_recaptcha ) { ?>
 
 								<div class="ult-form__row ult-form__row--recaptcha">
-									<div class="ult-form-recaptcha" data-sitekey="<?php echo $recaptcha_key; ?>" data-callback="UncannyToolkitFrontendLoginReCaptchaCorrect"></div>
+									<div class="ult-form-recaptcha" data-sitekey="<?php echo esc_attr( $recaptcha_key ); ?>" data-callback="UncannyToolkitFrontendLoginReCaptchaCorrect"></div>
 								</div>
 							
 							<?php } ?>
@@ -123,51 +128,51 @@ $login_page_url = get_permalink( $login_page );
 
 							?>
 								
-							<?php do_action( 'uo_forgot_before_error' ); ?>
+							<?php do_action( 'uo_forgot_before_error' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code). ?>
 
-							<div class="ult-form__validation <?php echo implode( ' ', $notice_css_classes ); ?>">
+							<div class="ult-form__validation <?php echo esc_attr( implode( ' ', $notice_css_classes ) ); ?>">
 								<div class="ult-notice ult-notice--error">
-									<?php do_action( 'uo_forgot_before_error_message' ); ?>
+									<?php do_action( 'uo_forgot_before_error_message' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code). ?>
 
-									<span class="ult-notice-text"><?php echo isset( $forgot_password_response->message ) ? $forgot_password_response->message : ''; ?></span>
+									<span class="ult-notice-text"><?php echo isset( $forgot_password_response->message ) ? wp_kses_post( $forgot_password_response->message ) : ''; ?></span>
 
-									<?php do_action( 'uo_forgot_after_error_message' ); ?>
+									<?php do_action( 'uo_forgot_after_error_message' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code). ?>
 								</div>
 							</div>
 							
-							<?php do_action( 'uo_forgot_before_submit' ); ?>
+							<?php do_action( 'uo_forgot_before_submit' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code). ?>
 
 							<div class="ult-form__row ult-form__row--submit">
 								<button type="submit" id="ult-forgot-password-submit-btn" class="ult-form__submit-btn">
-									<?php echo $innerText['Get-New-Password']; ?>
+									<?php echo wp_kses_post( $innerText['Get-New-Password'] ); ?>
 								</button>
 							</div>
 							
-							<?php do_action( 'uo_forgot_after_submit' ); ?>
+							<?php do_action( 'uo_forgot_after_submit' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code). ?>
 						</form>
 
 					</div>
 					
-					<?php do_action( 'uo_forgot_after_form' ); ?>
+					<?php do_action( 'uo_forgot_after_form' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code). ?>
 				
 				<?php } ?>
 
-				<?php do_action( 'uo_forgot_before_footer' ); ?>
+				<?php do_action( 'uo_forgot_before_footer' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code). ?>
 			</div>
 
 			<div class="ult-form__footer">
-				<?php do_action( 'uo_forgot_before_login' ); ?>
+				<?php do_action( 'uo_forgot_before_login' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code). ?>
 
 				<div class="ult-form-footer__login">
-					<a id="ult-form-footer-login" href="<?php echo $login_page_url; ?>">
-						<?php echo $innerText['Log-in-instead']; ?>
+					<a id="ult-form-footer-login" href="<?php echo esc_url( $login_page_url ); ?>">
+						<?php echo wp_kses_post( $innerText['Log-in-instead'] ); ?>
 					</a>
 				</div>
 			</div>
 
-			<?php do_action( 'uo_forgot_after_footer' ); ?>
+			<?php do_action( 'uo_forgot_after_footer' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code). ?>
 
 		</div>
 	</div>
 	
-	<?php do_action( 'uo_forgot_after_container' ); ?>
+	<?php do_action( 'uo_forgot_after_container' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code). ?>

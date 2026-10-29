@@ -191,7 +191,7 @@ class ShowCertificatesShortcode extends Config implements RequiredFunctions {
 					$certificate_link = esc_url( learndash_get_course_certificate_link( $course->ID ) );
 
 					if ( $certificate_link && '' !== $certificate_link ) {
-						$link             = apply_filters( 'uo_show_course_certificate_link', sprintf( '<a target="_blank" href="%s">%s</a>', $certificate_link, esc_html( $certificate_title ) ), wp_get_current_user(), $course );
+						$link             = apply_filters( 'uo_show_course_certificate_link', sprintf( '<a target="_blank" href="%s">%s</a>', $certificate_link, esc_html( $certificate_title ) ), wp_get_current_user(), $course ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code).
 						$certificate_list .= $link . '<br>';
 					}
 				}
@@ -227,7 +227,7 @@ class ShowCertificatesShortcode extends Config implements RequiredFunctions {
 							} else {
 								$certificate_title = $quiz_title;
 							}
-							$link             = apply_filters( 'uo_show_quiz_certificate_link', sprintf( '<a target="_blank" href="%s">%s</a>', esc_url( $certificate_link ), esc_html( $certificate_title ) ), wp_get_current_user(), $quiz_attempt );
+							$link             = apply_filters( 'uo_show_quiz_certificate_link', sprintf( '<a target="_blank" href="%s">%s</a>', esc_url( $certificate_link ), esc_html( $certificate_title ) ), wp_get_current_user(), $quiz_attempt ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code).
 							$certificate_list .= $link . '<br>';
 						}
 					}
@@ -263,7 +263,7 @@ class ShowCertificatesShortcode extends Config implements RequiredFunctions {
 					$certificate_link = esc_url( learndash_get_group_certificate_link( $group->ID ) );
 
 					if ( $certificate_link && '' !== $certificate_link ) {
-						$link             = apply_filters( 'uo_show_group_certificate_link', sprintf( '<a target="_blank" href="%s">%s</a>', $certificate_link, esc_html( $certificate_title ) ), wp_get_current_user(), $group );
+						$link             = apply_filters( 'uo_show_group_certificate_link', sprintf( '<a target="_blank" href="%s">%s</a>', $certificate_link, esc_html( $certificate_title ) ), wp_get_current_user(), $group ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code).
 						$certificate_list .= $link . '<br>';
 					}
 				}
@@ -271,7 +271,7 @@ class ShowCertificatesShortcode extends Config implements RequiredFunctions {
 		}
 
 		$certificate_list = apply_filters_deprecated( 'certificate_list_shortcode', array( $certificate_list ), '3.6.2', 'uo_certificate_list_shortcode' );
-		$certificate_list = apply_filters( 'uo_certificate_list_shortcode', $certificate_list, $courses, $quiz_attempts );
+		$certificate_list = apply_filters( 'uo_certificate_list_shortcode', $certificate_list, $courses, $quiz_attempts ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code).
 
 		if ( '' === $certificate_list ) {
 			$certificate_list = wp_kses_post( $no_cert_message );

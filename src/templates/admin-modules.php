@@ -1,6 +1,11 @@
 <?php
 namespace uncanny_learndash_toolkit;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Template included inside AdminMenu::options_menu_page_output(); variables are local to that method.
+
 /**
  * A variable with some data, for now it has:
  * - has_toolkit_pro:    Boolean to determinate if the user has the Pro version installed.
@@ -104,7 +109,7 @@ if ( ! defined( 'UNCANNY_TOOLKIT_PRO_VERSION' ) ) {
 
 		<div class="ult-directory">
 
-			<?php do_action( 'ult_before_directory_actions', $modules ); ?>
+			<?php do_action( 'ult_before_directory_actions', $modules ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code). ?>
 
 			<div class="ult-directory-actions uncannyowl-bg-lighter">
 
@@ -114,13 +119,13 @@ if ( ! defined( 'UNCANNY_TOOLKIT_PRO_VERSION' ) ) {
 							<div class="ult-form-element__field">
 								<select name="version" data-name="version" class="ult-form-element__select">
 									<option value="">
-										<?php _e( 'All versions', 'uncanny-learndash-toolkit' ) ?>
+										<?php esc_html_e( 'All versions', 'uncanny-learndash-toolkit' ) ?>
 									</option>
 									<option value="free">
-										<?php _e( 'Free only', 'uncanny-learndash-toolkit' ) ?>
+										<?php esc_html_e( 'Free only', 'uncanny-learndash-toolkit' ) ?>
 									</option>
 									<option value="pro">
-										<?php _e( 'Pro only', 'uncanny-learndash-toolkit' ) ?>
+										<?php esc_html_e( 'Pro only', 'uncanny-learndash-toolkit' ) ?>
 									</option>
 								</select>
 							</div>
@@ -131,13 +136,13 @@ if ( ! defined( 'UNCANNY_TOOLKIT_PRO_VERSION' ) ) {
 							<div class="ult-form-element__field">
 								<select name="category" data-name="category" class="ult-form-element__select">
 									<option value="">
-										<?php _e( 'All categories', 'uncanny-learndash-toolkit' ) ?>
+										<?php esc_html_e( 'All categories', 'uncanny-learndash-toolkit' ) ?>
 									</option>
 									<option value="learndash">
-										<?php _e( 'LearnDash', 'uncanny-learndash-toolkit' ) ?>
+										<?php esc_html_e( 'LearnDash', 'uncanny-learndash-toolkit' ) ?>
 									</option>
 									<option value="wordpress">
-										<?php _e( 'General WordPress', 'uncanny-learndash-toolkit' ) ?>
+										<?php esc_html_e( 'General WordPress', 'uncanny-learndash-toolkit' ) ?>
 									</option>
 								</select>
 							</div>
@@ -148,13 +153,13 @@ if ( ! defined( 'UNCANNY_TOOLKIT_PRO_VERSION' ) ) {
 							<div class="ult-form-element__field">
 								<select name="status" data-name="status" class="ult-form-element__select">
 									<option value="">
-										<?php _e( 'All statuses', 'uncanny-learndash-toolkit' ) ?>
+										<?php esc_html_e( 'All statuses', 'uncanny-learndash-toolkit' ) ?>
 									</option>
 									<option value="active">
-										<?php _e( 'Active', 'uncanny-learndash-toolkit' ) ?>
+										<?php esc_html_e( 'Active', 'uncanny-learndash-toolkit' ) ?>
 									</option>
 									<option value="inactive">
-										<?php _e( 'Inactive', 'uncanny-learndash-toolkit' ) ?>
+										<?php esc_html_e( 'Inactive', 'uncanny-learndash-toolkit' ) ?>
 									</option>
 								</select>
 							</div>
@@ -167,7 +172,7 @@ if ( ! defined( 'UNCANNY_TOOLKIT_PRO_VERSION' ) ) {
 						<div class="ult-form-element__field">
 							<input type="text" id="ult-directory-search-input"
 								   class="ult-directory-search-input ult-form-element__text"
-								   placeholder="<?php _e( 'Search modules by title, description or keywords', 'uncanny-learndash-toolkit' ) ?>">
+								   placeholder="<?php esc_attr_e( 'Search modules by title, description or keywords', 'uncanny-learndash-toolkit' ) ?>">
 						</div>
 					</div>
 				</div>
@@ -185,7 +190,7 @@ if ( ! defined( 'UNCANNY_TOOLKIT_PRO_VERSION' ) ) {
 
 			</div>
 
-			<?php do_action( 'ult_before_directory_modules', $modules ); ?>
+			<?php do_action( 'ult_before_directory_modules', $modules ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code). ?>
 
 			<div class="ult-directory-modules">
 
@@ -204,9 +209,9 @@ if ( ! defined( 'UNCANNY_TOOLKIT_PRO_VERSION' ) ) {
 
 					?>
 
-					<div class="ult-directory-module <?php echo implode( ' ', $css_classes ); ?>"
-						 data-id="<?php echo isset( $module['id'] ) ? $module['id'] : md5( time() ); ?>"
-						 data-version="<?php echo isset( $module['version'] ) ? $module['version'] : 'free'; ?>"
+					<div class="ult-directory-module <?php echo esc_attr( implode( ' ', $css_classes ) ); ?>"
+						 data-id="<?php echo esc_attr( isset( $module['id'] ) ? $module['id'] : md5( time() ) ); ?>"
+						 data-version="<?php echo esc_attr( isset( $module['version'] ) ? $module['version'] : 'free' ); ?>"
 						 data-status="<?php echo isset( $module['is_active'] ) && $module['is_active'] ? 'active' : 'inactive'; ?>"
 						 data-category='<?php echo isset( $module['category'] ) ? json_encode( $module['category'] ) : json_encode( array() ); ?>'
 					>
@@ -232,8 +237,8 @@ if ( ! defined( 'UNCANNY_TOOLKIT_PRO_VERSION' ) ) {
 							?>
 							<div class="ult-directory-module-header">
 								<div class="ult-directory-module-header-left">
-									<div class="ult-directory-module__title" <?php if ( ! empty( $module['cant_use_notice'] ) ) { ?>data-tooltip="<?php echo $cant_use_notice; ?>"<?php } ?>>
-										<?php echo $module['title']; ?>
+									<div class="ult-directory-module__title" <?php if ( ! empty( $module['cant_use_notice'] ) ) { ?>data-tooltip="<?php echo esc_attr( $cant_use_notice ); ?>"<?php } ?>>
+										<?php echo esc_html( $module['title'] ); ?>
 									</div>
 
 									<?php if ( isset( $module['version'] ) && 'pro' === $module['version'] ) { ?>
@@ -251,8 +256,8 @@ if ( ! defined( 'UNCANNY_TOOLKIT_PRO_VERSION' ) ) {
 										?>
 
 										<div class="ult-directory-module__pro-label uncannyowl-bg-primary">
-											<a href="<?php echo $get_toolkit_pro_link; ?>" target="_blank">
-												<!-- <span class="ult-directory-module__pro-text"><?php _e( 'PRO', 'uncanny-learndash-toolkit' ); ?></span> -->
+											<a href="<?php echo esc_url( $get_toolkit_pro_link ); ?>" target="_blank">
+												<!-- <span class="ult-directory-module__pro-text"><?php esc_html_e( 'PRO', 'uncanny-learndash-toolkit' ); ?></span> -->
 											</a>
 										</div>
 
@@ -266,7 +271,7 @@ if ( ! defined( 'UNCANNY_TOOLKIT_PRO_VERSION' ) ) {
 										<div class="uncannyowl-toggle">
 											<input type="checkbox"
 												   class="ult-directory-module__status-toggle"
-												   value="<?php echo $module['class_name']; ?>"
+												   value="<?php echo esc_attr( $module['class_name'] ); ?>"
 												<?php echo $module['is_active'] ? 'checked="checked"' : ''; ?>
 											/>
 											<div class="uncannyowl-toggle-slider"></div>
@@ -277,7 +282,7 @@ if ( ! defined( 'UNCANNY_TOOLKIT_PRO_VERSION' ) ) {
 							</div>
 
 							<div class="ult-directory-module__description">
-								<?php echo $module['description']; ?>
+								<?php echo wp_kses_post( $module['description'] ); ?>
 							</div>
 
 							<div class="ult-directory-module-actions">
@@ -296,9 +301,9 @@ if ( ! defined( 'UNCANNY_TOOLKIT_PRO_VERSION' ) ) {
 									// Add the link
 									?>
 
-									<a href="<?php echo $module_kb_link; ?>" target="_blank"
+									<a href="<?php echo esc_url( $module_kb_link ); ?>" target="_blank"
 									   class="ult-directory-module-settings ult-directory-module-settings--kb-link ult-directory-module__btn uncannyowl-btn uncannyowl-btn--secondary uncannyowl-btn--sm">
-										<?php _e( 'Learn More', 'uncanny-learndash-toolkit' ); ?>
+										<?php esc_html_e( 'Learn More', 'uncanny-learndash-toolkit' ); ?>
 									</a>
 
 								<?php } ?>
@@ -309,8 +314,8 @@ if ( ! defined( 'UNCANNY_TOOLKIT_PRO_VERSION' ) ) {
 
 										<div
 											class="ult-directory-module-settings ult-directory-module-settings--modal ult-directory-module__btn uncannyowl-btn uncannyowl-btn--primary uncannyowl-btn--sm"
-											data-settings="<?php echo $module['settings_id']; ?>">
-											<?php _e( 'Settings', 'uncanny-learndash-toolkit' ); ?>
+											data-settings="<?php echo esc_attr( $module['settings_id'] ); ?>">
+											<?php esc_html_e( 'Settings', 'uncanny-learndash-toolkit' ); ?>
 										</div>
 
 									<?php } ?>
@@ -327,7 +332,7 @@ if ( ! defined( 'UNCANNY_TOOLKIT_PRO_VERSION' ) ) {
 
 			</div>
 
-			<?php do_action( 'ult_after_directory_modules', $modules ); ?>
+			<?php do_action( 'ult_after_directory_modules', $modules ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code). ?>
 
 		</div>
 

@@ -111,7 +111,7 @@ class ToolkitReportSetting {
 						url: '<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>',
 						type: 'POST',
 						data: { 
-							nonce: '<?php echo wp_create_nonce( 'ult-reporting-setting' ); ?>',
+							nonce: '<?php echo esc_js( wp_create_nonce( 'ult-reporting-setting' ) ); ?>',
 							action: 'ult_save_reporting_setting',
 							value: value 
 						},
@@ -133,11 +133,15 @@ class ToolkitReportSetting {
 			wp_send_json_error( 'Invalid request' );
 		}
 
-		$nonce = filter_var( $_POST['nonce'] );
-		$value = filter_var( $_POST['value'], FILTER_VALIDATE_BOOLEAN );
+		$nonce = sanitize_text_field( wp_unslash( $_POST['nonce'] ) );
+		$value = filter_var( wp_unslash( $_POST['value'] ), FILTER_VALIDATE_BOOLEAN );
 
 		if ( ! wp_verify_nonce( $nonce, 'ult-reporting-setting' ) ) {
 			wp_send_json_error( 'Invalid nonce' );
+		}
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( 'Insufficient permissions' );
 		}
 		
 		update_option( self::$option_name, $value );

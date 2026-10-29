@@ -24,59 +24,26 @@ add_action( 'admin_init', 'uo_toolkit_2fa_oci_ajax_actions', 99 );
  *
  * @return boolean True if 2FA login class is loaded. Otherwise, false.
  */
-function uo_toolkit_2fa_load_dependencies() {
+function uo_toolkit_2fa_load_dependencies() { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Public function kept for backward compatibility.
 
-	// Check if Two Factor is active or not.
+	// WP 2FA (Melapress) must be active.
 	if ( ! class_exists( '\WP2FA\Authenticator\Login' ) ) {
-		return array(
-			'loaded'  => false,
-			'version' => '',
-		);
+		return array( 'loaded' => false );
 	}
 
-	// Defaults to 2.0.0.
-	$wp2fa_version = '2.0.0';
+	// Load the front-end login 2FA integration for current WP 2FA (2.0+).
+	require_once UNCANNY_TOOLKIT_DIR . '/src/includes/two-factor/providers/wp-2fa/class-integration.php';
 
-	$module = UNCANNY_TOOLKIT_DIR . '/src/includes/two-factor/providers/wp-2fa/class-integration.php';
-
-	if ( defined( 'WP_2FA_VERSION' ) ) {
-		$wp2fa_version = WP_2FA_VERSION;
-	}
-
-	// Load the legacy class for wp2fa version below 2.0.0.
-	if ( version_compare( $wp2fa_version, '2.0.0', '<' ) ) {
-		$module = UNCANNY_TOOLKIT_DIR . '/src/includes/two-factor/providers/wp-2fa/legacy/class-frontend-login-plus-2fa-legacy.php';
-	}
-
-	// Load another unsupported class for wp2fa version below 2.0.0.
-	if ( version_compare( $wp2fa_version, '2.4', '<' ) ) {
-		$module = UNCANNY_TOOLKIT_DIR . '/src/includes/two-factor/providers/wp-2fa/legacy/class-frontend-login-plus-2fa-2-3.php';
-	}
-
-	if ( version_compare( $wp2fa_version, '2.5', '<' ) ) {
-		$module = UNCANNY_TOOLKIT_DIR . '/src/includes/two-factor/providers/wp-2fa/legacy/class-frontend-login-plus-2fa-2-4.php';
-	}
-
-	if ( version_compare( $wp2fa_version, '2.6', '<' ) ) {
-		$module = UNCANNY_TOOLKIT_DIR . '/src/includes/two-factor/providers/wp-2fa/legacy/class-frontend-login-plus-2fa-2-5.php';
-	}
-
-	// Load front-end login 2fa.
-	require_once $module;
-
-	return array(
-		'loaded'  => true,
-		'version' => 'latest',
-	);
+	return array( 'loaded' => true );
 
 }
 
 /**
  * Initialize the Two-Factor Integration.
  *
- * @return \uncanny_learndash_toolkit\Frontend_Login_Plus_2fa The instance of '\uncanny_learndash_toolkit\Frontend_Login_Plus_2fa'.
+ * @return object|false The provider integration instance, or false when none applies.
  */
-function uo_toolkit_2fa_init() {
+function uo_toolkit_2fa_init() { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Public function kept for backward compatibility.
 
 	$integration = false;
 
@@ -90,14 +57,7 @@ function uo_toolkit_2fa_init() {
 	// Load the dependencies.
 	$dependencies = uo_toolkit_2fa_load_dependencies();
 
-	// Check if \Two_Factor_Core class exists.
-	if ( $dependencies['loaded'] && class_exists( '\WP2FA\Authenticator\Login' ) && $dependencies['version'] !== 'latest' ) {
-		$wp2fa_login = new \WP2FA\Authenticator\Login();
-		$integration = new \uncanny_learndash_toolkit\Frontend_Login_Plus_2fa( $wp2fa_login );
-		return $integration;
-	}
-
-	if ( $dependencies['loaded'] && class_exists( '\WP2FA\Authenticator\Login' ) && $dependencies['version'] === 'latest' ) {
+	if ( $dependencies['loaded'] && class_exists( '\WP2FA\Authenticator\Login' ) ) {
 		$integration = new Integration();
 		return $integration;
 	}
@@ -113,7 +73,7 @@ function uo_toolkit_2fa_init() {
  *
  * @return \uncanny_learndash_toolkit\Auto_Plugin_Install The instance of '\uncanny_learndash_toolkit\Auto_Plugin_Install'.
  */
-function uo_toolkit_oci_instance() {
+function uo_toolkit_oci_instance() { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Public function kept for backward compatibility.
 
 	// Load the library.
 	require_once UNCANNY_TOOLKIT_DIR . '/src/uncanny-one-click-installer/class-auto-plugin-install.php';
@@ -141,7 +101,7 @@ function uo_toolkit_oci_instance() {
  *
  * @return boolean True after create_ajax method. Otherwise, false.
  */
-function uo_toolkit_2fa_oci_ajax_actions() {
+function uo_toolkit_2fa_oci_ajax_actions() { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Public function kept for backward compatibility.
 
 	$page = filter_input( INPUT_GET, 'page', FILTER_UNSAFE_RAW );
 
@@ -178,7 +138,7 @@ function uo_toolkit_2fa_oci_ajax_actions() {
  *
  * @return mixed The button HTML. Otherwise, false.
  */
-function uo_toolkit_2fa_oci_button() {
+function uo_toolkit_2fa_oci_button() { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Public function kept for backward compatibility.
 
 	if ( uo_toolkit_oci_instance() ) {
 
@@ -248,7 +208,7 @@ function uo_toolkit_2fa_oci_button() {
 						<?php esc_html_e( 'Uncanny Toolkit integrates with the free WP 2FA plugin to support two factor login authentication.', 'uncanny-learndash-toolkit' ); ?>
 					</p>
 
-					<?php echo uo_toolkit_oci_instance()->button( 'wp-2fa' ); //phpcs:ignore ?>
+					<?php echo uo_toolkit_oci_instance()->button( 'wp-2fa' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Markup built by Auto_Plugin_Install::button(); every dynamic part is escaped there. ?>
 
 					<p class="ult-modal-form-row__description">
 
@@ -286,17 +246,11 @@ function uo_toolkit_2fa_oci_button() {
  *
  * @return boolean True if 2FA form should be displayed.
  */
-function uo_toolkit_2fa_form_exists() {
-	
-	// Check for legacy 2FA authentication parameter
-	$auth = filter_input( INPUT_GET, '2fa_authentication', FILTER_UNSAFE_RAW );
-	if ( ! empty( $auth ) && class_exists( '\WP2FA\Authenticator\Login' ) ) {
-		return true;
-	}
+function uo_toolkit_2fa_form_exists() { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Public function kept for backward compatibility.
 
-	// Check for universal 2FA challenge parameter
+	// A 2FA challenge is in progress for current WP 2FA.
 	$challenge = filter_input( INPUT_GET, '2fa_challenge', FILTER_UNSAFE_RAW );
-	if ( $challenge === '1' && class_exists( '\WP2FA\Authenticator\Login' ) ) {
+	if ( '1' === $challenge && class_exists( '\WP2FA\Authenticator\Login' ) ) {
 		return true;
 	}
 
@@ -308,7 +262,7 @@ function uo_toolkit_2fa_form_exists() {
  *
  * @return string The 2FA login form.
  */
-function uo_toolkit_2fa_render_authentication_form() {
+function uo_toolkit_2fa_render_authentication_form() { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Public function kept for backward compatibility.
 
 	// Check if we should use the universal 2FA form
 	$challenge = filter_input( INPUT_GET, '2fa_challenge', FILTER_UNSAFE_RAW );
@@ -324,6 +278,7 @@ function uo_toolkit_2fa_render_authentication_form() {
 				$form_data = $integration->get_2fa_form_data( $challenge_data );
 				
 				// Render the universal 2FA form
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Markup rendered by Form_Renderer::render_2fa_form() from the plugin's html/2fa-form.php template; every dynamic part is escaped there.
 				echo $integration->render_2fa_form( $form_data );
 				return;
 			} else {
@@ -343,13 +298,6 @@ function uo_toolkit_2fa_render_authentication_form() {
 			}
 		}
 	}
-
-	// Fallback to legacy 2FA form
-	$two_factor = new \uncanny_learndash_toolkit\Frontend_Login_Plus_2fa(
-		new \WP2FA\Authenticator\Login()
-	);
-
-	$two_factor->login_form();
 }
 
 /**
@@ -357,7 +305,7 @@ function uo_toolkit_2fa_render_authentication_form() {
  *
  * @return string 'ult-2fa-validation-form--templated' when the selected template is 'Boxed with Shadow'. Otherwise, 'ult-2fa-validation-form--default'.
  */
-function uo_toolkit_2fa_get_form_id() {
+function uo_toolkit_2fa_get_form_id() { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Public function kept for backward compatibility.
 
 	$form_id = 'ult-2fa-validation-form--default';
 
@@ -379,7 +327,7 @@ add_filter( 'uncanny_one_click_install_button_class', 'uo_toolkit_uncanny_one_cl
  * @param array $classes The accepted classes.
  * @return array $classes The classes collection.
  */
-function uo_toolkit_uncanny_one_click_install_button_class( $classes, $plugin_info ) {
+function uo_toolkit_uncanny_one_click_install_button_class( $classes, $plugin_info ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Public function kept for backward compatibility.
 	if ( 'wp-2fa' === $plugin_info->slug ) {
 		$classes[] = 'ult-modal-action__btn--secondary';
 		$classes[] = 'ult-modal-action__btn';
@@ -400,7 +348,7 @@ add_filter( 'uncanny_one_click_install_plugin_initial_text', 'uo_toolkit_uncanny
  *
  * @return string The new button text.
  */
-function uo_toolkit_uncanny_one_click_install_plugin_initial_text( $text, $plugin_info ) {
+function uo_toolkit_uncanny_one_click_install_plugin_initial_text( $text, $plugin_info ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Public function kept for backward compatibility.
 	if ( 'wp-2fa' === $plugin_info->slug ) {
 		return 'Install WP 2FA plugin'; // Do not translate plugin name.
 	}
@@ -418,7 +366,7 @@ add_filter( 'uncanny_one_click_install_plugin_installed_text', 'uo_toolkit_uncan
  *
  * @return string The new button text.
  */
-function uo_toolkit_uncanny_one_click_install_plugin_installed_text( $text, $plugin_info ) {
+function uo_toolkit_uncanny_one_click_install_plugin_installed_text( $text, $plugin_info ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Public function kept for backward compatibility.
 
 	if ( 'wp-2fa' === $plugin_info->slug ) {
 		return 'Activate WP 2FA plugin'; // Do not translate plugin name.
@@ -438,7 +386,7 @@ add_filter( 'uncanny_one_click_install_plugin_active_text', 'uo_toolkit_uncanny_
  *
  * @return string The new button text.
  */
-function uo_toolkit_uncanny_one_click_install_plugin_active_text( $text, $plugin_info ) {
+function uo_toolkit_uncanny_one_click_install_plugin_active_text( $text, $plugin_info ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Public function kept for backward compatibility.
 	if ( 'wp-2fa' === $plugin_info->slug ) {
 		return 'WP 2FA plugin is Active'; // Do not translate plugin name.
 	}

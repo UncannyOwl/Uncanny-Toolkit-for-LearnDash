@@ -7,6 +7,10 @@
 
 namespace Uncanny_Owl;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Allow class overwrite.
  */
@@ -364,7 +368,7 @@ if ( ! class_exists( 'Uncanny_Owl\Notifications' ) ) {
 		 * @return array
 		 * @since 1.0.0
 		 */
-		public function verify( $notifications ) { // phpcs:ignore Generic.Metrics.CyclomaticComplexity.TooHigh
+		public function verify( $notifications ) { // phpcs:ignore Generic.Metrics.CyclomaticComplexity.TooHigh -- One sequential validation pass over each feed field.
 
 			$data = array();
 
@@ -559,8 +563,8 @@ if ( ! class_exists( 'Uncanny_Owl\Notifications' ) ) {
 					continue;
 				}
 
-				// Translators: Readable time to display
-				$modified_start_time = sprintf( __( '%1$s ago', 'google-analytics-for-wordpress' ), human_time_diff( strtotime( $notification['start'] ), current_time( 'timestamp' ) ) ); // phpcs:ignore WordPress.DateTime.CurrentTimeTimestamp.Requested
+				/* translators: %1$s: Human-readable time difference, e.g. "2 days". */
+				$modified_start_time = sprintf( __( '%1$s ago', 'uncanny-learndash-toolkit' ), human_time_diff( strtotime( $notification['start'] ), current_time( 'timestamp' ) ) ); // phpcs:ignore WordPress.DateTime.CurrentTimeTimestamp.Requested -- Kept as-is: switching to time() would shift every displayed age by the site's UTC offset.
 
 				$notifications[ $key ]['start'] = $modified_start_time;
 
@@ -750,7 +754,7 @@ if ( ! class_exists( 'Uncanny_Owl\Notifications' ) ) {
 			// Remove notification and add in dismissed array.
 			if ( is_array( $option[ $type ] ) && ! empty( $option[ $type ] ) ) {
 				foreach ( $option[ $type ] as $key => $notification ) {
-					if ( $notification['id'] == $id ) { // phpcs:ignore WordPress.PHP.StrictComparisons
+					if ( $notification['id'] == $id ) { // phpcs:ignore Universal.Operators.StrictComparisons.LooseEqual -- Feed IDs are integers; $id arrives as a string from the AJAX request.
 						// Add notification to dismissed array.
 						array_unshift( $option['dismissed'], $notification );
 						// Remove notification from feed or events.

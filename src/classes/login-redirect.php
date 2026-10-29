@@ -40,12 +40,12 @@ class LoginRedirect extends Config implements RequiredFunctions {
 				$redirect_priority = 999;
 			}
 			
-			$do_login_redirect = apply_filters( 'uo_do_login_redirect', true );
+			$do_login_redirect = apply_filters( 'uo_do_login_redirect', true ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code).
 			if( $do_login_redirect ){
 				add_filter( 'login_redirect', array( __CLASS__, 'login_redirect' ), $redirect_priority, 3 );
 			}
 
-			$do_logout_redirect = apply_filters( 'uo_do_logout_redirect', true );
+			$do_logout_redirect = apply_filters( 'uo_do_logout_redirect', true ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code).
 			if( $do_logout_redirect ){
 				add_action( 'wp_logout', array( __CLASS__, 'logout_redirect' ), 1, 1 );
 			}

@@ -93,7 +93,7 @@ class UserSwitching extends Config implements RequiredFunctions {
 					define( 'USER_SWITCHING_OLDUSER_COOKIE', 'wordpress_user_sw_olduser_' . COOKIEHASH );
 				}
 
-				// Version 1.5.4 | By John Blackbourn
+				// Version 1.12.2 | By John Blackbourn
 				require_once( Config::get_include( 'user-switching.php' ) );
 				\user_switching::get_instance();
 			}

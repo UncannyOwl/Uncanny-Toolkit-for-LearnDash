@@ -78,7 +78,40 @@ class AdminMenu extends Boot {
 	 *
 	 */
 	public static function register_options_menu_page_settings() {
-		register_setting( 'uncanny_learndash_toolkit-group', 'uncanny_toolkit_active_classes' );
+		register_setting(
+			'uncanny_learndash_toolkit-group',
+			'uncanny_toolkit_active_classes',
+			array(
+				'sanitize_callback' => array( __CLASS__, 'sanitize_active_classes' ),
+			)
+		);
+	}
+
+	/**
+	 * Sanitize the active modules option.
+	 *
+	 * The option is an array of module class names, keyed by class name
+	 * (see Config::ajax_activate_deactivate_module()). Valid data is returned unchanged.
+	 *
+	 * @param mixed $classes The option value.
+	 *
+	 * @return array
+	 */
+	public static function sanitize_active_classes( $classes ) {
+		if ( ! is_array( $classes ) ) {
+			return array();
+		}
+
+		$sanitized = array();
+		foreach ( $classes as $key => $class ) {
+			if ( ! is_scalar( $class ) ) {
+				continue;
+			}
+			$key               = is_string( $key ) ? sanitize_text_field( $key ) : $key;
+			$sanitized[ $key ] = is_string( $class ) ? sanitize_text_field( $class ) : $class;
+		}
+
+		return $sanitized;
 	}
 
 	/**
@@ -396,7 +429,7 @@ class AdminMenu extends Boot {
 			}
 		}
 
-		echo $modal_html;
+		echo $modal_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Module settings modals built by Config::settings_output(); every dynamic part escaped there.
 	}
 
 	/**
@@ -733,7 +766,7 @@ class AdminMenu extends Boot {
 		);
 
 		// Bail if we're not on a Toolkit screen.
-		if ( empty( $_REQUEST['page'] ) || ! in_array( strtolower( $_REQUEST['page'] ), $toolkit_pages, true ) ) {
+		if ( empty( $_REQUEST['page'] ) || ! in_array( strtolower( $_REQUEST['page'] ), $toolkit_pages, true ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only display parameter; no state change.
 			return;
 		}
 

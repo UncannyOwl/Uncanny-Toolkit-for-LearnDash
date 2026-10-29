@@ -24,9 +24,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 		<ul class="uo-notifications-list">
 
-			<?php $counter = 0; ?>
+			<?php $counter = 0; // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- View included inside Notifications::show_notifications(); variable is local to that method. ?>
 
-			<?php foreach ( $notifications as $notification ) { ?>
+			<?php foreach ( $notifications as $notification ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- View included inside Notifications::show_notifications(); variable is local to that method. ?>
 
 				<?php $counter++; ?>
 

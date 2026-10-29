@@ -33,15 +33,15 @@ class InstallAutomator extends Boot {
 			return;
 		}
 		// Check if we have to render the item
-		if ( ! apply_filters( 'ult_admin_sidebar_try_automator_add', true ) ) {
+		if ( ! apply_filters( 'ult_admin_sidebar_try_automator_add', true ) ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code).
 			return;
 		}
 
 		// Get the item text
-		$menu_item_text = apply_filters( 'ult_admin_sidebar_try_automator_text', __( 'Automation', 'uncanny-learndash-toolkit' ) );
+		$menu_item_text = apply_filters( 'ult_admin_sidebar_try_automator_text', __( 'Automation', 'uncanny-learndash-toolkit' ) ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code).
 
 		// Create the link content
-		$menu_item_html = '<span class="ult-sidebar-featured-item">' . apply_filters( 'ult_admin_sidebar_try_automator_inner_html', '<span class="ult-sidebar-featured-item__text">' . $menu_item_text . '</span>' ) . '</span>';
+		$menu_item_html = '<span class="ult-sidebar-featured-item">' . apply_filters( 'ult_admin_sidebar_try_automator_inner_html', '<span class="ult-sidebar-featured-item__text">' . $menu_item_text . '</span>' ) . '</span>'; // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code).
 
 		// Add the subpage menu
 		add_submenu_page(
@@ -113,7 +113,7 @@ class InstallAutomator extends Boot {
 							</span>
 						</div>
 						<div class="uo-install-automator__button">
-							<?php echo $one_click_install->button( 'uncanny-automator', admin_url( 'post-new.php?post_type=uo-recipe' ) ); ?>
+							<?php echo $one_click_install->button( 'uncanny-automator', admin_url( 'post-new.php?post_type=uo-recipe' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Button markup built by Auto_Plugin_Install::button(); every dynamic part (incl. the redirect URL) escaped there. ?>
 						</div>
 					</div>
 			</div>
@@ -129,6 +129,7 @@ class InstallAutomator extends Boot {
 							<?php
 							echo wp_kses(
 								sprintf(
+									/* translators: %1$s: Opening <strong> tag. %2$s: Closing </strong> tag. */
 									__(
 										'When a user completes a course and fills out an evaluation form, add a row with the form entries to a %1$sGoogle Sheet%2$s and add the user to alumni %1$sBuddyBoss%2$s and %1$sLearnDash%2$s groups.',
 										'uncanny-learndash-toolkit'
@@ -155,6 +156,7 @@ class InstallAutomator extends Boot {
 							<?php
 							echo wp_kses(
 								sprintf(
+									/* translators: %1$s: Opening <strong> tag. %2$s: Closing </strong> tag. */
 									__(
 										'When a new blog post is published, automatically post it to %1$sTwitter%2$s and email the post to a %1$sMailChimp%2$s list.',
 										'uncanny-learndash-toolkit'
@@ -180,6 +182,7 @@ class InstallAutomator extends Boot {
 							<?php
 								echo wp_kses(
 									sprintf(
+										/* translators: %1$s: Opening <strong> tag. %2$s: Closing </strong> tag. */
 										__(
 											'When a user purchases a product, register them for a live event in %1$sEvents Calendar%2$s add them to a %1$sLearnDash%2$s group and send a %1$sWooCommerce%2$s coupon code for their next order.',
 											'uncanny-learndash-toolkit'
@@ -205,6 +208,7 @@ class InstallAutomator extends Boot {
 							<?php
 							echo wp_kses(
 								sprintf(
+									/* translators: %1$s: Opening <strong> tag. %2$s: Closing </strong> tag. */
 									__(
 										'When a user clicks a button, register them for a %1$sZoom%2$s webinar, reset their progress in one course and enroll them in another course.',
 										'uncanny-learndash-toolkit'
@@ -236,7 +240,7 @@ class InstallAutomator extends Boot {
 				?>
 					<div class="uo-install-automator__recipes">
 						<div class="header">
-							<strong><?php esc_html_e( 'Uncanny Automator', 'uncanny-learndash-toolkit' ); ?></strong> <?php esc_html_e( 'supports', 'uncanny-learndash-toolkit' ); ?> <a href="https://automatorplugin.com/integrations/<?php echo $utm; ?>" target="_blank"> <?php esc_html_e( 'all of the most popular WordPress plugins', 'uncanny-learndash-toolkit' ); ?> <span class="external-link"><img src="<?php echo esc_url( Config::get_admin_media( 'install-automator/icon-link-blue.svg' ) ); ?>" alt="External link icon" /></span></a> <?php esc_html_e( "and we're adding new integrations all the time. The possibilities are limitless.", 'uncanny-learndash-toolkit' ); ?>
+							<strong><?php esc_html_e( 'Uncanny Automator', 'uncanny-learndash-toolkit' ); ?></strong> <?php esc_html_e( 'supports', 'uncanny-learndash-toolkit' ); ?> <a href="<?php echo esc_url( 'https://automatorplugin.com/integrations/' . $utm ); ?>" target="_blank"> <?php esc_html_e( 'all of the most popular WordPress plugins', 'uncanny-learndash-toolkit' ); ?> <span class="external-link"><img src="<?php echo esc_url( Config::get_admin_media( 'install-automator/icon-link-blue.svg' ) ); ?>" alt="External link icon" /></span></a> <?php esc_html_e( "and we're adding new integrations all the time. The possibilities are limitless.", 'uncanny-learndash-toolkit' ); ?>
 						</div>
 						<div class="triggers">
 							<div class="uo-recipe-simulator">
@@ -310,7 +314,7 @@ class InstallAutomator extends Boot {
 							</span>
 						</div>
 						<div class="uo-install-automator__button">
-							<?php echo $one_click_install->button( 'uncanny-automator', esc_url( admin_url( 'post-new.php?post_type=uo-recipe' ) ) ); ?>
+							<?php echo $one_click_install->button( 'uncanny-automator', esc_url( admin_url( 'post-new.php?post_type=uo-recipe' ) ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Button markup built by Auto_Plugin_Install::button(); every dynamic part escaped there. ?>
 						</div>
 					</div>
 

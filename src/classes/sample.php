@@ -239,7 +239,7 @@ class Sample extends Config implements RequiredFunctions {
 			array(
 				'type'       => 'html',
 				'class'      => 'uo-additional-information',
-				'inner_html' => __( '<div>Some Extra Information for the user</div>', 'uncanny-learndash-toolkit' ),
+				'inner_html' => '<div>' . __( 'Some Extra Information for the user', 'uncanny-learndash-toolkit' ) . '</div>',
 			),
 
 			// Check Box input type

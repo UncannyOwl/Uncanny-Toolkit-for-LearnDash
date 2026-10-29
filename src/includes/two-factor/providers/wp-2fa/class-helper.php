@@ -117,15 +117,11 @@ class Helper {
 			\WP2FA\Admin\Helpers\User_Helper::set_user( (int) $user_id );
 		}
 
-		$response = apply_filters( 'wp_2fa_validate_login_api', array( 'valid' => false ), $user_id, $token, $provider );
+		$response = apply_filters( 'wp_2fa_validate_login_api', array( 'valid' => false ), $user_id, $token, $provider ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- WP 2FA hook fired intentionally for compatibility with that plugin.
 
 		if ( ! empty( $response['valid'] ) ) {
-			// Clean up the login nonce on success, replicating what the REST handler did.
-			if ( class_exists( '\WP2FA\Authenticator\Login' )
-				&& method_exists( '\WP2FA\Authenticator\Login', 'delete_login_nonce' ) ) {
-				\WP2FA\Authenticator\Login::delete_login_nonce( $user_id );
-			}
-
+			// Nonce consumption is the caller's responsibility (single-use, this login
+			// transaction only), so a success can't invalidate the user's other pending logins.
 			return array(
 				'status'  => true,
 				'message' => __( 'Authentication successful.', 'uncanny-learndash-toolkit' ),
@@ -223,6 +219,157 @@ class Helper {
 		}
 
 		delete_user_meta( $user_id, \WP2FA\Authenticator\Login::USER_META_NONCE_KEY );
+	}
+
+	/**
+	 * Consume exactly one login transaction's nonce (single-use).
+	 *
+	 * @param int    $user_id The user ID.
+	 * @param string $nonce   The login nonce to consume.
+	 * @return bool True when the nonce was valid and has now been spent.
+	 */
+	public static function consume_login_nonce( $user_id, $nonce ) {
+		if ( class_exists( '\WP2FA\Authenticator\Login' )
+			&& method_exists( '\WP2FA\Authenticator\Login', 'consume_login_nonce' ) ) {
+			return (bool) \WP2FA\Authenticator\Login::consume_login_nonce( $user_id, $nonce );
+		}
+
+		// Older WP 2FA: no atomic consume; remove just this nonce.
+		self::delete_login_nonce( $user_id, $nonce );
+		return true;
+	}
+
+	/**
+	 * Attempts allowed per sign-in before lockout when the fallback limiter is used.
+	 */
+	const FALLBACK_ATTEMPT_LIMIT = 5;
+
+	/**
+	 * How long (seconds) the fallback attempt counter is retained.
+	 */
+	const FALLBACK_ATTEMPT_WINDOW = 900;
+
+	/**
+	 * Whether WP 2FA's own rate-limit API is fully available.
+	 *
+	 * Gated on every method we rely on, so a partial API never leaves the limiter
+	 * half-wired; when it isn't all present we fall back to a self-contained counter
+	 * rather than silently allowing unlimited attempts.
+	 *
+	 * @return bool
+	 */
+	private static function native_lockout_available() {
+		if ( ! class_exists( '\WP2FA\Authenticator\Authentication' ) ) {
+			return false;
+		}
+
+		foreach ( array( 'second_factor_locked', 'reserve_second_factor_attempt', 'increase_login_attempts', 'check_number_of_attempts', 'clear_login_attempts' ) as $method ) {
+			if ( ! method_exists( '\WP2FA\Authenticator\Authentication', $method ) ) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Transient key for the fallback attempt counter.
+	 *
+	 * @param int $user_id The user ID.
+	 * @return string
+	 */
+	private static function fallback_attempts_key( $user_id ) {
+		return 'uo_2fa_attempts_' . (int) $user_id;
+	}
+
+	/**
+	 * Whether this user is currently locked out of second-factor attempts.
+	 *
+	 * @param \WP_User $user The user object.
+	 * @return bool
+	 */
+	public static function second_factor_locked( $user ) {
+		if ( self::native_lockout_available() ) {
+			return \WP2FA\Authenticator\Authentication::second_factor_locked( $user );
+		}
+
+		return (int) get_transient( self::fallback_attempts_key( $user->ID ) ) >= self::FALLBACK_ATTEMPT_LIMIT;
+	}
+
+	/**
+	 * Reserve a single second-factor attempt. False when the window has no attempts left.
+	 *
+	 * @param \WP_User $user The user object.
+	 * @return bool
+	 */
+	public static function reserve_second_factor_attempt( $user ) {
+		if ( self::native_lockout_available() ) {
+			return (bool) \WP2FA\Authenticator\Authentication::reserve_second_factor_attempt( $user );
+		}
+
+		return (int) get_transient( self::fallback_attempts_key( $user->ID ) ) < self::FALLBACK_ATTEMPT_LIMIT;
+	}
+
+	/**
+	 * Record one failed second-factor attempt.
+	 *
+	 * @param \WP_User $user The user object.
+	 * @return void
+	 */
+	public static function increase_login_attempts( $user ) {
+		if ( self::native_lockout_available() ) {
+			\WP2FA\Authenticator\Authentication::increase_login_attempts( $user );
+			return;
+		}
+
+		$key = self::fallback_attempts_key( $user->ID );
+		set_transient( $key, (int) get_transient( $key ) + 1, self::FALLBACK_ATTEMPT_WINDOW );
+	}
+
+	/**
+	 * Whether this sign-in still has second-factor attempts left.
+	 *
+	 * @param \WP_User $user The user object.
+	 * @return bool True when attempts remain.
+	 */
+	public static function attempts_remaining( $user ) {
+		if ( self::native_lockout_available() ) {
+			return (bool) \WP2FA\Authenticator\Authentication::check_number_of_attempts( $user );
+		}
+
+		return (int) get_transient( self::fallback_attempts_key( $user->ID ) ) < self::FALLBACK_ATTEMPT_LIMIT;
+	}
+
+	/**
+	 * Clear the recorded second-factor attempts for this user. Called on success.
+	 *
+	 * @param \WP_User $user The user object.
+	 * @return void
+	 */
+	public static function clear_login_attempts( $user ) {
+		if ( self::native_lockout_available() ) {
+			\WP2FA\Authenticator\Authentication::clear_login_attempts( $user );
+		}
+
+		// Always clear the fallback counter too, in case it was ever used for this user.
+		delete_transient( self::fallback_attempts_key( $user->ID ) );
+	}
+
+	/**
+	 * Reset only the per-sign-in attempt counter when a challenge is abandoned at lockout.
+	 *
+	 * Native WP 2FA keeps the account-wide lock in a separate store, so clearing the
+	 * per-sign-in counter there matches its own flow. The fallback limiter holds the count
+	 * and the lock in one window counter, so it must NOT be cleared here, or the lockout
+	 * would reset the moment it trips and never accumulate across challenges.
+	 *
+	 * @param \WP_User $user The user object.
+	 * @return void
+	 */
+	public static function reset_session_counter_on_lockout( $user ) {
+		if ( self::native_lockout_available() ) {
+			\WP2FA\Authenticator\Authentication::clear_login_attempts( $user );
+		}
 	}
 
 	/**

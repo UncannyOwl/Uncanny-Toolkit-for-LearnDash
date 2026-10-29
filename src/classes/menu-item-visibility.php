@@ -136,40 +136,40 @@ class MenuItemVisibility extends Config implements RequiredFunctions {
 		?>
 
         <input type="hidden" name="nav-menu-role-nonce"
-               value="<?php echo wp_create_nonce( 'nav-menu-nonce-name' ); ?>"/>
+               value="<?php echo esc_attr( wp_create_nonce( 'nav-menu-nonce-name' ) ); ?>"/>
 
         <div class="field-nav_menu_role nav_menu_logged_in_out_field description-wide" style="margin: 5px 0;">
             <span class="description"><?php echo esc_html__( 'Display Mode', 'uncanny-learndash-toolkit' ); ?></span>
             <br/>
 
-            <input type="hidden" class="nav-menu-id" value="<?php echo $item->ID; ?>"/>
+            <input type="hidden" class="nav-menu-id" value="<?php echo (int) $item->ID; ?>"/>
 
             <div class="logged-input-holder" style="float: left; width: 35%;">
                 <input type="radio" class="nav-menu-logged-in-out"
-                       name="nav-menu-logged-in-out[<?php echo $item->ID; ?>]"
-                       id="nav_menu_logged_in-for-<?php echo $item->ID; ?>" <?php checked( 'in', $logged_in_out ); ?>
+                       name="nav-menu-logged-in-out[<?php echo (int) $item->ID; ?>]"
+                       id="nav_menu_logged_in-for-<?php echo (int) $item->ID; ?>" <?php checked( 'in', $logged_in_out ); ?>
                        value="in"/>
-                <label for="nav_menu_logged_in-for-<?php echo $item->ID; ?>">
+                <label for="nav_menu_logged_in-for-<?php echo (int) $item->ID; ?>">
 					<?php echo esc_html__( 'Logged In Users', 'uncanny-learndash-toolkit' ); ?>
                 </label>
             </div>
 
             <div class="logged-input-holder" style="float: left; width: 35%;">
                 <input type="radio" class="nav-menu-logged-in-out"
-                       name="nav-menu-logged-in-out[<?php echo $item->ID; ?>]"
-                       id="nav_menu_logged_out-for-<?php echo $item->ID; ?>" <?php checked( 'out', $logged_in_out ); ?>
+                       name="nav-menu-logged-in-out[<?php echo (int) $item->ID; ?>]"
+                       id="nav_menu_logged_out-for-<?php echo (int) $item->ID; ?>" <?php checked( 'out', $logged_in_out ); ?>
                        value="out"/>
-                <label for="nav_menu_logged_out-for-<?php echo $item->ID; ?>">
+                <label for="nav_menu_logged_out-for-<?php echo (int) $item->ID; ?>">
 					<?php echo esc_html__( 'Logged Out Users', 'uncanny-learndash-toolkit' ); ?>
                 </label>
             </div>
 
             <div class="logged-input-holder" style="float: left; width: 30%;">
                 <input type="radio" class="nav-menu-logged-in-out"
-                       name="nav-menu-logged-in-out[<?php echo $item->ID; ?>]"
-                       id="nav_menu_by_role-for-<?php echo $item->ID; ?>" <?php checked( '', $logged_in_out ); ?>
+                       name="nav-menu-logged-in-out[<?php echo (int) $item->ID; ?>]"
+                       id="nav_menu_by_role-for-<?php echo (int) $item->ID; ?>" <?php checked( '', $logged_in_out ); ?>
                        value=""/>
-                <label for="nav_menu_by_role-for-<?php echo $item->ID; ?>">
+                <label for="nav_menu_by_role-for-<?php echo (int) $item->ID; ?>">
 					<?php echo esc_html__( 'Everyone', 'uncanny-learndash-toolkit' ); ?>
                 </label>
             </div>
@@ -191,6 +191,11 @@ class MenuItemVisibility extends Config implements RequiredFunctions {
 	 */
 	public static function nav_update( $menu_id, $menu_item_db_id ) {
 
+		// Only save when our fields were posted from the Menus screen (custom_fields() prints this nonce).
+		if ( ! isset( $_POST['nav-menu-role-nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nav-menu-role-nonce'] ) ), 'nav-menu-nonce-name' ) || ! current_user_can( 'edit_theme_options' ) ) {
+			return;
+		}
+
 		$saved_data = false;
 
 		if ( isset( $_POST['nav-menu-logged-in-out'][ $menu_item_db_id ] ) && in_array( $_POST['nav-menu-logged-in-out'][ $menu_item_db_id ], array(
@@ -198,7 +203,7 @@ class MenuItemVisibility extends Config implements RequiredFunctions {
 				'out'
 			) )
 		) {
-			$saved_data = $_POST['nav-menu-logged-in-out'][ $menu_item_db_id ];
+			$saved_data = sanitize_key( wp_unslash( $_POST['nav-menu-logged-in-out'][ $menu_item_db_id ] ) );
 		}
 
 		if ( $saved_data ) {
@@ -285,7 +290,7 @@ class MenuItemVisibility extends Config implements RequiredFunctions {
 			}
 
 			// add filter to work with plugins that don't use traditional roles
-			$visible = apply_filters( 'nav_menu_roles_item_visibility', $visible, $item );
+			$visible = apply_filters( 'nav_menu_roles_item_visibility', $visible, $item ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Nav Menu Roles hook fired intentionally for compatibility with that plugin.
 
 			// unset non-visible item
 			if ( ! $visible ) {

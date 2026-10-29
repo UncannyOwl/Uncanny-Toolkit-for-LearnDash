@@ -148,7 +148,7 @@ class LearnDashResume extends Config implements RequiredFunctions {
 
 			/* Limit the plugin to LearnDash specific post types */
 			$learn_dash_post_types = apply_filters(
-				'last_known_learndash_post_types',
+				'last_known_learndash_post_types', // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code).
 				array(
 					'sfwd-courses',
 					'sfwd-lessons',
@@ -229,14 +229,14 @@ class LearnDashResume extends Config implements RequiredFunctions {
 						$show_name = self::get_settings_value( 'learn-dash-resume-show-name', __CLASS__ );
 
 						if ( strlen( trim( $link_text ) ) ) {
-							$resume_link_text = __( $link_text, 'uncanny-learndash-toolkit' );
+							$resume_link_text = $link_text;
 						} else {
 							$resume_link_text = __( 'Resume', 'uncanny-learndash-toolkit' );
 						}
 
-						$resume_link_text = apply_filters( 'learndash_resume_link_text', $resume_link_text );
+						$resume_link_text = apply_filters( 'learndash_resume_link_text', $resume_link_text ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code).
 
-						$css_classes = apply_filters( 'learndash_resume_css_classes', 'learndash-resume-button' );
+						$css_classes = apply_filters( 'learndash_resume_css_classes', 'learndash-resume-button' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code).
 
 						ob_start();
 
@@ -245,14 +245,15 @@ class LearnDashResume extends Config implements RequiredFunctions {
 						} else {
 							$permalink = get_permalink( $step_id );
 						}
-						$permalink = apply_filters( 'uo_resume_button_permalink', $permalink, $step_id, $step_course_id );
+						$permalink = apply_filters( 'uo_resume_button_permalink', $permalink, $step_id, $step_course_id ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code).
 
 						printf(
 							'<a href="%s" title="%s" class="%s"><input type="submit" value="%s" class=""></a>',
-							$permalink,
+							esc_url( $permalink ),
 							esc_attr(
 								sprintf(
-									esc_html_x( 'Resume %s: %s', 'LMS shortcode Resume link title "Resume post_type_name: Post_title ', 'uncanny-learndash-toolkit' ),
+									/* translators: 1: Post type singular name, 2: Post title. */
+									esc_html_x( 'Resume %1$s: %2$s', 'LMS shortcode Resume link title "Resume post_type_name: Post_title ', 'uncanny-learndash-toolkit' ),
 									$label->labels->singular_name,
 									$title
 								)
@@ -264,7 +265,7 @@ class LearnDashResume extends Config implements RequiredFunctions {
 						if ( $show_name === 'on' && 'yes' === $atts['show_name'] ) {
 							printf(
 								'<div class="resume-item-name">%s</div>',
-								$title
+								wp_kses_post( $title )
 							);
 						}
 
@@ -341,7 +342,7 @@ class LearnDashResume extends Config implements RequiredFunctions {
 
 			$ld_course_id = learndash_get_course_id( $step_id );
 
-			if ( true === apply_filters( 'uo_resume_button_do_not_show_for_completed_course', false, $ld_course_id ) ) {
+			if ( true === apply_filters( 'uo_resume_button_do_not_show_for_completed_course', false, $ld_course_id ) ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code).
 				if ( learndash_course_completed( $user->ID, $ld_course_id ) ) {
 					return '';
 				}
@@ -354,7 +355,7 @@ class LearnDashResume extends Config implements RequiredFunctions {
 			global $post;
 			if ( (int) $post->ID === (int) $step_id ) {
 				$learn_dash_post_types = apply_filters(
-					'last_known_learndash_post_types',
+					'last_known_learndash_post_types', // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code).
 					array(
 						'sfwd-courses',
 						'sfwd-lessons',
@@ -386,14 +387,14 @@ class LearnDashResume extends Config implements RequiredFunctions {
 				$show_name = self::get_settings_value( 'learn-dash-resume-show-name', __CLASS__ );
 
 				if ( strlen( trim( $link_text ) ) ) {
-					$resume_link_text = __( $link_text, 'uncanny-learndash-toolkit' );
+					$resume_link_text = $link_text;
 				} else {
 					$resume_link_text = __( 'Resume', 'uncanny-learndash-toolkit' );
 				}
 
-				$resume_link_text = apply_filters( 'learndash_resume_link_text', $resume_link_text );
+				$resume_link_text = apply_filters( 'learndash_resume_link_text', $resume_link_text ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code).
 
-				$css_classes = apply_filters( 'learndash_resume_css_classes', 'learndash-resume-button' );
+				$css_classes = apply_filters( 'learndash_resume_css_classes', 'learndash-resume-button' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code).
 
 				if ( function_exists( 'learndash_get_step_permalink' ) ) {
 					$permalink = learndash_get_step_permalink( $step_id, $step_course_id );
@@ -401,7 +402,7 @@ class LearnDashResume extends Config implements RequiredFunctions {
 					$permalink = get_permalink( $step_id );
 				}
 
-				$permalink = apply_filters( 'uo_resume_button_permalink', $permalink, $step_id, $step_course_id );
+				$permalink = apply_filters( 'uo_resume_button_permalink', $permalink, $step_id, $step_course_id ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code).
 				if ( 'yes' === (string) $url ) {
 					return $permalink;
 				}
@@ -410,10 +411,11 @@ class LearnDashResume extends Config implements RequiredFunctions {
 				if ( $link ) {
 					printf(
 						'<a href="%s" title="%s" class="%s">%s</a>',
-						$permalink,
+						esc_url( $permalink ),
 						esc_attr(
 							sprintf(
-								esc_html_x( 'Resume %s: %s', 'LMS shortcode Resume link title "Resume post_type_name: Post_title ', 'uncanny-learndash-toolkit' ),
+								/* translators: 1: Post type singular name, 2: Post title. */
+								esc_html_x( 'Resume %1$s: %2$s', 'LMS shortcode Resume link title "Resume post_type_name: Post_title ', 'uncanny-learndash-toolkit' ),
 								$label->labels->singular_name,
 								$title
 							)
@@ -424,10 +426,11 @@ class LearnDashResume extends Config implements RequiredFunctions {
 				} else {
 					printf(
 						'<a href="%s" title="%s" class="%s"><input type="submit" value="%s" class=""></a>',
-						$permalink,
+						esc_url( $permalink ),
 						esc_attr(
 							sprintf(
-								esc_html_x( 'Resume %s: %s', 'LMS shortcode Resume link title "Resume post_type_name: Post_title ', 'uncanny-learndash-toolkit' ),
+								/* translators: 1: Post type singular name, 2: Post title. */
+								esc_html_x( 'Resume %1$s: %2$s', 'LMS shortcode Resume link title "Resume post_type_name: Post_title ', 'uncanny-learndash-toolkit' ),
 								$label->labels->singular_name,
 								$title
 							)
@@ -440,7 +443,7 @@ class LearnDashResume extends Config implements RequiredFunctions {
 				if ( $show_name === 'on' ) {
 					printf(
 						'<div class="resume-item-name">%s</div>',
-						$title
+						wp_kses_post( $title )
 					);
 				}
 				$resume_link = ob_get_contents();
@@ -469,10 +472,10 @@ class LearnDashResume extends Config implements RequiredFunctions {
 	 * Using Pro reset form for resume reset
 	 */
 	public static function reset_resume_data() {
-		if ( isset( $_POST['learndash_reset_course_nonce'] ) && wp_verify_nonce( $_POST['learndash_reset_course_nonce'], 'learndash_reset_course' ) ) {
+		if ( isset( $_POST['learndash_reset_course_nonce'] ) && wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['learndash_reset_course_nonce'] ) ), 'learndash_reset_course' ) ) {
 			if ( is_user_logged_in() ) {
 				$user           = wp_get_current_user();
-				$course_id      = intval( $_POST['ld_reset_course_id'] );
+				$course_id      = isset( $_POST['ld_reset_course_id'] ) ? intval( $_POST['ld_reset_course_id'] ) : 0;
 				$last_know_step = get_user_meta( $user->ID, 'learndash_last_known_page', true );
 				if ( false !== strpos( $last_know_step, ',' ) ) {
 					$last_know_step = explode( ',', $last_know_step );

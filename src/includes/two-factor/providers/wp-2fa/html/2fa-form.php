@@ -9,9 +9,9 @@
 defined( 'ABSPATH' ) || exit;
 
 // Display error message if present.
-if ( isset( $_GET['2fa_error'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+if ( isset( $_GET['2fa_error'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only display parameter; no state change.
 	echo '<div class="ult-notice ult-notice--error">';
-	echo '<span class="ult-notice-text">' . esc_html( urldecode( sanitize_text_field( wp_unslash( $_GET['2fa_error'] ) ) ) ) . '</span>'; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+	echo '<span class="ult-notice-text">' . esc_html( urldecode( sanitize_text_field( wp_unslash( $_GET['2fa_error'] ) ) ) ) . '</span>'; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only display parameter; no state change.
 	echo '</div>';
 }
 ?>

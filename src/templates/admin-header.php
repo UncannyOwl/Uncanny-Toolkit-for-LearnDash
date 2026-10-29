@@ -2,9 +2,10 @@
 
 namespace uncanny_learndash_toolkit;
 
-if ( ! defined( 'WPINC' ) ) {
-	die;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
 }
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Template included inside a method (e.g. AdminMenu::options_menu_page_output()); variables are local to that method.
 
 /**
  * Variables:
@@ -39,7 +40,7 @@ $tabs = array(
 			</div>
 			<div class="uncannyowl-header-top__author">
 				<span><?php esc_html_e( 'by', 'uncanny-learndash-toolkit' ); ?></span>
-				<a href="<?php echo Config::utm_parameters( 'https://uncannyowl.com', 'header', 'logo' ); ?>" target="_blank" class="uncannyowl-header-top__logo uncannyowl-header-top__logo--svg">
+				<a href="<?php echo esc_url( Config::utm_parameters( 'https://uncannyowl.com', 'header', 'logo' ) ); ?>" target="_blank" class="uncannyowl-header-top__logo uncannyowl-header-top__logo--svg">
 					UncannyOwl
 				</a>
 			</div>
@@ -80,8 +81,8 @@ $tabs = array(
 
 			?>
 
-			<a href="<?php echo $tab->href; ?>" class="uncannyowl-nav-tab <?php echo implode( ' ', $css_classes ); ?>">
-				<?php echo $tab->name; ?>
+			<a href="<?php echo esc_url( $tab->href ); ?>" class="uncannyowl-nav-tab <?php echo esc_attr( implode( ' ', $css_classes ) ); ?>">
+				<?php echo esc_html( $tab->name ); ?>
 			</a>
 
 		<?php } ?>

@@ -2,6 +2,11 @@
 
 namespace uncanny_learndash_toolkit;
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Template included inside Boot::uo_support_page(); variables are local to that method.
+
 // Get data
 $status = get_option( 'uo_license_status' ); // $license_data->license will be either "valid", "invalid", "expired", "disabled"
 
@@ -21,19 +26,22 @@ if ( ! $license_is_active ) {
 		?>
 		<h3 style="color:#b4261b">
 			<?php
-			echo sprintf(
-				__( 'Please <a href="%s">activate a valid license key</a> to submit a support ticket.', 'uncanny-learndash-toolkit' ),
-				$license_page_link
+			echo wp_kses_post(
+				sprintf(
+					/* translators: %s: URL of the license activation page. */
+					__( 'Please <a href="%s">activate a valid license key</a> to submit a support ticket.', 'uncanny-learndash-toolkit' ),
+					esc_url( $license_page_link )
+				)
 			);
 			?>
 		</h3>
 		<?php
 	}
-} elseif ( isset( $_GET['sent'] ) ) {
+} elseif ( isset( $_GET['sent'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only display parameter; no state change.
 	?>
 
 	<h3 style="color:#46b450">
-		<?php _e( 'Your ticket has been created. Someone at Uncanny Owl will contact you regarding your issue.', 'uncanny-learndash-toolkit' ); ?>
+		<?php esc_html_e( 'Your ticket has been created. Someone at Uncanny Owl will contact you regarding your issue.', 'uncanny-learndash-toolkit' ); ?>
 	</h3>
 
 	<?php
@@ -70,15 +78,15 @@ if ( ! $license_is_active ) {
 		<div class="uncannyowl-flex uncannyowl-flex-wrap">
 			<div class="uncannyowl-flex-0 uncannyowl-w-33">
 				 <h2>
-					<?php _e( 'Submit a Ticket', 'uncanny-learndash-toolkit' ); ?>
+					<?php esc_html_e( 'Submit a Ticket', 'uncanny-learndash-toolkit' ); ?>
 				</h2>
 				<div class="uncannyowl-card">
 					<div class="uncannyowl-card-body">
-						<form name="uncanny-help" method="POST" action="<?php echo admin_url( 'admin.php' ); ?>">
+						<form name="uncanny-help" method="POST" action="<?php echo esc_url( admin_url( 'admin.php' ) ); ?>">
 							<?php wp_nonce_field( 'uncanny0w1', 'is_uncanny_help' ); ?>
 
 							<textarea class="uo-send-ticket__hidden-field"
-									name="siteinfo"><?php echo $installation_information; ?></textarea>
+									name="siteinfo"><?php echo esc_textarea( $installation_information ); ?></textarea>
 
 							<input type="hidden" value="uncanny-toolkit-kb&submit-a-ticket=1" name="page"/>
 
@@ -86,39 +94,39 @@ if ( ! $license_is_active ) {
 
 							<div class="uncannyowl-form-field p-0">
 								<label for="uo-fullname" >
-									<?php _e( 'Full Name', 'uncanny-learndash-toolkit' ); ?>
+									<?php esc_html_e( 'Full Name', 'uncanny-learndash-toolkit' ); ?>
 								</label>
 								<input required name="fullname" id="uo-fullname" type="text" class="uncannyowl-input"
-									value="<?php echo $name; ?>">
+									value="<?php echo esc_attr( $name ); ?>">
 							</div>
 
 							<div class="uncannyowl-form-field p-0">
 								<label for="uo-email"  >
-									<?php _e( 'Email', 'uncanny-learndash-toolkit' ); ?>
+									<?php esc_html_e( 'Email', 'uncanny-learndash-toolkit' ); ?>
 								</label>
 								<input required name="email" id="uo-email" type="email" class="uncannyowl-input"
-									value="<?php echo $email; ?>">
+									value="<?php echo esc_attr( $email ); ?>">
 							</div>
 
 							<div class="uncannyowl-form-field p-0">
 								<label for="uo-website" >
-									<?php _e( 'Site URL', 'uncanny-learndash-toolkit' ); ?>
+									<?php esc_html_e( 'Site URL', 'uncanny-learndash-toolkit' ); ?>
 								</label>
 								<input required name="website" id="uo-website" type="url" class="uncannyowl-input"
-									readonly value="<?php echo get_bloginfo( 'url' ); ?>">
+									readonly value="<?php echo esc_url( get_bloginfo( 'url' ) ); ?>">
 							</div>
 
 							<div class="uncannyowl-form-field p-0">
 								<label for="uo-website" >
-									<?php _e( 'License Key', 'uncanny-learndash-toolkit' ); ?>
+									<?php esc_html_e( 'License Key', 'uncanny-learndash-toolkit' ); ?>
 								</label>
 								<input required name="license_key" id="uo-website" type="text" class="uncannyowl-input"
-									readonly value="<?php echo trim( get_option( 'uo_license_key' ) ); ?>">
+									readonly value="<?php echo esc_attr( trim( get_option( 'uo_license_key' ) ) ); ?>">
 							</div>
 
 							<div class="uncannyowl-form-field p-0">
 								<label for="uo-subject">
-									<?php _e( 'Subject', 'uncanny-learndash-toolkit' ); ?>
+									<?php esc_html_e( 'Subject', 'uncanny-learndash-toolkit' ); ?>
 								</label>
 								<input required name="subject" id="uo-subject" type="text" class="uncannyowl-input"
 									value="">
@@ -126,7 +134,7 @@ if ( ! $license_is_active ) {
 
 							<div class="uncannyowl-form-field p-0">
 								<label for="uo-message" >
-									<?php _e( 'Message', 'uncanny-learndash-toolkit' ); ?>
+									<?php esc_html_e( 'Message', 'uncanny-learndash-toolkit' ); ?>
 								</label>
 								<textarea required name="message" id="uo-message"
 										class="uncannyowl-textarea"></textarea>
@@ -136,17 +144,17 @@ if ( ! $license_is_active ) {
 								<div class="uncannyowl-checkbox mb-0">
 									<label class="uncannyowl-checkbox-label mb-0">
 										<input type="checkbox" value="yes" name="site-data" checked="checked">
-										<?php _e( 'Send site data', 'uncanny-learndash-toolkit' ); ?>
+										<?php esc_html_e( 'Send site data', 'uncanny-learndash-toolkit' ); ?>
 									</label>
 								</div> 	 
 							</div>
 
 							<div class="uncannyowl-form-field p-0">
 								<p class="mt-0">
-									<?php echo __( 'Emails must be enabled on your site to create a ticket using this form. If you don’t receive a confirmation email shortly after submitting this form, please log the ticket through your <a href="https://www.uncannyowl.com/my-account/submit-a-request/" target="_blank" rel="noreferrer">My Account</a> page.', 'uncanny-learndash-toolkit' ); ?>
+									<?php echo wp_kses_post( __( 'Emails must be enabled on your site to create a ticket using this form. If you don’t receive a confirmation email shortly after submitting this form, please log the ticket through your <a href="https://www.uncannyowl.com/my-account/submit-a-request/" target="_blank" rel="noreferrer">My Account</a> page.', 'uncanny-learndash-toolkit' ) ); ?>
 								</p>
 								<button type="submit" class="uncannyowl-btn uncannyowl-btn--primary">
-									<?php _e( 'Create ticket', 'uncanny-learndash-toolkit' ); ?>
+									<?php esc_html_e( 'Create ticket', 'uncanny-learndash-toolkit' ); ?>
 								</button>
 							</div>
 						</form>
@@ -154,9 +162,9 @@ if ( ! $license_is_active ) {
 				</div>
 			</div>
 			<div class="uo-send-ticket__data uncannyowl-w-66 uncannyowl-flex-initial">
-				<h2> <?php _e( 'Site Data', 'uncanny-learndash-toolkit' ); ?> </h2>
+				<h2> <?php esc_html_e( 'Site Data', 'uncanny-learndash-toolkit' ); ?> </h2>
 
-				<?php echo $installation_information; ?>
+				<?php echo $installation_information; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Markup built by admin-siteinfo.php; every cell is escaped there with esc_html() / wp_kses_post(). ?>
 			</div>
 		</div>
 	</div>

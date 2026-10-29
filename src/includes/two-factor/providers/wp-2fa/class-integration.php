@@ -181,8 +181,11 @@ class Integration {
 			return $response;
 		}
 
-		// Check if user has 2FA enabled.
-		$user_id = $this->get_user_id_from_login_attempt();
+		// Use the user wp_signon() actually authenticated (set by uo_login_action() as
+		// $response['user_id']), never a login re-read from raw request data. Otherwise a
+		// mismatched 'log'/'email' field could point the 2FA check at a different account
+		// while the signed-in user's session stands.
+		$user_id = isset( $response['user_id'] ) ? absint( $response['user_id'] ) : 0;
 		if ( ! $user_id ) {
 			return $response;
 		}
@@ -227,39 +230,6 @@ class Integration {
 		$response['data']['requires_redirect'] = true;
 
 		return $response;
-	}
-
-	/**
-	 * Gets user ID from login attempt data.
-	 *
-	 * @return int|false User ID or false if not found.
-	 */
-	private function get_user_id_from_login_attempt() {
-		// Traditional forms use 'log', AJAX forms use 'email'.
-		// No need to verify nonce here as this is called after successful login attempt.
-		// We just need to identify the user.
-		$username = '';
-		if ( isset( $_POST['log'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
-			$username = sanitize_user( wp_unslash( $_POST['log'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
-		} elseif ( isset( $_POST['email'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
-			$username = sanitize_user( wp_unslash( $_POST['email'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
-		} else {
-			return false;
-		}
-
-		// Try by login first.
-		$user = get_user_by( 'login', $username );
-
-		// If not found and looks like email, try by email.
-		if ( ! $user && strpos( $username, '@' ) !== false ) {
-			$user = get_user_by( 'email', $username );
-		}
-
-		if ( $user ) {
-			return $user->ID;
-		} else {
-			return false;
-		}
 	}
 
 	/**

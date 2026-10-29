@@ -16,7 +16,7 @@ class DisableEmails extends Config implements RequiredFunctions {
 
 			add_action( 'admin_bar_menu', array( __CLASS__, 'admin_bar_emails_disabled' ), 999 );
 			if ( ! defined( 'DISABLE_EMAILS_OPTIONS' ) ) {
-				define( 'DISABLE_EMAILS_OPTIONS', 'disable_emails' );
+				define( 'DISABLE_EMAILS_OPTIONS', 'disable_emails' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound -- Constant of the bundled Disable Emails library (src/includes/class.DisableEmailsPlugin.php); must keep this exact name.
 			}
 			include_once UNCANNY_TOOLKIT_DIR . '/src/includes/class.DisableEmailsPlugin.php';
 
@@ -83,7 +83,7 @@ class DisableEmails extends Config implements RequiredFunctions {
 
 		$args = array(
 			'id'     => 'emails-disable',
-			'title'  => '<span style="font-weight: bold;font-style: italic;">' . __( 'Emails are Disabled', ' uncanny-learndash-toolkit' ) . '</span>',
+			'title'  => '<span style="font-weight: bold;font-style: italic;">' . esc_html__( 'Emails are Disabled', 'uncanny-learndash-toolkit' ) . '</span>',
 			'parent' => 'top-secondary',
 		);
 

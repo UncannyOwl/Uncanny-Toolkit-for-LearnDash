@@ -1,5 +1,10 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Template included inside Boot::uo_support_page(); variables are local to that method.
+
 global $wpdb,
 	   $wp_version;
 
@@ -10,7 +15,7 @@ global $wpdb,
  *
  * @return string
  */
-function uo_item_meets_requirements( $meets_requirements, $data ) {
+function uo_item_meets_requirements( $meets_requirements, $data ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Public function kept for backward compatibility.
 	$output = '<div style="color: green;">' . $data . '</div>';
 
 	if ( ! $meets_requirements ) {
@@ -23,7 +28,7 @@ function uo_item_meets_requirements( $meets_requirements, $data ) {
 /**
  * @return array|string[]
  */
-function uo_get_server_database_version() {
+function uo_get_server_database_version() { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Public function kept for backward compatibility.
 	if ( class_exists( 'LDLMS_DB' ) ) {
 		$db_server_info = LDLMS_DB::get_db_server_info();
 	} else {
@@ -37,7 +42,7 @@ function uo_get_server_database_version() {
 			'db_version_found'    => '',
 		);
 
-		$db_server_version = $wpdb->get_results( "SHOW VARIABLES WHERE `Variable_name` IN ( 'version_comment', 'version' )", OBJECT_K );
+		$db_server_version = $wpdb->get_results( "SHOW VARIABLES WHERE `Variable_name` IN ( 'version_comment', 'version' )", OBJECT_K ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Live read of MySQL server variables for the support site-info table; no WP API for it, and a cache would show stale values.
 
 		if ( ! empty( $db_server_version ) ) {
 			foreach ( $db_server_version as $field_key => $field_set ) {
@@ -45,7 +50,7 @@ function uo_get_server_database_version() {
 				switch ( $field_key ) {
 					case 'version_comment':
 						if ( ( is_object( $field_set ) ) && ( property_exists( $field_set, 'Value' ) ) ) {
-							if ( stristr( $field_set->Value, 'mariadb' ) ) { //phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+							if ( stristr( $field_set->Value, 'mariadb' ) ) { // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- 'Value' is the column name MySQL returns for SHOW VARIABLES.
 								$db_server_info['mariadb_actve'] = true;
 							} else {
 								$db_server_info['mysqldb_active'] = true;
@@ -55,7 +60,7 @@ function uo_get_server_database_version() {
 
 					case 'version':
 						if ( ( is_object( $field_set ) ) && ( property_exists( $field_set, 'Value' ) ) ) {
-							$db_server_info['db_version_found'] = $field_set->Value; //phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+							$db_server_info['db_version_found'] = $field_set->Value; // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase -- 'Value' is the column name MySQL returns for SHOW VARIABLES.
 						}
 						break;
 
@@ -319,7 +324,7 @@ $tables[] = $table_php_settings;
 			?>
 	        <div class="uncannyowl-admin-section">
 				<div class="uncannyowl-admin-header">
-					<h3 class="uncannyowl-admin-title"><?php echo $table->title; ?></h3>
+					<h3 class="uncannyowl-admin-title"><?php echo esc_html( $table->title ); ?></h3>
 			    </div>	
 			 
 			    <div class="uncannyowl-admin-block pt-0 pl-0 pr-0">
@@ -331,7 +336,7 @@ $tables[] = $table_php_settings;
 								foreach ( $table->heading as $heading ) { ?>
 
 									<th class="uncannyowl-text-left">
-										<?php echo $heading; ?>
+										<?php echo esc_html( $heading ); ?>
 									</th>
 
 								<?php } ?>
@@ -347,7 +352,7 @@ $tables[] = $table_php_settings;
 									foreach ( $row as $cell ) { ?>
 
 										<td style=" <?php echo 0 === $i % 2 ? ' width: 300px;' : ''; $i ++; ?>">
-											<?php echo $cell; ?>
+											<?php echo wp_kses_post( $cell ); ?>
 										</td>
 
 									<?php } ?>

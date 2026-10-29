@@ -127,10 +127,10 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 			return '';
 		}
 
-		echo $args['before_widget'];
+		echo $args['before_widget']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Sidebar wrapper markup registered by the theme via register_sidebar().
 
 		if ( ! empty( $instance['title'] ) ) {
-			echo $args['before_title'] . apply_filters( 'widget_title', $instance['title'] ) . $args['after_title'];
+			echo $args['before_title'] . wp_kses_post( apply_filters( 'widget_title', $instance['title'] ) ) . $args['after_title']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- before_title/after_title are sidebar wrapper markup registered by the theme via register_sidebar().
 		}
 
 		self::$order    = ! empty( $instance['order'] ) ? $instance['order'] : 'ASC';
@@ -174,10 +174,10 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 						'date_earned' => $date_earned,
 						'link'        => sprintf(
 							'<li><a %s target="_blank" href="%s" title="%s %s" >%s</a></li>',
-							'data-date-earned="' . $date_earned . '"',
+							'data-date-earned="' . esc_attr( $date_earned ) . '"',
 							esc_url( $certificate_link ),
 							esc_html__( 'Your certificate for :', 'uncanny-learndash-toolkit' ),
-							$course->post_title,
+							esc_attr( $course->post_title ),
 							esc_html( $certificate_title )
 						),
 					);
@@ -215,10 +215,10 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 							'date_earned' => $date_earned,
 							'link'        => sprintf(
 								'<li><a %s target="_blank" href="%s" title="%s %s" >%s</a></li>',
-								'data-date-earned="' . $date_earned . '"',
+								'data-date-earned="' . esc_attr( $date_earned ) . '"',
 								esc_url( $certificateLink ),
 								esc_html__( 'Your certificate for :', 'uncanny-learndash-toolkit' ),
-								$quiz_title,
+								esc_attr( $quiz_title ),
 								esc_html( $certificate_title )
 							),
 						);
@@ -259,10 +259,10 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 						'date_earned' => $date_earned,
 						'link'        => sprintf(
 							'<li><a %s target="_blank" href="%s" title="%s %s" >%s</a></li>',
-							'data-date-earned="' . $date_earned . '"',
+							'data-date-earned="' . esc_attr( $date_earned ) . '"',
 							esc_url( $certificate_link ),
 							esc_html__( 'Your certificate for:', 'uncanny-learndash-toolkit' ),
-							$group->post_title,
+							esc_attr( $group->post_title ),
 							esc_html( $certificate_title )
 						),
 					);
@@ -270,7 +270,7 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 			}
 		}
 
-		$filtered_certificate_list = apply_filters( 'certificate_list_widget', $certificate_list );
+		$filtered_certificate_list = apply_filters( 'certificate_list_widget', $certificate_list ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Public Toolkit hook kept for backward compatibility (used by Toolkit Pro and site code).
 		if( ! is_array( $filtered_certificate_list ) ) {
 			$filtered_certificate_list = $certificate_list; // Make sure to fallback to original list.
 		}
@@ -282,7 +282,7 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 			usort( $filtered_certificate_list, array( __CLASS__, 'cmp' ) );
 
 			foreach ( $filtered_certificate_list as $certificate ) {
-				echo $certificate['link'];
+				echo wp_kses_post( $certificate['link'] );
 			}
 		}
 
@@ -291,7 +291,7 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 		//close .uncanny-cert-widget-list
 		echo '</div>';
 
-		echo $args['after_widget'];
+		echo $args['after_widget']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Sidebar wrapper markup registered by the theme via register_sidebar().
 
 		return null;
 	}
@@ -379,29 +379,29 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 
 		?>
 		<p>
-			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:' ); ?></label>
-			<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>"
-				   name="<?php echo $this->get_field_name( 'title' ); ?>" type="text"
+			<label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"><?php esc_html_e( 'Title:' ); // phpcs:ignore WordPress.WP.I18n.MissingArgDomain -- Core string, translated by WordPress. ?></label>
+			<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"
+				   name="<?php echo esc_attr( $this->get_field_name( 'title' ) ); ?>" type="text"
 				   value="<?php echo esc_attr( $title ); ?>">
 		</p>
 		<p>
 			<label
-					for="<?php echo $this->get_field_id( 'no_certs' ); ?>"><?php esc_html_e( 'No certificates message:', 'uncanny-learndash-toolkit' ); ?></label>
-			<input class="widefat" id="<?php echo $this->get_field_id( 'no_certs' ); ?>"
-				   name="<?php echo $this->get_field_name( 'no_certs' ); ?>" type="text"
+					for="<?php echo esc_attr( $this->get_field_id( 'no_certs' ) ); ?>"><?php esc_html_e( 'No certificates message:', 'uncanny-learndash-toolkit' ); ?></label>
+			<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'no_certs' ) ); ?>"
+				   name="<?php echo esc_attr( $this->get_field_name( 'no_certs' ) ); ?>" type="text"
 				   value="<?php echo esc_attr( $no_certs ); ?>">
 		</p>
 		<p>
 			<label
-					for="<?php echo $this->get_field_id( 'order' ); ?>"><?php esc_html_e( 'Certificate Order:', 'uncanny-learndash-toolkit' ); ?></label><br>
-			<input id="<?php echo $this->get_field_id( 'order' ); ?>"
-				   name="<?php echo $this->get_field_name( 'order' ); ?>"
+					for="<?php echo esc_attr( $this->get_field_id( 'order' ) ); ?>"><?php esc_html_e( 'Certificate Order:', 'uncanny-learndash-toolkit' ); ?></label><br>
+			<input id="<?php echo esc_attr( $this->get_field_id( 'order' ) ); ?>"
+				   name="<?php echo esc_attr( $this->get_field_name( 'order' ) ); ?>"
 				   class="widefat"
 				   type="radio"
 				<?php echo ( 'ASC' === $order ) ? 'checked' : ''; ?>
 				   value="ASC"> <?php esc_html_e( 'Ascending', 'uncanny-learndash-toolkit' ); ?><br>
-			<input id="<?php echo $this->get_field_id( 'order' ); ?>"
-				   name="<?php echo $this->get_field_name( 'order' ); ?>"
+			<input id="<?php echo esc_attr( $this->get_field_id( 'order' ) ); ?>"
+				   name="<?php echo esc_attr( $this->get_field_name( 'order' ) ); ?>"
 				   class="widefat"
 				   type="radio"
 				<?php echo ( 'DESC' === $order ) ? 'checked' : ''; ?>
@@ -409,17 +409,17 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 		</p>
 		<p>
 			<label
-					for="<?php echo $this->get_field_id( 'order_by' ); ?>"><?php esc_html_e( 'Certificate Order By:', 'uncanny-learndash-toolkit' ); ?></label><br>
+					for="<?php echo esc_attr( $this->get_field_id( 'order_by' ) ); ?>"><?php esc_html_e( 'Certificate Order By:', 'uncanny-learndash-toolkit' ); ?></label><br>
 
-			<input id="<?php echo $this->get_field_id( 'order_by' ); ?>"
-				   name="<?php echo $this->get_field_name( 'order_by' ); ?>"
+			<input id="<?php echo esc_attr( $this->get_field_id( 'order_by' ) ); ?>"
+				   name="<?php echo esc_attr( $this->get_field_name( 'order_by' ) ); ?>"
 				   class="widefat"
 				   type="radio"
 				<?php echo ( 'title' === $order_by ) ? 'checked' : ''; ?>
 				   value="title"> <?php esc_html_e( 'Title', 'uncanny-learndash-toolkit' ); ?><br>
 
-			<input id="<?php echo $this->get_field_id( 'order_by' ); ?>"
-				   name="<?php echo $this->get_field_name( 'order_by' ); ?>"
+			<input id="<?php echo esc_attr( $this->get_field_id( 'order_by' ) ); ?>"
+				   name="<?php echo esc_attr( $this->get_field_name( 'order_by' ) ); ?>"
 				   class="widefat"
 				   type="radio"
 				<?php echo ( 'date_earned' === $order_by ) ? 'checked' : ''; ?>
@@ -443,10 +443,10 @@ class WidgetCert extends \WP_Widget implements RequiredFunctions {
 		$new_instance, $old_instance
 	) {
 		$instance             = array();
-		$instance['title']    = ( ! empty( $new_instance['title'] ) ) ? strip_tags( $new_instance['title'] ) : '';
-		$instance['no_certs'] = ( ! empty( $new_instance['no_certs'] ) ) ? strip_tags( $new_instance['no_certs'] ) : '';
-		$instance['order']    = ( ! empty( $new_instance['order'] ) ) ? strip_tags( $new_instance['order'] ) : '';
-		$instance['order_by'] = ( ! empty( $new_instance['order_by'] ) ) ? strip_tags( $new_instance['order_by'] ) : '';
+		$instance['title']    = ( ! empty( $new_instance['title'] ) ) ? wp_strip_all_tags( $new_instance['title'] ) : '';
+		$instance['no_certs'] = ( ! empty( $new_instance['no_certs'] ) ) ? wp_strip_all_tags( $new_instance['no_certs'] ) : '';
+		$instance['order']    = ( ! empty( $new_instance['order'] ) ) ? wp_strip_all_tags( $new_instance['order'] ) : '';
+		$instance['order_by'] = ( ! empty( $new_instance['order_by'] ) ) ? wp_strip_all_tags( $new_instance['order_by'] ) : '';
 
 		return $instance;
 	}
