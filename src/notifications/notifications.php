@@ -30,6 +30,21 @@ if ( ! class_exists( 'Uncanny_Owl\Notifications' ) ) {
 		public static $loaded = false;
 
 		/**
+		 * Licensed products that get expired and invalid licence cohorts.
+		 * A cohort type is the product slug plus a suffix, e.g. `toolkit-pro-expired`.
+		 *
+		 * @var string[]
+		 */
+		const LICENSED_PRODUCTS = array( 'toolkit-pro', 'uncanny-groups', 'uncanny-ceu', 'tin-canny', 'uncanny-codes' );
+
+		/**
+		 * Licence cohort suffixes.
+		 *
+		 * @var string[]
+		 */
+		const LICENSE_COHORTS = array( 'expired', 'invalid' );
+
+		/**
 		 * Source of notifications content.
 		 *
 		 * @since 1.0.0
@@ -185,7 +200,7 @@ if ( ! class_exists( 'Uncanny_Owl\Notifications' ) ) {
 		 */
 		private function get_patterns() {
 
-			return array(
+			$patterns = array(
 				'uncanny-groups' => '/uncanny(\-learndash)?\-groups(.+)?/',
 				'uncanny-ceu'    => '/uncanny\-(ceu(.+)?|(historical\-completions\-credits)|(deficiency\-report))/',
 				'uncanny-codes'  => '/uncanny(\-learndash)?\-codes(.+)?/',
@@ -193,6 +208,15 @@ if ( ! class_exists( 'Uncanny_Owl\Notifications' ) ) {
 				'toolkit-pro'    => '/uncanny(\-learndash)?\-toolkit(.+)?/',
 				'toolkit-free'   => '/uncanny(\-learndash)?\-toolkit(.+)?/',
 			);
+
+			// Expired and invalid licence cohorts show on the same pages as their product.
+			foreach ( self::LICENSED_PRODUCTS as $product ) {
+				foreach ( self::LICENSE_COHORTS as $cohort ) {
+					$patterns[ $product . '-' . $cohort ] = $patterns[ $product ];
+				}
+			}
+
+			return $patterns;
 
 		}
 
@@ -870,15 +894,16 @@ if ( ! class_exists( 'Uncanny_Owl\Notifications' ) ) {
 
 		/**
 		 * Set the license type base on available plugins.
+		 *
+		 * A valid licence adds the product type (e.g. `toolkit-pro`). An expired or
+		 * invalid licence adds a cohort type instead (e.g. `toolkit-pro-expired`),
+		 * so churned-but-installed sites can be targeted without seeing valid-licence notices.
 		 */
 		public function hydrate_license_types() {
 
 			$types = array();
 			if ( defined( 'UNCANNY_TOOLKIT_PRO_VERSION' ) ) {
-				$status = get_option( 'uo_license_status' );
-				if ( 'valid' === $status ) {
-					$types[] = 'toolkit-pro';
-				}
+				$this->add_license_type( $types, 'toolkit-pro', get_option( 'uo_license_status' ) );
 			}
 
 			if ( defined( 'UNCANNY_TOOLKIT_VERSION' ) ) {
@@ -886,34 +911,47 @@ if ( ! class_exists( 'Uncanny_Owl\Notifications' ) ) {
 			}
 
 			if ( defined( 'UNCANNY_GROUPS_VERSION' ) ) {
-				$status = get_option( 'ulgm_license_status' );
-				if ( 'valid' === $status ) {
-					$types[] = 'uncanny-groups';
-				}
+				$this->add_license_type( $types, 'uncanny-groups', get_option( 'ulgm_license_status' ) );
 			}
 
 			if ( class_exists( '\uncanny_ceu\InitializePlugin' ) ) {
-				$status = get_option( \uncanny_ceu\Utilities::get_prefix() . '_license_status' );
-				if ( 'valid' === $status ) {
-					$types[] = 'uncanny-ceu';
-				}
+				$this->add_license_type( $types, 'uncanny-ceu', get_option( \uncanny_ceu\Utilities::get_prefix() . '_license_status' ) );
 			}
 
 			if ( defined( 'UNCANNY_REPORTING_VERSION' ) ) {
-				$status = get_option( 'uo_reporting_license_status' );
-				if ( 'valid' === $status ) {
-					$types[] = 'tin-canny';
-				}
+				$this->add_license_type( $types, 'tin-canny', get_option( 'uo_reporting_license_status' ) );
 			}
 
 			if ( defined( 'UNCANNY_LEARNDASH_CODES_VERSION' ) ) {
-				$status = get_option( 'uo_codes_license_status' );
-				if ( 'valid' === $status ) {
-					$types[] = 'uncanny-codes';
-				}
+				$this->add_license_type( $types, 'uncanny-codes', get_option( 'uo_codes_license_status' ) );
 			}
 
 			$this->license_types = $types;
+
+		}
+
+		/**
+		 * Add the licence type or cohort for a product, based on its licence status.
+		 *
+		 * `valid` adds the product type. `expired` adds `{product}-expired`. A rejected
+		 * key (`invalid`, `disabled`, `revoked`, `missing`) adds `{product}-invalid`.
+		 * Anything else (no key, `inactive`, `site_inactive`) adds nothing.
+		 *
+		 * @param array  $types   The license types, by reference.
+		 * @param string $product The product type slug.
+		 * @param mixed  $status  The stored licence status.
+		 *
+		 * @return void
+		 */
+		private function add_license_type( array &$types, $product, $status ) {
+
+			if ( 'valid' === $status ) {
+				$types[] = $product;
+			} elseif ( 'expired' === $status ) {
+				$types[] = $product . '-expired';
+			} elseif ( in_array( $status, array( 'invalid', 'disabled', 'revoked', 'missing' ), true ) ) {
+				$types[] = $product . '-invalid';
+			}
 
 		}
 

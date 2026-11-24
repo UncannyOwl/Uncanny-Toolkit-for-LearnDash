@@ -4,7 +4,7 @@ Tags: LearnDash, eLearning, LMS, education, learning
 Requires at least: 6.3
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 3.8.3
+Stable tag: 3.8.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -103,6 +103,16 @@ Follow Uncanny Owl for updates about our latest LearnDash enhancements on [Twitt
 3. LearnDash Resume Button module - works at a global or course level
 
 == Changelog ==
+
+= 3.8.4 [2026-11-23] =
+
+**Fixed:**
+
+* Admin Menu - The Uncanny Owl menu icon is no longer downloaded on every admin page load #602
+
+**Under the hood:**
+
+* Notifications - Improved license-related notices #606
 
 = 3.8.3 [2026-10-29] =
 

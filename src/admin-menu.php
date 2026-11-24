@@ -839,41 +839,101 @@ class AdminMenu extends Boot {
 	}
 
 	/**
-	 * Fetch Uncanny Owl SVG icon and convert to data URI
+	 * Transient that holds the menu icon data URI.
+	 */
+	const MENU_ICON_TRANSIENT = 'uo_toolkit_menu_icon_data_uri';
+
+	/**
+	 * Uncanny Owl menu icon as a data URI.
+	 *
+	 * The menu is built on every admin page, so the icon is downloaded from the static host once
+	 * a week and cached. When the download fails, the copy bundled with the plugin is used and the
+	 * download is retried after an hour, so an unreachable host never delays each admin page.
 	 *
 	 * @param int $timeout Request timeout in seconds (default: 5)
 	 *
-	 * @return string Data URI string or empty string on failure
+	 * @return string Data URI string or empty string when neither the download nor the bundled copy is available
 	 */
 	public static function get_svg_data_uri( $timeout = 5 ) {
-		// Build the SVG URL using the static assets URL
+
+		$cached = get_transient( self::MENU_ICON_TRANSIENT );
+		if ( false !== $cached ) {
+			return (string) $cached;
+		}
+
+		$data_uri = self::fetch_svg_data_uri( $timeout );
+		if ( '' !== $data_uri ) {
+			set_transient( self::MENU_ICON_TRANSIENT, $data_uri, WEEK_IN_SECONDS );
+
+			return $data_uri;
+		}
+
+		// The download failed: use the copy that ships with the plugin and try the download again in an hour.
+		$data_uri = self::get_bundled_svg_data_uri();
+		set_transient( self::MENU_ICON_TRANSIENT, $data_uri, HOUR_IN_SECONDS );
+
+		return $data_uri;
+	}
+
+	/**
+	 * Download the Uncanny Owl SVG icon from the static assets URL.
+	 *
+	 * @param int $timeout Request timeout in seconds.
+	 *
+	 * @return string Data URI string or empty string when the icon can not be downloaded
+	 */
+	private static function fetch_svg_data_uri( $timeout ) {
+
 		if ( ! defined( 'UNCANNY_OWL_ASSETS_STATIC_URL' ) ) {
 			return '';
 		}
 
-		$svg_url = UNCANNY_OWL_ASSETS_STATIC_URL . '/img/uncannyowl-eye-mono.svg';
-
-		// Determine if we should verify SSL based on filter or constant
-		$sslverify = self::should_verify_ssl();
-
-		$svg_content = wp_remote_get(
-			$svg_url,
+		$response = wp_remote_get(
+			UNCANNY_OWL_ASSETS_STATIC_URL . '/img/uncannyowl-eye-mono.svg',
 			array(
 				'timeout'   => $timeout,
-				'sslverify' => $sslverify,
+				'sslverify' => self::should_verify_ssl(),
 			)
 		);
 
-		if ( is_wp_error( $svg_content ) ) {
+		if ( is_wp_error( $response ) || 200 !== (int) wp_remote_retrieve_response_code( $response ) ) {
 			return '';
 		}
 
-		$svg_body = wp_remote_retrieve_body( $svg_content );
-		if ( empty( $svg_body ) ) {
+		return self::svg_to_data_uri( wp_remote_retrieve_body( $response ) );
+	}
+
+	/**
+	 * Read the Uncanny Owl SVG icon that ships with the plugin.
+	 *
+	 * @return string Data URI string or empty string when the file can not be read
+	 */
+	private static function get_bundled_svg_data_uri() {
+
+		$file = UNCANNY_TOOLKIT_DIR . '/src/assets/backend/img/uncannyowl-eye-mono.svg';
+		if ( ! is_readable( $file ) ) {
 			return '';
 		}
 
-		return 'data:image/svg+xml;base64,' . base64_encode( $svg_body );
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- a local plugin file, not a remote request.
+		return self::svg_to_data_uri( (string) file_get_contents( $file ) );
+	}
+
+	/**
+	 * Convert SVG markup to a data URI, so an error page is never used as the icon.
+	 *
+	 * @param string $svg SVG markup.
+	 *
+	 * @return string Data URI string or empty string when the markup is not an SVG
+	 */
+	private static function svg_to_data_uri( $svg ) {
+
+		if ( false === stripos( $svg, '<svg' ) ) {
+			return '';
+		}
+
+		// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode -- a data URI for add_menu_page(), not obfuscation.
+		return 'data:image/svg+xml;base64,' . base64_encode( $svg );
 	}
 
 	/**
